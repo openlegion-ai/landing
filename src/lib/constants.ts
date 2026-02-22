@@ -21,9 +21,11 @@ export const NAV_LINKS = [
   { label: "Use Cases", href: "#use-cases" },
   { label: "Architecture", href: "#architecture" },
   { label: "Quick Start", href: "#quickstart" },
+  { label: "Docs", href: "https://docs.openlegion.ai" },
 ] as const;
 
 export const GITHUB_URL = "https://github.com/openlegion-ai/openlegion";
+export const DOCS_URL = "https://docs.openlegion.ai";
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
@@ -34,9 +36,9 @@ export const HERO = {
   subtitle:
     "Every agent sandboxed in its own Docker container with its own budget, permissions, and memory. No shared secrets, no surprise bills, no black-box routing. Built from day one assuming agents will be compromised.",
   stats: [
-    { value: 614, label: "Tests Passing", suffix: "", prefix: "" },
+    { value: 928, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
-    { value: 13, label: "Lines — Auditable in a Day", suffix: "k", prefix: "~" },
+    { value: 17, label: "Lines — Auditable in a Day", suffix: "k", prefix: "~" },
   ],
   ctaPrimary: "Star on GitHub",
   ctaSecondary: "Get Started",
@@ -94,7 +96,7 @@ export const FEATURES: Feature[] = [
     icon: Wrench,
     title: "Self-Extending Agents",
     description:
-      "Agents write their own Python skills and hot-reload at runtime. 34 built-in tools: browser automation, file I/O, semantic memory search, and more.",
+      "Agents write their own Python skills and hot-reload at runtime. 37 built-in tools: browser automation, file I/O, semantic memory search, and more.",
   },
   {
     icon: Terminal,
@@ -183,12 +185,12 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     aspect: "Test Coverage",
     them: "Minimal",
-    openlegion: "614 tests across 36 suites",
+    openlegion: "928 tests across 44 suites",
   },
   {
     aspect: "Codebase Size",
     them: "100,000–430,000+ lines",
-    openlegion: "~13,000 lines (auditable in a day)",
+    openlegion: "~17,000 lines (auditable in a day)",
   },
 ];
 
@@ -241,7 +243,7 @@ export const ARCHITECTURE = {
 
 export const QUICKSTART = {
   requirements:
-    "Python 3.10+, Docker (running), an LLM API key (Anthropic / Moonshot / OpenAI)",
+    "Python 3.11+, Docker (running), an LLM API key (Anthropic / Moonshot / OpenAI)",
   tabs: [
     {
       id: "unix",
@@ -319,8 +321,9 @@ export const FOOTER_COLUMNS = [
     ],
   },
   {
-    title: "Community",
+    title: "Resources",
     links: [
+      { label: "Documentation", href: DOCS_URL },
       { label: "GitHub", href: GITHUB_URL },
       { label: "Issues", href: `${GITHUB_URL}/issues` },
       { label: "Discussions", href: `${GITHUB_URL}/discussions` },

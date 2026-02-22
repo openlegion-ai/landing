@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Github, ArrowRight } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { GITHUB_URL } from "@/lib/constants";
+import { GITHUB_URL, DOCS_URL } from "@/lib/constants";
 
 export function CTA() {
   return (
@@ -49,7 +49,7 @@ export function CTA() {
               View on GitHub
             </a>
             <a
-              href={`${GITHUB_URL}#quick-start`}
+              href={DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="flex w-full items-center justify-center gap-2 rounded-xl border border-border px-8 py-4 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"

@@ -50,15 +50,19 @@ export function Navbar() {
 
         {/* Desktop */}
         <div className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isExternal = link.href.startsWith("http");
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                className="rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            );
+          })}
           <div className="ml-3 h-5 w-px bg-border" aria-hidden="true" />
           <a
             href={GITHUB_URL}
@@ -86,16 +90,20 @@ export function Navbar() {
       {mobileOpen && (
         <div className="border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden">
           <div className="flex flex-col gap-1 px-6 py-4">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-md px-3 py-3 text-sm text-muted transition-colors hover:bg-card hover:text-foreground"
-              >
-                {link.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isExternal = link.href.startsWith("http");
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="rounded-md px-3 py-3 text-sm text-muted transition-colors hover:bg-card hover:text-foreground"
+                >
+                  {link.label}
+                </a>
+              );
+            })}
             <a
               href={GITHUB_URL}
               target="_blank"
