@@ -30,7 +30,7 @@ export const DOCS_URL = "https://docs.openlegion.ai";
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
 export const HERO = {
-  badge: "Open Source  ·  Security-First  ·  MIT Licensed",
+  badge: "Open Source  ·  Security-First  ·  AGPLv3 Licensed",
   titleLine1: "Deploy autonomous AI",
   titleAccent: "agent fleets",
   subtitle:
@@ -332,7 +332,7 @@ export const FOOTER_COLUMNS = [
   {
     title: "Legal",
     links: [
-      { label: "MIT License", href: `${GITHUB_URL}/blob/main/LICENSE` },
+      { label: "AGPLv3 License", href: `${GITHUB_URL}/blob/main/LICENSE` },
     ],
   },
 ] as const;

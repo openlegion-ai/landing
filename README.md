@@ -62,4 +62,4 @@ Issues and pull requests welcome. For engine changes, contribute to the [main re
 
 ## License
 
-MIT
+AGPLv3

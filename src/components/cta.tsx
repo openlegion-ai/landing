@@ -33,7 +33,7 @@ export function CTA() {
         </AnimateIn>
         <AnimateIn delay={0.12}>
           <p className="mx-auto mb-10 max-w-xl text-lg text-muted">
-            Open source, MIT licensed, zero external dependencies. Get a working
+            Open source, AGPLv3 licensed, zero external dependencies. Get a working
             fleet in under 60 seconds.
           </p>
         </AnimateIn>
