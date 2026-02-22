@@ -1,11 +1,11 @@
 "use client";
 
-import { Shield, Lock, Key, Fingerprint, ShieldCheck } from "lucide-react";
+import { Shield, Lock, Key, Fingerprint, ShieldCheck, Type } from "lucide-react";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { SECURITY_LAYERS } from "@/lib/constants";
 
-const LAYER_ICONS = [Shield, Lock, Key, Fingerprint, ShieldCheck];
+const LAYER_ICONS = [Shield, Lock, Key, Fingerprint, ShieldCheck, Type];
 
 export function Security() {
   return (
@@ -16,7 +16,7 @@ export function Security() {
             Security
           </p>
           <h2 className="mb-5 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            <span className="gradient-text">Five layers</span> of defense
+            <span className="gradient-text">Six layers</span> of defense
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
             Designed from day one assuming agents will be compromised. Every layer

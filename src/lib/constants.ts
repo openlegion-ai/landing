@@ -36,9 +36,9 @@ export const HERO = {
   subtitle:
     "Every agent sandboxed in its own Docker container with its own budget, permissions, and memory. No shared secrets, no surprise bills, no black-box routing. Built from day one assuming agents will be compromised.",
   stats: [
-    { value: 928, label: "Tests Passing", suffix: "", prefix: "" },
+    { value: 1103, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
-    { value: 17, label: "Lines — Auditable in a Day", suffix: "k", prefix: "~" },
+    { value: 19, label: "Lines — Auditable in a Day", suffix: "k", prefix: "~" },
   ],
   ctaPrimary: "Star on GitHub",
   ctaSecondary: "Get Started",
@@ -58,7 +58,7 @@ export const FEATURES: Feature[] = [
     icon: Shield,
     title: "Defense-in-Depth Security",
     description:
-      "Five security layers: runtime isolation, container hardening, credential vault proxy, per-agent ACLs, and input validation. Built assuming agents will be compromised.",
+      "Six security layers: runtime isolation, container hardening, credential vault proxy, per-agent ACLs, input validation, and Unicode sanitization. Built assuming agents will be compromised.",
     large: true,
   },
   {
@@ -185,12 +185,12 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     aspect: "Test Coverage",
     them: "Minimal",
-    openlegion: "928 tests across 44 suites",
+    openlegion: "1,103 tests across full E2E + unit",
   },
   {
     aspect: "Codebase Size",
     them: "100,000–430,000+ lines",
-    openlegion: "~17,000 lines (auditable in a day)",
+    openlegion: "~19,000 lines (auditable in a day)",
   },
 ];
 
@@ -243,7 +243,7 @@ export const ARCHITECTURE = {
 
 export const QUICKSTART = {
   requirements:
-    "Python 3.11+, Docker (running), an LLM API key (Anthropic / Moonshot / OpenAI)",
+    "Python 3.10+, Docker (running), an LLM API key (Anthropic / Moonshot / OpenAI)",
   tabs: [
     {
       id: "unix",
@@ -305,6 +305,12 @@ export const SECURITY_LAYERS: SecurityLayer[] = [
     title: "Input Validation",
     description:
       "Path traversal prevention, safe condition evaluation, token budget enforcement.",
+  },
+  {
+    number: 6,
+    title: "Unicode Sanitization",
+    description:
+      "Invisible character stripping at three choke points — bidi overrides, tag chars, zero-width chars blocked before reaching LLM context.",
   },
 ];
 

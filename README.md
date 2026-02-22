@@ -48,7 +48,7 @@ src/
 │   ├── architecture.tsx   — trust zone diagram
 │   ├── use-cases.tsx      — team template cards
 │   ├── quickstart.tsx     — tabbed install (macOS/Linux + Windows)
-│   ├── security.tsx       — 5 defense layers
+│   ├── security.tsx       — 6 defense layers
 │   ├── cta.tsx            — bottom call to action
 │   ├── footer.tsx         — links + license
 │   └── ui/                — shared components
