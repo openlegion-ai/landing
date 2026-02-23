@@ -38,9 +38,9 @@ export function Navbar() {
           <Image
             src="/logo.png"
             alt=""
-            width={30}
-            height={30}
-            sizes="30px"
+            width={36}
+            height={36}
+            sizes="36px"
             className="rounded-full"
           />
           <span className="text-lg font-bold tracking-tight text-foreground">
