@@ -36,7 +36,7 @@ export const HERO = {
   subtitle:
     "Every agent sandboxed in its own Docker container with its own budget, permissions, and memory. No shared secrets, no surprise bills, no black-box routing. Built from day one assuming agents will be compromised.",
   stats: [
-    { value: 1103, label: "Tests Passing", suffix: "", prefix: "" },
+    { value: 1112, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
     { value: 19, label: "Lines — Auditable in a Day", suffix: "k", prefix: "~" },
   ],
@@ -96,7 +96,7 @@ export const FEATURES: Feature[] = [
     icon: Wrench,
     title: "Self-Extending Agents",
     description:
-      "Agents write their own Python skills and hot-reload at runtime. 37 built-in tools: browser automation, file I/O, semantic memory search, and more.",
+      "Agents write their own Python skills and hot-reload at runtime. 38 built-in tools: browser automation, file I/O, semantic memory search, and more.",
   },
   {
     icon: Terminal,
@@ -185,7 +185,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     aspect: "Test Coverage",
     them: "Minimal",
-    openlegion: "1,103 tests across full E2E + unit",
+    openlegion: "1,112 tests across full E2E + unit",
   },
   {
     aspect: "Codebase Size",
