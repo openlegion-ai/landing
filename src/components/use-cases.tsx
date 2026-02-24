@@ -66,7 +66,7 @@ export function UseCases() {
         <p className="mt-8 text-center text-sm text-muted">
           Run{" "}
           <code className="rounded-md bg-card px-2 py-0.5 font-mono text-xs text-accent-light">
-            openlegion setup
+            openlegion start
           </code>{" "}
           to pick a template or create your own fleet.
         </p>

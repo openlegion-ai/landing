@@ -30,7 +30,7 @@ export const DOCS_URL = "https://docs.openlegion.ai";
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
 export const HERO = {
-  badge: "Open Source  ·  Security-First  ·  AGPLv3 Licensed",
+  badge: "Open Source  ·  Security-First  ·  BSL 1.1 Licensed",
   titleLine1: "Deploy autonomous AI",
   titleAccent: "agent fleets",
   subtitle:
@@ -250,8 +250,7 @@ export const QUICKSTART = {
       label: "macOS / Linux",
       code: `git clone https://github.com/openlegion-ai/openlegion.git && cd openlegion
 ./install.sh                     # checks deps, creates venv, makes CLI global
-openlegion setup                 # API key, project description, team template
-openlegion start                 # launch agents and start chatting`,
+openlegion start                 # inline setup on first run, then launch agents`,
       lang: "bash",
     },
     {
@@ -260,7 +259,6 @@ openlegion start                 # launch agents and start chatting`,
       code: `git clone https://github.com/openlegion-ai/openlegion.git
 cd openlegion
 powershell -ExecutionPolicy Bypass -File install.ps1
-openlegion setup
 openlegion start`,
       lang: "powershell",
     },
@@ -338,7 +336,7 @@ export const FOOTER_COLUMNS = [
   {
     title: "Legal",
     links: [
-      { label: "AGPLv3 License", href: `${GITHUB_URL}/blob/main/LICENSE` },
+      { label: "BSL 1.1 License", href: `${GITHUB_URL}/blob/main/LICENSE` },
     ],
   },
 ] as const;

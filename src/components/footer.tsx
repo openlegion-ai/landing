@@ -26,7 +26,7 @@ export function Footer() {
               production-ready.
             </p>
             <p className="mt-4 text-xs text-muted/70">
-              AGPLv3 License &copy; {new Date().getFullYear()} OpenLegion
+              BSL 1.1 License &copy; {new Date().getFullYear()} OpenLegion
               Contributors
             </p>
           </div>

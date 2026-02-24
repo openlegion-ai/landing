@@ -31,7 +31,7 @@ export async function Quickstart() {
           <span className="gradient-text">under 60 seconds</span>
         </h2>
         <p className="mx-auto max-w-2xl text-lg text-muted">
-          Four commands to a working agent fleet. No external dependencies.
+          Three commands to a working agent fleet. No external dependencies.
         </p>
       </div>
 

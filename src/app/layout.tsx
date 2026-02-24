@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 const title = "OpenLegion — Secure AI Agent Framework | Container-Isolated, Open Source";
 const description =
-  "Deploy container-isolated AI agent fleets in 60 seconds. Six security layers, per-agent cost control, deterministic YAML workflows. 1,103 tests, 100+ LLM providers, AGPLv3 licensed. The open-source alternative to OpenClaw, NanoClaw, and MemuBot.";
+  "Deploy container-isolated AI agent fleets in 60 seconds. Six security layers, per-agent cost control, deterministic YAML workflows. 1,124 tests, 100+ LLM providers, BSL 1.1 licensed. The open-source alternative to OpenClaw, NanoClaw, and MemuBot.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "OpenLegion — Secure AI Agent Framework",
     description:
-      "Container-isolated AI agent fleets. Six security layers, per-agent cost control, deterministic orchestration. Open source, AGPLv3 licensed.",
+      "Container-isolated AI agent fleets. Six security layers, per-agent cost control, deterministic orchestration. Open source, BSL 1.1 licensed.",
     type: "website",
     siteName: "OpenLegion",
     url: "https://openlegion.ai",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     card: "summary",
     title: "OpenLegion — Secure AI Agent Framework",
     description:
-      "Container-isolated AI agent fleets. Six security layers, per-agent cost control, deterministic orchestration. Open source, AGPLv3 licensed.",
+      "Container-isolated AI agent fleets. Six security layers, per-agent cost control, deterministic orchestration. Open source, BSL 1.1 licensed.",
     images: ["/logo.png"],
   },
   other: {
@@ -86,12 +86,12 @@ export default function RootLayout({
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Linux, macOS, Windows",
     programmingLanguage: "Python",
-    license: "https://www.gnu.org/licenses/agpl-3.0.html",
+    license: "https://github.com/openlegion-ai/openlegion/blob/main/LICENSE",
     url: "https://openlegion.ai",
     downloadUrl: "https://github.com/openlegion-ai/openlegion",
     softwareVersion: "0.1.0",
     releaseNotes:
-      "1,103 tests, 37 built-in tools, 100+ LLM providers via LiteLLM, 5 messaging channels, real-time dashboard, ~19,000 lines auditable in a day.",
+      "1,124 tests, 38 built-in tools, 100+ LLM providers via LiteLLM, 5 messaging channels, real-time dashboard, ~19,000 lines auditable in a day.",
     offers: {
       "@type": "Offer",
       price: "0",
