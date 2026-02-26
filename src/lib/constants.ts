@@ -11,6 +11,9 @@ import {
   TrendingUp,
   Pen,
   Blocks,
+  LayoutDashboard,
+  Monitor,
+  Plug,
   type LucideIcon,
 } from "lucide-react";
 
@@ -26,22 +29,24 @@ export const NAV_LINKS = [
 
 export const GITHUB_URL = "https://github.com/openlegion-ai/openlegion";
 export const DOCS_URL = "https://docs.openlegion.ai";
+export const DISCORD_URL = "https://discord.gg/mXNkjpDvvr";
+export const TWITTER_URL = "https://x.com/openlegion";
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
 export const HERO = {
-  badge: "Open Source  ·  Security-First  ·  BSL 1.1 Licensed",
-  titleLine1: "Deploy autonomous AI",
-  titleAccent: "agent fleets",
+  badge: "Open Source  ·  Security-First  ·  Production-Ready",
+  titleLine1: "The AI agent framework",
+  titleAccent: "built for production.",
   subtitle:
-    "Every agent sandboxed in its own Docker container with its own budget, permissions, and memory. No shared secrets, no surprise bills, no black-box routing. Built from day one assuming agents will be compromised.",
+    "Deploy autonomous agent fleets where every agent is container-isolated with its own budget, permissions, and secrets vault. No surprise bills. No leaked API keys.",
   stats: [
-    { value: 1124, label: "Tests Passing", suffix: "", prefix: "" },
+    { value: 1276, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
-    { value: 19, label: "Lines — Auditable in a Day", suffix: "k", prefix: "~" },
+    { value: 21, label: "Lines of Code", suffix: "k", prefix: "~" },
   ],
-  ctaPrimary: "Star on GitHub",
-  ctaSecondary: "Get Started",
+  ctaPrimary: "Start in 60 Seconds",
+  ctaSecondary: "Star on GitHub",
 } as const;
 
 // ── Features ─────────────────────────────────────────────────────────────────
@@ -56,53 +61,71 @@ export interface Feature {
 export const FEATURES: Feature[] = [
   {
     icon: Shield,
-    title: "Defense-in-Depth Security",
+    title: "Six Security Layers, Zero Trust",
     description:
-      "Six security layers: runtime isolation, container hardening, credential vault proxy, per-agent ACLs, input validation, and Unicode sanitization. Built assuming agents will be compromised.",
+      "Every agent is assumed compromised from day one. Runtime isolation, container hardening, credential vault proxy, per-agent ACLs, input validation, and Unicode sanitization — all on by default.",
     large: true,
   },
   {
     icon: DollarSign,
     title: "Per-Agent Cost Control",
     description:
-      "Daily and monthly budget enforcement at the vault layer. Real-time token tracking with automatic cutoffs before any LLM call is proxied. No surprise bills.",
+      "Set daily and monthly budgets per agent. The vault layer tracks every token in real time and cuts off LLM calls before limits are exceeded. You control the spend, not the agents.",
     large: true,
+  },
+  {
+    icon: LayoutDashboard,
+    title: "Fleet Dashboard",
+    description:
+      "See every agent, every cost, every event in real time. Live streaming, cost charts, chat panels, request traces, and embedded browser viewer — all from one screen.",
   },
   {
     icon: Container,
     title: "Container Isolation",
     description:
-      "Each agent in its own Docker container — 512MB RAM, 0.5 CPU cap, own /data volume, non-root user. Optional Docker Sandbox microVM support.",
+      "Each agent runs in its own Docker container with capped RAM, CPU, and storage. Non-root, no shared state. Optional microVM support for deeper isolation.",
   },
   {
     icon: Workflow,
     title: "Deterministic Orchestration",
     description:
-      "YAML-defined DAG workflows with deterministic routing. No LLM deciding who does what — predictable, auditable execution every time.",
+      "Define agent workflows in YAML with deterministic routing. No LLM deciding who does what — predictable, auditable execution every time.",
+  },
+  {
+    icon: Monitor,
+    title: "Built-In Browser Automation",
+    description:
+      "Playwright, stealth Camoufox, anti-detect, or persistent KasmVNC sessions. Auto-recovery, visual screenshots, and accessibility snapshots included.",
   },
   {
     icon: Brain,
-    title: "5-Layer Memory System",
+    title: "Persistent Agent Memory",
     description:
-      "Salience tracking, SQLite + vector search, workspace files, learnings from errors, and auto context management with proactive flush at 60%.",
+      "Agents remember across sessions with vector search, workspace files, and error learnings. Auto context management keeps token usage efficient.",
   },
   {
     icon: Globe,
-    title: "6-Channel Autonomous Operation",
+    title: "Agents That Work While You Sleep",
     description:
-      "Telegram, Discord, Slack, WhatsApp, CLI, and API. Autonomous via cron, heartbeats, webhooks, and file watchers — agents work while you sleep.",
+      "Deploy via Telegram, Discord, Slack, WhatsApp, CLI, or API. Trigger agents with cron, webhooks, or file watchers — fully autonomous operation.",
+  },
+  {
+    icon: Plug,
+    title: "MCP-Compatible Extensibility",
+    description:
+      "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 40 built-in skills.",
   },
   {
     icon: Wrench,
-    title: "Self-Extending Agents",
+    title: "Agents That Build Their Own Tools",
     description:
-      "Agents write their own Python skills and hot-reload at runtime. 38 built-in tools: browser automation, file I/O, semantic memory search, and more.",
+      "Agents write and hot-reload Python skills at runtime. Install community skills from git repos or build a custom skill marketplace.",
   },
   {
     icon: Terminal,
     title: "Zero External Dependencies",
     description:
-      "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite. Clone, install, run — under 60 seconds to a working fleet on a single machine.",
+      "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite. Clone, install, run — one machine, 60 seconds, working fleet.",
   },
 ];
 
@@ -121,28 +144,28 @@ export const USE_CASES: UseCase[] = [
     name: "Dev Team",
     agents: ["PM", "Engineer", "Reviewer"],
     description:
-      "Automated task planning, code generation, and PR review. Ship features while your fleet handles the boilerplate.",
+      "Task planning, code generation, and PR review on autopilot. Ship features while your fleet handles the boilerplate.",
   },
   {
     icon: TrendingUp,
     name: "Sales Pipeline",
     agents: ["Researcher", "Qualifier", "Outreach"],
     description:
-      "Lead research, qualification scoring, and personalized outreach — running 24/7 without human babysitting.",
+      "Lead research, scoring, and personalized outreach — running 24/7 without human babysitting.",
   },
   {
     icon: Pen,
     name: "Content Studio",
     agents: ["Researcher", "Writer", "Editor"],
     description:
-      "Topic research, long-form draft generation, and editorial review with consistent brand voice.",
+      "Topic research, long-form drafts, and editorial review with consistent brand voice across every piece.",
   },
   {
     icon: Blocks,
     name: "Custom Fleet",
     agents: ["Your agents", "Your tools", "Your workflows"],
     description:
-      "Define any team with custom YAML workflows, tool permissions, and budget limits per agent.",
+      "Build any team with YAML workflows, custom tool permissions, and per-agent budget limits.",
   },
 ];
 
@@ -155,10 +178,10 @@ export interface ComparisonRow {
 }
 
 export const COMPARISON_ALERT = {
-  title: "Why teams switch to OpenLegion",
+  title: "Why teams switch from OpenClaw",
   description:
-    "Popular agent frameworks like OpenClaw, NanoClaw, ZeroClaw, and MemuBot run agents with full access to credentials and no resource isolation. OpenClaw alone has 42,000+ exposed instances with no authentication, 341 malicious skills in the wild, and CVE-2026-25253 granting unauthenticated RCE.",
-  source: "Bitsight Security Research, 2026",
+    "OpenClaw is the most popular agent framework (200K+ GitHub stars) — great for prototyping. In production, researchers found 42,000+ exposed instances with no auth, 341 malicious skills stealing user data, and a critical RCE vulnerability (CVE-2026-25253). No per-agent cost controls. API keys stored in agent config files.",
+  source: "Bitsight Security Research, Feb 2026 · Koi Security / The Hacker News",
 };
 
 export const COMPARISON_ROWS: ComparisonRow[] = [
@@ -185,21 +208,21 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     aspect: "Test Coverage",
     them: "Minimal",
-    openlegion: "1,124 tests across full E2E + unit",
+    openlegion: "1,276 tests across full E2E + unit",
   },
   {
     aspect: "Codebase Size",
-    them: "100,000–430,000+ lines",
-    openlegion: "~19,000 lines (auditable in a day)",
+    them: "430,000+ lines",
+    openlegion: "~21,000 lines (auditable in a day)",
   },
 ];
 
 // ── Architecture ─────────────────────────────────────────────────────────────
 
 export const ARCHITECTURE = {
-  title: "Security architecture you can trust",
+  title: "Three zones of defense",
   subtitle:
-    "Three nested isolation zones — designed from day one assuming agents will be compromised.",
+    "Nested isolation boundaries between your users, the coordinator, and untrusted agent code. Every layer enforced by default.",
   zones: [
     {
       name: "User Zone",
@@ -331,6 +354,13 @@ export const FOOTER_COLUMNS = [
       { label: "GitHub", href: GITHUB_URL },
       { label: "Issues", href: `${GITHUB_URL}/issues` },
       { label: "Discussions", href: `${GITHUB_URL}/discussions` },
+    ],
+  },
+  {
+    title: "Community",
+    links: [
+      { label: "Discord", href: DISCORD_URL },
+      { label: "Twitter / X", href: TWITTER_URL },
     ],
   },
   {

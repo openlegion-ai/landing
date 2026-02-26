@@ -5,11 +5,26 @@ import { UseCases } from "@/components/use-cases";
 import { Comparison } from "@/components/comparison";
 import { Architecture } from "@/components/architecture";
 import { Quickstart } from "@/components/quickstart";
-import { Security } from "@/components/security";
 import { CTA } from "@/components/cta";
 import { Footer } from "@/components/footer";
 
-export default function Home() {
+async function getStarCount(): Promise<number> {
+  try {
+    const res = await fetch(
+      "https://api.github.com/repos/openlegion-ai/openlegion",
+      { next: { revalidate: 3600 } },
+    );
+    if (!res.ok) return 0;
+    const data = await res.json();
+    return data.stargazers_count ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
+export default async function Home() {
+  const stars = await getStarCount();
+
   return (
     <>
       <a href="#main" className="skip-nav">
@@ -17,13 +32,12 @@ export default function Home() {
       </a>
       <Navbar />
       <main id="main">
-        <Hero />
+        <Hero stars={stars} />
         <Features />
         <UseCases />
         <Comparison />
         <Architecture />
         <Quickstart />
-        <Security />
         <CTA />
       </main>
       <Footer />

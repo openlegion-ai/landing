@@ -14,16 +14,16 @@ export function UseCases() {
           </p>
           <h2 className="mb-5 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
             One command to a{" "}
-            <span className="gradient-text">full team</span>
+            <span className="gradient-text">working team</span>
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
-            Choose a built-in template or define your own fleet. Each agent gets
-            its own container, budget, and permissions.
+            Pick a built-in template or define your own fleet. Each agent gets
+            its own container, budget, and tool permissions.
           </p>
         </div>
       </AnimateIn>
 
-      <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <StaggerContainer className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
         {USE_CASES.map((uc) => {
           const Icon = uc.icon;
           return (
