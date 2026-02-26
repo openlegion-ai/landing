@@ -12,9 +12,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const title = "OpenLegion — Secure AI Agent Framework | Container-Isolated, Open Source";
+const title = "OpenLegion — Open Source AI Agent Framework for Production";
 const description =
-  "Deploy container-isolated AI agent fleets in 60 seconds. Six security layers, per-agent cost control, deterministic YAML workflows. 1,124 tests, 100+ LLM providers, BSL 1.1 licensed. The open-source alternative to OpenClaw, NanoClaw, and MemuBot.";
+  "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. 1,276 tests, 100+ LLM providers, deterministic YAML workflows. Open source.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
@@ -34,6 +34,11 @@ export const metadata: Metadata = {
     "openclaw alternative",
     "self-hosted AI agents",
     "deterministic AI workflows",
+    "AI agent deployment",
+    "production AI agents",
+    "multi-agent orchestration",
+    "secure AI agents",
+    "AI agent fleet",
   ],
   authors: [{ name: "OpenLegion Contributors" }],
   icons: {
@@ -49,20 +54,21 @@ export const metadata: Metadata = {
     canonical: "https://openlegion.ai",
   },
   openGraph: {
-    title: "OpenLegion — Secure AI Agent Framework",
+    title: "OpenLegion — Open Source AI Agent Framework for Production",
     description:
-      "Container-isolated AI agent fleets. Six security layers, per-agent cost control, deterministic orchestration. Open source, BSL 1.1 licensed.",
+      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Open source, zero external dependencies.",
     type: "website",
     siteName: "OpenLegion",
     url: "https://openlegion.ai",
-    images: [{ url: "/logo.png", width: 512, height: 512, alt: "OpenLegion" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "OpenLegion — The AI agent framework built for production." }],
   },
   twitter: {
-    card: "summary",
-    title: "OpenLegion — Secure AI Agent Framework",
+    card: "summary_large_image",
+    site: "@openlegion",
+    title: "OpenLegion — Open Source AI Agent Framework for Production",
     description:
-      "Container-isolated AI agent fleets. Six security layers, per-agent cost control, deterministic orchestration. Open source, BSL 1.1 licensed.",
-    images: ["/logo.png"],
+      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Open source, zero external dependencies.",
+    images: ["/og.png"],
   },
   other: {
     "theme-color": "#08090c",
@@ -91,7 +97,7 @@ export default function RootLayout({
     downloadUrl: "https://github.com/openlegion-ai/openlegion",
     softwareVersion: "0.1.0",
     releaseNotes:
-      "1,124 tests, 38 built-in tools, 100+ LLM providers via LiteLLM, 5 messaging channels, real-time dashboard, ~19,000 lines auditable in a day.",
+      "Container-isolated AI agent fleets with six security layers, per-agent cost control, 1,276 tests, 40 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
     offers: {
       "@type": "Offer",
       price: "0",

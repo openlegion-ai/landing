@@ -45,7 +45,7 @@ export function Architecture() {
         </div>
       </AnimateIn>
 
-      <StaggerContainer className="flex flex-col gap-4 lg:flex-row">
+      <StaggerContainer className="flex flex-col gap-5 lg:flex-row">
         {ARCHITECTURE.zones.map((zone) => {
           const s = ZONE_STYLES[zone.color];
           return (
@@ -62,7 +62,7 @@ export function Architecture() {
                   {zone.items.map((item) => (
                     <li key={item} className="flex items-center gap-2.5 text-sm text-muted">
                       <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${s.dot} opacity-40`} />
-                      <code className="font-mono text-xs">{item}</code>
+                      <code className="font-mono text-[13px]">{item}</code>
                     </li>
                   ))}
                 </ul>

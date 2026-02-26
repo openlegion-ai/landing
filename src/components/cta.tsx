@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Github, ArrowRight } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { GITHUB_URL, DOCS_URL } from "@/lib/constants";
+import { GITHUB_URL, DISCORD_URL } from "@/lib/constants";
 
 export function CTA() {
   return (
@@ -32,29 +32,29 @@ export function CTA() {
           </h2>
         </AnimateIn>
         <AnimateIn delay={0.12}>
-          <p className="mx-auto mb-10 max-w-xl text-lg text-muted">
-            Open source, BSL 1.1 licensed, zero external dependencies. Get a working
-            fleet in under 60 seconds.
+          <p className="mx-auto mb-8 max-w-xl text-lg text-muted">
+            Open source, zero external dependencies. Clone, install, deploy —
+            your first fleet in under 60 seconds.
           </p>
         </AnimateIn>
         <AnimateIn delay={0.18}>
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-shine btn-glow flex w-full items-center justify-center gap-2.5 rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white sm:w-auto"
+              className="btn-shine btn-glow flex w-full items-center justify-center gap-2.5 rounded-xl bg-accent px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
               <Github className="h-4 w-4" aria-hidden="true" />
-              View on GitHub
+              Get the Code
             </a>
             <a
-              href={DOCS_URL}
+              href={DISCORD_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-border px-8 py-4 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
             >
-              Read the Docs
+              Join our Discord
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
