@@ -16,18 +16,18 @@ export function Features() {
             Features
           </p>
           <h2 className="mb-5 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Everything you need to ship{" "}
-            <span className="gradient-text">agent fleets</span>
+            Production-grade from{" "}
+            <span className="gradient-text">every layer</span>
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
-            Security, cost control, and auditability as first-class concerns — not
-            afterthoughts.
+            Security, cost control, and observability as first-class
+            concerns — not afterthoughts bolted on later.
           </p>
         </div>
       </AnimateIn>
 
       {/* Two hero feature cards */}
-      <StaggerContainer className="mb-4 grid gap-4 md:grid-cols-2">
+      <StaggerContainer className="mb-5 grid gap-5 md:grid-cols-2">
         {large.map((f) => {
           const Icon = f.icon;
           return (
@@ -53,7 +53,7 @@ export function Features() {
       </StaggerContainer>
 
       {/* Standard cards */}
-      <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {standard.map((f) => {
           const Icon = f.icon;
           return (

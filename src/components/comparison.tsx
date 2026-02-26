@@ -20,7 +20,7 @@ export function Comparison() {
       </AnimateIn>
 
       <AnimateIn delay={0.08}>
-        <div className="mb-10 rounded-xl border border-danger/20 bg-danger/[0.03] p-5 md:p-6">
+        <div className="mb-8 rounded-xl border border-danger/20 bg-danger/[0.03] p-5 md:p-6">
           <div className="flex items-start gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-danger/10">
               <AlertTriangle className="h-4.5 w-4.5 text-danger" aria-hidden="true" />
@@ -39,17 +39,17 @@ export function Comparison() {
         <div className="overflow-x-auto rounded-xl border border-border/50 bg-card/40">
           <table className="w-full min-w-[540px] text-sm">
             <caption className="sr-only">
-              Feature comparison between traditional agent frameworks and OpenLegion
+              Feature comparison between OpenClaw and OpenLegion
             </caption>
             <thead>
               <tr className="border-b border-border/50">
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-muted">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-muted sm:px-6 sm:py-4">
                   Aspect
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-danger/70">
-                  Traditional Frameworks
+                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-danger/70 sm:px-6 sm:py-4">
+                  OpenClaw & Others
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-success/70">
+                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-success/70 sm:px-6 sm:py-4">
                   OpenLegion
                 </th>
               </tr>
@@ -64,16 +64,16 @@ export function Comparison() {
                       : ""
                   }
                 >
-                  <td className="px-6 py-4 font-medium text-foreground">
+                  <td className="px-4 py-3.5 font-medium text-foreground sm:px-6 sm:py-4">
                     {row.aspect}
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3.5 sm:px-6 sm:py-4">
                     <span className="flex items-center gap-2 text-muted/80">
                       <X className="h-3.5 w-3.5 shrink-0 text-danger/50" aria-hidden="true" />
                       <span>{row.them}</span>
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-3.5 sm:px-6 sm:py-4">
                     <span className="flex items-center gap-2 text-success">
                       <Check className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                       <span>{row.openlegion}</span>

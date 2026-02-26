@@ -27,13 +27,13 @@ export function Navbar() {
   return (
     <nav
       aria-label="Main navigation"
-      className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+      className={`fixed top-0 z-50 w-full px-6 transition-all duration-300 md:px-8 ${
         scrolled
           ? "border-b border-border/50 bg-background/80 backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3 md:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between py-3">
         <a href="#" className="flex items-center gap-2.5" aria-label="OpenLegion home">
           <Image
             src="/logo.png"
@@ -70,7 +70,7 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="btn-shine ml-3 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
           >
-            <Github className="h-4 w-4" aria-hidden="true" />
+            <Github className="h-3.5 w-3.5" aria-hidden="true" />
             Star on GitHub
           </a>
         </div>
@@ -89,7 +89,7 @@ export function Navbar() {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden">
-          <div className="flex flex-col gap-1 px-6 py-4">
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-1 py-4">
             {NAV_LINKS.map((link) => {
               const isExternal = link.href.startsWith("http");
               return (

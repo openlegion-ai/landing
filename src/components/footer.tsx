@@ -3,8 +3,8 @@ import { FOOTER_COLUMNS } from "@/lib/constants";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40">
-      <div className="mx-auto max-w-6xl px-6 py-16 md:px-8 md:py-20">
+    <footer className="border-t border-border/40 px-6 md:px-8">
+      <div className="mx-auto max-w-6xl py-16 md:py-20">
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           {/* Brand */}
           <div className="max-w-xs">
@@ -22,8 +22,8 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              Autonomous AI agent fleets — isolated, auditable, and
-              production-ready.
+              The open source AI agent framework built for production.
+              Container-isolated, auditable, and cost-controlled.
             </p>
             <p className="mt-4 text-xs text-muted/70">
               BSL 1.1 License &copy; {new Date().getFullYear()} OpenLegion
@@ -32,7 +32,7 @@ export function Footer() {
           </div>
 
           {/* Link columns */}
-          <div className="flex flex-wrap gap-12 lg:gap-16">
+          <div className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:gap-12">
             {FOOTER_COLUMNS.map((col) => (
               <div key={col.title}>
                 <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-foreground/50">
