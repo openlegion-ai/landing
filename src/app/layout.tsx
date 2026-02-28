@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import { FAQ_ITEMS, GITHUB_URL, DISCORD_URL, TWITTER_URL } from "@/lib/constants";
 import "./globals.css";
 
@@ -147,6 +148,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-758JT3002Y"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-758JT3002Y');
+          `}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
