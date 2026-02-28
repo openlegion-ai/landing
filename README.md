@@ -1,6 +1,6 @@
 # OpenLegion Landing Page
 
-Marketing and landing site for [OpenLegion](https://github.com/openlegion-ai/openlegion) — the open-source, container-isolated AI agent framework.
+Marketing and landing site for [OpenLegion](https://github.com/openlegion-ai/openlegion) — the container-isolated AI agent framework.
 
 **Live:** [openlegion.ai](https://openlegion.ai)
 **Docs:** [docs.openlegion.ai](https://docs.openlegion.ai)

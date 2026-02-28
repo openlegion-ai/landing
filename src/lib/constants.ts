@@ -35,7 +35,7 @@ export const TWITTER_URL = "https://x.com/openlegion";
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
 export const HERO = {
-  badge: "Open Source  ·  Security-First  ·  Production-Ready",
+  badge: "Security-First  ·  Production-Ready",
   titleLine1: "The AI agent framework",
   titleAccent: "built for production.",
   subtitle:
