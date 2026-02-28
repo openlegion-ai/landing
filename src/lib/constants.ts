@@ -41,9 +41,9 @@ export const HERO = {
   subtitle:
     "Deploy autonomous agent fleets where every agent is container-isolated with its own budget, permissions, and secrets vault. No surprise bills. No leaked API keys.",
   stats: [
-    { value: 1276, label: "Tests Passing", suffix: "", prefix: "" },
+    { value: 1550, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
-    { value: 21, label: "Lines of Code", suffix: "k", prefix: "~" },
+    { value: 25, label: "Lines of Code", suffix: "k", prefix: "~" },
   ],
   ctaPrimary: "Start in 60 Seconds",
   ctaSecondary: "Star on GitHub",
@@ -208,12 +208,12 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     aspect: "Test Coverage",
     them: "Minimal",
-    openlegion: "1,276 tests across full E2E + unit",
+    openlegion: "1,550 tests across full E2E + unit",
   },
   {
     aspect: "Codebase Size",
     them: "430,000+ lines",
-    openlegion: "~21,000 lines (auditable in a day)",
+    openlegion: "~25,000 lines (auditable in a day)",
   },
 ];
 

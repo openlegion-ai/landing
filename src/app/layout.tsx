@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 const title = "OpenLegion — Open Source AI Agent Framework for Production";
 const description =
-  "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. 1,276 tests, 100+ LLM providers, deterministic YAML workflows. Open source.";
+  "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. 1,550 tests, 100+ LLM providers, deterministic YAML workflows. Open source.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
@@ -97,7 +97,7 @@ export default function RootLayout({
     downloadUrl: "https://github.com/openlegion-ai/openlegion",
     softwareVersion: "0.1.0",
     releaseNotes:
-      "Container-isolated AI agent fleets with six security layers, per-agent cost control, 1,276 tests, 40 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
+      "Container-isolated AI agent fleets with six security layers, per-agent cost control, 1,550 tests, 40 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
     offers: {
       "@type": "Offer",
       price: "0",
