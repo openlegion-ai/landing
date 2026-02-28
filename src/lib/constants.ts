@@ -1,7 +1,6 @@
 import {
   Shield,
   DollarSign,
-  Container,
   Brain,
   Workflow,
   Terminal,
@@ -55,7 +54,7 @@ export interface Feature {
   icon: LucideIcon;
   title: string;
   description: string;
-  large?: boolean;
+  size: "large" | "medium" | "standard" | "wide";
 }
 
 export const FEATURES: Feature[] = [
@@ -63,69 +62,71 @@ export const FEATURES: Feature[] = [
     icon: Shield,
     title: "Six Security Layers, Zero Trust",
     description:
-      "Every agent is assumed compromised from day one. Runtime isolation, container hardening, credential vault proxy, per-agent ACLs, input validation, and Unicode sanitization — all on by default.",
-    large: true,
+      "Every agent is assumed compromised from day one. Container isolation, hardening, credential vault proxy, per-agent ACLs, input validation, and Unicode sanitization — all on by default.",
+    size: "large",
   },
   {
     icon: DollarSign,
     title: "Per-Agent Cost Control",
     description:
-      "Set daily and monthly budgets per agent. The vault layer tracks every token in real time and cuts off LLM calls before limits are exceeded. You control the spend, not the agents.",
-    large: true,
+      "Set daily and monthly budgets per agent. The vault tracks every token in real time and cuts off LLM calls before limits are exceeded.",
+    size: "medium",
   },
   {
     icon: LayoutDashboard,
     title: "Fleet Dashboard",
     description:
-      "See every agent, every cost, every event in real time. Live streaming, cost charts, chat panels, request traces, and embedded browser viewer — all from one screen.",
-  },
-  {
-    icon: Container,
-    title: "Container Isolation",
-    description:
-      "Each agent runs in its own Docker container with capped RAM, CPU, and storage. Non-root, no shared state. Optional microVM support for deeper isolation.",
+      "See every agent, every cost, every event in real time. Live streaming, cost charts, chat panels, request traces, and embedded browser viewer.",
+    size: "medium",
   },
   {
     icon: Workflow,
     title: "Deterministic Orchestration",
     description:
       "Define agent workflows in YAML with deterministic routing. No LLM deciding who does what — predictable, auditable execution every time.",
+    size: "standard",
   },
   {
     icon: Monitor,
     title: "Built-In Browser Automation",
     description:
       "Playwright, stealth Camoufox, anti-detect, or persistent KasmVNC sessions. Auto-recovery, visual screenshots, and accessibility snapshots included.",
+    size: "standard",
   },
   {
     icon: Brain,
     title: "Persistent Agent Memory",
     description:
       "Agents remember across sessions with vector search, workspace files, and error learnings. Auto context management keeps token usage efficient.",
-  },
-  {
-    icon: Globe,
-    title: "Agents That Work While You Sleep",
-    description:
-      "Deploy via Telegram, Discord, Slack, WhatsApp, CLI, or API. Trigger agents with cron, webhooks, or file watchers — fully autonomous operation.",
+    size: "standard",
   },
   {
     icon: Plug,
     title: "MCP-Compatible Extensibility",
     description:
       "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 40 built-in skills.",
+    size: "standard",
   },
   {
     icon: Wrench,
     title: "Agents That Build Their Own Tools",
     description:
       "Agents write and hot-reload Python skills at runtime. Install community skills from git repos or build a custom skill marketplace.",
+    size: "standard",
   },
   {
     icon: Terminal,
     title: "Zero External Dependencies",
     description:
       "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite. Clone, install, run — one machine, 60 seconds, working fleet.",
+    size: "standard",
+  },
+  {
+    icon: Globe,
+    title: "Agents That Work While You Sleep",
+    description:
+      "Deploy via Telegram, Discord, Slack, WhatsApp, CLI, or API. Trigger agents with cron, webhooks, or file watchers — fully autonomous operation.",
+    size: "wide",
   },
 ];
 
