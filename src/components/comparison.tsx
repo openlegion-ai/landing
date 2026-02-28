@@ -7,7 +7,7 @@ import { COMPARISON_ALERT, COMPARISON_ROWS } from "@/lib/constants";
 
 export function Comparison() {
   return (
-    <SectionWrapper id="comparison">
+    <SectionWrapper id="comparison" fade={false}>
       <AnimateIn>
         <div className="mb-16 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-danger">

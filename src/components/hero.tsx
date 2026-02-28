@@ -51,7 +51,7 @@ export function Hero({ stars = 0 }: { stars?: number }) {
             </AnimateIn>
 
             <AnimateIn delay={0.06}>
-              <h1 className="mb-5 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl xl:text-6xl">
+              <h1 className="mb-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl xl:text-7xl">
                 {HERO.titleLine1}
                 <br />
                 <span className="gradient-text">{HERO.titleAccent}</span>
@@ -59,7 +59,7 @@ export function Hero({ stars = 0 }: { stars?: number }) {
             </AnimateIn>
 
             <AnimateIn delay={0.12}>
-              <p className="mx-auto mb-8 max-w-xl text-lg leading-relaxed text-muted lg:mx-0">
+              <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-muted lg:mx-0">
                 {HERO.subtitle}
               </p>
             </AnimateIn>
