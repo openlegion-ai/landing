@@ -341,3 +341,14 @@ body {
     rgba(248, 113, 113, 0.02) 100%
   );
 }
+
+/* ── Section background variety ───────────────────────────────────────── */
+
+.section-fade:nth-of-type(even) {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 19, 29, 0.3) 0%,
+    transparent 50%,
+    rgba(18, 19, 29, 0.3) 100%
+  );
+}
