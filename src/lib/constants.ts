@@ -1,7 +1,6 @@
 import {
   Shield,
   DollarSign,
-  Container,
   Brain,
   Workflow,
   Terminal,
@@ -14,6 +13,12 @@ import {
   LayoutDashboard,
   Monitor,
   Plug,
+  Building2,
+  FileSearch,
+  GitBranch,
+  KeyRound,
+  Wallet,
+  UserCog,
   type LucideIcon,
 } from "lucide-react";
 
@@ -23,6 +28,7 @@ export const NAV_LINKS = [
   { label: "Features", href: "#features" },
   { label: "Use Cases", href: "#use-cases" },
   { label: "Architecture", href: "#architecture" },
+  { label: "Security", href: "#security" },
   { label: "Quick Start", href: "#quickstart" },
   { label: "Docs", href: "https://docs.openlegion.ai" },
 ] as const;
@@ -39,7 +45,7 @@ export const HERO = {
   titleLine1: "The AI agent framework",
   titleAccent: "built for production.",
   subtitle:
-    "Deploy autonomous agent fleets where every agent is container-isolated with its own budget, permissions, and secrets vault. No surprise bills. No leaked API keys.",
+    "Deploy autonomous agent fleets where every agent is container-isolated with its own budget, permissions, and secrets vault. No surprise bills. No leaked API keys. Self-hosted. Auditable. Enterprise-ready.",
   stats: [
     { value: 1550, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
@@ -55,7 +61,7 @@ export interface Feature {
   icon: LucideIcon;
   title: string;
   description: string;
-  large?: boolean;
+  size: "large" | "medium" | "standard" | "wide";
 }
 
 export const FEATURES: Feature[] = [
@@ -63,69 +69,71 @@ export const FEATURES: Feature[] = [
     icon: Shield,
     title: "Six Security Layers, Zero Trust",
     description:
-      "Every agent is assumed compromised from day one. Runtime isolation, container hardening, credential vault proxy, per-agent ACLs, input validation, and Unicode sanitization — all on by default.",
-    large: true,
+      "Every agent is assumed compromised from day one. Container isolation, hardening, credential vault proxy, per-agent ACLs, input validation, and Unicode sanitization — all on by default.",
+    size: "large",
   },
   {
     icon: DollarSign,
     title: "Per-Agent Cost Control",
     description:
-      "Set daily and monthly budgets per agent. The vault layer tracks every token in real time and cuts off LLM calls before limits are exceeded. You control the spend, not the agents.",
-    large: true,
+      "Set daily and monthly budgets per agent. The vault tracks every token in real time and cuts off LLM calls before limits are exceeded.",
+    size: "medium",
   },
   {
     icon: LayoutDashboard,
     title: "Fleet Dashboard",
     description:
-      "See every agent, every cost, every event in real time. Live streaming, cost charts, chat panels, request traces, and embedded browser viewer — all from one screen.",
-  },
-  {
-    icon: Container,
-    title: "Container Isolation",
-    description:
-      "Each agent runs in its own Docker container with capped RAM, CPU, and storage. Non-root, no shared state. Optional microVM support for deeper isolation.",
+      "See every agent, every cost, every event in real time. Live streaming, cost charts, chat panels, request traces, and embedded browser viewer.",
+    size: "medium",
   },
   {
     icon: Workflow,
     title: "Deterministic Orchestration",
     description:
       "Define agent workflows in YAML with deterministic routing. No LLM deciding who does what — predictable, auditable execution every time.",
+    size: "standard",
   },
   {
     icon: Monitor,
     title: "Built-In Browser Automation",
     description:
       "Playwright, stealth Camoufox, anti-detect, or persistent KasmVNC sessions. Auto-recovery, visual screenshots, and accessibility snapshots included.",
+    size: "standard",
   },
   {
     icon: Brain,
     title: "Persistent Agent Memory",
     description:
       "Agents remember across sessions with vector search, workspace files, and error learnings. Auto context management keeps token usage efficient.",
-  },
-  {
-    icon: Globe,
-    title: "Agents That Work While You Sleep",
-    description:
-      "Deploy via Telegram, Discord, Slack, WhatsApp, CLI, or API. Trigger agents with cron, webhooks, or file watchers — fully autonomous operation.",
+    size: "standard",
   },
   {
     icon: Plug,
     title: "MCP-Compatible Extensibility",
     description:
       "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 40 built-in skills.",
+    size: "standard",
   },
   {
     icon: Wrench,
     title: "Agents That Build Their Own Tools",
     description:
       "Agents write and hot-reload Python skills at runtime. Install community skills from git repos or build a custom skill marketplace.",
+    size: "standard",
   },
   {
     icon: Terminal,
     title: "Zero External Dependencies",
     description:
       "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite. Clone, install, run — one machine, 60 seconds, working fleet.",
+    size: "standard",
+  },
+  {
+    icon: Globe,
+    title: "Agents That Work While You Sleep",
+    description:
+      "Deploy via Telegram, Discord, Slack, WhatsApp, CLI, or API. Trigger agents with cron, webhooks, or file watchers — fully autonomous operation.",
+    size: "wide",
   },
 ];
 
@@ -335,6 +343,53 @@ export const SECURITY_LAYERS: SecurityLayer[] = [
   },
 ];
 
+// ── Enterprise ──────────────────────────────────────────────────────────────
+
+export interface EnterpriseFeature {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+export const ENTERPRISE_FEATURES: EnterpriseFeature[] = [
+  {
+    icon: Building2,
+    title: "On-Premises Deployment",
+    description:
+      "Run the entire stack on your own infrastructure. No data leaves your network — full air-gap support for regulated environments.",
+  },
+  {
+    icon: FileSearch,
+    title: "Audit-Ready Codebase",
+    description:
+      "~25,000 lines of Python with 1,550+ tests. Small enough for a single security engineer to audit in a day — no hidden dependencies.",
+  },
+  {
+    icon: GitBranch,
+    title: "Deterministic Workflows",
+    description:
+      "YAML-defined task routing with no LLM decision-making in the control plane. Every execution path is predictable, repeatable, and auditable.",
+  },
+  {
+    icon: KeyRound,
+    title: "Credential Isolation",
+    description:
+      "Vault proxy architecture ensures agents never see API keys or secrets. Meets SOC 2 credential separation requirements out of the box.",
+  },
+  {
+    icon: Wallet,
+    title: "Per-Agent Cost Governance",
+    description:
+      "Set daily and monthly budgets per agent with real-time tracking. No surprise bills — automatic cutoff before limits are exceeded.",
+  },
+  {
+    icon: UserCog,
+    title: "Role-Based Access",
+    description:
+      "Per-agent ACL matrix controls which tools, files, and operations each agent can access. Enforce least-privilege across your entire fleet.",
+  },
+];
+
 // ── Footer ───────────────────────────────────────────────────────────────────
 
 export const FOOTER_COLUMNS = [
@@ -344,6 +399,8 @@ export const FOOTER_COLUMNS = [
       { label: "Features", href: "#features" },
       { label: "Use Cases", href: "#use-cases" },
       { label: "Architecture", href: "#architecture" },
+      { label: "Security", href: "#security" },
+      { label: "Enterprise", href: "#enterprise" },
       { label: "Quick Start", href: "#quickstart" },
     ],
   },
@@ -370,3 +427,48 @@ export const FOOTER_COLUMNS = [
     ],
   },
 ] as const;
+
+// ── FAQ ─────────────────────────────────────────────────────────────────────
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export const FAQ_ITEMS: FAQItem[] = [
+  {
+    question: "What is OpenLegion?",
+    answer:
+      "OpenLegion is a production-grade AI agent framework that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and secrets vault — with six security layers enabled by default.",
+  },
+  {
+    question: "How is OpenLegion different from CrewAI or other agent frameworks?",
+    answer:
+      "Most agent frameworks run agents in shared processes with no isolation, no cost controls, and API keys stored in config files. OpenLegion container-isolates every agent, proxies all credentials through a vault (agents never see API keys), enforces per-agent budgets, and uses deterministic YAML workflows instead of letting an LLM decide task routing.",
+  },
+  {
+    question: "What LLM providers does OpenLegion support?",
+    answer:
+      "OpenLegion supports 100+ LLM providers through LiteLLM, including Anthropic (Claude), OpenAI (GPT), Google (Gemini), Mistral, Moonshot, and any OpenAI-compatible API. You can use different models for different agents in the same fleet.",
+  },
+  {
+    question: "How does OpenLegion handle API key security?",
+    answer:
+      "API keys are stored in a vault on the mesh host — agents never see them directly. When an agent needs to call an LLM, the request goes through a vault proxy that injects credentials, tracks token usage, and enforces budget limits. Even a fully compromised agent cannot access your API keys.",
+  },
+  {
+    question: "Do I need Kubernetes or cloud infrastructure to run OpenLegion?",
+    answer:
+      "No. OpenLegion requires only Python 3.10+, Docker, and an LLM API key. It runs on a single machine with zero external dependencies — no Redis, no Kubernetes, no LangChain. Clone, install, and run your first fleet in under 60 seconds.",
+  },
+  {
+    question: "Is OpenLegion enterprise-ready?",
+    answer:
+      "Yes. OpenLegion is designed for enterprise deployment with on-premises support, deterministic YAML workflows, per-agent cost governance, role-based access controls, credential isolation via vault proxy, and an audit-ready codebase of ~25,000 lines with 1,550+ tests. All security layers are enabled by default.",
+  },
+  {
+    question: "Can OpenLegion run on-premises in air-gapped environments?",
+    answer:
+      "Yes. OpenLegion runs entirely on your own infrastructure with no external dependencies beyond Docker and Python. No data leaves your network. The full stack — coordinator, agents, vault, and dashboard — runs on a single machine, making it suitable for air-gapped and regulated environments.",
+  },
+];

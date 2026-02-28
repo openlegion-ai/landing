@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { FAQ_ITEMS, GITHUB_URL, DISCORD_URL, TWITTER_URL } from "@/lib/constants";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,7 +15,7 @@ const geistMono = Geist_Mono({
 
 const title = "OpenLegion — Open Source AI Agent Framework for Production";
 const description =
-  "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. 1,550 tests, 100+ LLM providers, deterministic YAML workflows. Open source.";
+  "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, enterprise-ready, audit-ready codebase. 1,550 tests, 100+ LLM providers, deterministic YAML workflows. Open source.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
@@ -39,6 +40,16 @@ export const metadata: Metadata = {
     "multi-agent orchestration",
     "secure AI agents",
     "AI agent fleet",
+    "enterprise AI agent framework",
+    "on-premises AI agents",
+    "enterprise AI deployment",
+    "SOC 2 AI agents",
+    "air-gapped AI deployment",
+    "AI agent governance",
+    "AI agent cost governance",
+    "role-based access AI agents",
+    "audit-ready AI framework",
+    "self-hosted LLM orchestration",
   ],
   authors: [{ name: "OpenLegion Contributors" }],
   icons: {
@@ -54,9 +65,9 @@ export const metadata: Metadata = {
     canonical: "https://openlegion.ai",
   },
   openGraph: {
-    title: "OpenLegion — Open Source AI Agent Framework for Production",
+    title: "OpenLegion — Enterprise-Ready Open Source AI Agent Framework",
     description:
-      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Open source, zero external dependencies.",
+      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Open source, zero external dependencies.",
     type: "website",
     siteName: "OpenLegion",
     url: "https://openlegion.ai",
@@ -65,9 +76,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@openlegion",
-    title: "OpenLegion — Open Source AI Agent Framework for Production",
+    title: "OpenLegion — Enterprise-Ready Open Source AI Agent Framework",
     description:
-      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Open source, zero external dependencies.",
+      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Open source, zero external dependencies.",
     images: ["/og.png"],
   },
   other: {
@@ -84,7 +95,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const jsonLd = {
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "OpenLegion",
+    url: "https://openlegion.ai",
+    logo: "https://openlegion.ai/logo.png",
+    sameAs: [GITHUB_URL, TWITTER_URL, DISCORD_URL],
+  };
+
+  const softwareJsonLd = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "OpenLegion",
@@ -92,12 +112,12 @@ export default function RootLayout({
     applicationCategory: "DeveloperApplication",
     operatingSystem: "Linux, macOS, Windows",
     programmingLanguage: "Python",
-    license: "https://github.com/openlegion-ai/openlegion/blob/main/LICENSE",
+    license: `${GITHUB_URL}/blob/main/LICENSE`,
     url: "https://openlegion.ai",
-    downloadUrl: "https://github.com/openlegion-ai/openlegion",
+    downloadUrl: GITHUB_URL,
     softwareVersion: "0.1.0",
     releaseNotes:
-      "Container-isolated AI agent fleets with six security layers, per-agent cost control, 1,550 tests, 40 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
+      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,550 tests, 40 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
     offers: {
       "@type": "Offer",
       price: "0",
@@ -111,12 +131,33 @@ export default function RootLayout({
     },
   };
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQ_ITEMS.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <html lang="en" className="dark">
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       </head>
       <body

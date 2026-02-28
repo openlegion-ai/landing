@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Github, ArrowRight } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
+import { Counter } from "@/components/ui/counter";
 import { GITHUB_URL, DISCORD_URL } from "@/lib/constants";
 
 export function CTA() {
@@ -33,11 +34,38 @@ export function CTA() {
         </AnimateIn>
         <AnimateIn delay={0.12}>
           <p className="mx-auto mb-8 max-w-xl text-lg text-muted">
-            Open source, zero external dependencies. Clone, install, deploy —
-            your first fleet in under 60 seconds.
+            Zero external dependencies. Clone, install, deploy — your first
+            fleet in under 60 seconds.
           </p>
         </AnimateIn>
-        <AnimateIn delay={0.18}>
+
+        {/* Reinforcement stats */}
+        <AnimateIn delay={0.16}>
+          <div className="mx-auto mb-10 flex max-w-md items-center justify-center gap-6 text-sm text-muted sm:gap-8">
+            <div className="text-center">
+              <div className="font-mono text-lg font-bold text-foreground">
+                <Counter target={1550} />
+              </div>
+              <div className="text-xs">Tests</div>
+            </div>
+            <div className="h-8 w-px bg-border/50" aria-hidden="true" />
+            <div className="text-center">
+              <div className="font-mono text-lg font-bold text-foreground">
+                <Counter target={100} suffix="+" />
+              </div>
+              <div className="text-xs">LLM Providers</div>
+            </div>
+            <div className="h-8 w-px bg-border/50" aria-hidden="true" />
+            <div className="text-center">
+              <div className="font-mono text-lg font-bold text-foreground">
+                <Counter target={25} prefix="~" suffix="k" />
+              </div>
+              <div className="text-xs">Lines of Code</div>
+            </div>
+          </div>
+        </AnimateIn>
+
+        <AnimateIn delay={0.2}>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href={GITHUB_URL}
