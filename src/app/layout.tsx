@@ -118,6 +118,57 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "What is OpenLegion?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "OpenLegion is a production-grade AI agent framework that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and secrets vault — with six security layers enabled by default.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "How is OpenLegion different from CrewAI or other agent frameworks?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Most agent frameworks run agents in shared processes with no isolation, no cost controls, and API keys stored in config files. OpenLegion container-isolates every agent, proxies all credentials through a vault, enforces per-agent budgets, and uses deterministic YAML workflows instead of letting an LLM decide task routing.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "What LLM providers does OpenLegion support?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "OpenLegion supports 100+ LLM providers through LiteLLM, including Anthropic (Claude), OpenAI (GPT), Google (Gemini), Mistral, Moonshot, and any OpenAI-compatible API.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "How does OpenLegion handle API key security?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "API keys are stored in a vault on the mesh host — agents never see them directly. When an agent needs to call an LLM, the request goes through a vault proxy that injects credentials, tracks token usage, and enforces budget limits.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Do I need Kubernetes or cloud infrastructure to run OpenLegion?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "No. OpenLegion requires only Python 3.10+, Docker, and an LLM API key. It runs on a single machine with zero external dependencies.",
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

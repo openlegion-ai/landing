@@ -371,3 +371,38 @@ export const FOOTER_COLUMNS = [
     ],
   },
 ] as const;
+
+// ── FAQ ─────────────────────────────────────────────────────────────────────
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export const FAQ_ITEMS: FAQItem[] = [
+  {
+    question: "What is OpenLegion?",
+    answer:
+      "OpenLegion is a production-grade AI agent framework that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and secrets vault — with six security layers enabled by default.",
+  },
+  {
+    question: "How is OpenLegion different from CrewAI or other agent frameworks?",
+    answer:
+      "Most agent frameworks run agents in shared processes with no isolation, no cost controls, and API keys stored in config files. OpenLegion container-isolates every agent, proxies all credentials through a vault (agents never see API keys), enforces per-agent budgets, and uses deterministic YAML workflows instead of letting an LLM decide task routing.",
+  },
+  {
+    question: "What LLM providers does OpenLegion support?",
+    answer:
+      "OpenLegion supports 100+ LLM providers through LiteLLM, including Anthropic (Claude), OpenAI (GPT), Google (Gemini), Mistral, Moonshot, and any OpenAI-compatible API. You can use different models for different agents in the same fleet.",
+  },
+  {
+    question: "How does OpenLegion handle API key security?",
+    answer:
+      "API keys are stored in a vault on the mesh host — agents never see them directly. When an agent needs to call an LLM, the request goes through a vault proxy that injects credentials, tracks token usage, and enforces budget limits. Even a fully compromised agent cannot access your API keys.",
+  },
+  {
+    question: "Do I need Kubernetes or cloud infrastructure to run OpenLegion?",
+    answer:
+      "No. OpenLegion requires only Python 3.10+, Docker, and an LLM API key. It runs on a single machine with zero external dependencies — no Redis, no Kubernetes, no LangChain. Clone, install, and run your first fleet in under 60 seconds.",
+  },
+];
