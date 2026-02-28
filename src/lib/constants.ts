@@ -47,7 +47,7 @@ export const HERO = {
   subtitle:
     "Deploy autonomous agent fleets where every agent is container-isolated with its own budget, permissions, and secrets vault. No surprise bills. No leaked API keys. Self-hosted. Auditable. Enterprise-ready.",
   stats: [
-    { value: 1550, label: "Tests Passing", suffix: "", prefix: "" },
+    { value: 1607, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
     { value: 25, label: "Lines of Code", suffix: "k", prefix: "~" },
   ],
@@ -97,7 +97,7 @@ export const FEATURES: Feature[] = [
     icon: Monitor,
     title: "Built-In Browser Automation",
     description:
-      "Playwright, stealth Camoufox, anti-detect, or persistent KasmVNC sessions. Auto-recovery, visual screenshots, and accessibility snapshots included.",
+      "Persistent Chrome + KasmVNC browser with Patchright CDP control. Auto-recovery, visual screenshots, accessibility snapshots, and CAPTCHA solving included.",
     size: "standard",
   },
   {
@@ -111,7 +111,7 @@ export const FEATURES: Feature[] = [
     icon: Plug,
     title: "MCP-Compatible Extensibility",
     description:
-      "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 40 built-in skills.",
+      "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 44 built-in skills.",
     size: "standard",
   },
   {
@@ -216,7 +216,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     aspect: "Test Coverage",
     them: "Minimal",
-    openlegion: "1,550 tests across full E2E + unit",
+    openlegion: "1,607 tests across full E2E + unit",
   },
   {
     aspect: "Codebase Size",
@@ -263,7 +263,7 @@ export const ARCHITECTURE = {
         "FastAPI :8400+ each",
         "Own /data volume",
         "Own memory DB (SQLite + vec)",
-        "512MB RAM / 0.5 CPU cap",
+        "1GB RAM / 1 CPU cap",
         "Non-root, no-new-privileges",
       ],
     },
@@ -362,7 +362,7 @@ export const ENTERPRISE_FEATURES: EnterpriseFeature[] = [
     icon: FileSearch,
     title: "Audit-Ready Codebase",
     description:
-      "~25,000 lines of Python with 1,550+ tests. Small enough for a single security engineer to audit in a day — no hidden dependencies.",
+      "~25,000 lines of Python with 1,607+ tests. Small enough for a single security engineer to audit in a day — no hidden dependencies.",
   },
   {
     icon: GitBranch,
@@ -464,7 +464,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     question: "Is OpenLegion enterprise-ready?",
     answer:
-      "Yes. OpenLegion is designed for enterprise deployment with on-premises support, deterministic YAML workflows, per-agent cost governance, role-based access controls, credential isolation via vault proxy, and an audit-ready codebase of ~25,000 lines with 1,550+ tests. All security layers are enabled by default.",
+      "Yes. OpenLegion is designed for enterprise deployment with on-premises support, deterministic YAML workflows, per-agent cost governance, role-based access controls, credential isolation via vault proxy, and an audit-ready codebase of ~25,000 lines with 1,607+ tests. All security layers are enabled by default.",
   },
   {
     question: "Can OpenLegion run on-premises in air-gapped environments?",

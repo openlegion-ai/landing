@@ -44,7 +44,7 @@ export function CTA() {
           <div className="mx-auto mb-10 flex max-w-md items-center justify-center gap-6 text-sm text-muted sm:gap-8">
             <div className="text-center">
               <div className="font-mono text-lg font-bold text-foreground">
-                <Counter target={1550} />
+                <Counter target={1607} />
               </div>
               <div className="text-xs">Tests</div>
             </div>
