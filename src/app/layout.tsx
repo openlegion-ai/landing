@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const title = "OpenLegion — Open Source AI Agent Framework for Production";
+const title = "OpenLegion — Enterprise AI Agent Framework for Production";
 const description =
-  "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, enterprise-ready, audit-ready codebase. 1,550 tests, 100+ LLM providers, deterministic YAML workflows. Open source.";
+  "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, enterprise-ready, audit-ready codebase. 1,607 tests, 100+ LLM providers, deterministic YAML workflows. BSL 1.1 licensed.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "multi-agent system",
     "LLM orchestration",
     "container isolated AI agents",
-    "open source AI agent framework",
+    "AI agent framework",
     "autonomous AI agents",
     "AI agent security",
     "AI agent sandbox",
@@ -65,9 +65,9 @@ export const metadata: Metadata = {
     canonical: "https://openlegion.ai",
   },
   openGraph: {
-    title: "OpenLegion — Enterprise-Ready Open Source AI Agent Framework",
+    title: "OpenLegion — Enterprise-Ready AI Agent Framework",
     description:
-      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Open source, zero external dependencies.",
+      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Zero external dependencies.",
     type: "website",
     siteName: "OpenLegion",
     url: "https://openlegion.ai",
@@ -76,9 +76,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@openlegion",
-    title: "OpenLegion — Enterprise-Ready Open Source AI Agent Framework",
+    title: "OpenLegion — Enterprise-Ready AI Agent Framework",
     description:
-      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Open source, zero external dependencies.",
+      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Zero external dependencies.",
     images: ["/og.png"],
   },
   other: {
@@ -117,7 +117,7 @@ export default function RootLayout({
     downloadUrl: GITHUB_URL,
     softwareVersion: "0.1.0",
     releaseNotes:
-      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,550 tests, 40 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
+      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,607 tests, 44 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
     offers: {
       "@type": "Offer",
       price: "0",

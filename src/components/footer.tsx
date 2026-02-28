@@ -22,7 +22,7 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              The open source AI agent framework built for production.
+              The AI agent framework built for production.
               Container-isolated, auditable, and cost-controlled.
             </p>
             <p className="mt-4 text-xs text-muted/70">
