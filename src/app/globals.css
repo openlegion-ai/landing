@@ -315,3 +315,29 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--muted);
 }
+
+/* ── Nested architecture zones ────────────────────────────────────────── */
+
+.zone-outer {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.04) 0%,
+    rgba(59, 130, 246, 0.02) 100%
+  );
+}
+
+.zone-middle {
+  background: linear-gradient(
+    135deg,
+    rgba(52, 211, 153, 0.04) 0%,
+    rgba(52, 211, 153, 0.02) 100%
+  );
+}
+
+.zone-inner {
+  background: linear-gradient(
+    135deg,
+    rgba(248, 113, 113, 0.04) 0%,
+    rgba(248, 113, 113, 0.02) 100%
+  );
+}
