@@ -9,7 +9,6 @@ import {
   Code,
   TrendingUp,
   Pen,
-  Blocks,
   LayoutDashboard,
   Monitor,
   Plug,
@@ -45,14 +44,14 @@ export const HERO = {
   titleLine1: "The AI agent framework",
   titleAccent: "built for production.",
   subtitle:
-    "Deploy autonomous agent fleets where every agent is container-isolated with its own budget, permissions, and secrets vault. No surprise bills. No leaked API keys. Self-hosted. Auditable. Enterprise-ready.",
+    "Deploy autonomous agent fleets where every agent is container-isolated with its own budget, permissions, and secrets vault. No surprise bills. No leaked API keys. No vendor lock-in.",
   stats: [
     { value: 1607, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
     { value: 25, label: "Lines of Code", suffix: "k", prefix: "~" },
   ],
   ctaPrimary: "Start in 60 Seconds",
-  ctaSecondary: "Star on GitHub",
+  ctaSecondary: "View on GitHub",
 } as const;
 
 // ── Features ─────────────────────────────────────────────────────────────────
@@ -84,7 +83,7 @@ export const FEATURES: Feature[] = [
     title: "Fleet Dashboard",
     description:
       "See every agent, every cost, every event in real time. Live streaming, cost charts, chat panels, request traces, and embedded browser viewer.",
-    size: "medium",
+    size: "standard",
   },
   {
     icon: Workflow,
@@ -116,7 +115,7 @@ export const FEATURES: Feature[] = [
   },
   {
     icon: Wrench,
-    title: "Agents That Build Their Own Tools",
+    title: "Agents Build Their Own Tools",
     description:
       "Agents write and hot-reload Python skills at runtime. Install community skills from git repos or build a custom skill marketplace.",
     size: "standard",
@@ -167,13 +166,6 @@ export const USE_CASES: UseCase[] = [
     agents: ["Researcher", "Writer", "Editor"],
     description:
       "Topic research, long-form drafts, and editorial review with consistent brand voice across every piece.",
-  },
-  {
-    icon: Blocks,
-    name: "Custom Fleet",
-    agents: ["Your agents", "Your tools", "Your workflows"],
-    description:
-      "Build any team with YAML workflows, custom tool permissions, and per-agent budget limits.",
   },
 ];
 
@@ -228,7 +220,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
 // ── Architecture ─────────────────────────────────────────────────────────────
 
 export const ARCHITECTURE = {
-  title: "Three zones of defense",
+  title: "Three zones of protection",
   subtitle:
     "Nested isolation boundaries between your users, the coordinator, and untrusted agent code. Every layer enforced by default.",
   zones: [
@@ -349,6 +341,8 @@ export interface EnterpriseFeature {
   icon: LucideIcon;
   title: string;
   description: string;
+  size: "large" | "medium" | "standard";
+  tag: string;
 }
 
 export const ENTERPRISE_FEATURES: EnterpriseFeature[] = [
@@ -357,36 +351,48 @@ export const ENTERPRISE_FEATURES: EnterpriseFeature[] = [
     title: "On-Premises Deployment",
     description:
       "Run the entire stack on your own infrastructure. No data leaves your network — full air-gap support for regulated environments.",
+    size: "large",
+    tag: "deployment",
   },
   {
     icon: FileSearch,
     title: "Audit-Ready Codebase",
     description:
       "~25,000 lines of Python with 1,607+ tests. Small enough for a single security engineer to audit in a day — no hidden dependencies.",
+    size: "medium",
+    tag: "compliance",
   },
   {
     icon: GitBranch,
     title: "Deterministic Workflows",
     description:
       "YAML-defined task routing with no LLM decision-making in the control plane. Every execution path is predictable, repeatable, and auditable.",
+    size: "medium",
+    tag: "governance",
   },
   {
     icon: KeyRound,
     title: "Credential Isolation",
     description:
       "Vault proxy architecture ensures agents never see API keys or secrets. Meets SOC 2 credential separation requirements out of the box.",
+    size: "standard",
+    tag: "security",
   },
   {
     icon: Wallet,
     title: "Per-Agent Cost Governance",
     description:
       "Set daily and monthly budgets per agent with real-time tracking. No surprise bills — automatic cutoff before limits are exceeded.",
+    size: "standard",
+    tag: "governance",
   },
   {
     icon: UserCog,
     title: "Role-Based Access",
     description:
       "Per-agent ACL matrix controls which tools, files, and operations each agent can access. Enforce least-privilege across your entire fleet.",
+    size: "standard",
+    tag: "security",
   },
 ];
 
@@ -439,7 +445,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     question: "What is OpenLegion?",
     answer:
-      "OpenLegion is a production-grade AI agent framework that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and secrets vault — with six security layers enabled by default.",
+      "OpenLegion is a production-grade AI agent framework that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and secrets vault — with six security layers enabled by default. No Redis, no Kubernetes — just Python, Docker, and an API key. Licensed under BSL 1.1.",
   },
   {
     question: "How is OpenLegion different from CrewAI or other agent frameworks?",

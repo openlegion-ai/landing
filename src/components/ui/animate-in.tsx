@@ -6,15 +6,16 @@ interface AnimateInProps {
   children: React.ReactNode;
   delay?: number;
   className?: string;
+  scale?: boolean;
 }
 
-export function AnimateIn({ children, delay = 0, className = "" }: AnimateInProps) {
+export function AnimateIn({ children, delay = 0, className = "", scale = false }: AnimateInProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 32, ...(scale ? { scale: 0.97 } : {}) }}
+      whileInView={{ opacity: 1, y: 0, ...(scale ? { scale: 1 } : {}) }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      transition={{ duration: 0.55, delay, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -36,7 +37,7 @@ export function StaggerContainer({
       viewport={{ once: true, margin: "-60px" }}
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: 0.08 } },
+        visible: { transition: { staggerChildren: 0.1 } },
       }}
       className={className}
     >
@@ -55,8 +56,8 @@ export function StaggerItem({
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 24 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+        hidden: { opacity: 0, y: 32 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
       }}
       className={className}
     >
