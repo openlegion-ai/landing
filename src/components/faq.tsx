@@ -16,7 +16,7 @@ export function FAQ() {
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
             FAQ
           </p>
-          <h2 className="mb-5 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+          <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
             Frequently asked{" "}
             <span className="gradient-text">questions</span>
           </h2>
@@ -28,10 +28,14 @@ export function FAQ() {
           const isOpen = open === i;
           return (
             <StaggerItem key={i}>
-              <div className="rounded-xl border border-border/50 bg-card/40 overflow-hidden">
+              <div className={`gradient-border glass-shine overflow-hidden rounded-xl border glass-card transition-all duration-300 ${
+                  isOpen
+                    ? "border-accent/25 shadow-[0_0_24px_rgba(59,130,246,0.06)]"
+                    : "border-border/50"
+                }`}>
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-card-hover/50"
+                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.02]"
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${i}`}
                   id={`faq-question-${i}`}
@@ -50,7 +54,7 @@ export function FAQ() {
                   id={`faq-answer-${i}`}
                   role="region"
                   aria-labelledby={`faq-question-${i}`}
-                  className={`grid transition-all duration-200 ease-in-out ${
+                  className={`grid transition-all duration-300 ease-in-out ${
                     isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
                   }`}
                 >

@@ -1,13 +1,22 @@
+"use client";
+
 import Image from "next/image";
+import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { FOOTER_COLUMNS } from "@/lib/constants";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 px-6 md:px-8">
+    <footer className="footer-gradient relative px-6 md:px-8">
+      {/* Gradient top border */}
+      <div
+        className="absolute top-0 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"
+        aria-hidden="true"
+      />
+
       <div className="mx-auto max-w-6xl py-16 md:py-20">
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           {/* Brand */}
-          <div className="max-w-xs">
+          <AnimateIn className="max-w-xs">
             <div className="flex items-center gap-2.5">
               <Image
                 src="/logo.png"
@@ -18,7 +27,7 @@ export function Footer() {
                 className="rounded-full"
               />
               <span className="text-lg font-bold tracking-tight text-foreground">
-                Open<span className="gradient-text">Legion</span>
+                Open<span className="text-accent">Legion</span>
               </span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted">
@@ -29,12 +38,12 @@ export function Footer() {
               BSL 1.1 License &copy; {new Date().getFullYear()} OpenLegion
               Contributors
             </p>
-          </div>
+          </AnimateIn>
 
           {/* Link columns */}
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:gap-12">
+          <StaggerContainer className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:gap-12">
             {FOOTER_COLUMNS.map((col) => (
-              <div key={col.title}>
+              <StaggerItem key={col.title}>
                 <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-foreground/50">
                   {col.title}
                 </p>
@@ -43,7 +52,7 @@ export function Footer() {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="inline-block py-0.5 text-sm text-muted transition-colors hover:text-foreground"
+                        className="inline-block py-0.5 text-sm text-muted transition-all hover:translate-x-0.5 hover:text-foreground"
                         {...(link.href.startsWith("http")
                           ? { target: "_blank", rel: "noopener noreferrer" }
                           : {})}
@@ -53,9 +62,9 @@ export function Footer() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
       </div>
     </footer>

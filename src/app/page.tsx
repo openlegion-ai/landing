@@ -2,6 +2,7 @@ import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { Comparison } from "@/components/comparison";
 import { Features } from "@/components/features";
+import { DashboardPreview } from "@/components/dashboard-preview";
 import { UseCases } from "@/components/use-cases";
 import { Architecture } from "@/components/architecture";
 import { Security } from "@/components/security";
@@ -38,6 +39,7 @@ export default async function Home() {
         <Hero stars={stars} />
         <Comparison />
         <Features />
+        <DashboardPreview />
         <UseCases />
         <Architecture />
         <Security />

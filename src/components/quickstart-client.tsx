@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { CodeBlock } from "@/components/ui/code-block";
 
@@ -56,16 +57,23 @@ export function QuickstartClient({ tabs }: QuickstartClientProps) {
       </div>
 
       {/* Code block for active tab */}
-      <div
-        role="tabpanel"
-        id={`panel-${tabs[active].id}`}
-        aria-labelledby={`tab-${tabs[active].id}`}
-      >
-        <CodeBlock
-          code={tabs[active].code}
-          highlightedHtml={tabs[active].highlightedHtml}
-        />
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={tabs[active].id}
+          role="tabpanel"
+          id={`panel-${tabs[active].id}`}
+          aria-labelledby={`tab-${tabs[active].id}`}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.2 }}
+        >
+          <CodeBlock
+            code={tabs[active].code}
+            highlightedHtml={tabs[active].highlightedHtml}
+          />
+        </motion.div>
+      </AnimatePresence>
     </AnimateIn>
   );
 }

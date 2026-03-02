@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 const title = "OpenLegion — Enterprise AI Agent Framework for Production";
 const description =
-  "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, enterprise-ready, audit-ready codebase. 1,607 tests, 100+ LLM providers, deterministic YAML workflows. BSL 1.1 licensed.";
+  "OpenLegion is a production-grade AI agent framework that deploys autonomous agent fleets in container-isolated sandboxes. Each agent gets its own budget, permissions, and secrets vault with six security layers enabled by default. Supports 100+ LLM providers, deterministic YAML workflows, and runs on a single machine with zero external dependencies.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
@@ -27,7 +27,6 @@ export const metadata: Metadata = {
     "multi-agent system",
     "LLM orchestration",
     "container isolated AI agents",
-    "AI agent framework",
     "autonomous AI agents",
     "AI agent security",
     "AI agent sandbox",
@@ -68,7 +67,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "OpenLegion — Enterprise-Ready AI Agent Framework",
     description:
-      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Zero external dependencies.",
+      "Production-grade AI agent framework with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Zero external dependencies.",
     type: "website",
     siteName: "OpenLegion",
     url: "https://openlegion.ai",
@@ -79,7 +78,7 @@ export const metadata: Metadata = {
     site: "@openlegion",
     title: "OpenLegion — Enterprise-Ready AI Agent Framework",
     description:
-      "Deploy autonomous AI agent fleets with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Zero external dependencies.",
+      "Production-grade AI agent framework with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Zero external dependencies.",
     images: ["/og.png"],
   },
   other: {
@@ -88,6 +87,9 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    "max-snippet": -1,
+    "max-image-preview": "large" as const,
+    "max-video-preview": -1,
   },
 };
 
@@ -129,6 +131,26 @@ export default function RootLayout({
       "@type": "Organization",
       name: "OpenLegion",
       url: "https://openlegion.ai",
+    },
+  };
+
+  const webPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description,
+    url: "https://openlegion.ai",
+    datePublished: "2025-12-01",
+    dateModified: new Date().toISOString().split("T")[0],
+    inLanguage: "en",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "OpenLegion",
+      url: "https://openlegion.ai",
+    },
+    about: {
+      "@type": "SoftwareApplication",
+      name: "OpenLegion",
     },
   };
 
@@ -176,6 +198,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
         />
         <script
           type="application/ld+json"
