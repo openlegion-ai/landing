@@ -22,23 +22,42 @@ export function JsonLd({ data }: JsonLdProps) {
 // ── Schema builders ─────────────────────────────────────────────────────────
 
 export function buildBreadcrumbSchema(title: string, slug: string) {
+  const items: { "@type": string; position: number; name: string; item: string }[] = [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://openlegion.ai",
+    },
+  ];
+
+  // 3-level breadcrumb for /comparison/* sub-pages
+  if (/^\/comparison\/.+$/.test(slug)) {
+    items.push({
+      "@type": "ListItem",
+      position: 2,
+      name: "Comparisons",
+      item: "https://openlegion.ai/comparison",
+    });
+    items.push({
+      "@type": "ListItem",
+      position: 3,
+      name: title,
+      item: `https://openlegion.ai${slug}`,
+    });
+  } else {
+    items.push({
+      "@type": "ListItem",
+      position: 2,
+      name: title,
+      item: `https://openlegion.ai${slug}`,
+    });
+  }
+
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: "https://openlegion.ai",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: title,
-        item: `https://openlegion.ai${slug}`,
-      },
-    ],
+    itemListElement: items,
   };
 }
 
@@ -60,8 +79,12 @@ export function buildFAQSchema(faqs: { question: string; answer: string }[]) {
 export function buildArticleSchema(
   title: string,
   description: string,
-  lastUpdated: string
+  lastUpdated: string,
+  slug: string
 ) {
+  const canonicalUrl = `https://openlegion.ai${slug}`;
+  const slugForOg = slug.replace(/^\//, "").replace(/\//g, "-");
+
   return {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -69,6 +92,16 @@ export function buildArticleSchema(
     description,
     datePublished: lastUpdated,
     dateModified: lastUpdated,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+    },
+    image: {
+      "@type": "ImageObject",
+      url: `https://openlegion.ai/og/${slugForOg}.png`,
+      width: 1200,
+      height: 630,
+    },
     author: {
       "@type": "Organization",
       name: "OpenLegion",

@@ -19,21 +19,24 @@ const CARDS = [
   },
   {
     icon: GitCompareArrows,
-    title: "Framework Comparison",
+    title: "Framework Comparisons",
     description:
-      "Side-by-side breakdown of OpenLegion, LangGraph, CrewAI, AutoGen, Semantic Kernel, and OpenClaw across security, isolation, and cost controls.",
+      "See how OpenLegion stacks up across the AI agent framework landscape — security, isolation, cost controls, and orchestration compared.",
     links: [
-      { label: "AI Agent Frameworks (2026)", href: "/ai-agent-frameworks" },
+      { label: "All Comparisons", href: "/comparison" },
+      { label: "OpenClaw Alternative", href: "/openclaw-alternative" },
+      { label: "AI Agent Frameworks", href: "/ai-agent-frameworks" },
     ],
   },
   {
     icon: BookOpen,
-    title: "Alternative Guides",
+    title: "Head-to-Head",
     description:
-      "Detailed architecture comparisons and migration guides for teams evaluating OpenLegion against specific alternatives.",
+      "Detailed architecture deep dives and migration paths for the most popular frameworks teams evaluate against OpenLegion.",
     links: [
-      { label: "OpenClaw Alternative", href: "/openclaw-alternative" },
-      { label: "OpenLegion vs OpenClaw", href: "/comparison/openclaw" },
+      { label: "vs OpenClaw", href: "/comparison/openclaw" },
+      { label: "vs LangGraph", href: "/comparison/langgraph" },
+      { label: "vs CrewAI", href: "/comparison/crewai" },
     ],
   },
 ];

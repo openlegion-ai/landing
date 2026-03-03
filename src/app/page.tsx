@@ -71,7 +71,7 @@ export default async function Home() {
     description: homeDescription,
     url: "https://openlegion.ai",
     datePublished: "2025-12-01",
-    dateModified: new Date().toISOString().split("T")[0],
+    dateModified: "2026-03-04",
     inLanguage: "en",
     isPartOf: {
       "@type": "WebSite",

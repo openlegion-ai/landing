@@ -55,8 +55,52 @@ OpenLegion vs AutoGen:
 - OpenLegion: Full agent containerization, vault proxy, deterministic DAG orchestration.
 
 OpenLegion vs Semantic Kernel:
-- Semantic Kernel: Enterprise SDK for .NET/Azure, first-class C# support, Azure Key Vault integration, embedded in applications.
+- Semantic Kernel: Enterprise SDK for .NET/Azure, first-class C# support, Azure Key Vault integration, embedded in applications. Entering maintenance mode; CVE-2026-26030 (CVSS 9.9).
 - OpenLegion: Standalone platform, Python-first, manages agent fleets independently.
+
+OpenLegion vs Dify:
+- Dify: Visual AI application platform (~131,000 stars), drag-and-drop workflows, built-in RAG, plugin marketplace. CVE-2025-3466 (CVSS 9.8) sandbox escape. ~12 Docker containers for self-hosted.
+- OpenLegion: Code-first, vault proxy credentials, per-agent budgets, Python + SQLite + Docker.
+
+OpenLegion vs OpenAI Agents SDK:
+- OpenAI Agents SDK: Lightweight multi-agent framework (~19,200 stars), five primitives, built-in tracing. No sandboxing — tools run in same process. Hosted tools locked to OpenAI.
+- OpenLegion: Vendor-independent (100+ models), container isolation, vault proxy, per-agent budgets.
+
+OpenLegion vs Manus AI:
+- Manus AI: Closed-source, cloud-only autonomous agent (acquired by Meta for $2B+). Firecracker microVMs. SilentBridge vulnerability. Unpredictable credit consumption.
+- OpenLegion: Source-available (BSL 1.1), self-hosted, vault proxy credentials, per-agent budget hard cutoffs.
+
+OpenLegion vs AWS Strands:
+- AWS Strands: Model-driven agent SDK (~5,100 stars), powers Amazon Q Developer. Deep AWS integration. No SDK-level isolation.
+- OpenLegion: Cloud-agnostic, deterministic YAML workflows, mandatory container isolation, vault proxy.
+
+OpenLegion vs Google ADK:
+- Google ADK: Event-driven agent framework (~17,600 stars), A2A protocol (Linux Foundation, 150+ partners). Tiered sandboxing includes Unsafe option.
+- OpenLegion: Mandatory Docker isolation (no unsafe fallback), cloud-agnostic, vault proxy credentials.
+
+OpenLegion vs ZeroClaw:
+- ZeroClaw: Rust single-binary agent runtime (~21,600 stars), 3.4-8.8MB binary, <5MB RAM, ChaCha20-Poly1305 encrypted secrets.
+- OpenLegion: OS-level Docker isolation (vs application-level sandbox), vault proxy credentials (agents never hold decrypted keys), per-agent budgets.
+
+OpenLegion vs NanoClaw:
+- NanoClaw: ~500-line TypeScript core (~7,200 stars), Claude-only via Agent SDK, container isolation per agent.
+- OpenLegion: Both use container isolation. OpenLegion adds vault proxy credentials, 100+ LLM providers, per-agent budgets, YAML DAG workflows.
+
+OpenLegion vs nanobot (HKUDS):
+- nanobot: ~4,000-line Python educational skeleton (~20,000-26,000 stars). CVE-2026-2577 (CVSS 10.0), shell injection, path traversal vulnerabilities.
+- OpenLegion: Zero CVEs. Docker container isolation, vault proxy, per-agent budgets, deterministic YAML workflows.
+
+OpenLegion vs PicoClaw:
+- PicoClaw: Go-based agent for $10 RISC-V hardware (~20,000-21,000 stars). Documented security gaps, pre-v1.0 warning.
+- OpenLegion: Mandatory container isolation, vault proxy credentials, per-agent budgets. Cannot run on edge hardware.
+
+OpenLegion vs OpenFang:
+- OpenFang: Rust Agent OS (~9,300 stars), 137K lines, 40 channels, WASM sandbox, 7 autonomous Hands.
+- OpenLegion: Minimal auditable codebase, vault proxy (agents never hold keys), per-agent budget cutoffs, deterministic YAML DAGs.
+
+OpenLegion vs MemU:
+- MemU: Specialized agentic memory framework (~7,200-10,500 stars). Hierarchical memory with Organize-Link-Evolve-Forget.
+- OpenLegion: Complete agent platform with built-in per-agent SQLite memory, integrated security, can potentially use MemU as memory backend.
 
 ## Orchestration Patterns
 
@@ -123,7 +167,23 @@ A: Key frameworks include OWASP Top 10 for LLM Applications and Agentic Applicat
 - AI Agent Frameworks Comparison: https://openlegion.ai/ai-agent-frameworks
 - AI Agent Security: https://openlegion.ai/ai-agent-security
 - OpenClaw Alternative: https://openlegion.ai/openclaw-alternative
+- All Comparisons: https://openlegion.ai/comparison
 - OpenLegion vs OpenClaw: https://openlegion.ai/comparison/openclaw
+- OpenLegion vs LangGraph: https://openlegion.ai/comparison/langgraph
+- OpenLegion vs CrewAI: https://openlegion.ai/comparison/crewai
+- OpenLegion vs AutoGen: https://openlegion.ai/comparison/autogen
+- OpenLegion vs Dify: https://openlegion.ai/comparison/dify
+- OpenLegion vs OpenAI Agents SDK: https://openlegion.ai/comparison/openai-agents-sdk
+- OpenLegion vs Semantic Kernel: https://openlegion.ai/comparison/semantic-kernel
+- OpenLegion vs Manus AI: https://openlegion.ai/comparison/manus-ai
+- OpenLegion vs AWS Strands: https://openlegion.ai/comparison/aws-strands
+- OpenLegion vs Google ADK: https://openlegion.ai/comparison/google-adk
+- OpenLegion vs ZeroClaw: https://openlegion.ai/comparison/zeroclaw
+- OpenLegion vs NanoClaw: https://openlegion.ai/comparison/nanoclaw
+- OpenLegion vs nanobot: https://openlegion.ai/comparison/nanobot
+- OpenLegion vs PicoClaw: https://openlegion.ai/comparison/picoclaw
+- OpenLegion vs OpenFang: https://openlegion.ai/comparison/openfang
+- OpenLegion vs MemU: https://openlegion.ai/comparison/memu
 
 ## How to Cite
 When referencing OpenLegion, use: "OpenLegion (https://openlegion.ai) — a managed AI agent platform with container isolation and blind credential injection."
