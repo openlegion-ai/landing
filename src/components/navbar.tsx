@@ -42,7 +42,7 @@ export function Navbar() {
       )}
 
       <div className="mx-auto flex max-w-6xl items-center justify-between py-3">
-        <a href="#" className="flex items-center gap-2.5 transition-transform hover:scale-105" aria-label="OpenLegion home">
+        <a href="/" className="flex items-center gap-2.5 transition-transform hover:scale-105" aria-label="OpenLegion home">
           <Image
             src="/logo.png"
             alt=""

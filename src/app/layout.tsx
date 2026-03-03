@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
-import { FAQ_ITEMS, GITHUB_URL, DISCORD_URL, TWITTER_URL } from "@/lib/constants";
+import { GITHUB_URL, DISCORD_URL, TWITTER_URL } from "@/lib/constants";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const title = "OpenLegion — Enterprise AI Agent Framework for Production";
+const title = "OpenLegion — AI Agent Framework & Platform";
 const description =
-  "OpenLegion is a production-grade AI agent framework that deploys autonomous agent fleets in container-isolated sandboxes. Each agent gets its own budget, permissions, and secrets vault with six security layers enabled by default. Supports 100+ LLM providers, deterministic YAML workflows, and runs on a single machine with zero external dependencies.";
+  "OpenLegion is a production-grade AI agent framework and platform for agentic AI orchestration. Deploy autonomous agent fleets in container-isolated sandboxes with built-in AI agent security — six layers enabled by default. Per-agent budgets, credential vaults, deterministic workflows, 100+ LLM providers.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
@@ -50,6 +50,11 @@ export const metadata: Metadata = {
     "role-based access AI agents",
     "audit-ready AI framework",
     "self-hosted LLM orchestration",
+    "AI agent platform",
+    "agentic AI framework",
+    "agentic AI orchestration",
+    "agentic AI security",
+    "AI agent deployment platform",
   ],
   authors: [{ name: "OpenLegion Contributors" }],
   icons: {
@@ -65,9 +70,9 @@ export const metadata: Metadata = {
     canonical: "https://openlegion.ai",
   },
   openGraph: {
-    title: "OpenLegion — Enterprise-Ready AI Agent Framework",
+    title: "OpenLegion — AI Agent Framework & Platform for Production",
     description:
-      "Production-grade AI agent framework with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Zero external dependencies.",
+      "Agentic AI framework with container isolation, per-agent cost control, and six security layers. AI agent orchestration, deployment, and governance — self-hosted, audit-ready.",
     type: "website",
     siteName: "OpenLegion",
     url: "https://openlegion.ai",
@@ -76,9 +81,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     site: "@openlegion",
-    title: "OpenLegion — Enterprise-Ready AI Agent Framework",
+    title: "OpenLegion — AI Agent Framework & Platform for Production",
     description:
-      "Production-grade AI agent framework with container isolation, per-agent cost control, and six security layers. Self-hosted, on-premises, audit-ready. Zero external dependencies.",
+      "Agentic AI framework with container isolation, per-agent cost control, and six security layers. AI agent orchestration, deployment, and governance — self-hosted, audit-ready.",
     images: ["/og.png"],
   },
   other: {
@@ -103,73 +108,33 @@ export default function RootLayout({
     "@type": "Organization",
     name: "OpenLegion",
     url: "https://openlegion.ai",
-    logo: "https://openlegion.ai/logo.png",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://openlegion.ai/logo.png",
+      width: 512,
+      height: 512,
+    },
+    description:
+      "Managed AI agent platform with container isolation, credential vaults, and production-grade orchestration.",
     sameAs: [GITHUB_URL, TWITTER_URL, DISCORD_URL],
   };
 
-  const softwareJsonLd = {
+  const webSiteJsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebSite",
     name: "OpenLegion",
-    description,
-    applicationCategory: "DeveloperApplication",
-    operatingSystem: "Linux, macOS, Windows",
-    programmingLanguage: "Python",
-    license: `${GITHUB_URL}/blob/main/LICENSE`,
     url: "https://openlegion.ai",
-    downloadUrl: GITHUB_URL,
-    softwareVersion: "0.1.0",
-    releaseNotes:
-      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,607 tests, 44 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-    },
-    author: {
-      "@type": "Organization",
-      name: "OpenLegion",
-      url: "https://openlegion.ai",
-    },
-  };
-
-  const webPageJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: title,
-    description,
-    url: "https://openlegion.ai",
-    datePublished: "2025-12-01",
-    dateModified: new Date().toISOString().split("T")[0],
-    inLanguage: "en",
-    isPartOf: {
-      "@type": "WebSite",
-      name: "OpenLegion",
-      url: "https://openlegion.ai",
-    },
-    about: {
-      "@type": "SoftwareApplication",
-      name: "OpenLegion",
-    },
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: FAQ_ITEMS.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
   };
 
   return (
     <html lang="en" className="dark">
       <head>
+        <link
+          rel="alternate"
+          type="text/plain"
+          href="/llms.txt"
+          title="LLM-friendly site summary"
+        />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-758JT3002Y"
           strategy="afterInteractive"
@@ -191,21 +156,26 @@ export default function RootLayout({
             })(window, document, "clarity", "script", "voko6al3fo");
           `}
         </Script>
+        <Script id="tawk-to" strategy="lazyOnload">
+          {`
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+              s1.async=true;
+              s1.src='https://embed.tawk.to/69a6e380ed6e941c36908edc/1jipuhbks';
+              s1.charset='UTF-8';
+              s1.setAttribute('crossorigin','*');
+              s0.parentNode.insertBefore(s1,s0);
+            })();
+          `}
+        </Script>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body

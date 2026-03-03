@@ -14,7 +14,8 @@ export function Security() {
             Security
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            <span className="gradient-text">Six layers</span> of defense
+            AI agent security:{" "}
+            <span className="gradient-text">six layers</span> of defense
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
             Designed from day one assuming agents will be compromised. Every layer

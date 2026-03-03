@@ -284,8 +284,8 @@ export function Features() {
             Features
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Production-grade from{" "}
-            <span className="gradient-text">every layer</span>
+            AI agent platform built for{" "}
+            <span className="gradient-text">production</span>
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
             Security, cost control, and observability baked into every

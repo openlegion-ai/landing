@@ -79,16 +79,21 @@ export function Hero({ stars = 0 }: { stars?: number }) {
             </AnimateIn>
 
             <AnimateIn delay={0.06} scale>
-              <h1 className="mb-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[3.5rem] xl:text-[4rem]">
+              <h1 className="mb-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[3rem] xl:text-[3.25rem]">
                 {HERO.titleLine1}
                 <br />
-                <span className="gradient-text-animated">{HERO.titleAccent}</span>
+                {HERO.titleAccent}
+                <br />
+                <span className="gradient-text-animated">{HERO.titleLine3}</span>
               </h1>
             </AnimateIn>
 
             <AnimateIn delay={0.12}>
-              <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-muted lg:mx-0">
+              <p className="mx-auto mb-4 max-w-2xl text-lg leading-relaxed text-muted lg:mx-0">
                 {HERO.subtitle}
+              </p>
+              <p className="mx-auto mb-8 max-w-2xl text-sm leading-relaxed text-muted/60 lg:mx-0">
+                An AI agent deployment platform with agentic AI orchestration and AI agent security built in.
               </p>
             </AnimateIn>
 
