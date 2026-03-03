@@ -41,7 +41,7 @@ export function Footer() {
           </AnimateIn>
 
           {/* Link columns */}
-          <StaggerContainer className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:gap-12">
+          <StaggerContainer className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-6 lg:gap-8">
             {FOOTER_COLUMNS.map((col) => (
               <StaggerItem key={col.title}>
                 <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-foreground/50">

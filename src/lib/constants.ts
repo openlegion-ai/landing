@@ -24,11 +24,11 @@ import {
 // ── Nav ──────────────────────────────────────────────────────────────────────
 
 export const NAV_LINKS = [
-  { label: "Features", href: "#features" },
-  { label: "Use Cases", href: "#use-cases" },
-  { label: "Architecture", href: "#architecture" },
-  { label: "Security", href: "#security" },
-  { label: "Quick Start", href: "#quickstart" },
+  { label: "Features", href: "/#features" },
+  { label: "Use Cases", href: "/#use-cases" },
+  { label: "Architecture", href: "/#architecture" },
+  { label: "Security", href: "/#security" },
+  { label: "Quick Start", href: "/#quickstart" },
   { label: "Docs", href: "https://docs.openlegion.ai" },
 ] as const;
 
@@ -41,10 +41,11 @@ export const TWITTER_URL = "https://x.com/openlegion";
 
 export const HERO = {
   badge: "Security-First  ·  Production-Ready",
-  titleLine1: "The AI agent framework",
-  titleAccent: "built for production.",
+  titleLine1: "The AI agent",
+  titleAccent: "framework & platform",
+  titleLine3: "built for production.",
   subtitle:
-    "Deploy autonomous agent fleets where every agent is container-isolated with its own budget, permissions, and secrets vault. No surprise bills. No leaked API keys. No vendor lock-in.",
+    "Deploy agentic AI workflows with deterministic orchestration, container isolation, and per-agent budgets. Every agent gets its own permissions and secrets vault. No surprise bills. No leaked API keys. No vendor lock-in.",
   stats: [
     { value: 1607, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
@@ -402,12 +403,28 @@ export const FOOTER_COLUMNS = [
   {
     title: "Product",
     links: [
-      { label: "Features", href: "#features" },
-      { label: "Use Cases", href: "#use-cases" },
-      { label: "Architecture", href: "#architecture" },
-      { label: "Security", href: "#security" },
-      { label: "Enterprise", href: "#enterprise" },
-      { label: "Quick Start", href: "#quickstart" },
+      { label: "Features", href: "/#features" },
+      { label: "Use Cases", href: "/#use-cases" },
+      { label: "Architecture", href: "/#architecture" },
+      { label: "Security", href: "/#security" },
+      { label: "Enterprise", href: "/#enterprise" },
+      { label: "Quick Start", href: "/#quickstart" },
+    ],
+  },
+  {
+    title: "Learn",
+    links: [
+      { label: "AI Agent Platform", href: "/ai-agent-platform" },
+      { label: "AI Agent Orchestration", href: "/ai-agent-orchestration" },
+      { label: "AI Agent Frameworks", href: "/ai-agent-frameworks" },
+      { label: "AI Agent Security", href: "/ai-agent-security" },
+    ],
+  },
+  {
+    title: "Comparisons",
+    links: [
+      { label: "OpenClaw Alternative", href: "/openclaw-alternative" },
+      { label: "OpenLegion vs OpenClaw", href: "/comparison/openclaw" },
     ],
   },
   {
@@ -476,5 +493,25 @@ export const FAQ_ITEMS: FAQItem[] = [
     question: "Can OpenLegion run on-premises in air-gapped environments?",
     answer:
       "Yes. OpenLegion runs entirely on your own infrastructure with no external dependencies beyond Docker and Python. No data leaves your network. The full stack — coordinator, agents, vault, and dashboard — runs on a single machine, making it suitable for air-gapped and regulated environments.",
+  },
+  {
+    question: "What is an AI agent platform?",
+    answer:
+      "An AI agent platform is managed infrastructure that handles everything agents need to run in production — container isolation, credential vaulting, per-agent cost controls, observability, and deployment. Unlike raw framework libraries that only provide agent logic primitives, a platform like OpenLegion gives you the operational layer so agents can be deployed, monitored, and governed without stitching together separate tools.",
+  },
+  {
+    question: "What is an AI agent framework vs an agent platform?",
+    answer:
+      "An AI agent framework is a code library for building agent logic — defining tools, prompts, memory, and chains. An AI agent platform adds the operational infrastructure on top: container isolation, credential vaults, per-agent budgets, deployment pipelines, and fleet-wide observability. OpenLegion is both: a Python framework for authoring agents and a self-hosted platform for running them in production with security and cost governance built in.",
+  },
+  {
+    question: "How does AI agent orchestration work in OpenLegion?",
+    answer:
+      "OpenLegion uses deterministic YAML DAG workflows for agent orchestration. You define task graphs with sequential, parallel, supervisor, and hierarchical patterns — no LLM sits in the control plane deciding who does what. The orchestrator routes tasks based on the DAG definition, making every execution path predictable, repeatable, and auditable. Agents execute their assigned steps and report results back to the coordinator.",
+  },
+  {
+    question: "What does AI agent security mean for autonomous agents?",
+    answer:
+      "AI agent security addresses the unique threats autonomous agents introduce: credential leakage (agents accessing API keys), prompt injection (malicious inputs hijacking agent behavior), resource abuse (runaway token spend), and data exfiltration (agents sending sensitive data to external services). OpenLegion's six-layer approach — runtime isolation, container hardening, credential separation, permission enforcement, input validation, and Unicode sanitization — mitigates each threat independently, so a breach in one layer does not compromise the others.",
   },
 ];
