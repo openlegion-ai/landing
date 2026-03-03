@@ -14,13 +14,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const title = "OpenLegion — AI Agent Framework & Platform";
+const defaultTitle = "OpenLegion — AI Agent Framework & Platform";
 const description =
   "OpenLegion is a production-grade AI agent framework and platform for agentic AI orchestration. Deploy autonomous agent fleets in container-isolated sandboxes with built-in AI agent security — six layers enabled by default. Per-agent budgets, credential vaults, deterministic workflows, 100+ LLM providers.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
-  title,
+  title: {
+    default: defaultTitle,
+    template: "%s | OpenLegion",
+  },
   description,
   keywords: [
     "AI agent framework",
@@ -76,6 +79,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "OpenLegion",
     url: "https://openlegion.ai",
+    locale: "en_US",
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "OpenLegion — The AI agent framework built for production." }],
   },
   twitter: {
@@ -156,19 +160,11 @@ export default function RootLayout({
             })(window, document, "clarity", "script", "voko6al3fo");
           `}
         </Script>
-        <Script id="tawk-to" strategy="lazyOnload">
-          {`
-            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-            (function(){
-              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-              s1.async=true;
-              s1.src='https://embed.tawk.to/69a6e380ed6e941c36908edc/1jipuhbks';
-              s1.charset='UTF-8';
-              s1.setAttribute('crossorigin','*');
-              s0.parentNode.insertBefore(s1,s0);
-            })();
-          `}
-        </Script>
+        <Script
+          id="tawk-to"
+          strategy="lazyOnload"
+          src="https://embed.tawk.to/69a6e380ed6e941c36908edc/1jipuhbks"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }}

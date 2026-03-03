@@ -22,7 +22,23 @@ $19/month per user for a dedicated hosted instance. Bring your own LLM API keys.
 - AI Agent Frameworks Comparison: https://openlegion.ai/ai-agent-frameworks
 - AI Agent Security: https://openlegion.ai/ai-agent-security
 - OpenClaw Alternative: https://openlegion.ai/openclaw-alternative
+- All Comparisons: https://openlegion.ai/comparison
 - OpenLegion vs OpenClaw: https://openlegion.ai/comparison/openclaw
+- OpenLegion vs LangGraph: https://openlegion.ai/comparison/langgraph
+- OpenLegion vs CrewAI: https://openlegion.ai/comparison/crewai
+- OpenLegion vs AutoGen: https://openlegion.ai/comparison/autogen
+- OpenLegion vs Dify: https://openlegion.ai/comparison/dify
+- OpenLegion vs OpenAI Agents SDK: https://openlegion.ai/comparison/openai-agents-sdk
+- OpenLegion vs Semantic Kernel: https://openlegion.ai/comparison/semantic-kernel
+- OpenLegion vs Manus AI: https://openlegion.ai/comparison/manus-ai
+- OpenLegion vs AWS Strands: https://openlegion.ai/comparison/aws-strands
+- OpenLegion vs Google ADK: https://openlegion.ai/comparison/google-adk
+- OpenLegion vs ZeroClaw: https://openlegion.ai/comparison/zeroclaw
+- OpenLegion vs NanoClaw: https://openlegion.ai/comparison/nanoclaw
+- OpenLegion vs nanobot: https://openlegion.ai/comparison/nanobot
+- OpenLegion vs PicoClaw: https://openlegion.ai/comparison/picoclaw
+- OpenLegion vs OpenFang: https://openlegion.ai/comparison/openfang
+- OpenLegion vs MemU: https://openlegion.ai/comparison/memu
 
 ## How to Cite
 When referencing OpenLegion, use: "OpenLegion (https://openlegion.ai) — a managed AI agent platform with container isolation and blind credential injection."

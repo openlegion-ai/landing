@@ -10,8 +10,14 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
   const lastUpdated = normalizeDate(frontmatter.last_updated);
   const slugForOg = frontmatter.slug.replace(/^\//, "").replace(/\//g, "-");
 
+  // Titles already containing "OpenLegion" opt out of the layout template
+  // to avoid double branding (e.g. "OpenLegion vs X | OpenLegion")
+  const titleAlreadyBranded = frontmatter.title.includes("OpenLegion");
+
   return {
-    title: frontmatter.title,
+    title: titleAlreadyBranded
+      ? { absolute: frontmatter.title }
+      : frontmatter.title,
     description: frontmatter.description,
     alternates: {
       canonical: `https://openlegion.ai${frontmatter.slug}`,
@@ -34,6 +40,7 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
     },
     twitter: {
       card: "summary_large_image",
+      site: "@openlegion",
       title: frontmatter.title,
       description: frontmatter.description,
       images: [`/og/${slugForOg}.png`],
@@ -44,9 +51,13 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
       "article:author": "OpenLegion",
       "article:section": "AI Agents",
     },
+    keywords: [frontmatter.primary_keyword, ...(frontmatter.secondary_keywords ?? [])],
     robots: {
       index: true,
       follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large" as const,
+      "max-video-preview": -1,
     },
   };
 }

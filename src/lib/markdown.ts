@@ -15,6 +15,7 @@ export interface ContentFrontmatter {
   description: string;
   slug: string;
   primary_keyword: string;
+  secondary_keywords?: string[];
   last_updated: string;
   schema_types: string[];
 }
@@ -39,7 +40,23 @@ const SLUG_TO_FILE: Record<string, string> = {
   "/ai-agent-orchestration": "ai-agent-orchestration.md",
   "/ai-agent-frameworks": "ai-agent-frameworks.md",
   "/ai-agent-security": "ai-agent-security.md",
+  "/comparison": "comparison-all-competitors.md",
   "/comparison/openclaw": "comparison-openclaw.md",
+  "/comparison/dify": "comparison-dify.md",
+  "/comparison/openai-agents-sdk": "comparison-openai-agents-sdk.md",
+  "/comparison/semantic-kernel": "comparison-semantic-kernel.md",
+  "/comparison/autogen": "comparison-autogen.md",
+  "/comparison/crewai": "comparison-crewai.md",
+  "/comparison/langgraph": "comparison-langgraph.md",
+  "/comparison/manus-ai": "comparison-manus-ai.md",
+  "/comparison/aws-strands": "comparison-aws-strands.md",
+  "/comparison/google-adk": "comparison-google-adk.md",
+  "/comparison/zeroclaw": "comparison-zeroclaw.md",
+  "/comparison/nanoclaw": "comparison-nanoclaw.md",
+  "/comparison/nanobot": "comparison-nanobot.md",
+  "/comparison/picoclaw": "comparison-picoclaw.md",
+  "/comparison/openfang": "comparison-openfang.md",
+  "/comparison/memu": "comparison-memu.md",
   "/openclaw-alternative": "openclaw-alternative.md",
 };
 
@@ -82,8 +99,8 @@ function extractFAQs(content: string): FAQItem[] {
 
   const faqContent = content.slice(faqMarker);
 
-  // Stop at "## Internal Links" or end of content
-  const internalLinksIdx = faqContent.indexOf("## Internal Links");
+  // Stop at "## Internal Links" / "## Related Comparisons" or end of content
+  const internalLinksIdx = faqContent.search(/## (?:Internal Links|Related Comparisons)/);
   const faqSection =
     internalLinksIdx !== -1
       ? faqContent.slice(0, internalLinksIdx)
@@ -127,8 +144,8 @@ async function renderMarkdown(content: string): Promise<string> {
   // 2. Remove the "## CTA" heading (keep the content below it)
   processed = processed.replace(/\n## CTA\n/g, "\n");
 
-  // 3. Remove "## Internal Links to Include" section and everything after it
-  const internalLinksIdx = processed.indexOf("## Internal Links to Include");
+  // 3. Remove "## Internal Links" or "## Related Comparisons" section and everything after it
+  const internalLinksIdx = processed.search(/## (?:Internal Links|Related Comparisons)/);
   if (internalLinksIdx !== -1) {
     processed = processed.slice(0, internalLinksIdx);
   }
@@ -175,9 +192,13 @@ async function renderMarkdown(content: string): Promise<string> {
 
   // 3. Wrap CTA blocks as styled buttons
   // The bold text + links are in a single paragraph (single newline = same paragraph in markdown)
+  // Handles both 2-link (Star + Waitlist) and 3-link (Star + Docs + Comparisons) formats
   html = html.replace(
-    /<p><strong>([^<]+)<\/strong>\n?(<a href="[^"]+">Star on GitHub<\/a>) \| (<a href="[^"]+">Join the Waitlist<\/a>)<\/p>/g,
-    '<div class="cta-block"><p class="cta-heading">$1</p><div class="cta-buttons">$2$3</div></div>'
+    /<p><strong>([^<]+)<\/strong>\n?((?:<a href="[^"]+?">[^<]+?<\/a>(?:\s*\|\s*)?)+)<\/p>/g,
+    (_, heading, links) => {
+      const cleanLinks = links.replace(/\s*\|\s*/g, "");
+      return `<div class="cta-block"><p class="cta-heading">${heading}</p><div class="cta-buttons">${cleanLinks}</div></div>`;
+    }
   );
 
   // 4. Wrap FAQ section with semantic microdata

@@ -423,8 +423,9 @@ export const FOOTER_COLUMNS = [
   {
     title: "Comparisons",
     links: [
+      { label: "All Comparisons", href: "/comparison" },
       { label: "OpenClaw Alternative", href: "/openclaw-alternative" },
-      { label: "OpenLegion vs OpenClaw", href: "/comparison/openclaw" },
+      { label: "vs OpenClaw", href: "/comparison/openclaw" },
     ],
   },
   {
