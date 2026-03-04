@@ -145,6 +145,7 @@ export function Hero({ stars = 0 }: { stars?: number }) {
                 <video
                   ref={videoRef}
                   src="/demo.mp4"
+                  poster="/demo-poster.jpg"
                   muted
                   loop
                   playsInline

@@ -55,9 +55,19 @@ export function ContentPage({ page }: ContentPageProps) {
             <span aria-hidden="true">/</span>
             <span aria-current="page">{frontmatter.title}</span>
           </nav>
-          <time dateTime={lastUpdated} className="content-date">
-            Updated {formatDate(lastUpdated)}
-          </time>
+          <div className="content-date">
+            {published && published !== lastUpdated && (
+              <time dateTime={published}>
+                Published {formatDate(published)}
+              </time>
+            )}
+            {published && published !== lastUpdated && (
+              <span aria-hidden="true"> · </span>
+            )}
+            <time dateTime={lastUpdated}>
+              Updated {formatDate(lastUpdated)}
+            </time>
+          </div>
         </div>
 
         <article className="prose">
