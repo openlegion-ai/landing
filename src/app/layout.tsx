@@ -151,7 +151,9 @@ export default function RootLayout({
           title="LLM-friendly full reference"
         />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.clarity.ms" />
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-758JT3002Y"
           strategy="afterInteractive"

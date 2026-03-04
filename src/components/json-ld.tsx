@@ -141,6 +141,7 @@ export function buildArticleSchema(
         url: "https://openlegion.ai/logo.png",
       },
     },
+    inLanguage: "en",
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: [".definition-block", ".faq-section"],
