@@ -86,7 +86,7 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 
 **OpenClaw** runs agents in Docker containers but mounts the Docker socket by default for local deployment. This gives the agent container the ability to create and manage other containers on the host — which is functionally equivalent to root access. A GitHub issue (#9154) reported that the SecurityAnalyzer was not being called on tool calls by default.
 
-**OpenLegion** uses a three-zone trust model: Zone 1 (User Dashboard) → Zone 2 (Mesh Host, trusted) → Zone 3 (Agent Containers, untrusted). Agents run in Docker containers with no Docker socket access, no shared filesystem, non-root execution (UID 1000), no-new-privileges, and resource caps (1GB RAM, 1 CPU). Agents are *explicitly untrusted*.
+**OpenLegion** uses a three-zone trust model: Zone 1 (User Dashboard) → Zone 2 (Mesh Host, trusted) → Zone 3 (Agent Containers, untrusted). Agents run in Docker containers with no Docker socket access, no shared filesystem, non-root execution (UID 1000), no-new-privileges, and configurable resource caps (384MB RAM, 0.15 CPU by default). Agents are *explicitly untrusted*.
 
 ### The CVE record
 

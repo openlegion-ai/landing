@@ -25,7 +25,7 @@ OpenLegion is a managed AI agent platform that provides container isolation, bli
 - Deterministic YAML DAG workflows for task routing
 - 100+ LLM providers via LiteLLM
 - Multi-channel deployment: Telegram, Discord, Slack, WhatsApp, CLI, API
-- Persistent Chrome + KasmVNC browser automation
+- Persistent Camoufox (stealth Firefox) + KasmVNC browser automation
 - MCP-compatible tool extensibility
 - Zero external dependencies (no Redis, no Kubernetes, no LangChain)
 
@@ -57,7 +57,7 @@ Zone 1 — User Zone (Full Trust): CLI, Telegram, Discord, Slack, WhatsApp, API.
 
 Zone 2 — Mesh Host (Trusted Coordinator): FastAPI server running Blackboard (shared state via SQLite), PubSub message router, Credential Vault (vault proxy for blind injection), Orchestrator with permission matrix, Container Manager with cost tracking. Only component that touches API keys.
 
-Zone 3 — Agent Containers (Untrusted): Each agent runs as its own FastAPI instance in a dedicated Docker container with its own /data volume, memory database, and strict resource caps (1GB RAM, 1 CPU, non-root, no-new-privileges). Even a fully compromised agent cannot access API keys, other agents' data, or the host system.
+Zone 3 — Agent Containers (Untrusted): Each agent runs as its own FastAPI instance in a dedicated Docker container with its own /data volume, memory database, and configurable resource caps (384MB RAM, 0.15 CPU default, non-root, no-new-privileges). Even a fully compromised agent cannot access API keys, other agents' data, or the host system.
 
 ## Security — Six-Layer Defense
 

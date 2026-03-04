@@ -70,7 +70,7 @@ No system can guarantee complete immunity to prompt injection. OpenLegion's appr
 
 **What happens.** An agent or its executed code breaks out of its container and gains access to the host system, other containers, or the orchestration layer. Container escape vulnerabilities are discovered regularly — multiple high-severity runC CVEs were disclosed in November 2025 affecting Docker and Kubernetes across major cloud providers.
 
-**How OpenLegion mitigates it.** Container hardening: non-root execution (UID 1000), `no-new-privileges` flag, memory limits (1GB RAM), CPU limits (1 CPU), and no shared filesystem between containers. Each agent gets its own `/data` volume. The three-zone trust model means that even if an agent escapes its container, it lands in a zone with no direct access to the credential vault or other agents' containers. For environments requiring stronger isolation, the architecture supports Docker Sandbox microVMs.
+**How OpenLegion mitigates it.** Container hardening: non-root execution (UID 1000), `no-new-privileges` flag, configurable memory limits (384MB default), configurable CPU limits (0.15 default), and no shared filesystem between containers. Each agent gets its own `/data` volume. The three-zone trust model means that even if an agent escapes its container, it lands in a zone with no direct access to the credential vault or other agents' containers. For environments requiring stronger isolation, the architecture supports Docker Sandbox microVMs.
 
 ### Threat 6: Supply chain attacks
 
@@ -86,7 +86,7 @@ OpenLegion's three-zone trust model separates every deployment into distinct sec
 
 **Zone 2 — Mesh Host (Trusted Coordinator).** The only component with access to credentials. Runs the Blackboard (shared state), PubSub router, Credential Vault (blind injection proxy), Orchestrator with permission matrix, Container Manager, and Cost Tracker. This zone is hardened and not exposed to agent code.
 
-**Zone 3 — Agent Containers (Untrusted).** Each agent runs as an isolated FastAPI instance in its own Docker container. Each container has: its own `/data` volume, its own memory database (SQLite + vector search), 1GB RAM / 1 CPU resource caps, non-root execution, and no access to the Docker socket, credential vault, or other agents' containers.
+**Zone 3 — Agent Containers (Untrusted).** Each agent runs as an isolated FastAPI instance in its own Docker container. Each container has: its own `/data` volume, its own memory database (SQLite + vector search), configurable resource caps (384MB RAM / 0.15 CPU default), non-root execution, and no access to the Docker socket, credential vault, or other agents' containers.
 
 This architecture means a compromised agent in Zone 3 cannot reach Zone 2 (credentials) or other Zone 3 containers (other agents' data). The blast radius of any single agent compromise is contained to that agent's sandbox.
 
@@ -163,7 +163,7 @@ The most secure approach is blind credential injection: store API keys in a vaul
 
 ### How does AI agent isolation work?
 
-Agent isolation means running each agent in its own sandboxed environment — separate process, filesystem, network namespace, and memory space. In OpenLegion, each agent runs in a dedicated Docker container with 1GB RAM, 1 CPU, non-root execution, and no shared filesystem. This means a compromised agent cannot access other agents' data, the credential vault, or the host system. This differs from frameworks where agents share a Python process and can access each other's memory.
+Agent isolation means running each agent in its own sandboxed environment — separate process, filesystem, network namespace, and memory space. In OpenLegion, each agent runs in a dedicated Docker container with configurable resource limits (384MB RAM, 0.15 CPU default), non-root execution, and no shared filesystem. This means a compromised agent cannot access other agents' data, the credential vault, or the host system. This differs from frameworks where agents share a Python process and can access each other's memory.
 
 ### Why do AI agents need budget / cost controls?
 
