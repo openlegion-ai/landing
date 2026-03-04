@@ -9,6 +9,7 @@ secondary_keywords:
   - "nanobot cve-2026-2577"
   - "lightweight ai agent framework"
   - "openclaw alternative python"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage

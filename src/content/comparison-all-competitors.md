@@ -3,6 +3,7 @@ title: "OpenLegion vs Every AI Agent Framework — 2026 Comparison Hub"
 description: "Compare OpenLegion against 16 AI agent frameworks and runtimes: LangGraph, CrewAI, AutoGen, OpenClaw, ZeroClaw, NanoClaw, nanobot, PicoClaw, OpenFang, MemU, and more. Security, pricing, and architecture."
 slug: "/comparison"
 primary_keyword: "ai agent framework comparison 2026"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage

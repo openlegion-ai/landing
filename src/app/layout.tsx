@@ -128,6 +128,11 @@ export default function RootLayout({
     "@type": "WebSite",
     name: "OpenLegion",
     url: "https://openlegion.ai",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: "https://docs.openlegion.ai/search?q={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (
@@ -139,6 +144,14 @@ export default function RootLayout({
           href="/llms.txt"
           title="LLM-friendly site summary"
         />
+        <link
+          rel="alternate"
+          type="text/plain"
+          href="/llms-full.txt"
+          title="LLM-friendly full reference"
+        />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.clarity.ms" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-758JT3002Y"
           strategy="afterInteractive"

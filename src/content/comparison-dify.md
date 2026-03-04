@@ -3,6 +3,7 @@ title: "OpenLegion vs Dify — Detailed Comparison"
 description: "OpenLegion vs Dify: comparison of security, agent isolation, credential management, visual workflow building, and production deployment for AI agents."
 slug: "/comparison/dify"
 primary_keyword: "openlegion vs dify"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage

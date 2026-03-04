@@ -8,6 +8,9 @@ export function normalizeDate(dateStr: string): string {
 
 export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
   const lastUpdated = normalizeDate(frontmatter.last_updated);
+  const published = frontmatter.date_published
+    ? normalizeDate(frontmatter.date_published)
+    : lastUpdated;
   const slugForOg = frontmatter.slug.replace(/^\//, "").replace(/\//g, "-");
 
   // Titles already containing "OpenLegion" opt out of the layout template
@@ -47,7 +50,7 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
     },
     other: {
       "article:modified_time": lastUpdated,
-      "article:published_time": lastUpdated,
+      "article:published_time": published,
       "article:author": "OpenLegion",
       "article:section": "AI Agents",
     },

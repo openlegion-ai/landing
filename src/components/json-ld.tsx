@@ -76,11 +76,36 @@ export function buildFAQSchema(faqs: { question: string; answer: string }[]) {
   };
 }
 
+export function buildItemListSchema(
+  items: { name: string; url: string; position: number }[]
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item) => ({
+      "@type": "ListItem",
+      position: item.position,
+      name: item.name,
+      url: item.url,
+    })),
+  };
+}
+
+// ── Shared entity mentions for topical authority ────────────────────────────
+
+const ENTITY_MENTIONS = [
+  { "@type": "SoftwareApplication", name: "Docker", sameAs: "https://www.wikidata.org/wiki/Q15206305" },
+  { "@type": "ProgrammingLanguage", name: "Python", sameAs: "https://www.wikidata.org/wiki/Q28865" },
+  { "@type": "Thing", name: "Large language model", sameAs: "https://www.wikidata.org/wiki/Q115215024" },
+  { "@type": "SoftwareApplication", name: "SQLite", sameAs: "https://www.wikidata.org/wiki/Q319417" },
+];
+
 export function buildArticleSchema(
   title: string,
   description: string,
   lastUpdated: string,
-  slug: string
+  slug: string,
+  datePublished?: string
 ) {
   const canonicalUrl = `https://openlegion.ai${slug}`;
   const slugForOg = slug.replace(/^\//, "").replace(/\//g, "-");
@@ -90,7 +115,7 @@ export function buildArticleSchema(
     "@type": "Article",
     headline: title,
     description,
-    datePublished: lastUpdated,
+    datePublished: datePublished ?? lastUpdated,
     dateModified: lastUpdated,
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -116,6 +141,11 @@ export function buildArticleSchema(
         url: "https://openlegion.ai/logo.png",
       },
     },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: [".definition-block", ".faq-section"],
+    },
+    mentions: ENTITY_MENTIONS,
   };
 }
 

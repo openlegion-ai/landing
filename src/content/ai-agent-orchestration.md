@@ -3,6 +3,7 @@ title: "AI Agent Orchestration — Coordinate Agents"
 description: "AI agent orchestration platform with deterministic DAG workflows, container isolation, credential vaulting, and per-agent budget controls."
 slug: "/ai-agent-orchestration"
 primary_keyword: "ai agent orchestration"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage

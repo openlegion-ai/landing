@@ -3,6 +3,7 @@ title: "OpenLegion vs Semantic Kernel — Detailed Comparison"
 description: "OpenLegion vs Semantic Kernel: side-by-side comparison of security, agent isolation, credential management, enterprise features, and multi-agent orchestration."
 slug: "/comparison/semantic-kernel"
 primary_keyword: "openlegion vs semantic kernel"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage
