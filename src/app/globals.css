@@ -1204,3 +1204,10 @@ article.prose:has(.faq-section) + .related-pages {
   border-color: var(--accent);
   background: var(--card-hover);
 }
+
+/* ── FAQ details/summary ──────────────────────────────────────────────── */
+
+.faq-details[open] {
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.06);
+}

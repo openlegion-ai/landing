@@ -16,6 +16,7 @@ export interface ContentFrontmatter {
   slug: string;
   primary_keyword: string;
   secondary_keywords?: string[];
+  date_published?: string;
   last_updated: string;
   schema_types: string[];
 }

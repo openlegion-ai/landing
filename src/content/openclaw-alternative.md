@@ -3,6 +3,7 @@ title: "OpenClaw Alternative — OpenLegion"
 description: "Looking for an OpenClaw alternative? OpenLegion offers container isolation, blind credential injection, per-agent budget controls, and deterministic orchestration."
 slug: "/openclaw-alternative"
 primary_keyword: "openclaw alternative"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage

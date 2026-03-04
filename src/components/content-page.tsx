@@ -26,9 +26,13 @@ export function ContentPage({ page }: ContentPageProps) {
   const slug = frontmatter.slug;
 
   // Build JSON-LD schemas based on frontmatter.schema_types
+  const published = frontmatter.date_published
+    ? normalizeDate(frontmatter.date_published)
+    : undefined;
+
   const schemas: Record<string, unknown>[] = [
     buildBreadcrumbSchema(frontmatter.title, slug),
-    buildArticleSchema(frontmatter.title, frontmatter.description, lastUpdated, slug),
+    buildArticleSchema(frontmatter.title, frontmatter.description, lastUpdated, slug, published),
   ];
 
   if (frontmatter.schema_types.includes("FAQPage") && faqs.length > 0) {

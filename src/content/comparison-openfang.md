@@ -8,6 +8,7 @@ secondary_keywords:
   - "openfang security"
   - "ai agent operating system comparison"
   - "rust ai agent framework"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage

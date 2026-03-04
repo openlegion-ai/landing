@@ -3,6 +3,7 @@ title: "OpenLegion vs Manus AI — Detailed Comparison"
 description: "OpenLegion vs Manus AI: comparison of security, agent isolation, credential management, cost controls, and deployment models for AI agent platforms."
 slug: "/comparison/manus-ai"
 primary_keyword: "openlegion vs manus ai"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage

@@ -3,6 +3,7 @@ title: "OpenLegion vs OpenAI Agents SDK — Detailed Comparison"
 description: "OpenLegion vs OpenAI Agents SDK: side-by-side comparison of security, agent isolation, credential management, vendor lock-in, and multi-agent orchestration."
 slug: "/comparison/openai-agents-sdk"
 primary_keyword: "openlegion vs openai agents sdk"
+date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:
   - FAQPage
