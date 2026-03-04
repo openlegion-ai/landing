@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     "enterprise AI agent framework",
     "on-premises AI agents",
     "enterprise AI deployment",
-    "SOC 2 AI agents",
+    "SOC 2 ready AI agents",
     "air-gapped AI deployment",
     "AI agent governance",
     "AI agent cost governance",

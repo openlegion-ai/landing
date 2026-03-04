@@ -222,7 +222,7 @@ function McpVisual() {
           <span className="font-mono text-[10px] text-muted">{s.name}</span>
         </motion.div>
       ))}
-      <motion.span variants={vItem} className="mt-0.5 font-mono text-[10px] text-muted/40">+ 44 built-in skills</motion.span>
+      <motion.span variants={vItem} className="mt-0.5 font-mono text-[10px] text-muted/40">+ 41 built-in skills</motion.span>
     </motion.div>
   );
 }

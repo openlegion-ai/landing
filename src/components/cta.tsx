@@ -63,7 +63,7 @@ export function CTA() {
         <AnimateIn delay={0.12}>
           <p className="mx-auto mb-8 max-w-xl text-lg text-muted">
             Zero external dependencies. Clone, install, deploy — your first
-            fleet in under 60 seconds.
+            fleet in minutes.
           </p>
         </AnimateIn>
 
@@ -99,7 +99,7 @@ export function CTA() {
               href="#quickstart"
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
-              Start in 60 Seconds
+              Get Started
               <ChevronRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" aria-hidden="true" />
             </a>
             <a

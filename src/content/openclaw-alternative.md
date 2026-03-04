@@ -22,7 +22,7 @@ OpenLegion is a source-available [AI agent platform](/ai-agent-platform) built f
 
 ## TL;DR
 
-- **Container isolation** — Each agent in its own Docker container. No Docker socket mounting. Non-root, no-new-privileges, 1GB RAM / 1 CPU caps.
+- **Container isolation** — Each agent in its own Docker container. No Docker socket mounting. Non-root, no-new-privileges, configurable resource caps.
 - **Blind credential injection** — Vault proxy handles all API calls. Agents never see raw keys.
 - **Per-agent budget controls** — Daily and monthly limits with hard cutoff. No surprise bills.
 - **Deterministic orchestration** — YAML DAG workflows, auditable before execution.

@@ -51,7 +51,7 @@ export const HERO = {
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
     { value: 25, label: "Lines of Code", suffix: "k", prefix: "~" },
   ],
-  ctaPrimary: "Start in 60 Seconds",
+  ctaPrimary: "Get Started",
   ctaSecondary: "View on GitHub",
 } as const;
 
@@ -97,7 +97,7 @@ export const FEATURES: Feature[] = [
     icon: Monitor,
     title: "Built-In Browser Automation",
     description:
-      "Persistent Chrome + KasmVNC browser with Patchright CDP control. Auto-recovery, visual screenshots, accessibility snapshots, and CAPTCHA solving included.",
+      "Persistent Camoufox (stealth Firefox) browser with Patchright CDP control. Auto-recovery, visual screenshots, accessibility snapshots, and CAPTCHA solving included.",
     size: "standard",
   },
   {
@@ -111,7 +111,7 @@ export const FEATURES: Feature[] = [
     icon: Plug,
     title: "MCP-Compatible Extensibility",
     description:
-      "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 44 built-in skills.",
+      "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 41 built-in skills.",
     size: "standard",
   },
   {
@@ -125,7 +125,7 @@ export const FEATURES: Feature[] = [
     icon: Terminal,
     title: "Zero External Dependencies",
     description:
-      "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite. Clone, install, run — one machine, 60 seconds, working fleet.",
+      "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite. Clone, install, run — one machine, no external services.",
     size: "standard",
   },
   {
@@ -256,7 +256,7 @@ export const ARCHITECTURE = {
         "FastAPI :8400+ each",
         "Own /data volume",
         "Own memory DB (SQLite + vec)",
-        "1GB RAM / 1 CPU cap",
+        "384MB RAM / 0.15 CPU default",
         "Non-root, no-new-privileges",
       ],
     },
@@ -375,7 +375,7 @@ export const ENTERPRISE_FEATURES: EnterpriseFeature[] = [
     icon: KeyRound,
     title: "Credential Isolation",
     description:
-      "Vault proxy architecture ensures agents never see API keys or secrets. Meets SOC 2 credential separation requirements out of the box.",
+      "Vault proxy architecture ensures agents never see API keys or secrets. Designed to support SOC 2 credential separation requirements.",
     size: "standard",
     tag: "security",
   },
@@ -483,7 +483,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     question: "Do I need Kubernetes or cloud infrastructure to run OpenLegion?",
     answer:
-      "No. OpenLegion requires only Python 3.10+, Docker, and an LLM API key. It runs on a single machine with zero external dependencies — no Redis, no Kubernetes, no LangChain. Clone, install, and run your first fleet in under 60 seconds.",
+      "No. OpenLegion requires only Python 3.10+, Docker, and an LLM API key. It runs on a single machine with zero external dependencies — no Redis, no Kubernetes, no LangChain.",
   },
   {
     question: "Is OpenLegion enterprise-ready?",
