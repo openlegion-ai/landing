@@ -1207,7 +1207,23 @@ article.prose:has(.faq-section) + .related-pages {
 
 /* ── FAQ details/summary ──────────────────────────────────────────────── */
 
+.faq-details {
+  interpolate-size: allow-keywords;
+}
+
 .faq-details[open] {
   border-color: rgba(59, 130, 246, 0.25);
   box-shadow: 0 0 24px rgba(59, 130, 246, 0.06);
+}
+
+.faq-details .faq-answer {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+.faq-details[open] .faq-answer {
+  height: auto;
+  opacity: 1;
 }

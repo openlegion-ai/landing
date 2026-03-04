@@ -34,7 +34,7 @@ export function FAQ() {
                   aria-hidden="true"
                 />
               </summary>
-              <div className="px-6 pb-5">
+              <div className="faq-answer px-6 pb-5">
                 <p className="text-sm leading-relaxed text-muted">
                   {item.answer}
                 </p>

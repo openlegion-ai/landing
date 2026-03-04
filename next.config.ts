@@ -13,12 +13,13 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms https://embed.tawk.to https://va.tawk.to",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://embed.tawk.to https://va.tawk.to https://static.tawk.to",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com",
-      "font-src 'self'",
-      "connect-src 'self' https://www.google-analytics.com https://www.clarity.ms https://va.tawk.to https://api.github.com",
+      "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tawk.to",
+      "font-src 'self' https://static.tawk.to",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://va.tawk.to wss://va.tawk.to https://api.github.com",
       "frame-src https://va.tawk.to",
+      "worker-src 'self' blob:",
     ].join("; "),
   },
 ];
