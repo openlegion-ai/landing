@@ -418,6 +418,7 @@ export const FOOTER_COLUMNS = [
       { label: "AI Agent Orchestration", href: "/ai-agent-orchestration" },
       { label: "AI Agent Frameworks", href: "/ai-agent-frameworks" },
       { label: "AI Agent Security", href: "/ai-agent-security" },
+      { label: "DeepSeek V4 Agents", href: "/deepseek-v4-agents" },
     ],
   },
   {

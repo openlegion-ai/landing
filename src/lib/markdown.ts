@@ -19,6 +19,8 @@ export interface ContentFrontmatter {
   date_published?: string;
   last_updated: string;
   schema_types: string[];
+  howto_total_time?: string;
+  howto_tools?: string[];
 }
 
 export interface FAQItem {
@@ -26,10 +28,21 @@ export interface FAQItem {
   answer: string;
 }
 
+export interface HowToStep {
+  name: string;
+  text: string;
+}
+
+export interface HowToData {
+  sectionName: string;
+  steps: HowToStep[];
+}
+
 export interface ContentPage {
   frontmatter: ContentFrontmatter;
   html: string;
   faqs: FAQItem[];
+  howTo: HowToData | null;
 }
 
 // ── Content directory ───────────────────────────────────────────────────────
@@ -59,6 +72,7 @@ const SLUG_TO_FILE: Record<string, string> = {
   "/comparison/openfang": "comparison-openfang.md",
   "/comparison/memu": "comparison-memu.md",
   "/openclaw-alternative": "openclaw-alternative.md",
+  "/deepseek-v4-agents": "deepseek-v4.md",
 };
 
 // ── Load + parse content ────────────────────────────────────────────────────
@@ -72,13 +86,14 @@ export async function getContentPage(slug: string): Promise<ContentPage> {
   const { data, content } = matter(raw);
   const frontmatter = data as ContentFrontmatter;
 
-  // Extract FAQs before processing (from raw markdown)
+  // Extract FAQs and HowTo steps before processing (from raw markdown)
   const faqs = extractFAQs(content);
+  const howTo = extractHowTo(content);
 
   // Process markdown to HTML
   const html = await renderMarkdown(content);
 
-  return { frontmatter, html, faqs };
+  return { frontmatter, html, faqs, howTo };
 }
 
 export function getAllContentPages(): ContentFrontmatter[] {
@@ -100,8 +115,8 @@ function extractFAQs(content: string): FAQItem[] {
 
   const faqContent = content.slice(faqMarker);
 
-  // Stop at "## Internal Links" / "## Related Comparisons" or end of content
-  const internalLinksIdx = faqContent.search(/## (?:Internal Links|Related Comparisons)/);
+  // Stop at "## Internal Links" / "## Related Comparisons" / "## Related Pages" or end of content
+  const internalLinksIdx = faqContent.search(/## (?:Internal Links|Related Comparisons|Related Pages)/);
   const faqSection =
     internalLinksIdx !== -1
       ? faqContent.slice(0, internalLinksIdx)
@@ -129,6 +144,47 @@ function extractFAQs(content: string): FAQItem[] {
   return faqs;
 }
 
+// ── HowTo extraction (for JSON-LD) ───────────────────────────────────────────
+
+function extractHowTo(content: string): HowToData | null {
+  const marker = content.indexOf("<!-- SCHEMA: HowTo -->");
+  if (marker === -1) return null;
+
+  const afterMarker = content.slice(marker);
+
+  // Find the next H2 section after the HowTo marker (the "How to..." heading)
+  const h2Match = afterMarker.match(/\n## (.+)\n/);
+  if (!h2Match) return null;
+
+  const sectionName = h2Match[1].trim();
+  const sectionStart = afterMarker.indexOf(h2Match[0]);
+  const sectionContent = afterMarker.slice(sectionStart);
+
+  // Find end of this H2 section (next H2 or end)
+  const nextH2 = sectionContent.slice(1).search(/\n## /);
+  const section = nextH2 !== -1 ? sectionContent.slice(0, nextH2 + 1) : sectionContent;
+
+  // Extract "### Step N: ..." patterns
+  const stepRegex = /### Step \d+: (.+)\n\n([\s\S]*?)(?=\n### |\n## |$)/g;
+  const steps: HowToStep[] = [];
+  let match;
+  while ((match = stepRegex.exec(section)) !== null) {
+    const name = match[1].trim();
+    const text = match[2]
+      .trim()
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/\*\*([^*]+)\*\*/g, "$1")
+      .replace(/`([^`]+)`/g, "$1")
+      .replace(/\*([^*]+)\*/g, "$1")
+      .replace(/_([^_]+)_/g, "$1");
+    steps.push({ name, text });
+  }
+
+  if (steps.length === 0) return null;
+
+  return { sectionName, steps };
+}
+
 // ── Markdown rendering ──────────────────────────────────────────────────────
 
 async function renderMarkdown(content: string): Promise<string> {
@@ -145,8 +201,8 @@ async function renderMarkdown(content: string): Promise<string> {
   // 2. Remove the "## CTA" heading (keep the content below it)
   processed = processed.replace(/\n## CTA\n/g, "\n");
 
-  // 3. Remove "## Internal Links" or "## Related Comparisons" section and everything after it
-  const internalLinksIdx = processed.search(/## (?:Internal Links|Related Comparisons)/);
+  // 3. Remove "## Internal Links", "## Related Comparisons", or "## Related Pages" section and everything after it
+  const internalLinksIdx = processed.search(/## (?:Internal Links|Related Comparisons|Related Pages)/);
   if (internalLinksIdx !== -1) {
     processed = processed.slice(0, internalLinksIdx);
   }
@@ -155,8 +211,9 @@ async function renderMarkdown(content: string): Promise<string> {
   processed = processed.replace(/\n---\s*$/g, "");
   processed = processed.replace(/\n---\n\n<!-- SCHEMA: FAQPage -->/g, "\n<!-- SCHEMA: FAQPage -->");
 
-  // 5. Strip the FAQPage comment marker (remark doesn't need it; we handle FAQ in post-processing)
+  // 5. Strip schema comment markers (remark doesn't need them; we handle extraction separately)
   processed = processed.replace(/<!-- SCHEMA: FAQPage -->\n\n/g, "");
+  processed = processed.replace(/<!-- SCHEMA: HowTo -->\n\n/g, "");
 
   // ── Run remark pipeline ───────────────────────────────────────────────
   // This processes ALL markdown including FAQ content, so links, bold,

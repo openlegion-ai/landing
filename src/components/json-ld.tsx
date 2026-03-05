@@ -91,6 +91,35 @@ export function buildItemListSchema(
   };
 }
 
+export function buildHowToSchema(
+  name: string,
+  description: string,
+  steps: { name: string; text: string }[],
+  options?: { totalTime?: string; tools?: string[] }
+) {
+  const schema: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name,
+    description,
+    step: steps.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: step.name,
+      text: step.text,
+    })),
+  };
+
+  if (options?.totalTime) {
+    schema.totalTime = options.totalTime;
+  }
+  if (options?.tools?.length) {
+    schema.tool = options.tools.map((t) => ({ "@type": "HowToTool", name: t }));
+  }
+
+  return schema;
+}
+
 // ── Shared entity mentions for topical authority ────────────────────────────
 
 const ENTITY_MENTIONS = [
@@ -98,6 +127,8 @@ const ENTITY_MENTIONS = [
   { "@type": "ProgrammingLanguage", name: "Python", sameAs: "https://www.wikidata.org/wiki/Q28865" },
   { "@type": "Thing", name: "Large language model", sameAs: "https://www.wikidata.org/wiki/Q115215024" },
   { "@type": "SoftwareApplication", name: "SQLite", sameAs: "https://www.wikidata.org/wiki/Q319417" },
+  { "@type": "Organization", name: "DeepSeek", sameAs: "https://www.wikidata.org/wiki/Q130211498" },
+  { "@type": "Thing", name: "Mixture of experts", sameAs: "https://www.wikidata.org/wiki/Q4411516" },
 ];
 
 export function buildArticleSchema(
