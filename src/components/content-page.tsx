@@ -6,6 +6,7 @@ import {
   buildBreadcrumbSchema,
   buildFAQSchema,
   buildArticleSchema,
+  buildHowToSchema,
 } from "@/components/json-ld";
 import { RelatedPages } from "@/components/related-pages";
 
@@ -21,7 +22,7 @@ function formatDate(iso: string): string {
 }
 
 export function ContentPage({ page }: ContentPageProps) {
-  const { frontmatter, html, faqs } = page;
+  const { frontmatter, html, faqs, howTo } = page;
   const lastUpdated = normalizeDate(frontmatter.last_updated);
   const slug = frontmatter.slug;
 
@@ -37,6 +38,18 @@ export function ContentPage({ page }: ContentPageProps) {
 
   if (frontmatter.schema_types.includes("FAQPage") && faqs.length > 0) {
     schemas.push(buildFAQSchema(faqs));
+  }
+
+  if (frontmatter.schema_types.includes("HowTo") && howTo) {
+    schemas.push(buildHowToSchema(
+      howTo.sectionName,
+      frontmatter.description,
+      howTo.steps,
+      {
+        totalTime: frontmatter.howto_total_time,
+        tools: frontmatter.howto_tools,
+      },
+    ));
   }
 
   return (

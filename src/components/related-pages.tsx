@@ -13,6 +13,7 @@ const TOPIC_PAGES: PageEntry[] = [
   { href: "/ai-agent-frameworks", label: "AI Agent Frameworks Comparison" },
   { href: "/ai-agent-security", label: "AI Agent Security" },
   { href: "/openclaw-alternative", label: "OpenClaw Alternative" },
+  { href: "/deepseek-v4-agents", label: "DeepSeek V4 Agents" },
 ];
 
 const COMPARISON_HUB: PageEntry = {

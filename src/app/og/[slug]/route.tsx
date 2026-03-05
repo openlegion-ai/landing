@@ -24,6 +24,7 @@ const SLUG_TO_TITLE: Record<string, string> = {
   "comparison-openfang": "OpenLegion vs OpenFang — Detailed Comparison",
   "comparison-memu": "OpenLegion vs MemU — Detailed Comparison",
   "openclaw-alternative": "OpenClaw Alternative — OpenLegion",
+  "deepseek-v4-agents": "Run DeepSeek V4 Agents Securely with OpenLegion",
 };
 
 export async function GET(
