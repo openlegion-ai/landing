@@ -448,6 +448,8 @@ export const FOOTER_COLUMNS = [
   {
     title: "Legal",
     links: [
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
       { label: "BSL 1.1 License", href: `${GITHUB_URL}/blob/main/LICENSE` },
     ],
   },
