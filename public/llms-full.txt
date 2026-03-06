@@ -10,7 +10,7 @@
 - Requirements: Python 3.10+, Docker
 - Pricing: From $19/month (hosted) or free (self-hosted)
 - First Release: 2025
-- Codebase: ~25,000 lines of Python with 1,607+ tests
+- Codebase: ~26,000 lines of Python with 1,826+ tests
 - LLM Support: 100+ providers via LiteLLM (OpenAI, Anthropic, Google, Mistral, and more)
 
 ## What is OpenLegion?
@@ -146,8 +146,7 @@ Hierarchical: Multiple supervisors manage teams, with top-level coordinator mana
 ```
 git clone https://github.com/openlegion-ai/openlegion.git
 cd openlegion && ./install.sh
-openlegion setup   # guided wizard: API key, project, team template
-openlegion start   # agents deploy in isolated containers
+openlegion start   # inline setup on first run, then agents deploy in isolated containers
 ```
 
 Requirements: Python 3.10+ and Docker. First install takes 2-3 minutes.

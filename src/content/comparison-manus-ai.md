@@ -83,7 +83,7 @@ OpenLegion uses a three-zone trust model. Each agent runs in its own Docker cont
 
 **You need self-hosted deployment.** Manus explicitly rejects local deployment. For regulated industries, air-gapped environments, or data sovereignty requirements, OpenLegion runs anywhere you can run Python + Docker.
 
-**You need transparency and auditability.** Manus is a closed-source black box. OpenLegion's ~25,000-line codebase is fully auditable. YAML DAG workflows are version-controllable and compliance-reviewable before execution.
+**You need transparency and auditability.** Manus is a closed-source black box. OpenLegion's ~26,000-line codebase is fully auditable. YAML DAG workflows are version-controllable and compliance-reviewable before execution.
 
 **You need model choice.** Manus locks you into its chosen model stack. OpenLegion supports 100+ models via LiteLLM with BYO API keys and zero markup on usage.
 

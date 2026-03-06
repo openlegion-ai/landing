@@ -35,7 +35,7 @@ export default async function Home() {
     downloadUrl: APP_URL,
     softwareVersion: "0.1.0",
     releaseNotes:
-      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,607 tests, 41 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
+      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,826 tests, 41 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
     softwareHelp: {
       "@type": "CreativeWork",
       url: "https://docs.openlegion.ai",

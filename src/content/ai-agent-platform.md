@@ -91,7 +91,7 @@ You need audit trails for every agent action, credential isolation that survives
 | **Orchestration** | Code your own routing logic or use LLM-based routing | YAML-defined DAG workflows — deterministic, auditable |
 | **Observability** | Integrate LangSmith, Datadog, or custom logging | Built-in dashboard with live streaming, cost charts, request traces |
 | **Multi-channel deployment** | Build integrations per channel | Telegram, Discord, Slack, WhatsApp, CLI, API — built in |
-| **Browser automation** | Configure Playwright/Puppeteer, manage Chrome instances | Shared Camoufox (stealth Firefox) browser service with KasmVNC and Patchright CDP, auto-recovery |
+| **Browser automation** | Configure Playwright/Puppeteer, manage Chrome instances | Shared Camoufox (stealth Firefox) browser service with KasmVNC, CDP control, auto-recovery |
 | **Model failover** | Custom retry logic per provider | Configurable failover chains across providers via LiteLLM |
 
 The summary: if you're evaluating [AI agent frameworks](/ai-agent-frameworks) and find yourself building more infrastructure than agent logic, you're solving a platform problem with framework tools. OpenLegion handles the platform layer so you can focus on what your agents actually do.
@@ -113,8 +113,7 @@ This architecture means [AI agent orchestration](/ai-agent-orchestration) and se
 ```bash
 git clone https://github.com/openlegion-ai/openlegion.git
 cd openlegion && ./install.sh
-openlegion setup   # guided wizard: API key, project, team template
-openlegion start   # agents deploy in isolated containers
+openlegion start   # inline setup on first run, then agents deploy in isolated containers
 ```
 
 First install takes 2–3 minutes. Requires Python 3.10+ and Docker.

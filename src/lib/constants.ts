@@ -48,9 +48,9 @@ export const HERO = {
   subtitle:
     "Deploy agentic AI workflows with deterministic orchestration, container isolation, and per-agent budgets. Every agent gets its own permissions and secrets vault. No surprise bills. No leaked API keys. No vendor lock-in.",
   stats: [
-    { value: 1607, label: "Tests Passing", suffix: "", prefix: "" },
+    { value: 1826, label: "Tests Passing", suffix: "", prefix: "" },
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
-    { value: 25, label: "Lines of Code", suffix: "k", prefix: "~" },
+    { value: 26, label: "Lines of Code", suffix: "k", prefix: "~" },
   ],
   ctaPrimary: "Get Started",
   ctaSecondary: "Read the Docs",
@@ -98,7 +98,7 @@ export const FEATURES: Feature[] = [
     icon: Monitor,
     title: "Built-In Browser Automation",
     description:
-      "Persistent Camoufox (stealth Firefox) browser with Patchright CDP control. Auto-recovery, visual screenshots, accessibility snapshots, and CAPTCHA solving included.",
+      "Persistent Camoufox (stealth Firefox) browser with CDP control. Auto-recovery, visual screenshots, accessibility snapshots, and CAPTCHA solving included.",
     size: "standard",
   },
   {
@@ -210,12 +210,12 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     aspect: "Test Coverage",
     them: "Minimal",
-    openlegion: "1,607 tests across full E2E + unit",
+    openlegion: "1,826 tests across full E2E + unit",
   },
   {
     aspect: "Codebase Size",
     them: "430,000+ lines",
-    openlegion: "~25,000 lines (auditable in a day)",
+    openlegion: "~26,000 lines (auditable in a day)",
   },
 ];
 
@@ -360,7 +360,7 @@ export const ENTERPRISE_FEATURES: EnterpriseFeature[] = [
     icon: FileSearch,
     title: "Audit-Ready Codebase",
     description:
-      "~25,000 lines of Python with 1,607+ tests. Small enough for a single security engineer to audit in a day — no hidden dependencies.",
+      "~26,000 lines of Python with 1,826+ tests. Small enough for a single security engineer to audit in a day — no hidden dependencies.",
     size: "medium",
     tag: "compliance",
   },
@@ -493,7 +493,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     question: "Is OpenLegion enterprise-ready?",
     answer:
-      "Yes. OpenLegion is designed for enterprise deployment with on-premises support, deterministic YAML workflows, per-agent cost governance, role-based access controls, credential isolation via vault proxy, and an audit-ready codebase of ~25,000 lines with 1,607+ tests. All security layers are enabled by default.",
+      "Yes. OpenLegion is designed for enterprise deployment with on-premises support, deterministic YAML workflows, per-agent cost governance, role-based access controls, credential isolation via vault proxy, and an audit-ready codebase of ~26,000 lines with 1,826+ tests. All security layers are enabled by default.",
   },
   {
     question: "Can OpenLegion run on-premises in air-gapped environments?",
