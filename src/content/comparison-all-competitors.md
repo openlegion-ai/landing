@@ -107,7 +107,7 @@ For technical details, see the [AI agent orchestration](/ai-agent-orchestration)
 ## CTA
 
 **Ready to see the difference?**
-[Get Started Free](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 

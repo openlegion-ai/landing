@@ -122,7 +122,7 @@ First install takes 2–3 minutes. Requires Python 3.10+ and Docker.
 ## CTA
 
 **Ready to deploy secure agents?**
-[Get Started Free](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 

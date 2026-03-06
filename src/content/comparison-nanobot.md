@@ -166,7 +166,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 ## CTA
 
 **Deploy agents with security that's architectural, not aspirational.**
-[Get Started Free](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 

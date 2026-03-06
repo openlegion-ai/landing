@@ -137,7 +137,7 @@ For a deeper comparison, see our full [AI agent frameworks comparison](/ai-agent
 ## CTA
 
 **Ready to orchestrate secure agent fleets?**
-[Get Started Free](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 

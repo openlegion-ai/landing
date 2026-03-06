@@ -52,7 +52,7 @@ export const HERO = {
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
     { value: 25, label: "Lines of Code", suffix: "k", prefix: "~" },
   ],
-  ctaPrimary: "Get Started Free",
+  ctaPrimary: "Get Started",
   ctaSecondary: "Read the Docs",
 } as const;
 

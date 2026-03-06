@@ -145,7 +145,7 @@ OpenLegion is **designed for environments that require** compliance controls, in
 ## CTA
 
 **Deploy agents that are secure by default.**
-[Get Started Free](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 
