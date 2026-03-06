@@ -13,24 +13,9 @@ import { SeoLinks } from "@/components/seo-links";
 import { CTA } from "@/components/cta";
 import { InlineCTA } from "@/components/inline-cta";
 import { Footer } from "@/components/footer";
-import { FAQ_ITEMS, GITHUB_URL } from "@/lib/constants";
-
-async function getStarCount(): Promise<number> {
-  try {
-    const res = await fetch(
-      "https://api.github.com/repos/openlegion-ai/openlegion",
-      { next: { revalidate: 3600 } },
-    );
-    if (!res.ok) return 0;
-    const data = await res.json();
-    return data.stargazers_count ?? 0;
-  } catch {
-    return 0;
-  }
-}
+import { FAQ_ITEMS, GITHUB_URL, APP_URL } from "@/lib/constants";
 
 export default async function Home() {
-  const stars = await getStarCount();
 
   const homeTitle =
     "OpenLegion — AI Agent Framework & Platform";
@@ -47,7 +32,7 @@ export default async function Home() {
     programmingLanguage: "Python",
     license: `${GITHUB_URL}/blob/main/LICENSE`,
     url: "https://openlegion.ai",
-    downloadUrl: GITHUB_URL,
+    downloadUrl: APP_URL,
     softwareVersion: "0.1.0",
     releaseNotes:
       "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,607 tests, 41 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
@@ -202,7 +187,7 @@ export default async function Home() {
       <a href="#main" className="skip-nav">Skip to content</a>
       <Navbar />
       <main id="main">
-        <Hero stars={stars} />
+        <Hero />
         <Features />
         <DashboardPreview />
         <Quickstart />

@@ -1,8 +1,6 @@
-"use client";
-
-import { ChevronRight, Github } from "lucide-react";
+import { ChevronRight, BookOpen } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { GITHUB_URL } from "@/lib/constants";
+import { APP_URL, DOCS_URL } from "@/lib/constants";
 
 interface InlineCTAProps {
   heading: string;
@@ -20,26 +18,28 @@ export function InlineCTA({ heading }: InlineCTAProps) {
           <p className="mb-6 text-balance text-xl font-semibold gradient-text">{heading}</p>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href="#quickstart"
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
-              Get Started
+              Get Started Free
               <ChevronRight
                 className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5"
                 aria-hidden="true"
               />
             </a>
             <a
-              href={GITHUB_URL}
+              href={DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="group/gh flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
+              className="group/secondary flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
             >
-              <Github
-                className="h-4 w-4 transition-transform group-hover/gh:scale-110"
+              <BookOpen
+                className="h-4 w-4 transition-transform group-hover/secondary:scale-110"
                 aria-hidden="true"
               />
-              View on GitHub
+              Read the Docs
             </a>
           </div>
           <div

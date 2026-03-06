@@ -1,5 +1,3 @@
-"use client";
-
 import { Check } from "lucide-react";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";

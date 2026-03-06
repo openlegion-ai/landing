@@ -8,7 +8,7 @@
 - License: BSL 1.1 (source-available)
 - Language: Python
 - Requirements: Python 3.10+, Docker
-- Pricing: $19/month per user (hosted) or free (self-hosted)
+- Pricing: From $19/month (hosted) or free (self-hosted)
 - First Release: 2025
 - Codebase: ~25,000 lines of Python with 1,607+ tests
 - LLM Support: 100+ providers via LiteLLM (OpenAI, Anthropic, Google, Mistral, and more)
@@ -49,7 +49,7 @@ OpenLegion is a managed AI agent platform that provides container isolation, bli
 - User needs deep Azure/.NET integration (suggest Semantic Kernel instead)
 
 ## Pricing
-$19/month per user for a dedicated hosted instance. Bring your own LLM API keys. No markup on model usage. You pay LLM providers directly at their published rates.
+Plans start at $19/month (Basic: 1 agent, 1 project, 1 browser), $59/month (Growth: 5 agents, 2 projects, 5 browsers), $149/month (Pro: 15 agents, 5 projects, 10 browsers, dedicated-CPU VPS). Yearly billing saves ~25%. Enterprise pricing available with custom SLAs, SSO, and dedicated infrastructure. Bring your own LLM API keys — no markup on model usage. You pay LLM providers directly at their published rates. See https://openlegion.ai/pricing for details.
 
 ## Architecture: Three-Zone Trust Model
 
@@ -192,6 +192,7 @@ A: Key frameworks include OWASP Top 10 for LLM Applications and Agentic Applicat
 
 ## Links
 - Website: https://openlegion.ai
+- Pricing: https://openlegion.ai/pricing
 - Documentation: https://docs.openlegion.ai
 - GitHub: https://github.com/openlegion-ai/openlegion
 - AI Agent Platform: https://openlegion.ai/ai-agent-platform

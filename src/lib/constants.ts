@@ -28,10 +28,11 @@ export const NAV_LINKS = [
   { label: "Use Cases", href: "/#use-cases" },
   { label: "Architecture", href: "/#architecture" },
   { label: "Security", href: "/#security" },
-  { label: "Quick Start", href: "/#quickstart" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Docs", href: "https://docs.openlegion.ai" },
 ] as const;
 
+export const APP_URL = "https://app.openlegion.ai";
 export const GITHUB_URL = "https://github.com/openlegion-ai/openlegion";
 export const DOCS_URL = "https://docs.openlegion.ai";
 export const DISCORD_URL = "https://discord.gg/mXNkjpDvvr";
@@ -51,8 +52,8 @@ export const HERO = {
     { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
     { value: 25, label: "Lines of Code", suffix: "k", prefix: "~" },
   ],
-  ctaPrimary: "Get Started",
-  ctaSecondary: "View on GitHub",
+  ctaPrimary: "Get Started Free",
+  ctaSecondary: "Read the Docs",
 } as const;
 
 // ── Features ─────────────────────────────────────────────────────────────────
@@ -408,6 +409,7 @@ export const FOOTER_COLUMNS = [
       { label: "Architecture", href: "/#architecture" },
       { label: "Security", href: "/#security" },
       { label: "Enterprise", href: "/#enterprise" },
+      { label: "Pricing", href: "/pricing" },
       { label: "Quick Start", href: "/#quickstart" },
     ],
   },

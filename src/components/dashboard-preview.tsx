@@ -234,6 +234,7 @@ export function DashboardPreview() {
                         alt=""
                         width={40}
                         height={40}
+                        sizes="40px"
                         className="h-full w-full rounded-full"
                         aria-hidden="true"
                       />

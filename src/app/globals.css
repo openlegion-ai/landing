@@ -330,7 +330,6 @@ body {
   mask-composite: exclude;
   opacity: 0;
   pointer-events: none;
-  will-change: opacity;
 }
 
 /* Firefox fallback — mask-composite: exclude is unsupported */

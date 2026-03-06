@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { Github, ChevronRight } from "lucide-react";
+import { ChevronRight, BookOpen } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { Counter } from "@/components/ui/counter";
-import { HERO, GITHUB_URL } from "@/lib/constants";
+import { HERO, APP_URL, DOCS_URL } from "@/lib/constants";
 
 const PARTICLES = [
   { top: "12%", left: "8%", size: 4, color: "bg-accent/30", duration: "7s", delay: "0s" },
@@ -15,7 +15,7 @@ const PARTICLES = [
   { top: "55%", left: "92%", size: 3, color: "bg-accent-bright/20", duration: "12s", delay: "0.5s" },
 ];
 
-export function Hero({ stars = 0 }: { stars?: number }) {
+export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -100,31 +100,22 @@ export function Hero({ stars = 0 }: { stars?: number }) {
             <AnimateIn delay={0.18}>
               <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
                 <a
-                  href="#quickstart"
+                  href={APP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
                 >
                   {HERO.ctaPrimary}
                   <ChevronRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" aria-hidden="true" />
                 </a>
                 <a
-                  href={GITHUB_URL}
+                  href={DOCS_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group/gh flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
+                  className="group/secondary flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
                 >
-                  <Github className="h-4 w-4 transition-transform group-hover/gh:scale-110" aria-hidden="true" />
+                  <BookOpen className="h-4 w-4 transition-transform group-hover/secondary:scale-110" aria-hidden="true" />
                   {HERO.ctaSecondary}
-                  {stars > 0 && (
-                    <>
-                      <span
-                        className="mx-1 h-3.5 w-px bg-border/60"
-                        aria-hidden="true"
-                      />
-                      <span className="tabular-nums text-muted">
-                        {stars.toLocaleString()}
-                      </span>
-                    </>
-                  )}
                 </a>
               </div>
             </AnimateIn>

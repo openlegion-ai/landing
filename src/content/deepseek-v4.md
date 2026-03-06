@@ -199,7 +199,7 @@ OpenLegion supports all three modes with the same [AI agent security](/ai-agent-
 ## CTA
 
 **DeepSeek V4 drops — your security layer is ready.**
-[Star on GitHub](https://github.com/openlegion-ai/openlegion) | [Read the Docs](https://openlegion.ai/docs) | [See All Comparisons](/comparison)
+[Get Started Free](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 
