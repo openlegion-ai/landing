@@ -4,7 +4,7 @@ import Image from "next/image";
 import { ChevronRight, ArrowRight } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { Counter } from "@/components/ui/counter";
-import { DISCORD_URL } from "@/lib/constants";
+import { APP_URL, DISCORD_URL } from "@/lib/constants";
 
 const CTA_PARTICLES = [
   { top: "15%", left: "10%", size: 3, duration: "9s", delay: "0s" },
@@ -62,8 +62,7 @@ export function CTA() {
         </AnimateIn>
         <AnimateIn delay={0.12}>
           <p className="mx-auto mb-8 max-w-xl text-lg text-muted">
-            Zero external dependencies. Clone, install, deploy — your first
-            fleet in minutes.
+            Sign up and deploy your first fleet in minutes — no infrastructure to manage.
           </p>
         </AnimateIn>
 
@@ -96,10 +95,12 @@ export function CTA() {
         <AnimateIn delay={0.2}>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href="#quickstart"
+              href={APP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
-              Get Started
+              Get Started Free
               <ChevronRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" aria-hidden="true" />
             </a>
             <a

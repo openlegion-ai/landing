@@ -154,6 +154,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
+        <link rel="dns-prefetch" href="https://va.tawk.to" />
+        <link rel="dns-prefetch" href="https://embed.tawk.to" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-758JT3002Y"
           strategy="afterInteractive"

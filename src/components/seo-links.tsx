@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Layers, GitCompareArrows, BookOpen } from "lucide-react";
 import { SectionWrapper } from "@/components/ui/section-wrapper";

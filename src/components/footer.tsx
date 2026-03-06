@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";

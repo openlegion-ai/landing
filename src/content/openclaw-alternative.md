@@ -70,7 +70,7 @@ Three commands. Under three minutes. Python 3.10+ and Docker required.
 ## CTA
 
 **Ready for a secure OpenClaw alternative?**
-[Star on GitHub](https://github.com/openlegion-ai/openlegion) | [Join the Waitlist](https://openlegion.ai)
+[Get Started Free](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Github, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { NAV_LINKS, GITHUB_URL } from "@/lib/constants";
+import { NAV_LINKS, APP_URL, GITHUB_URL } from "@/lib/constants";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -76,10 +76,18 @@ export function Navbar() {
             href={GITHUB_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-shine ml-3 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            className="ml-2 rounded-md p-2 text-muted transition-colors hover:text-foreground"
+            aria-label="GitHub repository"
           >
-            <Github className="h-3.5 w-3.5" aria-hidden="true" />
-            Star on GitHub
+            <Github className="h-4 w-4" aria-hidden="true" />
+          </a>
+          <a
+            href={APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-shine ml-2 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          >
+            Get Started
           </a>
         </div>
 
@@ -120,13 +128,12 @@ export function Navbar() {
                 );
               })}
               <a
-                href={GITHUB_URL}
+                href={APP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-3 text-sm font-medium text-white"
               >
-                <Github className="h-4 w-4" aria-hidden="true" />
-                Star on GitHub
+                Get Started
               </a>
             </div>
           </motion.div>

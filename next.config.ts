@@ -17,7 +17,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tawk.to",
       "font-src 'self' https://static.tawk.to",
-      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://va.tawk.to wss://va.tawk.to https://api.github.com",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://va.tawk.to wss://va.tawk.to",
       "frame-src https://va.tawk.to",
       "worker-src 'self' blob:",
     ].join("; "),
