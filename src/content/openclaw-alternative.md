@@ -61,8 +61,7 @@ For a deeper breakdown of architecture differences, see our full [OpenLegion vs 
 ```bash
 git clone https://github.com/openlegion-ai/openlegion.git
 cd openlegion && ./install.sh
-openlegion setup   # API keys, project, team template
-openlegion start   # agents deploy in isolated containers
+openlegion start   # inline setup on first run, then agents deploy in isolated containers
 ```
 
 Three commands. Under three minutes. Python 3.10+ and Docker required.

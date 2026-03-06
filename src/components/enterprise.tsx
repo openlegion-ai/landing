@@ -56,9 +56,9 @@ function AuditVisual() {
   return (
     <motion.div variants={vItem} className="mt-auto pt-4" aria-hidden="true">
       <div className="flex items-center justify-center gap-3 rounded-lg border border-border/50 bg-white/[0.03] px-3 py-2.5">
-        <span className="font-mono text-xs font-medium text-foreground/70">25K LOC</span>
+        <span className="font-mono text-xs font-medium text-foreground/70">26K LOC</span>
         <span className="text-accent/30">·</span>
-        <span className="font-mono text-xs font-medium text-foreground/70">1,607 tests</span>
+        <span className="font-mono text-xs font-medium text-foreground/70">1,826 tests</span>
         <span className="text-accent/30">·</span>
         <span className="font-mono text-xs font-medium text-foreground/70">1 day audit</span>
       </div>

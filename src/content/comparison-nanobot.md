@@ -157,7 +157,7 @@ OpenLegion's architecture prevents nanobot's vulnerability classes by design:
 
 ## The Honest Trade-off
 
-nanobot proves that you can rebuild an AI agent runtime in 4,000 lines. That accomplishment is real and valuable for the ecosystem. But CVE-2026-2577 proves that simplicity and security are not the same thing. A 4,000-line codebase with a CVSS 10.0 is less secure than a 25,000-line codebase with architectural constraints that make that vulnerability class impossible.
+nanobot proves that you can rebuild an AI agent runtime in 4,000 lines. That accomplishment is real and valuable for the ecosystem. But CVE-2026-2577 proves that simplicity and security are not the same thing. A 4,000-line codebase with a CVSS 10.0 is less secure than a 26,000-line codebase with architectural constraints that make that vulnerability class impossible.
 
 If you want to learn how agents work, read nanobot's source. If you want to deploy agents safely, use a framework where unsafe configurations cannot occur.
 

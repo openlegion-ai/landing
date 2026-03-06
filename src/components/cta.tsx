@@ -70,8 +70,8 @@ export function CTA() {
         <AnimateIn delay={0.16}>
           <div className="mx-auto mb-10 flex max-w-md items-center justify-center gap-4 text-sm text-muted sm:gap-8">
             <div className="text-center">
-              <div className="font-mono text-lg font-bold text-foreground" aria-label="1607 Tests">
-                <Counter target={1607} />
+              <div className="font-mono text-lg font-bold text-foreground" aria-label="1826 Tests">
+                <Counter target={1826} />
               </div>
               <div className="text-xs">Tests</div>
             </div>
@@ -84,8 +84,8 @@ export function CTA() {
             </div>
             <div className="h-8 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent" aria-hidden="true" />
             <div className="text-center">
-              <div className="font-mono text-lg font-bold text-foreground" aria-label="~25k Lines of Code">
-                <Counter target={25} prefix="~" suffix="k" />
+              <div className="font-mono text-lg font-bold text-foreground" aria-label="~26k Lines of Code">
+                <Counter target={26} prefix="~" suffix="k" />
               </div>
               <div className="text-xs">Lines of Code</div>
             </div>
