@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { Comparison } from "@/components/comparison";
@@ -14,6 +15,11 @@ import { CTA } from "@/components/cta";
 import { InlineCTA } from "@/components/inline-cta";
 import { Footer } from "@/components/footer";
 import { FAQ_ITEMS, GITHUB_URL, APP_URL } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  description:
+    "Deploy autonomous AI agent fleets with container isolation, blind credential injection, per-agent budgets, and deterministic orchestration. 100+ LLM providers.",
+};
 
 export default async function Home() {
 

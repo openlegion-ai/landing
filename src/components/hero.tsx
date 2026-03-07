@@ -137,6 +137,8 @@ export function Hero() {
                   ref={videoRef}
                   src="/demo.mp4"
                   poster="/demo-poster.jpg"
+                  width={1920}
+                  height={1080}
                   muted
                   loop
                   playsInline

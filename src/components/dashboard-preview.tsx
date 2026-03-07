@@ -59,6 +59,8 @@ function randInt(min: number, max: number) {
 export function DashboardPreview() {
   const [agents, setAgents] = useState<Agent[]>(INITIAL_AGENTS);
   const cycleRef = useRef(0);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   // Check prefers-reduced-motion
   const [reduceMotion, setReduceMotion] = useState(false);
@@ -70,9 +72,21 @@ export function DashboardPreview() {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
+  // Pause intervals when offscreen
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   // State cycling — one agent advances per tick (every 3s)
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion || !isVisible) return;
     const id = setInterval(() => {
       const idx = cycleRef.current % INITIAL_AGENTS.length;
       cycleRef.current++;
@@ -86,11 +100,11 @@ export function DashboardPreview() {
       );
     }, 3000);
     return () => clearInterval(id);
-  }, [reduceMotion]);
+  }, [reduceMotion, isVisible]);
 
   // Token/cost ticking for non-idle agents (every 1.5s)
   useEffect(() => {
-    if (reduceMotion) return;
+    if (reduceMotion || !isVisible) return;
     const id = setInterval(() => {
       setAgents((prev) =>
         prev.map((a) => {
@@ -109,7 +123,7 @@ export function DashboardPreview() {
       );
     }, 1500);
     return () => clearInterval(id);
-  }, [reduceMotion]);
+  }, [reduceMotion, isVisible]);
 
   // Derived totals
   const totalCost = useMemo(() => agents.reduce((s, a) => s + a.cost, 0), [agents]);
@@ -118,6 +132,7 @@ export function DashboardPreview() {
   const unhealthyCount = useMemo(() => agents.filter((a) => a.health === "unhealthy").length, [agents]);
 
   return (
+    <div ref={sectionRef}>
     <SectionWrapper id="dashboard" fade={false}>
       <AnimateIn>
         <div className="mb-16 text-center">
@@ -318,5 +333,6 @@ export function DashboardPreview() {
         </div>
       </AnimateIn>
     </SectionWrapper>
+    </div>
   );
 }
