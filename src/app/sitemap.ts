@@ -58,5 +58,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: page.slug === "/comparison" ? 0.8 : COMPARISON_SLUGS.has(page.slug) ? 0.7 : 0.8,
     })),
+    {
+      url: `${base}/llms.txt`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    },
+    {
+      url: `${base}/llms-full.txt`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    },
   ];
 }

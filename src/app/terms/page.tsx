@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "Terms of Service for OpenLegion managed hosting and the openlegion.ai website.",
+    "Terms of Service for OpenLegion AI agent platform. Covers managed hosting, self-hosted deployment under BSL 1.1 license, and the openlegion.ai website.",
   alternates: { canonical: "https://openlegion.ai/terms" },
   robots: { index: true, follow: true },
 };

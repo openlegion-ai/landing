@@ -87,7 +87,9 @@ export function ContentPage({ page }: ContentPageProps) {
           <div dangerouslySetInnerHTML={{ __html: html }} />
         </article>
 
-        <RelatedPages currentSlug={slug} />
+        <aside aria-label="Related content">
+          <RelatedPages currentSlug={slug} />
+        </aside>
       </div>
     </>
   );

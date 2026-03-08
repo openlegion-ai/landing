@@ -44,6 +44,14 @@ export async function Quickstart() {
           {QUICKSTART.requirements}
         </div>
 
+        <AnimateIn delay={0.1}>
+          <ol className="mb-6 space-y-1 text-sm text-muted">
+            <li><span className="font-medium text-foreground/80">Step 1:</span> Clone the repository from GitHub.</li>
+            <li><span className="font-medium text-foreground/80">Step 2:</span> Run the installer to check dependencies, create a virtual environment, and make the CLI globally available.</li>
+            <li><span className="font-medium text-foreground/80">Step 3:</span> Run <code className="rounded bg-card px-1.5 py-0.5 font-mono text-xs text-accent-light">openlegion start</code> to launch the setup wizard and deploy agents in isolated containers.</li>
+          </ol>
+        </AnimateIn>
+
         <QuickstartClient tabs={tabs} />
       </div>
     </SectionWrapper>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Check } from "lucide-react";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
@@ -52,6 +53,14 @@ export function Security() {
             </StaggerItem>
         ))}
       </StaggerContainer>
+
+      <AnimateIn delay={0.2}>
+        <p className="mt-8 text-center text-sm text-muted">
+          <Link href="/ai-agent-security" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
+            Learn more about AI agent security
+          </Link>
+        </p>
+      </AnimateIn>
     </SectionWrapper>
   );
 }

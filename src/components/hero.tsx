@@ -92,8 +92,9 @@ export function Hero() {
               <p className="mx-auto mb-4 max-w-2xl text-lg leading-relaxed text-muted lg:mx-0">
                 {HERO.subtitle}
               </p>
-              <p className="mx-auto mb-8 max-w-2xl text-sm leading-relaxed text-muted/60 lg:mx-0">
-                An AI agent deployment platform with agentic AI orchestration and AI agent security built in.
+              <p className="definition-block mx-auto mb-8 max-w-2xl text-sm leading-relaxed text-muted/60 lg:mx-0">
+                <strong className="sr-only">What is OpenLegion? </strong>
+                OpenLegion is a production-grade AI agent platform with container isolation, blind credential injection, per-agent budgets, and deterministic YAML orchestration — designed for teams that need secure, cost-controlled agent fleets in production.
               </p>
             </AnimateIn>
 

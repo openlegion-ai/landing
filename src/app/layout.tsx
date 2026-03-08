@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 const defaultTitle = "OpenLegion — AI Agent Framework & Platform";
 const description =
-  "OpenLegion is a production-grade AI agent framework and platform for agentic AI orchestration. Deploy autonomous agent fleets in container-isolated sandboxes with built-in AI agent security — six layers enabled by default. Per-agent budgets, credential vaults, deterministic workflows, 100+ LLM providers.";
+  "OpenLegion: AI agent framework with container isolation, blind credential injection, per-agent budgets, and deterministic orchestration. 100+ LLM providers.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://openlegion.ai"),
@@ -150,11 +150,8 @@ export default function RootLayout({
           href="/llms-full.txt"
           title="LLM-friendly full reference"
         />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
-        <link rel="dns-prefetch" href="https://va.tawk.to" />
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-758JT3002Y"

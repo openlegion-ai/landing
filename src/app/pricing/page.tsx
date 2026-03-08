@@ -4,9 +4,9 @@ import { Pricing } from "@/components/pricing";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "AI Agent Platform Pricing & Plans",
   description:
-    "Simple, transparent pricing for OpenLegion managed hosting. Deploy production AI agents with container isolation, 100+ LLM providers, and real-time monitoring.",
+    "Simple, transparent pricing for OpenLegion managed hosting. Deploy AI agents with container isolation, per-agent budgets, and 100+ LLM providers. Plans from $19/month.",
   alternates: {
     canonical: "https://openlegion.ai/pricing",
   },
