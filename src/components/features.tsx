@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
@@ -294,6 +295,13 @@ export function Features() {
         </div>
       </AnimateIn>
 
+      {/* Semantic feature list for search engines and screen readers */}
+      <ul className="sr-only" aria-label="OpenLegion platform features">
+        {FEATURES.map((f) => (
+          <li key={f.title}><strong>{f.title}:</strong> {f.description}</li>
+        ))}
+      </ul>
+
       <StaggerContainer className="grid gap-4 md:grid-cols-3 md:auto-rows-[minmax(140px,auto)]">
         {FEATURES.map((f) => {
           const Icon = f.icon;
@@ -345,6 +353,18 @@ export function Features() {
           );
         })}
       </StaggerContainer>
+
+      <AnimateIn delay={0.2}>
+        <p className="mt-8 text-center text-sm text-muted">
+          <Link href="/ai-agent-platform" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
+            Explore the full AI agent platform
+          </Link>
+          <span className="mx-2 text-border">·</span>
+          <Link href="/ai-agent-frameworks" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
+            Compare AI agent frameworks
+          </Link>
+        </p>
+      </AnimateIn>
     </SectionWrapper>
   );
 }

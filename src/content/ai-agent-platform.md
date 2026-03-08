@@ -3,6 +3,12 @@ title: "AI Agent Platform — Deploy Secure Agents"
 description: "OpenLegion is a managed AI agent platform with container isolation, credential vaulting, and budget controls. Bring your own LLM API keys."
 slug: "/ai-agent-platform"
 primary_keyword: "ai agent platform"
+secondary_keywords:
+  - "managed ai agent platform"
+  - "self-hosted agent deployment"
+  - "ai agent cost control"
+  - "ai agent credential security"
+  - "production ai agent infrastructure"
 date_published: "2025-12"
 last_updated: "2026-03"
 schema_types:

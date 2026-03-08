@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { ARCHITECTURE } from "@/lib/constants";
@@ -123,6 +124,14 @@ export function Architecture() {
           </div>
         </StaggerItem>
       </StaggerContainer>
+
+      <AnimateIn delay={0.2}>
+        <p className="mt-8 text-center text-sm text-muted">
+          <Link href="/ai-agent-orchestration" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
+            Learn more about AI agent orchestration
+          </Link>
+        </p>
+      </AnimateIn>
     </SectionWrapper>
   );
 }

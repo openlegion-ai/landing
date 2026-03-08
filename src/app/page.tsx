@@ -55,12 +55,36 @@ export default async function Home() {
       width: 1200,
       height: 630,
     },
-    offers: {
-      "@type": "Offer",
-      price: "0",
-      priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
-    },
+    offers: [
+      {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+        description: "Self-hosted (free)",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        price: "19",
+        priceCurrency: "USD",
+        description: "Basic — 1 agent, 1 project (hosted, monthly)",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        price: "59",
+        priceCurrency: "USD",
+        description: "Growth — 5 agents, 2 projects (hosted, monthly)",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        price: "149",
+        priceCurrency: "USD",
+        description: "Pro — 15 agents, 5 projects, dedicated CPU (hosted, monthly)",
+        availability: "https://schema.org/InStock",
+      },
+    ],
     author: {
       "@type": "Organization",
       name: "OpenLegion",
@@ -142,6 +166,7 @@ export default async function Home() {
     description: "Watch OpenLegion deploy an autonomous AI agent fleet with container isolation, credential vaulting, and real-time cost tracking.",
     thumbnailUrl: "https://openlegion.ai/og.png",
     uploadDate: "2025-12-01",
+    duration: "PT2M",
     contentUrl: "https://openlegion.ai/demo.mp4",
     embedUrl: "https://openlegion.ai/demo.mp4",
     publisher: {
