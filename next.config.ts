@@ -15,7 +15,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://embed.tawk.to https://va.tawk.to https://static.tawk.to https://vercel.live",
       "style-src 'self' 'unsafe-inline' https://embed.tawk.to https://static.tawk.to",
-      "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tawk.to https://*.clarity.ms",
+      "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tawk.to",
       "font-src 'self' https://embed.tawk.to https://static.tawk.to",
       "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://embed.tawk.to wss://embed.tawk.to https://*.tawk.to wss://*.tawk.to",
       "frame-src https://va.tawk.to",
