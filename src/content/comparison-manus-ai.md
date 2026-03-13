@@ -11,7 +11,7 @@ schema_types:
 
 # OpenLegion vs Manus AI: Self-Hosted Control vs Cloud Autonomy
 
-Manus AI launched March 2025 and was acquired by Meta in December 2025 for over $2 billion — Meta's third-largest acquisition ever. In just eight months, Manus reached $100M+ ARR, processed 147 trillion tokens across 80 million virtual computers, and built a Discord community of 186,000+ members. It is a closed-source, cloud-only autonomous agent platform.
+Manus AI launched March 2025 and was reportedly acquired by Meta in December 2025 for a reported $2 billion+, according to industry reports. In just eight months, Manus reached $100M+ ARR, processed 147 trillion tokens across 80 million virtual computers, and built a Discord community of 186,000+ members. It is a closed-source, cloud-only autonomous agent platform.
 
 OpenLegion (~59 stars) is a source-available (BSL 1.1), security-first [AI agent platform](/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls with full self-hosted deployment.
 
@@ -108,7 +108,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 
 ### What is the difference between OpenLegion and Manus AI?
 
-Manus AI is a closed-source, cloud-only autonomous agent platform acquired by Meta for over $2 billion. Each session runs in a Firecracker microVM. OpenLegion is a source-available (BSL 1.1), security-first [AI agent platform](/ai-agent-platform) with mandatory Docker container isolation, vault proxy credentials, per-agent budget enforcement, and full self-hosted deployment.
+Manus AI is a closed-source, cloud-only autonomous agent platform reportedly acquired by Meta. Each session runs in a Firecracker microVM. OpenLegion is a source-available (BSL 1.1), security-first [AI agent platform](/ai-agent-platform) with mandatory Docker container isolation, vault proxy credentials, per-agent budget enforcement, and full self-hosted deployment.
 
 ### Is Manus AI open source?
 

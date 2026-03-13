@@ -16,7 +16,7 @@ schema_types:
 
 # OpenLegion vs OpenFang: Security-First Framework vs Agent Operating System
 
-OpenFang burst onto the scene on February 24, 2026 and hit 9,300 GitHub stars in its first week. Built entirely in Rust by Jaber (founder of RightNow AI, a GPU-accelerated code editor company based in Jordan), OpenFang bills itself as a full "Agent Operating System" — not a chatbot wrapper but an infrastructure layer for autonomous agents that run 24/7 without human prompting.
+OpenFang burst onto the scene on February 24, 2026 and hit 9,300 GitHub stars in its first week. Built entirely in Rust, OpenFang bills itself as a full "Agent Operating System" — not a chatbot wrapper but an infrastructure layer for autonomous agents that run 24/7 without human prompting.
 
 OpenLegion is a security-first [AI agent platform](/ai-agent-platform) built around container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
 
@@ -114,7 +114,7 @@ The 1,767+ test count and zero clippy warnings suggest engineering discipline.
 
 **Maturity.** OpenFang launched February 24, 2026 and is currently at v0.3.4. No production deployments have been publicly documented. The benchmarks (180ms cold start, 40MB memory) are self-reported with no third-party verification.
 
-**Codebase sustainability.** 137,000 lines of Rust maintained by a small team is a significant ongoing commitment. An independent analyst (Ry Walker Research) flagged this directly.
+**Codebase sustainability.** 137,000 lines of Rust maintained by a small team is a significant ongoing commitment. Independent analysts have flagged this as a sustainability concern.
 
 **Missing budget controls.** For a system designed for 24/7 autonomous agent operation, the absence of documented per-agent spending limits creates real production risk. An uncontrolled Hand making API calls on a schedule can burn through budgets without alerting anyone.
 
@@ -159,7 +159,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 
 ### What is OpenFang?
 
-OpenFang is a Rust-native Agent Operating System created by RightNow AI. It compiles 137,000 lines of Rust into a single ~32MB binary with 53 tools, 40 messaging channels, 7 autonomous Hands, WASM sandboxing, a P2P agent protocol, and a Tauri desktop app. It launched February 24, 2026 and reached 9,300 GitHub stars in its first week.
+OpenFang is a Rust-native Agent Operating System. It compiles 137,000 lines of Rust into a single ~32MB binary with 53 tools, 40 messaging channels, 7 autonomous Hands, WASM sandboxing, a P2P agent protocol, and a Tauri desktop app. It launched February 24, 2026 and reached 9,300 GitHub stars in its first week.
 
 ### OpenLegion vs OpenFang: what's the difference?
 

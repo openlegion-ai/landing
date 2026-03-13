@@ -41,7 +41,7 @@ export default async function Home() {
     downloadUrl: APP_URL,
     softwareVersion: "0.1.0",
     releaseNotes:
-      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,826 tests, 41 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
+      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 1,826 tests, 47 built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
     softwareHelp: {
       "@type": "CreativeWork",
       url: "https://docs.openlegion.ai",
@@ -67,19 +67,19 @@ export default async function Home() {
         "@type": "Offer",
         price: "19",
         priceCurrency: "USD",
-        description: "Basic — 1 agent, 1 project (hosted, monthly)",
+        description: "Basic — 1 agent (hosted, monthly)",
         availability: "https://schema.org/InStock",
       },
       {
         "@type": "Offer",
-        price: "59",
+        price: "49",
         priceCurrency: "USD",
         description: "Growth — 5 agents, 2 projects (hosted, monthly)",
         availability: "https://schema.org/InStock",
       },
       {
         "@type": "Offer",
-        price: "149",
+        price: "119",
         priceCurrency: "USD",
         description: "Pro — 15 agents, 5 projects, dedicated CPU (hosted, monthly)",
         availability: "https://schema.org/InStock",

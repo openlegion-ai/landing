@@ -41,7 +41,7 @@ This is a direct **OpenLegion vs AWS Strands** comparison based on public docume
 | **Credential management** | Vault proxy, blind injection, agents never see keys | boto3 credential chains, IAM policies |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in; AWS billing and cost alerts |
 | **Orchestration** | Deterministic YAML DAG workflows | Model-driven (LLM decides tool order and flow) |
-| **Multi-agent** | Native fleet orchestration (sequential, parallel, supervisor, hierarchical) | Agents-as-tools, handoffs, swarms, graphs |
+| **Multi-agent** | Native fleet orchestration (sequential, parallel DAGs with blackboard coordination) | Agents-as-tools, handoffs, swarms, graphs |
 | **LLM support** | 100+ via LiteLLM | Bedrock, Anthropic, OpenAI, Gemini, Llama, Ollama, LiteLLM, llama.cpp |
 | **Deployment** | Cloud-agnostic (any Docker host) | AgentCore Runtime (Lambda, Fargate, EC2) or self-hosted |
 | **Dependencies** | Zero external, Python + SQLite + Docker | strands-agents package + optional AWS services |

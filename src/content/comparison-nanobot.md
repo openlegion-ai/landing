@@ -1,12 +1,12 @@
 ---
-title: "OpenLegion vs nanobot (HKUDS) — Detailed Comparison (2026)"
-description: "OpenLegion vs nanobot: security-first framework vs ultra-lightweight OpenClaw alternative. CVE-2026-2577, credential handling, isolation, and production readiness compared."
+title: "OpenLegion vs nanobot — Detailed Comparison (2026)"
+description: "OpenLegion vs nanobot: security-first framework vs ultra-lightweight OpenClaw alternative. Credential handling, isolation, and production readiness compared."
 slug: "/comparison/nanobot"
 primary_keyword: "openlegion vs nanobot"
 secondary_keywords:
   - "nanobot alternative"
-  - "nanobot hkuds security"
-  - "nanobot cve-2026-2577"
+  - "nanobot security"
+  - "nanobot vulnerability"
   - "lightweight ai agent framework"
   - "openclaw alternative python"
 date_published: "2025-12"
@@ -17,9 +17,9 @@ schema_types:
 
 # OpenLegion vs nanobot: What a CVSS 10.0 Vulnerability Teaches About Agent Security
 
-nanobot is probably the most instructive case study in the AI agent security space. Created by the University of Hong Kong's Data Intelligence Lab (HKUDS) on February 2, 2026, it distills OpenClaw's 430,000+ lines down to approximately 4,000 lines of Python — a 99% code reduction that earned 218 points on Hacker News (the strongest reception of any Claw alternative) and roughly 20,000-26,000 GitHub stars.
+nanobot is probably the most instructive case study in the AI agent security space. Created by an academic research lab in early 2026, it distills OpenClaw's 430,000+ lines down to approximately 4,000 lines of Python — a 99% code reduction that earned 218 points on Hacker News (the strongest reception of any Claw alternative) and roughly 20,000-26,000 GitHub stars.
 
-Then, within weeks of launch, Tenable Research disclosed **CVE-2026-2577 (CVSS 10.0)**: a critical vulnerability where nanobot's WhatsApp bridge bound its WebSocket server to 0.0.0.0:3001 without any authentication. Anyone on the network could hijack WhatsApp sessions. Additional critical vulnerabilities followed — shell command injection, path traversal bypass, and a remote code execution flaw inherited from a LiteLLM dependency.
+Then, within weeks of launch, security researchers disclosed a **critical vulnerability (CVSS 10.0)**: nanobot's WhatsApp bridge bound its WebSocket server to 0.0.0.0:3001 without any authentication. Anyone on the network could hijack WhatsApp sessions. Additional critical vulnerabilities followed — shell command injection, path traversal bypass, and a remote code execution flaw inherited from a LiteLLM dependency.
 
 nanobot is a well-intentioned teaching tool that accidentally became a case study in why lightweight code alone does not equal secure code. OpenLegion exists to make this lesson structural.
 
@@ -28,11 +28,11 @@ OpenLegion is a security-first [AI agent platform](/ai-agent-platform) with mand
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and nanobot?**
-> nanobot (HKUDS) is a ~4,000-line Python reimplementation of OpenClaw focused on educational simplicity and readability. It supports 11+ LLM providers and 8+ messaging channels but has suffered CVE-2026-2577 (CVSS 10.0, unauthenticated WhatsApp session hijack), shell injection, path traversal, and LiteLLM RCE vulnerabilities. OpenLegion is a security-first Python framework with mandatory Docker container isolation per agent, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and deterministic YAML DAG workflows. nanobot optimizes for learning and simplicity; OpenLegion optimizes for production security.
+> nanobot is a ~4,000-line Python reimplementation of OpenClaw focused on educational simplicity and readability. It supports 11+ LLM providers and 8+ messaging channels but has suffered critical WhatsApp bridge vulnerability (CVSS 10.0, unauthenticated WhatsApp session hijack), shell injection, path traversal, and LiteLLM RCE vulnerabilities. OpenLegion is a security-first Python framework with mandatory Docker container isolation per agent, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and deterministic YAML DAG workflows. nanobot optimizes for learning and simplicity; OpenLegion optimizes for production security.
 
 ## TL;DR
 
-| Dimension | OpenLegion | nanobot (HKUDS) |
+| Dimension | OpenLegion | nanobot |
 |---|---|---|
 | **Primary focus** | Production security infrastructure | Educational simplicity |
 | **Language** | Python | Python (~4,000 lines) |
@@ -46,12 +46,12 @@ OpenLegion is a security-first [AI agent platform](/ai-agent-platform) with mand
 | **Memory** | Persistent per-agent with vector search | Grep-based retrieval (deliberately avoids RAG) |
 | **GitHub stars** | ~59 | ~20,000-26,000 |
 | **License** | BSL 1.1 | MIT |
-| **Known CVEs** | 0 | **CVE-2026-2577 (CVSS 10.0)** + 3 additional critical patches |
-| **Origin** | Independent | HKU Data Intelligence Lab (academic) |
+| **Known CVEs** | 0 | **critical WhatsApp bridge vulnerability (CVSS 10.0)** + 3 additional critical patches |
+| **Origin** | Independent | Academic research lab |
 
 ## Choose nanobot if...
 
-**You want to learn how AI agents work.** nanobot is a teaching skeleton. At 4,000 lines with clear structure, it is the best codebase for understanding the core agent loop: provider abstraction, tool dispatch, memory retrieval, and chat gateways. DataCamp published a full tutorial. The HKUDS lab explicitly designed it for educational readability.
+**You want to learn how AI agents work.** nanobot is a teaching skeleton. At 4,000 lines with clear structure, it is the best codebase for understanding the core agent loop: provider abstraction, tool dispatch, memory retrieval, and chat gateways. DataCamp published a full tutorial. The creators explicitly designed it for educational readability.
 
 **You need Asian messaging platform support.** nanobot has first-class support for Feishu (Lark), DingTalk, QQ, and WeChat-adjacent platforms — channels that no Western-focused framework covers well. If your deployment targets Chinese enterprise messaging, nanobot's ecosystem is uniquely positioned.
 
@@ -65,7 +65,7 @@ OpenLegion is a security-first [AI agent platform](/ai-agent-platform) with mand
 
 **Security must be architectural, not optional.** nanobot's `restrict_to_workspace` flag is the primary isolation mechanism — a boolean that can be toggled off. Its API keys live in a plaintext JSON config file. Its WebSocket server shipped without authentication. These are not obscure edge cases; they are fundamental architectural decisions that produced a CVSS 10.0 within weeks. OpenLegion makes insecure configurations structurally impossible: container isolation is mandatory, vault proxy is the only credential path, and YAML workflows are acyclic by design.
 
-**You cannot afford a CVSS 10.0 in production.** CVE-2026-2577 allowed unauthenticated network-adjacent attackers to hijack WhatsApp sessions by connecting to nanobot's unprotected WebSocket server on port 3001. The additional shell injection and path traversal vulnerabilities were found by a single security researcher in a single audit. OpenLegion's vault proxy architecture means there are no credentials to hijack — agents call through a proxy that injects keys at the network layer.
+**You cannot afford a CVSS 10.0 in production.** critical WhatsApp bridge vulnerability allowed unauthenticated network-adjacent attackers to hijack WhatsApp sessions by connecting to nanobot's unprotected WebSocket server on port 3001. The additional shell injection and path traversal vulnerabilities were found by a single security researcher in a single audit. OpenLegion's vault proxy architecture means there are no credentials to hijack — agents call through a proxy that injects keys at the network layer.
 
 **You need per-agent cost control.** nanobot has no budget enforcement. With 11+ provider support and the ability to spawn background sub-agents, uncontrolled API spend accumulates silently. OpenLegion enforces per-agent daily and monthly limits with automatic hard cutoff.
 
@@ -91,7 +91,7 @@ OpenLegion is a security-first [AI agent platform](/ai-agent-platform) with mand
 
 **nanobot** has accumulated significant security issues in its brief existence:
 
-- **CVE-2026-2577 (CVSS 10.0):** WhatsApp WebSocket bridge bound to 0.0.0.0:3001 without authentication. Network-adjacent attackers could hijack sessions. Discovered by Tenable Research.
+- **critical WhatsApp bridge vulnerability (CVSS 10.0):** WhatsApp WebSocket bridge bound to 0.0.0.0:3001 without authentication. Network-adjacent attackers could hijack sessions. Discovered by security researchers.
 - **Shell command injection (Medium):** Unsanitized user input passed to shell execution.
 - **Path traversal bypass (Medium):** `restrict_to_workspace` could be circumvented.
 - **LiteLLM RCE via `eval()` (Critical):** Inherited from dependency. Remote code execution through crafted input.
@@ -115,7 +115,7 @@ For students, researchers, and developers learning how AI agents work internally
 
 ### Asian platform integration
 
-nanobot's channel support includes Feishu (Lark), DingTalk, QQ, and Matrix — platforms that dominate Chinese enterprise communication. No other framework in the OpenClaw ecosystem provides comparable coverage. The HKU origin likely explains this focus, and it represents genuine value for teams operating in Asian markets.
+nanobot's channel support includes Feishu (Lark), DingTalk, QQ, and Matrix — platforms that dominate Chinese enterprise communication. No other framework in the OpenClaw ecosystem provides comparable coverage. The project's academic origin likely explains this focus, and it represents genuine value for teams operating in Asian markets.
 
 ### ClawHub skill compatibility
 
@@ -123,7 +123,7 @@ nanobot integrates with the ClawHub skill ecosystem, giving it access to communi
 
 ### The rapid response culture
 
-When CVE-2026-2577 was disclosed, the nanobot team patched it within days. The session poisoning fix landed February 26. Shell injection and path traversal were addressed quickly. The community's responsiveness is genuinely impressive — but it also highlights that the issues should not have shipped in the first place.
+When the critical WhatsApp bridge vulnerability was disclosed, the nanobot team patched it within days. The session poisoning fix landed February 26. Shell injection and path traversal were addressed quickly. The community's responsiveness is genuinely impressive — but it also highlights that the issues should not have shipped in the first place.
 
 ### Common production pitfalls
 
@@ -137,7 +137,7 @@ When CVE-2026-2577 was disclosed, the nanobot team patched it within days. The s
 
 OpenLegion's architecture prevents nanobot's vulnerability classes by design:
 
-- **CVE-2026-2577 (unauthenticated network service):** OpenLegion agents run in Docker containers with no exposed ports by default. Network access is explicitly granted per-agent.
+- **critical WhatsApp bridge vulnerability (unauthenticated network service):** OpenLegion agents run in Docker containers with no exposed ports by default. Network access is explicitly granted per-agent.
 - **Shell injection:** OpenLegion's YAML workflows require explicit tool grants. Shell access is not available unless specifically enabled in the agent's ACL.
 - **Path traversal:** Docker container isolation with read-only mounts and no Docker socket eliminates path traversal as a meaningful attack vector.
 - **Credential exposure:** Vault proxy means no credentials exist in the agent's environment to steal.
@@ -157,7 +157,7 @@ OpenLegion's architecture prevents nanobot's vulnerability classes by design:
 
 ## The Honest Trade-off
 
-nanobot proves that you can rebuild an AI agent runtime in 4,000 lines. That accomplishment is real and valuable for the ecosystem. But CVE-2026-2577 proves that simplicity and security are not the same thing. A 4,000-line codebase with a CVSS 10.0 is less secure than a 26,000-line codebase with architectural constraints that make that vulnerability class impossible.
+nanobot proves that you can rebuild an AI agent runtime in 4,000 lines. That accomplishment is real and valuable for the ecosystem. But the critical WhatsApp bridge vulnerability proves that simplicity and security are not the same thing. A 4,000-line codebase with a CVSS 10.0 is less secure than a 26,000-line codebase with architectural constraints that make that vulnerability class impossible.
 
 If you want to learn how agents work, read nanobot's source. If you want to deploy agents safely, use a framework where unsafe configurations cannot occur.
 
@@ -176,11 +176,11 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 
 ### What is nanobot?
 
-nanobot is a ~4,000-line Python reimplementation of OpenClaw created by HKU's Data Intelligence Lab (HKUDS). It supports 11+ LLM providers and 8+ messaging channels (including Asian platforms like Feishu, DingTalk, and QQ). It launched February 2, 2026 and has approximately 20,000-26,000 GitHub stars. It received the strongest Hacker News reception of any OpenClaw alternative (218 points, 111 comments).
+nanobot is a ~4,000-line Python reimplementation of OpenClaw created by an academic research lab. It supports 11+ LLM providers and 8+ messaging channels (including Asian platforms like Feishu, DingTalk, and QQ). It launched February 2, 2026 and has approximately 20,000-26,000 GitHub stars. It received the strongest Hacker News reception of any OpenClaw alternative (218 points, 111 comments).
 
 ### OpenLegion vs nanobot: what's the difference?
 
-nanobot is an educational teaching skeleton — minimal, readable, and designed for learning. OpenLegion is a production security framework. nanobot uses application-level workspace restriction and plaintext JSON config; OpenLegion uses Docker container isolation and vault proxy credentials. nanobot has suffered CVE-2026-2577 (CVSS 10.0) plus three additional critical vulnerabilities; OpenLegion has zero CVEs and an architecture that makes those vulnerability classes structurally impossible.
+nanobot is an educational teaching skeleton — minimal, readable, and designed for learning. OpenLegion is a production security framework. nanobot uses application-level workspace restriction and plaintext JSON config; OpenLegion uses Docker container isolation and vault proxy credentials. nanobot has suffered a critical WhatsApp bridge vulnerability (CVSS 10.0) plus three additional critical vulnerabilities; OpenLegion has zero CVEs and an architecture that makes those vulnerability classes structurally impossible.
 
 ### Is OpenLegion a nanobot alternative?
 
@@ -192,15 +192,15 @@ nanobot stores API keys in `~/.nanobot/config.json` (initially world-readable un
 
 ### Which is better for production AI agents?
 
-OpenLegion is significantly better suited for production. nanobot was designed as a teaching tool and has accumulated CVE-2026-2577 (CVSS 10.0), shell injection, path traversal, and dependency RCE vulnerabilities within weeks of launch. OpenLegion's mandatory container isolation, vault proxy credentials, per-agent budgets, and deterministic workflows address the exact vulnerability classes that affected nanobot.
+OpenLegion is significantly better suited for production. nanobot was designed as a teaching tool and has accumulated a critical WhatsApp bridge vulnerability (CVSS 10.0), shell injection, path traversal, and dependency RCE vulnerabilities within weeks of launch. OpenLegion's mandatory container isolation, vault proxy credentials, per-agent budgets, and deterministic workflows address the exact vulnerability classes that affected nanobot.
 
-### Is nanobot (HKUDS) the same as nanobot (Obot AI)?
+### Is nanobot the same as nanobot (Obot AI)?
 
-No. There are two completely different projects sharing the name. HKUDS/nanobot is a ~4,000-line Python OpenClaw alternative from Hong Kong University. Obot AI's nanobot is a Go-based MCP agent platform backed by $35M in seed funding from the Rancher Labs team. This page compares OpenLegion with the HKUDS version.
+No. There are two completely different projects sharing the name. The nanobot discussed on this page is a ~4,000-line Python OpenClaw alternative from an academic research lab. Obot AI's nanobot is a Go-based MCP agent platform backed by $35M in seed funding from the Rancher Labs team. This page compares OpenLegion with the Python OpenClaw alternative version.
 
-### What was CVE-2026-2577?
+### What was nanobot's critical WhatsApp bridge vulnerability?
 
-CVE-2026-2577 (CVSS 10.0) was a critical vulnerability in nanobot's WhatsApp bridge where the WebSocket server bound to 0.0.0.0:3001 without any authentication. Any network-adjacent attacker could connect and hijack active WhatsApp sessions. Discovered by Tenable Research, it was patched in v0.1.3.post7 but demonstrates the risk of deploying agent frameworks without architectural network isolation.
+nanobot's WhatsApp bridge contained a critical vulnerability (CVSS 10.0) where the WebSocket server bound to 0.0.0.0:3001 without any authentication. Any network-adjacent attacker could connect and hijack active WhatsApp sessions. It was patched quickly but demonstrates the risk of deploying agent frameworks without architectural network isolation.
 
 ### Can I migrate from nanobot to OpenLegion?
 

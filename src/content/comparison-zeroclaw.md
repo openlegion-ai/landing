@@ -16,7 +16,7 @@ schema_types:
 
 # OpenLegion vs ZeroClaw: Security-First Framework vs Ultra-Lightweight Rust Runtime
 
-ZeroClaw is the breakout success of the OpenClaw ecosystem explosion. An independent Rust reimplementation (not a fork) of OpenClaw's core agent runtime, ZeroClaw compiles to a single 3.4-8.8MB binary that uses less than 5MB of RAM and cold-starts in under 10ms. It has grown to approximately 21,600 GitHub stars since launching in January 2026 — endorsed by Andrej Karpathy and positioned as the performance-first OpenClaw alternative.
+ZeroClaw is the breakout success of the OpenClaw ecosystem explosion. An independent Rust reimplementation (not a fork) of OpenClaw's core agent runtime, ZeroClaw compiles to a single 3.4-8.8MB binary that uses less than 5MB of RAM and cold-starts in under 10ms. It has grown to approximately 21,600 GitHub stars since launching in January 2026, positioned as the performance-first OpenClaw alternative.
 
 OpenLegion is a security-first [AI agent platform](/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
 
@@ -60,7 +60,7 @@ ZeroClaw and OpenLegion share a conviction that security matters. They diverge o
 
 **Hot-reloadable configuration matters.** ZeroClaw's TOML config reloads without restart — useful for iterating on agent behavior in development or adjusting production settings without downtime.
 
-**You want Karpathy's seal of approval.** ZeroClaw was specifically endorsed alongside NanoClaw and PicoClaw by Andrej Karpathy as a recommended approach for agent deployment.
+**You want a well-regarded OpenClaw alternative.** ZeroClaw has been widely recommended in the developer community as a performance-first approach for agent deployment.
 
 ## Choose OpenLegion if...
 
@@ -106,7 +106,7 @@ ZeroClaw's design is elegant: every subsystem (providers, channels, tools, memor
 
 ### The OpenClaw migration path
 
-ZeroClaw is purpose-built to replace OpenClaw. The `zeroclaw migrate openclaw` command translates config and channel settings. For the massive OpenClaw community (248,000+ stars) that may be reconsidering after CVE-2026-25253 and the original creator joining OpenAI, ZeroClaw is the most natural migration target.
+ZeroClaw is purpose-built to replace OpenClaw. The `zeroclaw migrate openclaw` command translates config and channel settings. For the massive OpenClaw community (248,000+ stars) that may be reconsidering after OpenClaw's security vulnerabilities and the original creator's departure, ZeroClaw is the most natural migration target.
 
 ### Common production concerns
 
@@ -157,7 +157,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 
 ### What is ZeroClaw?
 
-ZeroClaw is a Rust-native, ultra-lightweight AI agent runtime that compiles to a single 3.4-8.8MB binary. Created as an independent reimplementation of OpenClaw's core runtime, it supports 22+ LLM providers and 15+ messaging channels while using less than 5MB of RAM. It was endorsed by Andrej Karpathy and has approximately 21,600 GitHub stars.
+ZeroClaw is a Rust-native, ultra-lightweight AI agent runtime that compiles to a single 3.4-8.8MB binary. Created as an independent reimplementation of OpenClaw's core runtime, it supports 22+ LLM providers and 15+ messaging channels while using less than 5MB of RAM. It has approximately 21,600 GitHub stars.
 
 ### OpenLegion vs ZeroClaw: what's the difference?
 

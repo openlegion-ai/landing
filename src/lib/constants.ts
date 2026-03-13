@@ -98,7 +98,7 @@ export const FEATURES: Feature[] = [
     icon: Monitor,
     title: "Built-In Browser Automation",
     description:
-      "Persistent Camoufox (stealth Firefox) browser with CDP control. Auto-recovery, visual screenshots, accessibility snapshots, and CAPTCHA solving included.",
+      "Persistent Camoufox (stealth Firefox) browser with CDP control. Visual screenshots, accessibility snapshots, and CAPTCHA solving included.",
     size: "standard",
   },
   {
@@ -112,7 +112,7 @@ export const FEATURES: Feature[] = [
     icon: Plug,
     title: "MCP-Compatible Extensibility",
     description:
-      "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 41 built-in skills.",
+      "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 47 built-in skills.",
     size: "standard",
   },
   {
@@ -124,16 +124,16 @@ export const FEATURES: Feature[] = [
   },
   {
     icon: Terminal,
-    title: "Zero External Dependencies",
+    title: "No External Services",
     description:
-      "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite. Clone, install, run — one machine, no external services.",
+      "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite + Docker. Clone, install, run — one machine, no external databases or services.",
     size: "standard",
   },
   {
     icon: Globe,
     title: "Agents That Work While You Sleep",
     description:
-      "Deploy via Telegram, Discord, Slack, WhatsApp, CLI, or API. Trigger agents with cron, webhooks, or file watchers — fully autonomous operation.",
+      "Deploy via CLI, Telegram, Discord, Slack, or WhatsApp — plus webhook endpoints for external integrations. Trigger agents with cron or file watchers — fully autonomous operation.",
     size: "wide",
   },
 ];
@@ -182,8 +182,8 @@ export interface ComparisonRow {
 export const COMPARISON_ALERT = {
   title: "Why teams switch from OpenClaw",
   description:
-    "OpenClaw is the most popular agent framework (200K+ GitHub stars) — great for prototyping. In production, researchers found 42,000+ exposed instances with no auth, 341 malicious skills stealing user data, and a critical RCE vulnerability (CVE-2026-25253). No per-agent cost controls. API keys stored in agent config files.",
-  source: "Bitsight Security Research, Feb 2026 · Koi Security / The Hacker News",
+    "OpenClaw is the most popular agent framework (200K+ GitHub stars) — great for prototyping. In production, security researchers found thousands of exposed instances with no auth, hundreds of malicious skills stealing user data, and critical RCE vulnerabilities. No per-agent cost controls. API keys stored in agent config files.",
+  source: "Based on public security disclosures and community reports",
 };
 
 export const COMPARISON_ROWS: ComparisonRow[] = [
@@ -232,7 +232,7 @@ export const ARCHITECTURE = {
       color: "accent" as const,
       items: [
         "CLI / Telegram / Discord",
-        "Slack / WhatsApp / API",
+        "Slack / WhatsApp / Webhooks",
         "Direct agent communication",
       ],
     },
@@ -327,13 +327,13 @@ export const SECURITY_LAYERS: SecurityLayer[] = [
     number: 5,
     title: "Input Validation",
     description:
-      "Path traversal prevention, safe condition evaluation, token budget enforcement.",
+      "Path traversal prevention, SSRF protection, safe condition evaluation, token budget enforcement.",
   },
   {
     number: 6,
     title: "Unicode Sanitization",
     description:
-      "Invisible character stripping at three choke points — bidi overrides, tag chars, zero-width chars blocked before reaching LLM context.",
+      "Invisible character stripping at 56 choke points — bidi overrides, tag chars, zero-width chars blocked before reaching LLM context.",
   },
 ];
 
@@ -488,7 +488,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     question: "Do I need Kubernetes or cloud infrastructure to run OpenLegion?",
     answer:
-      "No. OpenLegion runs on a single machine with zero external dependencies. You need only Python 3.10+, Docker, and an LLM API key — no Redis, no Kubernetes, no LangChain, no external databases.",
+      "No. OpenLegion runs on a single machine with no external services. You need only Python 3.10+, Docker, and an LLM API key — no Redis, no Kubernetes, no LangChain, no external databases.",
   },
   {
     question: "Is OpenLegion enterprise-ready?",
@@ -513,7 +513,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     question: "How does AI agent orchestration work in OpenLegion?",
     answer:
-      "OpenLegion uses deterministic YAML DAG workflows — no LLM sits in the control plane deciding who does what. You define task graphs with sequential, parallel, supervisor, and hierarchical patterns. The orchestrator routes tasks based on the DAG definition, making every execution path predictable, repeatable, and auditable. Agents execute their assigned steps and report results back to the coordinator.",
+      "OpenLegion uses deterministic YAML DAG workflows — no LLM sits in the control plane deciding who does what. You define task graphs with sequential and parallel execution patterns, coordinated through a centralized Blackboard and pub/sub messaging. The orchestrator routes tasks based on the DAG definition, making every execution path predictable, repeatable, and auditable. Fleet model, not hierarchy — agents execute their assigned steps and report results back to the coordinator.",
   },
   {
     question: "What does AI agent security mean for autonomous agents?",

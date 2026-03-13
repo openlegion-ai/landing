@@ -41,7 +41,7 @@ This is a direct **OpenLegion vs OpenAI Agents SDK** comparison based on public 
 | **Credential management** | Vault proxy — blind injection, agents never see keys | Environment variable accessible to agent process |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in |
 | **Orchestration** | Deterministic YAML DAG workflows | LLM-driven routing via handoffs |
-| **Multi-agent** | Native fleet orchestration (sequential, parallel, supervisor, hierarchical) | Handoffs between agents, agent-as-tool |
+| **Multi-agent** | Native fleet orchestration (sequential, parallel DAGs with blackboard coordination) | Handoffs between agents, agent-as-tool |
 | **LLM support** | 100+ via LiteLLM (full feature parity) | 100+ via LiteLLM (hosted tools OpenAI-only) |
 | **Tracing** | Built-in dashboard with live streaming, cost charts | Built-in tracing UI, zero-config, free |
 | **Dependencies** | Zero external — Python + SQLite + Docker | openai Python package |

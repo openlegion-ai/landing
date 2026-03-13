@@ -39,7 +39,7 @@ howto_tools:
 - **Container isolation.** Each DeepSeek V4 agent runs in its own Docker container with non-root execution, no Docker socket, and configurable resource caps.
 - **Per-agent budget controls.** Daily and monthly spending limits with automatic hard cutoff — essential for DeepSeek V4's hybrid reasoning mode where costs are unpredictable.
 - **Open-weight ready.** Run DeepSeek V4 locally with Ollama or vLLM. OpenLegion provides the same [AI agent security](/ai-agent-security) guarantees whether the model runs on your hardware or through an API.
-- **Model-agnostic.** Same agents, same tools, same security — swap between DeepSeek V4, Claude, and GPT in the dashboard. DeepSeek V4 is a compelling [alternative to Claude](/comparison/openclaw) for cost-sensitive agent fleets.
+- **Model-agnostic.** Same agents, same tools, same security — swap between DeepSeek V4, Claude, and GPT in the dashboard. DeepSeek V4 is a compelling alternative to Claude for cost-sensitive agent fleets.
 
 ## Why DeepSeek V4 Agents Need a Secure Framework
 
@@ -61,7 +61,7 @@ Without a proper [AI agent platform](/ai-agent-platform), that agent also can:
 - Execute unaudited, non-deterministic workflows
 - Fall victim to prompt injection attacks in those million-token contexts
 
-OpenLegion — an open-source DeepSeek V4 AI agent framework — solves this with three architectural guarantees:
+OpenLegion — a source-available DeepSeek V4 AI agent framework — solves this with three architectural guarantees:
 
 **Vault proxy credentials.** Your DeepSeek V4 API key never enters the agent container. DeepSeek V4 API agents make calls through a proxy that injects your key at the network level. Even if V4's powerful reasoning convinces an agent to search for credentials, there is nothing to find.
 
@@ -148,7 +148,7 @@ For DeepSeek V4 agent deployments, this makes cost prediction harder. A task tha
 
 ### The open-weight advantage is also a risk surface
 
-V4's expected open-weight release under MIT or Apache 2.0 is a massive win for the ecosystem — self-hosted deployment, no vendor lock-in, full model transparency. But deploying DeepSeek V4 open source agents also means:
+V4's expected open-weight release under MIT or Apache 2.0 is a massive win for the ecosystem — self-hosted deployment, no vendor lock-in, full model transparency. But deploying DeepSeek V4 open-weight agents also means:
 
 - **Fine-tuned variants will proliferate.** Not all will be aligned or safety-tested. OpenLegion's container isolation and tool restrictions apply regardless of which V4 variant runs.
 - **Jailbreaks will be discovered quickly.** Open weights enable adversarial research. Agents running V4 need [defense-in-depth](/ai-agent-security): container isolation, deterministic workflows, and explicit tool grants — not just model-level alignment.
@@ -181,7 +181,7 @@ OpenLegion supports all three modes with the same [AI agent security](/ai-agent-
 | **Self-hostable** | Yes | No | No |
 | **Expected cost** | Significantly below frontier | Premium pricing | Premium pricing |
 | **Coding benchmarks** | ~90% HumanEval (leaked) | Strong | Strong |
-| **Agent framework support** | Via LiteLLM (100+ frameworks) | Native + LiteLLM | Native + LiteLLM |
+| **Agent framework support** | Via LiteLLM (100+ providers) | Native + LiteLLM | Native + LiteLLM |
 | **OpenLegion support** | Day-1 | Full | Full |
 
 *OpenLegion supports all three models with the same security guarantees. Switch between them in the dashboard — same agents, same security, different model. See our [full framework comparison](/comparison) for detailed breakdowns.*
@@ -237,7 +237,7 @@ DeepSeek V4 offers competitive benchmark performance at significantly lower pric
 
 ### Is it safe to run agents on a Chinese AI model?
 
-The safety question depends on your deployment model. Self-hosted DeepSeek V4 open source agents using open weights mean no data leaves your infrastructure. API mode routes data through DeepSeek's servers in China. OpenLegion supports both modes with the same security guarantees. For organizations with data sovereignty requirements, self-hosted deployment with open weights eliminates the API dependency entirely.
+The safety question depends on your deployment model. Self-hosted DeepSeek V4 open-weight agents mean no data leaves your infrastructure. API mode routes data through DeepSeek's servers in China. OpenLegion supports both modes with the same security guarantees. For organizations with data sovereignty requirements, self-hosted deployment with open weights eliminates the API dependency entirely.
 
 ### What makes DeepSeek V4's 1M context window useful for agents?
 

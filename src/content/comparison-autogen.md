@@ -17,7 +17,7 @@ schema_types:
 
 # OpenLegion vs AutoGen: Security-First Framework vs the Multi-Agent Pioneer (in Maintenance Mode)
 
-AutoGen pioneered open-source multi-agent orchestration. With approximately 54,700 GitHub stars and a Best Paper award at ICLR 2024, it established the conversational multi-agent pattern that influenced every framework that followed. But AutoGen is now in **maintenance mode** — receiving only bug fixes and security patches. Microsoft has announced the Microsoft Agent Framework as its successor, merging AutoGen and Semantic Kernel into a unified SDK, with Release Candidate status reached February 19, 2026 and GA targeted for end of Q1 2026.
+AutoGen pioneered open-source multi-agent orchestration. With approximately 54,700 GitHub stars and a Best Paper award at ICLR 2024, it established the conversational multi-agent pattern that influenced every framework that followed. But as of March 2026, AutoGen is in **maintenance mode** — receiving only bug fixes and security patches. Microsoft has announced the Microsoft Agent Framework as its successor, merging AutoGen and Semantic Kernel into a unified SDK, with Release Candidate status reached February 19, 2026 and GA targeted for end of Q1 2026.
 
 OpenLegion is a security-first [AI agent platform](/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
 

@@ -30,7 +30,7 @@ When a single AI agent runs a task, orchestration is simple — there's nothing 
 
 - **Orchestration = coordination + governance.** Routing agents without controlling credentials, budgets, and isolation isn't orchestration — it's a liability.
 - **Deterministic DAG workflows** — OpenLegion uses YAML-defined Directed Acyclic Graphs for task routing. No LLM "CEO agent" making opaque routing decisions.
-- **Four orchestration patterns** — Sequential, parallel, supervisor, and hierarchical — all supported with the same isolation and cost controls.
+- **Fleet model orchestration** — Sequential and parallel execution via deterministic YAML DAGs, with blackboard coordination and pub/sub messaging. Fleet model, not hierarchy.
 - **Credential isolation is an orchestration concern** — When Agent A hands off to Agent B, neither should see the other's API keys or be able to escalate permissions.
 - **Per-agent cost controls** — Each agent in the fleet has its own daily/monthly budget with hard cutoff. A runaway agent doesn't drain your entire account.
 - **Shared state via Blackboard** — Agents communicate through a centralized SQLite Blackboard with PubSub messaging. No direct agent-to-agent connections.
@@ -66,19 +66,9 @@ Multiple agents run simultaneously on independent subtasks. Results merge at a s
 **Example: Competitive analysis.**
 Three Research Agents run in parallel — one per competitor — each scraping public documentation, GitHub repos, and pricing pages. A Synthesis Agent waits for all three to complete, then produces a unified comparison. Each parallel agent operates in its own isolated container with its own budget cap.
 
-### Supervisor orchestration
+### Blackboard coordination and pub/sub messaging
 
-A coordinator agent assigns tasks to worker agents based on incoming requests. The supervisor doesn't do the work — it routes. Best for dynamic workloads where task type isn't known in advance.
-
-**Example: Customer support triage.**
-A Triage Agent receives inbound requests and routes them: billing questions go to the Billing Agent, technical issues go to the Support Agent, feature requests go to the Product Agent. Each worker agent has permissions scoped to its domain — the Billing Agent can access the payments API but not the codebase.
-
-### Hierarchical orchestration
-
-Multiple supervisors manage teams of agents, with a top-level coordinator managing the supervisors. Best for complex organizations with distinct functional areas.
-
-**Example: Sales pipeline.**
-Top-level Pipeline Manager routes leads through stages: Research Team (lead enrichment, company profiling) → Qualification Team (scoring, ICP matching) → Outreach Team (email drafting, follow-up scheduling). Each team has its own supervisor and its own set of tool permissions.
+OpenLegion uses a fleet model, not a hierarchy. All agents communicate through a centralized Blackboard (SQLite-backed shared state) with pub/sub messaging handled by the Mesh Host. There is no "CEO agent" or supervisor agent making routing decisions — the YAML DAG defines the execution order, and the Blackboard provides the shared context that agents read from and write to during execution. This keeps coordination deterministic and auditable.
 
 ## Why Isolation, Vault, and Budget Controls Are Orchestration Concerns
 
@@ -121,7 +111,7 @@ PM: $2/day (mostly planning, low token usage). Engineer: $15/day (heavy code gen
 `openlegion start` provisions three isolated containers, injects the appropriate credentials into each via the vault proxy, and starts the DAG. The dashboard shows real-time token usage, cost tracking, and streaming output per agent.
 
 **Step 5: Monitor and audit.**
-Every task transition, tool call, and token expenditure is logged through the deterministic DAG. You can trace exactly which agent did what, when, and at what cost — without parsing opaque LLM decision logs.
+Deterministic DAG execution means every workflow step is explicit and traceable. The built-in request tracing system records task transitions, tool calls, and token expenditure for real-time observability — without parsing opaque LLM decision logs.
 
 ## AI Agent Orchestration Tools Compared
 
@@ -134,7 +124,7 @@ Every task transition, tool call, and token expenditure is logged through the de
 | **Task routing** | Static DAG — auditable before execution | Conditional edges (code-defined) | Hierarchical manager agent or sequential | RoundRobin, Selector, Swarm, GraphFlow |
 | **Shared state** | Blackboard (SQLite) with PubSub | StateGraph with checkpointing | Shared crew memory | Message-passing between agents |
 | **Human-in-the-loop** | Supported via channel integrations | Native `interrupt()` API with time-travel | Supported | UserProxy agent |
-| **Multi-channel** | Telegram, Discord, Slack, WhatsApp, CLI, API | Custom integration required | Custom integration required | Custom integration required |
+| **Multi-channel** | CLI, Telegram, Discord, Slack, WhatsApp + webhooks | Custom integration required | Custom integration required | Custom integration required |
 
 For teams evaluating agentic AI orchestration frameworks, the key differentiator is whether the orchestration layer governs the agents or just routes messages between them. LangGraph provides the most flexible programmatic control. CrewAI offers the most intuitive role-based design. AutoGen gives conversational patterns. OpenLegion adds governance — isolation, credentials, and cost — as native orchestration primitives.
 

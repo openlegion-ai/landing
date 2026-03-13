@@ -52,7 +52,7 @@ Bring your own LLM API keys. No markup on model usage.
 
 **How common.** Prompt injection appears in over 73% of production AI deployments assessed during security audits. OpenAI stated in December 2025 that prompt injection "is unlikely to ever be fully solved." OWASP ranks it as the #1 vulnerability for LLM applications. Real-world incidents include a browser agent that was tricked into stealing credentials within 150 seconds via hidden instructions on a web page, and enterprise RAG systems where malicious content in public documents caused agents to leak proprietary data.
 
-**How OpenLegion mitigates it.** OpenLegion applies defense in depth across multiple layers. Unicode sanitization strips invisible characters (bidi overrides, tag characters, zero-width characters) at three choke points before content reaches the LLM context — these characters are commonly used to hide injected instructions. Input validation prevents path traversal and enforces safe condition evaluation. Container isolation limits the blast radius: even if an agent is successfully injected, it can only access its own sandboxed container with its own scoped permissions. It cannot access other agents' data, the credential vault, or the host system.
+**How OpenLegion mitigates it.** OpenLegion applies defense in depth across multiple layers. Unicode sanitization strips invisible characters (bidi overrides, tag characters, zero-width characters) at 56 choke points before content reaches the LLM context — these characters are commonly used to hide injected instructions. Input validation prevents path traversal and enforces safe condition evaluation. Container isolation limits the blast radius: even if an agent is successfully injected, it can only access its own sandboxed container with its own scoped permissions. It cannot access other agents' data, the credential vault, or the host system.
 
 No system can guarantee complete immunity to prompt injection. OpenLegion's approach is to minimize the attack surface and contain the damage.
 
@@ -88,7 +88,7 @@ No system can guarantee complete immunity to prompt injection. OpenLegion's appr
 
 OpenLegion's three-zone trust model separates every deployment into distinct security boundaries:
 
-**Zone 1 — User Zone (Full Trust).** User-facing channels: CLI, Telegram, Discord, Slack, WhatsApp, API. Inputs are validated and sanitized before entering Zone 2.
+**Zone 1 — User Zone (Full Trust).** User-facing channels: CLI, Telegram, Discord, Slack, WhatsApp — plus webhook endpoints. Inputs are validated and sanitized before entering Zone 2.
 
 **Zone 2 — Mesh Host (Trusted Coordinator).** The only component with access to credentials. Runs the Blackboard (shared state), PubSub router, Credential Vault (blind injection proxy), Orchestrator with permission matrix, Container Manager, and Cost Tracker. This zone is hardened and not exposed to agent code.
 
@@ -141,10 +141,10 @@ No other major AI agent framework provides this capability built in, based on pu
 
 OpenLegion is **designed for environments that require** compliance controls, including:
 
-- **Audit trails**: Every agent action routes through the deterministic DAG and is logged with the task, agent ID, tool call, input/output, token usage, and timestamp. The Blackboard (shared state) provides a complete record of all cross-agent communication.
+- **Request tracing**: Deterministic DAG execution means every workflow step is explicit and traceable. The built-in request tracing system records task transitions, tool calls, and token expenditure for real-time observability. The Blackboard (shared state) provides coordination context across agents.
 - **Deterministic orchestration**: YAML-defined DAG workflows can be audited before execution — you can verify the complete flow of data, permissions, and agent interactions without running the system.
 - **Data isolation**: Per-agent containers with dedicated `/data` volumes ensure that sensitive data processed by one agent is not accessible to other agents.
-- **Air-gap support**: Zero external dependencies (no Redis, no Kubernetes, no cloud services required) means OpenLegion can run in air-gapped environments.
+- **Air-gap support**: No external services (no Redis, no Kubernetes, no cloud services required) means OpenLegion can run in air-gapped environments.
 
 **Important**: OpenLegion does not currently hold SOC 2, ISO 27001, HIPAA, or other compliance certifications. The architecture is built to support environments with these requirements, but certification is a function of your deployment, configuration, and organizational controls — not just the framework.
 

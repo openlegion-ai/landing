@@ -13,7 +13,7 @@ schema_types:
 
 Semantic Kernel is Microsoft's model-agnostic SDK for building AI agents, with ~27,300 GitHub stars and support across C#, Python, and Java. It powers **Microsoft 365 Copilot** and is used by Copilot Studio across 230,000+ organizations. The agent framework within SK reached GA (ChatCompletionAgent) in April 2025, adding group chat, streaming, and agent-as-plugin composition.
 
-However, Semantic Kernel is now entering **maintenance mode** alongside AutoGen. Microsoft has announced the Microsoft Agent Framework as the unified successor, with migration guides already published.
+However, as of early 2026, Semantic Kernel is entering **reduced update frequency** alongside AutoGen. Microsoft has announced the Microsoft Agent Framework as the unified successor, with migration guides already published.
 
 OpenLegion (~59 stars) is a security-first [AI agent platform](/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over enterprise SDK breadth.
 
@@ -29,7 +29,7 @@ This is a direct **OpenLegion vs Semantic Kernel** comparison based on public do
 - **Semantic Kernel** is the right choice when you need deep Microsoft ecosystem integration, multi-language support (C#, Python, Java), and you are building on Azure.
 - **OpenLegion** is the right choice when credential isolation, mandatory agent sandboxing, and per-agent cost controls are hard requirements.
 - **Maintenance mode**: SK is now in maintenance mode. Microsoft advises migrating to the Agent Framework within 6-12 months. Support guaranteed for at least 1 year after Agent Framework GA.
-- **Critical CVE**: CVE-2026-26030 (CVSS 9.9) exposed a critical RCE in the Python SDK's InMemoryVectorStore filter, patched in v1.39.4.
+- **Critical vulnerability**: A CVSS 9.9 RCE was disclosed in the Python SDK's InMemoryVectorStore filter (as of early 2026), patched in a subsequent release.
 - **Credential model**: SK relies on DefaultAzureCredential (Managed Identity, certificate auth). No built-in vault proxy. OpenLegion uses blind credential injection.
 - **OpenLegion advantage**: Zero external dependencies, cloud-agnostic, no platform migration risk.
 
@@ -39,12 +39,12 @@ This is a direct **OpenLegion vs Semantic Kernel** comparison based on public do
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Enterprise AI agent SDK with plugin architecture |
 | **Architecture** | Three-zone trust model | Kernel DI container managing services, plugins, and AI workflows |
-| **Status** | Active development | Maintenance mode; successor is Microsoft Agent Framework |
+| **Status** | Active development | Reduced update frequency (as of early 2026); successor is Microsoft Agent Framework |
 | **Agent isolation** | Mandatory Docker container per agent | No built-in isolation; agents run in host process |
 | **Credential management** | Vault proxy — blind injection, agents never see keys | DefaultAzureCredential (Managed Identity, certificate, service principal) |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in |
 | **Orchestration** | Deterministic YAML DAG workflows | Function calling + planning; agent-as-plugin composition |
-| **Multi-agent** | Native fleet orchestration (sequential, parallel, supervisor, hierarchical) | ChatCompletionAgent GA, group chat, AgentGroupChat |
+| **Multi-agent** | Native fleet orchestration (sequential, parallel DAGs with blackboard coordination) | ChatCompletionAgent GA, group chat, AgentGroupChat |
 | **Language support** | Python | C#, Python, Java (C# most mature; Java lags significantly) |
 | **LLM support** | 100+ via LiteLLM | Azure OpenAI, OpenAI, Anthropic, Google, Mistral, and 20+ via connectors |
 | **Enterprise features** | Built-in: isolation, vault, budgets, audit logs | Filters (function invocation, prompt render, auto function), Copilot integration |
@@ -63,7 +63,7 @@ The ChatCompletionAgent GA (April 2025) added group chat with termination strate
 
 The filter system is a genuine architectural strength for enterprise governance. You can intercept every function call for logging, validation, or blocking. However, this operates at the application level — there is no process-level or container-level isolation between agents.
 
-**CVE-2026-26030** (CVSS 9.9, February 2026) exposed a critical RCE vulnerability in the Python SDK's InMemoryVectorStore, where filter functionality allowed code injection. Fixed in v1.39.4. This is one of the highest-severity CVEs in any agent framework.
+A critical RCE vulnerability (CVSS 9.9, reported early 2026) was found in the Python SDK's InMemoryVectorStore, where filter functionality allowed code injection. This is one of the highest-severity vulnerabilities found in any agent framework.
 
 ### OpenLegion's architecture
 
@@ -122,7 +122,7 @@ SK is entering maintenance mode alongside AutoGen. Microsoft advises migrating t
 
 ### What was the Semantic Kernel CVSS 9.9 vulnerability?
 
-CVE-2026-26030 (February 2026) was a critical RCE in the Python SDK's InMemoryVectorStore filter that allowed code injection. Fixed in v1.39.4. OpenLegion's container isolation prevents this class of vulnerability by ensuring agents cannot access host resources.
+A critical RCE vulnerability (CVSS 9.9, reported early 2026) in the Python SDK's InMemoryVectorStore filter allowed code injection. OpenLegion's container isolation prevents this class of vulnerability by ensuring agents cannot access host resources.
 
 ### Does Semantic Kernel work outside of Azure?
 

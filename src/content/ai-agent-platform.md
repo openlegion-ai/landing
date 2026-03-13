@@ -57,7 +57,7 @@ The question isn't which is "better." It's whether your team should spend engine
 - You need agents in production within days, not months
 - Your team is 1–5 engineers and can't dedicate headcount to infrastructure
 - You need [AI agent security](/ai-agent-security) guarantees without building them yourself
-- You want cost controls and audit trails without instrumenting everything manually
+- You want cost controls and request tracing without instrumenting everything manually
 
 ## The BYO API Keys Model — Why It Matters
 
@@ -85,7 +85,7 @@ Your team is 2–10 engineers. You need agents in production this sprint, not ne
 
 ### Enterprise security teams
 
-You need audit trails for every agent action, credential isolation that survives a compromised agent, and budget controls that prevent runaway costs. OpenLegion's architecture is designed for environments that require SOC 2-level controls. Every agent action routes through a deterministic DAG — no opaque LLM decision-making in the control plane. See our [AI agent security](/ai-agent-security) page for the full threat model.
+You need request tracing and workflow observability, credential isolation that survives a compromised agent, and budget controls that prevent runaway costs. OpenLegion's architecture is designed for environments that require SOC 2-level controls. Deterministic DAG execution means every workflow step is explicit and traceable — no opaque LLM decision-making in the control plane. See our [AI agent security](/ai-agent-security) page for the full threat model.
 
 ## Production Readiness: What OpenLegion Handles vs DIY
 
@@ -96,7 +96,7 @@ You need audit trails for every agent action, credential isolation that survives
 | **Cost controls** | Manual tracking, no hard limits | Per-agent daily/monthly budgets with automatic cutoff |
 | **Orchestration** | Code your own routing logic or use LLM-based routing | YAML-defined DAG workflows — deterministic, auditable |
 | **Observability** | Integrate LangSmith, Datadog, or custom logging | Built-in dashboard with live streaming, cost charts, request traces |
-| **Multi-channel deployment** | Build integrations per channel | Telegram, Discord, Slack, WhatsApp, CLI, API — built in |
+| **Multi-channel deployment** | Build integrations per channel | CLI, Telegram, Discord, Slack, WhatsApp — plus webhook endpoints for external integrations |
 | **Browser automation** | Configure Playwright/Puppeteer, manage Chrome instances | Shared Camoufox (stealth Firefox) browser service with KasmVNC, CDP control, auto-recovery |
 | **Model failover** | Custom retry logic per provider | Configurable failover chains across providers via LiteLLM |
 
@@ -106,7 +106,7 @@ The summary: if you're evaluating [AI agent frameworks](/ai-agent-frameworks) an
 
 OpenLegion separates every deployment into three trust zones:
 
-**Zone 1 — User Zone (Full Trust).** This is where you interact: CLI, Telegram, Discord, Slack, WhatsApp, API. All inputs are validated and sanitized before reaching the mesh.
+**Zone 1 — User Zone (Full Trust).** This is where you interact: CLI, Telegram, Discord, Slack, WhatsApp — plus webhook endpoints. All inputs are validated and sanitized before reaching the mesh.
 
 **Zone 2 — Mesh Host (Trusted Coordinator).** The FastAPI server that runs the Blackboard (shared state via SQLite), PubSub message router, Credential Vault (the proxy that handles blind injection), Orchestrator with permission matrix, and the Container Manager with cost tracking. This is the brain — and it's the only component that touches your API keys.
 
@@ -145,7 +145,7 @@ The best AI agent platform for production depends on your security and operation
 
 ### What is an enterprise AI agent platform?
 
-An enterprise AI agent platform adds governance, compliance, and security controls on top of basic agent orchestration. Key requirements include: credential isolation (agents should never see raw API keys), audit trails for every agent action, budget enforcement to prevent runaway costs, role-based access control, and deployment options that support data residency requirements. OpenLegion's architecture is designed for environments that require these controls.
+An enterprise AI agent platform adds governance, compliance, and security controls on top of basic agent orchestration. Key requirements include: credential isolation (agents should never see raw API keys), workflow traceability, budget enforcement to prevent runaway costs, role-based access control, and deployment options that support data residency requirements. OpenLegion's architecture is designed for environments that require these controls.
 
 ### Can I host AI agents with my own API keys?
 

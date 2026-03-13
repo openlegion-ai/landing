@@ -46,7 +46,7 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 | **Dependencies** | Python + SQLite + Docker (zero external) | LangChain ecosystem (langgraph, langchain-core, checkpointing) |
 | **GitHub stars** | ~59 | ~25,200 |
 | **PyPI downloads** | Pre-release | ~6.17 million/month |
-| **Known CVEs** | 0 | 4 critical (up to CVSS 9.3) |
+| **Known CVEs** | 0 | 4 critical in LangChain ecosystem (up to CVSS 9.3) |
 | **License** | BSL 1.1 | MIT |
 | **Pricing** | BYO API keys, $19/mo hosted | Free (MIT); LangSmith Plus $39/seat/mo for auth/RBAC |
 
@@ -64,11 +64,11 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 
 ## Choose OpenLegion if...
 
-**Credential security is a hard requirement.** LangGraph has no built-in credential management and a history of serialization vulnerabilities that could expose secrets. The LangGrinch vulnerability (CVSS 9.3, December 2025) demonstrated that serialization injection could extract secrets and execute arbitrary code through checkpoint manipulation. OpenLegion's vault proxy provides architectural protection — agents never see API keys, even if the agent process is compromised.
+**Credential security is a hard requirement.** LangGraph has no built-in credential management and a history of serialization vulnerabilities that could expose secrets. A serialization injection vulnerability (CVSS 9.3, December 2025) demonstrated that checkpoint manipulation could extract secrets and execute arbitrary code. OpenLegion's vault proxy provides architectural protection — agents never see API keys, even if the agent process is compromised.
 
 **You need per-agent budget enforcement.** LangGraph provides cost tracking through LangSmith but no mechanism to automatically stop an agent that exceeds a spending threshold. An agent caught in a reasoning loop will continue accumulating costs until manually terminated. OpenLegion enforces hard cutoffs per agent, per day, and per month — when budget is exhausted, the agent stops.
 
-**You want security built in, not bolted on.** LangGraph's 4 critical CVEs in 18 months demonstrate the challenge of adding security to a framework not designed for it. AES checkpoint encryption and a Pyodide sandbox were added retroactively. OpenLegion's three-zone trust model was the starting architecture.
+**You want security built in, not bolted on.** The LangChain ecosystem's 4 critical CVEs in 18 months demonstrate the challenge of adding security to a framework not designed for it. AES checkpoint encryption and a Pyodide sandbox were added retroactively. OpenLegion's three-zone trust model was the starting architecture.
 
 **You need auditable, deterministic workflows.** YAML DAG workflows can be code-reviewed, version-controlled, and compliance-audited before any agent executes. Execution order is predetermined and acyclic by design — infinite loops are structurally impossible. Graph-based workflows with dynamic routing are harder to audit statically, and cycles introduce the possibility of infinite loops.
 
@@ -78,7 +78,7 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 
 ### Where secrets live
 
-**LangGraph** has no built-in secrets or credential management. Developers typically use environment variables, `.env` files, or integrate external vault solutions (HashiCorp Vault, AWS Secrets Manager). This means credentials exist in the agent's process environment — accessible to any code running in that process. The LangGrinch vulnerability demonstrated that serialized checkpoint data could be manipulated to extract environment variables including API keys.
+**LangGraph** has no built-in secrets or credential management. Developers typically use environment variables, `.env` files, or integrate external vault solutions (HashiCorp Vault, AWS Secrets Manager). This means credentials exist in the agent's process environment — accessible to any code running in that process. A serialization injection vulnerability demonstrated that checkpoint data could be manipulated to extract environment variables including API keys.
 
 **OpenLegion** stores credentials in a vault accessible only through a proxy. Agents make API calls through the vault proxy; credentials are injected at the network level. No environment variables with API keys, no `.env` files, no secret objects in the agent's memory. Even if checkpoint data or agent state is compromised, no credentials are present to extract.
 
@@ -90,11 +90,11 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 
 ### The CVE record
 
-**LangGraph / LangChain** has accumulated 4 critical CVEs:
+**LangChain ecosystem** has accumulated multiple critical CVEs affecting LangGraph users:
 
-- **AgentSmith (CVSS 8.8, October 2024):** Malicious prompt hub entries could steal API keys.
+- **Prompt hub injection (CVSS 8.8, October 2024):** Malicious prompt hub entries could steal API keys.
 - **RCE via deserialization (Critical, November 2025):** Remote code execution through checkpoint serialization.
-- **LangGrinch (CVSS 9.3, December 2025):** Serialization injection extracting secrets and executing arbitrary code.
+- **Serialization injection (CVSS 9.3, December 2025):** Serialization injection extracting secrets and executing arbitrary code.
 - **Additional checkpoint vulnerabilities** addressed with AES encryption (January 2026).
 
 **OpenLegion** has zero CVEs. Its vault proxy architecture means there are no credentials in agent state to extract via serialization attacks.
@@ -196,7 +196,7 @@ LangGraph provides cost tracking through LangSmith but no mechanism to enforce s
 
 ### Is LangGraph secure for production deployments?
 
-LangGraph has had 4 critical CVEs (up to CVSS 9.3) including serialization injection and RCE. The team has responded with AES checkpoint encryption and a Pyodide sandbox. For teams where security is the top priority, OpenLegion's architecture-level isolation provides stronger default guarantees. For teams with existing security infrastructure, LangGraph's flexibility allows layering security on top.
+The LangChain ecosystem has had 4 critical CVEs (up to CVSS 9.3) including serialization injection and RCE that affect LangGraph users. The team has responded with AES checkpoint encryption and a Pyodide sandbox. For teams where security is the top priority, OpenLegion's architecture-level isolation provides stronger default guarantees. For teams with existing security infrastructure, LangGraph's flexibility allows layering security on top.
 
 ### Can I use LangGraph and OpenLegion together?
 
