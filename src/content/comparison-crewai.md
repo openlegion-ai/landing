@@ -196,7 +196,7 @@ Yes. CrewAI collects anonymous telemetry by default, including `base_url` which 
 
 ### Can I migrate from CrewAI to OpenLegion?
 
-Both use LiteLLM, so provider configurations transfer directly. CrewAI role/goal/backstory definitions map to OpenLegion agent configurations. Sequential crews map to YAML DAG sequences; hierarchical crews need restructuring as explicit supervisor patterns. The main trade-off is losing CrewAI's rapid-prototyping speed in exchange for built-in security.
+Both use LiteLLM, so provider configurations transfer directly. CrewAI role/goal/backstory definitions map to OpenLegion agent configurations. Sequential crews map to YAML DAG sequences; hierarchical crews need restructuring as sequential or parallel DAG patterns with blackboard coordination. The main trade-off is losing CrewAI's rapid-prototyping speed in exchange for built-in security.
 
 ---
 

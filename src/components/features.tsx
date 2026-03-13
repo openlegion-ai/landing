@@ -55,7 +55,7 @@ const AGENT_STATES = [
   { state: "idle", color: "bg-muted" },
 ];
 
-const CHANNELS = ["CLI", "Telegram", "Discord", "Slack", "WhatsApp", "API", "Cron", "Webhooks"];
+const CHANNELS = ["CLI", "Telegram", "Discord", "Slack", "WhatsApp", "Cron", "Webhooks"];
 
 const WORKFLOW_STEPS = [
   { label: "intake", next: true },
@@ -84,7 +84,7 @@ const SKILL_LINES = [
 ];
 
 const DEP_STACK = [
-  { name: "Python 3.11+", icon: "◆" },
+  { name: "Python 3.10+", icon: "◆" },
   { name: "SQLite", icon: "◆" },
   { name: "That's it.", icon: "✓" },
 ];
@@ -223,7 +223,7 @@ function McpVisual() {
           <span className="font-mono text-[10px] text-muted">{s.name}</span>
         </motion.div>
       ))}
-      <motion.span variants={vItem} className="mt-0.5 font-mono text-[10px] text-muted/40">+ 41 built-in skills</motion.span>
+      <motion.span variants={vItem} className="mt-0.5 font-mono text-[10px] text-muted/40">+ 47 built-in skills</motion.span>
     </motion.div>
   );
 }
@@ -272,7 +272,7 @@ const FEATURE_VISUALS: Record<string, React.ReactNode> = {
   "Persistent Agent Memory": <MemoryVisual />,
   "MCP-Compatible Extensibility": <McpVisual />,
   "Agents Build Their Own Tools": <ToolBuilderVisual />,
-  "Zero External Dependencies": <ZeroDepsVisual />,
+  "No External Services": <ZeroDepsVisual />,
   "Agents That Work While You Sleep": <ChannelBadgesVisual />,
 };
 

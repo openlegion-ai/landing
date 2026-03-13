@@ -28,7 +28,7 @@ const PLANS: Plan[] = [
     yearlyPrice: 170,
     yearlyMonthly: 14,
     agents: 1,
-    projects: 1,
+    projects: 0,
     browsers: 1,
     features: [
       "Container-isolated execution",
@@ -41,9 +41,9 @@ const PLANS: Plan[] = [
     name: "growth",
     label: "Growth",
     popular: true,
-    monthlyPrice: 59,
-    yearlyPrice: 530,
-    yearlyMonthly: 44,
+    monthlyPrice: 49,
+    yearlyPrice: 440,
+    yearlyMonthly: 37,
     agents: 5,
     projects: 2,
     browsers: 5,
@@ -57,9 +57,9 @@ const PLANS: Plan[] = [
   {
     name: "pro",
     label: "Pro",
-    monthlyPrice: 149,
-    yearlyPrice: 1340,
-    yearlyMonthly: 112,
+    monthlyPrice: 119,
+    yearlyPrice: 1070,
+    yearlyMonthly: 89,
     agents: 15,
     projects: 5,
     browsers: 10,
@@ -77,7 +77,7 @@ const ENTERPRISE_FEATURES = [
   "Dedicated infrastructure",
   "Custom SLAs",
   "Priority support",
-  "SSO & advanced security",
+  "Advanced security",
 ];
 
 export function Pricing() {

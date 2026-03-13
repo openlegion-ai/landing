@@ -32,8 +32,8 @@ OpenLegion is a source-available [AI agent platform](/ai-agent-platform) built f
 - **Blind credential injection** — Vault proxy handles all API calls. Agents never see raw keys.
 - **Per-agent budget controls** — Daily and monthly limits with hard cutoff. No surprise bills.
 - **Deterministic orchestration** — YAML DAG workflows, auditable before execution.
-- **Multi-channel** — Telegram, Discord, Slack, WhatsApp, CLI, API — not just a web GUI.
-- **Zero external dependencies** — Python + SQLite + Docker. No Redis, no Kubernetes, no LangChain.
+- **Multi-channel** — CLI, Telegram, Discord, Slack, WhatsApp — plus webhook endpoints for external integrations. Not just a web GUI.
+- **No external services** — Python + SQLite + Docker. No Redis, no Kubernetes, no LangChain.
 
 ## Quick Comparison
 
@@ -43,9 +43,9 @@ OpenLegion is a source-available [AI agent platform](/ai-agent-platform) built f
 | **Credential handling** | Secret Registry — secrets accessible to agent process | Vault proxy — agents never see raw keys |
 | **Cost controls** | None | Per-agent daily/monthly budgets with hard cutoff |
 | **Orchestration** | Event-sourced, SDK-based | Deterministic YAML DAG |
-| **Multi-agent** | Single-agent primary, SDK supports multi | Native fleet orchestration (4 patterns) |
-| **Deployment channels** | Web GUI, CLI | Telegram, Discord, Slack, WhatsApp, CLI, API |
-| **Dependencies** | Python, Docker, Node.js | Python, SQLite, Docker (zero external deps) |
+| **Multi-agent** | Single-agent primary, SDK supports multi | Native fleet orchestration (sequential, parallel DAGs with blackboard coordination) |
+| **Deployment channels** | Web GUI, CLI | CLI, Telegram, Discord, Slack, WhatsApp + webhooks |
+| **Dependencies** | Python, Docker, Node.js | Python, SQLite, Docker (no external services) |
 | **LLM support** | 100+ via LiteLLM | 100+ via LiteLLM |
 | **Community** | ~67,300 stars, 467 contributors | ~40 stars, small team |
 | **Best for** | AI-driven software development | Secure multi-agent fleet operations |
@@ -60,7 +60,7 @@ For a deeper breakdown of architecture differences, see our full [OpenLegion vs 
 
 **Teams burning budget on agent loops** need hard limits. Without built-in cost controls, a recursive loop or misconfigured agent can consume hundreds of dollars before manual intervention. OpenLegion's per-agent budget controls enforce limits at the [orchestration layer](/ai-agent-orchestration) with automatic cutoff.
 
-**Teams deploying to customer-facing channels** need more than a web GUI. OpenLegion deploys agents to Telegram, Discord, Slack, WhatsApp, CLI, and API from a single YAML configuration.
+**Teams deploying to customer-facing channels** need more than a web GUI. OpenLegion deploys agents to CLI, Telegram, Discord, Slack, and WhatsApp — plus webhook endpoints for external integrations — from a single YAML configuration.
 
 ## Getting Started
 
@@ -101,7 +101,7 @@ OpenLegion uses a BYO (Bring Your Own) key model. You provide your own API keys 
 
 ### Can I self-host instead of using hosted OpenLegion?
 
-Yes. OpenLegion is source-available under the BSL 1.1 license. Self-hosting requires Python 3.10+ and Docker. The install process (`git clone && ./install.sh && openlegion start`) takes under three minutes. Zero external dependencies — no Redis, no Kubernetes, no cloud services required. Runs on a single machine. Supports air-gapped environments. A hosted [AI agent platform](/ai-agent-platform) option is also available for teams that prefer managed infrastructure.
+Yes. OpenLegion is source-available under the BSL 1.1 license. Self-hosting requires Python 3.10+ and Docker. The install process (`git clone && ./install.sh && openlegion start`) takes under three minutes. No external services required — no Redis, no Kubernetes, no cloud services. Runs on a single machine. Supports air-gapped environments. A hosted [AI agent platform](/ai-agent-platform) option is also available for teams that prefer managed infrastructure.
 
 ### How hard is it to migrate from OpenClaw to OpenLegion?
 

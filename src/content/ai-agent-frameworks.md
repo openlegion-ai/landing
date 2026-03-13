@@ -46,7 +46,7 @@ All competitor claims below are based on public documentation and GitHub reposit
 | **Hosting** | Self-hosted or managed | Self-hosted or cloud | Self-hosted or LangSmith | Self-hosted or CrewAI AMP | Self-hosted | Self-hosted (Azure-integrated) |
 | **Agent isolation** | Docker container per agent (mandatory) | Docker container (optional, requires Docker socket) | None built-in | Docker for CodeInterpreter only | Docker for code execution | None (embedded SDK) |
 | **Credential management** | Vault proxy — blind injection | Secret Registry with masking | Environment variables | Environment variables | Environment variables | Azure Key Vault integration |
-| **Multi-agent support** | DAG workflows, parallel, sequential, supervisor, hierarchical | Single-agent primary (SDK supports multi) | StateGraph with conditional edges, swarm | Crews (autonomous) + Flows (event-driven) | Group chat (RoundRobin, Selector, Swarm, GraphFlow) | ChatCompletionAgent, group chat, agent-as-plugin |
+| **Multi-agent support** | YAML DAG workflows (sequential, parallel) with blackboard coordination and pub/sub messaging | Single-agent primary (SDK supports multi) | StateGraph with conditional edges, swarm | Crews (autonomous) + Flows (event-driven) | Group chat (RoundRobin, Selector, Swarm, GraphFlow) | ChatCompletionAgent, group chat, agent-as-plugin |
 | **Budget / cost controls** | Per-agent daily & monthly with hard cutoff | None | None | None | None | None |
 | **Primary language** | Python | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
 | **LLM support** | 100+ via LiteLLM | 100+ via LiteLLM | Any via LangChain | Any via LiteLLM | Any via config | Azure OpenAI + others |
@@ -108,7 +108,7 @@ The distinction between a framework and a platform is increasingly important as 
 | Credential vaulting | You build it | Built-in (vault proxy) | Not included | Enterprise tier |
 | Budget enforcement | You build it | Built-in (per-agent) | Not included | Not included |
 | Observability | You integrate | Built-in dashboard | Built-in (tracing, evaluation) | Built-in (enterprise) |
-| Multi-channel deploy | You build it | Built-in (6 channels) | Not included | Not included |
+| Multi-channel deploy | You build it | Built-in (5 channels + webhooks) | Not included | Not included |
 | Pricing | Free (+ infra costs) | BSL 1.1 (+ hosted option) | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
 
 For teams evaluating the top AI agent frameworks, the honest answer is: if security and governance are your top priorities, OpenLegion is purpose-built for that. If ecosystem maturity and community size matter most, LangGraph and CrewAI have significant advantages. If you're in the Microsoft ecosystem, Semantic Kernel (or the new Microsoft Agent Framework) is the natural choice.

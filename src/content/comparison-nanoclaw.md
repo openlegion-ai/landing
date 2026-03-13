@@ -16,7 +16,7 @@ schema_types:
 
 # OpenLegion vs NanoClaw: Two Container-First Philosophies, Different Depths
 
-NanoClaw is the security darling of the OpenClaw alternative wave. Created by Gavriel Cohen (former Wix engineer, Qwibit AI co-founder) using Claude Code in late January 2026, NanoClaw is a ~500-line TypeScript core that runs every agent in its own OS-level Linux container. It hit the front page of Hacker News, earned coverage in VentureBeat and The Register, and was endorsed by Andrej Karpathy as "manageable, auditable, flexible." With approximately 7,200 GitHub stars, it is the most security-focused of the lightweight OpenClaw alternatives.
+NanoClaw is the security darling of the OpenClaw alternative wave. Created using Claude Code in late January 2026, NanoClaw is a ~500-line TypeScript core that runs every agent in its own OS-level Linux container. It hit the front page of Hacker News, earned coverage in VentureBeat and The Register, and has been praised by developers as "manageable, auditable, flexible." With approximately 7,200 GitHub stars, it is the most security-focused of the lightweight OpenClaw alternatives.
 
 OpenLegion is a security-first [AI agent platform](/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
 
@@ -153,7 +153,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 
 ### What is NanoClaw?
 
-NanoClaw is an ultra-minimal (~500 lines core) TypeScript AI agent assistant built on Anthropic's Claude Agent SDK. Created by Gavriel Cohen of Qwibit AI, it runs each agent in an isolated Linux container with WhatsApp, Telegram, Discord, and Slack connectivity. It has approximately 7,200 GitHub stars and was endorsed by Andrej Karpathy.
+NanoClaw is an ultra-minimal (~500 lines core) TypeScript AI agent assistant built on Anthropic's Claude Agent SDK. It runs each agent in an isolated Linux container with WhatsApp, Telegram, Discord, and Slack connectivity. It has approximately 7,200 GitHub stars and has been widely praised in the developer community.
 
 ### OpenLegion vs NanoClaw: what's the difference?
 

@@ -1,6 +1,6 @@
 ---
 title: "OpenLegion vs OpenClaw — Detailed Comparison (2026)"
-description: "OpenLegion vs OpenClaw: security architecture, credential isolation, CVE-2026-25253, Docker socket risks, budget controls, and production deployment compared side by side."
+description: "OpenLegion vs OpenClaw: security architecture, credential isolation, Docker socket risks, budget controls, and production deployment compared side by side."
 slug: "/comparison/openclaw"
 primary_keyword: "openlegion vs openclaw"
 secondary_keywords:
@@ -17,7 +17,7 @@ schema_types:
 
 # OpenLegion vs OpenClaw: Security-First Framework vs the 248K-Star Giant
 
-OpenClaw is the fastest-growing open-source project in history. Created by Peter Steinberger (PSPDFKit founder) in November 2025, it rocketed from 9,000 to 248,000+ GitHub stars in three months — pioneering the concept of a personal AI assistant that connects to 20+ messaging platforms and takes real actions on your machine. The project spawned an entire ecosystem of alternatives (ZeroClaw, NanoClaw, nanobot, PicoClaw, OpenFang) after Steinberger joined OpenAI on February 14, 2026.
+OpenClaw is the fastest-growing open-source project in history. Launched in November 2025, it rocketed from 9,000 to 248,000+ GitHub stars in three months — pioneering the concept of a personal AI assistant that connects to 20+ messaging platforms and takes real actions on your machine. The project spawned an entire ecosystem of alternatives (ZeroClaw, NanoClaw, nanobot, PicoClaw, OpenFang) after its original creator departed the project in early 2026.
 
 OpenLegion is a security-first [AI agent platform](/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
 
@@ -44,10 +44,10 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 | **LLM support** | 100+ via LiteLLM | 100+ via LiteLLM |
 | **Messaging channels** | 5 | 20+ |
 | **Multi-agent** | YAML-defined fleets with per-agent ACLs | Single-agent primary; SDK V1 multi-agent patterns |
-| **Prompt injection defense** | Unicode sanitization at 3 choke points | Invariant Labs guardrails (optional) |
-| **Known CVEs** | 0 | CVE-2026-25253 (CVSS 8.8) + multiple others |
+| **Prompt injection defense** | Unicode sanitization at 56 choke points | Invariant Labs guardrails (optional) |
+| **Known CVEs** | 0 | Critical RCE vulnerability (CVSS 8.8) + multiple others |
 | **Malicious skills** | N/A | 400+ malicious ClawHub skills discovered |
-| **Creator status** | Active | Peter Steinberger joined OpenAI (Feb 14, 2026) |
+| **Creator status** | Active | Original creator departed (early 2026) |
 | **License** | BSL 1.1 | MIT (core) |
 
 ## Choose OpenClaw if...
@@ -72,7 +72,7 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 
 **You need per-agent budget enforcement.** OpenClaw has no built-in cost controls. Agents with broad LLM access can iterate in loops burning API budgets. OpenLegion enforces per-agent daily and monthly limits with automatic hard cutoff.
 
-**CVE-2026-25253 concerns you.** This CVSS 8.8 vulnerability enabled one-click remote code execution via malicious links. Combined with Docker socket mounting, a compromised OpenClaw instance gives an attacker effective root access. OpenLegion's zero-trust architecture — where agents are explicitly untrusted workloads — mitigates this class of attack by design.
+**Remote code execution vulnerabilities concern you.** OpenClaw has disclosed critical vulnerabilities including a CVSS 8.8 one-click remote code execution flaw via malicious links. Combined with Docker socket mounting, a compromised OpenClaw instance gives an attacker effective root access. OpenLegion's zero-trust architecture — where agents are explicitly untrusted workloads — mitigates this class of attack by design.
 
 ## Security Model Comparison
 
@@ -92,7 +92,7 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 
 **OpenClaw** has a significant CVE history:
 
-- **CVE-2026-25253 (CVSS 8.8):** One-click remote code execution via malicious link. Disclosed January 2026.
+- **Critical RCE (CVSS 8.8):** One-click remote code execution via malicious link. Disclosed early 2026.
 - **400+ malicious ClawHub skills** discovered by security researchers.
 - Additional vulnerabilities in SDK, guardrails bypass, and session management.
 
@@ -118,9 +118,9 @@ ClawHub hosts thousands of community-contributed agent skills covering coding, a
 
 The Invariant Labs partnership provides runtime guardrails: user task validation, browser fill checks, prompt injection detection, and PII leak prevention. Testing showed full guardrails blocked 100 of 100 harmful tasks. This is meaningful — though it depends on consistent activation, which has been questioned (issue #9154).
 
-### The post-Steinberger transition
+### The post-founder transition
 
-Peter Steinberger's departure to OpenAI created uncertainty. The project is community-maintained with strong momentum, but the ecosystem fragmentation into ZeroClaw, NanoClaw, PicoClaw, nanobot, and OpenFang means OpenClaw's total community attention is now divided across six projects.
+The original creator's departure created uncertainty. The project is community-maintained with strong momentum, but the ecosystem fragmentation into ZeroClaw, NanoClaw, PicoClaw, nanobot, and OpenFang means OpenClaw's total community attention is now divided across six projects.
 
 ### Common production pitfalls
 
@@ -171,7 +171,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 
 ### What is OpenClaw?
 
-OpenClaw is a personal AI agent OS created by Peter Steinberger in November 2025. It is the fastest-growing open-source project in history with 248,000+ GitHub stars, supporting 20+ messaging channels and thousands of community skills. Steinberger joined OpenAI on February 14, 2026; the project is now community-maintained.
+OpenClaw is a personal AI agent OS launched in November 2025. It is the fastest-growing open-source project in history with 248,000+ GitHub stars, supporting 20+ messaging channels and thousands of community skills. The original creator departed in early 2026; the project is now community-maintained.
 
 ### OpenLegion vs OpenClaw: what's the difference?
 
@@ -189,13 +189,13 @@ OpenClaw's Secret Registry uses `SecretStr` masking to prevent logging, but secr
 
 For personal use, OpenClaw offers unmatched capability and community. For production deployments where security incidents have consequences, OpenLegion provides stronger guarantees: no Docker socket, vault proxy, per-agent budgets, and deterministic workflows.
 
-### What is CVE-2026-25253?
+### What are OpenClaw's known security vulnerabilities?
 
-CVE-2026-25253 (CVSS 8.8) is a critical OpenClaw vulnerability enabling one-click remote code execution via malicious links. Combined with Docker socket mounting, exploitation gives attackers effective root access on the host.
+OpenClaw has disclosed a critical CVSS 8.8 vulnerability enabling one-click remote code execution via malicious links. Combined with Docker socket mounting, exploitation gives attackers effective root access on the host. Additional vulnerabilities include 400+ malicious ClawHub skills and issues in SDK, guardrails bypass, and session management.
 
 ### What happened to OpenClaw's creator?
 
-Peter Steinberger joined OpenAI on February 14, 2026. OpenClaw is community-maintained. The departure triggered ecosystem fragmentation into ZeroClaw, NanoClaw, nanobot, PicoClaw, and OpenFang.
+OpenClaw's original creator departed the project in early 2026. OpenClaw is now community-maintained. The departure triggered ecosystem fragmentation into ZeroClaw, NanoClaw, nanobot, PicoClaw, and OpenFang.
 
 ### Can I self-host OpenLegion like OpenClaw?
 
