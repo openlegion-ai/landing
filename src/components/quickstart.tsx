@@ -43,17 +43,17 @@ export async function Quickstart() {
               <span className="mb-4 inline-flex w-fit items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1 text-xs font-medium text-accent-light">
                 Easiest — no setup required
               </span>
-              <h3 className="mb-4 text-lg font-semibold text-foreground">
+              <h3 className="mb-4 text-lg font-semibold text-foreground md:text-xl">
                 No terminal. No config files.
               </h3>
-              <ol className="mb-6 flex-1 list-decimal space-y-2 pl-5 text-sm text-muted marker:font-medium marker:text-foreground/80">
-                <li>Sign up at app.openlegion.ai</li>
-                <li>Pick a team template</li>
-                <li>Add your LLM API key</li>
-                <li>Agents are live.</li>
+              <ol className="mb-6 flex-1 list-decimal space-y-3 pl-5 text-sm text-muted md:space-y-4 md:text-base marker:font-medium marker:text-foreground/80">
+                <li>Create your account</li>
+                <li>Select a plan</li>
+                <li>Configure your agents</li>
+                <li>Run your fleet</li>
               </ol>
-              <p className="mb-6 text-sm text-muted">
-                That&apos;s it. We manage the containers, credentials, and infrastructure.
+              <p className="mb-6 text-sm text-muted md:text-base">
+                We handle the containers, credentials, and infrastructure.
               </p>
               <a
                 href={APP_URL}
