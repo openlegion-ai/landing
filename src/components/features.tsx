@@ -51,12 +51,14 @@ export function Features() {
           return (
             <StaggerItem key={outcome.title}>
               <div className="card-hover gradient-border glass-shine group flex h-full flex-col rounded-xl border border-border/50 glass-card p-6">
-                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07] transition group-hover:border-accent/30 group-hover:scale-110">
-                  <Icon className="h-[18px] w-[18px] text-accent-light" />
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07] transition group-hover:border-accent/30 group-hover:scale-110">
+                    <Icon className="h-[18px] w-[18px] text-accent-light" />
+                  </div>
+                  <h3 className="text-[15px] font-medium leading-snug text-foreground">
+                    {outcome.title}
+                  </h3>
                 </div>
-                <h3 className="mb-2 text-[15px] font-medium leading-snug text-foreground">
-                  {outcome.title}
-                </h3>
                 <p className="mb-4 flex-1 text-[13px] leading-relaxed text-muted">
                   {outcome.description}
                 </p>

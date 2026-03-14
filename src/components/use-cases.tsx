@@ -135,15 +135,15 @@ export function UseCases() {
           return (
             <StaggerItem key={uc.name}>
               <div id={uc.id} className="card-hover glass-shine gradient-border group flex h-full flex-col rounded-xl border border-border/50 glass-card p-5 scroll-mt-24">
-                {/* Icon */}
-                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07] transition group-hover:border-accent/30 group-hover:scale-110 group-hover:bg-accent/10">
-                  <Icon className="h-4 w-4 text-accent-light" />
+                {/* Icon + Title */}
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07] transition group-hover:border-accent/30 group-hover:scale-110 group-hover:bg-accent/10">
+                    <Icon className="h-4 w-4 text-accent-light" />
+                  </div>
+                  <h3 className="text-[15px] font-semibold leading-snug text-foreground">
+                    {uc.name}
+                  </h3>
                 </div>
-
-                {/* Title */}
-                <h3 className="mb-3 text-[15px] font-semibold leading-snug text-foreground">
-                  {uc.name}
-                </h3>
 
                 {/* Agent pills */}
                 <div className="mb-4 flex flex-wrap gap-1.5">
