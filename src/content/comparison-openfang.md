@@ -20,7 +20,7 @@ OpenFang burst onto the scene on February 24, 2026 and hit 9,300 GitHub stars in
 
 OpenLegion is a security-first [AI agent platform](/ai-agent-platform) built around container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
 
-Both projects prioritize security. Both use Rust-grade isolation primitives. But the philosophies diverge sharply: OpenFang maximizes feature surface (137,000 lines of Rust, 14 crates, 53 tools, 40 channels); OpenLegion minimizes attack surface (~26,000 lines, auditable in hours). This page breaks down the real trade-offs.
+Both projects prioritize security. Both use Rust-grade isolation primitives. But the philosophies diverge sharply: OpenFang maximizes feature surface (137,000 lines of Rust, 14 crates, 53 tools, 40 channels); OpenLegion minimizes attack surface (~30,000 lines, auditable in hours). This page breaks down the real trade-offs.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -33,7 +33,7 @@ Both projects prioritize security. Both use Rust-grade isolation primitives. But
 |---|---|---|
 | **Primary focus** | Minimal, auditable security | Feature-complete Agent OS |
 | **Language** | Python | Rust |
-| **Codebase** | ~26,000 lines | 137,000 lines (14 crates) |
+| **Codebase** | ~30,000 lines | 137,000 lines (14 crates) |
 | **Binary size** | Python + Docker | ~32MB single binary |
 | **Cold start** | Standard Docker (~2-5s) | 180ms (claimed) |
 | **Agent isolation** | Docker container per agent, non-root | WASM dual-metered sandbox |
@@ -66,7 +66,7 @@ Both projects prioritize security. Both use Rust-grade isolation primitives. But
 
 ## Choose OpenLegion if...
 
-**Auditability matters more than feature count.** OpenLegion's ~26,000-line codebase can be read end-to-end by a single engineer. OpenFang's 137,000 lines of Rust across 14 crates is ambitious — but an independent analyst noted this "raises sustainability questions" for a v0.3 project.
+**Auditability matters more than feature count.** OpenLegion's ~30,000-line codebase can be read end-to-end by a single engineer. OpenFang's 137,000 lines of Rust across 14 crates is ambitious — but an independent analyst noted this "raises sustainability questions" for a v0.3 project.
 
 **You need credential isolation, not just encryption.** Both frameworks encrypt secrets at rest. The architectural difference: OpenFang's AES-256-GCM vault stores encrypted keys that the agent runtime decrypts into memory (with zeroization after use). OpenLegion's vault proxy means agents make API calls through a proxy — they never hold decrypted keys in their process memory at any point. If an agent is compromised, there are no keys to extract.
 
@@ -118,7 +118,7 @@ The 1,767+ test count and zero clippy warnings suggest engineering discipline.
 
 **Missing budget controls.** For a system designed for 24/7 autonomous agent operation, the absence of documented per-agent spending limits creates real production risk. An uncontrolled Hand making API calls on a schedule can burn through budgets without alerting anyone.
 
-**Unverified security claims.** 16 security layers is a marketing-friendly number, but none have been independently audited. The project has no SOC 2, ISO 27001, or third-party penetration test results. Neither does OpenLegion — but OpenLegion's ~26,000-line codebase is practical to audit manually.
+**Unverified security claims.** 16 security layers is a marketing-friendly number, but none have been independently audited. The project has no SOC 2, ISO 27001, or third-party penetration test results. Neither does OpenLegion — but OpenLegion's ~30,000-line codebase is practical to audit manually.
 
 ### What OpenLegion covers differently
 

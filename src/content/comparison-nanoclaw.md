@@ -33,7 +33,7 @@ NanoClaw and OpenLegion are the two frameworks in this space that *both* use OS-
 |---|---|---|
 | **Primary focus** | Production security infrastructure | Radical minimalism + container isolation |
 | **Language** | Python | TypeScript (~500 lines core) |
-| **Total codebase** | ~26,000 lines | ~3,900 lines (~15 files) |
+| **Total codebase** | ~30,000 lines | ~3,900 lines (~15 files) |
 | **Agent isolation** | Docker container per agent | Linux container per agent (Apple Container/Docker) |
 | **Credential security** | Vault proxy — agents never see keys | Stdin JSON injection; blocklists for sensitive files |
 | **Budget controls** | Per-agent daily/monthly hard cutoff | None built-in |

@@ -23,6 +23,7 @@ OpenLegion is a managed AI agent platform that provides container isolation, bli
 - Multi-agent orchestration with project-level organization
 - Web dashboard to deploy, configure, and chat with agents
 - Deterministic YAML DAG workflows for task routing
+- Cron-scheduled heartbeat system for autonomous agent loops
 - 100+ LLM providers via LiteLLM
 - Multi-channel deployment: Telegram, Discord, Slack, WhatsApp, CLI, API
 - Persistent Camoufox (stealth Firefox) + KasmVNC browser automation
