@@ -41,9 +41,9 @@ export function SocialProof() {
       <div className="absolute inset-0 bg-accent/[0.015]" aria-hidden="true" />
       <div className="relative mx-auto max-w-5xl">
         <AnimateIn>
-          <div className="flex flex-wrap justify-center gap-x-10 gap-y-8 sm:gap-x-14">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8">
             {STATS.map((stat) => (
-              <div key={stat.label} className="min-w-[100px] text-center">
+              <div key={stat.label} className="text-center">
                 <div className="mb-1 font-mono text-3xl font-bold text-foreground md:text-4xl">
                   {stat.target > 0 ? (
                     <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
@@ -51,22 +51,14 @@ export function SocialProof() {
                     <span>{stat.fallback}</span>
                   )}
                 </div>
-                <div className="text-sm text-muted">{stat.label}</div>
+                <div className="text-[13px] text-muted">{stat.label}</div>
               </div>
             ))}
-            {stars && (
-              <div className="min-w-[100px] text-center">
-                <div className="mb-1 font-mono text-3xl font-bold text-foreground md:text-4xl">
-                  {stars}
-                </div>
-                <div className="text-sm text-muted">GitHub stars</div>
-              </div>
-            )}
           </div>
         </AnimateIn>
 
         <AnimateIn delay={0.1}>
-          <div className="mt-10 flex items-center justify-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <a
               href={DISCORD_URL}
               target="_blank"
@@ -85,7 +77,7 @@ export function SocialProof() {
               className="flex items-center gap-2 rounded-full border border-border/40 bg-card/30 px-4 py-2 text-[13px] font-medium text-muted transition-colors hover:border-accent/30 hover:text-foreground"
             >
               <Github className="h-3.5 w-3.5" aria-hidden="true" />
-              GitHub
+              {stars ? `GitHub ★ ${stars}` : "GitHub"}
             </a>
           </div>
         </AnimateIn>
