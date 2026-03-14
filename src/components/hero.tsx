@@ -161,8 +161,8 @@ export function Hero() {
 
       </div>
 
-      {/* Scroll cue at bottom of hero */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-muted/30 sm:bottom-10" aria-hidden="true">
+      {/* Scroll cue at bottom of hero — hidden on mobile to avoid overlap */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-muted/30 hidden sm:block" aria-hidden="true">
         <div className="scroll-mouse" />
       </div>
     </section>
