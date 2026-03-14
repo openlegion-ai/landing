@@ -55,10 +55,11 @@ export async function Quickstart() {
                 No terminal. No config files.
               </h3>
               <div className="mb-5 grid flex-1 grid-cols-2 gap-3">
-                {STEPS.map((step) => {
+                {STEPS.map((step, i) => {
                   const Icon = step.icon;
                   return (
-                    <div key={step.label} className="flex flex-col items-center justify-center gap-2 rounded-lg border border-border/30 bg-background/30 p-4 text-center">
+                    <div key={step.label} className="relative flex flex-col items-center justify-center gap-2 rounded-lg border border-border/30 bg-background/30 p-4 text-center">
+                      <span className="absolute top-2 left-2.5 font-mono text-[10px] font-medium text-muted/40">{i + 1}</span>
                       <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07]">
                         <Icon className="h-4 w-4 text-accent-light" />
                       </div>
