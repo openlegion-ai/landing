@@ -11,45 +11,55 @@ interface Agent {
   role: string;
   model: string;
   avatar: number;
+  colorIndex: number;
   state: string;
   health: string;
   cost: number;
   tokens: number;
 }
 
+const AGENT_COLORS = [
+  { gradient: "from-indigo-600 to-indigo-400", stripe: "bg-indigo-500" },
+  { gradient: "from-cyan-600 to-cyan-400", stripe: "bg-cyan-500" },
+  { gradient: "from-emerald-600 to-emerald-400", stripe: "bg-emerald-500" },
+  { gradient: "from-amber-600 to-amber-400", stripe: "bg-amber-500" },
+  { gradient: "from-rose-600 to-rose-400", stripe: "bg-rose-500" },
+  { gradient: "from-violet-600 to-violet-400", stripe: "bg-violet-500" },
+];
+
 const INITIAL_AGENTS: Agent[] = [
-  { id: "researcher", role: "Lead Researcher", model: "claude-sonnet-4-6", avatar: 3, state: "streaming", health: "healthy", cost: 1.24, tokens: 18420 },
-  { id: "engineer", role: "Code Engineer", model: "claude-sonnet-4-6", avatar: 7, state: "thinking", health: "healthy", cost: 3.87, tokens: 42100 },
-  { id: "reviewer", role: "PR Reviewer", model: "gpt-4o", avatar: 12, state: "idle", health: "healthy", cost: 0.56, tokens: 8930 },
-  { id: "writer", role: "Content Writer", model: "claude-haiku-4-5", avatar: 21, state: "tool", health: "healthy", cost: 0.18, tokens: 12450 },
-  { id: "qualifier", role: "Lead Qualifier", model: "gemini-2.0-flash", avatar: 15, state: "idle", health: "unhealthy", cost: 0.42, tokens: 5200 },
-  { id: "outreach", role: "Sales Outreach", model: "claude-sonnet-4-6", avatar: 28, state: "streaming", health: "healthy", cost: 2.15, tokens: 31840 },
+  { id: "researcher", role: "Lead Researcher", model: "claude-sonnet-4-6", avatar: 3, colorIndex: 0, state: "streaming", health: "healthy", cost: 1.24, tokens: 18420 },
+  { id: "engineer", role: "Code Engineer", model: "claude-sonnet-4-6", avatar: 7, colorIndex: 1, state: "thinking", health: "healthy", cost: 3.87, tokens: 42100 },
+  { id: "reviewer", role: "PR Reviewer", model: "gpt-4o", avatar: 12, colorIndex: 2, state: "idle", health: "healthy", cost: 0.56, tokens: 8930 },
+  { id: "writer", role: "Content Writer", model: "claude-haiku-4-5", avatar: 21, colorIndex: 3, state: "tool", health: "healthy", cost: 0.18, tokens: 12450 },
+  { id: "qualifier", role: "Lead Qualifier", model: "gemini-2.0-flash", avatar: 15, colorIndex: 4, state: "idle", health: "unhealthy", cost: 0.42, tokens: 5200 },
+  { id: "outreach", role: "Sales Outreach", model: "claude-sonnet-4-6", avatar: 28, colorIndex: 5, state: "streaming", health: "healthy", cost: 2.15, tokens: 31840 },
 ];
 
 const STATE_CYCLE = ["streaming", "thinking", "tool", "idle"] as const;
 
 const STATE_DOT: Record<string, string> = {
-  thinking: "bg-accent",
-  streaming: "bg-success",
+  thinking: "bg-purple-400",
+  streaming: "bg-green-400",
   tool: "bg-amber-400",
-  idle: "bg-muted/40",
+  idle: "bg-gray-600",
 };
 
 const STATE_LABEL: Record<string, string> = {
-  thinking: "text-accent-light",
-  streaming: "text-success",
+  thinking: "text-purple-400",
+  streaming: "text-green-400",
   tool: "text-amber-400",
   idle: "text-muted/60",
 };
 
-const HEALTH_STYLES: Record<string, string> = {
-  healthy: "bg-success/10 text-success border-success/20",
-  unhealthy: "bg-amber-400/10 text-amber-400 border-amber-400/20",
+const HEALTH_LABEL: Record<string, string> = {
+  healthy: "Online",
+  unhealthy: "Degraded",
 };
 
-const HEALTH_DOT: Record<string, string> = {
-  healthy: "bg-success",
-  unhealthy: "bg-amber-400",
+const HEALTH_STYLES: Record<string, string> = {
+  healthy: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  unhealthy: "bg-amber-400/10 text-amber-400 border-amber-400/20",
 };
 
 function randInt(min: number, max: number) {
@@ -62,7 +72,6 @@ export function DashboardPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Check prefers-reduced-motion
   const [reduceMotion, setReduceMotion] = useState(false);
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -72,7 +81,6 @@ export function DashboardPreview() {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Pause intervals when offscreen
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
@@ -84,7 +92,6 @@ export function DashboardPreview() {
     return () => observer.disconnect();
   }, []);
 
-  // State cycling — one agent advances per tick (every 3s)
   useEffect(() => {
     if (reduceMotion || !isVisible) return;
     const id = setInterval(() => {
@@ -102,7 +109,6 @@ export function DashboardPreview() {
     return () => clearInterval(id);
   }, [reduceMotion, isVisible]);
 
-  // Token/cost ticking for non-idle agents (every 1.5s)
   useEffect(() => {
     if (reduceMotion || !isVisible) return;
     const id = setInterval(() => {
@@ -125,7 +131,6 @@ export function DashboardPreview() {
     return () => clearInterval(id);
   }, [reduceMotion, isVisible]);
 
-  // Derived totals
   const totalCost = useMemo(() => agents.reduce((s, a) => s + a.cost, 0), [agents]);
   const totalTokens = useMemo(() => agents.reduce((s, a) => s + a.tokens, 0), [agents]);
   const healthyCount = useMemo(() => agents.filter((a) => a.health === "healthy").length, [agents]);
@@ -161,8 +166,8 @@ export function DashboardPreview() {
               <div className="h-3 w-3 rounded-full bg-[#28c840]" />
             </div>
             <div className="ml-3 flex items-center gap-2">
-              <div className="flex h-5 w-5 items-center justify-center rounded bg-accent/10">
-                <svg className="h-3 w-3 text-accent-light" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <div className="flex h-5 w-5 items-center justify-center rounded bg-indigo-500/10">
+                <svg className="h-3 w-3 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                   <rect x="3" y="3" width="7" height="7" />
                   <rect x="14" y="3" width="7" height="7" />
                   <rect x="3" y="14" width="7" height="7" />
@@ -172,8 +177,8 @@ export function DashboardPreview() {
               <span className="text-xs font-medium text-foreground/70">Fleet Overview</span>
             </div>
             <div className="ml-auto flex items-center gap-2">
-              <span className="flex items-center gap-1.5 text-[10px] text-success">
-                <span className="agent-pulse h-1.5 w-1.5 rounded-full bg-success" />
+              <span className="flex items-center gap-1.5 text-[10px] text-green-400">
+                <span className="agent-pulse h-1.5 w-1.5 rounded-full bg-green-400" />
                 Live
               </span>
             </div>
@@ -202,14 +207,14 @@ export function DashboardPreview() {
               <div className="hidden items-center gap-3 sm:flex sm:ml-auto">
                 {healthyCount > 0 && (
                   <span className="flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-success" />
-                    {healthyCount} healthy
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    {healthyCount} online
                   </span>
                 )}
                 {unhealthyCount > 0 && (
                   <span className="flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                    {unhealthyCount} unhealthy
+                    {unhealthyCount} degraded
                   </span>
                 )}
               </div>
@@ -225,26 +230,29 @@ export function DashboardPreview() {
               variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
               className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
             >
-              {agents.map((agent) => (
+              {agents.map((agent) => {
+                const color = AGENT_COLORS[agent.colorIndex];
+                const isActive = agent.state === "thinking" || agent.state === "streaming";
+                return (
                 <motion.div
                   key={agent.id}
                   variants={{
                     hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" as const } },
                   }}
-                  className={`group relative overflow-hidden rounded-xl border border-border/40 bg-gradient-to-b from-[#111118]/90 to-[#0e0f16]/70 p-4 transition-all hover:border-accent/25 hover:shadow-lg hover:shadow-accent/5 ${
-                    agent.state === "thinking" || agent.state === "streaming"
-                      ? "border-accent/20"
-                      : ""
+                  className={`group relative overflow-hidden rounded-xl border bg-gradient-to-b from-[#111118]/90 to-[#0e0f16]/70 p-4 transition-all hover:shadow-lg hover:shadow-black/20 ${
+                    isActive
+                      ? "border-indigo-500/25 hover:border-indigo-500/40"
+                      : "border-[#1e2030]/60 hover:border-[#2a2a3a]"
                   }`}
                 >
-                  {/* Top accent stripe */}
-                  <div className="absolute inset-x-0 top-0 h-0.5 bg-accent/30 opacity-60 transition-opacity group-hover:opacity-100" />
+                  {/* Top accent stripe — agent-colored */}
+                  <div className={`absolute inset-x-0 top-0 h-[2px] ${color.stripe} opacity-60 transition-opacity group-hover:opacity-100`} />
 
                   {/* Header: avatar + name + health */}
                   <div className="mb-3 flex items-start gap-3">
-                    {/* Avatar */}
-                    <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gradient-to-br from-accent/30 to-accent/10 p-0.5">
+                    {/* Avatar — agent-colored ring */}
+                    <div className={`relative h-10 w-10 shrink-0 overflow-hidden rounded-full bg-gradient-to-br ${color.gradient} p-0.5`}>
                       <Image
                         src={`/avatars/${agent.avatar}.svg`}
                         alt=""
@@ -255,19 +263,24 @@ export function DashboardPreview() {
                         aria-hidden="true"
                       />
                       <span
-                        className={`absolute -bottom-px -right-px h-2.5 w-2.5 rounded-full border-2 border-[#111118] ${STATE_DOT[agent.state]} ${agent.state !== "idle" ? "agent-pulse" : ""}`}
+                        className={`absolute -bottom-px -right-px h-2.5 w-2.5 rounded-full border-2 border-[#111118] ${STATE_DOT[agent.state]} ${isActive ? "agent-pulse" : ""}`}
                       />
                     </div>
 
                     {/* Name / role / model */}
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-foreground/90">
-                        {agent.id}
-                      </p>
-                      <p className="truncate text-[11px] text-muted/60">
+                      <div className="flex items-center gap-1.5">
+                        <p className="truncate text-sm font-semibold text-white group-hover:text-indigo-300 transition-colors">
+                          {agent.id}
+                        </p>
+                        <svg className="h-3 w-3 shrink-0 text-gray-600 group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                      <p className="truncate text-[11px] text-gray-500 mt-0.5">
                         {agent.role}
                       </p>
-                      <p className="truncate text-[10px] text-muted/40">
+                      <p className="truncate text-[10px] text-gray-600 mt-0.5">
                         {agent.model}
                       </p>
                     </div>
@@ -276,37 +289,36 @@ export function DashboardPreview() {
                     <span
                       className={`flex shrink-0 items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium ${HEALTH_STYLES[agent.health]}`}
                     >
-                      <span className={`h-1 w-1 rounded-full ${HEALTH_DOT[agent.health]}`} />
-                      {agent.health}
+                      {HEALTH_LABEL[agent.health]}
                     </span>
                   </div>
 
-                  {/* Stats */}
+                  {/* Stats with icons */}
                   <div className="space-y-0">
-                    <div className="flex items-center justify-between border-b border-border/20 py-1.5">
-                      <span className="text-[11px] text-muted/60">Activity</span>
+                    <div className="flex items-center justify-between border-b border-gray-800/30 py-1.5">
+                      <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><polyline points="22 12 18 12 15 21 9 3 6 12 2 12" /></svg>
+                        Activity
+                      </span>
                       <span className={`text-[11px] font-medium capitalize ${STATE_LABEL[agent.state]}`}>
                         {agent.state}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between border-b border-border/20 py-1.5">
-                      <span className="text-[11px] text-muted/60">Cost today</span>
+                    <div className="flex items-center justify-between py-1.5">
+                      <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
+                        Cost today
+                      </span>
                       <span className="font-mono text-[11px] text-foreground/70 tabular-nums">
                         ${agent.cost.toFixed(2)}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between py-1.5">
-                      <span className="text-[11px] text-muted/60">Tokens</span>
-                      <span className="font-mono text-[11px] text-foreground/70 tabular-nums">
-                        {agent.tokens.toLocaleString()}
                       </span>
                     </div>
                   </div>
 
                   {/* Actions */}
-                  <div className="mt-3 flex gap-1.5 border-t border-border/20 pt-3">
+                  <div className="mt-3 flex gap-1.5 border-t border-gray-800/30 pt-3">
                     <button
-                      className="flex flex-1 items-center justify-center gap-1 rounded-md border border-accent/20 bg-accent/10 px-2 py-1.5 text-[11px] font-medium text-accent-light transition-colors hover:bg-accent/20"
+                      className="flex flex-1 items-center justify-center gap-1 rounded-md border border-indigo-500/20 bg-indigo-500/10 px-2 py-1.5 text-[11px] font-medium text-indigo-300 transition-colors hover:bg-indigo-500/20"
                       tabIndex={-1}
                       aria-hidden="true"
                     >
@@ -316,19 +328,20 @@ export function DashboardPreview() {
                       Chat
                     </button>
                     <button
-                      className="flex items-center justify-center gap-1 rounded-md border border-border/30 px-2 py-1.5 text-[11px] text-muted/60 transition-colors hover:border-border/50 hover:text-muted"
+                      className="flex items-center justify-center gap-1 rounded-md border border-transparent px-2 py-1.5 text-[11px] text-gray-500 transition-colors hover:border-amber-500/20 hover:bg-amber-500/10 hover:text-amber-400"
                       tabIndex={-1}
                       aria-hidden="true"
                     >
                       <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M1 4v6h6" />
-                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+                        <rect x="6" y="4" width="4" height="16" />
+                        <rect x="14" y="4" width="4" height="16" />
                       </svg>
-                      Restart
+                      Pause
                     </button>
                   </div>
                 </motion.div>
-              ))}
+                );
+              })}
             </motion.div>
           </div>
         </div>
