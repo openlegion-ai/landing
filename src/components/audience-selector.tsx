@@ -23,7 +23,7 @@ export function AudienceSelector() {
         </div>
       </AnimateIn>
 
-      <StaggerContainer className="mx-auto grid max-w-4xl gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <StaggerContainer className="mx-auto grid max-w-4xl grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
         {CARDS.map((card) => {
           const Icon = card.icon;
           return (
@@ -33,12 +33,12 @@ export function AudienceSelector() {
                   const el = document.querySelector(card.scrollTo);
                   el?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="card-hover glass-shine gradient-border group flex h-full w-full cursor-pointer flex-col items-center rounded-xl border border-border/50 glass-card p-6 text-center transition-all hover:border-accent/30"
+                className="card-hover glass-shine gradient-border group flex h-full w-full cursor-pointer items-center gap-3 rounded-xl border border-border/50 glass-card p-4 text-left transition-all hover:border-accent/30 sm:flex-col sm:items-center sm:p-6 sm:text-center"
               >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07] transition group-hover:border-accent/30 group-hover:scale-110 group-hover:bg-accent/10">
-                  <Icon className="h-5 w-5 text-accent-light" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07] transition group-hover:border-accent/30 group-hover:scale-110 group-hover:bg-accent/10 sm:mb-4 sm:h-10 sm:w-10">
+                  <Icon className="h-4 w-4 text-accent-light sm:h-5 sm:w-5" />
                 </div>
-                <h3 className="text-sm font-semibold text-foreground">
+                <h3 className="text-[13px] font-semibold leading-snug text-foreground sm:text-sm">
                   {card.title}
                 </h3>
               </button>
