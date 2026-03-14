@@ -30,11 +30,11 @@ const AGENT_COLORS = [
 
 const INITIAL_AGENTS: Agent[] = [
   { id: "researcher", role: "Lead Researcher", model: "claude-sonnet-4-6", avatar: 3, colorIndex: 0, state: "streaming", health: "healthy", cost: 1.24, tokens: 18420, heartbeat: "every 5m" },
-  { id: "engineer", role: "Code Engineer", model: "claude-sonnet-4-6", avatar: 7, colorIndex: 1, state: "thinking", health: "healthy", cost: 3.87, tokens: 42100, heartbeat: "every 10m" },
-  { id: "reviewer", role: "PR Reviewer", model: "gpt-4o", avatar: 12, colorIndex: 2, state: "idle", health: "healthy", cost: 0.56, tokens: 8930, heartbeat: null },
+  { id: "engineer", role: "Code Engineer", model: "gpt-4o", avatar: 7, colorIndex: 1, state: "thinking", health: "healthy", cost: 3.87, tokens: 42100, heartbeat: "every 10m" },
+  { id: "reviewer", role: "PR Reviewer", model: "gemini-2.5-pro", avatar: 12, colorIndex: 2, state: "idle", health: "healthy", cost: 0.56, tokens: 8930, heartbeat: "every 30m" },
   { id: "writer", role: "Content Writer", model: "claude-haiku-4-5", avatar: 21, colorIndex: 3, state: "tool", health: "healthy", cost: 0.18, tokens: 12450, heartbeat: "every 15m" },
-  { id: "qualifier", role: "Lead Qualifier", model: "gemini-2.0-flash", avatar: 15, colorIndex: 4, state: "idle", health: "unhealthy", cost: 0.42, tokens: 5200, heartbeat: null },
-  { id: "outreach", role: "Sales Outreach", model: "claude-sonnet-4-6", avatar: 28, colorIndex: 5, state: "streaming", health: "healthy", cost: 2.15, tokens: 31840, heartbeat: "every 5m" },
+  { id: "qualifier", role: "Lead Qualifier", model: "deepseek-v3", avatar: 15, colorIndex: 4, state: "idle", health: "unhealthy", cost: 0.42, tokens: 5200, heartbeat: "every 20m" },
+  { id: "outreach", role: "Sales Outreach", model: "mistral-large", avatar: 28, colorIndex: 5, state: "streaming", health: "healthy", cost: 2.15, tokens: 31840, heartbeat: "every 5m" },
 ];
 
 const STATE_CYCLE = ["streaming", "thinking", "tool", "idle"] as const;
@@ -305,17 +305,15 @@ export function DashboardPreview() {
                         {agent.state}
                       </span>
                     </div>
-                    {agent.heartbeat && (
-                      <div className="flex items-center justify-between border-b border-gray-800/30 py-1.5">
-                        <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
-                          <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24" stroke="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-                          Heartbeat
-                        </span>
-                        <span className="text-[11px] font-medium text-pink-400">
-                          {agent.heartbeat}
-                        </span>
-                      </div>
-                    )}
+                    <div className="flex items-center justify-between border-b border-gray-800/30 py-1.5">
+                      <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
+                        <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24" stroke="none"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+                        Heartbeat
+                      </span>
+                      <span className="text-[11px] font-medium text-pink-400">
+                        {agent.heartbeat}
+                      </span>
+                    </div>
                     <div className="flex items-center justify-between py-1.5">
                       <span className="flex items-center gap-1.5 text-[11px] text-gray-500">
                         <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg>
