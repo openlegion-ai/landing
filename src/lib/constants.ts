@@ -248,11 +248,11 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: "Features", href: "/#features" },
       { label: "Use Cases", href: "/#use-cases" },
-      { label: "Architecture", href: "/#architecture" },
+      { label: "Dashboard", href: "/#dashboard" },
       { label: "Security", href: "/#security" },
-      { label: "Enterprise", href: "/#enterprise" },
       { label: "Pricing", href: "/pricing" },
       { label: "Quick Start", href: "/#quickstart" },
+      { label: "FAQ", href: "/faq" },
     ],
   },
   {
@@ -271,6 +271,9 @@ export const FOOTER_COLUMNS = [
       { label: "All Comparisons", href: "/comparison" },
       { label: "OpenClaw Alternative", href: "/openclaw-alternative" },
       { label: "vs OpenClaw", href: "/comparison/openclaw" },
+      { label: "vs LangGraph", href: "/comparison/langgraph" },
+      { label: "vs CrewAI", href: "/comparison/crewai" },
+      { label: "vs AutoGen", href: "/comparison/autogen" },
     ],
   },
   {
