@@ -1,23 +1,8 @@
 import {
-  Shield,
-  DollarSign,
-  Brain,
   Workflow,
-  Terminal,
-  Globe,
-  Wrench,
   Code,
   TrendingUp,
   Pen,
-  LayoutDashboard,
-  Monitor,
-  Plug,
-  Building2,
-  FileSearch,
-  GitBranch,
-  KeyRound,
-  Wallet,
-  UserCog,
   type LucideIcon,
 } from "lucide-react";
 
@@ -41,106 +26,20 @@ export const TWITTER_URL = "https://x.com/openlegion";
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
 export const HERO = {
-  badge: "Security-First  ·  Production-Ready",
-  titleLine1: "The AI agent",
-  titleAccent: "framework & platform",
-  titleLine3: "built for production.",
+  badge: "Your AI workforce starts here",
   subtitle:
-    "Deploy agentic AI workflows with deterministic orchestration, container isolation, and per-agent budgets. Every agent gets its own permissions and secrets vault. No surprise bills. No leaked API keys. No vendor lock-in.",
-  stats: [
-    { value: 1826, label: "Tests Passing", suffix: "", prefix: "" },
-    { value: 100, label: "LLM Providers", suffix: "+", prefix: "" },
-    { value: 26, label: "Lines of Code", suffix: "k", prefix: "~" },
-  ],
-  ctaPrimary: "Get Started",
+    "Give each agent a job and a budget — they work 24/7 while your keys stay locked in a vault they never touch.",
+  subtitleSecond:
+    "Anything a human does, your agents do around the clock.",
+  pricingAnchor: "Starts at $19/month · Your API keys · 100+ LLM providers · No usage markup · No vendor lock-in",
+  ctaPrimary: "Deploy your first AI agent →",
   ctaSecondary: "Read the Docs",
 } as const;
-
-// ── Features ─────────────────────────────────────────────────────────────────
-
-export interface Feature {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  size: "large" | "medium" | "standard" | "wide";
-}
-
-export const FEATURES: Feature[] = [
-  {
-    icon: Shield,
-    title: "Six Security Layers, Zero Trust",
-    description:
-      "Every agent is assumed compromised from day one. Container isolation, hardening, credential vault proxy, per-agent ACLs, input validation, and Unicode sanitization — all on by default.",
-    size: "large",
-  },
-  {
-    icon: DollarSign,
-    title: "Per-Agent Cost Control",
-    description:
-      "Set daily and monthly budgets per agent. The vault tracks every token in real time and cuts off LLM calls before limits are exceeded.",
-    size: "medium",
-  },
-  {
-    icon: LayoutDashboard,
-    title: "Fleet Dashboard",
-    description:
-      "See every agent, every cost, every event in real time. Live streaming, cost charts, chat panels, request traces, and embedded browser viewer.",
-    size: "standard",
-  },
-  {
-    icon: Workflow,
-    title: "Deterministic Orchestration",
-    description:
-      "Define agent workflows in YAML with deterministic routing. No LLM deciding who does what — predictable, auditable execution every time.",
-    size: "standard",
-  },
-  {
-    icon: Monitor,
-    title: "Built-In Browser Automation",
-    description:
-      "Persistent Camoufox (stealth Firefox) browser with CDP control. Visual screenshots, accessibility snapshots, and CAPTCHA solving included.",
-    size: "standard",
-  },
-  {
-    icon: Brain,
-    title: "Persistent Agent Memory",
-    description:
-      "Agents remember across sessions with vector search, workspace files, and error learnings. Auto context management keeps token usage efficient.",
-    size: "standard",
-  },
-  {
-    icon: Plug,
-    title: "MCP-Compatible Extensibility",
-    description:
-      "Connect any MCP tool server — databases, filesystems, APIs — via config. Tools are auto-discovered and exposed to agents alongside 47 built-in skills.",
-    size: "standard",
-  },
-  {
-    icon: Wrench,
-    title: "Agents Build Their Own Tools",
-    description:
-      "Agents write and hot-reload Python skills at runtime. Install community skills from git repos or build a custom skill marketplace.",
-    size: "standard",
-  },
-  {
-    icon: Terminal,
-    title: "No External Services",
-    description:
-      "No Redis, no Kubernetes, no LangChain. Pure Python + SQLite + Docker. Clone, install, run — one machine, no external databases or services.",
-    size: "standard",
-  },
-  {
-    icon: Globe,
-    title: "Agents That Work While You Sleep",
-    description:
-      "Deploy via CLI, Telegram, Discord, Slack, or WhatsApp — plus webhook endpoints for external integrations. Trigger agents with cron or file watchers — fully autonomous operation.",
-    size: "wide",
-  },
-];
 
 // ── Use Cases (team templates) ───────────────────────────────────────────────
 
 export interface UseCase {
+  id: string;
   icon: LucideIcon;
   name: string;
   agents: string[];
@@ -149,25 +48,36 @@ export interface UseCase {
 
 export const USE_CASES: UseCase[] = [
   {
+    id: "uc-engineering",
     icon: Code,
-    name: "Dev Team",
+    name: "Your engineering team",
     agents: ["PM", "Engineer", "Reviewer"],
     description:
       "OpenLegion's Dev Team template automates task planning, code generation, and PR review. Ship features while your agent fleet handles the boilerplate.",
   },
   {
+    id: "uc-sales",
     icon: TrendingUp,
-    name: "Sales Pipeline",
+    name: "Your sales team",
     agents: ["Researcher", "Qualifier", "Outreach"],
     description:
       "OpenLegion's Sales Pipeline template runs lead research, scoring, and personalized outreach — 24/7 without human babysitting.",
   },
   {
+    id: "uc-content",
     icon: Pen,
-    name: "Content Studio",
+    name: "Your content team",
     agents: ["Researcher", "Writer", "Editor"],
     description:
       "OpenLegion's Content Studio template handles topic research, long-form drafts, and editorial review with consistent brand voice across every piece.",
+  },
+  {
+    id: "uc-custom",
+    icon: Workflow,
+    name: "Your custom team",
+    agents: ["Any Role", "Any Tool", "Any Budget"],
+    description:
+      "Don't see your use case? Define any combination of roles, tools, and budgets. Agents get their own containers, credentials, and spending limits — whatever the job requires.",
   },
 ];
 
@@ -178,13 +88,6 @@ export interface ComparisonRow {
   them: string;
   openlegion: string;
 }
-
-export const COMPARISON_ALERT = {
-  title: "Why teams switch from OpenClaw",
-  description:
-    "OpenClaw is the most popular agent framework (200K+ GitHub stars) — great for prototyping. In production, security researchers found thousands of exposed instances with no auth, hundreds of malicious skills stealing user data, and critical RCE vulnerabilities. No per-agent cost controls. API keys stored in agent config files.",
-  source: "Based on public security disclosures and community reports",
-};
 
 export const COMPARISON_ROWS: ComparisonRow[] = [
   {
@@ -210,12 +113,12 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     aspect: "Test Coverage",
     them: "Minimal",
-    openlegion: "1,826 tests across full E2E + unit",
+    openlegion: "2,100+ tests across unit + integration + E2E",
   },
   {
     aspect: "Codebase Size",
     them: "430,000+ lines",
-    openlegion: "~26,000 lines (auditable in a day)",
+    openlegion: "~30,000 lines (engine, auditable)",
   },
 ];
 
@@ -223,8 +126,8 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
 
 export const ARCHITECTURE = {
   title: "Three zones of protection",
-  subtitle:
-    "Nested isolation boundaries between your users, the coordinator, and untrusted agent code. Every layer enforced by default.",
+  summary:
+    "Your multi-agent fleet runs in three isolated zones — user, coordinator, and sandboxed containers. Nothing any agent touches can reach your API keys, other agents, or the host machine.",
   zones: [
     {
       name: "User Zone",
@@ -301,100 +204,39 @@ export interface SecurityLayer {
 export const SECURITY_LAYERS: SecurityLayer[] = [
   {
     number: 1,
-    title: "Runtime Isolation",
+    title: "Each agent runs in its own container",
     description:
       "Docker containers or Docker Sandbox microVMs per agent — no shared process space.",
   },
   {
     number: 2,
-    title: "Container Hardening",
+    title: "Agents can't escalate privileges or consume your resources",
     description:
       "Non-root user (UID 1000), no-new-privileges flag, memory and CPU resource limits enforced.",
   },
   {
     number: 3,
-    title: "Credential Separation",
+    title: "API keys live in a vault the agent never touches",
     description:
       "Vault proxy holds all API keys — agents call through the proxy, never see secrets.",
   },
   {
     number: 4,
-    title: "Permission Enforcement",
+    title: "Each agent only accesses what you explicitly allow",
     description:
       "Per-agent ACL matrix controls which tools, files, and mesh operations are allowed.",
   },
   {
     number: 5,
-    title: "Input Validation",
+    title: "Malicious inputs blocked before they reach the LLM",
     description:
       "Path traversal prevention, SSRF protection, safe condition evaluation, token budget enforcement.",
   },
   {
     number: 6,
-    title: "Unicode Sanitization",
+    title: "Hidden characters stripped before prompt injection hits",
     description:
       "Invisible character stripping at 56 choke points — bidi overrides, tag chars, zero-width chars blocked before reaching LLM context.",
-  },
-];
-
-// ── Enterprise ──────────────────────────────────────────────────────────────
-
-export interface EnterpriseFeature {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  size: "large" | "medium" | "standard";
-  tag: string;
-}
-
-export const ENTERPRISE_FEATURES: EnterpriseFeature[] = [
-  {
-    icon: Building2,
-    title: "On-Premises Deployment",
-    description:
-      "Run the entire stack on your own infrastructure. No data leaves your network — full air-gap support for regulated environments.",
-    size: "large",
-    tag: "deployment",
-  },
-  {
-    icon: FileSearch,
-    title: "Audit-Ready Codebase",
-    description:
-      "~26,000 lines of Python with 1,826+ tests. Small enough for a single security engineer to audit in a day — no hidden dependencies.",
-    size: "medium",
-    tag: "compliance",
-  },
-  {
-    icon: GitBranch,
-    title: "Deterministic Workflows",
-    description:
-      "YAML-defined task routing with no LLM decision-making in the control plane. Every execution path is predictable, repeatable, and auditable.",
-    size: "medium",
-    tag: "governance",
-  },
-  {
-    icon: KeyRound,
-    title: "Credential Isolation",
-    description:
-      "Vault proxy architecture ensures agents never see API keys or secrets. Designed to support SOC 2 credential separation requirements.",
-    size: "standard",
-    tag: "security",
-  },
-  {
-    icon: Wallet,
-    title: "Per-Agent Cost Governance",
-    description:
-      "Set daily and monthly budgets per agent with real-time tracking. No surprise bills — automatic cutoff before limits are exceeded.",
-    size: "standard",
-    tag: "governance",
-  },
-  {
-    icon: UserCog,
-    title: "Role-Based Access",
-    description:
-      "Per-agent ACL matrix controls which tools, files, and operations each agent can access. Enforce least-privilege across your entire fleet.",
-    size: "standard",
-    tag: "security",
   },
 ];
 
@@ -464,7 +306,23 @@ export interface FAQItem {
   answer: string;
 }
 
-export const FAQ_ITEMS: FAQItem[] = [
+// All FAQ items — used by JSON-LD schema (must keep all for AEO)
+export const ALL_FAQ_ITEMS: FAQItem[] = [
+  {
+    question: "Do I need to be a developer to use OpenLegion?",
+    answer:
+      "The managed hosting at app.openlegion.ai requires no coding — pick a template, add your LLM API key, and your agents are live in minutes. The self-hosted version requires Python 3.10+ and Docker. Either way, the built-in team templates (Dev Team, Sales Pipeline, Content Studio) work out of the box with no configuration needed.",
+  },
+  {
+    question: "Do I pay for LLM usage on top of the subscription?",
+    answer:
+      "Yes — you bring your own API keys from Anthropic, OpenAI, Google, or any of 100+ supported providers. You pay providers directly at their published rates. OpenLegion charges for the platform and infrastructure only. There is zero markup on model usage.",
+  },
+  {
+    question: "What kinds of tasks can OpenLegion agents actually automate?",
+    answer:
+      "Any task a human performs on a computer with a browser or terminal. Agents can browse and interact with any website, log into web applications, fill out forms, extract data from any page, send emails and messages, manage files and folders, write and execute code, process documents, post to social platforms, monitor pages for changes, and run custom automations — all 24/7 without supervision. Common deployments include sales outreach pipelines, competitive research, lead qualification, developer workflows, invoice processing, content production, and internal task automation.",
+  },
   {
     question: "What is OpenLegion?",
     answer:
@@ -493,7 +351,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     question: "Is OpenLegion enterprise-ready?",
     answer:
-      "Yes — OpenLegion is designed for enterprise deployment. It includes on-premises support (including air-gapped environments), deterministic YAML workflows, per-agent cost governance, role-based access controls, credential isolation via vault proxy, and an audit-ready codebase of ~26,000 lines with 1,826+ tests. All six security layers are enabled by default.",
+      "Yes — OpenLegion is designed for enterprise deployment. It includes on-premises support (including air-gapped environments), deterministic YAML workflows, per-agent cost governance, role-based access controls, credential isolation via vault proxy, and an audit-ready codebase of ~30,000 lines with 2,100+ tests. All security layers are enabled by default.",
   },
   {
     question: "Can OpenLegion run on-premises in air-gapped environments?",
@@ -521,3 +379,14 @@ export const FAQ_ITEMS: FAQItem[] = [
       "AI agent security addresses the unique threats autonomous agents introduce: credential leakage, prompt injection, resource abuse, and data exfiltration. OpenLegion's six-layer defense — runtime isolation, container hardening, credential separation, permission enforcement, input validation, and Unicode sanitization — mitigates each threat independently, so a breach in one layer does not compromise the others.",
   },
 ];
+
+// 5 visible FAQ items on homepage — the objection-killers
+export const FAQ_ITEMS: FAQItem[] = ALL_FAQ_ITEMS.filter((item) =>
+  [
+    "Do I need to be a developer to use OpenLegion?",
+    "What kinds of tasks can OpenLegion agents actually automate?",
+    "Do I pay for LLM usage on top of the subscription?",
+    "How does OpenLegion handle API key security?",
+    "Is OpenLegion enterprise-ready?",
+  ].includes(item.question)
+);
