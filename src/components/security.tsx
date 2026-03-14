@@ -17,7 +17,7 @@ export function Security() {
             <span className="gradient-text">misbehave</span>.
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
-            Four layers on by default. All six on the security page.
+            Six layers enabled by default. Four shown here.
           </p>
         </div>
       </AnimateIn>

@@ -47,7 +47,7 @@ export function Comparison() {
           <div className="overflow-x-auto rounded-[inherit]">
             <table className="w-full min-w-[480px] text-sm">
             <caption className="sr-only">
-              Feature comparison between OpenClaw and OpenLegion
+              Feature comparison between typical AI agent frameworks and OpenLegion
             </caption>
             <thead>
               <tr className="comparison-header border-b border-border/50">

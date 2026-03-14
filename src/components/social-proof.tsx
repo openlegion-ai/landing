@@ -26,7 +26,7 @@ export function SocialProof() {
 
   useEffect(() => {
     fetch("https://api.github.com/repos/openlegion-ai/openlegion")
-      .then((r) => r.json())
+      .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
       .then((data) => {
         const count = data.stargazers_count;
         if (typeof count === "number") {

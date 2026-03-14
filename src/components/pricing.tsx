@@ -102,8 +102,8 @@ const PRICING_FAQ = [
     a: "Your agent configurations and data remain accessible for 30 days after cancellation. You can export everything before your account closes.",
   },
   {
-    q: "Is self-hosting free?",
-    a: "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own machine at no cost. Managed hosting starts at $19/month for teams that don't want to manage infrastructure.",
+    q: "Can I self-host OpenLegion?",
+    a: "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under BSL 1.1. Managed hosting starts at $19/month for teams that don't want to manage infrastructure.",
   },
   {
     q: 'What counts as an "agent"?',
