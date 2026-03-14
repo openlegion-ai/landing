@@ -30,8 +30,7 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              The AI agent framework built for production.
-              Container-isolated, auditable, and cost-controlled.
+              The AI agent framework and platform built for production. Automate any computer task with secure, cost-controlled agent fleets.
             </p>
             <p className="mt-4 text-xs text-muted/70">
               BSL 1.1 License &copy; {new Date().getFullYear()} OpenLegion
@@ -40,7 +39,7 @@ export function Footer() {
           </AnimateIn>
 
           {/* Link columns */}
-          <StaggerContainer className="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:grid-cols-6 lg:gap-8">
+          <StaggerContainer className="grid grid-cols-2 gap-10 sm:grid-cols-3 xl:grid-cols-6 xl:gap-8">
             {FOOTER_COLUMNS.map((col) => (
               <StaggerItem key={col.title}>
                 <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-foreground/50">

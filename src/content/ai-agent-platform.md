@@ -34,6 +34,8 @@ An **AI agent platform** answers those questions before you write your first age
 - **Per-agent budget enforcement** — Set daily and monthly token limits with automatic hard cutoff. No surprise bills.
 - **BYO API keys** — Connect any LLM provider via LiteLLM (100+ supported). You pay providers directly at their published rates.
 - **Deterministic orchestration** — YAML-defined DAG workflows for task routing. No "CEO agent" making opaque decisions.
+- **MCP-compatible extensibility** — Connect any MCP tool server (databases, filesystems, APIs) alongside 50+ built-in skills. Auto-discovered by agents.
+- **Persistent agent memory** — Agents remember across sessions with vector search, workspace files, and error learnings. Context managed automatically.
 
 ## Managed vs Self-Hosted: When Each Makes Sense
 
@@ -98,9 +100,23 @@ You need request tracing and workflow observability, credential isolation that s
 | **Observability** | Integrate LangSmith, Datadog, or custom logging | Built-in dashboard with live streaming, cost charts, request traces |
 | **Multi-channel deployment** | Build integrations per channel | CLI, Telegram, Discord, Slack, WhatsApp — plus webhook endpoints for external integrations |
 | **Browser automation** | Configure Playwright/Puppeteer, manage Chrome instances | Shared Camoufox (stealth Firefox) browser service with KasmVNC, CDP control, auto-recovery |
+| **Tool extensibility** | Build custom integrations or use LangChain tools | MCP-compatible — connect any MCP server + 50+ built-in skills, auto-discovered |
+| **Agent memory** | Build custom RAG or state management | Persistent vector memory per agent with auto context management |
 | **Model failover** | Custom retry logic per provider | Configurable failover chains across providers via LiteLLM |
 
 The summary: if you're evaluating [AI agent frameworks](/ai-agent-frameworks) and find yourself building more infrastructure than agent logic, you're solving a platform problem with framework tools. OpenLegion handles the platform layer so you can focus on what your agents actually do.
+
+## MCP-Compatible Tool Extensibility
+
+OpenLegion supports the Model Context Protocol (MCP) for connecting external tools. Any MCP server — databases, filesystems, APIs, internal services — can be added via configuration and auto-discovered by agents. This sits alongside 50+ built-in skills covering browser automation, file operations, HTTP requests, web search, memory management, code execution, and mesh communication.
+
+MCP integration means agents aren't limited to built-in capabilities. Connect a Postgres server, a GitHub integration, or a custom internal API — agents discover available tools automatically and use them within their permission boundaries.
+
+## Persistent Agent Memory
+
+Agents in OpenLegion maintain memory across sessions using vector search, workspace files, and error learnings. When an agent encounters a problem and solves it, the solution is stored and recalled in future sessions — reducing repeated failures and improving execution quality over time.
+
+Memory is scoped per agent and stored in each agent's isolated SQLite + vector database within its container. Auto context management keeps token usage efficient by surfacing only relevant memories for the current task, rather than loading entire conversation histories.
 
 ## Architecture: The Three-Zone Trust Model
 

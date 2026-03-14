@@ -1,9 +1,8 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { ChevronRight, BookOpen } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { Counter } from "@/components/ui/counter";
 import { HERO, APP_URL, DOCS_URL } from "@/lib/constants";
 
 const PARTICLES = [
@@ -79,27 +78,27 @@ export function Hero() {
             </AnimateIn>
 
             <AnimateIn delay={0.06} scale>
-              <h1 className="mb-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[3rem] xl:text-[3.25rem]">
-                {HERO.titleLine1}
+              <h1 className="mb-2 text-[2rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[3rem] xl:text-[3.25rem]">
+                Your <span className="gradient-text-animated">AI workforce</span>.
                 <br />
-                {HERO.titleAccent}
-                <br />
-                <span className="gradient-text-animated">{HERO.titleLine3}</span>
+                Deployed in minutes.
               </h1>
+              <p className="mb-5 text-base font-medium tracking-tight text-muted/60 sm:text-lg md:text-xl">
+                The AI agent framework and platform built for production.
+              </p>
             </AnimateIn>
 
-            <AnimateIn delay={0.12}>
-              <p className="mx-auto mb-4 max-w-2xl text-lg leading-relaxed text-muted lg:mx-0">
+            <AnimateIn delay={0.1}>
+              <p className="mx-auto mb-3 max-w-2xl text-lg leading-relaxed text-muted lg:mx-0">
                 {HERO.subtitle}
               </p>
-              <p className="definition-block mx-auto mb-8 max-w-2xl text-sm leading-relaxed text-muted/60 lg:mx-0">
-                <strong className="sr-only">What is OpenLegion? </strong>
-                OpenLegion is a production-grade AI agent platform with container isolation, blind credential injection, per-agent budgets, and deterministic YAML orchestration — designed for teams that need secure, cost-controlled agent fleets in production.
+              <p className="mx-auto mb-6 max-w-2xl text-base leading-relaxed text-muted/80 lg:mx-0">
+                {HERO.subtitleSecond}
               </p>
             </AnimateIn>
 
-            <AnimateIn delay={0.18}>
-              <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+            <AnimateIn delay={0.14}>
+              <div id="hero-cta" className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
                 <a
                   href={APP_URL}
                   target="_blank"
@@ -107,7 +106,6 @@ export function Hero() {
                   className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
                 >
                   {HERO.ctaPrimary}
-                  <ChevronRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" aria-hidden="true" />
                 </a>
                 <a
                   href={DOCS_URL}
@@ -119,13 +117,16 @@ export function Hero() {
                   {HERO.ctaSecondary}
                 </a>
               </div>
+              <p className="mt-4 text-center text-[13px] text-muted lg:text-left">
+                {HERO.pricingAnchor}
+              </p>
             </AnimateIn>
           </div>
 
           {/* Right: video demo */}
-          <AnimateIn delay={0.2}>
+          <AnimateIn delay={0.18}>
             <div className="mx-auto max-w-lg lg:max-w-none">
-              <div className="terminal">
+              <div className="terminal terminal-hero">
                 <div className="terminal-header">
                   <div className="terminal-dot bg-[#ff5f57]" />
                   <div className="terminal-dot bg-[#febc2e]" />
@@ -138,49 +139,31 @@ export function Hero() {
                   ref={videoRef}
                   src="/demo.mp4"
                   poster="/demo-poster.jpg"
+                  title="OpenLegion demo — deploying an AI agent fleet"
                   width={1920}
                   height={1080}
                   muted
                   loop
                   playsInline
                   controls
-                  preload="metadata"
+                  preload="none"
                   className="w-full"
                 >
                   <p>Your browser does not support HTML5 video.</p>
                 </video>
               </div>
+              <p className="mt-3 text-center text-sm italic text-muted/50">
+                Your team is spending hours on work that AI agents could finish while they sleep.
+              </p>
             </div>
           </AnimateIn>
         </div>
 
-        {/* Decorative divider above stats */}
-        <AnimateIn delay={0.28}>
-          <div className="mx-auto mt-10 mb-0 h-px w-2/3 bg-gradient-to-r from-transparent via-accent/25 to-transparent sm:mt-16 lg:mt-20" aria-hidden="true" />
-        </AnimateIn>
+      </div>
 
-        {/* Stats */}
-        <AnimateIn delay={0.32}>
-          <div className="mx-auto mt-8 grid max-w-3xl grid-cols-3 gap-4 sm:gap-8 lg:max-w-none">
-            {HERO.stats.map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div
-                  className="mb-1 font-mono text-2xl font-bold text-foreground sm:text-3xl md:text-4xl"
-                  aria-label={`${stat.prefix}${stat.value}${stat.suffix} ${stat.label}`}
-                >
-                  <Counter
-                    target={stat.value}
-                    suffix={stat.suffix}
-                    prefix={stat.prefix}
-                  />
-                </div>
-                <div className="text-xs text-muted sm:text-sm">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </AnimateIn>
+      {/* Scroll cue at bottom of hero */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-muted/30 sm:bottom-10" aria-hidden="true">
+        <div className="scroll-mouse" />
       </div>
     </section>
   );

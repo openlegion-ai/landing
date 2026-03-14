@@ -8,8 +8,8 @@
 - License: BSL 1.1 (source-available)
 - Language: Python
 - Requirements: Python 3.10+, Docker
-- Pricing: From $19/month (hosted) or free (self-hosted)
-- First Release: 2025
+- Pricing: From $19/month (hosted); self-hosted available under BSL 1.1
+- First Release: February 2026
 - Codebase: ~30,000 lines of Python with 2,100+ tests
 - LLM Support: 100+ providers via LiteLLM (OpenAI, Anthropic, Google, Mistral, and more)
 

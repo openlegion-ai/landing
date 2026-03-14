@@ -20,6 +20,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "Meta-ExternalAgent", allow: "/" },
       { userAgent: "Diffbot", allow: "/" },
     ],
-    sitemap: "https://openlegion.ai/sitemap.xml",
+    sitemap: "https://www.openlegion.ai/sitemap.xml",
   };
 }

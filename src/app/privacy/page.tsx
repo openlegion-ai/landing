@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "Privacy Policy for OpenLegion AI agent platform. Learn how we collect, use, and protect your data across managed hosting and the openlegion.ai website.",
-  alternates: { canonical: "https://openlegion.ai/privacy" },
+  alternates: { canonical: "https://www.openlegion.ai/privacy" },
   robots: { index: true, follow: true },
 };
 

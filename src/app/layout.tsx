@@ -14,12 +14,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const defaultTitle = "OpenLegion — AI Agent Framework & Platform";
+const defaultTitle = "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control";
 const description =
-  "OpenLegion: AI agent framework with container isolation, blind credential injection, per-agent budgets, and deterministic orchestration. 100+ LLM providers.";
+  "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. Starts at $19/month. No surprise bills.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://openlegion.ai"),
+  metadataBase: new URL("https://www.openlegion.ai"),
   title: {
     default: defaultTitle,
     template: "%s | OpenLegion",
@@ -70,24 +70,24 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   alternates: {
-    canonical: "https://openlegion.ai",
+    canonical: "https://www.openlegion.ai",
   },
   openGraph: {
-    title: "OpenLegion — AI Agent Framework & Platform for Production",
+    title: "OpenLegion — AI Agent Framework & Platform",
     description:
-      "Agentic AI framework with container isolation, per-agent cost control, and six security layers. AI agent orchestration, deployment, and governance — self-hosted, audit-ready.",
+      "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. Starts at $19/month.",
     type: "website",
     siteName: "OpenLegion",
-    url: "https://openlegion.ai",
+    url: "https://www.openlegion.ai",
     locale: "en_US",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "OpenLegion — The AI agent framework built for production." }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "OpenLegion — AI Agent Framework & Platform" }],
   },
   twitter: {
     card: "summary_large_image",
     site: "@openlegion",
-    title: "OpenLegion — AI Agent Framework & Platform for Production",
+    title: "OpenLegion — AI Agent Framework & Platform",
     description:
-      "Agentic AI framework with container isolation, per-agent cost control, and six security layers. AI agent orchestration, deployment, and governance — self-hosted, audit-ready.",
+      "Deploy AI agents that automate anything a human can do on a computer. Starts at $19/month.",
     images: ["/og.png"],
   },
   other: {
@@ -111,10 +111,10 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "OpenLegion",
-    url: "https://openlegion.ai",
+    url: "https://www.openlegion.ai",
     logo: {
       "@type": "ImageObject",
-      url: "https://openlegion.ai/logo.png",
+      url: "https://www.openlegion.ai/logo.png",
       width: 512,
       height: 512,
     },
@@ -127,7 +127,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "OpenLegion",
-    url: "https://openlegion.ai",
+    url: "https://www.openlegion.ai",
     potentialAction: {
       "@type": "SearchAction",
       target: "https://docs.openlegion.ai/search?q={search_term_string}",
@@ -150,9 +150,11 @@ export default function RootLayout({
           href="/llms-full.txt"
           title="LLM-friendly full reference"
         />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
+        <link rel="dns-prefetch" href="https://api.github.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }}

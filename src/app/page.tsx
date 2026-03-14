@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { AudienceSelector } from "@/components/audience-selector";
@@ -18,10 +17,8 @@ import { TechnicalDefinition } from "@/components/technical-definition";
 import { Footer } from "@/components/footer";
 import { ALL_FAQ_ITEMS, GITHUB_URL, APP_URL } from "@/lib/constants";
 
-export const metadata: Metadata = {
-  description:
-    "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. Starts at $19/month. No surprise bills.",
-};
+// Homepage inherits title + description from root layout metadata.
+// Page-level JSON-LD schemas are defined inline below.
 
 export default async function Home() {
 
@@ -38,7 +35,7 @@ export default async function Home() {
     operatingSystem: "Linux, macOS, Windows",
     description: "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — each in its own isolated Docker container with per-agent budgets, vault-proxied credentials, and six security layers enabled by default.",
     url: "https://www.openlegion.ai",
-    downloadUrl: APP_URL,
+    downloadUrl: GITHUB_URL,
     softwareVersion: "0.1.0",
     programmingLanguage: "Python",
     license: `${GITHUB_URL}/blob/main/LICENSE`,
@@ -239,22 +236,22 @@ export default async function Home() {
           <cite className="text-[13px] text-muted not-italic">— First name, Role</cite>
         </section> */}
         <Features />
-        <div className="px-5 py-8 text-center text-sm text-muted sm:px-6 md:px-8 md:py-10">
-          <div className="mx-auto mb-5 h-px w-1/3 bg-gradient-to-r from-transparent via-accent/20 to-transparent" aria-hidden="true" />
-          Ready to put your first agent to work?{" "}
-          <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-accent-light hover:underline">
-            Deploy free in minutes →
+        <div className="px-5 py-10 text-center sm:px-6 md:px-8 md:py-14">
+          <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
+          <p className="mb-3 text-sm text-muted">Ready to put your first agent to work?</p>
+          <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
+            Deploy in minutes →
           </a>
-          <div className="mx-auto mt-5 h-px w-1/3 bg-gradient-to-r from-transparent via-accent/20 to-transparent" aria-hidden="true" />
+          <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>
         <DashboardPreview />
-        <div className="px-5 py-8 text-center text-sm text-muted sm:px-6 md:px-8 md:py-10">
-          <div className="mx-auto mb-5 h-px w-1/3 bg-gradient-to-r from-transparent via-accent/20 to-transparent" aria-hidden="true" />
-          This is your fleet, live.{" "}
-          <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="font-medium text-accent-light hover:underline">
-            Start your free deployment →
+        <div className="px-5 py-10 text-center sm:px-6 md:px-8 md:py-14">
+          <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
+          <p className="mb-3 text-sm text-muted">This is your fleet, live.</p>
+          <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
+            Start your deployment →
           </a>
-          <div className="mx-auto mt-5 h-px w-1/3 bg-gradient-to-r from-transparent via-accent/20 to-transparent" aria-hidden="true" />
+          <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>
         <Quickstart />
         <Security />

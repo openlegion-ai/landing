@@ -38,25 +38,23 @@ export function Architecture() {
   return (
     <SectionWrapper id="architecture" fade={false}>
       <AnimateIn>
-        <div className="mb-16 text-center">
+        <div className="mb-10 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
-            Architecture
+            Under the hood
           </p>
-          <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
             {ARCHITECTURE.title}
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted">
-            {ARCHITECTURE.subtitle}
+          <p className="mx-auto max-w-[520px] text-[15px] leading-relaxed text-muted">
+            {ARCHITECTURE.summary}
           </p>
         </div>
       </AnimateIn>
 
       <StaggerContainer>
-        {/* Outer zone */}
         <StaggerItem>
           <div className={`glass-shine relative overflow-hidden rounded-2xl border ${ZONE_CONFIG[0].borderColor} ${ZONE_CONFIG[0].bgClass} p-5 backdrop-blur-sm md:p-8`}>
             <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-accent/[0.04] blur-3xl" aria-hidden="true" />
-
             <div className="relative mb-4 flex items-center gap-3">
               <div className={`h-3 w-3 rounded-full ${ZONE_CONFIG[0].dotColor} ring-4 ${ZONE_CONFIG[0].ringColor}`} />
               <div>
@@ -72,7 +70,6 @@ export function Architecture() {
               ))}
             </div>
 
-            {/* Middle zone */}
             <StaggerItem>
               <div className={`glass-shine relative rounded-xl border ${ZONE_CONFIG[1].borderColor} ${ZONE_CONFIG[1].bgClass} p-5 backdrop-blur-sm md:p-6`}>
                 <div className="mb-4 flex items-center gap-3">
@@ -90,7 +87,6 @@ export function Architecture() {
                   ))}
                 </div>
 
-                {/* Inner zone */}
                 <StaggerItem>
                   <div className={`glass-shine rounded-lg border ${ZONE_CONFIG[2].borderColor} ${ZONE_CONFIG[2].bgClass} p-5 backdrop-blur-sm md:p-6`}>
                     <div className="mb-4 flex items-center gap-3">
@@ -128,7 +124,7 @@ export function Architecture() {
       <AnimateIn delay={0.2}>
         <p className="mt-8 text-center text-sm text-muted">
           <Link href="/ai-agent-orchestration" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
-            Learn more about AI agent orchestration
+            Learn more about AI agent orchestration →
           </Link>
         </p>
       </AnimateIn>

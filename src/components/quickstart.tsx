@@ -1,6 +1,6 @@
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { QUICKSTART } from "@/lib/constants";
+import { QUICKSTART, APP_URL, DOCS_URL } from "@/lib/constants";
 import { QuickstartClient } from "@/components/quickstart-client";
 import { codeToHtml } from "shiki";
 
@@ -29,30 +29,68 @@ export async function Quickstart() {
             Quick Start
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Up and running in{" "}
-            <span className="gradient-text">minutes</span>
+            Two paths to your first{" "}
+            <span className="gradient-text">AI agent</span>
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted">
-            Three commands to a working agent fleet. No external dependencies.
-          </p>
         </div>
       </AnimateIn>
 
-      <div className="mx-auto max-w-3xl">
-        <div className="gradient-border glass-shine mb-6 rounded-lg border border-border/40 glass-card px-5 py-3.5 text-sm text-muted">
-          <span className="font-medium text-foreground/80">Requirements:</span>{" "}
-          {QUICKSTART.requirements}
-        </div>
+      <div className="mx-auto max-w-5xl">
+        <AnimateIn delay={0.08}>
+          <div className="grid gap-6 md:grid-cols-2">
+            {/* Left column — Managed hosting */}
+            <div className="gradient-border glass-shine flex min-w-0 flex-col rounded-xl border border-border/50 glass-card bg-gradient-to-b from-accent/[0.04] to-transparent p-6 md:p-8">
+              <span className="mb-4 inline-flex w-fit items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1 text-xs font-medium text-accent-light">
+                Easiest — no setup required
+              </span>
+              <h3 className="mb-4 text-lg font-semibold text-foreground">
+                No terminal. No config files.
+              </h3>
+              <ol className="mb-6 flex-1 list-decimal space-y-2 pl-5 text-sm text-muted marker:font-medium marker:text-foreground/80">
+                <li>Sign up at app.openlegion.ai</li>
+                <li>Pick a team template</li>
+                <li>Add your LLM API key</li>
+                <li>Agents are live.</li>
+              </ol>
+              <p className="mb-6 text-sm text-muted">
+                That&apos;s it. We manage the containers, credentials, and infrastructure.
+              </p>
+              <a
+                href={APP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white"
+              >
+                Get started →
+              </a>
+            </div>
 
-        <AnimateIn delay={0.1}>
-          <ol className="mb-6 space-y-1 text-sm text-muted">
-            <li><span className="font-medium text-foreground/80">Step 1:</span> Clone the repository from GitHub.</li>
-            <li><span className="font-medium text-foreground/80">Step 2:</span> Run the installer to check dependencies, create a virtual environment, and make the CLI globally available.</li>
-            <li><span className="font-medium text-foreground/80">Step 3:</span> Run <code className="rounded bg-card px-1.5 py-0.5 font-mono text-xs text-accent-light">openlegion start</code> to launch the setup wizard and deploy agents in isolated containers.</li>
-          </ol>
+            {/* Right column — Self-hosted */}
+            <div className="gradient-border glass-shine flex min-w-0 flex-col rounded-xl border border-border/50 glass-card p-6 md:p-8">
+              <span className="mb-4 inline-flex w-fit items-center rounded-full border border-border/40 bg-background/50 px-3 py-1 text-xs font-medium text-muted">
+                Full control — on-premise support
+              </span>
+              <h3 className="mb-4 text-lg font-semibold text-foreground">
+                Three commands. One machine.
+              </h3>
+              <div className="mb-4 rounded-lg border border-border/40 bg-background/50 px-4 py-2.5 text-sm text-muted">
+                <span className="font-medium text-foreground/80">Requirements:</span>{" "}
+                {QUICKSTART.requirements}
+              </div>
+              <div className="mb-6 min-w-0 flex-1 overflow-hidden">
+                <QuickstartClient tabs={tabs} />
+              </div>
+              <a
+                href={DOCS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5"
+              >
+                Read the docs →
+              </a>
+            </div>
+          </div>
         </AnimateIn>
-
-        <QuickstartClient tabs={tabs} />
       </div>
     </SectionWrapper>
   );

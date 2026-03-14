@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { ChevronRight, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { Counter } from "@/components/ui/counter";
 import { APP_URL, DISCORD_URL } from "@/lib/constants";
 
 const CTA_PARTICLES = [
@@ -42,57 +40,18 @@ export function CTA() {
 
       <div className="relative mx-auto max-w-3xl text-center">
         <AnimateIn scale>
-          <div className="mb-8 flex justify-center">
-            <Image
-              src="/logo.png"
-              alt=""
-              width={64}
-              height={64}
-              sizes="64px"
-              className="rounded-full opacity-80"
-              aria-hidden="true"
-            />
-          </div>
-        </AnimateIn>
-        <AnimateIn delay={0.06} scale>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Deploy your first{" "}
-            <span className="gradient-text-animated">secure agent fleet</span>
+            Your AI team is one{" "}
+            <span className="gradient-text-animated">deploy away</span>.
           </h2>
         </AnimateIn>
-        <AnimateIn delay={0.12}>
-          <p className="mx-auto mb-8 max-w-xl text-lg text-muted">
-            Sign up and deploy your first fleet in minutes — no infrastructure to manage.
+        <AnimateIn delay={0.06}>
+          <p className="mb-8 text-[13px] text-muted">
+            Starts at $19/month · Your API keys · 100+ LLM providers · No usage markup · No vendor lock-in
           </p>
         </AnimateIn>
 
-        {/* Reinforcement stats */}
-        <AnimateIn delay={0.16}>
-          <div className="mx-auto mb-10 flex max-w-md items-center justify-center gap-4 text-sm text-muted sm:gap-8">
-            <div className="text-center">
-              <div className="font-mono text-lg font-bold text-foreground" aria-label="1826 Tests">
-                <Counter target={1826} />
-              </div>
-              <div className="text-xs">Tests</div>
-            </div>
-            <div className="h-8 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent" aria-hidden="true" />
-            <div className="text-center">
-              <div className="font-mono text-lg font-bold text-foreground" aria-label="100+ LLM Providers">
-                <Counter target={100} suffix="+" />
-              </div>
-              <div className="text-xs">LLM Providers</div>
-            </div>
-            <div className="h-8 w-px bg-gradient-to-b from-transparent via-accent/30 to-transparent" aria-hidden="true" />
-            <div className="text-center">
-              <div className="font-mono text-lg font-bold text-foreground" aria-label="~26k Lines of Code">
-                <Counter target={26} prefix="~" suffix="k" />
-              </div>
-              <div className="text-xs">Lines of Code</div>
-            </div>
-          </div>
-        </AnimateIn>
-
-        <AnimateIn delay={0.2}>
+        <AnimateIn delay={0.14}>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href={APP_URL}
@@ -100,8 +59,7 @@ export function CTA() {
               rel="noopener noreferrer"
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
-              Get Started
-              <ChevronRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" aria-hidden="true" />
+              Deploy in minutes →
             </a>
             <a
               href={DISCORD_URL}

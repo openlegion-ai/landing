@@ -43,6 +43,15 @@ export function FAQ() {
           </StaggerItem>
         ))}
       </StaggerContainer>
+
+      <AnimateIn delay={0.15}>
+        <p className="mt-8 text-center text-sm text-muted">
+          More questions answered — including architecture, LLM providers, and AI agent orchestration.{" "}
+          <a href="/faq" className="text-accent-light underline underline-offset-2 transition-colors hover:text-accent">
+            See the full FAQ →
+          </a>
+        </p>
+      </AnimateIn>
     </SectionWrapper>
   );
 }

@@ -11,7 +11,7 @@
     "type": "openapi",
     "url": "https://docs.openlegion.ai"
   },
-  "logo_url": "https://openlegion.ai/logo.png",
+  "logo_url": "https://www.openlegion.ai/logo.png",
   "contact_email": "hello@openlegion.ai",
   "legal_info_url": "https://github.com/openlegion-ai/openlegion/blob/main/LICENSE"
 }
