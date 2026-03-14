@@ -58,7 +58,7 @@ export async function Quickstart() {
                 {STEPS.map((step) => {
                   const Icon = step.icon;
                   return (
-                    <div key={step.label} className="flex flex-col items-center gap-2 rounded-lg border border-border/30 bg-background/30 p-4 text-center">
+                    <div key={step.label} className="flex flex-col items-center justify-center gap-2 rounded-lg border border-border/30 bg-background/30 p-4 text-center">
                       <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07]">
                         <Icon className="h-4 w-4 text-accent-light" />
                       </div>
