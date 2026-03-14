@@ -393,9 +393,27 @@ body {
 
 .card-hover:hover {
   border-color: rgba(59, 130, 246, 0.35);
-  box-shadow: 0 0 40px rgba(59, 130, 246, 0.06),
-    0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.08),
+    0 0 40px rgba(59, 130, 246, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
   background-color: var(--card-hover);
+}
+
+/* ── Pill hover ─────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .pill-interactive {
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .pill-interactive:hover {
+    transform: translateY(-2px);
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.08);
+    background: rgba(59, 130, 246, 0.05);
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -553,12 +571,17 @@ body {
 .cta-mesh {
   background: radial-gradient(
       ellipse 50% 60% at 20% 50%,
-      rgba(59, 130, 246, 0.06) 0%,
+      rgba(59, 130, 246, 0.08) 0%,
       transparent 70%
     ),
     radial-gradient(
       ellipse 50% 60% at 80% 50%,
-      rgba(56, 189, 248, 0.04) 0%,
+      rgba(56, 189, 248, 0.06) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 70% 40% at 50% 100%,
+      rgba(59, 130, 246, 0.05) 0%,
       transparent 70%
     );
 }
@@ -592,6 +615,14 @@ body {
   border: 1px solid var(--border);
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.terminal-hero {
+  box-shadow:
+    0 0 80px rgba(59, 130, 246, 0.06),
+    0 0 40px rgba(59, 130, 246, 0.04),
+    0 24px 48px rgba(0, 0, 0, 0.5);
 }
 
 .terminal-header {
@@ -640,6 +671,48 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--muted);
+}
+
+/* ── Premium scroll indicator ───────────────────────────────────────── */
+
+.scroll-mouse {
+  width: 22px;
+  height: 34px;
+  border-radius: 11px;
+  border: 2px solid currentColor;
+  position: relative;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-mouse::after {
+    content: "";
+    width: 3px;
+    height: 6px;
+    border-radius: 1.5px;
+    background: currentColor;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scroll-dot 2s ease-in-out infinite;
+  }
+}
+
+@keyframes scroll-dot {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0);
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
 }
 
 /* ── Nested architecture zones ────────────────────────────────────────── */
@@ -708,6 +781,27 @@ body {
     rgba(22, 22, 31, 0.8)
   );
   border: 1px solid rgba(42, 42, 58, 0.6);
+  box-shadow:
+    0 0 80px rgba(59, 130, 246, 0.04),
+    0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Dashboard 3D perspective ────────────────────────────────────────── */
+
+.dashboard-perspective {
+  perspective: 2000px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dashboard-tilt {
+    transform: rotateX(2deg);
+    transform-origin: center bottom;
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .dashboard-perspective:hover .dashboard-tilt {
+    transform: rotateX(0deg);
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -23,14 +23,14 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
       : frontmatter.title,
     description: frontmatter.description,
     alternates: {
-      canonical: `https://openlegion.ai${frontmatter.slug}`,
+      canonical: `https://www.openlegion.ai${frontmatter.slug}`,
     },
     openGraph: {
       title: frontmatter.title,
       description: frontmatter.description,
       type: "article",
       siteName: "OpenLegion",
-      url: `https://openlegion.ai${frontmatter.slug}`,
+      url: `https://www.openlegion.ai${frontmatter.slug}`,
       locale: "en_US",
       images: [
         {

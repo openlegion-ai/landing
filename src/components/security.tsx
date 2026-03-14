@@ -13,18 +13,17 @@ export function Security() {
             Security
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            AI agent security:{" "}
-            <span className="gradient-text">six layers</span> of defense
+            AI agent security: built assuming agents will{" "}
+            <span className="gradient-text">misbehave</span>.
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
-            Designed from day one assuming agents will be compromised. Every layer
-            operates independently.
+            Four layers on by default. All six on the security page.
           </p>
         </div>
       </AnimateIn>
 
       <StaggerContainer className="mx-auto max-w-2xl space-y-0">
-        {SECURITY_LAYERS.map((layer, i) => (
+        {SECURITY_LAYERS.slice(0, 4).map((layer, i) => (
             <StaggerItem key={layer.number}>
               {/* Connector line between cards */}
               {i > 0 && (
@@ -34,8 +33,8 @@ export function Security() {
               )}
               <div className="card-hover gradient-border glass-shine group rounded-xl border border-accent/15 glass-card p-5 md:p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-accent/[0.07] transition group-hover:scale-110 group-hover:border-accent/30">
-                    <span className="font-mono text-xs font-medium text-accent-light">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent/20 to-accent/[0.06] ring-1 ring-accent/20 transition group-hover:scale-110 group-hover:ring-accent/40">
+                    <span className="font-mono text-xs font-bold text-accent-light">
                       {String(layer.number).padStart(2, "0")}
                     </span>
                   </div>
@@ -57,7 +56,7 @@ export function Security() {
       <AnimateIn delay={0.2}>
         <p className="mt-8 text-center text-sm text-muted">
           <Link href="/ai-agent-security" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
-            Learn more about AI agent security
+            All six layers explained in detail →
           </Link>
         </p>
       </AnimateIn>

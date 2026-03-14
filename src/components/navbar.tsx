@@ -9,11 +9,24 @@ import { NAV_LINKS, APP_URL, GITHUB_URL } from "@/lib/constants";
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Track when hero CTA scrolls out of view
+  useEffect(() => {
+    const heroCtaEl = document.getElementById("hero-cta");
+    if (!heroCtaEl) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setPastHero(!entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(heroCtaEl);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -81,25 +94,41 @@ export function Navbar() {
           >
             <Github className="h-4 w-4" aria-hidden="true" />
           </a>
+          <span className={`ml-1 text-[13px] text-muted transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
+            $19/mo
+          </span>
           <a
             href={APP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-shine ml-2 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
           >
-            Get Started
+            Deploy now →
           </a>
         </div>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="rounded-md p-2 text-muted transition-colors hover:text-foreground md:hidden"
-          aria-label="Toggle menu"
-          aria-expanded={mobileOpen}
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Mobile — CTA always visible outside hamburger */}
+        <div className="flex items-center gap-1.5 md:hidden ml-auto">
+          <span className={`text-[11px] text-muted transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
+            $19/mo
+          </span>
+          <a
+            href={APP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-shine flex items-center gap-2 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
+          >
+            Deploy now →
+          </a>
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="rounded-md p-2 text-muted transition-colors hover:text-foreground"
+            aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -127,14 +156,6 @@ export function Navbar() {
                   </a>
                 );
               })}
-              <a
-                href={APP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-3 text-sm font-medium text-white"
-              >
-                Get Started
-              </a>
             </div>
           </motion.div>
         )}

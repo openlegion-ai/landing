@@ -27,7 +27,7 @@ export function buildBreadcrumbSchema(title: string, slug: string) {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://openlegion.ai",
+      item: "https://www.openlegion.ai",
     },
   ];
 
@@ -37,20 +37,20 @@ export function buildBreadcrumbSchema(title: string, slug: string) {
       "@type": "ListItem",
       position: 2,
       name: "Comparisons",
-      item: "https://openlegion.ai/comparison",
+      item: "https://www.openlegion.ai/comparison",
     });
     items.push({
       "@type": "ListItem",
       position: 3,
       name: title,
-      item: `https://openlegion.ai${slug}`,
+      item: `https://www.openlegion.ai${slug}`,
     });
   } else {
     items.push({
       "@type": "ListItem",
       position: 2,
       name: title,
-      item: `https://openlegion.ai${slug}`,
+      item: `https://www.openlegion.ai${slug}`,
     });
   }
 
@@ -138,7 +138,7 @@ export function buildArticleSchema(
   slug: string,
   datePublished?: string
 ) {
-  const canonicalUrl = `https://openlegion.ai${slug}`;
+  const canonicalUrl = `https://www.openlegion.ai${slug}`;
   const slugForOg = slug.replace(/^\//, "").replace(/\//g, "-");
 
   return {
@@ -154,22 +154,22 @@ export function buildArticleSchema(
     },
     image: {
       "@type": "ImageObject",
-      url: `https://openlegion.ai/og/${slugForOg}.png`,
+      url: `https://www.openlegion.ai/og/${slugForOg}.png`,
       width: 1200,
       height: 630,
     },
     author: {
       "@type": "Organization",
       name: "OpenLegion",
-      url: "https://openlegion.ai",
+      url: "https://www.openlegion.ai",
     },
     publisher: {
       "@type": "Organization",
       name: "OpenLegion",
-      url: "https://openlegion.ai",
+      url: "https://www.openlegion.ai",
       logo: {
         "@type": "ImageObject",
-        url: "https://openlegion.ai/logo.png",
+        url: "https://www.openlegion.ai/logo.png",
       },
     },
     inLanguage: "en",

@@ -1,10 +1,10 @@
 "use client";
 
-import { AlertTriangle, X, Check } from "lucide-react";
+import { X, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { COMPARISON_ALERT, COMPARISON_ROWS } from "@/lib/constants";
+import { COMPARISON_ROWS } from "@/lib/constants";
 
 const staggerContainer = {
   hidden: {},
@@ -20,33 +20,29 @@ export function Comparison() {
   return (
     <SectionWrapper id="comparison" fade={false}>
       <AnimateIn>
-        <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-danger">
+        <div className="mb-10 text-center">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
             Comparison
           </p>
           <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            {COMPARISON_ALERT.title}
+            How OpenLegion is different
           </h2>
         </div>
       </AnimateIn>
 
-      <AnimateIn delay={0.08} scale>
-        <div className="glass-shine mb-8 rounded-xl border border-danger/20 bg-danger/[0.03] p-5 backdrop-blur-sm md:p-6">
-          <div className="flex items-start gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-danger/10">
-              <AlertTriangle className="h-5 w-5 text-danger" aria-hidden="true" />
-            </div>
-            <div>
-              <p className="text-sm leading-relaxed text-foreground/90">
-                {COMPARISON_ALERT.description}
-              </p>
-              <p className="mt-2 text-xs text-muted">{COMPARISON_ALERT.source}</p>
-            </div>
-          </div>
-        </div>
+      <AnimateIn delay={0.06}>
+        <p className="mx-auto mb-4 max-w-2xl text-center text-muted">
+          Most AI agent tools were built for demos — OpenLegion was built for production.
+        </p>
+        <p className="mx-auto mb-4 max-w-2xl text-center text-[13px] leading-relaxed text-muted/70">
+          OpenLegion is the only AI agent framework shipping vault-proxied credentials, container isolation, and per-agent budget enforcement as defaults — with zero CVEs reported since launch.
+        </p>
+        <p className="mb-8 text-center text-xs text-muted/50">
+          Based on public security disclosures and community reports.
+        </p>
       </AnimateIn>
 
-      <AnimateIn delay={0.16}>
+      <AnimateIn delay={0.14}>
         <div className="gradient-border glass-shine rounded-xl border border-border/50 glass-card">
           <div className="overflow-x-auto rounded-[inherit]">
             <table className="w-full min-w-[480px] text-sm">
@@ -103,6 +99,12 @@ export function Comparison() {
             </table>
           </div>
         </div>
+      </AnimateIn>
+
+      <AnimateIn delay={0.24}>
+        <p className="mt-6 text-center text-[13px] text-muted/60">
+          OpenLegion launched in February 2026. GitHub star counts reflect project age, not production readiness.
+        </p>
       </AnimateIn>
     </SectionWrapper>
   );

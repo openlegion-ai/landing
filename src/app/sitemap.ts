@@ -24,7 +24,7 @@ const COMPARISON_SLUGS = new Set([
 ]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://openlegion.ai";
+  const base = "https://www.openlegion.ai";
   const pages = getAllContentPages();
 
   return [
@@ -39,6 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.9,
+    },
+    {
+      url: `${base}/faq`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
       url: `${base}/terms`,

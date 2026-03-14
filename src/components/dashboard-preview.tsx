@@ -151,7 +151,8 @@ export function DashboardPreview() {
       </AnimateIn>
 
       <AnimateIn delay={0.1}>
-        <div className="dashboard-frame rounded-2xl overflow-hidden shadow-2xl shadow-black/40">
+        <div className="dashboard-perspective">
+        <div className="dashboard-tilt dashboard-frame rounded-2xl overflow-hidden">
           {/* Window chrome */}
           <div className="flex items-center gap-2 border-b border-border/50 bg-[#0d0e14] px-4 py-3">
             <div className="flex gap-1.5">
@@ -330,6 +331,7 @@ export function DashboardPreview() {
               ))}
             </motion.div>
           </div>
+        </div>
         </div>
       </AnimateIn>
     </SectionWrapper>
