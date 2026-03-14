@@ -58,12 +58,11 @@ export async function Quickstart() {
                 {STEPS.map((step, i) => {
                   const Icon = step.icon;
                   return (
-                    <div key={step.label} className="relative flex flex-col items-center justify-center gap-2 rounded-lg border border-border/30 bg-background/30 p-4 text-center">
-                      <span className="absolute top-2 left-2.5 font-mono text-[10px] font-medium text-muted/40">{i + 1}</span>
+                    <div key={step.label} className="flex flex-col items-center justify-center gap-2 rounded-lg border border-border/30 bg-background/30 p-4 text-center">
                       <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07]">
                         <Icon className="h-4 w-4 text-accent-light" />
                       </div>
-                      <span className="text-[13px] font-medium leading-tight text-foreground/80">{step.label}</span>
+                      <span className="text-[13px] font-medium leading-tight text-foreground/80">{i + 1}. {step.label}</span>
                     </div>
                   );
                 })}
