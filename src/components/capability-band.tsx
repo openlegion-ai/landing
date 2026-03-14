@@ -22,7 +22,7 @@ export function CapabilityBand() {
       <div className="relative mx-auto max-w-5xl text-center">
         <AnimateIn>
           <h2 className="mx-auto mb-3 max-w-[600px] text-balance text-2xl font-medium leading-snug tracking-tight md:text-3xl">
-            If a human can do it on a computer, an agent can do it for you.
+            If a human can do it, an agent can too.
           </h2>
           <p className="mb-7 text-sm text-muted">
             Built-in stealth browser. Runs 24/7.
