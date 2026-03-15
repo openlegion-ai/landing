@@ -287,10 +287,10 @@ export default function PrivacyPage() {
             <p className="mt-2">
               To exercise any of these rights, contact us at{" "}
               <a
-                href="mailto:privacy@openlegion.ai"
+                href="mailto:support@openlegion.ai"
                 className="text-accent underline underline-offset-2 hover:text-accent/80"
               >
-                privacy@openlegion.ai
+                support@openlegion.ai
               </a>
               . We will respond within 30 days (or as required by applicable law).
             </p>
@@ -308,10 +308,10 @@ export default function PrivacyPage() {
               personal information. We do not sell personal information. To exercise your
               CCPA rights, contact{" "}
               <a
-                href="mailto:privacy@openlegion.ai"
+                href="mailto:support@openlegion.ai"
                 className="text-accent underline underline-offset-2 hover:text-accent/80"
               >
-                privacy@openlegion.ai
+                support@openlegion.ai
               </a>
               .
             </p>
@@ -384,10 +384,10 @@ export default function PrivacyPage() {
             </p>
             <p className="mt-2">
               <a
-                href="mailto:privacy@openlegion.ai"
+                href="mailto:support@openlegion.ai"
                 className="text-accent underline underline-offset-2 hover:text-accent/80"
               >
-                privacy@openlegion.ai
+                support@openlegion.ai
               </a>
             </p>
           </section>

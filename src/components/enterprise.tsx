@@ -34,7 +34,7 @@ export function Enterprise() {
             ))}
           </div>
           <a
-            href="mailto:admin@openlegion.ai"
+            href="mailto:sales@openlegion.ai"
             className="group inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5"
           >
             Talk to us about enterprise deployment

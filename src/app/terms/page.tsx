@@ -392,10 +392,10 @@ export default function TermsPage() {
             <p>
               Questions about these Terms? Contact us at{" "}
               <a
-                href="mailto:legal@openlegion.ai"
+                href="mailto:support@openlegion.ai"
                 className="text-accent underline underline-offset-2 hover:text-accent/80"
               >
-                legal@openlegion.ai
+                support@openlegion.ai
               </a>
               .
             </p>
