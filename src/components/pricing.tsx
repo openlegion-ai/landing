@@ -300,7 +300,7 @@ export function Pricing() {
               </p>
 
               <a
-                href="mailto:admin@openlegion.ai"
+                href="mailto:sales@openlegion.ai"
                 className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5"
               >
                 <Mail className="h-4 w-4" aria-hidden="true" />
