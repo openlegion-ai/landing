@@ -158,7 +158,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 ## CTA
 
 **Security built in, not sold separately.**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
+[Start Free Trial](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 
