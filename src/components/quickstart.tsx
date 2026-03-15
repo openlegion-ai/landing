@@ -76,7 +76,7 @@ export async function Quickstart() {
                 rel="noopener noreferrer"
                 className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white"
               >
-                Get started →
+                Start free trial →
               </a>
             </div>
 

@@ -96,8 +96,8 @@ export function Navbar() {
           >
             <Github className="h-4 w-4" aria-hidden="true" />
           </a>
-          <span className={`ml-1 text-[13px] text-muted transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
-            $19/mo
+          <span className={`ml-1 text-[13px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
+            Free trial
           </span>
           <a
             href={APP_URL}
@@ -105,14 +105,14 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="btn-shine ml-2 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
           >
-            Deploy now →
+            Try free →
           </a>
         </div>
 
         {/* Mobile — CTA always visible outside hamburger */}
         <div className="flex items-center gap-1.5 md:hidden ml-auto">
-          <span className={`text-[11px] text-muted transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
-            $19/mo
+          <span className={`text-[11px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
+            Free trial
           </span>
           <a
             href={APP_URL}
@@ -120,7 +120,7 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="btn-shine flex items-center gap-2 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
           >
-            Deploy now →
+            Try free →
           </a>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}

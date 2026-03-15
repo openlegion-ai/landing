@@ -90,6 +90,10 @@ const INCLUDED = [
 
 const PRICING_FAQ = [
   {
+    q: "How does the 7-day free trial work?",
+    a: "Sign up and get full access to any plan for 7 days — no credit card required. Deploy agents, test workflows, and explore the dashboard. If you don't upgrade before the trial ends, your account simply pauses. No charges, ever, unless you choose a plan.",
+  },
+  {
     q: "Do I need to pay for LLM usage on top of the plan price?",
     a: "Yes — you bring your own API keys (Anthropic, OpenAI, Google, or any of 100+ providers). You pay providers directly at their published rates. OpenLegion charges for the platform only. There is zero markup on model usage.",
   },
@@ -123,11 +127,11 @@ export function Pricing() {
               Pricing
             </p>
             <h1 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-              Your AI workforce, from{" "}
-              <span className="gradient-text">$19/month</span>.
+              Try your AI workforce{" "}
+              <span className="gradient-text">free for 7 days</span>.
             </h1>
             <p className="mx-auto max-w-lg text-muted">
-              No surprise bills — ever. You bring your API keys, we run the infrastructure.
+              No credit card required. You bring your API keys, we run the infrastructure.
             </p>
           </div>
         </AnimateIn>
@@ -234,7 +238,7 @@ export function Pricing() {
                         : "border border-border text-foreground hover:border-accent/40 hover:bg-accent/5"
                     }`}
                   >
-                    Get Started
+                    Start Free Trial
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </a>
 
