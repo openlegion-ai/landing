@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { Github } from "lucide-react";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { Counter } from "@/components/ui/counter";
@@ -21,21 +20,7 @@ const STATS: StatDef[] = [
   { target: 0, prefix: "$", suffix: "", fallback: "$0", label: "markup on LLM usage" },
 ];
 
-export function SocialProof() {
-  const [stars, setStars] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch("https://api.github.com/repos/openlegion-ai/openlegion")
-      .then((r) => { if (!r.ok) throw new Error(); return r.json(); })
-      .then((data) => {
-        const count = data.stargazers_count;
-        if (typeof count === "number") {
-          setStars(count >= 1000 ? (count / 1000).toFixed(1) + "k" : String(count));
-        }
-      })
-      .catch(() => {});
-  }, []);
-
+export function SocialProof({ stars = null }: { stars?: string | null }) {
   return (
     <section className="relative px-6 py-16 md:px-8 md:py-20">
       <div className="absolute inset-0 bg-accent/[0.015]" aria-hidden="true" />

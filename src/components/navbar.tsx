@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Github, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, APP_URL, GITHUB_URL } from "@/lib/constants";
@@ -55,19 +56,20 @@ export function Navbar() {
       )}
 
       <div className="mx-auto flex max-w-6xl items-center justify-between py-3">
-        <a href="/" className="flex items-center gap-2.5 transition-transform hover:scale-105" aria-label="OpenLegion home">
+        <Link href="/" className="flex items-center gap-2.5 transition-transform hover:scale-105" aria-label="OpenLegion home">
           <Image
             src="/logo.png"
             alt=""
             width={36}
             height={36}
             sizes="36px"
+            priority
             className="rounded-full"
           />
           <span className="text-lg font-bold tracking-tight text-foreground">
             Open<span className="text-accent">Legion</span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop */}
         <div className="hidden items-center gap-1 md:flex">

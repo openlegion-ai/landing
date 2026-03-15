@@ -115,8 +115,8 @@ export default function RootLayout({
     logo: {
       "@type": "ImageObject",
       url: "https://www.openlegion.ai/logo.png",
-      width: 512,
-      height: 512,
+      width: 256,
+      height: 256,
     },
     description:
       "Managed AI agent platform with container isolation, credential vaults, and production-grade orchestration.",
@@ -154,7 +154,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="https://www.clarity.ms" />
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
-        <link rel="dns-prefetch" href="https://api.github.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }}
@@ -189,7 +188,7 @@ export default function RootLayout({
             })(window, document, "clarity", "script", "voko6al3fo");
           `}
         </Script>
-        <Script id="tawk-to" strategy="afterInteractive">
+        <Script id="tawk-to" strategy="lazyOnload">
           {`
             window.Tawk_API=window.Tawk_API||{};
             window.Tawk_LoadStart=new Date();
