@@ -20,7 +20,24 @@ import { ALL_FAQ_ITEMS, GITHUB_URL, APP_URL } from "@/lib/constants";
 // Homepage inherits title + description from root layout metadata.
 // Page-level JSON-LD schemas are defined inline below.
 
+async function getGitHubStars(): Promise<string | null> {
+  try {
+    const res = await fetch(
+      "https://api.github.com/repos/openlegion-ai/openlegion",
+      { next: { revalidate: 3600 } },
+    );
+    if (!res.ok) return null;
+    const data = await res.json();
+    const count = data.stargazers_count;
+    if (typeof count !== "number") return null;
+    return count >= 1000 ? (count / 1000).toFixed(1) + "k" : String(count);
+  } catch {
+    return null;
+  }
+}
+
 export default async function Home() {
+  const stars = await getGitHubStars();
 
   const homeTitle =
     "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control";
@@ -227,7 +244,7 @@ export default async function Home() {
         <CapabilityBand />
         <AudienceSelector />
         <UseCases />
-        <SocialProof />
+        <SocialProof stars={stars} />
         {/* Social proof placeholder — uncomment when real quote is sourced */}
         {/* <section className="py-12 text-center max-w-[640px] mx-auto px-6">
           <blockquote className="text-lg italic text-foreground leading-relaxed mb-3">

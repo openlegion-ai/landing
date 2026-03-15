@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "X-Frame-Options", value: "DENY" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
   {
@@ -14,11 +13,12 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://embed.tawk.to https://va.tawk.to https://static.tawk.to https://vercel.live",
-      "style-src 'self' 'unsafe-inline' https://embed.tawk.to https://static.tawk.to",
-      "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.tawk.to",
+      "style-src 'self' 'unsafe-inline' https://*.clarity.ms https://embed.tawk.to https://static.tawk.to",
+      "img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://*.clarity.ms https://*.tawk.to",
       "font-src 'self' https://embed.tawk.to https://static.tawk.to",
-      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://embed.tawk.to wss://embed.tawk.to https://*.tawk.to wss://*.tawk.to https://api.github.com",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://*.clarity.ms https://embed.tawk.to wss://embed.tawk.to https://*.tawk.to wss://*.tawk.to",
       "frame-src https://va.tawk.to",
+      "frame-ancestors 'self' https://*.clarity.ms",
       "worker-src 'self' blob:",
     ].join("; "),
   },
@@ -33,7 +33,15 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 31536000,
   },
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [
+      { source: "/(.*)", headers: securityHeaders },
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+        ],
+      },
+    ];
   },
   async redirects() {
     return [

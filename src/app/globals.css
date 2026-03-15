@@ -214,7 +214,6 @@ body {
   );
   bottom: 5%;
   right: 5%;
-  will-change: transform, opacity;
 }
 
 .hero-orb-3 {
@@ -230,7 +229,12 @@ body {
   top: 30%;
   left: -5%;
   pointer-events: none;
-  will-change: transform;
+}
+
+@media (max-width: 639px) {
+  .hero-orb-3 {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -503,7 +507,6 @@ body {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -847,7 +850,6 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   .connector-line {
     animation: connector-pulse 3s ease-in-out infinite;
-    will-change: opacity;
   }
 }
 
