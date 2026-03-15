@@ -84,6 +84,14 @@ export default async function Home() {
     offers: [
       {
         "@type": "Offer",
+        name: "Free Trial",
+        price: "0",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        description: "7-day free trial, no credit card required",
+      },
+      {
+        "@type": "Offer",
         name: "Basic",
         price: "19",
         priceCurrency: "USD",
@@ -257,7 +265,7 @@ export default async function Home() {
           <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
           <p className="mb-3 text-sm text-muted">Ready to put your first agent to work?</p>
           <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
-            Deploy in minutes →
+            Start free trial →
           </a>
           <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>
@@ -266,7 +274,7 @@ export default async function Home() {
           <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
           <p className="mb-3 text-sm text-muted">This is your fleet, live.</p>
           <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
-            Start your deployment →
+            Try it free for 7 days →
           </a>
           <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>

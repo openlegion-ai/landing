@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 const defaultTitle = "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control";
 const description =
-  "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. Starts at $19/month. No surprise bills.";
+  "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. 7-day free trial, no credit card required.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.openlegion.ai"),
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "OpenLegion — AI Agent Framework & Platform",
     description:
-      "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. Starts at $19/month.",
+      "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. 7-day free trial.",
     type: "website",
     siteName: "OpenLegion",
     url: "https://www.openlegion.ai",
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
     site: "@openlegion",
     title: "OpenLegion — AI Agent Framework & Platform",
     description:
-      "Deploy AI agents that automate anything a human can do on a computer. Starts at $19/month.",
+      "Deploy AI agents that automate anything a human can do on a computer. 7-day free trial, no credit card required.",
     images: ["/og.png"],
   },
   other: {

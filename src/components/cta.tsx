@@ -47,7 +47,7 @@ export function CTA() {
         </AnimateIn>
         <AnimateIn delay={0.06}>
           <p className="mb-8 text-[13px] text-muted">
-            Starts at $19/month · Your API keys · 100+ LLM providers · No usage markup · No vendor lock-in
+            7-day free trial · No credit card required · 100+ LLM providers · No vendor lock-in
           </p>
         </AnimateIn>
 
@@ -59,7 +59,7 @@ export function CTA() {
               rel="noopener noreferrer"
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
-              Deploy in minutes →
+              Start free trial →
             </a>
             <a
               href={DISCORD_URL}

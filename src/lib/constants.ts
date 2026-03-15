@@ -31,8 +31,8 @@ export const HERO = {
     "Give each agent a job and a budget — they work 24/7 while your keys stay locked in a vault they never touch.",
   subtitleSecond:
     "Anything a human does, your agents do around the clock.",
-  pricingAnchor: "Starts at $19/month · Your API keys · 100+ LLM providers · No usage markup · No vendor lock-in",
-  ctaPrimary: "Deploy your first AI agent →",
+  pricingAnchor: "7-day free trial · No credit card required · 100+ LLM providers · No vendor lock-in",
+  ctaPrimary: "Start free trial →",
   ctaSecondary: "Read the Docs",
 } as const;
 
