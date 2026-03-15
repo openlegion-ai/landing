@@ -107,7 +107,7 @@ const PRICING_FAQ = [
   },
   {
     q: "Can I self-host OpenLegion?",
-    a: "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under BSL 1.1. Managed hosting starts at $19/month for teams that don't want to manage infrastructure.",
+    a: "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under BSL 1.1. Managed hosting starts at $19/month (with a 7-day free trial) for teams that don't want to manage infrastructure.",
   },
   {
     q: 'What counts as an "agent"?',
@@ -225,7 +225,7 @@ export function Pricing() {
                   <p className="mt-1 h-5 text-xs text-muted">
                     {billing === "yearly"
                       ? `~$${plan.yearlyMonthly}/mo billed annually`
-                      : "\u00A0"}
+                      : "7-day free trial · no card required"}
                   </p>
 
                   <a

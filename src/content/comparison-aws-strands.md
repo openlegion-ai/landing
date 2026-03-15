@@ -102,7 +102,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 ## CTA
 
 **Need production-grade security for your agent fleet?**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+[Start Free Trial](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 

@@ -314,7 +314,7 @@ export const ALL_FAQ_ITEMS: FAQItem[] = [
   {
     question: "Do I need to be a developer to use OpenLegion?",
     answer:
-      "The managed hosting at app.openlegion.ai requires no coding — pick a template, add your LLM API key, and your agents are live in minutes. The self-hosted version requires Python 3.10+ and Docker. Either way, the built-in team templates (Dev Team, Sales Pipeline, Content Studio) work out of the box with no configuration needed.",
+      "No. The managed hosting at app.openlegion.ai requires no coding — start a free trial, pick a template, add your LLM API key, and your agents are live in minutes. The self-hosted version requires Python 3.10+ and Docker. Either way, the built-in team templates (Dev Team, Sales Pipeline, Content Studio) work out of the box with no configuration needed.",
   },
   {
     question: "Do I pay for LLM usage on top of the subscription?",

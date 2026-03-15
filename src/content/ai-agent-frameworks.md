@@ -128,7 +128,7 @@ The AI agent framework landscape is evolving rapidly. Several newer entrants are
 ## CTA
 
 **Need production-grade security for your agent fleet?**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+[Start Free Trial](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 
