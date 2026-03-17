@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { FOOTER_COLUMNS } from "@/lib/constants";
 
 export function Footer() {
+  const t = useTranslations("footer");
   return (
     <footer className="footer-gradient relative px-6 md:px-8">
       {/* Gradient top border */}
@@ -30,23 +32,22 @@ export function Footer() {
               </span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              The AI agent framework and platform built for production. Automate any computer task with secure, cost-controlled agent fleets.
+              {t("brandDescription")}
             </p>
             <p className="mt-4 text-xs text-muted/70">
-              BSL 1.1 License &copy; {new Date().getFullYear()} OpenLegion
-              Contributors
+              {t("license", { year: new Date().getFullYear() })}
             </p>
           </AnimateIn>
 
           {/* Link columns */}
           <StaggerContainer className="grid grid-cols-2 gap-10 sm:grid-cols-3 xl:grid-cols-6 xl:gap-8">
-            {FOOTER_COLUMNS.map((col) => (
+            {FOOTER_COLUMNS.map((col, colIdx) => (
               <StaggerItem key={col.title}>
                 <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-foreground/50">
-                  {col.title}
+                  {t(`columns.${colIdx}.title`)}
                 </p>
                 <ul className="space-y-3">
-                  {col.links.map((link) => {
+                  {col.links.map((link, linkIdx) => {
                     const isExternal = link.href.startsWith("http");
                     const className = "inline-block py-0.5 text-sm text-muted transition-all hover:translate-x-0.5 hover:text-foreground";
 
@@ -59,11 +60,11 @@ export function Footer() {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {link.label}
+                            {t(`columns.${colIdx}.links.${linkIdx}`)}
                           </a>
                         ) : (
                           <Link href={link.href} className={className}>
-                            {link.label}
+                            {t(`columns.${colIdx}.links.${linkIdx}`)}
                           </Link>
                         )}
                       </li>

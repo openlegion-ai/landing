@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ChevronDown } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
@@ -29,7 +30,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function FAQPage() {
+export default async function FAQPage() {
+  const t = await getTranslations("faq");
+  const tc = await getTranslations("common");
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -62,21 +66,21 @@ export default function FAQPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }}
       />
-      <a href="#main" className="skip-nav">Skip to content</a>
+      <a href="#main" className="skip-nav">{tc("skipToContent")}</a>
       <Navbar />
       <main id="main" className="relative px-5 pt-28 pb-16 sm:px-6 md:px-8 md:pt-36 md:pb-28 lg:pt-40 lg:pb-36">
         <div className="mx-auto max-w-3xl">
           <AnimateIn>
             <div className="mb-16 text-center">
               <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
-                FAQ
+                {t("sectionLabel")}
               </p>
               <h1 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-                Frequently asked{" "}
-                <span className="gradient-text">questions</span>
+                {t("heading")}
+                <span className="gradient-text">{t("headingHighlight")}</span>
               </h1>
               <p className="mx-auto max-w-xl text-lg text-muted">
-                Everything you need to know about deploying, securing, and scaling AI agent fleets with OpenLegion.
+                {t("fullPageSubtitle")}
               </p>
             </div>
           </AnimateIn>

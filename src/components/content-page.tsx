@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { ContentPage as ContentPageData } from "@/lib/markdown";
 import { normalizeDate } from "@/lib/content-page-helpers";
 import {
@@ -22,6 +23,7 @@ function formatDate(iso: string): string {
 }
 
 export function ContentPage({ page }: ContentPageProps) {
+  const t = useTranslations("contentPage");
   const { frontmatter, html, faqs, howTo } = page;
   const lastUpdated = normalizeDate(frontmatter.last_updated);
   const slug = frontmatter.slug;
@@ -58,11 +60,11 @@ export function ContentPage({ page }: ContentPageProps) {
       <div className="content-page">
         <div className="content-page-header">
           <nav aria-label="Breadcrumb" className="breadcrumb">
-            <Link href="/">Home</Link>
+            <Link href="/">{t("breadcrumbHome")}</Link>
             {isComparisonSubPage(slug) && (
               <>
                 <span aria-hidden="true">/</span>
-                <Link href="/comparison">Comparisons</Link>
+                <Link href="/comparison">{t("breadcrumbComparisons")}</Link>
               </>
             )}
             <span aria-hidden="true">/</span>
@@ -71,14 +73,14 @@ export function ContentPage({ page }: ContentPageProps) {
           <div className="content-date">
             {published && published !== lastUpdated && (
               <time dateTime={published}>
-                Published {formatDate(published)}
+                {t("publishedPrefix")}{formatDate(published)}
               </time>
             )}
             {published && published !== lastUpdated && (
               <span aria-hidden="true"> · </span>
             )}
             <time dateTime={lastUpdated}>
-              Updated {formatDate(lastUpdated)}
+              {t("updatedPrefix")}{formatDate(lastUpdated)}
             </time>
           </div>
         </div>
@@ -87,7 +89,7 @@ export function ContentPage({ page }: ContentPageProps) {
           <div dangerouslySetInnerHTML={{ __html: html }} />
         </article>
 
-        <aside aria-label="Related content">
+        <aside aria-label={t("relatedContentAriaLabel")}>
           <RelatedPages currentSlug={slug} />
         </aside>
       </div>

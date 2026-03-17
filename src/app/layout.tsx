@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans_SC } from "next/font/google";
 import Script from "next/script";
-import { GITHUB_URL, DISCORD_URL, TWITTER_URL } from "@/lib/constants";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, getLocale, getTranslations } from "next-intl/server";
+import { GITHUB_URL, DISCORD_URL, TWITTER_URL, RTL_LOCALES } from "@/lib/constants";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,99 +16,108 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const defaultTitle = "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control";
-const description =
-  "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. 7-day free trial, no credit card required.";
+// CJK font for Chinese — other CJK locales fall back to system fonts
+const notoSansSC = Noto_Sans_SC({
+  variable: "--font-noto-sc",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://www.openlegion.ai"),
-  title: {
-    default: defaultTitle,
-    template: "%s | OpenLegion",
-  },
-  description,
-  keywords: [
-    "AI agent framework",
-    "multi-agent system",
-    "LLM orchestration",
-    "container isolated AI agents",
-    "autonomous AI agents",
-    "AI agent security",
-    "AI agent sandbox",
-    "AI agent cost control",
-    "python AI agent framework",
-    "openclaw alternative",
-    "self-hosted AI agents",
-    "deterministic AI workflows",
-    "AI agent deployment",
-    "production AI agents",
-    "multi-agent orchestration",
-    "secure AI agents",
-    "AI agent fleet",
-    "enterprise AI agent framework",
-    "on-premises AI agents",
-    "enterprise AI deployment",
-    "SOC 2 ready AI agents",
-    "air-gapped AI deployment",
-    "AI agent governance",
-    "AI agent cost governance",
-    "role-based access AI agents",
-    "audit-ready AI framework",
-    "self-hosted LLM orchestration",
-    "AI agent platform",
-    "agentic AI framework",
-    "agentic AI orchestration",
-    "agentic AI security",
-    "AI agent deployment platform",
-  ],
-  authors: [{ name: "OpenLegion Contributors" }],
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("metadata");
+
+  return {
+    metadataBase: new URL("https://www.openlegion.ai"),
+    title: {
+      default: t("homeTitle"),
+      template: "%s | OpenLegion",
+    },
+    description: t("homeDescription"),
+    keywords: [
+      "AI agent framework",
+      "multi-agent system",
+      "LLM orchestration",
+      "container isolated AI agents",
+      "autonomous AI agents",
+      "AI agent security",
+      "AI agent sandbox",
+      "AI agent cost control",
+      "python AI agent framework",
+      "openclaw alternative",
+      "self-hosted AI agents",
+      "deterministic AI workflows",
+      "AI agent deployment",
+      "production AI agents",
+      "multi-agent orchestration",
+      "secure AI agents",
+      "AI agent fleet",
+      "enterprise AI agent framework",
+      "on-premises AI agents",
+      "enterprise AI deployment",
+      "SOC 2 ready AI agents",
+      "air-gapped AI deployment",
+      "AI agent governance",
+      "AI agent cost governance",
+      "role-based access AI agents",
+      "audit-ready AI framework",
+      "self-hosted LLM orchestration",
+      "AI agent platform",
+      "agentic AI framework",
+      "agentic AI orchestration",
+      "agentic AI security",
+      "AI agent deployment platform",
     ],
-    apple: "/apple-touch-icon.png",
-  },
-  manifest: "/site.webmanifest",
-  alternates: {
-    canonical: "https://www.openlegion.ai",
-  },
-  openGraph: {
-    title: "OpenLegion — AI Agent Framework & Platform",
-    description:
-      "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. 7-day free trial.",
-    type: "website",
-    siteName: "OpenLegion",
-    url: "https://www.openlegion.ai",
-    locale: "en_US",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "OpenLegion — AI Agent Framework & Platform" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@openlegion",
-    title: "OpenLegion — AI Agent Framework & Platform",
-    description:
-      "Deploy AI agents that automate anything a human can do on a computer. 7-day free trial, no credit card required.",
-    images: ["/og.png"],
-  },
-  other: {
-    "theme-color": "#08090c",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    "max-snippet": -1,
-    "max-image-preview": "large" as const,
-    "max-video-preview": -1,
-  },
-};
+    authors: [{ name: "OpenLegion Contributors" }],
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: "/apple-touch-icon.png",
+    },
+    manifest: "/site.webmanifest",
+    alternates: {
+      canonical: "https://www.openlegion.ai",
+    },
+    openGraph: {
+      title: t("ogTitle"),
+      description: t("ogDescription"),
+      type: "website",
+      siteName: "OpenLegion",
+      url: "https://www.openlegion.ai",
+      locale: "en_US",
+      images: [{ url: "/og.png", width: 1200, height: 630, alt: t("ogTitle") }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@openlegion",
+      title: t("twitterTitle"),
+      description: t("twitterDescription"),
+      images: ["/og.png"],
+    },
+    other: {
+      "theme-color": "#08090c",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large" as const,
+      "max-video-preview": -1,
+    },
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   const orgJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -136,7 +147,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark">
+    <html lang={locale} dir={RTL_LOCALES.has(locale) ? "rtl" : "ltr"} className="dark">
       <head>
         <link
           rel="alternate"
@@ -164,9 +175,11 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} antialiased`}
       >
-        {children}
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-758JT3002Y"
           strategy="afterInteractive"

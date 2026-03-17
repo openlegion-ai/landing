@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# lingo.dev compiler (translation server logs, dev metadata)
+src/lingo/metadata-dev
+src/lingo/translation-server.log
+# Keep src/lingo/cache/*.json — these are the committed translation cache

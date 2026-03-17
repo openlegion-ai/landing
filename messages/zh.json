@@ -1,0 +1,1062 @@
+{
+  "nav": {
+    "links": {
+      "0": {
+        "label": "功能特性"
+      },
+      "1": {
+        "label": "应用场景"
+      },
+      "2": {
+        "label": "技术架构"
+      },
+      "3": {
+        "label": "安全防护"
+      },
+      "4": {
+        "label": "定价方案"
+      },
+      "5": {
+        "label": "文档"
+      }
+    },
+    "ariaLabel": "主导航",
+    "homeAriaLabel": "OpenLegion 首页",
+    "brandName": "OpenLegion",
+    "githubAriaLabel": "GitHub 代码仓库",
+    "freeTrial": "免费试用",
+    "tryFree": "免费试用 →",
+    "toggleMenuAriaLabel": "切换菜单",
+    "billingPeriodAriaLabel": "计费周期"
+  },
+  "hero": {
+    "ariaLabel": "产品介绍",
+    "badge": "从这里开始构建你的 AI 团队",
+    "headingLine1": "你的",
+    "headingHighlight": "AI 团队",
+    "headingLine2": "。",
+    "headingLine3": "几分钟完成部署。",
+    "tagline": "为生产环境打造的 AI 智能体框架与平台。",
+    "subtitle": "为每个智能体分配任务和预算——它们全天候工作，而你的密钥始终锁在它们无法触及的密钥库中。",
+    "subtitleSecond": "凡是人类能做的，你的智能体都能全天候完成。",
+    "pricingAnchor": "7 天免费试用 · 无需信用卡 · 100+ LLM 提供商 · 无厂商锁定",
+    "ctaPrimary": "开始免费试用 →",
+    "ctaSecondary": "阅读文档",
+    "terminalTitle": "openlegion 演示",
+    "videoTitle": "OpenLegion 演示——部署 AI 智能体编队",
+    "videoFallback": "您的浏览器不支持 HTML5 视频。",
+    "videoCaptionBelow": "你的团队正花费数小时做 AI 智能体可以在他们休息时完成的工作。"
+  },
+  "capabilityBand": {
+    "ariaLabel": "智能体可以自动化的任务",
+    "heading": "人类能做的，智能体也能做。",
+    "subheading": "内置隐身浏览器，全天候运行。",
+    "footer": "所有智能体都运行在独立容器中，凭证由密钥库保护，并自动设置开销上限。",
+    "pills": {
+      "0": {
+        "label": "浏览任意网站",
+        "tip": "调研竞争对手、阅读新闻、抓取产品数据"
+      },
+      "1": {
+        "label": "填写任意表单",
+        "tip": "提交申请、更新 CRM、预约安排"
+      },
+      "2": {
+        "label": "编写和运行代码",
+        "tip": "开发功能、修复 Bug、运行测试、部署变更"
+      },
+      "3": {
+        "label": "发送邮件和消息",
+        "tip": "运行外发序列、自动跟进、回复咨询"
+      },
+      "4": {
+        "label": "管理文件和文件夹",
+        "tip": "整理文档、重命名文件、移动和归档内容"
+      },
+      "5": {
+        "label": "调研与总结",
+        "tip": "阅读文章、编写报告、回答调研问题"
+      },
+      "6": {
+        "label": "从网站抓取数据",
+        "tip": "提取价格、联系人、列表信息——无需 API"
+      },
+      "7": {
+        "label": "筛选销售线索",
+        "tip": "评分潜在客户、丰富数据、预约初步沟通"
+      },
+      "8": {
+        "label": "处理电子表格",
+        "tip": "清洗数据、执行计算、生成摘要"
+      },
+      "9": {
+        "label": "发布社交媒体",
+        "tip": "撰写并定时发布跨平台内容"
+      },
+      "10": {
+        "label": "监控变动",
+        "tip": "当价格下降、页面更新或事件触发时提醒你"
+      },
+      "11": {
+        "label": "通过 Slack、Telegram、Discord 触发",
+        "tip": "通过团队已在使用的工具触发智能体并获取动态"
+      }
+    }
+  },
+  "audienceSelector": {
+    "heading": "你需要",
+    "headingHighlight": "自动化",
+    "headingEnd": "什么？",
+    "cards": {
+      "0": {
+        "title": "我需要自动化团队工作流"
+      },
+      "1": {
+        "title": "我需要构建 AI 驱动的产品"
+      },
+      "2": {
+        "title": "我需要定制 AI 团队"
+      },
+      "3": {
+        "title": "为企业部署"
+      }
+    }
+  },
+  "useCases": {
+    "sectionLabel": "应用场景",
+    "heading": "你的",
+    "headingHighlight": "团队需要",
+    "headingEnd": "什么角色？",
+    "subtitle": "选择内置的多智能体模板，或自定义你的自主智能体编队。每个智能体拥有独立的容器、预算和工具权限。",
+    "items": {
+      "0": {
+        "name": "你的工程团队",
+        "agents": {
+          "0": "PM",
+          "1": "工程师",
+          "2": "审查员"
+        },
+        "description": "OpenLegion 的研发团队模板可自动化任务规划、代码生成和 PR 审查。让你的智能体编队处理模板化工作，释放开发力量。"
+      },
+      "1": {
+        "name": "你的销售团队",
+        "agents": {
+          "0": "调研员",
+          "1": "资格审核",
+          "2": "外发拓展"
+        },
+        "description": "OpenLegion 的销售管线模板全天候自动进行线索调研、评分和个性化外发——无需人工值守。"
+      },
+      "2": {
+        "name": "你的内容团队",
+        "agents": {
+          "0": "调研员",
+          "1": "写作者",
+          "2": "编辑"
+        },
+        "description": "OpenLegion 的内容工作室模板负责选题调研、长文撰写和编辑审校，确保每篇内容保持一致的品牌调性。"
+      },
+      "3": {
+        "name": "你的自定义团队",
+        "agents": {
+          "0": "任意角色",
+          "1": "任意工具",
+          "2": "任意预算"
+        },
+        "description": "没找到你的使用场景？自由定义任意角色、工具和预算组合。智能体拥有独立的容器、凭证和开销限额——满足任何业务需求。"
+      }
+    },
+    "devEvents": {
+      "0": "PM 创建了任务 #42",
+      "1": "工程师提交了 PR #18",
+      "2": "审查员正在审查…"
+    },
+    "funnelBars": {
+      "0": {
+        "label": "线索"
+      },
+      "1": {
+        "label": "已筛选"
+      },
+      "2": {
+        "label": "已转化"
+      }
+    },
+    "contentItems": {
+      "0": {
+        "title": "博客文章",
+        "status": "已发布"
+      },
+      "1": {
+        "title": "案例研究",
+        "status": "审核中"
+      },
+      "2": {
+        "title": "白皮书",
+        "status": "撰写中"
+      }
+    },
+    "customSteps": {
+      "0": "接收",
+      "1": "调研",
+      "2": "执行",
+      "3": "交付"
+    }
+  },
+  "socialProof": {
+    "stats": {
+      "0": {
+        "fallback": "2,100+",
+        "label": "测试通过"
+      },
+      "1": {
+        "fallback": "100+",
+        "label": "支持的 LLM 提供商"
+      },
+      "2": {
+        "fallback": "0",
+        "label": "已报告的 CVE"
+      },
+      "3": {
+        "fallback": "$0",
+        "label": "LLM 使用加价"
+      }
+    },
+    "discordLabel": "Discord",
+    "githubLabel": "GitHub",
+    "githubWithStars": "GitHub ★ {stars}"
+  },
+  "features": {
+    "sectionLabel": "功能特性",
+    "heading": "为不容",
+    "headingHighlight": "出错",
+    "headingEnd": "的团队而生。",
+    "subtitle": "从第一天起就将安全、成本控制和智能体自动化深度内置的 AI 智能体平台。",
+    "outcomes": {
+      "0": {
+        "title": "AI 智能体安全：你的密钥存储在智能体永远无法触及的密钥库中。",
+        "description": "每个智能体通过凭证代理调用。密钥绝不存在于容器内部。六层独立安全防护默认开启。",
+        "linkLabel": "了解安全机制 →"
+      },
+      "1": {
+        "title": "为每个智能体设定预算，超出即刻停止。",
+        "description": "每个智能体的日度和月度上限，自动硬性截止。不会有意外账单，不会有凌晨三点的 API 失控循环。",
+        "linkLabel": "了解成本控制机制 →"
+      },
+      "2": {
+        "title": "确定性 AI 智能体编排——你来决定谁做什么。",
+        "description": "智能体可浏览任意网站、操作任意工具、运行任意任务。兼容 MCP，内置 50+ 技能。YAML 定义工作流——每条执行路径可预测、可审计、完全在你的控制之下。",
+        "linkLabel": "了解编排机制 →"
+      }
+    },
+    "allFeaturesLink": "查看所有 AI 智能体平台功能，包括浏览器自动化、持久记忆、MCP 扩展性和多智能体编排 →"
+  },
+  "dashboardPreview": {
+    "sectionLabel": "编队控制台",
+    "heading": "实时查看你的编队",
+    "headingHighlight": "运行状态",
+    "subtitle": "每个智能体、每笔开销、每个事件——实时呈现。与智能体对话、监控健康状态、从统一视图追踪支出。",
+    "windowTitle": "编队概览",
+    "liveIndicator": "实时",
+    "agentsCount": "{count} 个智能体",
+    "todaySuffix": "今日",
+    "tokensSuffix": "令牌",
+    "onlineCount": "{count} 在线",
+    "degradedCount": "{count} 异常",
+    "agentLabel": "智能体 {n}",
+    "healthOnline": "在线",
+    "healthDegraded": "异常",
+    "activityLabel": "活动",
+    "heartbeatLabel": "心跳",
+    "costTodayLabel": "今日开销",
+    "chatButton": "对话",
+    "pauseButton": "暂停",
+    "stateStreaming": "传输中",
+    "stateThinking": "思考中",
+    "stateTool": "工具调用",
+    "stateIdle": "空闲",
+    "agents": {
+      "0": {
+        "id": "researcher",
+        "role": "首席调研员"
+      },
+      "1": {
+        "id": "engineer",
+        "role": "代码工程师"
+      },
+      "2": {
+        "id": "reviewer",
+        "role": "PR 审查员"
+      },
+      "3": {
+        "id": "writer",
+        "role": "内容写作者"
+      },
+      "4": {
+        "id": "qualifier",
+        "role": "线索审核员"
+      },
+      "5": {
+        "id": "outreach",
+        "role": "销售外发拓展"
+      }
+    }
+  },
+  "quickstart": {
+    "sectionLabel": "快速开始",
+    "heading": "通往首个",
+    "headingHighlight": "AI 智能体",
+    "managedBadge": "最简单——无需任何配置",
+    "managedHeading": "无需终端，无需配置文件。",
+    "managedDescription": "我们为你管理容器、凭证和基础设施。",
+    "managedCta": "开始免费试用 →",
+    "steps": {
+      "0": "创建你的账户",
+      "1": "选择方案",
+      "2": "配置你的智能体",
+      "3": "启动你的编队"
+    },
+    "selfHostedBadge": "完全控制——支持本地部署",
+    "selfHostedHeading": "三条命令，一台机器。",
+    "requirementsLabel": "前置要求：",
+    "requirements": "Python 3.10+、Docker（运行中）、一个 LLM API 密钥（Anthropic / Moonshot / OpenAI）",
+    "selfHostedCta": "阅读文档 →",
+    "tabs": {
+      "0": {
+        "label": "macOS / Linux"
+      },
+      "1": {
+        "label": "Windows (PowerShell)"
+      }
+    },
+    "tabGroupLabel": "操作系统",
+    "copyLabel": "复制",
+    "copiedLabel": "已复制"
+  },
+  "security": {
+    "sectionLabel": "安全防护",
+    "heading": "AI 智能体安全：假设智能体会",
+    "headingHighlight": "越界行事",
+    "headingEnd": "来设计。",
+    "subtitle": "六层防护默认开启，此处展示四层。",
+    "layers": {
+      "0": {
+        "title": "每个智能体运行在独立的容器中",
+        "description": "每个智能体使用 Docker 容器或 Docker Sandbox 微虚拟机——无共享进程空间。"
+      },
+      "1": {
+        "title": "智能体无法提升权限或消耗你的资源",
+        "description": "非 root 用户（UID 1000）、no-new-privileges 标志、内存和 CPU 资源限制强制执行。"
+      },
+      "2": {
+        "title": "API 密钥存储在智能体永远无法触及的密钥库中",
+        "description": "密钥库代理持有所有 API 密钥——智能体通过代理调用，永远看不到密钥。"
+      },
+      "3": {
+        "title": "每个智能体只能访问你明确允许的内容",
+        "description": "每智能体 ACL 矩阵控制允许使用的工具、文件和网格操作。"
+      },
+      "4": {
+        "title": "恶意输入在到达 LLM 之前即被拦截",
+        "description": "路径穿越防护、SSRF 防护、安全条件评估、令牌预算执行。"
+      },
+      "5": {
+        "title": "隐藏字符在提示注入攻击前即被清除",
+        "description": "在 56 个关键节点进行不可见字符清理——双向覆盖、标签字符、零宽字符在进入 LLM 上下文前全部被拦截。"
+      }
+    },
+    "allLayersLink": "详细了解全部六层安全防护 →"
+  },
+  "architecture": {
+    "sectionLabel": "技术架构",
+    "title": "三层隔离防护区",
+    "summary": "你的多智能体编队运行在三个隔离区域中——用户区、协调器区和沙箱容器区。智能体触及的任何内容都无法接触到你的 API 密钥、其他智能体或宿主机。",
+    "zones": {
+      "0": {
+        "name": "用户区",
+        "trust": "完全信任",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "智能体直接通信"
+        }
+      },
+      "1": {
+        "name": "网格主机",
+        "trust": "可信协调器",
+        "items": {
+          "0": "FastAPI :8420",
+          "1": "黑板 (SQLite)",
+          "2": "发布/订阅 + 消息路由",
+          "3": "凭证密钥库 (API 代理)",
+          "4": "编排器 + 权限矩阵",
+          "5": "容器管理器 + 成本追踪器"
+        }
+      },
+      "2": {
+        "name": "智能体容器",
+        "trust": "不受信任 / 沙箱隔离",
+        "items": {
+          "0": "每个 FastAPI :8400+",
+          "1": "独立 /data 数据卷",
+          "2": "独立内存数据库 (SQLite + vec)",
+          "3": "默认 384MB RAM / 0.15 CPU",
+          "4": "非 root、no-new-privileges"
+        }
+      }
+    },
+    "agentLabel": "智能体 {n}",
+    "learnMoreLink": "了解更多关于 AI 智能体编排 →"
+  },
+  "enterprise": {
+    "heading": "为企业而生。",
+    "description": "本地部署、气隙环境、SOC 2 对齐的凭证隔离、确定性审计追踪、每智能体成本治理和基于角色的访问控制——全部默认启用。引擎约 30,000 行 Python 代码，包含 2,100+ 测试，依赖面极小。",
+    "signals": {
+      "0": "本地部署与气隙环境",
+      "1": "SOC 2 对齐",
+      "2": "确定性审计追踪",
+      "3": "确定性工作流",
+      "4": "每智能体成本治理",
+      "5": "基于角色的访问控制"
+    },
+    "cta": "联系我们咨询企业部署方案"
+  },
+  "comparison": {
+    "sectionLabel": "方案对比",
+    "heading": "OpenLegion 的不同之处",
+    "subtitle": "大多数 AI 智能体工具是为演示而生——OpenLegion 是为生产环境而生。",
+    "detailParagraph": "OpenLegion 是唯一将密钥库代理凭证、容器隔离和每智能体预算控制作为默认配置的 AI 智能体框架——自发布以来零 CVE 报告。",
+    "disclaimer": "基于公开安全披露和社区反馈。",
+    "tableCaption": "典型 AI 智能体框架与 OpenLegion 的功能对比",
+    "columnAspect": "对比项",
+    "columnThem": "OpenClaw 及其他",
+    "columnOpenLegion": "OpenLegion",
+    "rows": {
+      "0": {
+        "aspect": "API 密钥存储",
+        "them": "存储在智能体配置文件中",
+        "openlegion": "密钥库代理——智能体永远看不到密钥"
+      },
+      "1": {
+        "aspect": "智能体隔离",
+        "them": "进程级别",
+        "openlegion": "Docker 容器 / 微虚拟机"
+      },
+      "2": {
+        "aspect": "成本控制",
+        "them": "无",
+        "openlegion": "每智能体日度和月度预算"
+      },
+      "3": {
+        "aspect": "任务路由",
+        "them": "由 LLM CEO 智能体决定",
+        "openlegion": "确定性 YAML DAG"
+      },
+      "4": {
+        "aspect": "测试覆盖率",
+        "them": "很少",
+        "openlegion": "2,100+ 测试覆盖单元 + 集成 + 端到端"
+      },
+      "5": {
+        "aspect": "代码库规模",
+        "them": "430,000+ 行",
+        "openlegion": "约 30,000 行（引擎代码，可审计）"
+      }
+    },
+    "footnote": "OpenLegion 于 2026 年 2 月发布。GitHub 星标数反映项目年龄，而非生产就绪度。"
+  },
+  "faq": {
+    "sectionLabel": "常见问题",
+    "heading": "常见",
+    "headingHighlight": "问题",
+    "fullPageSubtitle": "关于使用 OpenLegion 部署、保护和扩展 AI 智能体编队，你需要了解的一切。",
+    "items": {
+      "0": {
+        "question": "使用 OpenLegion 需要开发经验吗？",
+        "answer": "不需要。app.openlegion.ai 上的托管服务无需编码——开始免费试用，选择模板，添加你的 LLM API 密钥，你的智能体几分钟内即可上线。自托管版本需要 Python 3.10+ 和 Docker。无论哪种方式，内置的团队模板（研发团队、销售管线、内容工作室）开箱即用，无需任何配置。"
+      },
+      "1": {
+        "question": "订阅之外是否还需要支付 LLM 使用费用？",
+        "answer": "是的——你使用自己的 Anthropic、OpenAI、Google 或 100+ 支持的提供商的 API 密钥。你按提供商的公开价格直接付费。OpenLegion 仅收取平台和基础设施费用。模型使用零加价。"
+      },
+      "2": {
+        "question": "OpenLegion 智能体可以自动化哪些类型的任务？",
+        "answer": "人类在计算机上通过浏览器或终端执行的任何任务。智能体可以浏览和交互任意网站、登录网络应用、填写表单、从任意页面提取数据、发送邮件和消息、管理文件和文件夹、编写和执行代码、处理文档、发布社交平台内容、监控页面变动、运行自定义自动化——全天候无需人工值守。常见部署场景包括销售外发管线、竞品调研、线索筛选、开发工作流、发票处理、内容制作和内部任务自动化。"
+      },
+      "3": {
+        "question": "什么是 OpenLegion？",
+        "answer": "OpenLegion 是一个生产级 AI 智能体框架和平台，可在隔离的 Docker 容器中部署自主智能体编队。每个智能体拥有独立的预算、权限和密钥库——六层安全防护默认开启。仅需 Python、Docker 和一个 API 密钥。无需 Redis、无需 Kubernetes、无需 LangChain。采用 BSL 1.1 许可协议（源码可见）。"
+      },
+      "4": {
+        "question": "OpenLegion 与 CrewAI 或其他智能体框架有什么区别？",
+        "answer": "OpenLegion 对每个智能体进行容器隔离，通过密钥库代理所有凭证，并强制执行每智能体预算——大多数框架做不到这些。CrewAI 等类似框架在共享进程中运行智能体，没有隔离、没有成本控制，API 密钥存储在配置文件中。OpenLegion 使用确定性 YAML 工作流，而非让 LLM 决定任务路由，使执行过程可预测、可审计。"
+      },
+      "5": {
+        "question": "OpenLegion 支持哪些 LLM 提供商？",
+        "answer": "通过 LiteLLM 支持 100+ LLM 提供商，包括 Anthropic (Claude)、OpenAI (GPT)、Google (Gemini)、Mistral、Moonshot 以及任何 OpenAI 兼容 API。你可以为同一编队中的不同智能体分配不同的模型——无厂商锁定。"
+      },
+      "6": {
+        "question": "OpenLegion 如何保障 API 密钥安全？",
+        "answer": "通过盲注凭证注入——智能体永远看不到 API 密钥。密钥存储在网格主机上的密钥库中。当智能体调用 LLM 时，请求通过密钥库代理传输，代理在网络层注入凭证、追踪令牌使用量并强制执行预算限制。即使智能体被完全入侵，也无法获取你的 API 密钥。"
+      },
+      "7": {
+        "question": "运行 OpenLegion 需要 Kubernetes 或云基础设施吗？",
+        "answer": "不需要。OpenLegion 可以在单台机器上运行，无需外部服务。你只需要 Python 3.10+、Docker 和一个 LLM API 密钥——无需 Redis、无需 Kubernetes、无需 LangChain、无需外部数据库。"
+      },
+      "8": {
+        "question": "OpenLegion 是否具备企业级能力？",
+        "answer": "是的——OpenLegion 专为企业部署设计。包括本地部署支持（含气隙环境）、确定性 YAML 工作流、每智能体成本治理、基于角色的访问控制、通过密钥库代理的凭证隔离，以及约 30,000 行、2,100+ 测试的可审计代码库。所有安全层默认开启。"
+      },
+      "9": {
+        "question": "OpenLegion 可以在气隙环境中本地部署吗？",
+        "answer": "可以。完整技术栈完全运行在你自己的基础设施上，除 Docker 和 Python 外无外部依赖。数据不会离开你的网络。协调器、智能体、密钥库和控制面板全部运行在单台机器上，适用于气隙、受监管和本地部署环境。"
+      },
+      "10": {
+        "question": "什么是 AI 智能体平台？",
+        "answer": "AI 智能体平台是用于在生产环境中部署、编排和治理自主 AI 智能体的托管基础设施。与仅提供智能体逻辑原语的原始框架库不同，平台负责容器隔离、凭证密钥库、每智能体成本控制、可观测性和部署——让团队无需从零构建 DevOps 即可上线智能体。"
+      },
+      "11": {
+        "question": "AI 智能体框架和智能体平台有什么区别？",
+        "answer": "框架是用于构建智能体逻辑的代码库——包括工具、提示、记忆和链式调用。平台则在此之上提供运营基础设施：容器隔离、凭证密钥库、每智能体预算、部署管线和编队级可观测性。OpenLegion 两者兼备：一个用于编写智能体的 Python 框架，以及一个在生产环境中运行智能体的自托管平台，安全和成本治理内置其中。"
+      },
+      "12": {
+        "question": "OpenLegion 中的 AI 智能体编排是如何工作的？",
+        "answer": "OpenLegion 使用确定性 YAML DAG 工作流——控制平面中没有 LLM 来决定谁做什么。你通过顺序和并行执行模式定义任务图，通过集中式黑板和发布/订阅消息进行协调。编排器根据 DAG 定义路由任务，使每条执行路径可预测、可重复、可审计。采用编队模型而非层级模型——智能体执行分配的步骤并将结果报告给协调器。"
+      },
+      "13": {
+        "question": "AI 智能体安全对自主智能体意味着什么？",
+        "answer": "AI 智能体安全应对自主智能体引入的独特威胁：凭证泄露、提示注入、资源滥用和数据外泄。OpenLegion 的六层防御——运行时隔离、容器加固、凭证分离、权限强制执行、输入验证和 Unicode 清理——独立缓解每个威胁，单层被突破不会危及其他层。"
+      }
+    },
+    "seeFullFaqPrefix": "更多问题解答——包括架构、LLM 提供商和 AI 智能体编排。",
+    "seeFullFaqLink": "查看完整常见问题 →"
+  },
+  "technicalDefinition": {
+    "label": "技术定义",
+    "srOnlyPrefix": "什么是 OpenLegion？",
+    "text": "OpenLegion 是一个生产级 AI 智能体平台，具备容器隔离、盲注凭证注入、每智能体预算和确定性 YAML 编排——专为需要在生产环境中运行安全、可控成本的智能体编队的团队设计。"
+  },
+  "cta": {
+    "heading": "你的 AI 团队只差一次",
+    "headingHighlight": "部署",
+    "headingEnd": "。",
+    "subtitle": "7 天免费试用 · 无需信用卡 · 100+ LLM 提供商 · 无厂商锁定",
+    "primaryButton": "开始免费试用 →",
+    "secondaryButton": "加入我们的 Discord"
+  },
+  "footer": {
+    "brandDescription": "为生产环境打造的 AI 智能体框架与平台。使用安全、可控成本的智能体编队自动化任何计算机任务。",
+    "license": "BSL 1.1 许可协议 © {year} OpenLegion 贡献者",
+    "columns": {
+      "0": {
+        "title": "产品",
+        "links": {
+          "0": "功能特性",
+          "1": "应用场景",
+          "2": "控制面板",
+          "3": "安全防护",
+          "4": "定价方案",
+          "5": "快速开始",
+          "6": "常见问题"
+        }
+      },
+      "1": {
+        "title": "深入了解",
+        "links": {
+          "0": "AI 智能体平台",
+          "1": "AI 智能体编排",
+          "2": "AI 智能体框架",
+          "3": "AI 智能体安全",
+          "4": "DeepSeek V4 智能体"
+        }
+      },
+      "2": {
+        "title": "方案对比",
+        "links": {
+          "0": "所有对比",
+          "1": "OpenClaw 替代方案",
+          "2": "vs OpenClaw",
+          "3": "vs LangGraph",
+          "4": "vs CrewAI",
+          "5": "vs AutoGen"
+        }
+      },
+      "3": {
+        "title": "资源",
+        "links": {
+          "0": "文档",
+          "1": "GitHub",
+          "2": "问题反馈",
+          "3": "社区讨论"
+        }
+      },
+      "4": {
+        "title": "社区",
+        "links": {
+          "0": "Discord",
+          "1": "Twitter / X"
+        }
+      },
+      "5": {
+        "title": "法律条款",
+        "links": {
+          "0": "服务条款",
+          "1": "隐私政策",
+          "2": "BSL 1.1 许可协议"
+        }
+      }
+    }
+  },
+  "pricing": {
+    "sectionLabel": "定价方案",
+    "heading": "免费试用你的 AI 团队",
+    "headingHighlight": "7 天",
+    "headingEnd": "。",
+    "subtitle": "无需信用卡。你提供 API 密钥，我们运行基础设施。",
+    "included": {
+      "0": {
+        "title": "密钥库安全",
+        "sub": "密钥永不暴露"
+      },
+      "1": {
+        "title": "预算控制",
+        "sub": "智能体自动停止"
+      },
+      "2": {
+        "title": "100+ LLM 提供商",
+        "sub": "无厂商锁定"
+      },
+      "3": {
+        "title": "编队控制台",
+        "sub": "实时成本追踪"
+      }
+    },
+    "billingMonthly": "月付",
+    "billingYearly": "年付",
+    "billingSaveLabel": "省约 25%",
+    "plans": {
+      "0": {
+        "name": "基础版",
+        "monthlyPrice": "19",
+        "yearlyPrice": "170",
+        "yearlyMonthly": "14"
+      },
+      "1": {
+        "name": "成长版",
+        "monthlyPrice": "59",
+        "yearlyPrice": "530",
+        "yearlyMonthly": "44"
+      },
+      "2": {
+        "name": "专业版",
+        "monthlyPrice": "149",
+        "yearlyPrice": "1340",
+        "yearlyMonthly": "112"
+      }
+    },
+    "popularBadge": "热门",
+    "priceSuffixMonthly": "/月",
+    "priceSuffixYearly": "/年",
+    "yearlyBilledNote": "约 ${monthlyEquivalent}/月（按年计费）",
+    "monthlyTrialNote": "7 天免费试用 · 无需信用卡",
+    "startFreeTrial": "开始免费试用",
+    "agentsLabel": "{count, plural, one {个智能体} other {个智能体}}",
+    "browsersLabel": "{count, plural, one {个并发浏览器} other {个并发浏览器}}",
+    "projectsLabel": "{count, plural, one {个项目} other {个项目}}",
+    "noProjects": "无项目",
+    "planFeatures": {
+      "0": "每个智能体运行在独立的安全容器中",
+      "1": "支持 Claude、GPT、Gemini 及 100+ 种模型",
+      "2": "实时监控每个智能体、成本和事件",
+      "3": "专属部署 URL",
+      "4": "专属计算资源——无共享资源"
+    },
+    "enterprise": {
+      "name": "企业版",
+      "price": "定制",
+      "subtitle": "根据你的需求量身定制",
+      "cta": "联系我们",
+      "unlimitedAgents": "不限",
+      "agents": "个智能体",
+      "browsers": "个并发浏览器",
+      "projects": "个项目",
+      "features": {
+        "0": "专属基础设施",
+        "1": "自定义 SLA",
+        "2": "优先支持",
+        "3": "本地部署"
+      }
+    },
+    "faqHeading": "常见问题",
+    "faq": {
+      "0": {
+        "question": "7 天免费试用如何运作？",
+        "answer": "注册即可获得任一方案的 7 天完整访问权限——无需信用卡。部署智能体、测试工作流、探索控制台。如果试用期结束前未升级，你的账户将自动暂停。除非你选择了方案，否则不会产生任何费用。"
+      },
+      "1": {
+        "question": "方案价格之外是否还需支付 LLM 使用费用？",
+        "answer": "是的——你使用自己的 API 密钥（Anthropic、OpenAI、Google 或 100+ 提供商）。你按提供商的公开价格直接付费。OpenLegion 仅收取平台费用。模型使用零加价。"
+      },
+      "2": {
+        "question": "可以切换方案吗？",
+        "answer": "可以——随时升级或降级。更改将在下一个计费周期开始时生效。"
+      },
+      "3": {
+        "question": "取消后我的智能体会怎样？",
+        "answer": "取消后你的智能体配置和数据将保留 30 天。你可以在账户关闭前导出所有数据。"
+      },
+      "4": {
+        "question": "可以自托管 OpenLegion 吗？",
+        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 BSL 1.1 源码可见许可协议。托管服务起价 $19/月（含 7 天免费试用），适合不想管理基础设施的团队。"
+      },
+      "5": {
+        "question": "什么算作一个「智能体」？",
+        "answer": "每个部署的智能体容器计为方案限额中的一个智能体。例如研发团队模板（PM + 工程师 + 审查员）计为 3 个智能体。"
+      }
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "titleHighlight": "0",
+    "description": "页面不存在。编队尚未在此部署。",
+    "backToHome": "返回首页"
+  },
+  "common": {
+    "skipToContent": "跳至正文",
+    "readyToStart": "准备好让你的第一个智能体开始工作了吗？",
+    "startFreeTrialInline": "开始免费试用 →",
+    "fleetLivePrompt": "这就是你的编队，正在运行。",
+    "tryFree7Days": "免费试用 7 天 →",
+    "brandName": "OpenLegion",
+    "selectLanguage": "选择语言"
+  },
+  "metadata": {
+    "homeTitle": "OpenLegion — AI 智能体框架与平台 | 自动化一切，尽在掌控",
+    "homeDescription": "OpenLegion 是为生产环境打造的 AI 智能体框架与平台。部署自主智能体，自动化任何计算机任务——浏览、表单、代码、外发、数据。7 天免费试用，无需信用卡。",
+    "titleTemplate": "{title} | OpenLegion",
+    "ogTitle": "OpenLegion — AI 智能体框架与平台",
+    "ogDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。安全、可控预算、生产就绪。7 天免费试用。",
+    "ogImageAlt": "OpenLegion — AI 智能体框架与平台",
+    "twitterTitle": "OpenLegion — AI 智能体框架与平台",
+    "twitterDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。7 天免费试用，无需信用卡。",
+    "pricingTitle": "AI 智能体平台定价——7 天免费试用",
+    "pricingDescription": "免费试用你的 AI 团队 7 天。无需信用卡。方案起价 $19/月，含容器隔离、密钥库安全和 100+ LLM 提供商。",
+    "pricingOgTitle": "AI 智能体平台定价——7 天免费试用 | OpenLegion",
+    "pricingOgDescription": "免费试用你的 AI 团队 7 天。无需信用卡。容器隔离、密钥库安全和 100+ LLM 提供商。",
+    "pricingTwitterTitle": "AI 智能体平台定价——7 天免费试用 | OpenLegion",
+    "pricingTwitterDescription": "免费试用你的 AI 团队 7 天。无需信用卡。",
+    "faqTitle": "常见问题",
+    "faqDescription": "关于 OpenLegion 的常见问题解答——为生产环境打造的 AI 智能体框架与平台。涵盖安全、定价、LLM 提供商、编排、企业部署等内容。",
+    "faqOgTitle": "常见问题 — OpenLegion",
+    "faqOgDescription": "关于 OpenLegion 的常见问题解答——安全、定价、LLM 提供商、编排和企业部署。",
+    "faqTwitterTitle": "常见问题 — OpenLegion",
+    "faqTwitterDescription": "关于 OpenLegion 的常见问题解答——安全、定价、LLM 提供商、编排和企业部署。",
+    "privacyTitle": "隐私政策",
+    "privacyDescription": "OpenLegion AI 智能体平台隐私政策。了解我们如何在托管服务和 openlegion.ai 网站上收集、使用和保护您的数据。",
+    "termsTitle": "服务条款",
+    "termsDescription": "OpenLegion AI 智能体平台服务条款。涵盖托管服务、BSL 1.1 许可协议下的自托管部署和 openlegion.ai 网站。"
+  },
+  "contentPage": {
+    "breadcrumbHome": "首页",
+    "breadcrumbComparisons": "方案对比",
+    "publishedPrefix": "发布于 ",
+    "updatedPrefix": "更新于 ",
+    "relatedContentAriaLabel": "相关内容"
+  },
+  "inlineCta": {
+    "startFreeTrial": "开始免费试用",
+    "readTheDocs": "阅读文档"
+  },
+  "seoLinks": {
+    "sectionLabel": "深入了解",
+    "heading": "深度解析与",
+    "headingHighlight": "方案对比",
+    "subtitle": "关于 AI 智能体平台、编排、安全以及 OpenLegion 与各主流框架对比的详细指南。",
+    "cards": {
+      "0": {
+        "title": "平台与基础设施",
+        "description": "OpenLegion 如何处理容器隔离、凭证密钥库、成本控制和生产级智能体编队的确定性编排。",
+        "links": {
+          "0": "AI 智能体平台",
+          "1": "AI 智能体编排",
+          "2": "AI 智能体安全"
+        }
+      },
+      "1": {
+        "title": "框架对比",
+        "description": "了解 OpenLegion 在 AI 智能体框架领域的表现——安全、隔离、成本控制和编排的全面对比。",
+        "links": {
+          "0": "所有对比",
+          "1": "OpenClaw 替代方案",
+          "2": "AI 智能体框架"
+        }
+      },
+      "2": {
+        "title": "正面对决",
+        "description": "针对团队常与 OpenLegion 对比评估的热门框架，提供详细架构深度解析和迁移指南。",
+        "links": {
+          "0": "vs OpenClaw",
+          "1": "vs LangGraph",
+          "2": "vs CrewAI"
+        }
+      }
+    }
+  },
+  "relatedPages": {
+    "heading": "相关页面",
+    "ariaLabel": "相关页面",
+    "topicPages": {
+      "0": "AI 智能体平台",
+      "1": "AI 智能体编排",
+      "2": "AI 智能体框架对比",
+      "3": "AI 智能体安全",
+      "4": "OpenClaw 替代方案",
+      "5": "DeepSeek V4 智能体"
+    },
+    "comparisonHub": "所有框架对比",
+    "comparisons": {
+      "openclaw": "OpenLegion vs OpenClaw",
+      "langgraph": "OpenLegion vs LangGraph",
+      "crewai": "OpenLegion vs CrewAI",
+      "autogen": "OpenLegion vs AutoGen",
+      "dify": "OpenLegion vs Dify",
+      "googleAdk": "OpenLegion vs Google ADK",
+      "awsStrands": "OpenLegion vs AWS Strands",
+      "openaiAgentsSdk": "OpenLegion vs OpenAI Agents SDK",
+      "manusAi": "OpenLegion vs Manus AI",
+      "semanticKernel": "OpenLegion vs Semantic Kernel",
+      "zeroclaw": "OpenLegion vs ZeroClaw",
+      "nanoclaw": "OpenLegion vs NanoClaw",
+      "nanobot": "OpenLegion vs nanobot",
+      "picoclaw": "OpenLegion vs PicoClaw",
+      "openfang": "OpenLegion vs OpenFang",
+      "memu": "OpenLegion vs MemU"
+    }
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "effectiveDate": "生效日期：2026 年 3 月 7 日 · 最后更新：2026 年 3 月 7 日",
+    "section1": {
+      "title": "1. 引言",
+      "p1": "本隐私政策描述了 OpenLegion（「我们」）在您访问 openlegion.ai（「网站」）或使用我们的托管服务、API 及相关服务（统称「服务」）时，如何收集、使用和披露信息。",
+      "p2": "使用本服务即表示您同意本隐私政策中描述的做法。如果您不同意，请勿使用本服务。"
+    },
+    "section2": {
+      "1": {
+        "title": "2.1 您提供的信息",
+        "items": {
+          "0": "账户信息：创建账户时的电子邮件地址、姓名和密码。",
+          "1": "支付信息：由我们的第三方支付处理商（如 Stripe）处理的账单详情。我们不会在自己的服务器上存储完整的信用卡号码。",
+          "2": "通讯信息：您通过电子邮件、在线客服（Tawk.to）或 Discord 联系我们时提供的信息。",
+          "3": "客户数据：您提交至本服务的智能体配置、工作流定义及其他数据。"
+        }
+      },
+      "2": {
+        "title": "2.2 自动收集的信息",
+        "items": {
+          "0": "使用数据：访问的页面、使用的功能、时间戳、来源 URL 和一般交互模式。",
+          "1": "设备信息：浏览器类型、操作系统、屏幕分辨率和设备标识符。",
+          "2": "IP 地址：为安全、分析和大致地理定位目的而收集。",
+          "3": "Cookie 及类似技术：请参见下文第 6 条。"
+        }
+      },
+      "title": "2. 我们收集的信息"
+    },
+    "section3": {
+      "title": "3. 我们如何使用您的信息",
+      "intro": "我们使用收集的信息用于：",
+      "items": {
+        "0": "提供、运营和维护本服务；",
+        "1": "处理付款并发送与账单相关的通知；",
+        "2": "回复您的咨询并提供客户支持；",
+        "3": "分析使用模式以改善本服务（通过 Google Analytics 和 Microsoft Clarity）；",
+        "4": "检测、预防和解决技术问题、欺诈或滥用行为；",
+        "5": "发送事务性邮件（账户确认、密码重置、账单收据）；",
+        "6": "遵守法律义务。"
+      },
+      "noSell": "我们不出售您的个人信息。我们不使用客户数据训练 AI 模型。"
+    },
+    "section4": {
+      "title": "4. 第三方服务",
+      "intro": "我们使用以下第三方服务，这些服务可能按照其各自的隐私政策收集信息：",
+      "items": {
+        "0": "Google Analytics — 网站分析和流量统计。",
+        "1": "Microsoft Clarity — 用于用户体验分析的会话录制和热力图。",
+        "2": "Tawk.to — 客户支持在线聊天组件。",
+        "3": "Stripe（或同等服务）— 支付处理。",
+        "4": "LLM API 提供商（如 Anthropic、OpenAI、Google、Mistral）— AI 模型推理。发送至这些提供商的提示和智能体数据受其各自的隐私政策和数据处理条款约束。OpenLegion 不对第三方 LLM 提供商处理数据的方式承担责任。"
+      },
+      "review": "我们建议您查阅这些第三方服务的隐私政策。"
+    },
+    "section5": {
+      "title": "5. 数据共享与披露",
+      "intro": "我们仅在以下情况下共享您的信息：",
+      "items": {
+        "0": "服务提供商：协助运营本服务的第三方供应商（托管、支付处理、分析），其根据合同义务保护您的数据。",
+        "1": "法律要求：法律、传票、法院命令或政府请求要求时。",
+        "2": "权利保护：为执行我们的服务条款、保护我们的权利或安全或调查欺诈行为。",
+        "3": "业务转让：在合并、收购或资产出售的情况下，您的信息可能作为该交易的一部分被转让。"
+      }
+    },
+    "section6": {
+      "title": "6. Cookie 和追踪技术",
+      "intro": "我们使用 Cookie 和类似技术（像素、本地存储）用于分析、功能和安全目的。网站使用：",
+      "items": {
+        "0": "必要 Cookie：本服务正常运行所需的 Cookie（会话管理、身份验证）。",
+        "1": "分析 Cookie：Google Analytics 和 Microsoft Clarity Cookie，用于了解访客如何与网站互动。",
+        "2": "第三方 Cookie：由 Tawk.to 设置的在线聊天功能 Cookie。"
+      },
+      "control": "您可以通过浏览器设置控制 Cookie。禁用 Cookie 可能会影响本服务的功能。"
+    },
+    "section7": {
+      "title": "7. 数据保留",
+      "text": "我们在您的账户处于活跃状态或提供本服务所需期间保留您的信息。我们还可能在遵守法律义务、解决争议和执行协议所需的期间保留信息。当数据不再需要时，我们将在合理的时间范围内删除或匿名化处理。"
+    },
+    "section8": {
+      "title": "8. 数据安全",
+      "text": "我们采取商业上合理的技术和组织措施保护您的信息。但是，互联网传输或电子存储没有任何方法是 100% 安全的。我们无法保证绝对安全，亦不对任何未经授权的访问、数据泄露或数据丢失承担责任。"
+    },
+    "section9": {
+      "title": "9. 您的权利",
+      "intro": "根据您所在司法管辖区的法律，您可能拥有以下关于个人信息的权利：",
+      "items": {
+        "0": "访问权：请求获得我们持有的您的个人信息的副本。",
+        "1": "更正权：请求更正不准确或不完整的数据。",
+        "2": "删除权：请求删除您的个人信息，须遵守法律保留要求。",
+        "3": "可携带权：请求以结构化、机器可读的格式获取您的数据。",
+        "4": "异议权：反对为某些目的处理您的个人信息。",
+        "5": "选择退出销售：我们不出售个人信息。如有变更，我们将提供明确的退出机制。"
+      },
+      "contact": "如需行使上述任何权利，请联系 support@openlegion.ai。我们将在 30 天内（或适用法律要求的期限内）作出回复。"
+    },
+    "section10": {
+      "title": "10. 加利福尼亚州居民（CCPA）",
+      "text": "如果您是加利福尼亚州居民，您依据《加利福尼亚消费者隐私法》（CCPA）享有额外权利，包括知悉我们收集哪些个人信息的权利、请求删除的权利以及选择退出个人信息销售的权利。我们不出售个人信息。如需行使您的 CCPA 权利，请联系 support@openlegion.ai。"
+    },
+    "section11": {
+      "title": "11. 欧洲经济区（GDPR）",
+      "p1": "如果您在欧洲经济区，我们处理您个人数据的法律依据包括：(a) 您的同意；(b) 履行合同；(c) 遵守法律义务；以及 (d) 我们的合法利益（改善和保护本服务），但前提是这些利益不会超越您的数据保护权利。",
+      "p2": "如果您认为我们侵犯了您在 GDPR 下的权利，您可以向当地数据保护监管机构投诉。"
+    },
+    "section12": {
+      "title": "12. 国际数据传输",
+      "text": "您的信息可能被传输到美国或我们的服务提供商运营的其他国家/地区进行处理。这些国家/地区的数据保护法律可能与您所在司法管辖区不同。使用本服务即表示您同意此类传输。"
+    },
+    "section13": {
+      "title": "13. 儿童隐私",
+      "text": "本服务不面向 18 岁以下的个人。我们不会故意收集儿童的个人信息。如果我们发现收集了儿童的数据，我们将立即删除。"
+    },
+    "section14": {
+      "title": "14. 本政策的变更",
+      "text": "我们可能随时更新本隐私政策。变更将通过更新本页顶部的「最后更新」日期来体现。在任何变更后继续使用本服务即构成对更新后的隐私政策的接受。"
+    },
+    "section15": {
+      "title": "15. 联系我们",
+      "text": "如果您对本隐私政策有疑问或希望行使您的权利，请通过以下方式联系我们：",
+      "email": "support@openlegion.ai"
+    }
+  },
+  "terms": {
+    "title": "服务条款",
+    "effectiveDate": "生效日期：2026 年 3 月 7 日 · 最后更新：2026 年 3 月 7 日",
+    "section1": {
+      "title": "1. 条款同意",
+      "p1": "访问或使用 OpenLegion 网站 (openlegion.ai)、托管服务、自托管软件、API、文档或任何相关服务（统称「服务」），即表示您（「客户」）同意受本服务条款（「条款」）的约束。如果您不同意，请勿使用本服务。",
+      "p2": "如果您代表组织使用本服务，您声明您有权代表该组织作出约束性承诺，且「您」指该组织。"
+    },
+    "section2": {
+      "title": "2. 服务描述",
+      "text": "OpenLegion 提供 AI 智能体框架和可选的托管平台，用于部署、编排和监控自主 AI 智能体。本服务可能包括 Web 控制台、API、容器编排、第三方 LLM 提供商集成及相关工具。"
+    },
+    "section3": {
+      "title": "3. 使用资格",
+      "text": "您必须年满 18 周岁并具有签订具有约束力协议的法律行为能力。本服务不面向 18 岁以下的任何人。"
+    },
+    "section4": {
+      "title": "4. 账户与安全",
+      "text": "您有责任维护账户凭证的机密性，并对账户下的所有活动负责。您同意在发现任何未经授权的访问时立即通知我们。我们保留自行决定暂停或终止账户的权利，无论是否通知，包括因违反本条款的情况。"
+    },
+    "section5": {
+      "title": "5. 可接受的使用",
+      "intro": "您同意不将本服务用于：",
+      "items": {
+        "0": "违反任何适用的法律、法规或第三方权利；",
+        "1": "生成、传播或存储非法、有害、威胁性、滥用性、诽谤性或其他令人反感的内容；",
+        "2": "传播恶意软件、病毒或任何旨在破坏、损害或限制任何软件或硬件功能的代码；",
+        "3": "试图未经授权访问本服务、其他账户或连接至本服务的系统；",
+        "4": "将本服务用于加密货币挖矿、拒绝服务攻击、垃圾邮件或任何降低其他用户性能的活动；",
+        "5": "对本服务的任何专有组件进行反向工程、反编译或反汇编，超出适用开源许可允许的范围；",
+        "6": "未经事先书面同意，转售、再许可或重新分发托管服务；",
+        "7": "使用在本服务上部署的 AI 智能体从事欺诈、冒充、骚扰或任何非法活动。"
+      },
+      "enforcement": "我们可能会调查违规行为，并自行决定立即终止或暂停您的访问权限，恕不另行通知或退款。"
+    },
+    "section6": {
+      "title": "6. 费用、计费与退款",
+      "p1": "本服务的某些功能可能需要付费。所有费用均在我们的定价页面上列明，并以预付方式按周期收取。除适用法律要求外，费用不予退还。我们保留在提前 30 天通知后随时调整定价的权利。在价格变更后继续使用即构成对新定价的接受。",
+      "p2": "您对因使用本服务而产生的所有第三方费用承担全部责任，包括但不限于 LLM API 提供商费用、云基础设施费用和域名注册费用。OpenLegion 不对任何第三方费用承担责任。"
+    },
+    "section7": {
+      "title": "7. 知识产权",
+      "p1": "OpenLegion 框架源代码按照 Business Source License 1.1 (BSL 1.1) 授权。本条款不授予您超出该许可允许范围的任何权利。OpenLegion 的所有商标、标识和品牌元素均为 OpenLegion 项目的财产，未经事先书面同意不得使用。",
+      "p2": "您保留提交至本服务的所有数据、内容和配置（「客户数据」）的所有权。您授予我们有限的、非排他性的许可，仅用于托管和处理客户数据以提供本服务。"
+    },
+    "section8": {
+      "title": "8. 第三方服务与 LLM 提供商",
+      "text": "本服务与第三方 LLM 提供商（如 Anthropic、OpenAI、Google、Mistral 及其他）集成。您对这些提供商的使用受其各自的服务条款和隐私政策约束。OpenLegion 不对任何第三方服务作出任何声明或保证，亦不对任何第三方 LLM 或 API 的输出、准确性、可用性或行为负责。"
+    },
+    "section9": {
+      "title": "9. AI 智能体输出与自主行为",
+      "text": "通过本服务部署的 AI 智能体根据您的配置自主运行。您对使用本服务部署、配置或操作的任何 AI 智能体的行为、输出和后果承担全部责任。OpenLegion 不控制、审查或认可智能体输出，亦不对因智能体行为引起的损害承担任何责任，包括但不限于经济损失、数据损坏、错误信息或智能体采取的非预期行为。"
+    },
+    "section10": {
+      "title": "10. 免责声明",
+      "p1": "本服务按「现状」和「可用状态」提供，不附带任何明示、暗示或法定的保证，包括但不限于对适销性、特定用途适用性、所有权和不侵权的暗示保证。OpenLegion 不保证本服务不间断、无错误、安全或无病毒或其他有害组件。从 OpenLegion 或通过本服务获得的任何建议或信息，无论是口头还是书面的，均不构成本文未明确声明的任何保证。",
+      "p2": "OpenLegion 不保证 AI 智能体、LLM 提供商或本服务任何其他组件生成的输出的准确性、完整性或有用性。您承认 AI 生成的内容可能不准确、不完整或有害，使用此类内容的风险由您自行承担。"
+    },
+    "section11": {
+      "title": "11. 责任限制",
+      "p1": "在适用法律允许的最大范围内，OpenLegion、其所有者、运营方、贡献者、关联方或许可方在任何情况下均不对任何间接、附带、特殊、后果性、惩戒性或惩罚性损害赔偿承担责任，包括但不限于利润损失、商誉损失、使用损失、数据损失或其他无形损失，无论该等损害因您使用或无法使用本服务而引起，亦无论基于何种责任理论（合同、侵权、严格责任或其他），即使 OpenLegion 已被告知发生此类损害的可能性。",
+      "p2": "在任何情况下，OpenLegion 就所有因本条款或本服务产生或与之相关的索赔所承担的总累计责任不超过以下两者中的较大值：(A) 您在提出索赔前十二 (12) 个月内向 OpenLegion 支付的总金额，或 (B) 五十美元（$50.00）。",
+      "p3": "部分司法管辖区不允许排除或限制某些损害赔偿。在此类司法管辖区中，OpenLegion 的责任应限于适用法律允许的最大范围。"
+    },
+    "section12": {
+      "title": "12. 赔偿",
+      "text": "您同意赔偿、辩护并使 OpenLegion、其所有者、运营方、贡献者和关联方免受因以下事项引起或与之相关的任何和所有索赔、损害、损失、责任、费用和开支（包括合理的律师费）：(a) 您对本服务的使用；(b) 您违反本条款；(c) 您侵犯任何第三方权利，包括任何知识产权或隐私权；(d) 您使用本服务部署的任何 AI 智能体的行为、输出或后果；或 (e) 您提交至本服务的任何客户数据。"
+    },
+    "section13": {
+      "title": "13. 服务可用性与变更",
+      "text": "我们不保证任何特定的正常运行时间或可用性。本服务可能随时被修改、暂停或停止，无论是否通知。我们不对本服务的任何修改、暂停或停止向您或任何第三方承担责任。"
+    },
+    "section14": {
+      "title": "14. 终止",
+      "p1": "我们可能因任何原因（包括违反本条款）立即终止或暂停您对本服务的访问权限，无需事先通知且不承担任何责任。终止后，您使用本服务的权利立即停止。按其性质应在终止后继续有效的条款（包括但不限于第 10、11、12、16 和 17 条）在终止后继续有效。",
+      "p2": "您可以随时停止使用本服务来终止您的账户。我们没有义务在终止后保留您的数据。"
+    },
+    "section15": {
+      "title": "15. 条款修改",
+      "text": "我们保留随时修改本条款的权利。重大变更将通过更新本页顶部的「最后更新」日期进行通知。在变更发布后继续使用本服务即构成对修订后条款的接受。您有责任定期查阅本条款。"
+    },
+    "section16": {
+      "title": "16. 适用法律与争议解决",
+      "p1": "本条款应受美国特拉华州法律管辖并据其解释，不考虑其法律冲突条款。因本条款引起或与之相关的任何争议应通过美国仲裁协会 (AAA) 根据其商事仲裁规则管理的具有约束力的仲裁独家解决。仲裁应以远程方式进行（通过电话、视频会议或书面提交），除非双方另行同意。仲裁员的裁决为终局裁决并具有约束力，可在任何具有管辖权的法院作为判决登记执行。",
+      "p2": "您同意任何争议解决程序仅以个人身份进行，不以集体诉讼、合并诉讼或代表诉讼的方式进行。如果本集体诉讼弃权条款被认定为不可执行，则本仲裁条款的全部内容将无效。"
+    },
+    "section17": {
+      "title": "17. 一般条款",
+      "items": {
+        "0": "完整协议。本条款连同我们的隐私政策构成您与 OpenLegion 之间的完整协议。",
+        "1": "可分割性。如果本条款的任何条款被认定为无效或不可执行，该条款应在法律允许的最大范围内执行，其余条款继续完全有效。",
+        "2": "弃权。对任何条款的放弃不应被视为对该条款或任何其他条款的进一步或持续放弃。",
+        "3": "转让。未经我们事先书面同意，您不得转让或转移本条款。我们可以不受限制地转让本条款。",
+        "4": "不可抗力。OpenLegion 不对因超出我们合理控制范围的事件导致的任何故障或延迟承担责任，包括自然灾害、战争、恐怖主义、大流行病、劳资纠纷、政府行为、停电、互联网或电信故障或第三方服务中断。",
+        "5": "非代理关系。本条款中的任何内容均不在您与 OpenLegion 之间创建合伙、合资、雇佣或代理关系。"
+      }
+    },
+    "section18": {
+      "title": "18. 联系方式",
+      "text": "对本条款有疑问？请联系我们：",
+      "email": "support@openlegion.ai"
+    }
+  }
+}

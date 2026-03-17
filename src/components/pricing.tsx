@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Bot, Check, FolderOpen, Globe, ChevronRight, Mail, Shield, DollarSign, LayoutDashboard, Plug } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
@@ -10,7 +11,6 @@ type Billing = "monthly" | "yearly";
 
 interface Plan {
   name: string;
-  label: string;
   popular?: boolean;
   monthlyPrice: number;
   yearlyPrice: number;
@@ -18,29 +18,22 @@ interface Plan {
   agents: number;
   projects: number;
   browsers: number;
-  features: string[];
+  featureKeys: string[];
 }
 
 const PLANS: Plan[] = [
   {
     name: "basic",
-    label: "Basic",
     monthlyPrice: 19,
     yearlyPrice: 170,
     yearlyMonthly: 14,
     agents: 1,
     projects: 0,
     browsers: 1,
-    features: [
-      "Each agent runs in its own secure container",
-      "Works with Claude, GPT, Gemini + 100 more",
-      "Watch every agent, cost, and event live",
-      "Your own deployment URL",
-    ],
+    featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3"],
   },
   {
     name: "growth",
-    label: "Growth",
     popular: true,
     monthlyPrice: 59,
     yearlyPrice: 530,
@@ -48,75 +41,34 @@ const PLANS: Plan[] = [
     agents: 5,
     projects: 2,
     browsers: 5,
-    features: [
-      "Each agent runs in its own secure container",
-      "Works with Claude, GPT, Gemini + 100 more",
-      "Watch every agent, cost, and event live",
-      "Your own deployment URL",
-    ],
+    featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3"],
   },
   {
     name: "pro",
-    label: "Pro",
     monthlyPrice: 149,
     yearlyPrice: 1340,
     yearlyMonthly: 112,
     agents: 15,
     projects: 5,
     browsers: 10,
-    features: [
-      "Dedicated compute — no shared resources",
-      "Each agent runs in its own secure container",
-      "Works with Claude, GPT, Gemini + 100 more",
-      "Watch every agent, cost, and event live",
-      "Your own deployment URL",
-    ],
+    featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3"],
   },
 ];
 
-const ENTERPRISE_FEATURES = [
-  "Dedicated infrastructure",
-  "Custom SLAs",
-  "Priority support",
-  "On-premises deployment",
+const INCLUDED_ICONS = [Shield, DollarSign, Plug, LayoutDashboard];
+
+const ENTERPRISE_FEATURE_KEYS = [
+  "enterprise.features.0",
+  "enterprise.features.1",
+  "enterprise.features.2",
+  "enterprise.features.3",
 ];
 
-const INCLUDED = [
-  { icon: Shield, title: "Vault security", sub: "Keys never exposed" },
-  { icon: DollarSign, title: "Budget controls", sub: "Agents auto-stop" },
-  { icon: Plug, title: "100+ LLM providers", sub: "No vendor lock-in" },
-  { icon: LayoutDashboard, title: "Fleet dashboard", sub: "Live cost tracking" },
-];
-
-const PRICING_FAQ = [
-  {
-    q: "How does the 7-day free trial work?",
-    a: "Sign up and get full access to any plan for 7 days — no credit card required. Deploy agents, test workflows, and explore the dashboard. If you don't upgrade before the trial ends, your account simply pauses. No charges, ever, unless you choose a plan.",
-  },
-  {
-    q: "Do I need to pay for LLM usage on top of the plan price?",
-    a: "Yes — you bring your own API keys (Anthropic, OpenAI, Google, or any of 100+ providers). You pay providers directly at their published rates. OpenLegion charges for the platform only. There is zero markup on model usage.",
-  },
-  {
-    q: "Can I switch plans?",
-    a: "Yes — upgrade or downgrade any time. Changes take effect at the start of your next billing period.",
-  },
-  {
-    q: "What happens to my agents if I cancel?",
-    a: "Your agent configurations and data remain accessible for 30 days after cancellation. You can export everything before your account closes.",
-  },
-  {
-    q: "Can I self-host OpenLegion?",
-    a: "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under BSL 1.1. Managed hosting starts at $19/month (with a 7-day free trial) for teams that don't want to manage infrastructure.",
-  },
-  {
-    q: 'What counts as an "agent"?',
-    a: "Each deployed agent container counts as one agent toward your plan limit. Templates like Dev Team (PM + Engineer + Reviewer) count as 3 agents.",
-  },
-];
+const PRICING_FAQ_INDICES = [0, 1, 2, 3, 4, 5];
 
 export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
+  const t = useTranslations("pricing");
 
   return (
     <section className="relative px-5 pt-28 pb-16 sm:px-6 md:px-8 md:pt-36 md:pb-28 lg:pt-40 lg:pb-36">
@@ -124,14 +76,14 @@ export function Pricing() {
         <AnimateIn>
           <div className="mb-10 text-center">
             <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
-              Pricing
+              {t("sectionLabel")}
             </p>
             <h1 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-              Try your AI workforce{" "}
-              <span className="gradient-text">free for 7 days</span>.
+              {t("heading")}
+              <span className="gradient-text">{t("headingHighlight")}</span>{t("headingEnd")}
             </h1>
             <p className="mx-auto max-w-lg text-muted">
-              No credit card required. You bring your API keys, we run the infrastructure.
+              {t("subtitle")}
             </p>
           </div>
         </AnimateIn>
@@ -139,16 +91,13 @@ export function Pricing() {
         {/* What's included strip */}
         <AnimateIn delay={0.04}>
           <div className="mx-auto mb-12 grid max-w-3xl grid-cols-2 gap-6 md:grid-cols-4">
-            {INCLUDED.map((item) => {
-              const Icon = item.icon;
-              return (
-                <div key={item.title} className="text-center">
-                  <Icon className="mx-auto mb-2 h-5 w-5 text-accent-light" />
-                  <p className="text-sm font-medium text-foreground">{item.title}</p>
-                  <p className="text-xs text-muted">{item.sub}</p>
-                </div>
-              );
-            })}
+            {INCLUDED_ICONS.map((Icon, i) => (
+              <div key={i} className="text-center">
+                <Icon className="mx-auto mb-2 h-5 w-5 text-accent-light" />
+                <p className="text-sm font-medium text-foreground">{t(`included.${i}.title`)}</p>
+                <p className="text-xs text-muted">{t(`included.${i}.sub`)}</p>
+              </div>
+            ))}
           </div>
         </AnimateIn>
 
@@ -169,7 +118,7 @@ export function Pricing() {
                     : "text-muted hover:text-foreground"
                 }`}
               >
-                Monthly
+                {t("billingMonthly")}
               </button>
               <button
                 onClick={() => setBilling("yearly")}
@@ -180,9 +129,9 @@ export function Pricing() {
                     : "text-muted hover:text-foreground"
                 }`}
               >
-                Yearly
+                {t("billingYearly")}
                 <span className="ml-1.5 text-xs font-semibold text-emerald-400">
-                  Save ~25%
+                  {t("billingSaveLabel")}
                 </span>
               </button>
             </div>
@@ -191,10 +140,10 @@ export function Pricing() {
 
         {/* Cards */}
         <StaggerContainer className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-          {PLANS.map((plan) => {
+          {PLANS.map((plan, planIdx) => {
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
-            const suffix = billing === "monthly" ? "/mo" : "/yr";
+            const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
 
             return (
               <StaggerItem key={plan.name}>
@@ -208,13 +157,13 @@ export function Pricing() {
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
                       <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
-                        Popular
+                        {t("popularBadge")}
                       </span>
                     </div>
                   )}
 
                   <h3 className="text-lg font-semibold text-foreground">
-                    {plan.label}
+                    {t(`plans.${planIdx}.name`)}
                   </h3>
                   <div className="mt-3">
                     <span className="text-4xl font-bold tracking-tight text-foreground">
@@ -224,8 +173,8 @@ export function Pricing() {
                   </div>
                   <p className="mt-1 h-5 text-xs text-muted">
                     {billing === "yearly"
-                      ? `~$${plan.yearlyMonthly}/mo billed annually`
-                      : "7-day free trial · no card required"}
+                      ? t("yearlyBilledNote", { monthlyEquivalent: plan.yearlyMonthly })
+                      : t("monthlyTrialNote")}
                   </p>
 
                   <a
@@ -238,7 +187,7 @@ export function Pricing() {
                         : "border border-border text-foreground hover:border-accent/40 hover:bg-accent/5"
                     }`}
                   >
-                    Start Free Trial
+                    {t("startFreeTrial")}
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </a>
 
@@ -248,14 +197,14 @@ export function Pricing() {
                       <span className="font-medium text-foreground">
                         {plan.agents}
                       </span>{" "}
-                      agent{plan.agents !== 1 ? "s" : ""}
+                      {t("agentsLabel", { count: plan.agents })}
                     </div>
                     <div className="flex items-center gap-2 text-muted">
                       <Globe className="h-3.5 w-3.5 shrink-0 text-accent-light" />
                       <span className="font-medium text-foreground">
                         {plan.browsers}
                       </span>{" "}
-                      concurrent browser{plan.browsers !== 1 ? "s" : ""}
+                      {t("browsersLabel", { count: plan.browsers })}
                     </div>
                     <div className="flex items-center gap-2 text-muted">
                       <FolderOpen className="h-3.5 w-3.5 shrink-0 text-accent-light" />
@@ -264,22 +213,22 @@ export function Pricing() {
                           <span className="font-medium text-foreground">
                             {plan.projects}
                           </span>{" "}
-                          project{plan.projects !== 1 ? "s" : ""}
+                          {t("projectsLabel", { count: plan.projects })}
                         </>
                       ) : (
-                        <span className="text-muted/50">No projects</span>
+                        <span className="text-muted/50">{t("noProjects")}</span>
                       )}
                     </div>
                   </div>
 
                   <ul className="mt-4 flex-1 space-y-3">
-                    {plan.features.map((feature) => (
+                    {plan.featureKeys.map((key) => (
                       <li
-                        key={feature}
+                        key={key}
                         className="flex items-start gap-2.5 text-sm text-muted"
                       >
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                        <span className="break-words">{feature}</span>
+                        <span className="break-words">{t(key)}</span>
                       </li>
                     ))}
                   </ul>
@@ -292,15 +241,15 @@ export function Pricing() {
           <StaggerItem>
             <div className="card-hover gradient-border glass-shine group relative flex h-full flex-col rounded-xl border border-border/50 glass-card p-6">
               <h3 className="text-lg font-semibold text-foreground">
-                Enterprise
+                {t("enterprise.name")}
               </h3>
               <div className="mt-3">
                 <span className="text-4xl font-bold tracking-tight text-foreground">
-                  Custom
+                  {t("enterprise.price")}
                 </span>
               </div>
               <p className="mt-1 h-5 text-xs text-muted">
-                Tailored to your needs
+                {t("enterprise.subtitle")}
               </p>
 
               <a
@@ -308,41 +257,41 @@ export function Pricing() {
                 className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5"
               >
                 <Mail className="h-4 w-4" aria-hidden="true" />
-                Contact Us
+                {t("enterprise.cta")}
               </a>
 
               <div className="mt-6 space-y-2.5 border-t border-border/50 pt-6 text-sm">
                 <div className="flex items-center gap-2 text-muted">
                   <Bot className="h-3.5 w-3.5 shrink-0 text-accent-light" />
                   <span className="font-medium text-foreground">
-                    Unlimited
+                    {t("enterprise.unlimitedAgents")}
                   </span>{" "}
-                  agents
+                  {t("enterprise.agents")}
                 </div>
                 <div className="flex items-center gap-2 text-muted">
                   <Globe className="h-3.5 w-3.5 shrink-0 text-accent-light" />
                   <span className="font-medium text-foreground">
-                    Unlimited
+                    {t("enterprise.unlimitedAgents")}
                   </span>{" "}
-                  concurrent browsers
+                  {t("enterprise.browsers")}
                 </div>
                 <div className="flex items-center gap-2 text-muted">
                   <FolderOpen className="h-3.5 w-3.5 shrink-0 text-accent-light" />
                   <span className="font-medium text-foreground">
-                    Unlimited
+                    {t("enterprise.unlimitedAgents")}
                   </span>{" "}
-                  projects
+                  {t("enterprise.projects")}
                 </div>
               </div>
 
               <ul className="mt-4 flex-1 space-y-3">
-                {ENTERPRISE_FEATURES.map((feature) => (
+                {ENTERPRISE_FEATURE_KEYS.map((key) => (
                   <li
-                    key={feature}
+                    key={key}
                     className="flex items-start gap-2.5 text-sm text-muted"
                   >
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
-                    <span className="break-words">{feature}</span>
+                    <span className="break-words">{t(key)}</span>
                   </li>
                 ))}
               </ul>
@@ -354,19 +303,19 @@ export function Pricing() {
         <AnimateIn delay={0.1}>
           <div className="mx-auto mt-20 max-w-3xl">
             <h2 className="mb-8 text-center text-2xl font-bold tracking-tight md:text-3xl">
-              Common questions
+              {t("faqHeading")}
             </h2>
             <div className="space-y-3">
-              {PRICING_FAQ.map((item, i) => (
+              {PRICING_FAQ_INDICES.map((i) => (
                 <details key={i} className="faq-details gradient-border glass-shine overflow-hidden rounded-xl border border-border/50 glass-card transition-all duration-300 group">
                   <summary className="flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.02] list-none [&::-webkit-details-marker]:hidden">
                     <span className="text-sm font-medium text-foreground md:text-base">
-                      {item.q}
+                      {t(`faq.${i}.question`)}
                     </span>
                     <ChevronDown className="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true" />
                   </summary>
                   <div className="faq-answer px-6 pb-5">
-                    <p className="text-sm leading-relaxed text-muted">{item.a}</p>
+                    <p className="text-sm leading-relaxed text-muted">{t(`faq.${i}.answer`)}</p>
                   </div>
                 </details>
               ))}

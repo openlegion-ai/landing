@@ -1,33 +1,37 @@
 "use client";
 
 import { Code, Wrench, Rocket, Building2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 
 const CARDS = [
-  { icon: Code, title: "I need to automate my team's workflows", scrollTo: "#use-cases" },
-  { icon: Rocket, title: "I need to build AI-powered products", scrollTo: "#quickstart" },
-  { icon: Wrench, title: "I need a custom AI workforce", scrollTo: "#use-cases" },
-  { icon: Building2, title: "Deploy for my enterprise", scrollTo: "#enterprise" },
+  { icon: Code, scrollTo: "#use-cases" },
+  { icon: Rocket, scrollTo: "#quickstart" },
+  { icon: Wrench, scrollTo: "#use-cases" },
+  { icon: Building2, scrollTo: "#enterprise" },
 ];
 
 export function AudienceSelector() {
+  const t = useTranslations("audienceSelector");
+
   return (
     <SectionWrapper id="audience-selector" fade={false}>
       <AnimateIn>
         <div className="mb-12 text-center">
           <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            What do you need to{" "}
-            <span className="gradient-text">automate</span>?
+            {t("heading")}
+            <span className="gradient-text">{t("headingHighlight")}</span>{t("headingEnd")}
           </h2>
         </div>
       </AnimateIn>
 
       <StaggerContainer className="mx-auto grid max-w-4xl grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
-        {CARDS.map((card) => {
+        {CARDS.map((card, i) => {
           const Icon = card.icon;
+          const title = t(`cards.${i}.title`);
           return (
-            <StaggerItem key={card.title}>
+            <StaggerItem key={i}>
               <button
                 onClick={() => {
                   const el = document.querySelector(card.scrollTo);
@@ -39,7 +43,7 @@ export function AudienceSelector() {
                   <Icon className="h-4 w-4 text-accent-light sm:h-5 sm:w-5" />
                 </div>
                 <h3 className="text-[13px] font-semibold leading-snug text-foreground sm:text-sm">
-                  {card.title}
+                  {title}
                 </h3>
               </button>
             </StaggerItem>

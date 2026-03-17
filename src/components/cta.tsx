@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { APP_URL, DISCORD_URL } from "@/lib/constants";
 
@@ -12,6 +13,7 @@ const CTA_PARTICLES = [
 ];
 
 export function CTA() {
+  const t = useTranslations("cta");
   return (
     <section className="cta-mesh relative overflow-hidden px-6 py-24 md:px-8 md:py-32">
       {/* Top divider */}
@@ -41,13 +43,12 @@ export function CTA() {
       <div className="relative mx-auto max-w-3xl text-center">
         <AnimateIn scale>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Your AI team is one{" "}
-            <span className="gradient-text-animated">deploy away</span>.
+            {t("heading")}<span className="gradient-text-animated">{t("headingHighlight")}</span>{t("headingEnd")}
           </h2>
         </AnimateIn>
         <AnimateIn delay={0.06}>
           <p className="mb-8 text-[13px] text-muted">
-            7-day free trial · No credit card required · 100+ LLM providers · No vendor lock-in
+            {t("subtitle")}
           </p>
         </AnimateIn>
 
@@ -59,7 +60,7 @@ export function CTA() {
               rel="noopener noreferrer"
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
-              Start free trial →
+              {t("primaryButton")}
             </a>
             <a
               href={DISCORD_URL}
@@ -67,7 +68,7 @@ export function CTA() {
               rel="noopener noreferrer"
               className="group flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
             >
-              Join our Discord
+              {t("secondaryButton")}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
           </div>

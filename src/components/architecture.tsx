@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { ARCHITECTURE } from "@/lib/constants";
@@ -33,6 +34,7 @@ const ZONE_CONFIG = [
 ] as const;
 
 export function Architecture() {
+  const t = useTranslations("architecture");
   const zones = ARCHITECTURE.zones;
 
   return (
@@ -40,13 +42,13 @@ export function Architecture() {
       <AnimateIn>
         <div className="mb-10 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
-            Under the hood
+            {t("sectionLabel")}
           </p>
           <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            {ARCHITECTURE.title}
+            {t("title")}
           </h2>
           <p className="mx-auto max-w-[520px] text-[15px] leading-relaxed text-muted">
-            {ARCHITECTURE.summary}
+            {t("summary")}
           </p>
         </div>
       </AnimateIn>
@@ -58,14 +60,14 @@ export function Architecture() {
             <div className="relative mb-4 flex items-center gap-3">
               <div className={`h-3 w-3 rounded-full ${ZONE_CONFIG[0].dotColor} ring-4 ${ZONE_CONFIG[0].ringColor}`} />
               <div>
-                <span className={`text-sm font-semibold ${ZONE_CONFIG[0].textColor}`}>{zones[0].name}</span>
-                <span className={`ml-2 text-xs ${ZONE_CONFIG[0].labelColor}`}>— {zones[0].trust}</span>
+                <span className={`text-sm font-semibold ${ZONE_CONFIG[0].textColor}`}>{t("zones.0.name")}</span>
+                <span className={`ml-2 text-xs ${ZONE_CONFIG[0].labelColor}`}>— {t("zones.0.trust")}</span>
               </div>
             </div>
             <div className="relative mb-5 flex flex-wrap gap-2">
-              {zones[0].items.map((item) => (
-                <code key={item} className="rounded-md border border-accent/10 bg-accent/[0.05] px-2.5 py-1 font-mono text-xs text-accent-light/80 transition-colors hover:border-accent/25 hover:bg-accent/[0.1]">
-                  {item}
+              {zones[0].items.map((_, idx) => (
+                <code key={idx} className="rounded-md border border-accent/10 bg-accent/[0.05] px-2.5 py-1 font-mono text-xs text-accent-light/80 transition-colors hover:border-accent/25 hover:bg-accent/[0.1]">
+                  {t(`zones.0.items.${idx}`)}
                 </code>
               ))}
             </div>
@@ -75,14 +77,14 @@ export function Architecture() {
                 <div className="mb-4 flex items-center gap-3">
                   <div className={`h-3 w-3 rounded-full ${ZONE_CONFIG[1].dotColor} ring-4 ${ZONE_CONFIG[1].ringColor}`} />
                   <div>
-                    <span className={`text-sm font-semibold ${ZONE_CONFIG[1].textColor}`}>{zones[1].name}</span>
-                    <span className={`ml-2 text-xs ${ZONE_CONFIG[1].labelColor}`}>— {zones[1].trust}</span>
+                    <span className={`text-sm font-semibold ${ZONE_CONFIG[1].textColor}`}>{t("zones.1.name")}</span>
+                    <span className={`ml-2 text-xs ${ZONE_CONFIG[1].labelColor}`}>— {t("zones.1.trust")}</span>
                   </div>
                 </div>
                 <div className="mb-5 flex flex-wrap gap-2">
-                  {zones[1].items.map((item) => (
-                    <code key={item} className="rounded-md border border-success/10 bg-success/[0.05] px-2.5 py-1 font-mono text-xs text-success/80 transition-colors hover:border-success/25 hover:bg-success/[0.1]">
-                      {item}
+                  {zones[1].items.map((_, idx) => (
+                    <code key={idx} className="rounded-md border border-success/10 bg-success/[0.05] px-2.5 py-1 font-mono text-xs text-success/80 transition-colors hover:border-success/25 hover:bg-success/[0.1]">
+                      {t(`zones.1.items.${idx}`)}
                     </code>
                   ))}
                 </div>
@@ -92,20 +94,20 @@ export function Architecture() {
                     <div className="mb-4 flex items-center gap-3">
                       <div className={`h-3 w-3 rounded-full ${ZONE_CONFIG[2].dotColor} ring-4 ${ZONE_CONFIG[2].ringColor}`} />
                       <div>
-                        <span className={`text-sm font-semibold ${ZONE_CONFIG[2].textColor}`}>{zones[2].name}</span>
-                        <span className={`ml-2 text-xs ${ZONE_CONFIG[2].labelColor}`}>— {zones[2].trust}</span>
+                        <span className={`text-sm font-semibold ${ZONE_CONFIG[2].textColor}`}>{t("zones.2.name")}</span>
+                        <span className={`ml-2 text-xs ${ZONE_CONFIG[2].labelColor}`}>— {t("zones.2.trust")}</span>
                       </div>
                     </div>
                     <StaggerContainer className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                       {[1, 2, 3].map((n) => (
                         <StaggerItem key={n}>
                           <div className="rounded-lg border border-danger/15 bg-danger/[0.03] p-3 backdrop-blur-sm transition-colors hover:border-danger/25 hover:bg-danger/[0.05]">
-                            <p className="mb-2 font-mono text-xs font-medium text-danger/80">Agent {n}</p>
+                            <p className="mb-2 font-mono text-xs font-medium text-danger/80">{t("agentLabel", { n })}</p>
                             <div className="space-y-1">
-                              {zones[2].items.map((item) => (
-                                <p key={item} className="flex items-center gap-1.5 font-mono text-[11px] text-muted/70">
+                              {zones[2].items.map((_, idx) => (
+                                <p key={idx} className="flex items-center gap-1.5 font-mono text-[11px] text-muted/70">
                                   <span className="h-1 w-1 rounded-full bg-danger/30" />
-                                  {item}
+                                  {t(`zones.2.items.${idx}`)}
                                 </p>
                               ))}
                             </div>
@@ -124,7 +126,7 @@ export function Architecture() {
       <AnimateIn delay={0.2}>
         <p className="mt-8 text-center text-sm text-muted">
           <Link href="/ai-agent-orchestration" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
-            Learn more about AI agent orchestration →
+            {t("learnMoreLink")}
           </Link>
         </p>
       </AnimateIn>
