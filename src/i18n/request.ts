@@ -1,6 +1,6 @@
 import { getRequestConfig } from "next-intl/server";
-import { cookies } from "next/headers";
-import { SUPPORTED_LOCALES, DEFAULT_LOCALE } from "@/lib/constants";
+import { hasLocale } from "next-intl";
+import { routing } from "./routing";
 
 // Pre-load all message files synchronously at module level to avoid
 // React 19 "Expected a suspended thenable" streaming errors with
@@ -21,13 +21,14 @@ const allMessages: Record<string, Record<string, unknown>> = {
   ru: require("../../messages/ru.json"),
 };
 
-export default getRequestConfig(async () => {
-  const cookieStore = await cookies();
-  const locale = cookieStore.get("locale")?.value || DEFAULT_LOCALE;
-  const validLocale = SUPPORTED_LOCALES.includes(locale) ? locale : DEFAULT_LOCALE;
+export default getRequestConfig(async ({ requestLocale }) => {
+  const requested = await requestLocale;
+  const locale = hasLocale(routing.locales, requested)
+    ? requested
+    : routing.defaultLocale;
 
   return {
-    locale: validLocale,
-    messages: allMessages[validLocale] || allMessages[DEFAULT_LOCALE],
+    locale,
+    messages: allMessages[locale] || allMessages[routing.defaultLocale],
   };
 });

@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 
@@ -51,9 +52,9 @@ export function FAQ() {
       <AnimateIn delay={0.15}>
         <p className="mt-8 text-center text-sm text-muted">
           {t("seeFullFaqPrefix")}{" "}
-          <a href="/faq" className="text-accent-light underline underline-offset-2 transition-colors hover:text-accent">
+          <Link href="/faq" className="text-accent-light underline underline-offset-2 transition-colors hover:text-accent">
             {t("seeFullFaqLink")}
-          </a>
+          </Link>
         </p>
       </AnimateIn>
     </SectionWrapper>
