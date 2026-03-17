@@ -1,23 +1,26 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { SECURITY_LAYERS } from "@/lib/constants";
 
 export function Security() {
+  const t = useTranslations("security");
+
   return (
     <SectionWrapper id="security" fade={false}>
       <AnimateIn>
         <div className="mb-16 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
-            Security
+            {t("sectionLabel")}
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            AI agent security: built assuming agents will{" "}
-            <span className="gradient-text">misbehave</span>.
+            {t("heading")}
+            <span className="gradient-text">{t("headingHighlight")}</span>{t("headingEnd")}
           </h2>
           <p className="mx-auto max-w-2xl text-lg text-muted">
-            Six layers enabled by default. Four shown here.
+            {t("subtitle")}
           </p>
         </div>
       </AnimateIn>
@@ -40,10 +43,10 @@ export function Security() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <h3 className="mb-1 text-base font-semibold text-foreground">
-                      {layer.title}
+                      {t(`layers.${i}.title`)}
                     </h3>
                     <p className="text-sm leading-relaxed text-muted">
-                      {layer.description}
+                      {t(`layers.${i}.description`)}
                     </p>
                   </div>
                   <Check className="mt-0.5 h-5 w-5 shrink-0 text-success transition-transform group-hover:scale-110" aria-hidden="true" />
@@ -56,7 +59,7 @@ export function Security() {
       <AnimateIn delay={0.2}>
         <p className="mt-8 text-center text-sm text-muted">
           <Link href="/ai-agent-security" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
-            All six layers explained in detail →
+            {t("allLayersLink")}
           </Link>
         </p>
       </AnimateIn>

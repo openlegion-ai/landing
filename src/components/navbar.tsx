@@ -5,9 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Github, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { NAV_LINKS, APP_URL, GITHUB_URL } from "@/lib/constants";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 export function Navbar() {
+  const t = useTranslations("nav");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [pastHero, setPastHero] = useState(false);
@@ -41,7 +44,7 @@ export function Navbar() {
 
   return (
     <nav
-      aria-label="Main navigation"
+      aria-label={t("ariaLabel")}
       className={`fixed top-0 z-50 w-full px-6 transition-all duration-300 md:px-8 ${
         scrolled
           ? "bg-background/80 backdrop-blur-2xl"
@@ -56,7 +59,7 @@ export function Navbar() {
       )}
 
       <div className="mx-auto flex max-w-6xl items-center justify-between py-3">
-        <Link href="/" className="flex items-center gap-2.5 transition-transform hover:scale-105" aria-label="OpenLegion home">
+        <Link href="/" className="flex items-center gap-2.5 transition-transform hover:scale-105" aria-label={t("homeAriaLabel")}>
           <Image
             src="/logo.png"
             alt=""
@@ -71,9 +74,9 @@ export function Navbar() {
           </span>
         </Link>
 
-        {/* Desktop */}
-        <div className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS.map((link) => {
+        {/* Desktop — lg breakpoint to accommodate language switcher */}
+        <div className="hidden items-center gap-1 lg:flex">
+          {NAV_LINKS.map((link, i) => {
             const isExternal = link.href.startsWith("http");
             return (
               <a
@@ -82,7 +85,7 @@ export function Navbar() {
                 {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className="nav-link rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground"
               >
-                {link.label}
+                {t(`links.${i}.label`)}
               </a>
             );
           })}
@@ -92,12 +95,13 @@ export function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             className="ml-2 rounded-md p-2 text-muted transition-colors hover:text-foreground"
-            aria-label="GitHub repository"
+            aria-label={t("githubAriaLabel")}
           >
             <Github className="h-4 w-4" aria-hidden="true" />
           </a>
+          <LanguageSwitcher compact className="ml-1" />
           <span className={`ml-1 text-[13px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
-            Free trial
+            {t("freeTrial")}
           </span>
           <a
             href={APP_URL}
@@ -105,14 +109,14 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="btn-shine ml-2 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
           >
-            Try free →
+            {t("tryFree")}
           </a>
         </div>
 
-        {/* Mobile — CTA always visible outside hamburger */}
-        <div className="flex items-center gap-1.5 md:hidden ml-auto">
+        {/* Mobile — visible below lg */}
+        <div className="flex items-center gap-1.5 lg:hidden ml-auto">
           <span className={`text-[11px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
-            Free trial
+            {t("freeTrial")}
           </span>
           <a
             href={APP_URL}
@@ -120,12 +124,12 @@ export function Navbar() {
             rel="noopener noreferrer"
             className="btn-shine flex items-center gap-2 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
           >
-            Try free →
+            {t("tryFree")}
           </a>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="rounded-md p-2 text-muted transition-colors hover:text-foreground"
-            aria-label="Toggle menu"
+            aria-label={t("toggleMenuAriaLabel")}
             aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -141,10 +145,10 @@ export function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-border/50 bg-background/95 backdrop-blur-2xl md:hidden"
+            className="overflow-hidden border-t border-border/50 bg-background/95 backdrop-blur-2xl lg:hidden"
           >
             <div className="mx-auto flex w-full max-w-6xl flex-col gap-1 py-4">
-              {NAV_LINKS.map((link) => {
+              {NAV_LINKS.map((link, i) => {
                 const isExternal = link.href.startsWith("http");
                 return (
                   <a
@@ -154,10 +158,22 @@ export function Navbar() {
                     {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="rounded-md px-3 py-3 text-sm text-muted transition-colors hover:bg-card hover:text-foreground"
                   >
-                    {link.label}
+                    {t(`links.${i}.label`)}
                   </a>
                 );
               })}
+              <div className="mt-2 flex items-center gap-3 border-t border-border/50 px-3 pt-3">
+                <LanguageSwitcher />
+                <a
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-md p-2 text-muted transition-colors hover:text-foreground"
+                  aria-label={t("githubAriaLabel")}
+                >
+                  <Github className="h-4 w-4" aria-hidden="true" />
+                </a>
+              </div>
             </div>
           </motion.div>
         )}

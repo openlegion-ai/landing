@@ -1,0 +1,1062 @@
+{
+  "nav": {
+    "links": {
+      "0": {
+        "label": "Features"
+      },
+      "1": {
+        "label": "Use Cases"
+      },
+      "2": {
+        "label": "Architecture"
+      },
+      "3": {
+        "label": "Security"
+      },
+      "4": {
+        "label": "Pricing"
+      },
+      "5": {
+        "label": "Docs"
+      }
+    },
+    "ariaLabel": "Main navigation",
+    "homeAriaLabel": "OpenLegion home",
+    "brandName": "OpenLegion",
+    "githubAriaLabel": "GitHub repository",
+    "freeTrial": "Free trial",
+    "tryFree": "Try free →",
+    "toggleMenuAriaLabel": "Toggle menu",
+    "billingPeriodAriaLabel": "Billing period"
+  },
+  "hero": {
+    "ariaLabel": "Introduction",
+    "badge": "Your AI workforce starts here",
+    "headingLine1": "Your ",
+    "headingHighlight": "AI workforce",
+    "headingLine2": ".",
+    "headingLine3": "Deployed in minutes.",
+    "tagline": "The AI agent framework and platform built for production.",
+    "subtitle": "Give each agent a job and a budget — they work 24/7 while your keys stay locked in a vault they never touch.",
+    "subtitleSecond": "Anything a human does, your agents do around the clock.",
+    "pricingAnchor": "7-day free trial · No credit card required · 100+ LLM providers · No vendor lock-in",
+    "ctaPrimary": "Start free trial →",
+    "ctaSecondary": "Read the Docs",
+    "terminalTitle": "openlegion demo",
+    "videoTitle": "OpenLegion demo — deploying an AI agent fleet",
+    "videoFallback": "Your browser does not support HTML5 video.",
+    "videoCaptionBelow": "Your team is spending hours on work that AI agents could finish while they sleep."
+  },
+  "capabilityBand": {
+    "ariaLabel": "What agents can automate",
+    "heading": "If a human can do it, an agent can too.",
+    "subheading": "Built-in stealth browser. Runs 24/7.",
+    "footer": "All agents run in isolated containers with vault-secured credentials and automatic spend caps.",
+    "pills": {
+      "0": {
+        "label": "Browse any website",
+        "tip": "Researches competitors, reads news, pulls product data"
+      },
+      "1": {
+        "label": "Fill out any form",
+        "tip": "Submits applications, updates CRMs, books appointments"
+      },
+      "2": {
+        "label": "Write and run code",
+        "tip": "Builds features, fixes bugs, runs tests, deploys changes"
+      },
+      "3": {
+        "label": "Send emails & messages",
+        "tip": "Runs outreach sequences, follows up, replies to enquiries"
+      },
+      "4": {
+        "label": "Manage files & folders",
+        "tip": "Organises docs, renames files, moves and archives content"
+      },
+      "5": {
+        "label": "Research & summarise",
+        "tip": "Reads articles, compiles reports, answers research questions"
+      },
+      "6": {
+        "label": "Scrape data from sites",
+        "tip": "Extracts pricing, contacts, listings — no API needed"
+      },
+      "7": {
+        "label": "Qualify sales leads",
+        "tip": "Scores prospects, enriches data, books discovery calls"
+      },
+      "8": {
+        "label": "Process spreadsheets",
+        "tip": "Cleans data, runs calculations, generates summaries"
+      },
+      "9": {
+        "label": "Post to social media",
+        "tip": "Drafts and schedules posts across multiple platforms"
+      },
+      "10": {
+        "label": "Monitor for changes",
+        "tip": "Alerts you when prices drop, pages update, or events fire"
+      },
+      "11": {
+        "label": "Trigger via Slack, Telegram, Discord",
+        "tip": "Trigger agents and get updates via the tools your team already uses"
+      }
+    }
+  },
+  "audienceSelector": {
+    "heading": "What do you need to ",
+    "headingHighlight": "automate",
+    "headingEnd": "?",
+    "cards": {
+      "0": {
+        "title": "I need to automate my team's workflows"
+      },
+      "1": {
+        "title": "I need to build AI-powered products"
+      },
+      "2": {
+        "title": "I need a custom AI workforce"
+      },
+      "3": {
+        "title": "Deploy for my enterprise"
+      }
+    }
+  },
+  "useCases": {
+    "sectionLabel": "Use Cases",
+    "heading": "What role does your ",
+    "headingHighlight": "team need",
+    "headingEnd": "?",
+    "subtitle": "Pick a built-in multi-agent template or define your own autonomous agent fleet. Each agent gets its own container, budget, and tool permissions.",
+    "items": {
+      "0": {
+        "name": "Your engineering team",
+        "agents": {
+          "0": "PM",
+          "1": "Engineer",
+          "2": "Reviewer"
+        },
+        "description": "OpenLegion's Dev Team template automates task planning, code generation, and PR review. Ship features while your agent fleet handles the boilerplate."
+      },
+      "1": {
+        "name": "Your sales team",
+        "agents": {
+          "0": "Researcher",
+          "1": "Qualifier",
+          "2": "Outreach"
+        },
+        "description": "OpenLegion's Sales Pipeline template runs lead research, scoring, and personalized outreach — 24/7 without human babysitting."
+      },
+      "2": {
+        "name": "Your content team",
+        "agents": {
+          "0": "Researcher",
+          "1": "Writer",
+          "2": "Editor"
+        },
+        "description": "OpenLegion's Content Studio template handles topic research, long-form drafts, and editorial review with consistent brand voice across every piece."
+      },
+      "3": {
+        "name": "Your custom team",
+        "agents": {
+          "0": "Any Role",
+          "1": "Any Tool",
+          "2": "Any Budget"
+        },
+        "description": "Don't see your use case? Define any combination of roles, tools, and budgets. Agents get their own containers, credentials, and spending limits — whatever the job requires."
+      }
+    },
+    "devEvents": {
+      "0": "PM created task #42",
+      "1": "Engineer opened PR #18",
+      "2": "Reviewer reviewing…"
+    },
+    "funnelBars": {
+      "0": {
+        "label": "leads"
+      },
+      "1": {
+        "label": "qualified"
+      },
+      "2": {
+        "label": "converted"
+      }
+    },
+    "contentItems": {
+      "0": {
+        "title": "Blog post",
+        "status": "published"
+      },
+      "1": {
+        "title": "Case study",
+        "status": "in review"
+      },
+      "2": {
+        "title": "White paper",
+        "status": "drafting"
+      }
+    },
+    "customSteps": {
+      "0": "intake",
+      "1": "research",
+      "2": "execute",
+      "3": "deliver"
+    }
+  },
+  "socialProof": {
+    "stats": {
+      "0": {
+        "fallback": "2,100+",
+        "label": "tests passing"
+      },
+      "1": {
+        "fallback": "100+",
+        "label": "LLM providers supported"
+      },
+      "2": {
+        "fallback": "0",
+        "label": "CVEs reported"
+      },
+      "3": {
+        "fallback": "$0",
+        "label": "markup on LLM usage"
+      }
+    },
+    "discordLabel": "Discord",
+    "githubLabel": "GitHub",
+    "githubWithStars": "GitHub ★ {stars}"
+  },
+  "features": {
+    "sectionLabel": "Features",
+    "heading": "Built for teams that can't afford things to ",
+    "headingHighlight": "go wrong",
+    "headingEnd": ".",
+    "subtitle": "The AI agent platform with security, cost control, and agentic automation baked in from day one.",
+    "outcomes": {
+      "0": {
+        "title": "AI agent security: your keys stay in a vault agents never touch.",
+        "description": "Every agent calls through a credential proxy. Keys never exist inside a container. Six independent security layers on by default.",
+        "linkLabel": "How security works →"
+      },
+      "1": {
+        "title": "Set a budget per agent. They stop the moment they hit it.",
+        "description": "Per-agent daily and monthly caps with automatic hard cutoff. No surprise bills. No runaway API loops at 3am.",
+        "linkLabel": "How cost control works →"
+      },
+      "2": {
+        "title": "Deterministic AI agent orchestration — you decide who does what.",
+        "description": "Agents browse any website, operate any tool, run any task. MCP-compatible with 50+ built-in skills. YAML-defined workflows — every execution path predictable, auditable, and under your control.",
+        "linkLabel": "How orchestration works →"
+      }
+    },
+    "allFeaturesLink": "See all AI agent platform features including browser automation, persistent memory, MCP extensibility, and multi-agent orchestration →"
+  },
+  "dashboardPreview": {
+    "sectionLabel": "Fleet Dashboard",
+    "heading": "See your fleet in ",
+    "headingHighlight": "real time",
+    "subtitle": "Every agent, every cost, every event — live. Chat with agents, monitor health, and track spend from one unified view.",
+    "windowTitle": "Fleet Overview",
+    "liveIndicator": "Live",
+    "agentsCount": "{count} agents",
+    "todaySuffix": "today",
+    "tokensSuffix": "tokens",
+    "onlineCount": "{count} online",
+    "degradedCount": "{count} degraded",
+    "agentLabel": "Agent {n}",
+    "healthOnline": "Online",
+    "healthDegraded": "Degraded",
+    "activityLabel": "Activity",
+    "heartbeatLabel": "Heartbeat",
+    "costTodayLabel": "Cost today",
+    "chatButton": "Chat",
+    "pauseButton": "Pause",
+    "stateStreaming": "streaming",
+    "stateThinking": "thinking",
+    "stateTool": "tool",
+    "stateIdle": "idle",
+    "agents": {
+      "0": {
+        "id": "researcher",
+        "role": "Lead Researcher"
+      },
+      "1": {
+        "id": "engineer",
+        "role": "Code Engineer"
+      },
+      "2": {
+        "id": "reviewer",
+        "role": "PR Reviewer"
+      },
+      "3": {
+        "id": "writer",
+        "role": "Content Writer"
+      },
+      "4": {
+        "id": "qualifier",
+        "role": "Lead Qualifier"
+      },
+      "5": {
+        "id": "outreach",
+        "role": "Sales Outreach"
+      }
+    }
+  },
+  "quickstart": {
+    "sectionLabel": "Quick Start",
+    "heading": "Two paths to your first ",
+    "headingHighlight": "AI agent",
+    "managedBadge": "Easiest — no setup required",
+    "managedHeading": "No terminal. No config files.",
+    "managedDescription": "We handle the containers, credentials, and infrastructure.",
+    "managedCta": "Start free trial →",
+    "steps": {
+      "0": "Create your account",
+      "1": "Select a plan",
+      "2": "Configure your agents",
+      "3": "Run your fleet"
+    },
+    "selfHostedBadge": "Full control — on-premise support",
+    "selfHostedHeading": "Three commands. One machine.",
+    "requirementsLabel": "Requirements:",
+    "requirements": "Python 3.10+, Docker (running), an LLM API key (Anthropic / Moonshot / OpenAI)",
+    "selfHostedCta": "Read the docs →",
+    "tabs": {
+      "0": {
+        "label": "macOS / Linux"
+      },
+      "1": {
+        "label": "Windows (PowerShell)"
+      }
+    },
+    "tabGroupLabel": "Operating system",
+    "copyLabel": "Copy",
+    "copiedLabel": "Copied"
+  },
+  "security": {
+    "sectionLabel": "Security",
+    "heading": "AI agent security: built assuming agents will ",
+    "headingHighlight": "misbehave",
+    "headingEnd": ".",
+    "subtitle": "Six layers enabled by default. Four shown here.",
+    "layers": {
+      "0": {
+        "title": "Each agent runs in its own container",
+        "description": "Docker containers or Docker Sandbox microVMs per agent — no shared process space."
+      },
+      "1": {
+        "title": "Agents can't escalate privileges or consume your resources",
+        "description": "Non-root user (UID 1000), no-new-privileges flag, memory and CPU resource limits enforced."
+      },
+      "2": {
+        "title": "API keys live in a vault the agent never touches",
+        "description": "Vault proxy holds all API keys — agents call through the proxy, never see secrets."
+      },
+      "3": {
+        "title": "Each agent only accesses what you explicitly allow",
+        "description": "Per-agent ACL matrix controls which tools, files, and mesh operations are allowed."
+      },
+      "4": {
+        "title": "Malicious inputs blocked before they reach the LLM",
+        "description": "Path traversal prevention, SSRF protection, safe condition evaluation, token budget enforcement."
+      },
+      "5": {
+        "title": "Hidden characters stripped before prompt injection hits",
+        "description": "Invisible character stripping at 56 choke points — bidi overrides, tag chars, zero-width chars blocked before reaching LLM context."
+      }
+    },
+    "allLayersLink": "All six layers explained in detail →"
+  },
+  "architecture": {
+    "sectionLabel": "Under the hood",
+    "title": "Three zones of protection",
+    "summary": "Your multi-agent fleet runs in three isolated zones — user, coordinator, and sandboxed containers. Nothing any agent touches can reach your API keys, other agents, or the host machine.",
+    "zones": {
+      "0": {
+        "name": "User Zone",
+        "trust": "Full Trust",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "Direct agent communication"
+        }
+      },
+      "1": {
+        "name": "Mesh Host",
+        "trust": "Trusted Coordinator",
+        "items": {
+          "0": "FastAPI on :8420",
+          "1": "Blackboard (SQLite)",
+          "2": "PubSub + Message Router",
+          "3": "Credential Vault (API Proxy)",
+          "4": "Orchestrator + Permission Matrix",
+          "5": "Container Manager + Cost Tracker"
+        }
+      },
+      "2": {
+        "name": "Agent Containers",
+        "trust": "Untrusted / Sandboxed",
+        "items": {
+          "0": "FastAPI :8400+ each",
+          "1": "Own /data volume",
+          "2": "Own memory DB (SQLite + vec)",
+          "3": "384MB RAM / 0.15 CPU default",
+          "4": "Non-root, no-new-privileges"
+        }
+      }
+    },
+    "agentLabel": "Agent {n}",
+    "learnMoreLink": "Learn more about AI agent orchestration →"
+  },
+  "enterprise": {
+    "heading": "Built for enterprise.",
+    "description": "On-premises deployment, air-gapped environments, SOC 2-aligned credential isolation, deterministic audit trails, per-agent cost governance, and role-based access — all enforced by default. The engine is ~30,000 lines of Python with 2,100+ tests and a minimal dependency surface.",
+    "signals": {
+      "0": "On-premises & air-gap",
+      "1": "SOC 2-aligned",
+      "2": "Deterministic audit trails",
+      "3": "Deterministic workflows",
+      "4": "Per-agent cost governance",
+      "5": "Role-based access"
+    },
+    "cta": "Talk to us about enterprise deployment"
+  },
+  "comparison": {
+    "sectionLabel": "Comparison",
+    "heading": "How OpenLegion is different",
+    "subtitle": "Most AI agent tools were built for demos — OpenLegion was built for production.",
+    "detailParagraph": "OpenLegion is the only AI agent framework shipping vault-proxied credentials, container isolation, and per-agent budget enforcement as defaults — with zero CVEs reported since launch.",
+    "disclaimer": "Based on public security disclosures and community reports.",
+    "tableCaption": "Feature comparison between typical AI agent frameworks and OpenLegion",
+    "columnAspect": "Aspect",
+    "columnThem": "OpenClaw & Others",
+    "columnOpenLegion": "OpenLegion",
+    "rows": {
+      "0": {
+        "aspect": "API Key Storage",
+        "them": "In agent config files",
+        "openlegion": "Vault proxy — agents never see keys"
+      },
+      "1": {
+        "aspect": "Agent Isolation",
+        "them": "Process-level",
+        "openlegion": "Docker containers / microVMs"
+      },
+      "2": {
+        "aspect": "Cost Controls",
+        "them": "None",
+        "openlegion": "Per-agent daily & monthly budgets"
+      },
+      "3": {
+        "aspect": "Task Routing",
+        "them": "LLM CEO agent decides",
+        "openlegion": "Deterministic YAML DAG"
+      },
+      "4": {
+        "aspect": "Test Coverage",
+        "them": "Minimal",
+        "openlegion": "2,100+ tests across unit + integration + E2E"
+      },
+      "5": {
+        "aspect": "Codebase Size",
+        "them": "430,000+ lines",
+        "openlegion": "~30,000 lines (engine, auditable)"
+      }
+    },
+    "footnote": "OpenLegion launched in February 2026. GitHub star counts reflect project age, not production readiness."
+  },
+  "faq": {
+    "sectionLabel": "FAQ",
+    "heading": "Frequently asked ",
+    "headingHighlight": "questions",
+    "fullPageSubtitle": "Everything you need to know about deploying, securing, and scaling AI agent fleets with OpenLegion.",
+    "items": {
+      "0": {
+        "question": "Do I need to be a developer to use OpenLegion?",
+        "answer": "No. The managed hosting at app.openlegion.ai requires no coding — start a free trial, pick a template, add your LLM API key, and your agents are live in minutes. The self-hosted version requires Python 3.10+ and Docker. Either way, the built-in team templates (Dev Team, Sales Pipeline, Content Studio) work out of the box with no configuration needed."
+      },
+      "1": {
+        "question": "Do I pay for LLM usage on top of the subscription?",
+        "answer": "Yes — you bring your own API keys from Anthropic, OpenAI, Google, or any of 100+ supported providers. You pay providers directly at their published rates. OpenLegion charges for the platform and infrastructure only. There is zero markup on model usage."
+      },
+      "2": {
+        "question": "What kinds of tasks can OpenLegion agents actually automate?",
+        "answer": "Any task a human performs on a computer with a browser or terminal. Agents can browse and interact with any website, log into web applications, fill out forms, extract data from any page, send emails and messages, manage files and folders, write and execute code, process documents, post to social platforms, monitor pages for changes, and run custom automations — all 24/7 without supervision. Common deployments include sales outreach pipelines, competitive research, lead qualification, developer workflows, invoice processing, content production, and internal task automation."
+      },
+      "3": {
+        "question": "What is OpenLegion?",
+        "answer": "OpenLegion is a production-grade AI agent framework and platform that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and secrets vault — with six security layers enabled by default. It requires only Python, Docker, and an API key. No Redis, no Kubernetes, no LangChain. Licensed under BSL 1.1 (source-available)."
+      },
+      "4": {
+        "question": "How is OpenLegion different from CrewAI or other agent frameworks?",
+        "answer": "OpenLegion container-isolates every agent, proxies all credentials through a vault, and enforces per-agent budgets — most frameworks don't. CrewAI and similar frameworks run agents in shared processes with no isolation, no cost controls, and API keys stored in config files. OpenLegion uses deterministic YAML workflows instead of letting an LLM decide task routing, making execution predictable and auditable."
+      },
+      "5": {
+        "question": "What LLM providers does OpenLegion support?",
+        "answer": "100+ LLM providers through LiteLLM. This includes Anthropic (Claude), OpenAI (GPT), Google (Gemini), Mistral, Moonshot, and any OpenAI-compatible API. You can assign different models to different agents in the same fleet — no vendor lock-in."
+      },
+      "6": {
+        "question": "How does OpenLegion handle API key security?",
+        "answer": "Through blind credential injection — agents never see API keys. Keys are stored in a vault on the mesh host. When an agent calls an LLM, the request goes through a vault proxy that injects the credential at the network layer, tracks token usage, and enforces budget limits. Even a fully compromised agent cannot access your API keys."
+      },
+      "7": {
+        "question": "Do I need Kubernetes or cloud infrastructure to run OpenLegion?",
+        "answer": "No. OpenLegion runs on a single machine with no external services. You need only Python 3.10+, Docker, and an LLM API key — no Redis, no Kubernetes, no LangChain, no external databases."
+      },
+      "8": {
+        "question": "Is OpenLegion enterprise-ready?",
+        "answer": "Yes — OpenLegion is designed for enterprise deployment. It includes on-premises support (including air-gapped environments), deterministic YAML workflows, per-agent cost governance, role-based access controls, credential isolation via vault proxy, and an audit-ready codebase of ~30,000 lines with 2,100+ tests. All security layers are enabled by default."
+      },
+      "9": {
+        "question": "Can OpenLegion run on-premises in air-gapped environments?",
+        "answer": "Yes. The full stack runs entirely on your own infrastructure with no external dependencies beyond Docker and Python. No data leaves your network. The coordinator, agents, vault, and dashboard all run on a single machine, making it suitable for air-gapped, regulated, and on-premises environments."
+      },
+      "10": {
+        "question": "What is an AI agent platform?",
+        "answer": "An AI agent platform is managed infrastructure for deploying, orchestrating, and governing autonomous AI agents in production. Unlike raw framework libraries that only provide agent logic primitives, a platform handles container isolation, credential vaulting, per-agent cost controls, observability, and deployment — so teams can ship agents without building DevOps from scratch."
+      },
+      "11": {
+        "question": "What is an AI agent framework vs an agent platform?",
+        "answer": "A framework is a code library for building agent logic — tools, prompts, memory, and chains. A platform adds operational infrastructure on top: container isolation, credential vaults, per-agent budgets, deployment pipelines, and fleet-wide observability. OpenLegion is both: a Python framework for authoring agents and a self-hosted platform for running them in production with security and cost governance built in."
+      },
+      "12": {
+        "question": "How does AI agent orchestration work in OpenLegion?",
+        "answer": "OpenLegion uses deterministic YAML DAG workflows — no LLM sits in the control plane deciding who does what. You define task graphs with sequential and parallel execution patterns, coordinated through a centralized Blackboard and pub/sub messaging. The orchestrator routes tasks based on the DAG definition, making every execution path predictable, repeatable, and auditable. Fleet model, not hierarchy — agents execute their assigned steps and report results back to the coordinator."
+      },
+      "13": {
+        "question": "What does AI agent security mean for autonomous agents?",
+        "answer": "AI agent security addresses the unique threats autonomous agents introduce: credential leakage, prompt injection, resource abuse, and data exfiltration. OpenLegion's six-layer defense — runtime isolation, container hardening, credential separation, permission enforcement, input validation, and Unicode sanitization — mitigates each threat independently, so a breach in one layer does not compromise the others."
+      }
+    },
+    "seeFullFaqPrefix": "More questions answered — including architecture, LLM providers, and AI agent orchestration.",
+    "seeFullFaqLink": "See the full FAQ →"
+  },
+  "technicalDefinition": {
+    "label": "Technical definition",
+    "srOnlyPrefix": "What is OpenLegion? ",
+    "text": "OpenLegion is a production-grade AI agent platform with container isolation, blind credential injection, per-agent budgets, and deterministic YAML orchestration — designed for teams that need secure, cost-controlled agent fleets in production."
+  },
+  "cta": {
+    "heading": "Your AI team is one ",
+    "headingHighlight": "deploy away",
+    "headingEnd": ".",
+    "subtitle": "7-day free trial · No credit card required · 100+ LLM providers · No vendor lock-in",
+    "primaryButton": "Start free trial →",
+    "secondaryButton": "Join our Discord"
+  },
+  "footer": {
+    "brandDescription": "The AI agent framework and platform built for production. Automate any computer task with secure, cost-controlled agent fleets.",
+    "license": "BSL 1.1 License © {year} OpenLegion Contributors",
+    "columns": {
+      "0": {
+        "title": "Product",
+        "links": {
+          "0": "Features",
+          "1": "Use Cases",
+          "2": "Dashboard",
+          "3": "Security",
+          "4": "Pricing",
+          "5": "Quick Start",
+          "6": "FAQ"
+        }
+      },
+      "1": {
+        "title": "Learn",
+        "links": {
+          "0": "AI Agent Platform",
+          "1": "AI Agent Orchestration",
+          "2": "AI Agent Frameworks",
+          "3": "AI Agent Security",
+          "4": "DeepSeek V4 Agents"
+        }
+      },
+      "2": {
+        "title": "Comparisons",
+        "links": {
+          "0": "All Comparisons",
+          "1": "OpenClaw Alternative",
+          "2": "vs OpenClaw",
+          "3": "vs LangGraph",
+          "4": "vs CrewAI",
+          "5": "vs AutoGen"
+        }
+      },
+      "3": {
+        "title": "Resources",
+        "links": {
+          "0": "Documentation",
+          "1": "GitHub",
+          "2": "Issues",
+          "3": "Discussions"
+        }
+      },
+      "4": {
+        "title": "Community",
+        "links": {
+          "0": "Discord",
+          "1": "Twitter / X"
+        }
+      },
+      "5": {
+        "title": "Legal",
+        "links": {
+          "0": "Terms of Service",
+          "1": "Privacy Policy",
+          "2": "BSL 1.1 License"
+        }
+      }
+    }
+  },
+  "pricing": {
+    "sectionLabel": "Pricing",
+    "heading": "Try your AI workforce ",
+    "headingHighlight": "free for 7 days",
+    "headingEnd": ".",
+    "subtitle": "No credit card required. You bring your API keys, we run the infrastructure.",
+    "included": {
+      "0": {
+        "title": "Vault security",
+        "sub": "Keys never exposed"
+      },
+      "1": {
+        "title": "Budget controls",
+        "sub": "Agents auto-stop"
+      },
+      "2": {
+        "title": "100+ LLM providers",
+        "sub": "No vendor lock-in"
+      },
+      "3": {
+        "title": "Fleet dashboard",
+        "sub": "Live cost tracking"
+      }
+    },
+    "billingMonthly": "Monthly",
+    "billingYearly": "Yearly",
+    "billingSaveLabel": "Save ~25%",
+    "plans": {
+      "0": {
+        "name": "Basic",
+        "monthlyPrice": "19",
+        "yearlyPrice": "170",
+        "yearlyMonthly": "14"
+      },
+      "1": {
+        "name": "Growth",
+        "monthlyPrice": "59",
+        "yearlyPrice": "530",
+        "yearlyMonthly": "44"
+      },
+      "2": {
+        "name": "Pro",
+        "monthlyPrice": "149",
+        "yearlyPrice": "1340",
+        "yearlyMonthly": "112"
+      }
+    },
+    "popularBadge": "Popular",
+    "priceSuffixMonthly": "/mo",
+    "priceSuffixYearly": "/yr",
+    "yearlyBilledNote": "~${monthlyEquivalent}/mo billed annually",
+    "monthlyTrialNote": "7-day free trial · no card required",
+    "startFreeTrial": "Start Free Trial",
+    "agentsLabel": "{count, plural, one {agent} other {agents}}",
+    "browsersLabel": "{count, plural, one {concurrent browser} other {concurrent browsers}}",
+    "projectsLabel": "{count, plural, one {project} other {projects}}",
+    "noProjects": "No projects",
+    "planFeatures": {
+      "0": "Each agent runs in its own secure container",
+      "1": "Works with Claude, GPT, Gemini + 100 more",
+      "2": "Watch every agent, cost, and event live",
+      "3": "Your own deployment URL",
+      "4": "Dedicated compute — no shared resources"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "price": "Custom",
+      "subtitle": "Tailored to your needs",
+      "cta": "Contact Us",
+      "unlimitedAgents": "Unlimited",
+      "agents": "agents",
+      "browsers": "concurrent browsers",
+      "projects": "projects",
+      "features": {
+        "0": "Dedicated infrastructure",
+        "1": "Custom SLAs",
+        "2": "Priority support",
+        "3": "On-premises deployment"
+      }
+    },
+    "faqHeading": "Common questions",
+    "faq": {
+      "0": {
+        "question": "How does the 7-day free trial work?",
+        "answer": "Sign up and get full access to any plan for 7 days — no credit card required. Deploy agents, test workflows, and explore the dashboard. If you don't upgrade before the trial ends, your account simply pauses. No charges, ever, unless you choose a plan."
+      },
+      "1": {
+        "question": "Do I need to pay for LLM usage on top of the plan price?",
+        "answer": "Yes — you bring your own API keys (Anthropic, OpenAI, Google, or any of 100+ providers). You pay providers directly at their published rates. OpenLegion charges for the platform only. There is zero markup on model usage."
+      },
+      "2": {
+        "question": "Can I switch plans?",
+        "answer": "Yes — upgrade or downgrade any time. Changes take effect at the start of your next billing period."
+      },
+      "3": {
+        "question": "What happens to my agents if I cancel?",
+        "answer": "Your agent configurations and data remain accessible for 30 days after cancellation. You can export everything before your account closes."
+      },
+      "4": {
+        "question": "Can I self-host OpenLegion?",
+        "answer": "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under BSL 1.1. Managed hosting starts at $19/month (with a 7-day free trial) for teams that don't want to manage infrastructure."
+      },
+      "5": {
+        "question": "What counts as an \"agent\"?",
+        "answer": "Each deployed agent container counts as one agent toward your plan limit. Templates like Dev Team (PM + Engineer + Reviewer) count as 3 agents."
+      }
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "titleHighlight": "0",
+    "description": "This page doesn't exist. The fleet hasn't been deployed here yet.",
+    "backToHome": "Back to Home"
+  },
+  "common": {
+    "skipToContent": "Skip to content",
+    "readyToStart": "Ready to put your first agent to work?",
+    "startFreeTrialInline": "Start free trial →",
+    "fleetLivePrompt": "This is your fleet, live.",
+    "tryFree7Days": "Try it free for 7 days →",
+    "brandName": "OpenLegion",
+    "selectLanguage": "Select language"
+  },
+  "metadata": {
+    "homeTitle": "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control",
+    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. 7-day free trial, no credit card required.",
+    "titleTemplate": "{title} | OpenLegion",
+    "ogTitle": "OpenLegion — AI Agent Framework & Platform",
+    "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. 7-day free trial.",
+    "ogImageAlt": "OpenLegion — AI Agent Framework & Platform",
+    "twitterTitle": "OpenLegion — AI Agent Framework & Platform",
+    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. 7-day free trial, no credit card required.",
+    "pricingTitle": "AI Agent Platform Pricing — 7-Day Free Trial",
+    "pricingDescription": "Try your AI workforce free for 7 days. No credit card required. Plans from $19/month with container isolation, vault security, and 100+ LLM providers.",
+    "pricingOgTitle": "AI Agent Platform Pricing — 7-Day Free Trial | OpenLegion",
+    "pricingOgDescription": "Try your AI workforce free for 7 days. No credit card required. Container isolation, vault security, and 100+ LLM providers.",
+    "pricingTwitterTitle": "AI Agent Platform Pricing — 7-Day Free Trial | OpenLegion",
+    "pricingTwitterDescription": "Try your AI workforce free for 7 days. No credit card required.",
+    "faqTitle": "Frequently Asked Questions",
+    "faqDescription": "Answers to common questions about OpenLegion — the AI agent framework and platform built for production. Covers security, pricing, LLM providers, orchestration, enterprise deployment, and more.",
+    "faqOgTitle": "Frequently Asked Questions — OpenLegion",
+    "faqOgDescription": "Answers to common questions about OpenLegion — security, pricing, LLM providers, orchestration, and enterprise deployment.",
+    "faqTwitterTitle": "Frequently Asked Questions — OpenLegion",
+    "faqTwitterDescription": "Answers to common questions about OpenLegion — security, pricing, LLM providers, orchestration, and enterprise deployment.",
+    "privacyTitle": "Privacy Policy",
+    "privacyDescription": "Privacy Policy for OpenLegion AI agent platform. Learn how we collect, use, and protect your data across managed hosting and the openlegion.ai website.",
+    "termsTitle": "Terms of Service",
+    "termsDescription": "Terms of Service for OpenLegion AI agent platform. Covers managed hosting, self-hosted deployment under BSL 1.1 license, and the openlegion.ai website."
+  },
+  "contentPage": {
+    "breadcrumbHome": "Home",
+    "breadcrumbComparisons": "Comparisons",
+    "publishedPrefix": "Published ",
+    "updatedPrefix": "Updated ",
+    "relatedContentAriaLabel": "Related content"
+  },
+  "inlineCta": {
+    "startFreeTrial": "Start Free Trial",
+    "readTheDocs": "Read the Docs"
+  },
+  "seoLinks": {
+    "sectionLabel": "Learn",
+    "heading": "Deep dives & ",
+    "headingHighlight": "comparisons",
+    "subtitle": "Detailed guides on AI agent platforms, orchestration, security, and how OpenLegion compares to every major framework.",
+    "cards": {
+      "0": {
+        "title": "Platform & Infrastructure",
+        "description": "How OpenLegion handles container isolation, credential vaulting, cost controls, and deterministic orchestration for production agent fleets.",
+        "links": {
+          "0": "AI Agent Platform",
+          "1": "AI Agent Orchestration",
+          "2": "AI Agent Security"
+        }
+      },
+      "1": {
+        "title": "Framework Comparisons",
+        "description": "See how OpenLegion stacks up across the AI agent framework landscape — security, isolation, cost controls, and orchestration compared.",
+        "links": {
+          "0": "All Comparisons",
+          "1": "OpenClaw Alternative",
+          "2": "AI Agent Frameworks"
+        }
+      },
+      "2": {
+        "title": "Head-to-Head",
+        "description": "Detailed architecture deep dives and migration paths for the most popular frameworks teams evaluate against OpenLegion.",
+        "links": {
+          "0": "vs OpenClaw",
+          "1": "vs LangGraph",
+          "2": "vs CrewAI"
+        }
+      }
+    }
+  },
+  "relatedPages": {
+    "heading": "Related Pages",
+    "ariaLabel": "Related pages",
+    "topicPages": {
+      "0": "AI Agent Platform",
+      "1": "AI Agent Orchestration",
+      "2": "AI Agent Frameworks Comparison",
+      "3": "AI Agent Security",
+      "4": "OpenClaw Alternative",
+      "5": "DeepSeek V4 Agents"
+    },
+    "comparisonHub": "All Framework Comparisons",
+    "comparisons": {
+      "openclaw": "OpenLegion vs OpenClaw",
+      "langgraph": "OpenLegion vs LangGraph",
+      "crewai": "OpenLegion vs CrewAI",
+      "autogen": "OpenLegion vs AutoGen",
+      "dify": "OpenLegion vs Dify",
+      "googleAdk": "OpenLegion vs Google ADK",
+      "awsStrands": "OpenLegion vs AWS Strands",
+      "openaiAgentsSdk": "OpenLegion vs OpenAI Agents SDK",
+      "manusAi": "OpenLegion vs Manus AI",
+      "semanticKernel": "OpenLegion vs Semantic Kernel",
+      "zeroclaw": "OpenLegion vs ZeroClaw",
+      "nanoclaw": "OpenLegion vs NanoClaw",
+      "nanobot": "OpenLegion vs nanobot",
+      "picoclaw": "OpenLegion vs PicoClaw",
+      "openfang": "OpenLegion vs OpenFang",
+      "memu": "OpenLegion vs MemU"
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "effectiveDate": "Effective date: March 7, 2026 · Last updated: March 7, 2026",
+    "section1": {
+      "title": "1. Introduction",
+      "p1": "This Privacy Policy describes how OpenLegion (\"we,\" \"us,\" \"our\") collects, uses, and discloses information when you visit openlegion.ai (the \"Website\") or use our managed hosting service, APIs, and related services (collectively, the \"Service\").",
+      "p2": "By using the Service, you consent to the practices described in this Privacy Policy. If you do not agree, please do not use the Service."
+    },
+    "section2": {
+      "1": {
+        "title": "2.1 Information You Provide",
+        "items": {
+          "0": "Account information: Email address, name, and password when you create an account.",
+          "1": "Payment information: Billing details processed by our third-party payment processor (e.g., Stripe). We do not store full credit card numbers on our servers.",
+          "2": "Communications: Information you provide when contacting us via email, live chat (Tawk.to), or Discord.",
+          "3": "Customer Data: Agent configurations, workflow definitions, and other data you submit to the Service."
+        }
+      },
+      "2": {
+        "title": "2.2 Information Collected Automatically",
+        "items": {
+          "0": "Usage data: Pages visited, features used, timestamps, referral URLs, and general interaction patterns.",
+          "1": "Device information: Browser type, operating system, screen resolution, and device identifiers.",
+          "2": "IP address: Collected for security, analytics, and approximate geolocation purposes.",
+          "3": "Cookies and similar technologies: See Section 6 below."
+        }
+      },
+      "title": "2. Information We Collect"
+    },
+    "section3": {
+      "title": "3. How We Use Your Information",
+      "intro": "We use the information we collect to:",
+      "items": {
+        "0": "Provide, operate, and maintain the Service;",
+        "1": "Process payments and send billing-related communications;",
+        "2": "Respond to your inquiries and provide customer support;",
+        "3": "Analyze usage patterns to improve the Service (via Google Analytics and Microsoft Clarity);",
+        "4": "Detect, prevent, and address technical issues, fraud, or abuse;",
+        "5": "Send transactional emails (account confirmation, password reset, billing receipts);",
+        "6": "Comply with legal obligations."
+      },
+      "noSell": "We do not sell your personal information. We do not use Customer Data to train AI models."
+    },
+    "section4": {
+      "title": "4. Third-Party Services",
+      "intro": "We use the following third-party services that may collect information as described in their respective privacy policies:",
+      "items": {
+        "0": "Google Analytics — website analytics and traffic measurement.",
+        "1": "Microsoft Clarity — session recording and heatmaps for UX analysis.",
+        "2": "Tawk.to — live chat widget for customer support.",
+        "3": "Stripe (or equivalent) — payment processing.",
+        "4": "LLM API providers (e.g., Anthropic, OpenAI, Google, Mistral) — AI model inference. Prompts and agent data sent to these providers are governed by their respective privacy policies and data processing terms. OpenLegion is not responsible for how third-party LLM providers handle data."
+      },
+      "review": "We encourage you to review the privacy policies of these third-party services."
+    },
+    "section5": {
+      "title": "5. Data Sharing & Disclosure",
+      "intro": "We may share your information only in the following circumstances:",
+      "items": {
+        "0": "Service providers: Third-party vendors who assist in operating the Service (hosting, payment processing, analytics) under contractual obligations to protect your data.",
+        "1": "Legal requirements: When required by law, subpoena, court order, or governmental request.",
+        "2": "Protection of rights: To enforce our Terms of Service, protect our rights or safety, or investigate fraud.",
+        "3": "Business transfers: In connection with a merger, acquisition, or sale of assets, your information may be transferred as part of that transaction."
+      }
+    },
+    "section6": {
+      "title": "6. Cookies & Tracking Technologies",
+      "intro": "We use cookies and similar technologies (pixels, local storage) for analytics, functionality, and security purposes. The Website uses:",
+      "items": {
+        "0": "Essential cookies: Required for the Service to function (session management, authentication).",
+        "1": "Analytics cookies: Google Analytics and Microsoft Clarity cookies to understand how visitors interact with the Website.",
+        "2": "Third-party cookies: Set by Tawk.to for live chat functionality."
+      },
+      "control": "You can control cookies through your browser settings. Disabling cookies may affect the functionality of the Service."
+    },
+    "section7": {
+      "title": "7. Data Retention",
+      "text": "We retain your information for as long as your account is active or as needed to provide the Service. We may also retain information as necessary to comply with legal obligations, resolve disputes, and enforce our agreements. When data is no longer needed, we will delete or anonymize it within a reasonable timeframe."
+    },
+    "section8": {
+      "title": "8. Data Security",
+      "text": "We implement commercially reasonable technical and organizational measures to protect your information. However, no method of transmission over the Internet or electronic storage is 100% secure. We cannot guarantee absolute security and are not liable for any unauthorized access, data breach, or loss of data."
+    },
+    "section9": {
+      "title": "9. Your Rights",
+      "intro": "Depending on your jurisdiction, you may have the following rights regarding your personal information:",
+      "items": {
+        "0": "Access: Request a copy of the personal information we hold about you.",
+        "1": "Correction: Request correction of inaccurate or incomplete data.",
+        "2": "Deletion: Request deletion of your personal information, subject to legal retention requirements.",
+        "3": "Portability: Request your data in a structured, machine-readable format.",
+        "4": "Objection: Object to processing of your personal information for certain purposes.",
+        "5": "Opt-out of sale: We do not sell personal information. If this changes, we will provide a clear opt-out mechanism."
+      },
+      "contact": "To exercise any of these rights, contact us at support@openlegion.ai. We will respond within 30 days (or as required by applicable law)."
+    },
+    "section10": {
+      "title": "10. California Residents (CCPA)",
+      "text": "If you are a California resident, you have additional rights under the California Consumer Privacy Act (CCPA), including the right to know what personal information we collect, request deletion, and opt out of the sale of personal information. We do not sell personal information. To exercise your CCPA rights, contact support@openlegion.ai."
+    },
+    "section11": {
+      "title": "11. European Economic Area (GDPR)",
+      "p1": "If you are in the EEA, our legal basis for processing your personal data includes: (a) your consent; (b) performance of a contract; (c) compliance with a legal obligation; and (d) our legitimate interests (improving and securing the Service) where those interests are not overridden by your data protection rights.",
+      "p2": "You may lodge a complaint with your local data protection authority if you believe we have violated your rights under the GDPR."
+    },
+    "section12": {
+      "title": "12. International Data Transfers",
+      "text": "Your information may be transferred to and processed in the United States or other countries where our service providers operate. These countries may have different data protection laws than your jurisdiction. By using the Service, you consent to such transfers."
+    },
+    "section13": {
+      "title": "13. Children's Privacy",
+      "text": "The Service is not directed to individuals under 18. We do not knowingly collect personal information from children. If we become aware that we have collected data from a child, we will delete it promptly."
+    },
+    "section14": {
+      "title": "14. Changes to This Policy",
+      "text": "We may update this Privacy Policy at any time. Changes will be reflected by updating the \"Last updated\" date at the top of this page. Your continued use of the Service after any changes constitutes acceptance of the updated Privacy Policy."
+    },
+    "section15": {
+      "title": "15. Contact Us",
+      "text": "If you have questions about this Privacy Policy or wish to exercise your rights, contact us at:",
+      "email": "support@openlegion.ai"
+    }
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "effectiveDate": "Effective date: March 7, 2026 · Last updated: March 7, 2026",
+    "section1": {
+      "title": "1. Agreement to Terms",
+      "p1": "By accessing or using the OpenLegion website (openlegion.ai), managed hosting service, self-hosted software, APIs, documentation, or any related services (collectively, the \"Service\"), you (\"Customer,\" \"you\") agree to be bound by these Terms of Service (\"Terms\"). If you do not agree, do not use the Service.",
+      "p2": "If you are using the Service on behalf of an organization, you represent that you have authority to bind that organization, and \"you\" refers to that organization."
+    },
+    "section2": {
+      "title": "2. Description of Service",
+      "text": "OpenLegion provides an AI agent framework and optional managed hosting platform for deploying, orchestrating, and monitoring autonomous AI agents. The Service may include web dashboards, APIs, container orchestration, third-party LLM provider integrations, and related tooling."
+    },
+    "section3": {
+      "title": "3. Eligibility",
+      "text": "You must be at least 18 years old and legally capable of entering into a binding agreement. The Service is not intended for use by anyone under the age of 18."
+    },
+    "section4": {
+      "title": "4. Accounts & Security",
+      "text": "You are responsible for maintaining the confidentiality of your account credentials and for all activity under your account. You agree to notify us immediately of any unauthorized access. We reserve the right to suspend or terminate accounts at our sole discretion, with or without notice, for any reason, including violation of these Terms."
+    },
+    "section5": {
+      "title": "5. Acceptable Use",
+      "intro": "You agree not to use the Service to:",
+      "items": {
+        "0": "Violate any applicable law, regulation, or third-party right;",
+        "1": "Generate, distribute, or store content that is unlawful, harmful, threatening, abusive, defamatory, or otherwise objectionable;",
+        "2": "Transmit malware, viruses, or any code designed to disrupt, damage, or limit the functionality of any software or hardware;",
+        "3": "Attempt to gain unauthorized access to the Service, other accounts, or systems connected to the Service;",
+        "4": "Use the Service for cryptocurrency mining, denial-of-service attacks, spam, or any activity that degrades performance for other users;",
+        "5": "Reverse-engineer, decompile, or disassemble any proprietary component of the Service beyond what is permitted by the applicable open-source license;",
+        "6": "Resell, sublicense, or redistribute the managed hosting Service without prior written consent;",
+        "7": "Use AI agents deployed on the Service to engage in fraud, impersonation, harassment, or any illegal activity."
+      },
+      "enforcement": "We may investigate violations and, at our sole discretion, immediately terminate or suspend your access without notice or refund."
+    },
+    "section6": {
+      "title": "6. Fees, Billing & Refunds",
+      "p1": "Certain features of the Service may require payment. All fees are stated on our pricing page and are billed in advance on a recurring basis. Fees are non-refundable except where required by applicable law. We reserve the right to change pricing at any time with 30 days' notice. Continued use after a price change constitutes acceptance of the new pricing.",
+      "p2": "You are solely responsible for all third-party costs incurred through your use of the Service, including but not limited to LLM API provider charges, cloud infrastructure fees, and domain registration costs. OpenLegion is not liable for any third-party charges."
+    },
+    "section7": {
+      "title": "7. Intellectual Property",
+      "p1": "The OpenLegion framework source code is licensed under the Business Source License 1.1 (BSL 1.1). These Terms do not grant you any rights beyond what that license permits. All trademarks, logos, and branding elements of OpenLegion are the property of the OpenLegion project and may not be used without prior written consent.",
+      "p2": "You retain ownership of all data, content, and configurations (\"Customer Data\") you submit to the Service. You grant us a limited, non-exclusive license to host and process Customer Data solely to provide the Service."
+    },
+    "section8": {
+      "title": "8. Third-Party Services & LLM Providers",
+      "text": "The Service integrates with third-party LLM providers (e.g., Anthropic, OpenAI, Google, Mistral, and others). Your use of those providers is governed by their respective terms of service and privacy policies. OpenLegion makes no representations or warranties regarding any third-party service, and is not responsible for the output, accuracy, availability, or conduct of any third-party LLM or API."
+    },
+    "section9": {
+      "title": "9. AI Agent Output & Autonomous Actions",
+      "text": "AI agents deployed through the Service operate autonomously based on your configuration. You are solely responsible for the actions, outputs, and consequences of any AI agents you deploy, configure, or operate using the Service. OpenLegion does not control, review, or endorse agent outputs and accepts no liability for damages arising from agent behavior, including but not limited to financial losses, data corruption, incorrect information, or unintended actions taken by agents."
+    },
+    "section10": {
+      "title": "10. DISCLAIMER OF WARRANTIES",
+      "p1": "THE SERVICE IS PROVIDED \"AS IS\" AND \"AS AVAILABLE\" WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. OPENLEGION DOES NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, ERROR-FREE, SECURE, OR FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS. NO ADVICE OR INFORMATION, WHETHER ORAL OR WRITTEN, OBTAINED FROM OPENLEGION OR THROUGH THE SERVICE SHALL CREATE ANY WARRANTY NOT EXPRESSLY STATED HEREIN.",
+      "p2": "OPENLEGION DOES NOT WARRANT THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY OUTPUT GENERATED BY AI AGENTS, LLM PROVIDERS, OR ANY OTHER COMPONENT OF THE SERVICE. YOU ACKNOWLEDGE THAT AI-GENERATED CONTENT MAY BE INACCURATE, INCOMPLETE, OR HARMFUL, AND YOU USE SUCH CONTENT AT YOUR OWN RISK."
+    },
+    "section11": {
+      "title": "11. LIMITATION OF LIABILITY",
+      "p1": "TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL OPENLEGION, ITS OWNER, OPERATORS, CONTRIBUTORS, AFFILIATES, OR LICENSORS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO DAMAGES FOR LOSS OF PROFITS, GOODWILL, USE, DATA, OR OTHER INTANGIBLE LOSSES, ARISING OUT OF OR IN CONNECTION WITH YOUR USE OF OR INABILITY TO USE THE SERVICE, REGARDLESS OF THE THEORY OF LIABILITY (CONTRACT, TORT, STRICT LIABILITY, OR OTHERWISE) AND EVEN IF OPENLEGION HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.",
+      "p2": "IN NO EVENT SHALL OPENLEGION'S TOTAL AGGREGATE LIABILITY FOR ALL CLAIMS ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE EXCEED THE GREATER OF (A) THE TOTAL AMOUNT YOU PAID TO OPENLEGION IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR (B) FIFTY UNITED STATES DOLLARS (US $50.00).",
+      "p3": "SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION OF CERTAIN DAMAGES. IN SUCH JURISDICTIONS, OPENLEGION'S LIABILITY SHALL BE LIMITED TO THE FULLEST EXTENT PERMITTED BY LAW."
+    },
+    "section12": {
+      "title": "12. Indemnification",
+      "text": "You agree to indemnify, defend, and hold harmless OpenLegion, its owner, operators, contributors, and affiliates from and against any and all claims, damages, losses, liabilities, costs, and expenses (including reasonable attorneys' fees) arising out of or related to: (a) your use of the Service; (b) your violation of these Terms; (c) your violation of any third-party right, including any intellectual property or privacy right; (d) the actions, outputs, or consequences of any AI agents you deploy using the Service; or (e) any Customer Data you submit to the Service."
+    },
+    "section13": {
+      "title": "13. Service Availability & Modifications",
+      "text": "We do not guarantee any specific uptime or availability. The Service may be modified, suspended, or discontinued at any time, with or without notice. We are not liable to you or any third party for any modification, suspension, or discontinuation of the Service."
+    },
+    "section14": {
+      "title": "14. Termination",
+      "p1": "We may terminate or suspend your access to the Service immediately, without prior notice or liability, for any reason, including breach of these Terms. Upon termination, your right to use the Service ceases immediately. Sections that by their nature should survive termination (including, without limitation, Sections 10, 11, 12, 16, and 17) shall survive.",
+      "p2": "You may terminate your account at any time by discontinuing use of the Service. We are under no obligation to retain your data after termination."
+    },
+    "section15": {
+      "title": "15. Modifications to Terms",
+      "text": "We reserve the right to modify these Terms at any time. Material changes will be communicated by updating the \"Last updated\" date at the top of this page. Your continued use of the Service after changes are posted constitutes acceptance of the revised Terms. It is your responsibility to review these Terms periodically."
+    },
+    "section16": {
+      "title": "16. Governing Law & Dispute Resolution",
+      "p1": "These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, United States, without regard to its conflict-of-law provisions. Any dispute arising under or in connection with these Terms shall be resolved exclusively through binding arbitration administered by the American Arbitration Association (AAA) under its Commercial Arbitration Rules. The arbitration shall take place remotely (via telephone, video conference, or written submissions) unless both parties agree otherwise. The arbitrator's award shall be final and binding and may be entered as a judgment in any court of competent jurisdiction.",
+      "p2": "YOU AGREE THAT ANY DISPUTE RESOLUTION PROCEEDINGS WILL BE CONDUCTED ONLY ON AN INDIVIDUAL BASIS AND NOT IN A CLASS, CONSOLIDATED, OR REPRESENTATIVE ACTION. If this class-action waiver is found to be unenforceable, then the entirety of this arbitration provision shall be null and void."
+    },
+    "section17": {
+      "title": "17. General Provisions",
+      "items": {
+        "0": "Entire Agreement. These Terms, together with our Privacy Policy, constitute the entire agreement between you and OpenLegion.",
+        "1": "Severability. If any provision of these Terms is held invalid or unenforceable, that provision shall be enforced to the maximum extent permissible, and the remaining provisions shall remain in full force.",
+        "2": "Waiver. No waiver of any term shall be deemed a further or continuing waiver of such term or any other term.",
+        "3": "Assignment. You may not assign or transfer these Terms without our prior written consent. We may assign these Terms without restriction.",
+        "4": "Force Majeure. OpenLegion shall not be liable for any failure or delay caused by events beyond our reasonable control, including natural disasters, war, terrorism, pandemics, labor disputes, government actions, power failures, internet or telecommunications failures, or third-party service outages.",
+        "5": "No Agency. Nothing in these Terms creates a partnership, joint venture, employment, or agency relationship between you and OpenLegion."
+      }
+    },
+    "section18": {
+      "title": "18. Contact",
+      "text": "Questions about these Terms? Contact us at",
+      "email": "support@openlegion.ai"
+    }
+  }
+}

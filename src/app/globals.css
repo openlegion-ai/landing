@@ -38,7 +38,7 @@
   --color-accent-glow-strong: var(--accent-glow-strong);
   --color-success: var(--success);
   --color-danger: var(--danger);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-geist-sans), var(--font-noto-sc), "PingFang SC", "Microsoft YaHei", "Hiragino Sans", "Noto Sans CJK SC", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 

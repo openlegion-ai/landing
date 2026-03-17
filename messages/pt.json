@@ -1,0 +1,1062 @@
+{
+  "nav": {
+    "links": {
+      "0": {
+        "label": "Recursos"
+      },
+      "1": {
+        "label": "Casos de uso"
+      },
+      "2": {
+        "label": "Arquitetura"
+      },
+      "3": {
+        "label": "Segurança"
+      },
+      "4": {
+        "label": "Preços"
+      },
+      "5": {
+        "label": "Docs"
+      }
+    },
+    "ariaLabel": "Navegação principal",
+    "homeAriaLabel": "Página inicial do OpenLegion",
+    "brandName": "OpenLegion",
+    "githubAriaLabel": "Repositório no GitHub",
+    "freeTrial": "Teste grátis",
+    "tryFree": "Testar grátis →",
+    "toggleMenuAriaLabel": "Abrir ou fechar menu",
+    "billingPeriodAriaLabel": "Período de cobrança"
+  },
+  "hero": {
+    "ariaLabel": "Introdução",
+    "badge": "Sua força de trabalho de IA começa aqui",
+    "headingLine1": "Sua ",
+    "headingHighlight": "força de trabalho de IA",
+    "headingLine2": ".",
+    "headingLine3": "Implantada em minutos.",
+    "tagline": "O framework e plataforma de agentes de IA construído para produção.",
+    "subtitle": "Dê a cada agente uma tarefa e um orçamento — eles trabalham 24/7 enquanto suas chaves ficam trancadas em um cofre que nunca tocam.",
+    "subtitleSecond": "Tudo que um humano faz, seus agentes fazem sem parar.",
+    "pricingAnchor": "Teste grátis de 7 dias · Sem cartão de crédito · 100+ provedores LLM · Sem dependência de fornecedor",
+    "ctaPrimary": "Começar teste grátis →",
+    "ctaSecondary": "Ler a documentação",
+    "terminalTitle": "openlegion demo",
+    "videoTitle": "Demo do OpenLegion — implantando uma frota de agentes de IA",
+    "videoFallback": "Seu navegador não suporta vídeo HTML5.",
+    "videoCaptionBelow": "Sua equipe gasta horas em tarefas que agentes de IA poderiam completar enquanto ela dorme."
+  },
+  "capabilityBand": {
+    "ariaLabel": "O que os agentes podem automatizar",
+    "heading": "Se um humano pode fazer, um agente também pode.",
+    "subheading": "Navegador furtivo integrado. Funciona 24/7.",
+    "footer": "Todos os agentes rodam em contêineres isolados com credenciais protegidas em cofre e limites de gastos automáticos.",
+    "pills": {
+      "0": {
+        "label": "Navegar em qualquer site",
+        "tip": "Pesquisa concorrentes, lê notícias, extrai dados de produtos"
+      },
+      "1": {
+        "label": "Preencher qualquer formulário",
+        "tip": "Envia candidaturas, atualiza CRMs, agenda compromissos"
+      },
+      "2": {
+        "label": "Escrever e executar código",
+        "tip": "Desenvolve funcionalidades, corrige bugs, roda testes, faz deploy de mudanças"
+      },
+      "3": {
+        "label": "Enviar e-mails e mensagens",
+        "tip": "Executa sequências de prospecção, faz follow-up, responde consultas"
+      },
+      "4": {
+        "label": "Gerenciar arquivos e pastas",
+        "tip": "Organiza documentos, renomeia arquivos, move e arquiva conteúdo"
+      },
+      "5": {
+        "label": "Pesquisar e resumir",
+        "tip": "Lê artigos, compila relatórios, responde perguntas de pesquisa"
+      },
+      "6": {
+        "label": "Extrair dados de sites",
+        "tip": "Extrai preços, contatos, listagens — sem precisar de API"
+      },
+      "7": {
+        "label": "Qualificar leads de vendas",
+        "tip": "Pontua prospects, enriquece dados, agenda chamadas de descoberta"
+      },
+      "8": {
+        "label": "Processar planilhas",
+        "tip": "Limpa dados, faz cálculos, gera resumos"
+      },
+      "9": {
+        "label": "Publicar nas redes sociais",
+        "tip": "Redige e agenda publicações em múltiplas plataformas"
+      },
+      "10": {
+        "label": "Monitorar mudanças",
+        "tip": "Alerta você quando preços caem, páginas atualizam ou eventos disparam"
+      },
+      "11": {
+        "label": "Acionar via Slack, Telegram, Discord",
+        "tip": "Acione agentes e receba atualizações pelas ferramentas que sua equipe já usa"
+      }
+    }
+  },
+  "audienceSelector": {
+    "heading": "O que você precisa ",
+    "headingHighlight": "automatizar",
+    "headingEnd": "?",
+    "cards": {
+      "0": {
+        "title": "Preciso automatizar os fluxos de trabalho da minha equipe"
+      },
+      "1": {
+        "title": "Preciso criar produtos impulsionados por IA"
+      },
+      "2": {
+        "title": "Preciso de uma força de trabalho de IA personalizada"
+      },
+      "3": {
+        "title": "Implantar para minha empresa"
+      }
+    }
+  },
+  "useCases": {
+    "sectionLabel": "Casos de uso",
+    "heading": "Qual função sua ",
+    "headingHighlight": "equipe precisa",
+    "headingEnd": "?",
+    "subtitle": "Escolha um template multi-agente integrado ou defina sua própria frota de agentes autônomos. Cada agente recebe seu próprio contêiner, orçamento e permissões de ferramentas.",
+    "items": {
+      "0": {
+        "name": "Sua equipe de engenharia",
+        "agents": {
+          "0": "PM",
+          "1": "Engenheiro",
+          "2": "Revisor"
+        },
+        "description": "O template Dev Team do OpenLegion automatiza planejamento de tarefas, geração de código e revisão de PR. Lance funcionalidades enquanto sua frota de agentes cuida do código repetitivo."
+      },
+      "1": {
+        "name": "Sua equipe de vendas",
+        "agents": {
+          "0": "Pesquisador",
+          "1": "Qualificador",
+          "2": "Prospecção"
+        },
+        "description": "O template Sales Pipeline do OpenLegion executa pesquisa de leads, pontuação e prospecção personalizada — 24/7 sem supervisão humana."
+      },
+      "2": {
+        "name": "Sua equipe de conteúdo",
+        "agents": {
+          "0": "Pesquisador",
+          "1": "Redator",
+          "2": "Editor"
+        },
+        "description": "O template Content Studio do OpenLegion cuida da pesquisa de temas, rascunhos longos e revisão editorial com voz de marca consistente em cada peça."
+      },
+      "3": {
+        "name": "Sua equipe personalizada",
+        "agents": {
+          "0": "Qualquer função",
+          "1": "Qualquer ferramenta",
+          "2": "Qualquer orçamento"
+        },
+        "description": "Não encontrou seu caso de uso? Defina qualquer combinação de funções, ferramentas e orçamentos. Os agentes recebem seus próprios contêineres, credenciais e limites de gastos — o que o trabalho exigir."
+      }
+    },
+    "devEvents": {
+      "0": "PM criou a tarefa #42",
+      "1": "Engenheiro abriu PR #18",
+      "2": "Revisor revisando…"
+    },
+    "funnelBars": {
+      "0": {
+        "label": "leads"
+      },
+      "1": {
+        "label": "qualificados"
+      },
+      "2": {
+        "label": "convertidos"
+      }
+    },
+    "contentItems": {
+      "0": {
+        "title": "Post de blog",
+        "status": "publicado"
+      },
+      "1": {
+        "title": "Estudo de caso",
+        "status": "em revisão"
+      },
+      "2": {
+        "title": "White paper",
+        "status": "rascunho"
+      }
+    },
+    "customSteps": {
+      "0": "recepção",
+      "1": "pesquisa",
+      "2": "execução",
+      "3": "entrega"
+    }
+  },
+  "socialProof": {
+    "stats": {
+      "0": {
+        "fallback": "2.100+",
+        "label": "testes aprovados"
+      },
+      "1": {
+        "fallback": "100+",
+        "label": "provedores LLM suportados"
+      },
+      "2": {
+        "fallback": "0",
+        "label": "CVEs reportados"
+      },
+      "3": {
+        "fallback": "US$ 0",
+        "label": "taxa sobre uso de LLM"
+      }
+    },
+    "discordLabel": "Discord",
+    "githubLabel": "GitHub",
+    "githubWithStars": "GitHub ★ {stars}"
+  },
+  "features": {
+    "sectionLabel": "Recursos",
+    "heading": "Construído para equipes que não podem se dar ao luxo de que as coisas ",
+    "headingHighlight": "deem errado",
+    "headingEnd": ".",
+    "subtitle": "A plataforma de agentes de IA com segurança, controle de custos e automação agente integrados desde o primeiro dia.",
+    "outcomes": {
+      "0": {
+        "title": "Segurança de agentes de IA: suas chaves ficam em um cofre que os agentes nunca tocam.",
+        "description": "Cada agente faz chamadas através de um proxy de credenciais. As chaves nunca existem dentro de um contêiner. Seis camadas de segurança independentes ativadas por padrão.",
+        "linkLabel": "Como a segurança funciona →"
+      },
+      "1": {
+        "title": "Defina um orçamento por agente. Eles param no momento em que atingem.",
+        "description": "Limites diários e mensais por agente com corte automático rígido. Sem faturas surpresa. Sem loops de API descontrolados às 3 da manhã.",
+        "linkLabel": "Como o controle de custos funciona →"
+      },
+      "2": {
+        "title": "Orquestração determinística de agentes de IA — você decide quem faz o quê.",
+        "description": "Agentes navegam em qualquer site, operam qualquer ferramenta, executam qualquer tarefa. Compatível com MCP com mais de 50 habilidades integradas. Fluxos de trabalho definidos em YAML — cada caminho de execução é previsível, auditável e sob seu controle.",
+        "linkLabel": "Como a orquestração funciona →"
+      }
+    },
+    "allFeaturesLink": "Ver todos os recursos da plataforma de agentes de IA, incluindo automação de navegador, memória persistente, extensibilidade MCP e orquestração multi-agente →"
+  },
+  "dashboardPreview": {
+    "sectionLabel": "Painel da frota",
+    "heading": "Veja sua frota em ",
+    "headingHighlight": "tempo real",
+    "subtitle": "Cada agente, cada custo, cada evento — ao vivo. Converse com agentes, monitore a saúde e acompanhe os gastos de uma visão unificada.",
+    "windowTitle": "Visão geral da frota",
+    "liveIndicator": "Ao vivo",
+    "agentsCount": "{count} agentes",
+    "todaySuffix": "hoje",
+    "tokensSuffix": "tokens",
+    "onlineCount": "{count} online",
+    "degradedCount": "{count} degradados",
+    "agentLabel": "Agente {n}",
+    "healthOnline": "Online",
+    "healthDegraded": "Degradado",
+    "activityLabel": "Atividade",
+    "heartbeatLabel": "Heartbeat",
+    "costTodayLabel": "Custo hoje",
+    "chatButton": "Chat",
+    "pauseButton": "Pausar",
+    "stateStreaming": "transmitindo",
+    "stateThinking": "pensando",
+    "stateTool": "ferramenta",
+    "stateIdle": "ocioso",
+    "agents": {
+      "0": {
+        "id": "researcher",
+        "role": "Pesquisador líder"
+      },
+      "1": {
+        "id": "engineer",
+        "role": "Engenheiro de código"
+      },
+      "2": {
+        "id": "reviewer",
+        "role": "Revisor de PR"
+      },
+      "3": {
+        "id": "writer",
+        "role": "Redator de conteúdo"
+      },
+      "4": {
+        "id": "qualifier",
+        "role": "Qualificador de leads"
+      },
+      "5": {
+        "id": "outreach",
+        "role": "Prospecção de vendas"
+      }
+    }
+  },
+  "quickstart": {
+    "sectionLabel": "Início rápido",
+    "heading": "Dois caminhos para seu primeiro ",
+    "headingHighlight": "agente de IA",
+    "managedBadge": "Mais fácil — sem configuração necessária",
+    "managedHeading": "Sem terminal. Sem arquivos de configuração.",
+    "managedDescription": "Nós cuidamos dos contêineres, credenciais e infraestrutura.",
+    "managedCta": "Começar teste grátis →",
+    "steps": {
+      "0": "Crie sua conta",
+      "1": "Selecione um plano",
+      "2": "Configure seus agentes",
+      "3": "Execute sua frota"
+    },
+    "selfHostedBadge": "Controle total — suporte on-premises",
+    "selfHostedHeading": "Três comandos. Uma máquina.",
+    "requirementsLabel": "Requisitos:",
+    "requirements": "Python 3.10+, Docker (rodando), uma chave API de LLM (Anthropic / Moonshot / OpenAI)",
+    "selfHostedCta": "Ler a documentação →",
+    "tabs": {
+      "0": {
+        "label": "macOS / Linux"
+      },
+      "1": {
+        "label": "Windows (PowerShell)"
+      }
+    },
+    "tabGroupLabel": "Sistema operacional",
+    "copyLabel": "Copiar",
+    "copiedLabel": "Copiado"
+  },
+  "security": {
+    "sectionLabel": "Segurança",
+    "heading": "Segurança de agentes de IA: construída assumindo que os agentes vão ",
+    "headingHighlight": "se comportar mal",
+    "headingEnd": ".",
+    "subtitle": "Seis camadas ativadas por padrão. Quatro mostradas aqui.",
+    "layers": {
+      "0": {
+        "title": "Cada agente roda em seu próprio contêiner",
+        "description": "Contêineres Docker ou microVMs Docker Sandbox por agente — sem espaço de processo compartilhado."
+      },
+      "1": {
+        "title": "Agentes não podem escalar privilégios nem consumir seus recursos",
+        "description": "Usuário não-root (UID 1000), flag no-new-privileges, limites de memória e CPU aplicados."
+      },
+      "2": {
+        "title": "Chaves API ficam em um cofre que o agente nunca toca",
+        "description": "O proxy do cofre armazena todas as chaves API — agentes chamam através do proxy, nunca veem os segredos."
+      },
+      "3": {
+        "title": "Cada agente acessa apenas o que você permite explicitamente",
+        "description": "Matriz ACL por agente controla quais ferramentas, arquivos e operações de malha são permitidos."
+      },
+      "4": {
+        "title": "Entradas maliciosas são bloqueadas antes de chegar ao LLM",
+        "description": "Prevenção de travessia de caminho, proteção SSRF, avaliação segura de condições, aplicação de orçamento de tokens."
+      },
+      "5": {
+        "title": "Caracteres ocultos são removidos antes que a injeção de prompt chegue",
+        "description": "Remoção de caracteres invisíveis em 56 pontos de controle — substituições bidi, caracteres de tag, caracteres de largura zero bloqueados antes de chegar ao contexto do LLM."
+      }
+    },
+    "allLayersLink": "Todas as seis camadas explicadas em detalhe →"
+  },
+  "architecture": {
+    "sectionLabel": "Sob o capô",
+    "title": "Três zonas de proteção",
+    "summary": "Sua frota multi-agente roda em três zonas isoladas — usuário, coordenador e contêineres em sandbox. Nada que um agente toque pode alcançar suas chaves API, outros agentes ou a máquina host.",
+    "zones": {
+      "0": {
+        "name": "Zona do usuário",
+        "trust": "Confiança total",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "Comunicação direta com agentes"
+        }
+      },
+      "1": {
+        "name": "Host de malha",
+        "trust": "Coordenador confiável",
+        "items": {
+          "0": "FastAPI na :8420",
+          "1": "Quadro-negro (SQLite)",
+          "2": "PubSub + Roteador de mensagens",
+          "3": "Cofre de credenciais (API Proxy)",
+          "4": "Orquestrador + Matriz de permissões",
+          "5": "Gerenciador de contêineres + Rastreador de custos"
+        }
+      },
+      "2": {
+        "name": "Contêineres de agentes",
+        "trust": "Não confiável / Sandbox",
+        "items": {
+          "0": "FastAPI :8400+ cada",
+          "1": "Volume /data próprio",
+          "2": "BD de memória próprio (SQLite + vec)",
+          "3": "384 MB RAM / 0,15 CPU padrão",
+          "4": "Não-root, no-new-privileges"
+        }
+      }
+    },
+    "agentLabel": "Agente {n}",
+    "learnMoreLink": "Saiba mais sobre orquestração de agentes de IA →"
+  },
+  "enterprise": {
+    "heading": "Construído para empresas.",
+    "description": "Implantação on-premises, ambientes air-gapped, isolamento de credenciais alinhado ao SOC 2, trilhas de auditoria determinísticas, governança de custos por agente e acesso baseado em funções — tudo aplicado por padrão. O motor tem ~30.000 linhas de Python com mais de 2.100 testes e uma superfície de dependências mínima.",
+    "signals": {
+      "0": "On-premises e air-gap",
+      "1": "Alinhado ao SOC 2",
+      "2": "Trilhas de auditoria determinísticas",
+      "3": "Fluxos de trabalho determinísticos",
+      "4": "Governança de custos por agente",
+      "5": "Acesso baseado em funções"
+    },
+    "cta": "Fale conosco sobre implantação empresarial"
+  },
+  "comparison": {
+    "sectionLabel": "Comparação",
+    "heading": "O que diferencia o OpenLegion",
+    "subtitle": "A maioria das ferramentas de agentes de IA foi feita para demos — OpenLegion foi feito para produção.",
+    "detailParagraph": "OpenLegion é o único framework de agentes de IA que entrega credenciais via proxy de cofre, isolamento de contêineres e aplicação de orçamento por agente como padrão — com zero CVEs reportados desde o lançamento.",
+    "disclaimer": "Baseado em divulgações públicas de segurança e relatórios da comunidade.",
+    "tableCaption": "Comparação de recursos entre frameworks típicos de agentes de IA e OpenLegion",
+    "columnAspect": "Aspecto",
+    "columnThem": "OpenClaw e outros",
+    "columnOpenLegion": "OpenLegion",
+    "rows": {
+      "0": {
+        "aspect": "Armazenamento de chaves API",
+        "them": "Em arquivos de configuração do agente",
+        "openlegion": "Proxy de cofre — agentes nunca veem as chaves"
+      },
+      "1": {
+        "aspect": "Isolamento de agentes",
+        "them": "Nível de processo",
+        "openlegion": "Contêineres Docker / microVMs"
+      },
+      "2": {
+        "aspect": "Controle de custos",
+        "them": "Nenhum",
+        "openlegion": "Orçamentos diários e mensais por agente"
+      },
+      "3": {
+        "aspect": "Roteamento de tarefas",
+        "them": "Um agente CEO LLM decide",
+        "openlegion": "DAG YAML determinístico"
+      },
+      "4": {
+        "aspect": "Cobertura de testes",
+        "them": "Mínima",
+        "openlegion": "Mais de 2.100 testes: unitários + integração + E2E"
+      },
+      "5": {
+        "aspect": "Tamanho do código",
+        "them": "430.000+ linhas",
+        "openlegion": "~30.000 linhas (motor, auditável)"
+      }
+    },
+    "footnote": "OpenLegion foi lançado em fevereiro de 2026. A contagem de estrelas no GitHub reflete a idade do projeto, não a maturidade para produção."
+  },
+  "faq": {
+    "sectionLabel": "FAQ",
+    "heading": "Perguntas ",
+    "headingHighlight": "frequentes",
+    "fullPageSubtitle": "Tudo o que você precisa saber sobre implantar, proteger e escalar frotas de agentes de IA com OpenLegion.",
+    "items": {
+      "0": {
+        "question": "Preciso ser desenvolvedor para usar o OpenLegion?",
+        "answer": "Não. A hospedagem gerenciada em app.openlegion.ai não requer programação — inicie um teste grátis, escolha um template, adicione sua chave API de LLM e seus agentes estarão ativos em minutos. A versão auto-hospedada requer Python 3.10+ e Docker. De qualquer forma, os templates de equipe integrados (Dev Team, Sales Pipeline, Content Studio) funcionam imediatamente sem configuração."
+      },
+      "1": {
+        "question": "Pago pelo uso de LLM além da assinatura?",
+        "answer": "Sim — você traz suas próprias chaves API da Anthropic, OpenAI, Google ou qualquer um dos mais de 100 provedores suportados. Você paga diretamente aos provedores nas tarifas publicadas. O OpenLegion cobra apenas pela plataforma e infraestrutura. Não há nenhuma taxa sobre o uso de modelos."
+      },
+      "2": {
+        "question": "Que tipos de tarefas os agentes do OpenLegion podem automatizar?",
+        "answer": "Qualquer tarefa que um humano realiza em um computador com navegador ou terminal. Os agentes podem navegar e interagir com qualquer site, fazer login em aplicações web, preencher formulários, extrair dados de qualquer página, enviar e-mails e mensagens, gerenciar arquivos e pastas, escrever e executar código, processar documentos, publicar em plataformas sociais, monitorar páginas em busca de mudanças e executar automações personalizadas — tudo 24/7 sem supervisão. Implantações comuns incluem pipelines de prospecção de vendas, pesquisa competitiva, qualificação de leads, fluxos de trabalho de desenvolvimento, processamento de faturas, produção de conteúdo e automação de tarefas internas."
+      },
+      "3": {
+        "question": "O que é o OpenLegion?",
+        "answer": "OpenLegion é um framework e plataforma de agentes de IA de nível de produção que implanta frotas de agentes autônomos em contêineres Docker isolados. Cada agente recebe seu próprio orçamento, permissões e cofre de segredos — com seis camadas de segurança ativadas por padrão. Requer apenas Python, Docker e uma chave API. Sem Redis, sem Kubernetes, sem LangChain. Licenciado sob BSL 1.1 (código-fonte disponível)."
+      },
+      "4": {
+        "question": "Como o OpenLegion é diferente do CrewAI ou outros frameworks de agentes?",
+        "answer": "OpenLegion isola cada agente em um contêiner, canaliza todas as credenciais por um cofre e aplica orçamentos por agente — a maioria dos frameworks não faz isso. CrewAI e frameworks similares executam agentes em processos compartilhados sem isolamento, sem controle de custos e com chaves API armazenadas em arquivos de configuração. OpenLegion usa fluxos de trabalho YAML determinísticos em vez de deixar um LLM decidir o roteamento de tarefas, tornando a execução previsível e auditável."
+      },
+      "5": {
+        "question": "Quais provedores de LLM o OpenLegion suporta?",
+        "answer": "Mais de 100 provedores de LLM através do LiteLLM. Isso inclui Anthropic (Claude), OpenAI (GPT), Google (Gemini), Mistral, Moonshot e qualquer API compatível com OpenAI. Você pode atribuir diferentes modelos a diferentes agentes na mesma frota — sem dependência de fornecedor."
+      },
+      "6": {
+        "question": "Como o OpenLegion lida com a segurança das chaves API?",
+        "answer": "Através de injeção cega de credenciais — os agentes nunca veem as chaves API. As chaves são armazenadas em um cofre no host de malha. Quando um agente chama um LLM, a requisição passa por um proxy de cofre que injeta a credencial na camada de rede, rastreia o uso de tokens e aplica limites de orçamento. Mesmo um agente completamente comprometido não consegue acessar suas chaves API."
+      },
+      "7": {
+        "question": "Preciso de Kubernetes ou infraestrutura em nuvem para executar o OpenLegion?",
+        "answer": "Não. OpenLegion roda em uma única máquina sem serviços externos. Você precisa apenas de Python 3.10+, Docker e uma chave API de LLM — sem Redis, sem Kubernetes, sem LangChain, sem bancos de dados externos."
+      },
+      "8": {
+        "question": "O OpenLegion está pronto para empresas?",
+        "answer": "Sim — OpenLegion foi projetado para implantação empresarial. Inclui suporte on-premises (incluindo ambientes air-gapped), fluxos de trabalho YAML determinísticos, governança de custos por agente, controles de acesso baseados em funções, isolamento de credenciais via proxy de cofre e uma base de código auditável de ~30.000 linhas com mais de 2.100 testes. Todas as camadas de segurança estão ativadas por padrão."
+      },
+      "9": {
+        "question": "O OpenLegion pode rodar on-premises em ambientes air-gapped?",
+        "answer": "Sim. A pilha completa roda inteiramente na sua própria infraestrutura sem dependências externas além de Docker e Python. Nenhum dado sai da sua rede. O coordenador, os agentes, o cofre e o painel rodam todos em uma única máquina, tornando-o adequado para ambientes air-gapped, regulados e on-premises."
+      },
+      "10": {
+        "question": "O que é uma plataforma de agentes de IA?",
+        "answer": "Uma plataforma de agentes de IA é infraestrutura gerenciada para implantar, orquestrar e governar agentes de IA autônomos em produção. Diferente de bibliotecas de frameworks que apenas fornecem primitivas de lógica de agente, uma plataforma cuida do isolamento de contêineres, cofre de credenciais, controles de custos por agente, observabilidade e implantação — para que equipes possam lançar agentes sem construir DevOps do zero."
+      },
+      "11": {
+        "question": "Qual é a diferença entre um framework de agentes de IA e uma plataforma de agentes?",
+        "answer": "Um framework é uma biblioteca de código para construir lógica de agentes — ferramentas, prompts, memória e cadeias. Uma plataforma adiciona infraestrutura operacional por cima: isolamento de contêineres, cofres de credenciais, orçamentos por agente, pipelines de implantação e observabilidade de toda a frota. OpenLegion é ambos: um framework Python para criar agentes e uma plataforma auto-hospedada para executá-los em produção com segurança e governança de custos integradas."
+      },
+      "12": {
+        "question": "Como funciona a orquestração de agentes de IA no OpenLegion?",
+        "answer": "OpenLegion usa fluxos de trabalho DAG YAML determinísticos — nenhum LLM fica no plano de controle decidindo quem faz o quê. Você define grafos de tarefas com padrões de execução sequencial e paralela, coordenados através de um Quadro-negro centralizado e mensageria pub/sub. O orquestrador roteia tarefas com base na definição do DAG, tornando cada caminho de execução previsível, repetível e auditável. Modelo de frota, não de hierarquia — agentes executam seus passos atribuídos e reportam resultados ao coordenador."
+      },
+      "13": {
+        "question": "O que significa segurança de agentes de IA para agentes autônomos?",
+        "answer": "A segurança de agentes de IA aborda as ameaças únicas que agentes autônomos introduzem: vazamento de credenciais, injeção de prompts, abuso de recursos e exfiltração de dados. A defesa em seis camadas do OpenLegion — isolamento de execução, endurecimento de contêineres, separação de credenciais, aplicação de permissões, validação de entradas e sanitização Unicode — mitiga cada ameaça de forma independente, de modo que uma brecha em uma camada não compromete as demais."
+      }
+    },
+    "seeFullFaqPrefix": "Mais perguntas respondidas — incluindo arquitetura, provedores de LLM e orquestração de agentes de IA.",
+    "seeFullFaqLink": "Ver o FAQ completo →"
+  },
+  "technicalDefinition": {
+    "label": "Definição técnica",
+    "srOnlyPrefix": "O que é o OpenLegion? ",
+    "text": "OpenLegion é uma plataforma de agentes de IA de nível de produção com isolamento de contêineres, injeção cega de credenciais, orçamentos por agente e orquestração YAML determinística — projetada para equipes que precisam de frotas de agentes seguras e com custos controlados em produção."
+  },
+  "cta": {
+    "heading": "Sua equipe de IA está a um ",
+    "headingHighlight": "deploy de distância",
+    "headingEnd": ".",
+    "subtitle": "Teste grátis de 7 dias · Sem cartão de crédito · 100+ provedores LLM · Sem dependência de fornecedor",
+    "primaryButton": "Começar teste grátis →",
+    "secondaryButton": "Entre no nosso Discord"
+  },
+  "footer": {
+    "brandDescription": "O framework e plataforma de agentes de IA construído para produção. Automatize qualquer tarefa computacional com frotas de agentes seguras e com custos controlados.",
+    "license": "Licença BSL 1.1 © {year} Contribuidores do OpenLegion",
+    "columns": {
+      "0": {
+        "title": "Produto",
+        "links": {
+          "0": "Recursos",
+          "1": "Casos de uso",
+          "2": "Painel",
+          "3": "Segurança",
+          "4": "Preços",
+          "5": "Início rápido",
+          "6": "FAQ"
+        }
+      },
+      "1": {
+        "title": "Aprender",
+        "links": {
+          "0": "Plataforma de agentes de IA",
+          "1": "Orquestração de agentes de IA",
+          "2": "Frameworks de agentes de IA",
+          "3": "Segurança de agentes de IA",
+          "4": "Agentes DeepSeek V4"
+        }
+      },
+      "2": {
+        "title": "Comparações",
+        "links": {
+          "0": "Todas as comparações",
+          "1": "Alternativa ao OpenClaw",
+          "2": "vs OpenClaw",
+          "3": "vs LangGraph",
+          "4": "vs CrewAI",
+          "5": "vs AutoGen"
+        }
+      },
+      "3": {
+        "title": "Recursos",
+        "links": {
+          "0": "Documentação",
+          "1": "GitHub",
+          "2": "Issues",
+          "3": "Discussões"
+        }
+      },
+      "4": {
+        "title": "Comunidade",
+        "links": {
+          "0": "Discord",
+          "1": "Twitter / X"
+        }
+      },
+      "5": {
+        "title": "Legal",
+        "links": {
+          "0": "Termos de serviço",
+          "1": "Política de privacidade",
+          "2": "Licença BSL 1.1"
+        }
+      }
+    }
+  },
+  "pricing": {
+    "sectionLabel": "Preços",
+    "heading": "Teste sua força de trabalho de IA ",
+    "headingHighlight": "grátis por 7 dias",
+    "headingEnd": ".",
+    "subtitle": "Sem cartão de crédito. Você traz suas chaves API, nós rodamos a infraestrutura.",
+    "included": {
+      "0": {
+        "title": "Segurança de cofre",
+        "sub": "Chaves nunca expostas"
+      },
+      "1": {
+        "title": "Controles de orçamento",
+        "sub": "Agentes param automaticamente"
+      },
+      "2": {
+        "title": "100+ provedores LLM",
+        "sub": "Sem dependência de fornecedor"
+      },
+      "3": {
+        "title": "Painel da frota",
+        "sub": "Rastreamento de custos ao vivo"
+      }
+    },
+    "billingMonthly": "Mensal",
+    "billingYearly": "Anual",
+    "billingSaveLabel": "Economize ~25%",
+    "plans": {
+      "0": {
+        "name": "Basic",
+        "monthlyPrice": "19",
+        "yearlyPrice": "170",
+        "yearlyMonthly": "14"
+      },
+      "1": {
+        "name": "Growth",
+        "monthlyPrice": "59",
+        "yearlyPrice": "530",
+        "yearlyMonthly": "44"
+      },
+      "2": {
+        "name": "Pro",
+        "monthlyPrice": "149",
+        "yearlyPrice": "1340",
+        "yearlyMonthly": "112"
+      }
+    },
+    "popularBadge": "Popular",
+    "priceSuffixMonthly": "/mês",
+    "priceSuffixYearly": "/ano",
+    "yearlyBilledNote": "~US$ {monthlyEquivalent}/mês cobrado anualmente",
+    "monthlyTrialNote": "Teste grátis de 7 dias · sem cartão",
+    "startFreeTrial": "Começar teste grátis",
+    "agentsLabel": "{count, plural, one {agente} other {agentes}}",
+    "browsersLabel": "{count, plural, one {navegador simultâneo} other {navegadores simultâneos}}",
+    "projectsLabel": "{count, plural, one {projeto} other {projetos}}",
+    "noProjects": "Sem projetos",
+    "planFeatures": {
+      "0": "Cada agente roda em seu próprio contêiner seguro",
+      "1": "Funciona com Claude, GPT, Gemini + mais de 100 outros",
+      "2": "Observe cada agente, custo e evento ao vivo",
+      "3": "Sua própria URL de implantação",
+      "4": "Computação dedicada — sem recursos compartilhados"
+    },
+    "enterprise": {
+      "name": "Empresarial",
+      "price": "Personalizado",
+      "subtitle": "Adaptado às suas necessidades",
+      "cta": "Fale conosco",
+      "unlimitedAgents": "Ilimitados",
+      "agents": "agentes",
+      "browsers": "navegadores simultâneos",
+      "projects": "projetos",
+      "features": {
+        "0": "Infraestrutura dedicada",
+        "1": "SLAs personalizados",
+        "2": "Suporte prioritário",
+        "3": "Implantação on-premises"
+      }
+    },
+    "faqHeading": "Perguntas comuns",
+    "faq": {
+      "0": {
+        "question": "Como funciona o teste grátis de 7 dias?",
+        "answer": "Cadastre-se e tenha acesso completo a qualquer plano por 7 dias — sem cartão de crédito. Implante agentes, teste fluxos de trabalho e explore o painel. Se você não fizer upgrade antes do fim do teste, sua conta simplesmente fica pausada. Sem cobranças, nunca, a menos que você escolha um plano."
+      },
+      "1": {
+        "question": "Preciso pagar pelo uso de LLM além do preço do plano?",
+        "answer": "Sim — você traz suas próprias chaves API (Anthropic, OpenAI, Google ou qualquer um dos mais de 100 provedores). Você paga diretamente aos provedores nas tarifas publicadas. OpenLegion cobra apenas pela plataforma. Não há nenhuma taxa sobre o uso de modelos."
+      },
+      "2": {
+        "question": "Posso trocar de plano?",
+        "answer": "Sim — faça upgrade ou downgrade a qualquer momento. As mudanças entram em vigor no início do próximo período de cobrança."
+      },
+      "3": {
+        "question": "O que acontece com meus agentes se eu cancelar?",
+        "answer": "As configurações e dados dos seus agentes permanecem acessíveis por 30 dias após o cancelamento. Você pode exportar tudo antes que sua conta seja encerrada."
+      },
+      "4": {
+        "question": "Posso auto-hospedar o OpenLegion?",
+        "answer": "Sim. Clone o repositório, execute três comandos e você terá uma frota de agentes completa na sua própria infraestrutura. O motor é código-fonte disponível sob BSL 1.1. A hospedagem gerenciada começa em US$ 19/mês (com teste grátis de 7 dias) para equipes que não querem gerenciar infraestrutura."
+      },
+      "5": {
+        "question": "O que conta como um \"agente\"?",
+        "answer": "Cada contêiner de agente implantado conta como um agente no limite do seu plano. Templates como Dev Team (PM + Engenheiro + Revisor) contam como 3 agentes."
+      }
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "titleHighlight": "0",
+    "description": "Esta página não existe. A frota ainda não foi implantada aqui.",
+    "backToHome": "Voltar ao início"
+  },
+  "common": {
+    "skipToContent": "Pular para o conteúdo",
+    "readyToStart": "Pronto para colocar seu primeiro agente para trabalhar?",
+    "startFreeTrialInline": "Começar teste grátis →",
+    "fleetLivePrompt": "Esta é sua frota, ao vivo.",
+    "tryFree7Days": "Teste grátis por 7 dias →",
+    "brandName": "OpenLegion",
+    "selectLanguage": "Selecionar idioma"
+  },
+  "metadata": {
+    "homeTitle": "OpenLegion — Framework e plataforma de agentes de IA | Automatize tudo, mantenha o controle",
+    "homeDescription": "OpenLegion é o framework e plataforma de agentes de IA construído para produção. Implante agentes autônomos que automatizam qualquer tarefa computacional — navegação, formulários, código, prospecção, dados. Teste grátis de 7 dias, sem cartão de crédito.",
+    "titleTemplate": "{title} | OpenLegion",
+    "ogTitle": "OpenLegion — Framework e plataforma de agentes de IA",
+    "ogDescription": "Implante agentes de IA que automatizam tudo que um humano pode fazer no computador. Seguro, no orçamento, pronto para produção. Teste grátis de 7 dias.",
+    "ogImageAlt": "OpenLegion — Framework e plataforma de agentes de IA",
+    "twitterTitle": "OpenLegion — Framework e plataforma de agentes de IA",
+    "twitterDescription": "Implante agentes de IA que automatizam tudo que um humano pode fazer no computador. Teste grátis de 7 dias, sem cartão de crédito.",
+    "pricingTitle": "Preços da plataforma de agentes de IA — Teste grátis de 7 dias",
+    "pricingDescription": "Teste sua força de trabalho de IA grátis por 7 dias. Sem cartão de crédito. Planos a partir de US$ 19/mês com isolamento de contêineres, segurança de cofre e mais de 100 provedores LLM.",
+    "pricingOgTitle": "Preços da plataforma de agentes de IA — Teste grátis de 7 dias | OpenLegion",
+    "pricingOgDescription": "Teste sua força de trabalho de IA grátis por 7 dias. Sem cartão de crédito. Isolamento de contêineres, segurança de cofre e mais de 100 provedores LLM.",
+    "pricingTwitterTitle": "Preços da plataforma de agentes de IA — Teste grátis de 7 dias | OpenLegion",
+    "pricingTwitterDescription": "Teste sua força de trabalho de IA grátis por 7 dias. Sem cartão de crédito.",
+    "faqTitle": "Perguntas frequentes",
+    "faqDescription": "Respostas a perguntas comuns sobre o OpenLegion — o framework e plataforma de agentes de IA construído para produção. Abrange segurança, preços, provedores de LLM, orquestração, implantação empresarial e mais.",
+    "faqOgTitle": "Perguntas frequentes — OpenLegion",
+    "faqOgDescription": "Respostas a perguntas comuns sobre o OpenLegion — segurança, preços, provedores de LLM, orquestração e implantação empresarial.",
+    "faqTwitterTitle": "Perguntas frequentes — OpenLegion",
+    "faqTwitterDescription": "Respostas a perguntas comuns sobre o OpenLegion — segurança, preços, provedores de LLM, orquestração e implantação empresarial.",
+    "privacyTitle": "Política de privacidade",
+    "privacyDescription": "Política de privacidade da plataforma de agentes de IA OpenLegion. Saiba como coletamos, usamos e protegemos seus dados na hospedagem gerenciada e no site openlegion.ai.",
+    "termsTitle": "Termos de serviço",
+    "termsDescription": "Termos de serviço da plataforma de agentes de IA OpenLegion. Abrange hospedagem gerenciada, implantação auto-hospedada sob licença BSL 1.1 e o site openlegion.ai."
+  },
+  "contentPage": {
+    "breadcrumbHome": "Início",
+    "breadcrumbComparisons": "Comparações",
+    "publishedPrefix": "Publicado em ",
+    "updatedPrefix": "Atualizado em ",
+    "relatedContentAriaLabel": "Conteúdo relacionado"
+  },
+  "inlineCta": {
+    "startFreeTrial": "Começar teste grátis",
+    "readTheDocs": "Ler a documentação"
+  },
+  "seoLinks": {
+    "sectionLabel": "Aprender",
+    "heading": "Análises aprofundadas e ",
+    "headingHighlight": "comparações",
+    "subtitle": "Guias detalhados sobre plataformas de agentes de IA, orquestração, segurança e como o OpenLegion se compara a cada framework principal.",
+    "cards": {
+      "0": {
+        "title": "Plataforma e infraestrutura",
+        "description": "Como o OpenLegion gerencia isolamento de contêineres, cofre de credenciais, controles de custos e orquestração determinística para frotas de agentes em produção.",
+        "links": {
+          "0": "Plataforma de agentes de IA",
+          "1": "Orquestração de agentes de IA",
+          "2": "Segurança de agentes de IA"
+        }
+      },
+      "1": {
+        "title": "Comparações de frameworks",
+        "description": "Veja como o OpenLegion se posiciona no cenário de frameworks de agentes de IA — segurança, isolamento, controle de custos e orquestração comparados.",
+        "links": {
+          "0": "Todas as comparações",
+          "1": "Alternativa ao OpenClaw",
+          "2": "Frameworks de agentes de IA"
+        }
+      },
+      "2": {
+        "title": "Frente a frente",
+        "description": "Análises detalhadas de arquitetura e caminhos de migração para os frameworks mais populares que equipes avaliam contra o OpenLegion.",
+        "links": {
+          "0": "vs OpenClaw",
+          "1": "vs LangGraph",
+          "2": "vs CrewAI"
+        }
+      }
+    }
+  },
+  "relatedPages": {
+    "heading": "Páginas relacionadas",
+    "ariaLabel": "Páginas relacionadas",
+    "topicPages": {
+      "0": "Plataforma de agentes de IA",
+      "1": "Orquestração de agentes de IA",
+      "2": "Comparação de frameworks de agentes de IA",
+      "3": "Segurança de agentes de IA",
+      "4": "Alternativa ao OpenClaw",
+      "5": "Agentes DeepSeek V4"
+    },
+    "comparisonHub": "Todas as comparações de frameworks",
+    "comparisons": {
+      "openclaw": "OpenLegion vs OpenClaw",
+      "langgraph": "OpenLegion vs LangGraph",
+      "crewai": "OpenLegion vs CrewAI",
+      "autogen": "OpenLegion vs AutoGen",
+      "dify": "OpenLegion vs Dify",
+      "googleAdk": "OpenLegion vs Google ADK",
+      "awsStrands": "OpenLegion vs AWS Strands",
+      "openaiAgentsSdk": "OpenLegion vs OpenAI Agents SDK",
+      "manusAi": "OpenLegion vs Manus AI",
+      "semanticKernel": "OpenLegion vs Semantic Kernel",
+      "zeroclaw": "OpenLegion vs ZeroClaw",
+      "nanoclaw": "OpenLegion vs NanoClaw",
+      "nanobot": "OpenLegion vs nanobot",
+      "picoclaw": "OpenLegion vs PicoClaw",
+      "openfang": "OpenLegion vs OpenFang",
+      "memu": "OpenLegion vs MemU"
+    }
+  },
+  "privacy": {
+    "title": "Política de privacidade",
+    "effectiveDate": "Data de vigência: 7 de março de 2026 · Última atualização: 7 de março de 2026",
+    "section1": {
+      "title": "1. Introdução",
+      "p1": "Esta Política de Privacidade descreve como a OpenLegion (\"nós\", \"nos\", \"nosso\") coleta, usa e divulga informações quando você visita openlegion.ai (o \"Site\") ou utiliza nosso serviço de hospedagem gerenciada, APIs e serviços relacionados (coletivamente, o \"Serviço\").",
+      "p2": "Ao utilizar o Serviço, você consente com as práticas descritas nesta Política de Privacidade. Se você não concordar, por favor não utilize o Serviço."
+    },
+    "section2": {
+      "1": {
+        "title": "2.1 Informações que você fornece",
+        "items": {
+          "0": "Informações de conta: Endereço de e-mail, nome e senha quando você cria uma conta.",
+          "1": "Informações de pagamento: Dados de cobrança processados pelo nosso processador de pagamentos terceirizado (por exemplo, Stripe). Não armazenamos números completos de cartão de crédito em nossos servidores.",
+          "2": "Comunicações: Informações que você fornece ao nos contatar por e-mail, chat ao vivo (Tawk.to) ou Discord.",
+          "3": "Dados do cliente: Configurações de agentes, definições de fluxos de trabalho e outros dados que você envia ao Serviço."
+        }
+      },
+      "2": {
+        "title": "2.2 Informações coletadas automaticamente",
+        "items": {
+          "0": "Dados de uso: Páginas visitadas, recursos utilizados, timestamps, URLs de referência e padrões gerais de interação.",
+          "1": "Informações do dispositivo: Tipo de navegador, sistema operacional, resolução de tela e identificadores do dispositivo.",
+          "2": "Endereço IP: Coletado para fins de segurança, análise e geolocalização aproximada.",
+          "3": "Cookies e tecnologias similares: Consulte a Seção 6 abaixo."
+        }
+      },
+      "title": "2. Informações que coletamos"
+    },
+    "section3": {
+      "title": "3. Como usamos suas informações",
+      "intro": "Usamos as informações que coletamos para:",
+      "items": {
+        "0": "Fornecer, operar e manter o Serviço;",
+        "1": "Processar pagamentos e enviar comunicações relacionadas à cobrança;",
+        "2": "Responder às suas consultas e fornecer suporte ao cliente;",
+        "3": "Analisar padrões de uso para melhorar o Serviço (via Google Analytics e Microsoft Clarity);",
+        "4": "Detectar, prevenir e resolver problemas técnicos, fraude ou abuso;",
+        "5": "Enviar e-mails transacionais (confirmação de conta, redefinição de senha, recibos de cobrança);",
+        "6": "Cumprir obrigações legais."
+      },
+      "noSell": "Não vendemos suas informações pessoais. Não usamos Dados do Cliente para treinar modelos de IA."
+    },
+    "section4": {
+      "title": "4. Serviços de terceiros",
+      "intro": "Utilizamos os seguintes serviços de terceiros que podem coletar informações conforme descrito em suas respectivas políticas de privacidade:",
+      "items": {
+        "0": "Google Analytics — análise de sites e medição de tráfego.",
+        "1": "Microsoft Clarity — gravação de sessões e mapas de calor para análise de UX.",
+        "2": "Tawk.to — widget de chat ao vivo para suporte ao cliente.",
+        "3": "Stripe (ou equivalente) — processamento de pagamentos.",
+        "4": "Provedores de API de LLM (por exemplo, Anthropic, OpenAI, Google, Mistral) — inferência de modelos de IA. Prompts e dados de agentes enviados a esses provedores são regidos por suas respectivas políticas de privacidade e termos de processamento de dados. A OpenLegion não é responsável por como provedores de LLM terceirizados tratam os dados."
+      },
+      "review": "Recomendamos que você revise as políticas de privacidade desses serviços de terceiros."
+    },
+    "section5": {
+      "title": "5. Compartilhamento e divulgação de dados",
+      "intro": "Podemos compartilhar suas informações apenas nas seguintes circunstâncias:",
+      "items": {
+        "0": "Prestadores de serviços: Fornecedores terceirizados que auxiliam na operação do Serviço (hospedagem, processamento de pagamentos, análise) sob obrigações contratuais de proteger seus dados.",
+        "1": "Requisitos legais: Quando exigido por lei, intimação, ordem judicial ou solicitação governamental.",
+        "2": "Proteção de direitos: Para fazer cumprir nossos Termos de Serviço, proteger nossos direitos ou segurança, ou investigar fraude.",
+        "3": "Transferências comerciais: Em conexão com uma fusão, aquisição ou venda de ativos, suas informações podem ser transferidas como parte dessa transação."
+      }
+    },
+    "section6": {
+      "title": "6. Cookies e tecnologias de rastreamento",
+      "intro": "Utilizamos cookies e tecnologias similares (pixels, armazenamento local) para fins de análise, funcionalidade e segurança. O Site utiliza:",
+      "items": {
+        "0": "Cookies essenciais: Necessários para o funcionamento do Serviço (gerenciamento de sessão, autenticação).",
+        "1": "Cookies de análise: Cookies do Google Analytics e Microsoft Clarity para entender como os visitantes interagem com o Site.",
+        "2": "Cookies de terceiros: Configurados pelo Tawk.to para funcionalidade de chat ao vivo."
+      },
+      "control": "Você pode controlar cookies através das configurações do seu navegador. Desativar cookies pode afetar a funcionalidade do Serviço."
+    },
+    "section7": {
+      "title": "7. Retenção de dados",
+      "text": "Retemos suas informações enquanto sua conta estiver ativa ou conforme necessário para fornecer o Serviço. Também podemos reter informações conforme necessário para cumprir obrigações legais, resolver disputas e fazer cumprir nossos acordos. Quando os dados não forem mais necessários, os excluiremos ou anonimizaremos dentro de um prazo razoável."
+    },
+    "section8": {
+      "title": "8. Segurança de dados",
+      "text": "Implementamos medidas técnicas e organizacionais comercialmente razoáveis para proteger suas informações. No entanto, nenhum método de transmissão pela Internet ou armazenamento eletrônico é 100% seguro. Não podemos garantir segurança absoluta e não somos responsáveis por qualquer acesso não autorizado, violação de dados ou perda de dados."
+    },
+    "section9": {
+      "title": "9. Seus direitos",
+      "intro": "Dependendo da sua jurisdição, você pode ter os seguintes direitos em relação às suas informações pessoais:",
+      "items": {
+        "0": "Acesso: Solicitar uma cópia das informações pessoais que mantemos sobre você.",
+        "1": "Correção: Solicitar a correção de dados imprecisos ou incompletos.",
+        "2": "Exclusão: Solicitar a exclusão de suas informações pessoais, sujeito a requisitos legais de retenção.",
+        "3": "Portabilidade: Solicitar seus dados em formato estruturado e legível por máquina.",
+        "4": "Objeção: Opor-se ao processamento de suas informações pessoais para determinados fins.",
+        "5": "Exclusão de venda: Não vendemos informações pessoais. Se isso mudar, forneceremos um mecanismo claro de exclusão."
+      },
+      "contact": "Para exercer qualquer um desses direitos, entre em contato conosco em support@openlegion.ai. Responderemos dentro de 30 dias (ou conforme exigido pela lei aplicável)."
+    },
+    "section10": {
+      "title": "10. Residentes da Califórnia (CCPA)",
+      "text": "Se você é residente da Califórnia, possui direitos adicionais sob o California Consumer Privacy Act (CCPA), incluindo o direito de saber quais informações pessoais coletamos, solicitar a exclusão e optar pela exclusão da venda de informações pessoais. Não vendemos informações pessoais. Para exercer seus direitos sob o CCPA, entre em contato com support@openlegion.ai."
+    },
+    "section11": {
+      "title": "11. Espaço Econômico Europeu (GDPR)",
+      "p1": "Se você está no EEE, nossa base legal para o processamento de seus dados pessoais inclui: (a) seu consentimento; (b) execução de um contrato; (c) cumprimento de uma obrigação legal; e (d) nossos interesses legítimos (melhorar e proteger o Serviço) quando esses interesses não forem superados por seus direitos de proteção de dados.",
+      "p2": "Você pode registrar uma reclamação junto à sua autoridade local de proteção de dados se acreditar que violamos seus direitos sob o GDPR."
+    },
+    "section12": {
+      "title": "12. Transferências internacionais de dados",
+      "text": "Suas informações podem ser transferidas e processadas nos Estados Unidos ou em outros países onde nossos prestadores de serviços operam. Esses países podem ter leis de proteção de dados diferentes das de sua jurisdição. Ao utilizar o Serviço, você consente com tais transferências."
+    },
+    "section13": {
+      "title": "13. Privacidade de menores",
+      "text": "O Serviço não é direcionado a pessoas menores de 18 anos. Não coletamos intencionalmente informações pessoais de crianças. Se tomarmos conhecimento de que coletamos dados de um menor, os excluiremos prontamente."
+    },
+    "section14": {
+      "title": "14. Alterações nesta política",
+      "text": "Podemos atualizar esta Política de Privacidade a qualquer momento. As alterações serão refletidas atualizando a data de \"Última atualização\" no topo desta página. Seu uso continuado do Serviço após quaisquer alterações constitui aceitação da Política de Privacidade atualizada."
+    },
+    "section15": {
+      "title": "15. Fale conosco",
+      "text": "Se você tiver dúvidas sobre esta Política de Privacidade ou desejar exercer seus direitos, entre em contato conosco em:",
+      "email": "support@openlegion.ai"
+    }
+  },
+  "terms": {
+    "title": "Termos de serviço",
+    "effectiveDate": "Data de vigência: 7 de março de 2026 · Última atualização: 7 de março de 2026",
+    "section1": {
+      "title": "1. Aceitação dos termos",
+      "p1": "Ao acessar ou utilizar o site da OpenLegion (openlegion.ai), o serviço de hospedagem gerenciada, o software auto-hospedado, as APIs, a documentação ou quaisquer serviços relacionados (coletivamente, o \"Serviço\"), você (\"Cliente\", \"você\") concorda em estar vinculado a estes Termos de Serviço (\"Termos\"). Se você não concordar, não utilize o Serviço.",
+      "p2": "Se você está utilizando o Serviço em nome de uma organização, você declara que tem autoridade para vincular essa organização, e \"você\" refere-se a essa organização."
+    },
+    "section2": {
+      "title": "2. Descrição do serviço",
+      "text": "A OpenLegion fornece um framework de agentes de IA e uma plataforma opcional de hospedagem gerenciada para implantar, orquestrar e monitorar agentes de IA autônomos. O Serviço pode incluir painéis web, APIs, orquestração de contêineres, integrações com provedores de LLM terceirizados e ferramentas relacionadas."
+    },
+    "section3": {
+      "title": "3. Elegibilidade",
+      "text": "Você deve ter pelo menos 18 anos e ser legalmente capaz de celebrar um acordo vinculante. O Serviço não é destinado ao uso por menores de 18 anos."
+    },
+    "section4": {
+      "title": "4. Contas e segurança",
+      "text": "Você é responsável por manter a confidencialidade das credenciais da sua conta e por toda a atividade sob sua conta. Você concorda em nos notificar imediatamente sobre qualquer acesso não autorizado. Reservamo-nos o direito de suspender ou encerrar contas a nosso exclusivo critério, com ou sem aviso prévio, por qualquer motivo, incluindo violação destes Termos."
+    },
+    "section5": {
+      "title": "5. Uso aceitável",
+      "intro": "Você concorda em não utilizar o Serviço para:",
+      "items": {
+        "0": "Violar qualquer lei, regulamento ou direito de terceiros aplicável;",
+        "1": "Gerar, distribuir ou armazenar conteúdo que seja ilegal, prejudicial, ameaçador, abusivo, difamatório ou de outra forma objetável;",
+        "2": "Transmitir malware, vírus ou qualquer código projetado para interromper, danificar ou limitar a funcionalidade de qualquer software ou hardware;",
+        "3": "Tentar obter acesso não autorizado ao Serviço, outras contas ou sistemas conectados ao Serviço;",
+        "4": "Utilizar o Serviço para mineração de criptomoedas, ataques de negação de serviço, spam ou qualquer atividade que degrade o desempenho para outros usuários;",
+        "5": "Fazer engenharia reversa, descompilar ou desmontar qualquer componente proprietário do Serviço além do permitido pela licença de código aberto aplicável;",
+        "6": "Revender, sublicenciar ou redistribuir o Serviço de hospedagem gerenciada sem consentimento prévio por escrito;",
+        "7": "Utilizar agentes de IA implantados no Serviço para envolver-se em fraude, falsificação de identidade, assédio ou qualquer atividade ilegal."
+      },
+      "enforcement": "Podemos investigar violações e, a nosso exclusivo critério, encerrar ou suspender imediatamente seu acesso sem aviso prévio ou reembolso."
+    },
+    "section6": {
+      "title": "6. Taxas, cobrança e reembolsos",
+      "p1": "Certos recursos do Serviço podem exigir pagamento. Todas as taxas estão indicadas em nossa página de preços e são cobradas antecipadamente de forma recorrente. As taxas não são reembolsáveis, exceto quando exigido pela lei aplicável. Reservamo-nos o direito de alterar os preços a qualquer momento com 30 dias de aviso prévio. O uso continuado após uma alteração de preço constitui aceitação do novo preço.",
+      "p2": "Você é o único responsável por todos os custos de terceiros incorridos pelo uso do Serviço, incluindo, mas não se limitando a, cobranças de provedores de API de LLM, taxas de infraestrutura em nuvem e custos de registro de domínio. A OpenLegion não é responsável por quaisquer cobranças de terceiros."
+    },
+    "section7": {
+      "title": "7. Propriedade intelectual",
+      "p1": "O código-fonte do framework OpenLegion está licenciado sob a Business Source License 1.1 (BSL 1.1). Estes Termos não lhe concedem quaisquer direitos além do que essa licença permite. Todas as marcas registradas, logotipos e elementos de marca da OpenLegion são propriedade do projeto OpenLegion e não podem ser usados sem consentimento prévio por escrito.",
+      "p2": "Você mantém a propriedade de todos os dados, conteúdo e configurações (\"Dados do Cliente\") que você envia ao Serviço. Você nos concede uma licença limitada e não exclusiva para hospedar e processar os Dados do Cliente exclusivamente para fornecer o Serviço."
+    },
+    "section8": {
+      "title": "8. Serviços de terceiros e provedores de LLM",
+      "text": "O Serviço se integra com provedores de LLM terceirizados (por exemplo, Anthropic, OpenAI, Google, Mistral e outros). Seu uso desses provedores é regido por seus respectivos termos de serviço e políticas de privacidade. A OpenLegion não faz declarações ou garantias sobre qualquer serviço de terceiros e não é responsável pela produção, precisão, disponibilidade ou conduta de qualquer LLM ou API de terceiros."
+    },
+    "section9": {
+      "title": "9. Resultados de agentes de IA e ações autônomas",
+      "text": "Agentes de IA implantados através do Serviço operam de forma autônoma com base na sua configuração. Você é o único responsável pelas ações, resultados e consequências de quaisquer agentes de IA que você implante, configure ou opere usando o Serviço. A OpenLegion não controla, revisa ou endossa os resultados dos agentes e não aceita responsabilidade por danos decorrentes do comportamento dos agentes, incluindo, mas não se limitando a, perdas financeiras, corrupção de dados, informações incorretas ou ações não intencionadas realizadas pelos agentes."
+    },
+    "section10": {
+      "title": "10. EXCLUSÃO DE GARANTIAS",
+      "p1": "O SERVIÇO É FORNECIDO \"NO ESTADO EM QUE SE ENCONTRA\" E \"CONFORME DISPONÍVEL\" SEM GARANTIAS DE QUALQUER NATUREZA, SEJAM EXPRESSAS, IMPLÍCITAS OU LEGAIS, INCLUINDO, MAS NÃO SE LIMITANDO A, GARANTIAS IMPLÍCITAS DE COMERCIABILIDADE, ADEQUAÇÃO A UM FIM ESPECÍFICO, TÍTULO E NÃO VIOLAÇÃO. A OPENLEGION NÃO GARANTE QUE O SERVIÇO SERÁ ININTERRUPTO, LIVRE DE ERROS, SEGURO OU LIVRE DE VÍRUS OU OUTROS COMPONENTES PREJUDICIAIS. NENHUM CONSELHO OU INFORMAÇÃO, ORAL OU ESCRITO, OBTIDO DA OPENLEGION OU ATRAVÉS DO SERVIÇO CRIARÁ QUALQUER GARANTIA NÃO EXPRESSAMENTE DECLARADA NESTE DOCUMENTO.",
+      "p2": "A OPENLEGION NÃO GARANTE A PRECISÃO, COMPLETUDE OU UTILIDADE DE QUALQUER RESULTADO GERADO POR AGENTES DE IA, PROVEDORES DE LLM OU QUALQUER OUTRO COMPONENTE DO SERVIÇO. VOCÊ RECONHECE QUE O CONTEÚDO GERADO POR IA PODE SER IMPRECISO, INCOMPLETO OU PREJUDICIAL, E VOCÊ UTILIZA TAL CONTEÚDO POR SUA CONTA E RISCO."
+    },
+    "section11": {
+      "title": "11. LIMITAÇÃO DE RESPONSABILIDADE",
+      "p1": "NA MÁXIMA EXTENSÃO PERMITIDA PELA LEI APLICÁVEL, EM NENHUM CASO A OPENLEGION, SEU PROPRIETÁRIO, OPERADORES, CONTRIBUIDORES, AFILIADOS OU LICENCIADORES SERÃO RESPONSÁVEIS POR QUAISQUER DANOS INDIRETOS, INCIDENTAIS, ESPECIAIS, CONSEQUENCIAIS, EXEMPLARES OU PUNITIVOS, INCLUINDO, MAS NÃO SE LIMITANDO A, DANOS POR PERDA DE LUCROS, FUNDO DE COMÉRCIO, USO, DADOS OU OUTRAS PERDAS INTANGÍVEIS, DECORRENTES DE OU EM CONEXÃO COM SEU USO OU INCAPACIDADE DE USAR O SERVIÇO, INDEPENDENTEMENTE DA TEORIA DE RESPONSABILIDADE (CONTRATO, ATO ILÍCITO, RESPONSABILIDADE OBJETIVA OU OUTRA) E MESMO QUE A OPENLEGION TENHA SIDO AVISADA DA POSSIBILIDADE DE TAIS DANOS.",
+      "p2": "EM NENHUM CASO A RESPONSABILIDADE TOTAL AGREGADA DA OPENLEGION POR TODAS AS REIVINDICAÇÕES DECORRENTES DE OU RELACIONADAS A ESTES TERMOS OU AO SERVIÇO EXCEDERÁ O MAIOR ENTRE (A) O VALOR TOTAL QUE VOCÊ PAGOU À OPENLEGION NOS DOZE (12) MESES ANTERIORES À REIVINDICAÇÃO, OU (B) CINQUENTA DÓLARES AMERICANOS (US$ 50,00).",
+      "p3": "ALGUMAS JURISDIÇÕES NÃO PERMITEM A EXCLUSÃO OU LIMITAÇÃO DE CERTOS DANOS. EM TAIS JURISDIÇÕES, A RESPONSABILIDADE DA OPENLEGION SERÁ LIMITADA NA MÁXIMA EXTENSÃO PERMITIDA POR LEI."
+    },
+    "section12": {
+      "title": "12. Indenização",
+      "text": "Você concorda em indenizar, defender e isentar a OpenLegion, seu proprietário, operadores, contribuidores e afiliados de e contra todas as reivindicações, danos, perdas, responsabilidades, custos e despesas (incluindo honorários advocatícios razoáveis) decorrentes de ou relacionados a: (a) seu uso do Serviço; (b) sua violação destes Termos; (c) sua violação de qualquer direito de terceiros, incluindo qualquer direito de propriedade intelectual ou privacidade; (d) as ações, resultados ou consequências de quaisquer agentes de IA que você implante usando o Serviço; ou (e) quaisquer Dados do Cliente que você envie ao Serviço."
+    },
+    "section13": {
+      "title": "13. Disponibilidade e modificações do serviço",
+      "text": "Não garantimos nenhum tempo de atividade ou disponibilidade específica. O Serviço pode ser modificado, suspenso ou descontinuado a qualquer momento, com ou sem aviso prévio. Não somos responsáveis perante você ou terceiros por qualquer modificação, suspensão ou descontinuação do Serviço."
+    },
+    "section14": {
+      "title": "14. Rescisão",
+      "p1": "Podemos rescindir ou suspender seu acesso ao Serviço imediatamente, sem aviso prévio ou responsabilidade, por qualquer motivo, incluindo violação destes Termos. Após a rescisão, seu direito de usar o Serviço cessa imediatamente. As seções que por sua natureza devem sobreviver à rescisão (incluindo, sem limitação, as Seções 10, 11, 12, 16 e 17) sobreviverão.",
+      "p2": "Você pode encerrar sua conta a qualquer momento deixando de usar o Serviço. Não temos obrigação de reter seus dados após a rescisão."
+    },
+    "section15": {
+      "title": "15. Modificações dos termos",
+      "text": "Reservamo-nos o direito de modificar estes Termos a qualquer momento. Alterações materiais serão comunicadas atualizando a data de \"Última atualização\" no topo desta página. Seu uso continuado do Serviço após a publicação das alterações constitui aceitação dos Termos revisados. É sua responsabilidade revisar estes Termos periodicamente."
+    },
+    "section16": {
+      "title": "16. Lei aplicável e resolução de disputas",
+      "p1": "Estes Termos serão regidos e interpretados de acordo com as leis do Estado de Delaware, Estados Unidos, sem considerar suas disposições sobre conflitos de leis. Qualquer disputa decorrente de ou em conexão com estes Termos será resolvida exclusivamente por arbitragem vinculante administrada pela American Arbitration Association (AAA) sob suas Regras de Arbitragem Comercial. A arbitragem será conduzida remotamente (por telefone, videoconferência ou submissões escritas) a menos que ambas as partes concordem de outra forma. A decisão do árbitro será final e vinculante e poderá ser inscrita como sentença em qualquer tribunal de jurisdição competente.",
+      "p2": "VOCÊ CONCORDA QUE QUALQUER PROCEDIMENTO DE RESOLUÇÃO DE DISPUTAS SERÁ CONDUZIDO APENAS EM BASE INDIVIDUAL E NÃO EM UMA AÇÃO COLETIVA, CONSOLIDADA OU REPRESENTATIVA. Se esta renúncia à ação coletiva for considerada inexequível, então a totalidade desta disposição de arbitragem será nula e sem efeito."
+    },
+    "section17": {
+      "title": "17. Disposições gerais",
+      "items": {
+        "0": "Acordo integral. Estes Termos, juntamente com nossa Política de Privacidade, constituem o acordo integral entre você e a OpenLegion.",
+        "1": "Divisibilidade. Se qualquer disposição destes Termos for considerada inválida ou inexequível, tal disposição será aplicada na máxima extensão permitida, e as disposições restantes permanecerão em pleno vigor e efeito.",
+        "2": "Renúncia. Nenhuma renúncia a qualquer termo será considerada uma renúncia adicional ou contínua de tal termo ou de qualquer outro termo.",
+        "3": "Cessão. Você não pode ceder ou transferir estes Termos sem nosso consentimento prévio por escrito. Podemos ceder estes Termos sem restrição.",
+        "4": "Força maior. A OpenLegion não será responsável por qualquer falha ou atraso causado por eventos fora de nosso controle razoável, incluindo desastres naturais, guerra, terrorismo, pandemias, disputas trabalhistas, ações governamentais, quedas de energia, falhas de Internet ou telecomunicações, ou interrupções de serviços de terceiros.",
+        "5": "Ausência de agência. Nada nestes Termos cria uma parceria, joint venture, relação de emprego ou agência entre você e a OpenLegion."
+      }
+    },
+    "section18": {
+      "title": "18. Contato",
+      "text": "Dúvidas sobre estes Termos? Entre em contato conosco em",
+      "email": "support@openlegion.ai"
+    }
+  }
+}

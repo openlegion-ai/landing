@@ -1,4 +1,5 @@
 import { ChevronRight, BookOpen } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { APP_URL, DOCS_URL } from "@/lib/constants";
 
@@ -7,6 +8,8 @@ interface InlineCTAProps {
 }
 
 export function InlineCTA({ heading }: InlineCTAProps) {
+  const t = useTranslations("inlineCta");
+
   return (
     <div className="px-5 py-12 sm:px-6 md:px-8 md:py-16">
       <AnimateIn>
@@ -23,7 +26,7 @@ export function InlineCTA({ heading }: InlineCTAProps) {
               rel="noopener noreferrer"
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
-              Start Free Trial
+              {t("startFreeTrial")}
               <ChevronRight
                 className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5"
                 aria-hidden="true"
@@ -39,7 +42,7 @@ export function InlineCTA({ heading }: InlineCTAProps) {
                 className="h-4 w-4 transition-transform group-hover/secondary:scale-110"
                 aria-hidden="true"
               />
-              Read the Docs
+              {t("readTheDocs")}
             </a>
           </div>
           <div

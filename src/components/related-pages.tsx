@@ -1,79 +1,44 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 // ── Full page registry ──────────────────────────────────────────────────────
 
 interface PageEntry {
   href: string;
-  label: string;
+  labelKey: string;
 }
 
 const TOPIC_PAGES: PageEntry[] = [
-  { href: "/ai-agent-platform", label: "AI Agent Platform" },
-  { href: "/ai-agent-orchestration", label: "AI Agent Orchestration" },
-  { href: "/ai-agent-frameworks", label: "AI Agent Frameworks Comparison" },
-  { href: "/ai-agent-security", label: "AI Agent Security" },
-  { href: "/openclaw-alternative", label: "OpenClaw Alternative" },
-  { href: "/deepseek-v4-agents", label: "DeepSeek V4 Agents" },
+  { href: "/ai-agent-platform", labelKey: "topicPages.0" },
+  { href: "/ai-agent-orchestration", labelKey: "topicPages.1" },
+  { href: "/ai-agent-frameworks", labelKey: "topicPages.2" },
+  { href: "/ai-agent-security", labelKey: "topicPages.3" },
+  { href: "/openclaw-alternative", labelKey: "topicPages.4" },
+  { href: "/deepseek-v4-agents", labelKey: "topicPages.5" },
 ];
 
 const COMPARISON_HUB: PageEntry = {
   href: "/comparison",
-  label: "All Framework Comparisons",
+  labelKey: "comparisonHub",
 };
 
 const COMPARISON_PAGES: Record<string, PageEntry> = {
-  openclaw: { href: "/comparison/openclaw", label: "OpenLegion vs OpenClaw" },
-  langgraph: {
-    href: "/comparison/langgraph",
-    label: "OpenLegion vs LangGraph",
-  },
-  crewai: { href: "/comparison/crewai", label: "OpenLegion vs CrewAI" },
-  autogen: { href: "/comparison/autogen", label: "OpenLegion vs AutoGen" },
-  dify: { href: "/comparison/dify", label: "OpenLegion vs Dify" },
-  "google-adk": {
-    href: "/comparison/google-adk",
-    label: "OpenLegion vs Google ADK",
-  },
-  "aws-strands": {
-    href: "/comparison/aws-strands",
-    label: "OpenLegion vs AWS Strands",
-  },
-  "openai-agents-sdk": {
-    href: "/comparison/openai-agents-sdk",
-    label: "OpenLegion vs OpenAI Agents SDK",
-  },
-  "manus-ai": {
-    href: "/comparison/manus-ai",
-    label: "OpenLegion vs Manus AI",
-  },
-  "semantic-kernel": {
-    href: "/comparison/semantic-kernel",
-    label: "OpenLegion vs Semantic Kernel",
-  },
-  zeroclaw: {
-    href: "/comparison/zeroclaw",
-    label: "OpenLegion vs ZeroClaw",
-  },
-  nanoclaw: {
-    href: "/comparison/nanoclaw",
-    label: "OpenLegion vs NanoClaw",
-  },
-  nanobot: {
-    href: "/comparison/nanobot",
-    label: "OpenLegion vs nanobot",
-  },
-  picoclaw: {
-    href: "/comparison/picoclaw",
-    label: "OpenLegion vs PicoClaw",
-  },
-  openfang: {
-    href: "/comparison/openfang",
-    label: "OpenLegion vs OpenFang",
-  },
-  memu: {
-    href: "/comparison/memu",
-    label: "OpenLegion vs MemU",
-  },
+  openclaw: { href: "/comparison/openclaw", labelKey: "comparisons.openclaw" },
+  langgraph: { href: "/comparison/langgraph", labelKey: "comparisons.langgraph" },
+  crewai: { href: "/comparison/crewai", labelKey: "comparisons.crewai" },
+  autogen: { href: "/comparison/autogen", labelKey: "comparisons.autogen" },
+  dify: { href: "/comparison/dify", labelKey: "comparisons.dify" },
+  "google-adk": { href: "/comparison/google-adk", labelKey: "comparisons.googleAdk" },
+  "aws-strands": { href: "/comparison/aws-strands", labelKey: "comparisons.awsStrands" },
+  "openai-agents-sdk": { href: "/comparison/openai-agents-sdk", labelKey: "comparisons.openaiAgentsSdk" },
+  "manus-ai": { href: "/comparison/manus-ai", labelKey: "comparisons.manusAi" },
+  "semantic-kernel": { href: "/comparison/semantic-kernel", labelKey: "comparisons.semanticKernel" },
+  zeroclaw: { href: "/comparison/zeroclaw", labelKey: "comparisons.zeroclaw" },
+  nanoclaw: { href: "/comparison/nanoclaw", labelKey: "comparisons.nanoclaw" },
+  nanobot: { href: "/comparison/nanobot", labelKey: "comparisons.nanobot" },
+  picoclaw: { href: "/comparison/picoclaw", labelKey: "comparisons.picoclaw" },
+  openfang: { href: "/comparison/openfang", labelKey: "comparisons.openfang" },
+  memu: { href: "/comparison/memu", labelKey: "comparisons.memu" },
 };
 
 // Per-comparison related siblings (4 most relevant based on cross-references)
@@ -122,15 +87,16 @@ function getRelatedLinks(currentPath: string): PageEntry[] {
 // ── Component ───────────────────────────────────────────────────────────────
 
 export function RelatedPages({ currentSlug }: { currentSlug: string }) {
+  const t = useTranslations("relatedPages");
   const links = getRelatedLinks(currentSlug);
 
   return (
-    <nav aria-label="Related pages" className="related-pages">
-      <h2>Related Pages</h2>
+    <nav aria-label={t("ariaLabel")} className="related-pages">
+      <h2>{t("heading")}</h2>
       <ul>
         {links.map((link) => (
           <li key={link.href}>
-            <Link href={link.href}>{link.label}</Link>
+            <Link href={link.href}>{t(link.labelKey)}</Link>
           </li>
         ))}
       </ul>

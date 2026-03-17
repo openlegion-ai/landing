@@ -2,6 +2,7 @@
 
 import { useState, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { CodeBlock } from "@/components/ui/code-block";
 
@@ -26,6 +27,7 @@ function useIsWindows() {
 }
 
 export function QuickstartClient({ tabs }: QuickstartClientProps) {
+  const t = useTranslations("quickstart");
   const isWindows = useIsWindows();
   const [active, setActive] = useState(() => (isWindows ? 1 : 0));
 
@@ -34,7 +36,7 @@ export function QuickstartClient({ tabs }: QuickstartClientProps) {
       {/* Tab switcher */}
       <div
         role="tablist"
-        aria-label="Operating system"
+        aria-label={t("tabGroupLabel")}
         className="mb-4 flex gap-1 rounded-lg border border-border/40 bg-card/30 p-1"
       >
         {tabs.map((tab, i) => (

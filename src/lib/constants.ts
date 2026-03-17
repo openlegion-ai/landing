@@ -6,6 +6,44 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
+// ── i18n ─────────────────────────────────────────────────────────────────────
+
+export const SUPPORTED_LOCALES = [
+  "en",      // English
+  "zh",      // Chinese (Simplified)
+  "zh-TW",   // Chinese (Traditional)
+  "ja",      // Japanese
+  "ko",      // Korean
+  "es",      // Spanish
+  "fr",      // French
+  "de",      // German
+  "pt",      // Portuguese
+  "ar",      // Arabic
+  "hi",      // Hindi
+  "ru",      // Russian
+];
+
+export const DEFAULT_LOCALE = "en";
+
+/** Locales that use right-to-left script direction. */
+export const RTL_LOCALES = new Set(["ar", "he", "fa", "ur"]);
+
+/** Display labels for each locale — shown in the language switcher (always in the native language). */
+export const LOCALE_LABELS: Record<string, string> = {
+  en: "English",
+  zh: "简体中文",
+  "zh-TW": "繁體中文",
+  ja: "日本語",
+  ko: "한국어",
+  es: "Español",
+  fr: "Français",
+  de: "Deutsch",
+  pt: "Português",
+  ar: "العربية",
+  hi: "हिन्दी",
+  ru: "Русский",
+};
+
 // ── Nav ──────────────────────────────────────────────────────────────────────
 
 export const NAV_LINKS = [
