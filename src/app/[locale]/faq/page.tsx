@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { ChevronDown } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { setRequestLocale } from "next-intl/server";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";

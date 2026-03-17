@@ -713,7 +713,8 @@
         "question": "Was zählt als 'Agent'?",
         "answer": "Jeder bereitgestellte Agenten-Container zählt als ein Agent in deinem Plan-Limit. Vorlagen wie Dev Team (PM + Entwickler + Reviewer) zählen als 3 Agenten."
       }
-    }
+    },
+    "billingPeriodAriaLabel": "Abrechnungszeitraum"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "Das ist deine Flotte, live.",
     "tryFree7Days": "7 Tage kostenlos testen →",
     "brandName": "OpenLegion",
-    "selectLanguage": "Sprache auswählen"
+    "selectLanguage": "Sprache auswählen",
+    "copyToClipboard": "In Zwischenablage kopieren",
+    "billingPeriod": "Abrechnungszeitraum",
+    "breadcrumb": "Brotkrümelnavigation",
+    "copyLabel": "Kopieren",
+    "copiedLabel": "Kopiert"
   },
   "metadata": {
     "homeTitle": "OpenLegion — KI-Agenten-Framework & Plattform | Alles automatisieren, Kontrolle behalten",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "Vergleiche",
     "publishedPrefix": "Veröffentlicht ",
     "updatedPrefix": "Aktualisiert ",
-    "relatedContentAriaLabel": "Verwandte Inhalte"
+    "relatedContentAriaLabel": "Verwandte Inhalte",
+    "breadcrumbAriaLabel": "Brotkrümelnavigation"
   },
   "inlineCta": {
     "startFreeTrial": "Kostenlose Testphase starten",

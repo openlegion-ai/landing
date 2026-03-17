@@ -713,7 +713,8 @@
         "question": "What counts as an \"agent\"?",
         "answer": "Each deployed agent container counts as one agent toward your plan limit. Templates like Dev Team (PM + Engineer + Reviewer) count as 3 agents."
       }
-    }
+    },
+    "billingPeriodAriaLabel": "Billing period"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "This is your fleet, live.",
     "tryFree7Days": "Try it free for 7 days →",
     "brandName": "OpenLegion",
-    "selectLanguage": "Select language"
+    "selectLanguage": "Select language",
+    "copyToClipboard": "Copy to clipboard",
+    "billingPeriod": "Billing period",
+    "breadcrumb": "Breadcrumb",
+    "copyLabel": "Copy",
+    "copiedLabel": "Copied"
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "Comparisons",
     "publishedPrefix": "Published ",
     "updatedPrefix": "Updated ",
-    "relatedContentAriaLabel": "Related content"
+    "relatedContentAriaLabel": "Related content",
+    "breadcrumbAriaLabel": "Breadcrumb"
   },
   "inlineCta": {
     "startFreeTrial": "Start Free Trial",

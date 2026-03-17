@@ -713,7 +713,8 @@
         "question": "ما الذي يُحسب كـ \"وكيل\"؟",
         "answer": "كل حاوية وكيل منشورة تُحسب كوكيل واحد من حد خطتك. القوالب مثل فريق التطوير (مدير منتج + مهندس + مراجع) تُحسب كـ 3 وكلاء."
       }
-    }
+    },
+    "billingPeriodAriaLabel": "فترة الفوترة"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "هذا أسطولك، مباشرة.",
     "tryFree7Days": "جرّبه مجانًا لمدة 7 أيام ←",
     "brandName": "OpenLegion",
-    "selectLanguage": "اختر اللغة"
+    "selectLanguage": "اختر اللغة",
+    "copyToClipboard": "نسخ إلى الحافظة",
+    "billingPeriod": "فترة الفوترة",
+    "breadcrumb": "مسار التنقل",
+    "copyLabel": "نسخ",
+    "copiedLabel": "تم النسخ"
   },
   "metadata": {
     "homeTitle": "OpenLegion — إطار ومنصة وكلاء الذكاء الاصطناعي | أتمت أي شيء، ابقَ مسيطرًا",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "المقارنات",
     "publishedPrefix": "نُشر في ",
     "updatedPrefix": "حُدّث في ",
-    "relatedContentAriaLabel": "محتوى ذو صلة"
+    "relatedContentAriaLabel": "محتوى ذو صلة",
+    "breadcrumbAriaLabel": "مسار التنقل"
   },
   "inlineCta": {
     "startFreeTrial": "ابدأ التجربة المجانية",

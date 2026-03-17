@@ -713,7 +713,8 @@
         "question": "O que conta como um \"agente\"?",
         "answer": "Cada contêiner de agente implantado conta como um agente no limite do seu plano. Templates como Dev Team (PM + Engenheiro + Revisor) contam como 3 agentes."
       }
-    }
+    },
+    "billingPeriodAriaLabel": "Período de cobrança"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "Esta é sua frota, ao vivo.",
     "tryFree7Days": "Teste grátis por 7 dias →",
     "brandName": "OpenLegion",
-    "selectLanguage": "Selecionar idioma"
+    "selectLanguage": "Selecionar idioma",
+    "copyToClipboard": "Copiar para a área de transferência",
+    "billingPeriod": "Período de cobrança",
+    "breadcrumb": "Caminho de navegação",
+    "copyLabel": "Copiar",
+    "copiedLabel": "Copiado"
   },
   "metadata": {
     "homeTitle": "OpenLegion — Framework e plataforma de agentes de IA | Automatize tudo, mantenha o controle",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "Comparações",
     "publishedPrefix": "Publicado em ",
     "updatedPrefix": "Atualizado em ",
-    "relatedContentAriaLabel": "Conteúdo relacionado"
+    "relatedContentAriaLabel": "Conteúdo relacionado",
+    "breadcrumbAriaLabel": "Caminho de navegação"
   },
   "inlineCta": {
     "startFreeTrial": "Começar teste grátis",

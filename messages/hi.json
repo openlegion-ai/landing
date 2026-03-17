@@ -713,7 +713,8 @@
         "question": "\"एजेंट\" क्या माना जाता है?",
         "answer": "हर डिप्लॉय किया गया एजेंट कंटेनर आपकी प्लान लिमिट में एक एजेंट गिना जाता है। Dev Team (PM + इंजीनियर + रिव्यूअर) जैसे टेम्पलेट 3 एजेंट गिने जाते हैं।"
       }
-    }
+    },
+    "billingPeriodAriaLabel": "बिलिंग अवधि"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "यह आपकी फ़्लीट है, लाइव।",
     "tryFree7Days": "7 दिन मुफ़्त आज़माएँ →",
     "brandName": "OpenLegion",
-    "selectLanguage": "भाषा चुनें"
+    "selectLanguage": "भाषा चुनें",
+    "copyToClipboard": "क्लिपबोर्ड पर कॉपी करें",
+    "billingPeriod": "बिलिंग अवधि",
+    "breadcrumb": "ब्रेडक्रंब",
+    "copyLabel": "कॉपी",
+    "copiedLabel": "कॉपी हो गया"
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI एजेंट फ़्रेमवर्क और प्लेटफ़ॉर्म | कुछ भी ऑटोमेट करें, नियंत्रण में रहें",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "तुलनाएँ",
     "publishedPrefix": "प्रकाशित ",
     "updatedPrefix": "अपडेटेड ",
-    "relatedContentAriaLabel": "संबंधित कंटेंट"
+    "relatedContentAriaLabel": "संबंधित कंटेंट",
+    "breadcrumbAriaLabel": "ब्रेडक्रंब"
   },
   "inlineCta": {
     "startFreeTrial": "मुफ़्त ट्रायल शुरू करें",

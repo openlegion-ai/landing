@@ -713,7 +713,8 @@
         "question": "Что считается «агентом»?",
         "answer": "Каждый развёрнутый контейнер агента считается как один агент в рамках лимита вашего тарифа. Шаблоны вроде Dev Team (PM + Инженер + Ревьюер) считаются как 3 агента."
       }
-    }
+    },
+    "billingPeriodAriaLabel": "Период оплаты"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "Это ваш флот — в реальном времени.",
     "tryFree7Days": "Попробуйте бесплатно 7 дней →",
     "brandName": "OpenLegion",
-    "selectLanguage": "Выбрать язык"
+    "selectLanguage": "Выбрать язык",
+    "copyToClipboard": "Копировать в буфер обмена",
+    "billingPeriod": "Период оплаты",
+    "breadcrumb": "Навигация",
+    "copyLabel": "Копировать",
+    "copiedLabel": "Скопировано"
   },
   "metadata": {
     "homeTitle": "OpenLegion — фреймворк и платформа AI-агентов | Автоматизируйте всё, сохраняйте контроль",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "Сравнения",
     "publishedPrefix": "Опубликовано ",
     "updatedPrefix": "Обновлено ",
-    "relatedContentAriaLabel": "Связанный контент"
+    "relatedContentAriaLabel": "Связанный контент",
+    "breadcrumbAriaLabel": "Навигация"
   },
   "inlineCta": {
     "startFreeTrial": "Начать бесплатный пробный период",

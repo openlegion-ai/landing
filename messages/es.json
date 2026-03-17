@@ -713,7 +713,8 @@
         "question": "¿Qué cuenta como un \"agente\"?",
         "answer": "Cada contenedor de agente desplegado cuenta como un agente en el límite de tu plan. Plantillas como Dev Team (PM + Ingeniero + Revisor) cuentan como 3 agentes."
       }
-    }
+    },
+    "billingPeriodAriaLabel": "Período de facturación"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "Esta es tu flota, en vivo.",
     "tryFree7Days": "Pruébalo gratis por 7 días →",
     "brandName": "OpenLegion",
-    "selectLanguage": "Seleccionar idioma"
+    "selectLanguage": "Seleccionar idioma",
+    "copyToClipboard": "Copiar al portapapeles",
+    "billingPeriod": "Período de facturación",
+    "breadcrumb": "Migas de pan",
+    "copyLabel": "Copiar",
+    "copiedLabel": "Copiado"
   },
   "metadata": {
     "homeTitle": "OpenLegion — Framework y plataforma de agentes de IA | Automatiza todo, mantén el control",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "Comparaciones",
     "publishedPrefix": "Publicado ",
     "updatedPrefix": "Actualizado ",
-    "relatedContentAriaLabel": "Contenido relacionado"
+    "relatedContentAriaLabel": "Contenido relacionado",
+    "breadcrumbAriaLabel": "Migas de pan"
   },
   "inlineCta": {
     "startFreeTrial": "Iniciar prueba gratuita",

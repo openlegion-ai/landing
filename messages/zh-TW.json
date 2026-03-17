@@ -713,7 +713,8 @@
         "question": "什麼算是一個「智慧代理」？",
         "answer": "每個已部署的智慧代理容器計為方案限額中的一個智慧代理。開發團隊（PM + 工程師 + 審查者）等範本計為 3 個智慧代理。"
       }
-    }
+    },
+    "billingPeriodAriaLabel": "計費週期"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "這是您的艦隊，即時呈現。",
     "tryFree7Days": "免費試用 7 天 →",
     "brandName": "OpenLegion",
-    "selectLanguage": "選擇語言"
+    "selectLanguage": "選擇語言",
+    "copyToClipboard": "複製到剪貼簿",
+    "billingPeriod": "計費週期",
+    "breadcrumb": "麵包屑導覽",
+    "copyLabel": "複製",
+    "copiedLabel": "已複製"
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI 智慧代理框架與平台 | 自動化一切，掌握全局",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "比較",
     "publishedPrefix": "發佈於 ",
     "updatedPrefix": "更新於 ",
-    "relatedContentAriaLabel": "相關內容"
+    "relatedContentAriaLabel": "相關內容",
+    "breadcrumbAriaLabel": "麵包屑導覽"
   },
   "inlineCta": {
     "startFreeTrial": "開始免費試用",
