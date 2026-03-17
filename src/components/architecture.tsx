@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";

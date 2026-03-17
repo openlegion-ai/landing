@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ContentPage as ContentPageData } from "@/lib/markdown";
 import { normalizeDate } from "@/lib/content-page-helpers";

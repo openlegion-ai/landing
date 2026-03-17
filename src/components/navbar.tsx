@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { Github, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -99,7 +99,7 @@ export function Navbar() {
           >
             <Github className="h-4 w-4" aria-hidden="true" />
           </a>
-          <LanguageSwitcher compact className="ml-1" />
+          <LanguageSwitcher className="ml-1" />
           <span className={`ml-1 text-[13px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
             {t("freeTrial")}
           </span>

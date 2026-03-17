@@ -49,6 +49,19 @@ export interface ContentPage {
 
 const CONTENT_DIR = path.join(process.cwd(), "src", "content");
 
+/**
+ * Resolve the content file path for a given locale.
+ * Tries locale-specific file first (e.g. src/content/zh/ai-agent-platform.md),
+ * falls back to the default English file (src/content/ai-agent-platform.md).
+ */
+function resolveContentPath(filename: string, locale?: string): string {
+  if (locale && locale !== "en") {
+    const localePath = path.join(CONTENT_DIR, locale, filename);
+    if (fs.existsSync(localePath)) return localePath;
+  }
+  return path.join(CONTENT_DIR, filename);
+}
+
 const SLUG_TO_FILE: Record<string, string> = {
   "/ai-agent-platform": "ai-agent-platform.md",
   "/ai-agent-orchestration": "ai-agent-orchestration.md",
@@ -77,11 +90,11 @@ const SLUG_TO_FILE: Record<string, string> = {
 
 // ── Load + parse content ────────────────────────────────────────────────────
 
-export async function getContentPage(slug: string): Promise<ContentPage> {
+export async function getContentPage(slug: string, locale?: string): Promise<ContentPage> {
   const filename = SLUG_TO_FILE[slug];
   if (!filename) throw new Error(`No content file for slug: ${slug}`);
 
-  const filePath = path.join(CONTENT_DIR, filename);
+  const filePath = resolveContentPath(filename, locale);
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
   const frontmatter = data as ContentFrontmatter;
