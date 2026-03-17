@@ -5,7 +5,7 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
-import { GITHUB_URL, DISCORD_URL, TWITTER_URL, RTL_LOCALES } from "@/lib/constants";
+import { GITHUB_URL, DISCORD_URL, TWITTER_URL, RTL_LOCALES, SUPPORTED_LOCALES } from "@/lib/constants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,11 +29,27 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata(): Promise<Metadata> {
+/** Map locale codes to OG locale format */
+const OG_LOCALE_MAP: Record<string, string> = {
+  en: "en_US", zh: "zh_CN", "zh-TW": "zh_TW", ja: "ja_JP", ko: "ko_KR",
+  es: "es_ES", fr: "fr_FR", de: "de_DE", pt: "pt_BR", ar: "ar_SA",
+  hi: "hi_IN", ru: "ru_RU",
+};
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations("metadata");
+  const base = "https://www.openlegion.ai";
+
+  // Build hreflang alternates for <link rel="alternate" hreflang="..." />
+  const languages: Record<string, string> = {};
+  for (const loc of SUPPORTED_LOCALES) {
+    languages[loc] = `${base}/${loc}`;
+  }
+  languages["x-default"] = `${base}/en`;
 
   return {
-    metadataBase: new URL("https://www.openlegion.ai"),
+    metadataBase: new URL(base),
     title: {
       default: t("homeTitle"),
       template: "%s | OpenLegion",
@@ -84,15 +100,16 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     manifest: "/site.webmanifest",
     alternates: {
-      canonical: "https://www.openlegion.ai",
+      canonical: `${base}/${locale}`,
+      languages,
     },
     openGraph: {
       title: t("ogTitle"),
       description: t("ogDescription"),
       type: "website",
       siteName: "OpenLegion",
-      url: "https://www.openlegion.ai",
-      locale: "en_US",
+      url: `${base}/${locale}`,
+      locale: OG_LOCALE_MAP[locale] || "en_US",
       images: [{ url: "/og.png", width: 1200, height: 630, alt: t("ogTitle") }],
     },
     twitter: {

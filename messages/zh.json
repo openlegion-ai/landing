@@ -713,7 +713,8 @@
         "question": "什么算作一个「智能体」？",
         "answer": "每个部署的智能体容器计为方案限额中的一个智能体。例如研发团队模板（PM + 工程师 + 审查员）计为 3 个智能体。"
       }
-    }
+    },
+    "billingPeriodAriaLabel": "计费周期"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "这就是你的编队，正在运行。",
     "tryFree7Days": "免费试用 7 天 →",
     "brandName": "OpenLegion",
-    "selectLanguage": "选择语言"
+    "selectLanguage": "选择语言",
+    "copyToClipboard": "复制到剪贴板",
+    "billingPeriod": "计费周期",
+    "breadcrumb": "面包屑导航",
+    "copyLabel": "复制",
+    "copiedLabel": "已复制"
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI 智能体框架与平台 | 自动化一切，尽在掌控",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "方案对比",
     "publishedPrefix": "发布于 ",
     "updatedPrefix": "更新于 ",
-    "relatedContentAriaLabel": "相关内容"
+    "relatedContentAriaLabel": "相关内容",
+    "breadcrumbAriaLabel": "面包屑导航"
   },
   "inlineCta": {
     "startFreeTrial": "开始免费试用",

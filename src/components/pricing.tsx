@@ -107,7 +107,7 @@ export function Pricing() {
             <div
               className="inline-flex items-center rounded-full border border-border bg-card/50 p-1"
               role="group"
-              aria-label="Billing period"
+              aria-label={t("billingPeriodAriaLabel")}
             >
               <button
                 onClick={() => setBilling("monthly")}

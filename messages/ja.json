@@ -713,7 +713,8 @@
         "question": "「エージェント」とは何をカウントしますか？",
         "answer": "デプロイされた各エージェントコンテナが、プラン上限に対して1エージェントとしてカウントされます。開発チーム（PM + エンジニア + レビュアー）などのテンプレートは3エージェントとしてカウントされます。"
       }
-    }
+    },
+    "billingPeriodAriaLabel": "請求期間"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "これがあなたのフリートです、ライブで。",
     "tryFree7Days": "7日間無料でお試しください →",
     "brandName": "OpenLegion",
-    "selectLanguage": "言語を選択"
+    "selectLanguage": "言語を選択",
+    "copyToClipboard": "クリップボードにコピー",
+    "billingPeriod": "請求期間",
+    "breadcrumb": "パンくずリスト",
+    "copyLabel": "コピー",
+    "copiedLabel": "コピー済み"
   },
   "metadata": {
     "homeTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム | あらゆる作業を自動化、コントロールを維持",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "比較",
     "publishedPrefix": "公開日 ",
     "updatedPrefix": "更新日 ",
-    "relatedContentAriaLabel": "関連コンテンツ"
+    "relatedContentAriaLabel": "関連コンテンツ",
+    "breadcrumbAriaLabel": "パンくずリスト"
   },
   "inlineCta": {
     "startFreeTrial": "無料トライアルを開始",

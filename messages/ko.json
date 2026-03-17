@@ -713,7 +713,8 @@
         "question": "\"에이전트\"란 무엇을 카운트하나요?",
         "answer": "배포된 각 에이전트 컨테이너가 플랜 한도에 대해 1개의 에이전트로 카운트됩니다. 개발팀(PM + 엔지니어 + 리뷰어) 같은 템플릿은 3개의 에이전트로 카운트됩니다."
       }
-    }
+    },
+    "billingPeriodAriaLabel": "결제 기간"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "이것이 당신의 플릿입니다, 실시간으로.",
     "tryFree7Days": "7일간 무료 체험하기 →",
     "brandName": "OpenLegion",
-    "selectLanguage": "언어 선택"
+    "selectLanguage": "언어 선택",
+    "copyToClipboard": "클립보드에 복사",
+    "billingPeriod": "결제 기간",
+    "breadcrumb": "탐색 경로",
+    "copyLabel": "복사",
+    "copiedLabel": "복사됨"
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI 에이전트 프레임워크 & 플랫폼 | 모든 것을 자동화, 통제력 유지",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "비교",
     "publishedPrefix": "게시일 ",
     "updatedPrefix": "업데이트일 ",
-    "relatedContentAriaLabel": "관련 콘텐츠"
+    "relatedContentAriaLabel": "관련 콘텐츠",
+    "breadcrumbAriaLabel": "탐색 경로"
   },
   "inlineCta": {
     "startFreeTrial": "무료 체험 시작",

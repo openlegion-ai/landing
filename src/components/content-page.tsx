@@ -59,7 +59,7 @@ export function ContentPage({ page }: ContentPageProps) {
       <JsonLd data={schemas} />
       <div className="content-page">
         <div className="content-page-header">
-          <nav aria-label="Breadcrumb" className="breadcrumb">
+          <nav aria-label={t("breadcrumbAriaLabel")} className="breadcrumb">
             <Link href="/">{t("breadcrumbHome")}</Link>
             {isComparisonSubPage(slug) && (
               <>

@@ -713,7 +713,8 @@
         "question": "Qu'est-ce qui compte comme un « agent » ?",
         "answer": "Chaque conteneur d'agent déployé compte comme un agent dans la limite de votre plan. Les modèles comme Dev Team (PM + Ingénieur + Relecteur) comptent comme 3 agents."
       }
-    }
+    },
+    "billingPeriodAriaLabel": "Période de facturation"
   },
   "notFound": {
     "title": "404",
@@ -728,7 +729,12 @@
     "fleetLivePrompt": "Voici votre flotte, en direct.",
     "tryFree7Days": "Essayez gratuitement pendant 7 jours →",
     "brandName": "OpenLegion",
-    "selectLanguage": "Choisir la langue"
+    "selectLanguage": "Choisir la langue",
+    "copyToClipboard": "Copier dans le presse-papiers",
+    "billingPeriod": "Période de facturation",
+    "breadcrumb": "Fil d'Ariane",
+    "copyLabel": "Copier",
+    "copiedLabel": "Copié"
   },
   "metadata": {
     "homeTitle": "OpenLegion — Framework et plateforme d'agents IA | Automatisez tout, gardez le contrôle",
@@ -761,7 +767,8 @@
     "breadcrumbComparisons": "Comparaisons",
     "publishedPrefix": "Publié ",
     "updatedPrefix": "Mis à jour ",
-    "relatedContentAriaLabel": "Contenu associé"
+    "relatedContentAriaLabel": "Contenu associé",
+    "breadcrumbAriaLabel": "Fil d'Ariane"
   },
   "inlineCta": {
     "startFreeTrial": "Démarrer l'essai gratuit",

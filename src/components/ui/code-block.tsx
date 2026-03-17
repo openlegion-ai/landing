@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Copy, Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface CodeBlockProps {
   code: string;
@@ -9,6 +10,7 @@ interface CodeBlockProps {
 }
 
 export function CodeBlock({ code, highlightedHtml }: CodeBlockProps) {
+  const t = useTranslations("common");
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -33,17 +35,17 @@ export function CodeBlock({ code, highlightedHtml }: CodeBlockProps) {
         <button
           onClick={handleCopy}
           className="ml-auto flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs text-muted transition-colors hover:bg-white/5 hover:text-foreground"
-          aria-label="Copy to clipboard"
+          aria-label={t("copyToClipboard")}
         >
           {copied ? (
             <>
               <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
-              <span className="text-success">Copied</span>
+              <span className="text-success">{t("copiedLabel")}</span>
             </>
           ) : (
             <>
               <Copy className="h-3.5 w-3.5" aria-hidden="true" />
-              Copy
+              {t("copyLabel")}
             </>
           )}
         </button>
