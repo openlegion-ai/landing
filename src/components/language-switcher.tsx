@@ -17,7 +17,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
 
   return (
     <div className={`relative inline-flex items-center ${className}`}>
-      <Globe className="pointer-events-none absolute left-2 h-3.5 w-3.5 text-foreground/70" aria-hidden="true" />
+      <Globe className="pointer-events-none absolute left-2 z-10 h-3.5 w-3.5 text-foreground/70" aria-hidden="true" />
       <select
         value={locale}
         onChange={(e) => switchLocale(e.target.value)}
@@ -31,7 +31,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
         ))}
       </select>
       <svg
-        className="pointer-events-none absolute right-1.5 h-3 w-3 text-muted"
+        className="pointer-events-none absolute right-1.5 z-10 h-3 w-3 text-foreground/70"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
