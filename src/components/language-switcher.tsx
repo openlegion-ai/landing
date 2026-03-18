@@ -17,7 +17,7 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
 
   return (
     <div className={`relative inline-flex items-center ${className}`}>
-      <Globe className="pointer-events-none absolute left-2 h-3.5 w-3.5 text-muted" aria-hidden="true" />
+      <Globe className="pointer-events-none absolute left-2 h-3.5 w-3.5 text-foreground/70" aria-hidden="true" />
       <select
         value={locale}
         onChange={(e) => switchLocale(e.target.value)}
