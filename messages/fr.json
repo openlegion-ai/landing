@@ -157,6 +157,15 @@
         "description": "Le modèle Content Studio d'OpenLegion gère la recherche de sujets, les brouillons longs et la relecture éditoriale avec une voix de marque cohérente sur chaque contenu."
       },
       "3": {
+        "name": "Votre équipe de trading",
+        "agents": {
+          "0": "Chercheur",
+          "1": "Trader",
+          "2": "Moniteur"
+        },
+        "description": "Les agents exécutent onchain — swaps, transferts, positions DeFi — tandis que les clés privées restent dans le coffre-fort. Limites de dépenses par agent et simulation de transaction à chaque opération."
+      },
+      "4": {
         "name": "Votre équipe personnalisée",
         "agents": {
           "0": "N'importe quel rôle",
@@ -201,6 +210,11 @@
       "1": "recherche",
       "2": "exécution",
       "3": "livraison"
+    },
+    "tradingEvents": {
+      "0": "Swap 0.5 ETH → USDC sur Base",
+      "1": "Limite de dépenses : $48 / $500 aujourd'hui",
+      "2": "Moniteur vérifie les positions…"
     }
   },
   "socialProof": {
@@ -235,7 +249,7 @@
     "outcomes": {
       "0": {
         "title": "Sécurité des agents IA : vos clés restent dans un coffre-fort que les agents ne touchent jamais.",
-        "description": "Chaque agent passe par un proxy d'identifiants. Les clés n'existent jamais dans un conteneur. Six couches de sécurité indépendantes activées par défaut.",
+        "description": "Chaque agent passe par un proxy d'identifiants. Les clés API et les clés privées du portefeuille n'existent jamais dans un conteneur. Six couches de sécurité indépendantes activées par défaut.",
         "linkLabel": "Comment fonctionne la sécurité →"
       },
       "1": {
@@ -245,7 +259,7 @@
       },
       "2": {
         "title": "Orchestration déterministe des agents IA — vous décidez qui fait quoi.",
-        "description": "Les agents naviguent sur n'importe quel site, utilisent n'importe quel outil, exécutent n'importe quelle tâche. Compatible MCP avec plus de 50 compétences intégrées. Workflows définis en YAML — chaque chemin d'exécution est prévisible, auditable et sous votre contrôle.",
+        "description": "Les agents naviguent sur n'importe quel site, utilisent n'importe quel outil, exécutent n'importe quelle tâche — y compris l'exécution onchain. Compatible MCP avec plus de 50 compétences intégrées. Workflows définis en YAML — chaque chemin d'exécution est prévisible, auditable et sous votre contrôle.",
         "linkLabel": "Comment fonctionne l'orchestration →"
       }
     },
@@ -349,8 +363,8 @@
         "description": "Utilisateur non-root (UID 1000), flag no-new-privileges, limites de mémoire et CPU appliquées."
       },
       "2": {
-        "title": "Les clés API résident dans un coffre-fort que l'agent ne touche jamais",
-        "description": "Le proxy du coffre-fort détient toutes les clés API — les agents passent par le proxy, ils ne voient jamais les secrets."
+        "title": "Les clés API et de portefeuille sont dans un coffre-fort que l'agent ne touche jamais",
+        "description": "Le proxy du coffre-fort détient les clés API et les clés privées du portefeuille — les agents appellent via le proxy, ne voient jamais les secrets. Les transactions sont signées côté serveur."
       },
       "3": {
         "title": "Chaque agent n'accède qu'à ce que vous autorisez explicitement",

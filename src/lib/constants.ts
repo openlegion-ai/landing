@@ -3,6 +3,7 @@ import {
   Code,
   TrendingUp,
   Pen,
+  Wallet,
   type LucideIcon,
 } from "lucide-react";
 
@@ -108,6 +109,14 @@ export const USE_CASES: UseCase[] = [
     agents: ["Researcher", "Writer", "Editor"],
     description:
       "OpenLegion's Content Studio template handles topic research, long-form drafts, and editorial review with consistent brand voice across every piece.",
+  },
+  {
+    id: "uc-trading",
+    icon: Wallet,
+    name: "Your trading team",
+    agents: ["Researcher", "Trader", "Monitor"],
+    description:
+      "Agents execute onchain — swaps, transfers, DeFi positions — while private keys stay locked in the vault. Per-agent spend limits and transaction simulation on every trade.",
   },
   {
     id: "uc-custom",
@@ -254,9 +263,9 @@ export const SECURITY_LAYERS: SecurityLayer[] = [
   },
   {
     number: 3,
-    title: "API keys live in a vault the agent never touches",
+    title: "API keys and wallet keys live in a vault the agent never touches",
     description:
-      "Vault proxy holds all API keys — agents call through the proxy, never see secrets.",
+      "Vault proxy holds API keys and wallet private keys — agents call through the proxy, never see secrets. Transactions are signed server-side.",
   },
   {
     number: 4,

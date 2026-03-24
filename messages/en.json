@@ -157,6 +157,15 @@
         "description": "OpenLegion's Content Studio template handles topic research, long-form drafts, and editorial review with consistent brand voice across every piece."
       },
       "3": {
+        "name": "Your trading team",
+        "agents": {
+          "0": "Researcher",
+          "1": "Trader",
+          "2": "Monitor"
+        },
+        "description": "Agents execute onchain — swaps, transfers, DeFi positions — while private keys stay locked in the vault. Per-agent spend limits and transaction simulation on every trade."
+      },
+      "4": {
         "name": "Your custom team",
         "agents": {
           "0": "Any Role",
@@ -201,6 +210,11 @@
       "1": "research",
       "2": "execute",
       "3": "deliver"
+    },
+    "tradingEvents": {
+      "0": "Swapped 0.5 ETH → USDC on Base",
+      "1": "Spend limit: $48 / $500 today",
+      "2": "Monitor checking positions…"
     }
   },
   "socialProof": {
@@ -235,7 +249,7 @@
     "outcomes": {
       "0": {
         "title": "AI agent security: your keys stay in a vault agents never touch.",
-        "description": "Every agent calls through a credential proxy. Keys never exist inside a container. Six independent security layers on by default.",
+        "description": "Every agent calls through a credential proxy. API keys and wallet private keys never exist inside a container. Six independent security layers on by default.",
         "linkLabel": "How security works →"
       },
       "1": {
@@ -245,7 +259,7 @@
       },
       "2": {
         "title": "Deterministic AI agent orchestration — you decide who does what.",
-        "description": "Agents browse any website, operate any tool, run any task. MCP-compatible with 50+ built-in skills. YAML-defined workflows — every execution path predictable, auditable, and under your control.",
+        "description": "Agents browse any website, operate any tool, execute onchain, run any task. MCP-compatible with 50+ built-in skills. YAML-defined workflows — every execution path predictable, auditable, and under your control.",
         "linkLabel": "How orchestration works →"
       }
     },
@@ -349,8 +363,8 @@
         "description": "Non-root user (UID 1000), no-new-privileges flag, memory and CPU resource limits enforced."
       },
       "2": {
-        "title": "API keys live in a vault the agent never touches",
-        "description": "Vault proxy holds all API keys — agents call through the proxy, never see secrets."
+        "title": "API keys and wallet keys live in a vault the agent never touches",
+        "description": "Vault proxy holds API keys and wallet private keys — agents call through the proxy, never see secrets. Transactions are signed server-side."
       },
       "3": {
         "title": "Each agent only accesses what you explicitly allow",

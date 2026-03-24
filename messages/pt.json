@@ -157,6 +157,15 @@
         "description": "O template Content Studio do OpenLegion cuida da pesquisa de temas, rascunhos longos e revisão editorial com voz de marca consistente em cada peça."
       },
       "3": {
+        "name": "Sua equipe de trading",
+        "agents": {
+          "0": "Pesquisador",
+          "1": "Trader",
+          "2": "Monitor"
+        },
+        "description": "Agentes executam onchain — swaps, transferências, posições DeFi — enquanto as chaves privadas permanecem no cofre. Limites de gasto por agente e simulação de transação em cada operação."
+      },
+      "4": {
         "name": "Sua equipe personalizada",
         "agents": {
           "0": "Qualquer função",
@@ -201,6 +210,11 @@
       "1": "pesquisa",
       "2": "execução",
       "3": "entrega"
+    },
+    "tradingEvents": {
+      "0": "Swap de 0.5 ETH → USDC na Base",
+      "1": "Limite de gasto: $48 / $500 hoje",
+      "2": "Monitor verificando posições…"
     }
   },
   "socialProof": {
@@ -235,7 +249,7 @@
     "outcomes": {
       "0": {
         "title": "Segurança de agentes de IA: suas chaves ficam em um cofre que os agentes nunca tocam.",
-        "description": "Cada agente faz chamadas através de um proxy de credenciais. As chaves nunca existem dentro de um contêiner. Seis camadas de segurança independentes ativadas por padrão.",
+        "description": "Cada agente faz chamadas através de um proxy de credenciais. Chaves de API e chaves privadas de carteira nunca existem dentro de um contêiner. Seis camadas de segurança independentes ativadas por padrão.",
         "linkLabel": "Como a segurança funciona →"
       },
       "1": {
@@ -245,7 +259,7 @@
       },
       "2": {
         "title": "Orquestração determinística de agentes de IA — você decide quem faz o quê.",
-        "description": "Agentes navegam em qualquer site, operam qualquer ferramenta, executam qualquer tarefa. Compatível com MCP com mais de 50 habilidades integradas. Fluxos de trabalho definidos em YAML — cada caminho de execução é previsível, auditável e sob seu controle.",
+        "description": "Agentes navegam em qualquer site, operam qualquer ferramenta, executam qualquer tarefa — incluindo execução onchain de swaps, transferências e posições DeFi. Compatível com MCP com mais de 50 habilidades integradas. Fluxos de trabalho definidos em YAML — cada caminho de execução é previsível, auditável e sob seu controle.",
         "linkLabel": "Como a orquestração funciona →"
       }
     },
@@ -349,8 +363,8 @@
         "description": "Usuário não-root (UID 1000), flag no-new-privileges, limites de memória e CPU aplicados."
       },
       "2": {
-        "title": "Chaves API ficam em um cofre que o agente nunca toca",
-        "description": "O proxy do cofre armazena todas as chaves API — agentes chamam através do proxy, nunca veem os segredos."
+        "title": "Chaves de API e de carteira ficam em um cofre que o agente nunca toca",
+        "description": "O proxy do cofre guarda chaves de API e chaves privadas da carteira — agentes chamam através do proxy, nunca veem segredos. Transações são assinadas no servidor."
       },
       "3": {
         "title": "Cada agente acessa apenas o que você permite explicitamente",

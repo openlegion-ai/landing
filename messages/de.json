@@ -157,6 +157,15 @@
         "description": "Die Content-Studio-Vorlage von OpenLegion übernimmt Themenrecherche, Langform-Entwürfe und redaktionelle Überprüfung mit konsistenter Markenstimme über jeden Beitrag hinweg."
       },
       "3": {
+        "name": "Ihr Trading-Team",
+        "agents": {
+          "0": "Researcher",
+          "1": "Trader",
+          "2": "Monitor"
+        },
+        "description": "Agenten führen Onchain aus — Swaps, Transfers, DeFi-Positionen — während private Schlüssel im Tresor gesichert bleiben. Ausgabelimits pro Agent und Transaktionssimulation bei jedem Trade."
+      },
+      "4": {
         "name": "Dein individuelles Team",
         "agents": {
           "0": "Beliebige Rolle",
@@ -201,6 +210,11 @@
       "1": "Recherche",
       "2": "Ausführung",
       "3": "Lieferung"
+    },
+    "tradingEvents": {
+      "0": "0,5 ETH → USDC auf Base getauscht",
+      "1": "Ausgabelimit: $48 / $500 heute",
+      "2": "Monitor prüft Positionen…"
     }
   },
   "socialProof": {
@@ -235,7 +249,7 @@
     "outcomes": {
       "0": {
         "title": "KI-Agenten-Sicherheit: Deine Schlüssel bleiben in einem Tresor, den Agenten nie berühren.",
-        "description": "Jeder Agent ruft über einen Credential-Proxy auf. Schlüssel existieren nie innerhalb eines Containers. Sechs unabhängige Sicherheitsschichten sind standardmäßig aktiviert.",
+        "description": "Jeder Agent ruft über einen Credential-Proxy auf. API-Schlüssel und private Wallet-Schlüssel existieren nie innerhalb eines Containers. Sechs unabhängige Sicherheitsschichten sind standardmäßig aktiviert.",
         "linkLabel": "So funktioniert die Sicherheit →"
       },
       "1": {
@@ -245,7 +259,7 @@
       },
       "2": {
         "title": "Deterministische KI-Agenten-Orchestrierung — du entscheidest, wer was tut.",
-        "description": "Agenten durchsuchen jede Website, bedienen jedes Tool, führen jede Aufgabe aus. MCP-kompatibel mit über 50 integrierten Skills. YAML-definierte Workflows — jeder Ausführungspfad vorhersehbar, auditierbar und unter deiner Kontrolle.",
+        "description": "Agenten durchsuchen jede Website, bedienen jedes Tool, führen jede Aufgabe aus — einschließlich Onchain-Ausführung wie Swaps, Transfers und DeFi-Positionen. MCP-kompatibel mit über 50 integrierten Skills. YAML-definierte Workflows — jeder Ausführungspfad vorhersehbar, auditierbar und unter deiner Kontrolle.",
         "linkLabel": "So funktioniert die Orchestrierung →"
       }
     },
@@ -349,8 +363,8 @@
         "description": "Nicht-Root-Benutzer (UID 1000), No-New-Privileges-Flag, Speicher- und CPU-Ressourcenlimits erzwungen."
       },
       "2": {
-        "title": "API-Schlüssel liegen in einem Tresor, den der Agent nie berührt",
-        "description": "Der Tresor-Proxy hält alle API-Schlüssel — Agenten rufen über den Proxy, sehen Geheimnisse nie."
+        "title": "API-Schlüssel und Wallet-Schlüssel liegen in einem Tresor, den der Agent nie berührt",
+        "description": "Der Tresor-Proxy hält API-Schlüssel und private Wallet-Schlüssel — Agenten rufen über den Proxy auf und sehen nie Geheimnisse. Transaktionen werden serverseitig signiert."
       },
       "3": {
         "title": "Jeder Agent greift nur auf das zu, was du ausdrücklich erlaubst",
