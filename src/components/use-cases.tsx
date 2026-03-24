@@ -98,10 +98,32 @@ function CustomTeamVisual({ t }: { t: (key: string) => string }) {
   );
 }
 
+const TRADING_EVENT_META = [
+  { icon: "↑", color: "text-green-400" },
+  { icon: "↓", color: "text-amber-400" },
+  { icon: "◆", color: "text-accent" },
+];
+
+function TradingVisual({ t }: { t: (key: string) => string }) {
+  return (
+    <motion.div variants={vContainer} className="flex flex-col gap-1.5" aria-hidden="true">
+      {TRADING_EVENT_META.map((e, i) => (
+        <motion.div key={i} variants={vItem} className="flex items-center gap-2">
+          <span className={`shrink-0 font-mono text-[10px] ${e.color}`}>
+            {e.icon}
+          </span>
+          <span className="font-mono text-[10px] text-muted">{t(`tradingEvents.${i}`)}</span>
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}
+
 const USE_CASE_VISUAL_MAP: Record<string, (t: (key: string) => string) => React.ReactNode> = {
   "uc-engineering": (t) => <DevTeamVisual t={t} />,
   "uc-sales": (t) => <SalesPipelineVisual t={t} />,
   "uc-content": (t) => <ContentStudioVisual t={t} />,
+  "uc-trading": (t) => <TradingVisual t={t} />,
   "uc-custom": (t) => <CustomTeamVisual t={t} />,
 };
 
@@ -126,7 +148,7 @@ export function UseCases() {
         </div>
       </AnimateIn>
 
-      <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {USE_CASES.map((uc, idx) => {
           const Icon = uc.icon;
           return (
