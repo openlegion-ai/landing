@@ -90,7 +90,7 @@ export default async function Home() {
         price: "0",
         priceCurrency: "USD",
         availability: "https://schema.org/InStock",
-        description: "7-day free trial, no credit card required",
+        description: "7-day free trial",
       },
       {
         "@type": "Offer",

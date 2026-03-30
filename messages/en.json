@@ -39,7 +39,7 @@
     "tagline": "The AI agent framework and platform built for production.",
     "subtitle": "Give each agent a job and a budget — they work 24/7 while your keys stay locked in a vault they never touch.",
     "subtitleSecond": "Anything a human does, your agents do around the clock.",
-    "pricingAnchor": "7-day free trial · No credit card required · 100+ LLM providers · No vendor lock-in",
+    "pricingAnchor": "7-day free trial · 100+ LLM providers · No vendor lock-in",
     "ctaPrimary": "Start free trial →",
     "ctaSecondary": "Read the Docs",
     "terminalTitle": "openlegion demo",
@@ -554,7 +554,7 @@
     "heading": "Your AI team is one ",
     "headingHighlight": "deploy away",
     "headingEnd": ".",
-    "subtitle": "7-day free trial · No credit card required · 100+ LLM providers · No vendor lock-in",
+    "subtitle": "7-day free trial · 100+ LLM providers · No vendor lock-in",
     "primaryButton": "Start free trial →",
     "secondaryButton": "Join our Discord"
   },
@@ -626,7 +626,7 @@
     "heading": "Try your AI workforce ",
     "headingHighlight": "free for 7 days",
     "headingEnd": ".",
-    "subtitle": "No credit card required. You bring your API keys, we run the infrastructure.",
+    "subtitle": "You bring your API keys, we run the infrastructure.",
     "included": {
       "0": {
         "title": "Vault security",
@@ -683,7 +683,7 @@
       "1": "Works with Claude, GPT, Gemini + 100 more",
       "2": "Watch every agent, cost, and event live",
       "3": "Your own deployment URL",
-      "4": "Dedicated compute — no shared resources"
+      "4": "Dedicated VPS — your own isolated server"
     },
     "enterprise": {
       "name": "Enterprise",
@@ -705,7 +705,7 @@
     "faq": {
       "0": {
         "question": "How does the 7-day free trial work?",
-        "answer": "Sign up and get full access to any plan for 7 days — no credit card required. Deploy agents, test workflows, and explore the dashboard. If you don't upgrade before the trial ends, your account simply pauses. No charges, ever, unless you choose a plan."
+        "answer": "Sign up, add a payment method, and get full access to any plan for 7 days. Deploy agents, test workflows, and explore the dashboard. If you cancel before the trial ends, you won't be charged."
       },
       "1": {
         "question": "Do I need to pay for LLM usage on top of the plan price?",
@@ -752,19 +752,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control",
-    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. 7-day free trial, no credit card required.",
+    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. 7-day free trial.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI Agent Framework & Platform",
     "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. 7-day free trial.",
     "ogImageAlt": "OpenLegion — AI Agent Framework & Platform",
     "twitterTitle": "OpenLegion — AI Agent Framework & Platform",
-    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. 7-day free trial, no credit card required.",
+    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. 7-day free trial.",
     "pricingTitle": "AI Agent Platform Pricing — 7-Day Free Trial",
-    "pricingDescription": "Try your AI workforce free for 7 days. No credit card required. Plans from $19/month with container isolation, vault security, and 100+ LLM providers.",
+    "pricingDescription": "Try your AI workforce free for 7 days. Plans from $19/month with container isolation, vault security, and 100+ LLM providers.",
     "pricingOgTitle": "AI Agent Platform Pricing — 7-Day Free Trial | OpenLegion",
-    "pricingOgDescription": "Try your AI workforce free for 7 days. No credit card required. Container isolation, vault security, and 100+ LLM providers.",
+    "pricingOgDescription": "Try your AI workforce free for 7 days. Container isolation, vault security, and 100+ LLM providers.",
     "pricingTwitterTitle": "AI Agent Platform Pricing — 7-Day Free Trial | OpenLegion",
-    "pricingTwitterDescription": "Try your AI workforce free for 7 days. No credit card required.",
+    "pricingTwitterDescription": "Try your AI workforce free for 7 days.",
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to common questions about OpenLegion — the AI agent framework and platform built for production. Covers security, pricing, LLM providers, orchestration, enterprise deployment, and more.",
     "faqOgTitle": "Frequently Asked Questions — OpenLegion",
