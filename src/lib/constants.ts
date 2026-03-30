@@ -70,7 +70,7 @@ export const HERO = {
     "Give each agent a job and a budget — they work 24/7 while your keys stay locked in a vault they never touch.",
   subtitleSecond:
     "Anything a human does, your agents do around the clock.",
-  pricingAnchor: "7-day free trial · No credit card required · 100+ LLM providers · No vendor lock-in",
+  pricingAnchor: "7-day free trial · 100+ LLM providers · No vendor lock-in",
   ctaPrimary: "Start free trial →",
   ctaSecondary: "Read the Docs",
 } as const;
