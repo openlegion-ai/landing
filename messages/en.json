@@ -731,7 +731,7 @@
       },
       "6": {
         "question": "What are LLM credits and do they expire?",
-        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when you subscribe — Basic gets $15, Growth gets $50, Pro gets $100. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly."
+        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when you subscribe — Basic gets $5, Growth gets $15, Pro gets $30. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly."
       }
     },
     "billingPeriodAriaLabel": "Billing period"
