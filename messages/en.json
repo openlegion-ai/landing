@@ -672,7 +672,7 @@
     "priceSuffixMonthly": "/mo",
     "priceSuffixYearly": "/yr",
     "yearlyBilledNote": "~${monthlyEquivalent}/mo billed annually",
-    "monthlyTrialNote": "7-day free trial · no card required",
+    "monthlyTrialNote": "7-day free trial · cancel anytime",
     "startFreeTrial": "Start Free Trial",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "welcome credits",
