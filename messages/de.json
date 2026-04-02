@@ -672,9 +672,10 @@
     "priceSuffixMonthly": "/Monat",
     "priceSuffixYearly": "/Jahr",
     "yearlyBilledNote": "~${monthlyEquivalent}/Monat bei jährlicher Abrechnung",
-    "monthlyTrialNote": "7 Tage kostenlos testen · keine Karte nötig",
+    "monthlyTrialNote": "7 Tage kostenlos testen · jederzeit kündbar",
     "startFreeTrial": "Kostenlose Testphase starten",
     "agentsLabel": "{count, plural, one {Agent} other {Agenten}}",
+    "creditsLabel": "Willkommens-Credits",
     "browsersLabel": "{count, plural, one {gleichzeitiger Browser} other {gleichzeitige Browser}}",
     "projectsLabel": "{count, plural, one {Projekt} other {Projekte}}",
     "noProjects": "Keine Projekte",
@@ -683,7 +684,8 @@
       "1": "Funktioniert mit Claude, GPT, Gemini + über 100 weiteren",
       "2": "Beobachte jeden Agenten, jede Kostenposition und jedes Ereignis live",
       "3": "Deine eigene Deployment-URL",
-      "4": "Dedizierte Rechenleistung — keine geteilten Ressourcen"
+      "4": "Dedizierte Rechenleistung — keine geteilten Ressourcen",
+      "5": "Eigene API-Keys nutzen — oder Credits verwenden"
     },
     "enterprise": {
       "name": "Enterprise",
@@ -709,7 +711,7 @@
       },
       "1": {
         "question": "Muss ich für die LLM-Nutzung zusätzlich zum Plan-Preis zahlen?",
-        "answer": "Ja — du bringst deine eigenen API-Schlüssel mit (Anthropic, OpenAI, Google oder einer der 100+ Anbieter). Du zahlst die Anbieter direkt zu deren veröffentlichten Tarifen. OpenLegion berechnet nur die Plattform. Es gibt null Aufschlag auf die Modellnutzung."
+        "answer": "Jedes neue Abonnement enthält ein Willkommensbonus an LLM-Credits, die nie verfallen. Nutze sie, um deine Agenten sofort zu betreiben — keine API-Keys nötig. Mehr nötig? Jederzeit ab 5 $ aufladen, oder bringe deine eigenen API-Keys von Anthropic, OpenAI, Google und über 100 Anbietern mit, um Credits komplett zu umgehen."
       },
       "2": {
         "question": "Kann ich den Plan wechseln?",
@@ -726,6 +728,10 @@
       "5": {
         "question": "Was zählt als 'Agent'?",
         "answer": "Jeder bereitgestellte Agenten-Container zählt als ein Agent in deinem Plan-Limit. Vorlagen wie Dev Team (PM + Entwickler + Reviewer) zählen als 3 Agenten."
+      },
+      "6": {
+        "question": "Was sind LLM-Credits und verfallen sie?",
+        "answer": "Credits werden verwendet, um LLM-Aufrufe (Claude, GPT, Gemini usw.) über unsere Plattform zu bezahlen. Du erhältst einen Willkommensbonus bei der Anmeldung — Basic bekommt 5 $, Growth bekommt 15 $, Pro bekommt 30 $. Credits verfallen nie. Wenn sie aufgebraucht sind, lade jeden Betrag von 5 $ bis 500 $ auf, oder füge deine eigenen API-Keys hinzu, um Anbieter direkt zu nutzen."
       }
     },
     "billingPeriodAriaLabel": "Abrechnungszeitraum"

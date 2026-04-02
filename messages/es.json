@@ -672,9 +672,10 @@
     "priceSuffixMonthly": "/mes",
     "priceSuffixYearly": "/año",
     "yearlyBilledNote": "~${monthlyEquivalent}/mes facturado anualmente",
-    "monthlyTrialNote": "Prueba gratuita de 7 días · sin tarjeta",
+    "monthlyTrialNote": "Prueba gratuita de 7 días · cancela cuando quieras",
     "startFreeTrial": "Iniciar prueba gratuita",
     "agentsLabel": "{count, plural, one {agente} other {agentes}}",
+    "creditsLabel": "créditos de bienvenida",
     "browsersLabel": "{count, plural, one {navegador concurrente} other {navegadores concurrentes}}",
     "projectsLabel": "{count, plural, one {proyecto} other {proyectos}}",
     "noProjects": "Sin proyectos",
@@ -683,7 +684,8 @@
       "1": "Funciona con Claude, GPT, Gemini + más de 100 más",
       "2": "Observa cada agente, costo y evento en vivo",
       "3": "Tu propia URL de despliegue",
-      "4": "Cómputo dedicado — sin recursos compartidos"
+      "4": "Cómputo dedicado — sin recursos compartidos",
+      "5": "Usa tus propias claves API — o usa créditos"
     },
     "enterprise": {
       "name": "Empresa",
@@ -709,7 +711,7 @@
       },
       "1": {
         "question": "¿Necesito pagar por el uso de LLM además del precio del plan?",
-        "answer": "Sí — traes tus propias claves API (Anthropic, OpenAI, Google o cualquiera de más de 100 proveedores). Pagas directamente a los proveedores a sus tarifas publicadas. OpenLegion cobra solo por la plataforma. No hay ningún recargo en el uso de modelos."
+        "answer": "Cada nueva suscripción incluye un bono de bienvenida de créditos LLM que nunca expiran. Úsalos para potenciar tus agentes al instante — sin necesidad de claves API. ¿Necesitas más? Recarga en cualquier momento desde $5, o trae tus propias claves API de Anthropic, OpenAI, Google y más de 100 proveedores para omitir los créditos por completo."
       },
       "2": {
         "question": "¿Puedo cambiar de plan?",
@@ -726,6 +728,10 @@
       "5": {
         "question": "¿Qué cuenta como un \"agente\"?",
         "answer": "Cada contenedor de agente desplegado cuenta como un agente en el límite de tu plan. Plantillas como Dev Team (PM + Ingeniero + Revisor) cuentan como 3 agentes."
+      },
+      "6": {
+        "question": "¿Qué son los créditos LLM y expiran?",
+        "answer": "Los créditos se usan para pagar llamadas a LLM (Claude, GPT, Gemini, etc.) a través de nuestra plataforma. Recibes un bono de bienvenida al suscribirte — Basic recibe $5, Growth recibe $15, Pro recibe $30. Los créditos nunca expiran. Cuando se agoten, recarga cualquier monto de $5 a $500, o añade tus propias claves API para usar proveedores directamente."
       }
     },
     "billingPeriodAriaLabel": "Período de facturación"

@@ -672,9 +672,10 @@
     "priceSuffixMonthly": "/월",
     "priceSuffixYearly": "/년",
     "yearlyBilledNote": "연간 결제 시 약 ${monthlyEquivalent}/월",
-    "monthlyTrialNote": "7일 무료 체험 · 카드 불필요",
+    "monthlyTrialNote": "7일 무료 체험 · 언제든 취소 가능",
     "startFreeTrial": "무료 체험 시작",
     "agentsLabel": "{count, plural, one {에이전트} other {에이전트}}",
+    "creditsLabel": "웰컴 크레딧",
     "browsersLabel": "{count, plural, one {동시 브라우저} other {동시 브라우저}}",
     "projectsLabel": "{count, plural, one {프로젝트} other {프로젝트}}",
     "noProjects": "프로젝트 없음",
@@ -683,7 +684,8 @@
       "1": "Claude, GPT, Gemini + 100개 이상 지원",
       "2": "모든 에이전트, 비용, 이벤트를 실시간 모니터링",
       "3": "전용 배포 URL",
-      "4": "전용 컴퓨팅 — 공유 리소스 없음"
+      "4": "전용 컴퓨팅 — 공유 리소스 없음",
+      "5": "자체 API 키 사용 — 또는 크레딧 사용"
     },
     "enterprise": {
       "name": "Enterprise",
@@ -709,7 +711,7 @@
       },
       "1": {
         "question": "플랜 가격 외에 LLM 사용료를 별도로 지불해야 하나요?",
-        "answer": "네 — 직접 API 키(Anthropic, OpenAI, Google 또는 100개 이상의 제공업체)를 가져오시면 됩니다. 공시된 요율로 제공업체에 직접 지불합니다. OpenLegion은 플랫폼에 대해서만 요금을 청구합니다. 모델 사용에 대한 마진은 전혀 없습니다."
+        "answer": "모든 신규 구독에는 만료되지 않는 LLM 크레딧 웰컴 보너스가 포함됩니다. API 키 없이도 즉시 에이전트를 가동할 수 있습니다. 더 필요하신가요? $5부터 언제든 충전하거나, Anthropic, OpenAI, Google 등 100개 이상의 제공업체에서 자체 API 키를 가져와 크레딧 없이 사용할 수 있습니다."
       },
       "2": {
         "question": "플랜을 변경할 수 있나요?",
@@ -726,6 +728,10 @@
       "5": {
         "question": "\"에이전트\"란 무엇을 카운트하나요?",
         "answer": "배포된 각 에이전트 컨테이너가 플랜 한도에 대해 1개의 에이전트로 카운트됩니다. 개발팀(PM + 엔지니어 + 리뷰어) 같은 템플릿은 3개의 에이전트로 카운트됩니다."
+      },
+      "6": {
+        "question": "LLM 크레딧이란 무엇이며 만료되나요?",
+        "answer": "크레딧은 당사 플랫폼을 통한 LLM 호출(Claude, GPT, Gemini 등) 비용 지불에 사용됩니다. 구독 시 웰컴 보너스를 받습니다 — Basic은 $5, Growth는 $15, Pro는 $30. 크레딧은 절대 만료되지 않습니다. 소진되면 $5에서 $500까지 원하는 금액을 충전하거나, 자체 API 키를 추가하여 제공업체를 직접 이용할 수 있습니다."
       }
     },
     "billingPeriodAriaLabel": "결제 기간"

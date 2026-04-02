@@ -672,9 +672,10 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "约 ${monthlyEquivalent}/月（按年计费）",
-    "monthlyTrialNote": "7 天免费试用 · 无需信用卡",
+    "monthlyTrialNote": "7 天免费试用 · 随时取消",
     "startFreeTrial": "开始免费试用",
     "agentsLabel": "{count, plural, one {个智能体} other {个智能体}}",
+    "creditsLabel": "欢迎赠送额度",
     "browsersLabel": "{count, plural, one {个并发浏览器} other {个并发浏览器}}",
     "projectsLabel": "{count, plural, one {个项目} other {个项目}}",
     "noProjects": "无项目",
@@ -683,7 +684,8 @@
       "1": "支持 Claude、GPT、Gemini 及 100+ 种模型",
       "2": "实时监控每个智能体、成本和事件",
       "3": "专属部署 URL",
-      "4": "专属计算资源——无共享资源"
+      "4": "专属计算资源——无共享资源",
+      "5": "使用自己的 API 密钥 — 或使用额度"
     },
     "enterprise": {
       "name": "企业版",
@@ -709,7 +711,7 @@
       },
       "1": {
         "question": "方案价格之外是否还需支付 LLM 使用费用？",
-        "answer": "是的——你使用自己的 API 密钥（Anthropic、OpenAI、Google 或 100+ 提供商）。你按提供商的公开价格直接付费。OpenLegion 仅收取平台费用。模型使用零加价。"
+        "answer": "每个新订阅都包含永不过期的 LLM 额度欢迎奖励。立即使用它们驱动您的智能体——无需 API 密钥。需要更多？随时从 $5 起充值，或自带 Anthropic、OpenAI、Google 及 100 多个提供商的 API 密钥，完全跳过额度。"
       },
       "2": {
         "question": "可以切换方案吗？",
@@ -726,6 +728,10 @@
       "5": {
         "question": "什么算作一个「智能体」？",
         "answer": "每个部署的智能体容器计为方案限额中的一个智能体。例如研发团队模板（PM + 工程师 + 审查员）计为 3 个智能体。"
+      },
+      "6": {
+        "question": "什么是 LLM 额度？会过期吗？",
+        "answer": "额度用于通过我们平台支付 LLM 调用费用（Claude、GPT、Gemini 等）。订阅时您会获得欢迎奖励——Basic 获得 $5、Growth 获得 $15、Pro 获得 $30。额度永不过期。用完后，从 $5 到 $500 随时充值任意金额，或添加您自己的 API 密钥直接使用提供商。"
       }
     },
     "billingPeriodAriaLabel": "计费周期"
