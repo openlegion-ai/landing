@@ -675,6 +675,7 @@
     "monthlyTrialNote": "7-day free trial · no card required",
     "startFreeTrial": "Start Free Trial",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
+    "creditsLabel": "welcome credits",
     "browsersLabel": "{count, plural, one {concurrent browser} other {concurrent browsers}}",
     "projectsLabel": "{count, plural, one {project} other {projects}}",
     "noProjects": "No projects",
@@ -683,7 +684,8 @@
       "1": "Works with Claude, GPT, Gemini + 100 more",
       "2": "Watch every agent, cost, and event live",
       "3": "Your own deployment URL",
-      "4": "Dedicated VPS — your own isolated server"
+      "4": "Dedicated VPS — your own isolated server",
+      "5": "Bring your own API keys — or use credits"
     },
     "enterprise": {
       "name": "Enterprise",
@@ -709,7 +711,7 @@
       },
       "1": {
         "question": "Do I need to pay for LLM usage on top of the plan price?",
-        "answer": "Yes — you bring your own API keys (Anthropic, OpenAI, Google, or any of 100+ providers). You pay providers directly at their published rates. OpenLegion charges for the platform only. There is zero markup on model usage."
+        "answer": "Every new subscription includes a welcome bonus of LLM credits that never expire. Use them to power your agents instantly — no API keys needed. Need more? Top up anytime from $5, or bring your own API keys from Anthropic, OpenAI, Google, and 100+ providers to skip credits entirely."
       },
       "2": {
         "question": "Can I switch plans?",
@@ -726,6 +728,10 @@
       "5": {
         "question": "What counts as an \"agent\"?",
         "answer": "Each deployed agent container counts as one agent toward your plan limit. Templates like Dev Team (PM + Engineer + Reviewer) count as 3 agents."
+      },
+      "6": {
+        "question": "What are LLM credits and do they expire?",
+        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when you subscribe — Basic gets $15, Growth gets $50, Pro gets $100. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly."
       }
     },
     "billingPeriodAriaLabel": "Billing period"

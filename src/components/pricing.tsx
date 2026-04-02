@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Bot, Check, FolderOpen, Globe, ChevronRight, Mail, Shield, DollarSign, LayoutDashboard, Plug } from "lucide-react";
+import { Bot, Check, Coins, FolderOpen, Globe, ChevronRight, Mail, Shield, DollarSign, LayoutDashboard, Plug } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { APP_URL } from "@/lib/constants";
@@ -16,6 +16,7 @@ interface Plan {
   yearlyPrice: number;
   yearlyMonthly: number;
   agents: number;
+  credits: number;
   projects: number;
   browsers: number;
   featureKeys: string[];
@@ -28,9 +29,10 @@ const PLANS: Plan[] = [
     yearlyPrice: 170,
     yearlyMonthly: 14,
     agents: 1,
+    credits: 1500,
     projects: 0,
     browsers: 1,
-    featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3"],
+    featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
   },
   {
     name: "growth",
@@ -39,9 +41,10 @@ const PLANS: Plan[] = [
     yearlyPrice: 530,
     yearlyMonthly: 44,
     agents: 5,
+    credits: 5000,
     projects: 2,
     browsers: 5,
-    featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3"],
+    featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
   },
   {
     name: "pro",
@@ -49,9 +52,10 @@ const PLANS: Plan[] = [
     yearlyPrice: 1340,
     yearlyMonthly: 112,
     agents: 15,
+    credits: 10000,
     projects: 5,
     browsers: 10,
-    featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3"],
+    featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
   },
 ];
 
@@ -64,7 +68,7 @@ const ENTERPRISE_FEATURE_KEYS = [
   "enterprise.features.3",
 ];
 
-const PRICING_FAQ_INDICES = [0, 1, 2, 3, 4, 5];
+const PRICING_FAQ_INDICES = [0, 1, 2, 3, 4, 5, 6];
 
 export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
@@ -205,6 +209,13 @@ export function Pricing() {
                         {plan.browsers}
                       </span>{" "}
                       {t("browsersLabel", { count: plan.browsers })}
+                    </div>
+                    <div className="flex items-center gap-2 text-muted">
+                      <Coins className="h-3.5 w-3.5 shrink-0 text-accent-light" />
+                      <span className="font-medium text-foreground">
+                        {plan.credits.toLocaleString()}
+                      </span>{" "}
+                      {t("creditsLabel")}
                     </div>
                     <div className="flex items-center gap-2 text-muted">
                       <FolderOpen className="h-3.5 w-3.5 shrink-0 text-accent-light" />
