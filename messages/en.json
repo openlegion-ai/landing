@@ -707,11 +707,11 @@
     "faq": {
       "0": {
         "question": "How does the 7-day free trial work?",
-        "answer": "Sign up, add a payment method, and get full access to any plan for 7 days. Deploy agents, test workflows, and explore the dashboard. If you cancel before the trial ends, you won't be charged."
+        "answer": "Sign up, add a payment method, and get full access to any plan for 7 days. Deploy agents, test workflows, and explore the dashboard. During the trial, add your own API key to power your agents — your welcome credits arrive when your first payment processes. If you cancel before the trial ends, you won't be charged. Want credits right away? Choose \"Subscribe now\" to skip the trial and pay immediately."
       },
       "1": {
         "question": "Do I need to pay for LLM usage on top of the plan price?",
-        "answer": "Every new subscription includes a welcome bonus of LLM credits that never expire. Use them to power your agents instantly — no API keys needed. Need more? Top up anytime from $5, or bring your own API keys from Anthropic, OpenAI, Google, and 100+ providers to skip credits entirely."
+        "answer": "Every paid subscription includes a welcome bonus of LLM credits that never expire. Once your first payment processes, use credits to power your agents — no API keys needed. During the free trial, bring your own API key to get started. Need more credits later? Top up anytime from $5, or bring your own API keys from Anthropic, OpenAI, Google, and 100+ providers to skip credits entirely."
       },
       "2": {
         "question": "Can I switch plans?",
@@ -731,7 +731,7 @@
       },
       "6": {
         "question": "What are LLM credits and do they expire?",
-        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when you subscribe — Basic gets $15, Growth gets $50, Pro gets $100. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly."
+        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when your first payment processes — Basic gets $15, Growth gets $50, Pro gets $100. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly."
       }
     },
     "billingPeriodAriaLabel": "Billing period"
