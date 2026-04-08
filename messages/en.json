@@ -32,16 +32,26 @@
   "hero": {
     "ariaLabel": "Introduction",
     "badge": "Your AI workforce starts here",
-    "headingLine1": "Your ",
+    "headingLine1": "Build an ",
     "headingHighlight": "AI workforce",
-    "headingLine2": ".",
-    "headingLine3": "Deployed in minutes.",
+    "headingLine2": "by describing the team you want.",
     "tagline": "The AI agent framework and platform built for production.",
-    "subtitle": "Give each agent a job and a budget — they work 24/7 while your keys stay locked in a vault they never touch.",
-    "subtitleSecond": "Anything a human does, your agents do around the clock.",
-    "pricingAnchor": "7-day free trial · 100+ LLM providers · No vendor lock-in",
-    "ctaPrimary": "Start free trial →",
-    "ctaSecondary": "Read the Docs",
+    "subtitle": "Tell OpenLegion \"I want a marketing agency\", \"I want a sales team\", or \"I want a research desk\", and it will deploy the agent stack with budgets, permissions, and secure credential controls built in.",
+    "ctaPrimary": "Start free trial",
+    "ctaSecondary": "Watch the 90-second demo",
+    "promptExamples": {
+      "0": "I want a marketing agency",
+      "1": "I want a sales team",
+      "2": "I want a research desk",
+      "3": "I want a customer support team"
+    },
+    "trustStrip": {
+      "0": "Runs 24/7",
+      "1": "Per-agent budgets",
+      "2": "Vault-secured credentials",
+      "3": "Isolated containers",
+      "4": "100+ LLM providers"
+    },
     "terminalTitle": "openlegion demo",
     "videoTitle": "OpenLegion demo — deploying an AI agent fleet",
     "videoFallback": "Your browser does not support HTML5 video.",
@@ -741,6 +751,62 @@
     "titleHighlight": "0",
     "description": "This page doesn't exist. The fleet hasn't been deployed here yet.",
     "backToHome": "Back to Home"
+  },
+  "promptToTeam": {
+    "sectionLabel": "How it works",
+    "heading": "From one prompt to a full team",
+    "subtitle": "Describe the function you need. OpenLegion creates the agent stack, assigns roles, and gives each agent the controls it needs to work safely.",
+    "examples": {
+      "0": {
+        "name": "Marketing agency",
+        "roles": { "0": "Research", "1": "Writing", "2": "Editing", "3": "Reporting" }
+      },
+      "1": {
+        "name": "Sales team",
+        "roles": { "0": "Lead research", "1": "Qualification", "2": "Outreach", "3": "Follow-up" }
+      },
+      "2": {
+        "name": "Research desk",
+        "roles": { "0": "Monitoring", "1": "Browsing", "2": "Summarizing", "3": "Delivery" }
+      },
+      "3": {
+        "name": "Dev team",
+        "roles": { "0": "PM", "1": "Engineer", "2": "Reviewer" }
+      },
+      "4": {
+        "name": "Trading team",
+        "roles": { "0": "Researcher", "1": "Trader", "2": "Monitor" }
+      }
+    },
+    "visuals": {
+      "marketing": {
+        "0": { "title": "Blog post", "status": "published" },
+        "1": { "title": "Campaign brief", "status": "in review" },
+        "2": { "title": "Weekly report", "status": "drafting" }
+      },
+      "sales": { "0": "leads", "1": "qualified", "2": "converted" },
+      "research": { "0": "Scanned 12 sources", "1": "Summary delivered", "2": "Monitoring updates…" },
+      "dev": { "0": "PM created task #42", "1": "Engineer opened PR #18", "2": "Reviewer reviewing…" },
+      "trading": { "0": "Swapped 0.5 ETH → USDC", "1": "Spend limit: $48 / $500", "2": "Monitor checking positions…" }
+    },
+    "customNote": "Don't see your use case? Build any team with any combination of roles, tools, and budgets.",
+    "customCta": "Start building →"
+  },
+  "productionReady": {
+    "sectionLabel": "Why OpenLegion",
+    "heading": "Built for production, not just demos",
+    "subtitle": "Most agent tools stop at chat. OpenLegion is designed for real workflows with budgets, permissions, isolated runtimes, and credentials agents never touch."
+  },
+  "readyMadeTeams": {
+    "sectionLabel": "Templates",
+    "heading": "Start with a ready-made team",
+    "cta": "See how it works",
+    "teams": {
+      "0": { "name": "Marketing Agency" },
+      "1": { "name": "Sales Team" },
+      "2": { "name": "Research Desk" },
+      "3": { "name": "Custom Workforce" }
+    }
   },
   "common": {
     "skipToContent": "Skip to content",

@@ -480,6 +480,26 @@ body {
   }
 }
 
+/* ── Icon glow pulse ─────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+  .icon-glow-ring {
+    animation: icon-glow-pulse 4s ease-in-out infinite;
+  }
+}
+
+@keyframes icon-glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.25),
+      0 0 60px rgba(59, 130, 246, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5),
+      0 0 80px rgba(59, 130, 246, 0.25);
+  }
+}
+
 /* ── Section divider ──────────────────────────────────────────────────── */
 
 .section-fade {

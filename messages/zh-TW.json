@@ -32,16 +32,26 @@
   "hero": {
     "ariaLabel": "簡介",
     "badge": "您的 AI 工作團隊從這裡開始",
-    "headingLine1": "您的",
-    "headingHighlight": "AI 工作團隊",
-    "headingLine2": "。",
-    "headingLine3": "幾分鐘內完成部署。",
+    "headingLine1": "打造您的",
+    "headingHighlight": "AI 團隊",
+    "headingLine2": "只需描述您想要的團隊。",
     "tagline": "專為生產環境打造的 AI 智慧代理框架與平台。",
-    "subtitle": "為每個智慧代理指派任務與預算 — API 金鑰安全存放在智慧代理無法觸及的 Vault 中，全天候 24/7 運作。",
-    "subtitleSecond": "人類能做的任何事，智慧代理都能全天候執行。",
-    "pricingAnchor": "7 天免費試用 · 無需信用卡 · 100+ LLM 供應商 · 無廠商鎖定",
-    "ctaPrimary": "開始免費試用 →",
-    "ctaSecondary": "閱讀文件",
+    "subtitle": "告訴 OpenLegion「我要一個行銷團隊」「我要一個業務團隊」或「我要一個研究團隊」，系統會自動部署智慧代理編隊，預算、權限和安全憑證管控一步到位。",
+    "ctaPrimary": "開始免費試用",
+    "ctaSecondary": "觀看 90 秒示範",
+    "promptExamples": {
+      "0": "我要一個行銷團隊",
+      "1": "我要一個業務團隊",
+      "2": "我要一個研究團隊",
+      "3": "我要一個客服團隊"
+    },
+    "trustStrip": {
+      "0": "全天候運行",
+      "1": "按代理設定預算",
+      "2": "Vault 安全託管憑證",
+      "3": "容器級隔離",
+      "4": "100+ LLM 供應商"
+    },
     "terminalTitle": "openlegion 示範",
     "videoTitle": "OpenLegion 示範 — 部署 AI 智慧代理艦隊",
     "videoFallback": "您的瀏覽器不支援 HTML5 影片。",
@@ -741,6 +751,62 @@
     "titleHighlight": "0",
     "description": "此頁面不存在。艦隊尚未部署到此處。",
     "backToHome": "返回首頁"
+  },
+  "promptToTeam": {
+    "sectionLabel": "運作方式",
+    "heading": "一句指令，組建完整團隊",
+    "subtitle": "描述你需要的功能，OpenLegion 會自動建立智能體架構、分配角色，並為每個智能體配置安全運作所需的權限。",
+    "examples": {
+      "0": {
+        "name": "行銷團隊",
+        "roles": { "0": "調研", "1": "撰寫", "2": "編輯", "3": "報告" }
+      },
+      "1": {
+        "name": "銷售團隊",
+        "roles": { "0": "潛客調研", "1": "資格篩選", "2": "主動聯繫", "3": "後續跟進" }
+      },
+      "2": {
+        "name": "研究團隊",
+        "roles": { "0": "監控", "1": "瀏覽", "2": "摘要", "3": "交付" }
+      },
+      "3": {
+        "name": "開發團隊",
+        "roles": { "0": "PM", "1": "工程師", "2": "審查員" }
+      },
+      "4": {
+        "name": "交易團隊",
+        "roles": { "0": "研究員", "1": "交易員", "2": "監控員" }
+      }
+    },
+    "visuals": {
+      "marketing": {
+        "0": { "title": "部落格文章", "status": "已發佈" },
+        "1": { "title": "行銷企劃", "status": "審核中" },
+        "2": { "title": "週報", "status": "撰寫中" }
+      },
+      "sales": { "0": "潛在客戶", "1": "已篩選", "2": "已轉換" },
+      "research": { "0": "已掃描 12 個來源", "1": "摘要已交付", "2": "持續監控更新中…" },
+      "dev": { "0": "PM 建立了任務 #42", "1": "工程師提交了 PR #18", "2": "審查員審查中…" },
+      "trading": { "0": "兌換 0.5 ETH → USDC", "1": "消費限額：$48 / $500", "2": "監控員檢查持倉中…" }
+    },
+    "customNote": "找不到您的使用情境？您可以自由組建任何團隊，自訂角色、工具和預算。",
+    "customCta": "開始建立 →"
+  },
+  "productionReady": {
+    "sectionLabel": "為什麼選擇 OpenLegion",
+    "heading": "為正式環境打造，不只是展示",
+    "subtitle": "多數智能體工具僅止於聊天。OpenLegion 專為真實工作流設計，支援預算管控、權限管理、隔離執行環境，憑證永遠不會被智能體直接存取。"
+  },
+  "readyMadeTeams": {
+    "sectionLabel": "範本",
+    "heading": "從現成團隊開始",
+    "cta": "了解運作方式",
+    "teams": {
+      "0": { "name": "行銷團隊" },
+      "1": { "name": "銷售團隊" },
+      "2": { "name": "研究團隊" },
+      "3": { "name": "自訂團隊" }
+    }
   },
   "common": {
     "skipToContent": "跳至內容",

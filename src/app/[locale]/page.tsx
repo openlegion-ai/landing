@@ -3,6 +3,9 @@ import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
 import { AudienceSelector } from "@/components/audience-selector";
 import { UseCases } from "@/components/use-cases";
+import { PromptToTeam } from "@/components/prompt-to-team";
+import { ProductionReady } from "@/components/production-ready";
+import { ReadyMadeTeams } from "@/components/ready-made-teams";
 import { SocialProof } from "@/components/social-proof";
 import { Features } from "@/components/features";
 import { DashboardPreview } from "@/components/dashboard-preview";
@@ -252,16 +255,12 @@ export default async function Home() {
       <main id="main">
         <Hero />
         <CapabilityBand />
-        <AudienceSelector />
-        <UseCases />
+        <PromptToTeam />
+        <ReadyMadeTeams />
+        {/* <AudienceSelector /> */}
+        {/* <UseCases /> */}
         <SocialProof stars={stars} />
-        {/* Social proof placeholder — uncomment when real quote is sourced */}
-        {/* <section className="py-12 text-center max-w-[640px] mx-auto px-6">
-          <blockquote className="text-lg italic text-foreground leading-relaxed mb-3">
-            &ldquo;Real quote goes here.&rdquo;
-          </blockquote>
-          <cite className="text-[13px] text-muted not-italic">— First name, Role</cite>
-        </section> */}
+        <ProductionReady />
         <Features />
         <div className="px-5 py-10 text-center sm:px-6 md:px-8 md:py-14">
           <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />

@@ -31,17 +31,27 @@
   },
   "hero": {
     "ariaLabel": "Introdução",
-    "badge": "Sua força de trabalho de IA começa aqui",
-    "headingLine1": "Sua ",
-    "headingHighlight": "força de trabalho de IA",
-    "headingLine2": ".",
-    "headingLine3": "Implantada em minutos.",
+    "badge": "Sua equipe de IA começa aqui",
+    "headingLine1": "Crie uma ",
+    "headingHighlight": "equipe de IA",
+    "headingLine2": "descrevendo o time que você precisa.",
     "tagline": "O framework e plataforma de agentes de IA construído para produção.",
-    "subtitle": "Dê a cada agente uma tarefa e um orçamento — eles trabalham 24/7 enquanto suas chaves ficam trancadas em um cofre que nunca tocam.",
-    "subtitleSecond": "Tudo que um humano faz, seus agentes fazem sem parar.",
-    "pricingAnchor": "Teste grátis de 7 dias · Sem cartão de crédito · 100+ provedores LLM · Sem dependência de fornecedor",
-    "ctaPrimary": "Começar teste grátis →",
-    "ctaSecondary": "Ler a documentação",
+    "subtitle": "Diga ao OpenLegion \"quero uma agência de marketing\", \"quero uma equipe de vendas\" ou \"quero uma equipe de pesquisa\", e ele implanta o stack de agentes com orçamentos, permissões e controle seguro de credenciais integrados.",
+    "ctaPrimary": "Começar teste grátis",
+    "ctaSecondary": "Ver demo de 90 segundos",
+    "promptExamples": {
+      "0": "Quero uma agência de marketing",
+      "1": "Quero uma equipe de vendas",
+      "2": "Quero uma equipe de pesquisa",
+      "3": "Quero uma equipe de suporte ao cliente"
+    },
+    "trustStrip": {
+      "0": "Funciona 24/7",
+      "1": "Orçamento por agente",
+      "2": "Credenciais em cofre",
+      "3": "Contêineres isolados",
+      "4": "Mais de 100 provedores LLM"
+    },
     "terminalTitle": "openlegion demo",
     "videoTitle": "Demo do OpenLegion — implantando uma frota de agentes de IA",
     "videoFallback": "Seu navegador não suporta vídeo HTML5.",
@@ -741,6 +751,62 @@
     "titleHighlight": "0",
     "description": "Esta página não existe. A frota ainda não foi implantada aqui.",
     "backToHome": "Voltar ao início"
+  },
+  "promptToTeam": {
+    "sectionLabel": "Como funciona",
+    "heading": "De um prompt a uma equipe completa",
+    "subtitle": "Descreva a função que você precisa. O OpenLegion cria a estrutura de agentes, atribui papéis e dá a cada agente os controles necessários para trabalhar com segurança.",
+    "examples": {
+      "0": {
+        "name": "Agência de marketing",
+        "roles": { "0": "Pesquisa", "1": "Redação", "2": "Edição", "3": "Relatórios" }
+      },
+      "1": {
+        "name": "Equipe de vendas",
+        "roles": { "0": "Pesquisa de leads", "1": "Qualificação", "2": "Abordagem", "3": "Acompanhamento" }
+      },
+      "2": {
+        "name": "Mesa de pesquisa",
+        "roles": { "0": "Monitoramento", "1": "Navegação", "2": "Resumo", "3": "Entrega" }
+      },
+      "3": {
+        "name": "Equipe de desenvolvimento",
+        "roles": { "0": "PM", "1": "Engineer", "2": "Reviewer" }
+      },
+      "4": {
+        "name": "Equipe de trading",
+        "roles": { "0": "Researcher", "1": "Trader", "2": "Monitor" }
+      }
+    },
+    "visuals": {
+      "marketing": {
+        "0": { "title": "Artigo do blog", "status": "publicado" },
+        "1": { "title": "Briefing de campanha", "status": "em revisão" },
+        "2": { "title": "Relatório semanal", "status": "rascunho" }
+      },
+      "sales": { "0": "leads", "1": "qualificados", "2": "convertidos" },
+      "research": { "0": "12 fontes analisadas", "1": "Resumo entregue", "2": "Monitorando atualizações…" },
+      "dev": { "0": "PM criou tarefa #42", "1": "Engineer abriu PR #18", "2": "Reviewer revisando…" },
+      "trading": { "0": "Trocou 0,5 ETH → USDC", "1": "Limite de gasto: $48 / $500", "2": "Monitor verificando posições…" }
+    },
+    "customNote": "Não encontrou seu caso de uso? Crie qualquer equipe com qualquer combinação de papéis, ferramentas e orçamentos.",
+    "customCta": "Comece a criar →"
+  },
+  "productionReady": {
+    "sectionLabel": "Por que OpenLegion",
+    "heading": "Feito para produção, não apenas para demos",
+    "subtitle": "A maioria das ferramentas de agentes para no chat. O OpenLegion é projetado para fluxos de trabalho reais, com orçamentos, permissões, ambientes isolados e credenciais que os agentes nunca acessam diretamente."
+  },
+  "readyMadeTeams": {
+    "sectionLabel": "Modelos",
+    "heading": "Comece com uma equipe pronta",
+    "cta": "Veja como funciona",
+    "teams": {
+      "0": { "name": "Agência de Marketing" },
+      "1": { "name": "Equipe de Vendas" },
+      "2": { "name": "Mesa de Pesquisa" },
+      "3": { "name": "Equipe Personalizada" }
+    }
   },
   "common": {
     "skipToContent": "Pular para o conteúdo",
