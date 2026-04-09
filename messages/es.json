@@ -39,12 +39,6 @@
     "subtitle": "Dile a OpenLegion \"quiero una agencia de marketing\", \"quiero un equipo de ventas\" o \"quiero un equipo de investigación\", y despliega el stack de agentes con presupuestos, permisos y controles seguros de credenciales integrados.",
     "ctaPrimary": "Comenzar prueba gratuita",
     "ctaSecondary": "Ver demo de 90 segundos",
-    "promptExamples": {
-      "0": "Quiero una agencia de marketing",
-      "1": "Quiero un equipo de ventas",
-      "2": "Quiero un equipo de investigación",
-      "3": "Quiero un equipo de soporte al cliente"
-    },
     "trustStrip": {
       "0": "Funciona 24/7",
       "1": "Presupuesto por agente",

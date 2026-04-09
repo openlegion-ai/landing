@@ -39,12 +39,6 @@
     "subtitle": "Sag OpenLegion \"Ich brauche eine Marketing-Agentur\", \"Ich brauche ein Vertriebsteam\" oder \"Ich brauche ein Research-Team\" — und der Agenten-Stack wird mit Budgets, Berechtigungen und sicherer Zugangsverwaltung automatisch bereitgestellt.",
     "ctaPrimary": "Kostenlos testen",
     "ctaSecondary": "90-Sekunden-Demo ansehen",
-    "promptExamples": {
-      "0": "Ich brauche eine Marketing-Agentur",
-      "1": "Ich brauche ein Vertriebsteam",
-      "2": "Ich brauche ein Research-Team",
-      "3": "Ich brauche ein Kundensupport-Team"
-    },
     "trustStrip": {
       "0": "Läuft rund um die Uhr",
       "1": "Budget pro Agent",

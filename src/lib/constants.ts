@@ -66,7 +66,7 @@ export const TWITTER_URL = "https://x.com/openlegion";
 
 export const HERO = {
   subtitle:
-    "Tell OpenLegion \"I want a marketing agency,\" \"I want a sales team,\" or \"I want a research desk,\" and it deploys the agent stack with budgets, permissions, and secure credential controls built in.",
+    "Tell OpenLegion \"I want a marketing agency\", \"I want a sales team\", or \"I want a research desk\", and it will deploy the agent stack with budgets, permissions, and secure credential controls built in.",
   ctaPrimary: "Start free trial",
   ctaSecondary: "Watch the 90-second demo",
 } as const;

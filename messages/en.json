@@ -39,12 +39,6 @@
     "subtitle": "Tell OpenLegion \"I want a marketing agency\", \"I want a sales team\", or \"I want a research desk\", and it will deploy the agent stack with budgets, permissions, and secure credential controls built in.",
     "ctaPrimary": "Start free trial",
     "ctaSecondary": "Watch the 90-second demo",
-    "promptExamples": {
-      "0": "I want a marketing agency",
-      "1": "I want a sales team",
-      "2": "I want a research desk",
-      "3": "I want a customer support team"
-    },
     "trustStrip": {
       "0": "Runs 24/7",
       "1": "Per-agent budgets",

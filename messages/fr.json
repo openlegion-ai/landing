@@ -39,12 +39,6 @@
     "subtitle": "Dites à OpenLegion « je veux une agence marketing », « je veux une équipe commerciale » ou « je veux un pôle recherche », et il déploie la stack d'agents avec budgets, permissions et contrôle sécurisé des identifiants intégrés.",
     "ctaPrimary": "Démarrer l'essai gratuit",
     "ctaSecondary": "Voir la démo de 90 secondes",
-    "promptExamples": {
-      "0": "Je veux une agence marketing",
-      "1": "Je veux une équipe commerciale",
-      "2": "Je veux un pôle recherche",
-      "3": "Je veux une équipe support client"
-    },
     "trustStrip": {
       "0": "Fonctionne 24h/24",
       "1": "Budget par agent",
