@@ -32,16 +32,20 @@
   "hero": {
     "ariaLabel": "Einführung",
     "badge": "Deine KI-Belegschaft beginnt hier",
-    "headingLine1": "Deine ",
+    "headingLine1": "Baue eine ",
     "headingHighlight": "KI-Belegschaft",
-    "headingLine2": ".",
-    "headingLine3": "In Minuten bereitgestellt.",
+    "headingLine2": "indem du dein Wunschteam beschreibst.",
     "tagline": "Das KI-Agenten-Framework und die Plattform für den Produktiveinsatz.",
-    "subtitle": "Gib jedem Agenten einen Auftrag und ein Budget — sie arbeiten rund um die Uhr, während deine Schlüssel in einem Tresor bleiben, den sie nie berühren.",
-    "subtitleSecond": "Alles, was ein Mensch tut, erledigen deine Agenten rund um die Uhr.",
-    "pricingAnchor": "7 Tage kostenlos testen · Keine Kreditkarte erforderlich · 100+ LLM-Anbieter · Kein Vendor Lock-in",
-    "ctaPrimary": "Kostenlose Testphase starten →",
-    "ctaSecondary": "Dokumentation lesen",
+    "subtitle": "Sag OpenLegion \"Ich brauche eine Marketing-Agentur\", \"Ich brauche ein Vertriebsteam\" oder \"Ich brauche ein Research-Team\" — und der Agenten-Stack wird mit Budgets, Berechtigungen und sicherer Zugangsverwaltung automatisch bereitgestellt.",
+    "ctaPrimary": "Kostenlos testen",
+    "ctaSecondary": "90-Sekunden-Demo ansehen",
+    "trustStrip": {
+      "0": "Läuft rund um die Uhr",
+      "1": "Budget pro Agent",
+      "2": "Tresor-gesicherte Zugangsdaten",
+      "3": "Isolierte Container",
+      "4": "100+ LLM-Anbieter"
+    },
     "terminalTitle": "openlegion demo",
     "videoTitle": "OpenLegion Demo — Bereitstellung einer KI-Agenten-Flotte",
     "videoFallback": "Dein Browser unterstützt kein HTML5-Video.",
@@ -741,6 +745,62 @@
     "titleHighlight": "0",
     "description": "Diese Seite existiert nicht. Die Flotte wurde hier noch nicht bereitgestellt.",
     "backToHome": "Zurück zur Startseite"
+  },
+  "promptToTeam": {
+    "sectionLabel": "So funktioniert's",
+    "heading": "Von einem Prompt zu einem ganzen Team",
+    "subtitle": "Beschreiben Sie die Funktion, die Sie brauchen. OpenLegion erstellt den Agenten-Stack, weist Rollen zu und gibt jedem Agenten die Kontrollen, die er für sicheres Arbeiten benötigt.",
+    "examples": {
+      "0": {
+        "name": "Marketing-Agentur",
+        "roles": { "0": "Recherche", "1": "Texterstellung", "2": "Lektorat", "3": "Reporting" }
+      },
+      "1": {
+        "name": "Vertriebsteam",
+        "roles": { "0": "Lead-Recherche", "1": "Qualifizierung", "2": "Kontaktaufnahme", "3": "Nachverfolgung" }
+      },
+      "2": {
+        "name": "Research-Desk",
+        "roles": { "0": "Monitoring", "1": "Recherche", "2": "Zusammenfassung", "3": "Zustellung" }
+      },
+      "3": {
+        "name": "Dev-Team",
+        "roles": { "0": "PM", "1": "Engineer", "2": "Reviewer" }
+      },
+      "4": {
+        "name": "Trading-Team",
+        "roles": { "0": "Researcher", "1": "Trader", "2": "Monitor" }
+      }
+    },
+    "visuals": {
+      "marketing": {
+        "0": { "title": "Blogbeitrag", "status": "veröffentlicht" },
+        "1": { "title": "Kampagnen-Briefing", "status": "in Prüfung" },
+        "2": { "title": "Wochenbericht", "status": "Entwurf" }
+      },
+      "sales": { "0": "Leads", "1": "qualifiziert", "2": "konvertiert" },
+      "research": { "0": "12 Quellen gescannt", "1": "Zusammenfassung geliefert", "2": "Updates werden überwacht …" },
+      "dev": { "0": "PM hat Aufgabe #42 erstellt", "1": "Engineer hat PR #18 geöffnet", "2": "Reviewer prüft…" },
+      "trading": { "0": "0,5 ETH → USDC getauscht", "1": "Ausgabenlimit: 48 $ / 500 $", "2": "Monitor prüft Positionen…" }
+    },
+    "customNote": "Ihr Anwendungsfall ist nicht dabei? Erstellen Sie jedes Team mit beliebigen Rollen, Tools und Budgets.",
+    "customCta": "Jetzt bauen →"
+  },
+  "productionReady": {
+    "sectionLabel": "Warum OpenLegion",
+    "heading": "Für den Produktiveinsatz gebaut, nicht nur für Demos",
+    "subtitle": "Die meisten Agenten-Tools enden beim Chat. OpenLegion ist für echte Workflows konzipiert – mit Budgets, Berechtigungen, isolierten Laufzeitumgebungen und Zugangsdaten, die Agenten niemals direkt berühren."
+  },
+  "readyMadeTeams": {
+    "sectionLabel": "Vorlagen",
+    "heading": "Starten Sie mit einem fertigen Team",
+    "cta": "So funktioniert's",
+    "teams": {
+      "0": { "name": "Marketing-Agentur" },
+      "1": { "name": "Vertriebsteam" },
+      "2": { "name": "Research-Desk" },
+      "3": { "name": "Individuelles Team" }
+    }
   },
   "common": {
     "skipToContent": "Zum Inhalt springen",

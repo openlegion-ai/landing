@@ -32,16 +32,20 @@
   "hero": {
     "ariaLabel": "产品介绍",
     "badge": "从这里开始构建你的 AI 团队",
-    "headingLine1": "你的",
+    "headingLine1": "构建你的",
     "headingHighlight": "AI 团队",
-    "headingLine2": "。",
-    "headingLine3": "几分钟完成部署。",
+    "headingLine2": "只需描述你想要的团队。",
     "tagline": "为生产环境打造的 AI 智能体框架与平台。",
-    "subtitle": "为每个智能体分配任务和预算——它们全天候工作，而你的密钥始终锁在它们无法触及的密钥库中。",
-    "subtitleSecond": "凡是人类能做的，你的智能体都能全天候完成。",
-    "pricingAnchor": "7 天免费试用 · 无需信用卡 · 100+ LLM 提供商 · 无厂商锁定",
-    "ctaPrimary": "开始免费试用 →",
-    "ctaSecondary": "阅读文档",
+    "subtitle": "告诉 OpenLegion「我要一个营销团队」「我要一个销售团队」或「我要一个研究团队」，系统会自动部署智能体编队，预算、权限和安全凭证管控一步到位。",
+    "ctaPrimary": "开始免费试用",
+    "ctaSecondary": "观看 90 秒演示",
+    "trustStrip": {
+      "0": "全天候运行",
+      "1": "按智能体设定预算",
+      "2": "密钥库安全托管",
+      "3": "容器级隔离",
+      "4": "100+ LLM 提供商"
+    },
     "terminalTitle": "openlegion 演示",
     "videoTitle": "OpenLegion 演示——部署 AI 智能体编队",
     "videoFallback": "您的浏览器不支持 HTML5 视频。",
@@ -741,6 +745,62 @@
     "titleHighlight": "0",
     "description": "页面不存在。编队尚未在此部署。",
     "backToHome": "返回首页"
+  },
+  "promptToTeam": {
+    "sectionLabel": "工作原理",
+    "heading": "一句指令，组建完整团队",
+    "subtitle": "描述你需要的功能，OpenLegion 会自动创建智能体架构、分配角色，并为每个智能体配置安全运行所需的权限。",
+    "examples": {
+      "0": {
+        "name": "营销团队",
+        "roles": { "0": "调研", "1": "撰写", "2": "编辑", "3": "报告" }
+      },
+      "1": {
+        "name": "销售团队",
+        "roles": { "0": "线索调研", "1": "资质筛选", "2": "主动触达", "3": "跟进" }
+      },
+      "2": {
+        "name": "研究团队",
+        "roles": { "0": "监控", "1": "浏览", "2": "总结", "3": "交付" }
+      },
+      "3": {
+        "name": "开发团队",
+        "roles": { "0": "PM", "1": "工程师", "2": "审查员" }
+      },
+      "4": {
+        "name": "交易团队",
+        "roles": { "0": "研究员", "1": "交易员", "2": "监控员" }
+      }
+    },
+    "visuals": {
+      "marketing": {
+        "0": { "title": "博客文章", "status": "已发布" },
+        "1": { "title": "营销方案", "status": "审核中" },
+        "2": { "title": "周报", "status": "撰写中" }
+      },
+      "sales": { "0": "线索", "1": "已筛选", "2": "已转化" },
+      "research": { "0": "已扫描 12 个来源", "1": "摘要已交付", "2": "持续监控更新中…" },
+      "dev": { "0": "PM 创建了任务 #42", "1": "工程师提交了 PR #18", "2": "审查员审查中…" },
+      "trading": { "0": "兑换 0.5 ETH → USDC", "1": "消费限额：$48 / $500", "2": "监控员检查持仓中…" }
+    },
+    "customNote": "没找到你的使用场景？你可以自由组建任何团队，自定义角色、工具和预算。",
+    "customCta": "开始构建 →"
+  },
+  "productionReady": {
+    "sectionLabel": "为什么选择 OpenLegion",
+    "heading": "为生产环境打造，而非仅仅是演示",
+    "subtitle": "大多数智能体工具止步于聊天。OpenLegion 专为真实工作流设计，支持预算管控、权限管理、隔离运行环境，凭证永远不会被智能体直接访问。"
+  },
+  "readyMadeTeams": {
+    "sectionLabel": "模板",
+    "heading": "从现成团队开始",
+    "cta": "了解工作原理",
+    "teams": {
+      "0": { "name": "营销团队" },
+      "1": { "name": "销售团队" },
+      "2": { "name": "研究团队" },
+      "3": { "name": "自定义团队" }
+    }
   },
   "common": {
     "skipToContent": "跳至正文",

@@ -31,17 +31,21 @@
   },
   "hero": {
     "ariaLabel": "Introduction",
-    "badge": "Votre main-d'œuvre IA commence ici",
-    "headingLine1": "Votre ",
-    "headingHighlight": "main-d'œuvre IA",
-    "headingLine2": ".",
-    "headingLine3": "Déployée en minutes.",
+    "badge": "Votre équipe IA commence ici",
+    "headingLine1": "Créez une ",
+    "headingHighlight": "équipe IA",
+    "headingLine2": "en décrivant celle dont vous avez besoin.",
     "tagline": "Le framework et la plateforme d'agents IA conçus pour la production.",
-    "subtitle": "Attribuez à chaque agent une mission et un budget — ils travaillent 24h/24 tandis que vos clés restent dans un coffre-fort qu'ils ne touchent jamais.",
-    "subtitleSecond": "Tout ce qu'un humain fait, vos agents le font sans interruption.",
-    "pricingAnchor": "Essai gratuit de 7 jours · Sans carte bancaire · Plus de 100 fournisseurs LLM · Sans dépendance fournisseur",
-    "ctaPrimary": "Démarrer l'essai gratuit →",
-    "ctaSecondary": "Lire la documentation",
+    "subtitle": "Dites à OpenLegion « je veux une agence marketing », « je veux une équipe commerciale » ou « je veux un pôle recherche », et il déploie la stack d'agents avec budgets, permissions et contrôle sécurisé des identifiants intégrés.",
+    "ctaPrimary": "Démarrer l'essai gratuit",
+    "ctaSecondary": "Voir la démo de 90 secondes",
+    "trustStrip": {
+      "0": "Fonctionne 24h/24",
+      "1": "Budget par agent",
+      "2": "Identifiants sécurisés en coffre",
+      "3": "Conteneurs isolés",
+      "4": "Plus de 100 fournisseurs LLM"
+    },
     "terminalTitle": "openlegion demo",
     "videoTitle": "Démo OpenLegion — déployer une flotte d'agents IA",
     "videoFallback": "Votre navigateur ne prend pas en charge la vidéo HTML5.",
@@ -741,6 +745,62 @@
     "titleHighlight": "0",
     "description": "Cette page n'existe pas. La flotte n'a pas encore été déployée ici.",
     "backToHome": "Retour à l'accueil"
+  },
+  "promptToTeam": {
+    "sectionLabel": "Comment ça marche",
+    "heading": "D'un prompt à une équipe complète",
+    "subtitle": "Décrivez la fonction dont vous avez besoin. OpenLegion crée l'architecture d'agents, attribue les rôles et donne à chaque agent les contrôles nécessaires pour fonctionner en toute sécurité.",
+    "examples": {
+      "0": {
+        "name": "Agence marketing",
+        "roles": { "0": "Recherche", "1": "Rédaction", "2": "Révision", "3": "Rapports" }
+      },
+      "1": {
+        "name": "Équipe commerciale",
+        "roles": { "0": "Recherche de leads", "1": "Qualification", "2": "Prise de contact", "3": "Suivi" }
+      },
+      "2": {
+        "name": "Équipe de recherche",
+        "roles": { "0": "Veille", "1": "Navigation", "2": "Synthèse", "3": "Livraison" }
+      },
+      "3": {
+        "name": "Équipe de développement",
+        "roles": { "0": "PM", "1": "Ingénieur", "2": "Réviseur" }
+      },
+      "4": {
+        "name": "Équipe de trading",
+        "roles": { "0": "Chercheur", "1": "Trader", "2": "Moniteur" }
+      }
+    },
+    "visuals": {
+      "marketing": {
+        "0": { "title": "Article de blog", "status": "publié" },
+        "1": { "title": "Brief de campagne", "status": "en révision" },
+        "2": { "title": "Rapport hebdomadaire", "status": "en rédaction" }
+      },
+      "sales": { "0": "prospects", "1": "qualifiés", "2": "convertis" },
+      "research": { "0": "12 sources analysées", "1": "Synthèse livrée", "2": "Suivi des mises à jour…" },
+      "dev": { "0": "PM a créé la tâche #42", "1": "Ingénieur a ouvert la PR #18", "2": "Réviseur en cours de revue…" },
+      "trading": { "0": "Échange 0.5 ETH → USDC", "1": "Limite de dépense : $48 / $500", "2": "Moniteur vérifie les positions…" }
+    },
+    "customNote": "Vous ne trouvez pas votre cas d'usage ? Créez n'importe quelle équipe avec n'importe quelle combinaison de rôles, outils et budgets.",
+    "customCta": "Commencez à construire →"
+  },
+  "productionReady": {
+    "sectionLabel": "Pourquoi OpenLegion",
+    "heading": "Conçu pour la production, pas seulement pour les démos",
+    "subtitle": "La plupart des outils d'agents s'arrêtent au chat. OpenLegion est conçu pour des flux de travail réels avec budgets, permissions, environnements isolés et identifiants auxquels les agents n'ont jamais accès."
+  },
+  "readyMadeTeams": {
+    "sectionLabel": "Modèles",
+    "heading": "Commencez avec une équipe prête à l'emploi",
+    "cta": "Découvrez comment ça marche",
+    "teams": {
+      "0": { "name": "Agence marketing" },
+      "1": { "name": "Équipe commerciale" },
+      "2": { "name": "Équipe de recherche" },
+      "3": { "name": "Équipe sur mesure" }
+    }
   },
   "common": {
     "skipToContent": "Aller au contenu",

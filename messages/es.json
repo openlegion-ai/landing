@@ -32,16 +32,20 @@
   "hero": {
     "ariaLabel": "Introducción",
     "badge": "Tu fuerza laboral de IA empieza aquí",
-    "headingLine1": "Tu ",
+    "headingLine1": "Crea una ",
     "headingHighlight": "fuerza laboral de IA",
-    "headingLine2": ".",
-    "headingLine3": "Desplegada en minutos.",
+    "headingLine2": "describiendo el equipo que necesitas.",
     "tagline": "El framework y plataforma de agentes de IA creado para producción.",
-    "subtitle": "Asigna a cada agente un trabajo y un presupuesto — trabajan 24/7 mientras tus claves permanecen en una bóveda que nunca tocan.",
-    "subtitleSecond": "Todo lo que un humano hace, tus agentes lo hacen las 24 horas.",
-    "pricingAnchor": "Prueba gratuita de 7 días · Sin tarjeta de crédito · Más de 100 proveedores LLM · Sin dependencia de proveedor",
-    "ctaPrimary": "Iniciar prueba gratuita →",
-    "ctaSecondary": "Leer la documentación",
+    "subtitle": "Dile a OpenLegion \"quiero una agencia de marketing\", \"quiero un equipo de ventas\" o \"quiero un equipo de investigación\", y despliega el stack de agentes con presupuestos, permisos y controles seguros de credenciales integrados.",
+    "ctaPrimary": "Comenzar prueba gratuita",
+    "ctaSecondary": "Ver demo de 90 segundos",
+    "trustStrip": {
+      "0": "Funciona 24/7",
+      "1": "Presupuesto por agente",
+      "2": "Credenciales en bóveda",
+      "3": "Contenedores aislados",
+      "4": "Más de 100 proveedores LLM"
+    },
     "terminalTitle": "openlegion demo",
     "videoTitle": "Demo de OpenLegion — desplegando una flota de agentes de IA",
     "videoFallback": "Tu navegador no es compatible con video HTML5.",
@@ -741,6 +745,62 @@
     "titleHighlight": "0",
     "description": "Esta página no existe. La flota aún no se ha desplegado aquí.",
     "backToHome": "Volver al inicio"
+  },
+  "promptToTeam": {
+    "sectionLabel": "Cómo funciona",
+    "heading": "De un prompt a un equipo completo",
+    "subtitle": "Describe la función que necesitas. OpenLegion crea la estructura de agentes, asigna roles y otorga a cada agente los controles necesarios para operar de forma segura.",
+    "examples": {
+      "0": {
+        "name": "Agencia de marketing",
+        "roles": { "0": "Investigación", "1": "Redacción", "2": "Edición", "3": "Informes" }
+      },
+      "1": {
+        "name": "Equipo de ventas",
+        "roles": { "0": "Investigación de leads", "1": "Cualificación", "2": "Contacto", "3": "Seguimiento" }
+      },
+      "2": {
+        "name": "Equipo de investigación",
+        "roles": { "0": "Monitoreo", "1": "Navegación", "2": "Resumen", "3": "Entrega" }
+      },
+      "3": {
+        "name": "Equipo de desarrollo",
+        "roles": { "0": "PM", "1": "Ingeniero", "2": "Revisor" }
+      },
+      "4": {
+        "name": "Equipo de trading",
+        "roles": { "0": "Investigador", "1": "Trader", "2": "Monitor" }
+      }
+    },
+    "visuals": {
+      "marketing": {
+        "0": { "title": "Artículo de blog", "status": "publicado" },
+        "1": { "title": "Brief de campaña", "status": "en revisión" },
+        "2": { "title": "Informe semanal", "status": "redactando" }
+      },
+      "sales": { "0": "leads", "1": "cualificados", "2": "convertidos" },
+      "research": { "0": "12 fuentes analizadas", "1": "Resumen entregado", "2": "Monitorizando actualizaciones…" },
+      "dev": { "0": "PM creó la tarea #42", "1": "Ingeniero abrió PR #18", "2": "Revisor revisando…" },
+      "trading": { "0": "Intercambio 0.5 ETH → USDC", "1": "Límite de gasto: $48 / $500", "2": "Monitor verificando posiciones…" }
+    },
+    "customNote": "¿No encuentras tu caso de uso? Crea cualquier equipo con cualquier combinación de roles, herramientas y presupuestos.",
+    "customCta": "Empieza a construir →"
+  },
+  "productionReady": {
+    "sectionLabel": "Por qué OpenLegion",
+    "heading": "Diseñado para producción, no solo para demos",
+    "subtitle": "La mayoría de las herramientas de agentes se quedan en el chat. OpenLegion está diseñado para flujos de trabajo reales con presupuestos, permisos, entornos aislados y credenciales que los agentes nunca tocan."
+  },
+  "readyMadeTeams": {
+    "sectionLabel": "Plantillas",
+    "heading": "Comienza con un equipo prediseñado",
+    "cta": "Descubre cómo funciona",
+    "teams": {
+      "0": { "name": "Agencia de marketing" },
+      "1": { "name": "Equipo de ventas" },
+      "2": { "name": "Equipo de investigación" },
+      "3": { "name": "Equipo personalizado" }
+    }
   },
   "common": {
     "skipToContent": "Ir al contenido",

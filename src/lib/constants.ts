@@ -65,14 +65,10 @@ export const TWITTER_URL = "https://x.com/openlegion";
 // ── Hero ─────────────────────────────────────────────────────────────────────
 
 export const HERO = {
-  badge: "Your AI workforce starts here",
   subtitle:
-    "Give each agent a job and a budget — they work 24/7 while your keys stay locked in a vault they never touch.",
-  subtitleSecond:
-    "Anything a human does, your agents do around the clock.",
-  pricingAnchor: "7-day free trial · 100+ LLM providers · No vendor lock-in",
-  ctaPrimary: "Start free trial →",
-  ctaSecondary: "Read the Docs",
+    "Tell OpenLegion \"I want a marketing agency\", \"I want a sales team\", or \"I want a research desk\", and it will deploy the agent stack with budgets, permissions, and secure credential controls built in.",
+  ctaPrimary: "Start free trial",
+  ctaSecondary: "Watch the 90-second demo",
 } as const;
 
 // ── Use Cases (team templates) ───────────────────────────────────────────────
