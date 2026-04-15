@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { Play } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { APP_URL } from "@/lib/constants";
+import { APP_URL, DOCS_URL } from "@/lib/constants";
 
 const PARTICLES = [
   { top: "12%", left: "8%", size: 4, color: "bg-accent/30", duration: "7s", delay: "0s" },
@@ -109,10 +109,12 @@ export function Hero() {
                   {t("ctaPrimary")}
                 </a>
                 <a
-                  href="#demo"
+                  href={DOCS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group/secondary flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
                 >
-                  <Play className="h-4 w-4 transition-transform group-hover/secondary:scale-110" aria-hidden="true" />
+                  <BookOpen className="h-4 w-4 transition-transform group-hover/secondary:scale-110" aria-hidden="true" />
                   {t("ctaSecondary")}
                 </a>
               </div>
@@ -129,7 +131,7 @@ export function Hero() {
 
           {/* Right: video demo */}
           <AnimateIn delay={0.18}>
-            <div id="demo" className="mx-auto max-w-lg lg:max-w-none">
+            <div className="mx-auto max-w-lg lg:max-w-none">
               <div className="terminal terminal-hero">
                 <div className="terminal-header">
                   <div className="terminal-dot bg-[#ff5f57]" />
