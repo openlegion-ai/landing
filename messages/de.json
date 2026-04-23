@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion Startseite",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub-Repository",
-    "freeTrial": "Loslegen",
+    "getStarted": "Loslegen",
     "tryFree": "Kostenlos testen →",
     "toggleMenuAriaLabel": "Menü ein-/ausblenden",
     "billingPeriodAriaLabel": "Abrechnungszeitraum"
@@ -627,8 +627,8 @@
   },
   "pricing": {
     "sectionLabel": "Preise",
-    "heading": "Teste deine KI-Belegschaft ",
-    "headingHighlight": "7 Tage kostenlos",
+    "heading": "Tarife ab ",
+    "headingHighlight": "19 $/Monat",
     "headingEnd": ".",
     "subtitle": "Keine Kreditkarte erforderlich. Du bringst deine API-Schlüssel, wir betreiben die Infrastruktur.",
     "included": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/Monat",
     "priceSuffixYearly": "/Jahr",
     "yearlyBilledNote": "~${monthlyEquivalent}/Monat bei jährlicher Abrechnung",
-    "monthlyTrialNote": "Ab dem ersten Tag kostenpflichtig · 14 Tage Geld-zurück-Garantie",
-    "startFreeTrial": "Loslegen",
+    "monthlyNote": "Ab dem ersten Tag kostenpflichtig · 14 Tage Geld-zurück-Garantie",
+    "getStarted": "Loslegen",
     "agentsLabel": "{count, plural, one {Agent} other {Agenten}}",
     "creditsLabel": "Willkommens-Credits",
     "browsersLabel": "{count, plural, one {gleichzeitiger Browser} other {gleichzeitige Browser}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "Zum Inhalt springen",
     "readyToStart": "Bereit, deinen ersten Agenten an die Arbeit zu setzen?",
-    "startFreeTrialInline": "Loslegen →",
+    "getStartedInline": "Loslegen →",
     "fleetLivePrompt": "Das ist deine Flotte, live.",
-    "tryFree7Days": "7 Tage kostenlos testen →",
+    "getStartedInMinutes": "In Minuten loslegen →",
     "brandName": "OpenLegion",
     "selectLanguage": "Sprache auswählen",
     "copyToClipboard": "In Zwischenablage kopieren",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Brotkrümelnavigation"
   },
   "inlineCta": {
-    "startFreeTrial": "Loslegen",
+    "getStarted": "Loslegen",
     "readTheDocs": "Dokumentation lesen"
   },
   "seoLinks": {

@@ -204,7 +204,7 @@ export function Pricing() {
                   <p className="mt-1 h-5 text-xs text-muted">
                     {billing === "yearly"
                       ? t("yearlyBilledNote", { monthlyEquivalent: plan.yearlyMonthly })
-                      : t("monthlyTrialNote")}
+                      : t("monthlyNote")}
                   </p>
 
                   <a
@@ -217,7 +217,7 @@ export function Pricing() {
                         : "border border-border text-foreground hover:border-accent/40 hover:bg-accent/5"
                     }`}
                   >
-                    {t("startFreeTrial")}
+                    {t("getStarted")}
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </a>
 

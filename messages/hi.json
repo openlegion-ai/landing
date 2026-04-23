@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion होम",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub रिपॉज़िटरी",
-    "freeTrial": "शुरू करें",
+    "getStarted": "शुरू करें",
     "tryFree": "मुफ़्त में आज़माएँ →",
     "toggleMenuAriaLabel": "मेनू टॉगल करें",
     "billingPeriodAriaLabel": "बिलिंग अवधि"
@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "मूल्य निर्धारण",
-    "heading": "अपनी AI वर्कफ़ोर्स ",
-    "headingHighlight": "7 दिन मुफ़्त",
-    "headingEnd": " आज़माएँ।",
+    "heading": "प्लान्स ",
+    "headingHighlight": "$19/महीना",
+    "headingEnd": " से शुरू।",
     "subtitle": "क्रेडिट कार्ड की ज़रूरत नहीं। आप अपनी API कुंजियाँ लाएँ, हम इन्फ़्रास्ट्रक्चर चलाते हैं।",
     "included": {
       "0": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/माह",
     "priceSuffixYearly": "/वर्ष",
     "yearlyBilledNote": "~${monthlyEquivalent}/माह वार्षिक बिलिंग",
-    "monthlyTrialNote": "पहले दिन से भुगतान · 14 दिन में पैसे वापस",
-    "startFreeTrial": "शुरू करें",
+    "monthlyNote": "पहले दिन से भुगतान · 14 दिन में पैसे वापस",
+    "getStarted": "शुरू करें",
     "agentsLabel": "{count, plural, one {एजेंट} other {एजेंट}}",
     "creditsLabel": "स्वागत क्रेडिट",
     "browsersLabel": "{count, plural, one {कन्करंट ब्राउज़र} other {कन्करंट ब्राउज़र}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "कंटेंट पर जाएँ",
     "readyToStart": "अपने पहले एजेंट को काम पर लगाने के लिए तैयार?",
-    "startFreeTrialInline": "शुरू करें →",
+    "getStartedInline": "शुरू करें →",
     "fleetLivePrompt": "यह आपकी फ़्लीट है, लाइव।",
-    "tryFree7Days": "7 दिन मुफ़्त आज़माएँ →",
+    "getStartedInMinutes": "मिनटों में शुरू करें →",
     "brandName": "OpenLegion",
     "selectLanguage": "भाषा चुनें",
     "copyToClipboard": "क्लिपबोर्ड पर कॉपी करें",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "ब्रेडक्रंब"
   },
   "inlineCta": {
-    "startFreeTrial": "शुरू करें",
+    "getStarted": "शुरू करें",
     "readTheDocs": "डॉक्स पढ़ें"
   },
   "seoLinks": {

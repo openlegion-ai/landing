@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion 홈",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub 저장소",
-    "freeTrial": "시작하기",
+    "getStarted": "시작하기",
     "tryFree": "무료 체험하기 →",
     "toggleMenuAriaLabel": "메뉴 전환",
     "billingPeriodAriaLabel": "결제 주기"
@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "요금제",
-    "heading": "AI 워크포스를 ",
-    "headingHighlight": "7일간 무료",
-    "headingEnd": "로 체험하세요.",
+    "heading": "플랜은 ",
+    "headingHighlight": "월 $19",
+    "headingEnd": "부터.",
     "subtitle": "신용카드 불필요. API 키는 고객이 가져오고, 인프라는 저희가 운영합니다.",
     "included": {
       "0": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/월",
     "priceSuffixYearly": "/년",
     "yearlyBilledNote": "연간 결제 시 약 ${monthlyEquivalent}/월",
-    "monthlyTrialNote": "첫날부터 유료 · 14일 환불 보장",
-    "startFreeTrial": "시작하기",
+    "monthlyNote": "첫날부터 유료 · 14일 환불 보장",
+    "getStarted": "시작하기",
     "agentsLabel": "{count, plural, one {에이전트} other {에이전트}}",
     "creditsLabel": "웰컴 크레딧",
     "browsersLabel": "{count, plural, one {동시 브라우저} other {동시 브라우저}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "콘텐츠로 건너뛰기",
     "readyToStart": "첫 에이전트를 가동할 준비가 되셨나요?",
-    "startFreeTrialInline": "시작하기 →",
+    "getStartedInline": "시작하기 →",
     "fleetLivePrompt": "이것이 당신의 플릿입니다, 실시간으로.",
-    "tryFree7Days": "7일간 무료 체험하기 →",
+    "getStartedInMinutes": "몇 분 만에 시작하기 →",
     "brandName": "OpenLegion",
     "selectLanguage": "언어 선택",
     "copyToClipboard": "클립보드에 복사",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "탐색 경로"
   },
   "inlineCta": {
-    "startFreeTrial": "시작하기",
+    "getStarted": "시작하기",
     "readTheDocs": "문서 읽기"
   },
   "seoLinks": {

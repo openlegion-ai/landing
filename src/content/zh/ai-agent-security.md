@@ -151,7 +151,7 @@ OpenLegion **专为需要**合规控制的环境设计，包括：
 ## CTA
 
 **部署默认安全的智能体。**
-[开始免费试用](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai)
+[立即开始](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai)
 
 ---
 

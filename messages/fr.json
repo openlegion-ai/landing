@@ -24,7 +24,7 @@
     "homeAriaLabel": "Accueil OpenLegion",
     "brandName": "OpenLegion",
     "githubAriaLabel": "Dépôt GitHub",
-    "freeTrial": "Commencer",
+    "getStarted": "Commencer",
     "tryFree": "Essayer gratuitement →",
     "toggleMenuAriaLabel": "Ouvrir ou fermer le menu",
     "billingPeriodAriaLabel": "Période de facturation"
@@ -627,8 +627,8 @@
   },
   "pricing": {
     "sectionLabel": "Tarifs",
-    "heading": "Essayez votre main-d'œuvre IA ",
-    "headingHighlight": "gratuitement pendant 7 jours",
+    "heading": "Tarifs à partir de ",
+    "headingHighlight": "19 $/mois",
     "headingEnd": ".",
     "subtitle": "Sans carte bancaire. Vous apportez vos clés API, nous gérons l'infrastructure.",
     "included": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/mois",
     "priceSuffixYearly": "/an",
     "yearlyBilledNote": "~${monthlyEquivalent}/mois facturé annuellement",
-    "monthlyTrialNote": "Payant dès le premier jour · remboursement sous 14 jours",
-    "startFreeTrial": "Commencer",
+    "monthlyNote": "Payant dès le premier jour · remboursement sous 14 jours",
+    "getStarted": "Commencer",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "crédits de bienvenue",
     "browsersLabel": "{count, plural, one {navigateur simultané} other {navigateurs simultanés}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "Aller au contenu",
     "readyToStart": "Prêt à mettre votre premier agent au travail ?",
-    "startFreeTrialInline": "Commencer →",
+    "getStartedInline": "Commencer →",
     "fleetLivePrompt": "Voici votre flotte, en direct.",
-    "tryFree7Days": "Essayez gratuitement pendant 7 jours →",
+    "getStartedInMinutes": "Démarrez en quelques minutes →",
     "brandName": "OpenLegion",
     "selectLanguage": "Choisir la langue",
     "copyToClipboard": "Copier dans le presse-papiers",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Fil d'Ariane"
   },
   "inlineCta": {
-    "startFreeTrial": "Commencer",
+    "getStarted": "Commencer",
     "readTheDocs": "Lire la documentation"
   },
   "seoLinks": {

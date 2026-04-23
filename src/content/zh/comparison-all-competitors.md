@@ -107,7 +107,7 @@ OpenLegion 属于开发者优先类别，独特地聚焦于任何其他类别的
 ## CTA
 
 **准备好感受差异了吗？**
-[开始免费试用](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai)
+[立即开始](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai)
 
 ---
 

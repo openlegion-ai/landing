@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion home",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub repository",
-    "freeTrial": "Get Started",
+    "getStarted": "Get Started",
     "tryFree": "Try free →",
     "toggleMenuAriaLabel": "Toggle menu",
     "billingPeriodAriaLabel": "Billing period"
@@ -627,8 +627,8 @@
   },
   "pricing": {
     "sectionLabel": "Pricing",
-    "heading": "Try your AI workforce ",
-    "headingHighlight": "free for 7 days",
+    "heading": "Plans start at ",
+    "headingHighlight": "$19/month",
     "headingEnd": ".",
     "subtitle": "You bring your API keys, we run the infrastructure.",
     "included": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/mo",
     "priceSuffixYearly": "/yr",
     "yearlyBilledNote": "~${monthlyEquivalent}/mo billed annually",
-    "monthlyTrialNote": "Paid from day one · 14-day money-back",
-    "startFreeTrial": "Get Started",
+    "monthlyNote": "Paid from day one · 14-day money-back",
+    "getStarted": "Get Started",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "welcome credits",
     "browsersLabel": "{count, plural, one {concurrent browser} other {concurrent browsers}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "Skip to content",
     "readyToStart": "Ready to put your first agent to work?",
-    "startFreeTrialInline": "Get Started →",
+    "getStartedInline": "Get Started →",
     "fleetLivePrompt": "This is your fleet, live.",
-    "tryFree7Days": "Try it free for 7 days →",
+    "getStartedInMinutes": "Get started in minutes →",
     "brandName": "OpenLegion",
     "selectLanguage": "Select language",
     "copyToClipboard": "Copy to clipboard",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Breadcrumb"
   },
   "inlineCta": {
-    "startFreeTrial": "Get Started",
+    "getStarted": "Get Started",
     "readTheDocs": "Read the Docs"
   },
   "seoLinks": {

@@ -24,7 +24,7 @@
     "homeAriaLabel": "Página inicial do OpenLegion",
     "brandName": "OpenLegion",
     "githubAriaLabel": "Repositório no GitHub",
-    "freeTrial": "Começar",
+    "getStarted": "Começar",
     "tryFree": "Testar grátis →",
     "toggleMenuAriaLabel": "Abrir ou fechar menu",
     "billingPeriodAriaLabel": "Período de cobrança"
@@ -627,8 +627,8 @@
   },
   "pricing": {
     "sectionLabel": "Preços",
-    "heading": "Teste sua força de trabalho de IA ",
-    "headingHighlight": "grátis por 7 dias",
+    "heading": "Planos a partir de ",
+    "headingHighlight": "US$ 19/mês",
     "headingEnd": ".",
     "subtitle": "Sem cartão de crédito. Você traz suas chaves API, nós rodamos a infraestrutura.",
     "included": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/mês",
     "priceSuffixYearly": "/ano",
     "yearlyBilledNote": "~US$ {monthlyEquivalent}/mês cobrado anualmente",
-    "monthlyTrialNote": "Pago desde o primeiro dia · reembolso em 14 dias",
-    "startFreeTrial": "Começar",
+    "monthlyNote": "Pago desde o primeiro dia · reembolso em 14 dias",
+    "getStarted": "Começar",
     "agentsLabel": "{count, plural, one {agente} other {agentes}}",
     "creditsLabel": "créditos de boas-vindas",
     "browsersLabel": "{count, plural, one {navegador simultâneo} other {navegadores simultâneos}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "Pular para o conteúdo",
     "readyToStart": "Pronto para colocar seu primeiro agente para trabalhar?",
-    "startFreeTrialInline": "Começar →",
+    "getStartedInline": "Começar →",
     "fleetLivePrompt": "Esta é sua frota, ao vivo.",
-    "tryFree7Days": "Teste grátis por 7 dias →",
+    "getStartedInMinutes": "Comece em minutos →",
     "brandName": "OpenLegion",
     "selectLanguage": "Selecionar idioma",
     "copyToClipboard": "Copiar para a área de transferência",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Caminho de navegação"
   },
   "inlineCta": {
-    "startFreeTrial": "Começar",
+    "getStarted": "Começar",
     "readTheDocs": "Ler a documentação"
   },
   "seoLinks": {

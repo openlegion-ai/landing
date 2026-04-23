@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion 首頁",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub 儲存庫",
-    "freeTrial": "立即開始",
+    "getStarted": "立即開始",
     "tryFree": "免費試用 →",
     "toggleMenuAriaLabel": "切換選單",
     "billingPeriodAriaLabel": "帳單週期"
@@ -627,8 +627,8 @@
   },
   "pricing": {
     "sectionLabel": "定價",
-    "heading": "AI 工作團隊",
-    "headingHighlight": "免費試用 7 天",
+    "heading": "方案起價 ",
+    "headingHighlight": "$19/月",
     "headingEnd": "。",
     "subtitle": "無需信用卡。您提供 API 金鑰，我們負責運行基礎設施。",
     "included": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年付約 ${monthlyEquivalent}/月",
-    "monthlyTrialNote": "首日即付 · 14 天退款保證",
-    "startFreeTrial": "立即開始",
+    "monthlyNote": "首日即付 · 14 天退款保證",
+    "getStarted": "立即開始",
     "agentsLabel": "{count, plural, one {個智慧代理} other {個智慧代理}}",
     "creditsLabel": "歡迎贈送額度",
     "browsersLabel": "{count, plural, one {個同時瀏覽器} other {個同時瀏覽器}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "跳至內容",
     "readyToStart": "準備好讓您的第一個智慧代理開始工作了嗎？",
-    "startFreeTrialInline": "立即開始 →",
+    "getStartedInline": "立即開始 →",
     "fleetLivePrompt": "這是您的艦隊，即時呈現。",
-    "tryFree7Days": "免費試用 7 天 →",
+    "getStartedInMinutes": "幾分鐘即可上手 →",
     "brandName": "OpenLegion",
     "selectLanguage": "選擇語言",
     "copyToClipboard": "複製到剪貼簿",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "麵包屑導覽"
   },
   "inlineCta": {
-    "startFreeTrial": "立即開始",
+    "getStarted": "立即開始",
     "readTheDocs": "閱讀文件"
   },
   "seoLinks": {

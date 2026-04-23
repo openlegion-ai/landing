@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion ホーム",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub リポジトリ",
-    "freeTrial": "今すぐ始める",
+    "getStarted": "今すぐ始める",
     "tryFree": "無料で試す →",
     "toggleMenuAriaLabel": "メニューを切り替える",
     "billingPeriodAriaLabel": "請求期間"
@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "料金",
-    "heading": "AIワークフォースを",
-    "headingHighlight": "7日間無料",
-    "headingEnd": "でお試し。",
+    "heading": "プランは",
+    "headingHighlight": "月額 $19",
+    "headingEnd": "から。",
     "subtitle": "クレジットカード不要。APIキーはお客様持ち込み、インフラは私たちが運用します。",
     "included": {
       "0": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年払いで約${monthlyEquivalent}/月",
-    "monthlyTrialNote": "初日から有料 · 14日間返金保証",
-    "startFreeTrial": "今すぐ始める",
+    "monthlyNote": "初日から有料 · 14日間返金保証",
+    "getStarted": "今すぐ始める",
     "agentsLabel": "{count, plural, one {エージェント} other {エージェント}}",
     "creditsLabel": "ウェルカムクレジット",
     "browsersLabel": "{count, plural, one {同時ブラウザ} other {同時ブラウザ}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "コンテンツにスキップ",
     "readyToStart": "最初のエージェントを稼働させる準備はできましたか？",
-    "startFreeTrialInline": "今すぐ始める →",
+    "getStartedInline": "今すぐ始める →",
     "fleetLivePrompt": "これがあなたのフリートです、ライブで。",
-    "tryFree7Days": "7日間無料でお試しください →",
+    "getStartedInMinutes": "数分で始める →",
     "brandName": "OpenLegion",
     "selectLanguage": "言語を選択",
     "copyToClipboard": "クリップボードにコピー",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "パンくずリスト"
   },
   "inlineCta": {
-    "startFreeTrial": "今すぐ始める",
+    "getStarted": "今すぐ始める",
     "readTheDocs": "ドキュメントを読む"
   },
   "seoLinks": {

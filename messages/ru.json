@@ -24,7 +24,7 @@
     "homeAriaLabel": "Главная OpenLegion",
     "brandName": "OpenLegion",
     "githubAriaLabel": "Репозиторий GitHub",
-    "freeTrial": "Начать",
+    "getStarted": "Начать",
     "tryFree": "Попробовать бесплатно →",
     "toggleMenuAriaLabel": "Переключить меню",
     "billingPeriodAriaLabel": "Период оплаты"
@@ -627,8 +627,8 @@
   },
   "pricing": {
     "sectionLabel": "Тарифы",
-    "heading": "Попробуйте AI-команду ",
-    "headingHighlight": "бесплатно 7 дней",
+    "heading": "Тарифы от ",
+    "headingHighlight": "$19/месяц",
     "headingEnd": ".",
     "subtitle": "Банковская карта не нужна. Вы приносите свои API-ключи — мы обеспечиваем инфраструктуру.",
     "included": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/мес.",
     "priceSuffixYearly": "/год",
     "yearlyBilledNote": "~${monthlyEquivalent}/мес. при годовой оплате",
-    "monthlyTrialNote": "Платно с первого дня · возврат денег в течение 14 дней",
-    "startFreeTrial": "Начать",
+    "monthlyNote": "Платно с первого дня · возврат денег в течение 14 дней",
+    "getStarted": "Начать",
     "agentsLabel": "{count, plural, one {агент} few {агента} many {агентов} other {агентов}}",
     "creditsLabel": "приветственные кредиты",
     "browsersLabel": "{count, plural, one {параллельный браузер} few {параллельных браузера} many {параллельных браузеров} other {параллельных браузеров}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "Перейти к содержимому",
     "readyToStart": "Готовы запустить первого агента?",
-    "startFreeTrialInline": "Начать →",
+    "getStartedInline": "Начать →",
     "fleetLivePrompt": "Это ваш флот — в реальном времени.",
-    "tryFree7Days": "Попробуйте бесплатно 7 дней →",
+    "getStartedInMinutes": "Запустите за минуты →",
     "brandName": "OpenLegion",
     "selectLanguage": "Выбрать язык",
     "copyToClipboard": "Копировать в буфер обмена",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Навигация"
   },
   "inlineCta": {
-    "startFreeTrial": "Начать",
+    "getStarted": "Начать",
     "readTheDocs": "Читать документацию"
   },
   "seoLinks": {

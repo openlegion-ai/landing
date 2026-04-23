@@ -24,7 +24,7 @@
     "homeAriaLabel": "الصفحة الرئيسية لـ OpenLegion",
     "brandName": "OpenLegion",
     "githubAriaLabel": "مستودع GitHub",
-    "freeTrial": "ابدأ الآن",
+    "getStarted": "ابدأ الآن",
     "tryFree": "جرّب مجانًا ←",
     "toggleMenuAriaLabel": "تبديل القائمة",
     "billingPeriodAriaLabel": "فترة الفوترة"
@@ -627,8 +627,8 @@
   },
   "pricing": {
     "sectionLabel": "الأسعار",
-    "heading": "جرّب فريقك الذكي ",
-    "headingHighlight": "مجانًا لمدة 7 أيام",
+    "heading": "الخطط تبدأ من ",
+    "headingHighlight": "19$/شهر",
     "headingEnd": ".",
     "subtitle": "لا حاجة لبطاقة ائتمان. أحضر مفاتيح API الخاصة بك، ونحن ندير البنية التحتية.",
     "included": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/شهر",
     "priceSuffixYearly": "/سنة",
     "yearlyBilledNote": "~${monthlyEquivalent}/شهر يُفوتر سنويًا",
-    "monthlyTrialNote": "مدفوع منذ اليوم الأول · ضمان استرداد خلال 14 يومًا",
-    "startFreeTrial": "ابدأ الآن",
+    "monthlyNote": "مدفوع منذ اليوم الأول · ضمان استرداد خلال 14 يومًا",
+    "getStarted": "ابدأ الآن",
     "agentsLabel": "{count, plural, one {وكيل} other {وكلاء}}",
     "creditsLabel": "رصيد ترحيبي",
     "browsersLabel": "{count, plural, one {متصفح متزامن} other {متصفحات متزامنة}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "انتقل إلى المحتوى",
     "readyToStart": "مستعد لتشغيل أول وكيل؟",
-    "startFreeTrialInline": "ابدأ الآن ←",
+    "getStartedInline": "ابدأ الآن ←",
     "fleetLivePrompt": "هذا أسطولك، مباشرة.",
-    "tryFree7Days": "جرّبه مجانًا لمدة 7 أيام ←",
+    "getStartedInMinutes": "ابدأ خلال دقائق ←",
     "brandName": "OpenLegion",
     "selectLanguage": "اختر اللغة",
     "copyToClipboard": "نسخ إلى الحافظة",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "مسار التنقل"
   },
   "inlineCta": {
-    "startFreeTrial": "ابدأ الآن",
+    "getStarted": "ابدأ الآن",
     "readTheDocs": "اقرأ التوثيق"
   },
   "seoLinks": {

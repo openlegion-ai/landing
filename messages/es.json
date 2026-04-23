@@ -24,7 +24,7 @@
     "homeAriaLabel": "Inicio de OpenLegion",
     "brandName": "OpenLegion",
     "githubAriaLabel": "Repositorio en GitHub",
-    "freeTrial": "Empezar",
+    "getStarted": "Empezar",
     "tryFree": "Probar gratis →",
     "toggleMenuAriaLabel": "Abrir o cerrar menú",
     "billingPeriodAriaLabel": "Período de facturación"
@@ -627,8 +627,8 @@
   },
   "pricing": {
     "sectionLabel": "Precios",
-    "heading": "Prueba tu fuerza laboral de IA ",
-    "headingHighlight": "gratis por 7 días",
+    "heading": "Planes desde ",
+    "headingHighlight": "19 $/mes",
     "headingEnd": ".",
     "subtitle": "Sin tarjeta de crédito. Tú traes tus claves API, nosotros ejecutamos la infraestructura.",
     "included": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/mes",
     "priceSuffixYearly": "/año",
     "yearlyBilledNote": "~${monthlyEquivalent}/mes facturado anualmente",
-    "monthlyTrialNote": "De pago desde el primer día · reembolso en 14 días",
-    "startFreeTrial": "Empezar",
+    "monthlyNote": "De pago desde el primer día · reembolso en 14 días",
+    "getStarted": "Empezar",
     "agentsLabel": "{count, plural, one {agente} other {agentes}}",
     "creditsLabel": "créditos de bienvenida",
     "browsersLabel": "{count, plural, one {navegador concurrente} other {navegadores concurrentes}}",
@@ -805,9 +805,9 @@
   "common": {
     "skipToContent": "Ir al contenido",
     "readyToStart": "¿Listo para poner a trabajar a tu primer agente?",
-    "startFreeTrialInline": "Empezar →",
+    "getStartedInline": "Empezar →",
     "fleetLivePrompt": "Esta es tu flota, en vivo.",
-    "tryFree7Days": "Pruébalo gratis por 7 días →",
+    "getStartedInMinutes": "Empieza en minutos →",
     "brandName": "OpenLegion",
     "selectLanguage": "Seleccionar idioma",
     "copyToClipboard": "Copiar al portapapeles",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Migas de pan"
   },
   "inlineCta": {
-    "startFreeTrial": "Empezar",
+    "getStarted": "Empezar",
     "readTheDocs": "Leer la documentación"
   },
   "seoLinks": {
