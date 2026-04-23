@@ -6,6 +6,7 @@ import { Bot, Check, Coins, FolderOpen, Globe, ChevronRight, Mail, Shield, Dolla
 import { ChevronDown } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { APP_URL } from "@/lib/constants";
+import { Link } from "@/i18n/navigation";
 
 type Billing = "monthly" | "yearly";
 
@@ -335,6 +336,20 @@ export function Pricing() {
             </div>
           </StaggerItem>
         </StaggerContainer>
+
+        {/* Money-back guarantee footer note */}
+        <AnimateIn delay={0.08}>
+          <p className="mt-6 text-center text-xs text-muted">
+            {t("moneyBackPrefix")}{" "}
+            <Link
+              href="/money-back-guarantee"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              {t("moneyBackLinkLabel")}
+            </Link>
+            {t("moneyBackSuffix")}
+          </p>
+        </AnimateIn>
 
         {/* Pricing FAQ */}
         <AnimateIn delay={0.1}>
