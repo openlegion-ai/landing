@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion 首頁",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub 儲存庫",
-    "freeTrial": "免費試用",
+    "freeTrial": "立即開始",
     "tryFree": "免費試用 →",
     "toggleMenuAriaLabel": "切換選單",
     "billingPeriodAriaLabel": "帳單週期"
@@ -37,7 +37,7 @@
     "headingLine2": "只需描述您想要的團隊。",
     "tagline": "專為生產環境打造的 AI 智慧代理框架與平台。",
     "subtitle": "告訴 OpenLegion「我要一個行銷團隊」「我要一個業務團隊」或「我要一個研究團隊」，系統會自動部署智慧代理編隊，預算、權限和安全憑證管控一步到位。",
-    "ctaPrimary": "開始免費試用",
+    "ctaPrimary": "立即開始",
     "ctaSecondary": "閱讀文件",
     "trustStrip": {
       "0": "全天候運行",
@@ -327,7 +327,7 @@
     "managedBadge": "最簡單 — 無需設定",
     "managedHeading": "無需終端機。無需設定檔。",
     "managedDescription": "容器、憑證和基礎設施由我們管理。",
-    "managedCta": "開始免費試用 →",
+    "managedCta": "立即開始 →",
     "steps": {
       "0": "建立帳戶",
       "1": "選擇方案",
@@ -491,7 +491,7 @@
     "items": {
       "0": {
         "question": "使用 OpenLegion 需要是開發人員嗎？",
-        "answer": "不需要。app.openlegion.ai 的代管服務無需撰寫程式碼 — 開始免費試用、選擇範本、新增 LLM API 金鑰，您的智慧代理就能在幾分鐘內上線。自架版本需要 Python 3.10+ 和 Docker。無論哪種方式，內建的團隊範本（開發團隊、銷售管線、內容工作室）都能開箱即用，無需任何設定。"
+        "answer": "不需要。app.openlegion.ai 的代管服務無需撰寫程式碼 — 註冊帳戶、選擇範本、新增 LLM API 金鑰，您的智慧代理就能在幾分鐘內上線。自架版本需要 Python 3.10+ 和 Docker。無論哪種方式，內建的團隊範本（開發團隊、銷售管線、內容工作室）都能開箱即用，無需任何設定。"
       },
       "1": {
         "question": "訂閱之外還需要支付 LLM 使用費用嗎？",
@@ -558,8 +558,8 @@
     "heading": "您的 AI 團隊只差",
     "headingHighlight": "一鍵部署",
     "headingEnd": "。",
-    "subtitle": "7 天免費試用 · 無需信用卡 · 100+ LLM 供應商 · 無廠商鎖定",
-    "primaryButton": "開始免費試用 →",
+    "subtitle": "首日即付 · 100+ LLM 供應商 · 14 天退款保證",
+    "primaryButton": "立即開始 →",
     "secondaryButton": "加入我們的 Discord"
   },
   "footer": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年付約 ${monthlyEquivalent}/月",
-    "monthlyTrialNote": "7 天免費試用 · 隨時取消",
-    "startFreeTrial": "開始免費試用",
+    "monthlyTrialNote": "首日即付 · 14 天退款保證",
+    "startFreeTrial": "立即開始",
     "agentsLabel": "{count, plural, one {個智慧代理} other {個智慧代理}}",
     "creditsLabel": "歡迎贈送額度",
     "browsersLabel": "{count, plural, one {個同時瀏覽器} other {個同時瀏覽器}}",
@@ -710,8 +710,8 @@
     "faqHeading": "常見問題",
     "faq": {
       "0": {
-        "question": "7 天免費試用如何運作？",
-        "answer": "註冊即可在 7 天內完整使用任何方案 — 無需信用卡。部署智慧代理、測試工作流程、探索儀表板。如果在試用結束前未升級，您的帳戶將暫停。除非您選擇方案，否則絕不會產生任何費用。"
+        "question": "方案首日包含哪些內容？",
+        "answer": "每個付費方案首日即包含歡迎額度禮包及完整功能存取權限 — VPS、系統代理和營運商儀表板。不合適？14 天內取消，我們將退還首月費用，無需任何理由。希望使用自己的 API 金鑰？完全可以，歡迎額度依然歸您所有。"
       },
       "1": {
         "question": "除了方案費用，還需要支付 LLM 使用費嗎？",
@@ -727,7 +727,7 @@
       },
       "4": {
         "question": "可以自架 OpenLegion 嗎？",
-        "answer": "可以。複製儲存庫，執行三個指令，即可在自己的基礎設施上建立完整的智慧代理艦隊。引擎依 BSL 1.1 原始碼可取得。不想管理基礎設施的團隊可選擇代管服務，月費 $19 起（含 7 天免費試用）。"
+        "answer": "可以。複製儲存庫，執行三個指令，即可在自己的基礎設施上建立完整的智慧代理艦隊。引擎依 BSL 1.1 原始碼可取得。不想管理基礎設施的團隊可選擇代管服務，月費 $19 起。"
       },
       "5": {
         "question": "什麼算是一個「智慧代理」？",
@@ -805,7 +805,7 @@
   "common": {
     "skipToContent": "跳至內容",
     "readyToStart": "準備好讓您的第一個智慧代理開始工作了嗎？",
-    "startFreeTrialInline": "開始免費試用 →",
+    "startFreeTrialInline": "立即開始 →",
     "fleetLivePrompt": "這是您的艦隊，即時呈現。",
     "tryFree7Days": "免費試用 7 天 →",
     "brandName": "OpenLegion",
@@ -818,19 +818,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI 智慧代理框架與平台 | 自動化一切，掌握全局",
-    "homeDescription": "OpenLegion 是專為生產環境打造的 AI 智慧代理框架與平台。部署自主智慧代理，自動化任何電腦任務 — 瀏覽、表單、程式碼、外展、資料。7 天免費試用，無需信用卡。",
+    "homeDescription": "OpenLegion 是專為生產環境打造的 AI 智慧代理框架與平台。部署自主智慧代理，自動化任何電腦任務 — 瀏覽、表單、程式碼、外展、資料。首日即付，14 天退款保證。",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI 智慧代理框架與平台",
-    "ogDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。安全、預算可控、生產就緒。7 天免費試用。",
+    "ogDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。安全、預算可控、生產就緒。首日即付，14 天退款保證。",
     "ogImageAlt": "OpenLegion — AI 智慧代理框架與平台",
     "twitterTitle": "OpenLegion — AI 智慧代理框架與平台",
-    "twitterDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。7 天免費試用，無需信用卡。",
-    "pricingTitle": "AI 智慧代理平台定價 — 7 天免費試用",
-    "pricingDescription": "AI 工作團隊免費試用 7 天。無需信用卡。方案從每月 $19 起，含容器隔離、Vault 安全性和 100+ LLM 供應商。",
-    "pricingOgTitle": "AI 智慧代理平台定價 — 7 天免費試用 | OpenLegion",
-    "pricingOgDescription": "AI 工作團隊免費試用 7 天。無需信用卡。容器隔離、Vault 安全性和 100+ LLM 供應商。",
-    "pricingTwitterTitle": "AI 智慧代理平台定價 — 7 天免費試用 | OpenLegion",
-    "pricingTwitterDescription": "AI 工作團隊免費試用 7 天。無需信用卡。",
+    "twitterDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。首日即付，14 天退款保證。",
+    "pricingTitle": "AI 智慧代理平台定價 — 首日即付",
+    "pricingDescription": "方案從每月 $19 起，含容器隔離、Vault 安全性和 100+ LLM 供應商。首日即付，14 天退款保證。",
+    "pricingOgTitle": "AI 智慧代理平台定價 — 首日即付 | OpenLegion",
+    "pricingOgDescription": "方案從每月 $19 起。容器隔離、Vault 安全性和 100+ LLM 供應商。14 天退款保證。",
+    "pricingTwitterTitle": "AI 智慧代理平台定價 — 首日即付 | OpenLegion",
+    "pricingTwitterDescription": "方案從每月 $19 起。14 天退款保證。",
     "faqTitle": "常見問題",
     "faqDescription": "OpenLegion 常見問題解答 — 專為生產環境打造的 AI 智慧代理框架與平台。涵蓋安全性、定價、LLM 供應商、編排、企業部署等。",
     "faqOgTitle": "常見問題 — OpenLegion",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "麵包屑導覽"
   },
   "inlineCta": {
-    "startFreeTrial": "開始免費試用",
+    "startFreeTrial": "立即開始",
     "readTheDocs": "閱讀文件"
   },
   "seoLinks": {
@@ -1147,8 +1147,8 @@
     }
   },
   "launchPricing": {
-    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
-    "cta": "Get Started →"
+    "message": "上線優惠價 — 限時活動。結束後將恢復標準價格。",
+    "cta": "立即開始 →"
   },
   "pricingAnchors": {
     "basicMonthly": "39",
@@ -1157,6 +1157,6 @@
     "growthYearly": "1068",
     "proMonthly": "299",
     "proYearly": "2688",
-    "anchorLabel": "Launch pricing"
+    "anchorLabel": "上線優惠價"
   }
 }

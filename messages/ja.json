@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion ホーム",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub リポジトリ",
-    "freeTrial": "無料トライアル",
+    "freeTrial": "今すぐ始める",
     "tryFree": "無料で試す →",
     "toggleMenuAriaLabel": "メニューを切り替える",
     "billingPeriodAriaLabel": "請求期間"
@@ -37,7 +37,7 @@
     "headingLine2": "欲しいチームを伝えるだけで構築。",
     "tagline": "本番環境のために構築されたAIエージェントフレームワーク＆プラットフォーム。",
     "subtitle": "OpenLegionに「マーケティングチームが欲しい」「営業チームが欲しい」「リサーチチームが欲しい」と伝えるだけで、予算・権限・セキュアな認証管理を備えたエージェント編成が自動でデプロイされます。",
-    "ctaPrimary": "無料トライアルを開始",
+    "ctaPrimary": "今すぐ始める",
     "ctaSecondary": "ドキュメントを読む",
     "trustStrip": {
       "0": "24時間365日稼働",
@@ -327,7 +327,7 @@
     "managedBadge": "最も簡単 — セットアップ不要",
     "managedHeading": "ターミナルも設定ファイルも不要。",
     "managedDescription": "コンテナ、認証情報、インフラはすべて私たちが管理します。",
-    "managedCta": "無料トライアルを開始 →",
+    "managedCta": "今すぐ始める →",
     "steps": {
       "0": "アカウントを作成",
       "1": "プランを選択",
@@ -491,7 +491,7 @@
     "items": {
       "0": {
         "question": "OpenLegionを使うのに開発者である必要がありますか？",
-        "answer": "いいえ。app.openlegion.aiのマネージドホスティングではコーディングは不要です — 無料トライアルを開始し、テンプレートを選択し、LLM APIキーを追加するだけで、数分でエージェントが稼働します。セルフホスト版にはPython 3.10+とDockerが必要です。いずれの場合も、組み込みのチームテンプレート（開発チーム、営業パイプライン、コンテンツスタジオ）は設定不要ですぐに使用できます。"
+        "answer": "いいえ。app.openlegion.aiのマネージドホスティングではコーディングは不要です — サインアップし、テンプレートを選択し、LLM APIキーを追加するだけで、数分でエージェントが稼働します。セルフホスト版にはPython 3.10+とDockerが必要です。いずれの場合も、組み込みのチームテンプレート（開発チーム、営業パイプライン、コンテンツスタジオ）は設定不要ですぐに使用できます。"
       },
       "1": {
         "question": "サブスクリプションに加えてLLM使用料がかかりますか？",
@@ -558,8 +558,8 @@
     "heading": "あなたのAIチームは",
     "headingHighlight": "デプロイ",
     "headingEnd": "するだけ。",
-    "subtitle": "7日間無料トライアル · クレジットカード不要 · 100以上のLLMプロバイダー · ベンダーロックインなし",
-    "primaryButton": "無料トライアルを開始 →",
+    "subtitle": "初日から有料 · 100以上のLLMプロバイダー · 14日間返金保証",
+    "primaryButton": "今すぐ始める →",
     "secondaryButton": "Discordに参加"
   },
   "footer": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年払いで約${monthlyEquivalent}/月",
-    "monthlyTrialNote": "7日間無料トライアル · いつでもキャンセル可",
-    "startFreeTrial": "無料トライアルを開始",
+    "monthlyTrialNote": "初日から有料 · 14日間返金保証",
+    "startFreeTrial": "今すぐ始める",
     "agentsLabel": "{count, plural, one {エージェント} other {エージェント}}",
     "creditsLabel": "ウェルカムクレジット",
     "browsersLabel": "{count, plural, one {同時ブラウザ} other {同時ブラウザ}}",
@@ -710,8 +710,8 @@
     "faqHeading": "よくある質問",
     "faq": {
       "0": {
-        "question": "7日間無料トライアルはどのように機能しますか？",
-        "answer": "サインアップすると、7日間どのプランにもフルアクセスできます — クレジットカード不要。エージェントをデプロイし、ワークフローをテストし、ダッシュボードをご確認ください。トライアル終了までにアップグレードされない場合、アカウントは一時停止されます。プランを選択しない限り、料金が発生することはありません。"
+        "question": "プランには初日から何が含まれますか？",
+        "answer": "すべての有料プランには、ウェルカムクレジットバンドルと初日からの完全なアクセスが含まれます — VPS、システムプロキシ、オペレーターダッシュボード。ご満足いただけない場合は？14日以内にキャンセルいただければ、初月分を全額返金いたします — 理由は不要です。独自のAPIキーをお使いになりたい？もちろん可能で、ウェルカムクレジットはそのままお持ちいただけます。"
       },
       "1": {
         "question": "プラン料金に加えてLLM使用料を支払う必要がありますか？",
@@ -727,7 +727,7 @@
       },
       "4": {
         "question": "OpenLegionをセルフホストできますか？",
-        "answer": "はい。リポジトリをクローンし、3つのコマンドを実行するだけで、自社インフラ上にフルエージェントフリートが構築できます。エンジンはBSL 1.1のソースアベイラブルです。インフラ管理が不要なチーム向けのマネージドホスティングは月額$19から（7日間無料トライアル付き）です。"
+        "answer": "はい。リポジトリをクローンし、3つのコマンドを実行するだけで、自社インフラ上にフルエージェントフリートが構築できます。エンジンはBSL 1.1のソースアベイラブルです。インフラ管理が不要なチーム向けのマネージドホスティングは月額$19からご利用いただけます。"
       },
       "5": {
         "question": "「エージェント」とは何をカウントしますか？",
@@ -805,7 +805,7 @@
   "common": {
     "skipToContent": "コンテンツにスキップ",
     "readyToStart": "最初のエージェントを稼働させる準備はできましたか？",
-    "startFreeTrialInline": "無料トライアルを開始 →",
+    "startFreeTrialInline": "今すぐ始める →",
     "fleetLivePrompt": "これがあなたのフリートです、ライブで。",
     "tryFree7Days": "7日間無料でお試しください →",
     "brandName": "OpenLegion",
@@ -818,19 +818,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム | あらゆる作業を自動化、コントロールを維持",
-    "homeDescription": "OpenLegionは本番環境のために構築されたAIエージェントフレームワーク＆プラットフォームです。ブラウジング、フォーム、コード、アウトリーチ、データなど、あらゆるコンピュータータスクを自動化する自律エージェントをデプロイ。7日間無料トライアル、クレジットカード不要。",
+    "homeDescription": "OpenLegionは本番環境のために構築されたAIエージェントフレームワーク＆プラットフォームです。ブラウジング、フォーム、コード、アウトリーチ、データなど、あらゆるコンピュータータスクを自動化する自律エージェントをデプロイ。初日から有料、14日間返金保証付き。",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "ogDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。セキュア、予算内、本番対応。7日間無料トライアル。",
+    "ogDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。セキュア、予算内、本番対応。初日から有料、14日間返金保証付き。",
     "ogImageAlt": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
     "twitterTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "twitterDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。7日間無料トライアル、クレジットカード不要。",
-    "pricingTitle": "AIエージェントプラットフォーム料金 — 7日間無料トライアル",
-    "pricingDescription": "AIワークフォースを7日間無料でお試しください。クレジットカード不要。月額$19からのプランで、コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダーに対応。",
-    "pricingOgTitle": "AIエージェントプラットフォーム料金 — 7日間無料トライアル | OpenLegion",
-    "pricingOgDescription": "AIワークフォースを7日間無料でお試しください。クレジットカード不要。コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダー。",
-    "pricingTwitterTitle": "AIエージェントプラットフォーム料金 — 7日間無料トライアル | OpenLegion",
-    "pricingTwitterDescription": "AIワークフォースを7日間無料でお試しください。クレジットカード不要。",
+    "twitterDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。初日から有料、14日間返金保証付き。",
+    "pricingTitle": "AIエージェントプラットフォーム料金 — 初日から有料",
+    "pricingDescription": "月額$19からのプランで、コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダーに対応。初日から有料、14日間返金保証付き。",
+    "pricingOgTitle": "AIエージェントプラットフォーム料金 — 初日から有料 | OpenLegion",
+    "pricingOgDescription": "月額$19からのプラン。コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダー。14日間返金保証。",
+    "pricingTwitterTitle": "AIエージェントプラットフォーム料金 — 初日から有料 | OpenLegion",
+    "pricingTwitterDescription": "月額$19からのプラン。14日間返金保証。",
     "faqTitle": "よくある質問",
     "faqDescription": "OpenLegionについてのよくある質問への回答 — 本番環境のために構築されたAIエージェントフレームワーク＆プラットフォーム。セキュリティ、料金、LLMプロバイダー、オーケストレーション、エンタープライズデプロイなどをカバー。",
     "faqOgTitle": "よくある質問 — OpenLegion",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "パンくずリスト"
   },
   "inlineCta": {
-    "startFreeTrial": "無料トライアルを開始",
+    "startFreeTrial": "今すぐ始める",
     "readTheDocs": "ドキュメントを読む"
   },
   "seoLinks": {
@@ -1147,8 +1147,8 @@
     }
   },
   "launchPricing": {
-    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
-    "cta": "Get Started →"
+    "message": "ローンチ価格 — 期間限定。ローンチ終了後は通常価格に戻ります。",
+    "cta": "今すぐ始める →"
   },
   "pricingAnchors": {
     "basicMonthly": "39",
@@ -1157,6 +1157,6 @@
     "growthYearly": "1068",
     "proMonthly": "299",
     "proYearly": "2688",
-    "anchorLabel": "Launch pricing"
+    "anchorLabel": "ローンチ価格"
   }
 }

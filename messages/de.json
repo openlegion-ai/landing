@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion Startseite",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub-Repository",
-    "freeTrial": "Kostenlos testen",
+    "freeTrial": "Loslegen",
     "tryFree": "Kostenlos testen →",
     "toggleMenuAriaLabel": "Menü ein-/ausblenden",
     "billingPeriodAriaLabel": "Abrechnungszeitraum"
@@ -37,7 +37,7 @@
     "headingLine2": "indem du dein Wunschteam beschreibst.",
     "tagline": "Das KI-Agenten-Framework und die Plattform für den Produktiveinsatz.",
     "subtitle": "Sag OpenLegion \"Ich brauche eine Marketing-Agentur\", \"Ich brauche ein Vertriebsteam\" oder \"Ich brauche ein Research-Team\" — und der Agenten-Stack wird mit Budgets, Berechtigungen und sicherer Zugangsverwaltung automatisch bereitgestellt.",
-    "ctaPrimary": "Kostenlos testen",
+    "ctaPrimary": "Loslegen",
     "ctaSecondary": "Dokumentation lesen",
     "trustStrip": {
       "0": "Läuft rund um die Uhr",
@@ -327,7 +327,7 @@
     "managedBadge": "Am einfachsten — kein Setup erforderlich",
     "managedHeading": "Kein Terminal. Keine Konfigurationsdateien.",
     "managedDescription": "Wir kümmern uns um Container, Zugangsdaten und Infrastruktur.",
-    "managedCta": "Kostenlose Testphase starten →",
+    "managedCta": "Loslegen →",
     "steps": {
       "0": "Erstelle dein Konto",
       "1": "Wähle einen Plan",
@@ -491,7 +491,7 @@
     "items": {
       "0": {
         "question": "Muss ich Entwickler sein, um OpenLegion zu nutzen?",
-        "answer": "Nein. Das Managed Hosting auf app.openlegion.ai erfordert keine Programmierung — starte eine kostenlose Testphase, wähle eine Vorlage, füge deinen LLM-API-Schlüssel hinzu und deine Agenten sind in Minuten live. Die selbstgehostete Version erfordert Python 3.10+ und Docker. In jedem Fall funktionieren die integrierten Team-Vorlagen (Dev Team, Sales Pipeline, Content Studio) sofort ohne Konfiguration."
+        "answer": "Nein. Das Managed Hosting auf app.openlegion.ai erfordert keine Programmierung — registriere dich, wähle eine Vorlage, füge deinen LLM-API-Schlüssel hinzu und deine Agenten sind in Minuten live. Die selbstgehostete Version erfordert Python 3.10+ und Docker. In jedem Fall funktionieren die integrierten Team-Vorlagen (Dev Team, Sales Pipeline, Content Studio) sofort ohne Konfiguration."
       },
       "1": {
         "question": "Zahle ich für die LLM-Nutzung zusätzlich zum Abonnement?",
@@ -558,8 +558,8 @@
     "heading": "Dein KI-Team ist nur ein ",
     "headingHighlight": "Deployment entfernt",
     "headingEnd": ".",
-    "subtitle": "7 Tage kostenlos testen · Keine Kreditkarte erforderlich · 100+ LLM-Anbieter · Kein Vendor Lock-in",
-    "primaryButton": "Kostenlose Testphase starten →",
+    "subtitle": "Ab dem ersten Tag kostenpflichtig · 100+ LLM-Anbieter · Geld-zurück-Garantie in 14 Tagen",
+    "primaryButton": "Loslegen →",
     "secondaryButton": "Tritt unserem Discord bei"
   },
   "footer": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/Monat",
     "priceSuffixYearly": "/Jahr",
     "yearlyBilledNote": "~${monthlyEquivalent}/Monat bei jährlicher Abrechnung",
-    "monthlyTrialNote": "7 Tage kostenlos testen · jederzeit kündbar",
-    "startFreeTrial": "Kostenlose Testphase starten",
+    "monthlyTrialNote": "Ab dem ersten Tag kostenpflichtig · 14 Tage Geld-zurück-Garantie",
+    "startFreeTrial": "Loslegen",
     "agentsLabel": "{count, plural, one {Agent} other {Agenten}}",
     "creditsLabel": "Willkommens-Credits",
     "browsersLabel": "{count, plural, one {gleichzeitiger Browser} other {gleichzeitige Browser}}",
@@ -710,8 +710,8 @@
     "faqHeading": "Häufige Fragen",
     "faq": {
       "0": {
-        "question": "Wie funktioniert die 7-tägige kostenlose Testphase?",
-        "answer": "Registriere dich und erhalte vollen Zugang zu jedem Plan für 7 Tage — keine Kreditkarte erforderlich. Stelle Agenten bereit, teste Workflows und erkunde das Dashboard. Wenn du vor dem Ende der Testphase nicht upgradest, wird dein Konto einfach pausiert. Keine Gebühren, niemals, es sei denn, du wählst einen Plan."
+        "question": "Was ist ab dem ersten Tag im Plan enthalten?",
+        "answer": "Jeder kostenpflichtige Plan beinhaltet ein Willkommens-Credits-Paket und vollen Zugriff ab dem ersten Tag — VPS, System-Proxy und Operator-Dashboard. Nicht das Richtige? Kündige innerhalb von 14 Tagen und wir erstatten den ersten Monat zurück, ohne Wenn und Aber. Möchtest du lieber deine eigenen API-Schlüssel verwenden? Klar, und die Willkommens-Credits behältst du trotzdem."
       },
       "1": {
         "question": "Muss ich für die LLM-Nutzung zusätzlich zum Plan-Preis zahlen?",
@@ -727,7 +727,7 @@
       },
       "4": {
         "question": "Kann ich OpenLegion selbst hosten?",
-        "answer": "Ja. Klone das Repository, führe drei Befehle aus und du hast eine vollständige Agenten-Flotte auf deiner eigenen Infrastruktur. Die Engine ist quelloffen unter BSL 1.1. Managed Hosting beginnt bei 19 $/Monat (mit 7-tägiger kostenloser Testphase) für Teams, die keine Infrastruktur verwalten wollen."
+        "answer": "Ja. Klone das Repository, führe drei Befehle aus und du hast eine vollständige Agenten-Flotte auf deiner eigenen Infrastruktur. Die Engine ist quelloffen unter BSL 1.1. Managed Hosting beginnt bei 19 $/Monat für Teams, die keine Infrastruktur verwalten wollen."
       },
       "5": {
         "question": "Was zählt als 'Agent'?",
@@ -805,7 +805,7 @@
   "common": {
     "skipToContent": "Zum Inhalt springen",
     "readyToStart": "Bereit, deinen ersten Agenten an die Arbeit zu setzen?",
-    "startFreeTrialInline": "Kostenlose Testphase starten →",
+    "startFreeTrialInline": "Loslegen →",
     "fleetLivePrompt": "Das ist deine Flotte, live.",
     "tryFree7Days": "7 Tage kostenlos testen →",
     "brandName": "OpenLegion",
@@ -818,19 +818,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — KI-Agenten-Framework & Plattform | Alles automatisieren, Kontrolle behalten",
-    "homeDescription": "OpenLegion ist das KI-Agenten-Framework und die Plattform für den Produktiveinsatz. Stelle autonome Agenten bereit, die jede Computeraufgabe automatisieren — Surfen, Formulare, Code, Outreach, Daten. 7 Tage kostenlos testen, keine Kreditkarte erforderlich.",
+    "homeDescription": "OpenLegion ist das KI-Agenten-Framework und die Plattform für den Produktiveinsatz. Stelle autonome Agenten bereit, die jede Computeraufgabe automatisieren — Surfen, Formulare, Code, Outreach, Daten. Ab dem ersten Tag kostenpflichtig, 14 Tage Geld-zurück-Garantie.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — KI-Agenten-Framework & Plattform",
-    "ogDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Sicher, im Budget, produktionsbereit. 7 Tage kostenlos testen.",
+    "ogDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Sicher, im Budget, produktionsbereit. Ab dem ersten Tag kostenpflichtig, 14 Tage Geld-zurück-Garantie.",
     "ogImageAlt": "OpenLegion — KI-Agenten-Framework & Plattform",
     "twitterTitle": "OpenLegion — KI-Agenten-Framework & Plattform",
-    "twitterDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. 7 Tage kostenlos testen, keine Kreditkarte erforderlich.",
-    "pricingTitle": "KI-Agenten-Plattform Preise — 7 Tage kostenlos testen",
-    "pricingDescription": "Teste deine KI-Belegschaft 7 Tage kostenlos. Keine Kreditkarte erforderlich. Pläne ab 19 $/Monat mit Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbietern.",
-    "pricingOgTitle": "KI-Agenten-Plattform Preise — 7 Tage kostenlos testen | OpenLegion",
-    "pricingOgDescription": "Teste deine KI-Belegschaft 7 Tage kostenlos. Keine Kreditkarte erforderlich. Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbieter.",
-    "pricingTwitterTitle": "KI-Agenten-Plattform Preise — 7 Tage kostenlos testen | OpenLegion",
-    "pricingTwitterDescription": "Teste deine KI-Belegschaft 7 Tage kostenlos. Keine Kreditkarte erforderlich.",
+    "twitterDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Ab dem ersten Tag kostenpflichtig, 14 Tage Geld-zurück-Garantie.",
+    "pricingTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig",
+    "pricingDescription": "Pläne ab 19 $/Monat mit Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbietern. Ab dem ersten Tag kostenpflichtig, 14 Tage Geld-zurück-Garantie.",
+    "pricingOgTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig | OpenLegion",
+    "pricingOgDescription": "Pläne ab 19 $/Monat. Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbieter. 14 Tage Geld-zurück-Garantie.",
+    "pricingTwitterTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig | OpenLegion",
+    "pricingTwitterDescription": "Pläne ab 19 $/Monat. 14 Tage Geld-zurück-Garantie.",
     "faqTitle": "Häufig gestellte Fragen",
     "faqDescription": "Antworten auf häufige Fragen über OpenLegion — das KI-Agenten-Framework und die Plattform für den Produktiveinsatz. Umfasst Sicherheit, Preise, LLM-Anbieter, Orchestrierung, Enterprise-Bereitstellung und mehr.",
     "faqOgTitle": "Häufig gestellte Fragen — OpenLegion",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Brotkrümelnavigation"
   },
   "inlineCta": {
-    "startFreeTrial": "Kostenlose Testphase starten",
+    "startFreeTrial": "Loslegen",
     "readTheDocs": "Dokumentation lesen"
   },
   "seoLinks": {
@@ -1147,8 +1147,8 @@
     }
   },
   "launchPricing": {
-    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
-    "cta": "Get Started →"
+    "message": "Einführungspreis — zeitlich begrenzt. Nach Ende der Einführungsphase gelten die Standardpreise.",
+    "cta": "Loslegen →"
   },
   "pricingAnchors": {
     "basicMonthly": "39",
@@ -1157,6 +1157,6 @@
     "growthYearly": "1068",
     "proMonthly": "299",
     "proYearly": "2688",
-    "anchorLabel": "Launch pricing"
+    "anchorLabel": "Einführungspreis"
   }
 }

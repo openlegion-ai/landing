@@ -24,7 +24,7 @@
     "homeAriaLabel": "Inicio de OpenLegion",
     "brandName": "OpenLegion",
     "githubAriaLabel": "Repositorio en GitHub",
-    "freeTrial": "Prueba gratuita",
+    "freeTrial": "Empezar",
     "tryFree": "Probar gratis →",
     "toggleMenuAriaLabel": "Abrir o cerrar menú",
     "billingPeriodAriaLabel": "Período de facturación"
@@ -37,7 +37,7 @@
     "headingLine2": "describiendo el equipo que necesitas.",
     "tagline": "El framework y plataforma de agentes de IA creado para producción.",
     "subtitle": "Dile a OpenLegion \"quiero una agencia de marketing\", \"quiero un equipo de ventas\" o \"quiero un equipo de investigación\", y despliega el stack de agentes con presupuestos, permisos y controles seguros de credenciales integrados.",
-    "ctaPrimary": "Comenzar prueba gratuita",
+    "ctaPrimary": "Empezar",
     "ctaSecondary": "Leer la documentación",
     "trustStrip": {
       "0": "Funciona 24/7",
@@ -327,7 +327,7 @@
     "managedBadge": "Más fácil — sin configuración necesaria",
     "managedHeading": "Sin terminal. Sin archivos de configuración.",
     "managedDescription": "Nosotros nos encargamos de los contenedores, las credenciales y la infraestructura.",
-    "managedCta": "Iniciar prueba gratuita →",
+    "managedCta": "Empezar →",
     "steps": {
       "0": "Crea tu cuenta",
       "1": "Selecciona un plan",
@@ -491,7 +491,7 @@
     "items": {
       "0": {
         "question": "¿Necesito ser desarrollador para usar OpenLegion?",
-        "answer": "No. El hosting gestionado en app.openlegion.ai no requiere programación — inicia una prueba gratuita, elige una plantilla, agrega tu clave API de LLM y tus agentes estarán activos en minutos. La versión autoalojada requiere Python 3.10+ y Docker. En cualquier caso, las plantillas de equipo integradas (Dev Team, Sales Pipeline, Content Studio) funcionan de inmediato sin configuración."
+        "answer": "No. El hosting gestionado en app.openlegion.ai no requiere programación — regístrate, elige una plantilla, agrega tu clave API de LLM y tus agentes estarán activos en minutos. La versión autoalojada requiere Python 3.10+ y Docker. En cualquier caso, las plantillas de equipo integradas (Dev Team, Sales Pipeline, Content Studio) funcionan de inmediato sin configuración."
       },
       "1": {
         "question": "¿Pago por el uso de LLM además de la suscripción?",
@@ -558,8 +558,8 @@
     "heading": "Tu equipo de IA está a un ",
     "headingHighlight": "despliegue de distancia",
     "headingEnd": ".",
-    "subtitle": "Prueba gratuita de 7 días · Sin tarjeta de crédito · Más de 100 proveedores LLM · Sin dependencia de proveedor",
-    "primaryButton": "Iniciar prueba gratuita →",
+    "subtitle": "De pago desde el primer día · Más de 100 proveedores LLM · Reembolso en 14 días",
+    "primaryButton": "Empezar →",
     "secondaryButton": "Únete a nuestro Discord"
   },
   "footer": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/mes",
     "priceSuffixYearly": "/año",
     "yearlyBilledNote": "~${monthlyEquivalent}/mes facturado anualmente",
-    "monthlyTrialNote": "Prueba gratuita de 7 días · cancela cuando quieras",
-    "startFreeTrial": "Iniciar prueba gratuita",
+    "monthlyTrialNote": "De pago desde el primer día · reembolso en 14 días",
+    "startFreeTrial": "Empezar",
     "agentsLabel": "{count, plural, one {agente} other {agentes}}",
     "creditsLabel": "créditos de bienvenida",
     "browsersLabel": "{count, plural, one {navegador concurrente} other {navegadores concurrentes}}",
@@ -710,8 +710,8 @@
     "faqHeading": "Preguntas comunes",
     "faq": {
       "0": {
-        "question": "¿Cómo funciona la prueba gratuita de 7 días?",
-        "answer": "Regístrate y obtén acceso completo a cualquier plan por 7 días — sin tarjeta de crédito. Despliega agentes, prueba flujos de trabajo y explora el panel. Si no actualizas antes de que termine la prueba, tu cuenta simplemente se pausa. Sin cargos, nunca, a menos que elijas un plan."
+        "question": "¿Qué incluye el plan desde el primer día?",
+        "answer": "Cada plan de pago incluye un paquete de créditos de bienvenida y acceso completo desde el primer día — VPS, proxy del sistema y panel de operador. ¿No es lo que buscabas? Cancela en los primeros 14 días y te reembolsamos el primer mes, sin preguntas. ¿Prefieres usar tus propias claves API? Puedes hacerlo, y los créditos de bienvenida son tuyos."
       },
       "1": {
         "question": "¿Necesito pagar por el uso de LLM además del precio del plan?",
@@ -727,7 +727,7 @@
       },
       "4": {
         "question": "¿Puedo autoalojar OpenLegion?",
-        "answer": "Sí. Clona el repositorio, ejecuta tres comandos y tendrás una flota de agentes completa en tu propia infraestructura. El motor es código fuente disponible bajo BSL 1.1. El hosting gestionado comienza en $19/mes (con una prueba gratuita de 7 días) para equipos que no quieren gestionar infraestructura."
+        "answer": "Sí. Clona el repositorio, ejecuta tres comandos y tendrás una flota de agentes completa en tu propia infraestructura. El motor es código fuente disponible bajo BSL 1.1. El hosting gestionado comienza en $19/mes para equipos que no quieren gestionar infraestructura."
       },
       "5": {
         "question": "¿Qué cuenta como un \"agente\"?",
@@ -805,7 +805,7 @@
   "common": {
     "skipToContent": "Ir al contenido",
     "readyToStart": "¿Listo para poner a trabajar a tu primer agente?",
-    "startFreeTrialInline": "Iniciar prueba gratuita →",
+    "startFreeTrialInline": "Empezar →",
     "fleetLivePrompt": "Esta es tu flota, en vivo.",
     "tryFree7Days": "Pruébalo gratis por 7 días →",
     "brandName": "OpenLegion",
@@ -818,19 +818,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — Framework y plataforma de agentes de IA | Automatiza todo, mantén el control",
-    "homeDescription": "OpenLegion es el framework y plataforma de agentes de IA creado para producción. Despliega agentes autónomos que automatizan cualquier tarea informática — navegación, formularios, código, contacto, datos. Prueba gratuita de 7 días, sin tarjeta de crédito.",
+    "homeDescription": "OpenLegion es el framework y plataforma de agentes de IA creado para producción. Despliega agentes autónomos que automatizan cualquier tarea informática — navegación, formularios, código, contacto, datos. De pago desde el primer día, garantía de devolución en 14 días.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — Framework y plataforma de agentes de IA",
-    "ogDescription": "Despliega agentes de IA que automatizan todo lo que un humano puede hacer en una computadora. Seguro, con presupuesto, listo para producción. Prueba gratuita de 7 días.",
+    "ogDescription": "Despliega agentes de IA que automatizan todo lo que un humano puede hacer en una computadora. Seguro, con presupuesto, listo para producción. De pago desde el primer día, garantía de devolución en 14 días.",
     "ogImageAlt": "OpenLegion — Framework y plataforma de agentes de IA",
     "twitterTitle": "OpenLegion — Framework y plataforma de agentes de IA",
-    "twitterDescription": "Despliega agentes de IA que automatizan todo lo que un humano puede hacer en una computadora. Prueba gratuita de 7 días, sin tarjeta de crédito.",
-    "pricingTitle": "Precios de la plataforma de agentes de IA — Prueba gratuita de 7 días",
-    "pricingDescription": "Prueba tu fuerza laboral de IA gratis por 7 días. Sin tarjeta de crédito. Planes desde $19/mes con aislamiento de contenedores, seguridad de bóveda y más de 100 proveedores LLM.",
-    "pricingOgTitle": "Precios de la plataforma de agentes de IA — Prueba gratuita de 7 días | OpenLegion",
-    "pricingOgDescription": "Prueba tu fuerza laboral de IA gratis por 7 días. Sin tarjeta de crédito. Aislamiento de contenedores, seguridad de bóveda y más de 100 proveedores LLM.",
-    "pricingTwitterTitle": "Precios de la plataforma de agentes de IA — Prueba gratuita de 7 días | OpenLegion",
-    "pricingTwitterDescription": "Prueba tu fuerza laboral de IA gratis por 7 días. Sin tarjeta de crédito.",
+    "twitterDescription": "Despliega agentes de IA que automatizan todo lo que un humano puede hacer en una computadora. De pago desde el primer día, garantía de devolución en 14 días.",
+    "pricingTitle": "Precios de la plataforma de agentes de IA — De pago desde el primer día",
+    "pricingDescription": "Planes desde $19/mes con aislamiento de contenedores, seguridad de bóveda y más de 100 proveedores LLM. De pago desde el primer día, garantía de devolución en 14 días.",
+    "pricingOgTitle": "Precios de la plataforma de agentes de IA — De pago desde el primer día | OpenLegion",
+    "pricingOgDescription": "Planes desde $19/mes. Aislamiento de contenedores, seguridad de bóveda y más de 100 proveedores LLM. Garantía de devolución en 14 días.",
+    "pricingTwitterTitle": "Precios de la plataforma de agentes de IA — De pago desde el primer día | OpenLegion",
+    "pricingTwitterDescription": "Planes desde $19/mes. Garantía de devolución en 14 días.",
     "faqTitle": "Preguntas frecuentes",
     "faqDescription": "Respuestas a preguntas comunes sobre OpenLegion — el framework y plataforma de agentes de IA creado para producción. Cubre seguridad, precios, proveedores de LLM, orquestación, despliegue empresarial y más.",
     "faqOgTitle": "Preguntas frecuentes — OpenLegion",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Migas de pan"
   },
   "inlineCta": {
-    "startFreeTrial": "Iniciar prueba gratuita",
+    "startFreeTrial": "Empezar",
     "readTheDocs": "Leer la documentación"
   },
   "seoLinks": {
@@ -1147,8 +1147,8 @@
     }
   },
   "launchPricing": {
-    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
-    "cta": "Get Started →"
+    "message": "Precio de lanzamiento — tiempo limitado. Los precios estándar se aplican cuando finalice el lanzamiento.",
+    "cta": "Empezar →"
   },
   "pricingAnchors": {
     "basicMonthly": "39",
@@ -1157,6 +1157,6 @@
     "growthYearly": "1068",
     "proMonthly": "299",
     "proYearly": "2688",
-    "anchorLabel": "Launch pricing"
+    "anchorLabel": "Precio de lanzamiento"
   }
 }
