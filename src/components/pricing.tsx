@@ -73,6 +73,7 @@ const PRICING_FAQ_INDICES = [0, 1, 2, 3, 4, 5, 6];
 export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
   const t = useTranslations("pricing");
+  const tAnchors = useTranslations("pricingAnchors");
 
   return (
     <section className="relative px-5 pt-28 pb-16 sm:px-6 md:px-8 md:pt-36 md:pb-28 lg:pt-40 lg:pb-36">
@@ -148,6 +149,16 @@ export function Pricing() {
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
             const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
+            // pricingAnchors values are strings like "39", "1068".
+            // Plan type uses `name` (verified — not `id`).
+            const anchorKey = `${plan.name}${billing === "monthly" ? "Monthly" : "Yearly"}`;
+            const anchor = (() => {
+              try {
+                return tAnchors(anchorKey);
+              } catch {
+                return null;
+              }
+            })();
 
             return (
               <StaggerItem key={plan.name}>
@@ -170,10 +181,25 @@ export function Pricing() {
                     {t(`plans.${planIdx}.name`)}
                   </h3>
                   <div className="mt-3">
-                    <span className="text-4xl font-bold tracking-tight text-foreground">
-                      ${price.toLocaleString()}
-                    </span>
-                    <span className="text-muted">{suffix}</span>
+                    <div className="flex flex-wrap items-baseline gap-2">
+                      <span className="text-4xl font-bold tracking-tight text-foreground">
+                        ${price.toLocaleString()}
+                      </span>
+                      {anchor && (
+                        <s
+                          className="text-base text-muted line-through"
+                          aria-label={`Original price $${anchor}`}
+                        >
+                          ${anchor}
+                        </s>
+                      )}
+                      <span className="text-muted">{suffix}</span>
+                    </div>
+                    {anchor && (
+                      <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                        {tAnchors("anchorLabel")}
+                      </span>
+                    )}
                   </div>
                   <p className="mt-1 h-5 text-xs text-muted">
                     {billing === "yearly"
