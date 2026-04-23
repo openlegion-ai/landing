@@ -630,7 +630,7 @@
     "heading": "플랜은 ",
     "headingHighlight": "월 $19",
     "headingEnd": "부터.",
-    "subtitle": "신용카드 불필요. API 키는 고객이 가져오고, 인프라는 저희가 운영합니다.",
+    "subtitle": "API 키는 고객이 가져오고, 인프라는 저희가 운영합니다.",
     "included": {
       "0": {
         "title": "Vault 보안",

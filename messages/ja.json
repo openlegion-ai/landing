@@ -630,7 +630,7 @@
     "heading": "プランは",
     "headingHighlight": "月額 $19",
     "headingEnd": "から。",
-    "subtitle": "クレジットカード不要。APIキーはお客様持ち込み、インフラは私たちが運用します。",
+    "subtitle": "APIキーはお客様持ち込み、インフラは私たちが運用します。",
     "included": {
       "0": {
         "title": "Vaultセキュリティ",

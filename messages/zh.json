@@ -630,7 +630,7 @@
     "heading": "套餐起价 ",
     "headingHighlight": "$19/月",
     "headingEnd": "。",
-    "subtitle": "无需信用卡。你提供 API 密钥，我们运行基础设施。",
+    "subtitle": "你提供 API 密钥，我们运行基础设施。",
     "included": {
       "0": {
         "title": "密钥库安全",

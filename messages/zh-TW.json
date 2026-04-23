@@ -630,7 +630,7 @@
     "heading": "方案起價 ",
     "headingHighlight": "$19/月",
     "headingEnd": "。",
-    "subtitle": "無需信用卡。您提供 API 金鑰，我們負責運行基礎設施。",
+    "subtitle": "您提供 API 金鑰，我們負責運行基礎設施。",
     "included": {
       "0": {
         "title": "Vault 安全性",
