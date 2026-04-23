@@ -244,9 +244,9 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd).replace(/</g, "\\u003c") }}
       />
       <a href="#main" className="skip-nav">{t("skipToContent")}</a>
-      <Navbar />
+      <LaunchPricingBand />
+      <Navbar withBanner />
       <main id="main">
-        <LaunchPricingBand />
         <Hero />
         <CapabilityBand />
         <PromptToTeam />
