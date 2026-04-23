@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
+    "message": "Launch pricing — limited time",
     "cta": "Get Started →"
   },
   "pricingAnchors": {

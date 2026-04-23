@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "ローンチ価格 — 期間限定。ローンチ終了後は通常価格に戻ります。",
+    "message": "ローンチ価格 — 期間限定",
     "cta": "今すぐ始める →"
   },
   "pricingAnchors": {

@@ -118,7 +118,7 @@ export function Pricing() {
               <button
                 onClick={() => setBilling("monthly")}
                 aria-pressed={billing === "monthly"}
-                className={`cursor-pointer rounded-full px-5 py-2 text-sm font-medium transition-all ${
+                className={`min-h-[44px] cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
                   billing === "monthly"
                     ? "bg-accent text-white shadow-sm"
                     : "text-muted hover:text-foreground"
@@ -129,7 +129,7 @@ export function Pricing() {
               <button
                 onClick={() => setBilling("yearly")}
                 aria-pressed={billing === "yearly"}
-                className={`cursor-pointer rounded-full px-5 py-2 text-sm font-medium transition-all ${
+                className={`min-h-[44px] cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
                   billing === "yearly"
                     ? "bg-accent text-white shadow-sm"
                     : "text-muted hover:text-foreground"

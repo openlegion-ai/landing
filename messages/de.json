@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "Einführungspreis — zeitlich begrenzt. Nach Ende der Einführungsphase gelten die Standardpreise.",
+    "message": "Einführungspreis — zeitlich begrenzt",
     "cta": "Loslegen →"
   },
   "pricingAnchors": {

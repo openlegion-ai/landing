@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "Preço de lançamento — por tempo limitado. Os preços padrão entram em vigor após o término do lançamento.",
+    "message": "Preço de lançamento — por tempo limitado",
     "cta": "Começar →"
   },
   "pricingAnchors": {

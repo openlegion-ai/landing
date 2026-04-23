@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "上线优惠价 — 限时活动。结束后将恢复标准价格。",
+    "message": "上线优惠价 — 限时活动",
     "cta": "立即开始 →"
   },
   "pricingAnchors": {

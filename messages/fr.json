@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "Tarif de lancement — durée limitée. Les tarifs standard s'appliqueront à la fin du lancement.",
+    "message": "Tarif de lancement — durée limitée",
     "cta": "Commencer →"
   },
   "pricingAnchors": {

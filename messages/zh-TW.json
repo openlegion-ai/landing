@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "上線優惠價 — 限時活動。結束後將恢復標準價格。",
+    "message": "上線優惠價 — 限時活動",
     "cta": "立即開始 →"
   },
   "pricingAnchors": {

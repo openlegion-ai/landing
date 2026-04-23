@@ -51,7 +51,8 @@
 }
 
 html {
-  scroll-padding-top: 80px;
+  /* Account for fixed launch banner (36px) + navbar (~60px) when present. */
+  scroll-padding-top: 110px;
 }
 
 body {
