@@ -125,7 +125,10 @@ export default function TermsPage() {
             </ul>
             <p className="mt-2">
               We may investigate violations and, at our sole discretion, immediately
-              terminate or suspend your access without notice or refund.
+              terminate or suspend your access without notice and without refund.
+              This applies to violations of these Terms only — good-faith refund requests
+              within the money-back guarantee window are handled separately under
+              Section 6.
             </p>
           </section>
 
@@ -136,10 +139,28 @@ export default function TermsPage() {
             </h2>
             <p>
               Certain features of the Service may require payment. All fees are stated on
-              our pricing page and are billed in advance on a recurring basis. Fees are
-              non-refundable except where required by applicable law. We reserve the right
-              to change pricing at any time with 30 days&apos; notice. Continued use after
-              a price change constitutes acceptance of the new pricing.
+              our pricing page and are billed in advance on a recurring basis.
+            </p>
+            <p className="mt-2">
+              <strong>Money-back guarantee.</strong> New customers may request a full
+              refund of their first subscription payment within 14 days of that payment.
+              Refunds are processed via our payment processor and typically settle within
+              5 business days. Receiving a refund cancels your subscription immediately,
+              and your hosted instance is taken offline within 24 hours. Welcome credits
+              granted with the refunded subscription are reclaimed at the time of refund.
+              Customers who receive a money-back refund are not eligible for a second
+              money-back refund or a second welcome-credits grant on a future
+              subscription. See our{" "}
+              <a href="/money-back-guarantee" className="underline">
+                Money-Back Guarantee
+              </a>{" "}
+              page for full terms.
+            </p>
+            <p className="mt-2">
+              Outside the 14-day money-back window, fees are non-refundable except where
+              required by applicable law. We reserve the right to change pricing at any
+              time with 30 days&apos; notice. Continued use after a price change
+              constitutes acceptance of the new pricing.
             </p>
             <p className="mt-2">
               You are solely responsible for all third-party costs incurred through your
