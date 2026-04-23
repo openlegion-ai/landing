@@ -17,6 +17,7 @@ import { Comparison } from "@/components/comparison";
 import { FAQ } from "@/components/faq";
 import { CTA } from "@/components/cta";
 import { CapabilityBand } from "@/components/capability-band";
+import { LaunchPricingBand } from "@/components/launch-pricing-band";
 import { TechnicalDefinition } from "@/components/technical-definition";
 import { Footer } from "@/components/footer";
 import { ALL_FAQ_ITEMS, GITHUB_URL, APP_URL } from "@/lib/constants";
@@ -253,6 +254,7 @@ export default async function Home() {
       <a href="#main" className="skip-nav">{t("skipToContent")}</a>
       <Navbar />
       <main id="main">
+        <LaunchPricingBand />
         <Hero />
         <CapabilityBand />
         <PromptToTeam />

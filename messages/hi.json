@@ -1145,5 +1145,18 @@
       "text": "इन शर्तों के बारे में प्रश्न? हमसे संपर्क करें",
       "email": "support@openlegion.ai"
     }
+  },
+  "launchPricing": {
+    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
+    "cta": "Get Started →"
+  },
+  "pricingAnchors": {
+    "basicMonthly": "39",
+    "basicYearly": "348",
+    "growthMonthly": "119",
+    "growthYearly": "1068",
+    "proMonthly": "299",
+    "proYearly": "2688",
+    "anchorLabel": "Launch pricing"
   }
 }

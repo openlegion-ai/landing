@@ -1145,5 +1145,18 @@
       "text": "對本條款有任何疑問？請聯繫：",
       "email": "support@openlegion.ai"
     }
+  },
+  "launchPricing": {
+    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
+    "cta": "Get Started →"
+  },
+  "pricingAnchors": {
+    "basicMonthly": "39",
+    "basicYearly": "348",
+    "growthMonthly": "119",
+    "growthYearly": "1068",
+    "proMonthly": "299",
+    "proYearly": "2688",
+    "anchorLabel": "Launch pricing"
   }
 }

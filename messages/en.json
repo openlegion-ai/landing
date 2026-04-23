@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion home",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub repository",
-    "freeTrial": "Free trial",
+    "freeTrial": "Get Started",
     "tryFree": "Try free →",
     "toggleMenuAriaLabel": "Toggle menu",
     "billingPeriodAriaLabel": "Billing period"
@@ -37,7 +37,7 @@
     "headingLine2": "by describing the team you want.",
     "tagline": "The AI agent framework and platform built for production.",
     "subtitle": "Tell OpenLegion \"I want a marketing agency\", \"I want a sales team\", or \"I want a research desk\", and it will deploy the agent stack with budgets, permissions, and secure credential controls built in.",
-    "ctaPrimary": "Start free trial",
+    "ctaPrimary": "Get Started",
     "ctaSecondary": "Read the docs",
     "trustStrip": {
       "0": "Runs 24/7",
@@ -327,7 +327,7 @@
     "managedBadge": "Easiest — no setup required",
     "managedHeading": "No terminal. No config files.",
     "managedDescription": "We handle the containers, credentials, and infrastructure.",
-    "managedCta": "Start free trial →",
+    "managedCta": "Get Started →",
     "steps": {
       "0": "Create your account",
       "1": "Select a plan",
@@ -491,7 +491,7 @@
     "items": {
       "0": {
         "question": "Do I need to be a developer to use OpenLegion?",
-        "answer": "No. The managed hosting at app.openlegion.ai requires no coding — start a free trial, pick a template, add your LLM API key, and your agents are live in minutes. The self-hosted version requires Python 3.10+ and Docker. Either way, the built-in team templates (Dev Team, Sales Pipeline, Content Studio) work out of the box with no configuration needed."
+        "answer": "No. The managed hosting at app.openlegion.ai requires no coding — sign up, pick a template, add your LLM API key, and your agents are live in minutes. The self-hosted version requires Python 3.10+ and Docker. Either way, the built-in team templates (Dev Team, Sales Pipeline, Content Studio) work out of the box with no configuration needed."
       },
       "1": {
         "question": "Do I pay for LLM usage on top of the subscription?",
@@ -558,8 +558,8 @@
     "heading": "Your AI team is one ",
     "headingHighlight": "deploy away",
     "headingEnd": ".",
-    "subtitle": "7-day free trial · 100+ LLM providers · No vendor lock-in",
-    "primaryButton": "Start free trial →",
+    "subtitle": "Paid from day one · 100+ LLM providers · Money-back in 14 days",
+    "primaryButton": "Get Started →",
     "secondaryButton": "Join our Discord"
   },
   "footer": {
@@ -676,8 +676,8 @@
     "priceSuffixMonthly": "/mo",
     "priceSuffixYearly": "/yr",
     "yearlyBilledNote": "~${monthlyEquivalent}/mo billed annually",
-    "monthlyTrialNote": "7-day free trial · cancel anytime",
-    "startFreeTrial": "Start Free Trial",
+    "monthlyTrialNote": "Paid from day one · 14-day money-back",
+    "startFreeTrial": "Get Started",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "welcome credits",
     "browsersLabel": "{count, plural, one {concurrent browser} other {concurrent browsers}}",
@@ -710,12 +710,12 @@
     "faqHeading": "Common questions",
     "faq": {
       "0": {
-        "question": "How does the 7-day free trial work?",
-        "answer": "Sign up, add a payment method, and get full access to any plan for 7 days. Deploy agents, test workflows, and explore the dashboard. During the trial, add your own API key to power your agents — your welcome credits arrive when your first payment processes. If you cancel before the trial ends, you won't be charged. Want credits right away? Choose \"Subscribe now\" to skip the trial and pay immediately."
+        "question": "What does the plan include on day one?",
+        "answer": "Every paid plan includes a welcome credits bundle and full access on day one — VPS, system proxy, and the operator dashboard. Not a fit? Cancel within 14 days and we refund your first month, no questions asked. Prefer to bring your own API keys? You can, and the welcome credits are yours to keep."
       },
       "1": {
         "question": "Do I need to pay for LLM usage on top of the plan price?",
-        "answer": "Every paid subscription includes a welcome bonus of LLM credits that never expire. Once your first payment processes, use credits to power your agents — no API keys needed. During the free trial, bring your own API key to get started. Need more credits later? Top up anytime from $5, or bring your own API keys from Anthropic, OpenAI, Google, and 100+ providers to skip credits entirely."
+        "answer": "Every paid subscription includes a welcome bonus of LLM credits that never expire. Once your first payment processes, use credits to power your agents — no API keys needed. Prefer to use your own API keys from Anthropic, OpenAI, Google, or 100+ other providers? You can do that from day one and skip credits entirely. Need more credits later? Top up anytime from $5."
       },
       "2": {
         "question": "Can I switch plans?",
@@ -727,7 +727,7 @@
       },
       "4": {
         "question": "Can I self-host OpenLegion?",
-        "answer": "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under BSL 1.1. Managed hosting starts at $19/month (with a 7-day free trial) for teams that don't want to manage infrastructure."
+        "answer": "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under BSL 1.1. Managed hosting starts at $19/month for teams that don't want to manage infrastructure."
       },
       "5": {
         "question": "What counts as an \"agent\"?",
@@ -805,7 +805,7 @@
   "common": {
     "skipToContent": "Skip to content",
     "readyToStart": "Ready to put your first agent to work?",
-    "startFreeTrialInline": "Start free trial →",
+    "startFreeTrialInline": "Get Started →",
     "fleetLivePrompt": "This is your fleet, live.",
     "tryFree7Days": "Try it free for 7 days →",
     "brandName": "OpenLegion",
@@ -818,19 +818,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control",
-    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. 7-day free trial.",
+    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. Paid from day one, 14-day money-back guarantee.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI Agent Framework & Platform",
-    "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. 7-day free trial.",
+    "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. Paid from day one, 14-day money-back guarantee.",
     "ogImageAlt": "OpenLegion — AI Agent Framework & Platform",
     "twitterTitle": "OpenLegion — AI Agent Framework & Platform",
-    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. 7-day free trial.",
-    "pricingTitle": "AI Agent Platform Pricing — 7-Day Free Trial",
-    "pricingDescription": "Try your AI workforce free for 7 days. Plans from $19/month with container isolation, vault security, and 100+ LLM providers.",
-    "pricingOgTitle": "AI Agent Platform Pricing — 7-Day Free Trial | OpenLegion",
-    "pricingOgDescription": "Try your AI workforce free for 7 days. Container isolation, vault security, and 100+ LLM providers.",
-    "pricingTwitterTitle": "AI Agent Platform Pricing — 7-Day Free Trial | OpenLegion",
-    "pricingTwitterDescription": "Try your AI workforce free for 7 days.",
+    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. Paid from day one, 14-day money-back guarantee.",
+    "pricingTitle": "AI Agent Platform Pricing — Paid From Day One",
+    "pricingDescription": "Plans from $19/month with container isolation, vault security, and 100+ LLM providers. Paid from day one, 14-day money-back guarantee.",
+    "pricingOgTitle": "AI Agent Platform Pricing — Paid From Day One | OpenLegion",
+    "pricingOgDescription": "Plans from $19/month. Container isolation, vault security, and 100+ LLM providers. 14-day money-back guarantee.",
+    "pricingTwitterTitle": "AI Agent Platform Pricing — Paid From Day One | OpenLegion",
+    "pricingTwitterDescription": "Plans from $19/month. 14-day money-back guarantee.",
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to common questions about OpenLegion — the AI agent framework and platform built for production. Covers security, pricing, LLM providers, orchestration, enterprise deployment, and more.",
     "faqOgTitle": "Frequently Asked Questions — OpenLegion",
@@ -851,7 +851,7 @@
     "breadcrumbAriaLabel": "Breadcrumb"
   },
   "inlineCta": {
-    "startFreeTrial": "Start Free Trial",
+    "startFreeTrial": "Get Started",
     "readTheDocs": "Read the Docs"
   },
   "seoLinks": {
@@ -1145,5 +1145,18 @@
       "text": "Questions about these Terms? Contact us at",
       "email": "support@openlegion.ai"
     }
+  },
+  "launchPricing": {
+    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
+    "cta": "Get Started →"
+  },
+  "pricingAnchors": {
+    "basicMonthly": "39",
+    "basicYearly": "348",
+    "growthMonthly": "119",
+    "growthYearly": "1068",
+    "proMonthly": "299",
+    "proYearly": "2688",
+    "anchorLabel": "Launch pricing"
   }
 }

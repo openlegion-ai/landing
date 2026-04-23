@@ -1145,5 +1145,18 @@
       "text": "본 약관에 관한 질문이 있으시면 다음으로 연락하십시오",
       "email": "support@openlegion.ai"
     }
+  },
+  "launchPricing": {
+    "message": "Launch pricing — limited time. Standard prices apply once we exit launch.",
+    "cta": "Get Started →"
+  },
+  "pricingAnchors": {
+    "basicMonthly": "39",
+    "basicYearly": "348",
+    "growthMonthly": "119",
+    "growthYearly": "1068",
+    "proMonthly": "299",
+    "proYearly": "2688",
+    "anchorLabel": "Launch pricing"
   }
 }
