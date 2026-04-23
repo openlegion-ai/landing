@@ -186,20 +186,20 @@ export function Pricing() {
                       <span className="text-4xl font-bold tracking-tight text-foreground">
                         ${price.toLocaleString()}
                       </span>
-                      {anchor && (
+                      <span className="text-muted">{suffix}</span>
+                    </div>
+                    {anchor && (
+                      <div className="mt-1 flex flex-wrap items-center gap-2">
                         <s
-                          className="text-base text-muted line-through"
+                          className="text-sm text-muted line-through"
                           aria-label={`Original price $${anchor}`}
                         >
                           ${anchor}
                         </s>
-                      )}
-                      <span className="text-muted">{suffix}</span>
-                    </div>
-                    {anchor && (
-                      <span className="mt-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
-                        {tAnchors("anchorLabel")}
-                      </span>
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                          {tAnchors("anchorLabel")}
+                        </span>
+                      </div>
                     )}
                   </div>
                   <p className="mt-1 h-5 text-xs text-muted">
