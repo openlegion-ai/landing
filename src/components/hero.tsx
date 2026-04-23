@@ -71,7 +71,7 @@ export function Hero() {
         />
       ))}
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl pt-20 pb-8 sm:pt-24 sm:pb-12">
+      <div className="relative z-10 mx-auto w-full max-w-6xl pt-28 pb-8 sm:pt-32 sm:pb-12">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left: text content */}
           <div className="text-center lg:text-left">
