@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "Precio de lanzamiento — tiempo limitado. Los precios estándar se aplican cuando finalice el lanzamiento.",
+    "message": "Precio de lanzamiento — tiempo limitado",
     "cta": "Empezar →"
   },
   "pricingAnchors": {

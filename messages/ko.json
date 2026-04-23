@@ -1149,7 +1149,7 @@
     }
   },
   "launchPricing": {
-    "message": "출시 기념가 — 한정 기간. 출시 종료 후에는 정가가 적용됩니다.",
+    "message": "출시 기념가 — 한정 기간",
     "cta": "시작하기 →"
   },
   "pricingAnchors": {
