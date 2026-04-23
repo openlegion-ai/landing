@@ -13,24 +13,11 @@ export function Navbar() {
   const t = useTranslations("nav");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [pastHero, setPastHero] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Track when hero CTA scrolls out of view
-  useEffect(() => {
-    const heroCtaEl = document.getElementById("hero-cta");
-    if (!heroCtaEl) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setPastHero(!entry.isIntersecting),
-      { threshold: 0 },
-    );
-    observer.observe(heroCtaEl);
-    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -100,35 +87,29 @@ export function Navbar() {
             <Github className="h-4 w-4" aria-hidden="true" />
           </a>
           <LanguageSwitcher className="ml-1" />
-          <span className={`ml-1 text-[13px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
-            {t("getStarted")}
-          </span>
           <a
             href={APP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-shine ml-2 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            className="btn-shine ml-2 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
           >
-            {t("tryFree")}
+            {t("getStarted")}
           </a>
         </div>
 
         {/* Mobile — visible below lg */}
         <div className="flex items-center gap-1.5 lg:hidden ml-auto">
-          <span className={`text-[11px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
-            {t("getStarted")}
-          </span>
           <a
             href={APP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-shine flex items-center gap-2 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90"
+            className="btn-shine flex items-center gap-2 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
           >
-            {t("tryFree")}
+            {t("getStarted")}
           </a>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="rounded-md p-2 text-muted transition-colors hover:text-foreground"
+            className="shrink-0 rounded-md p-2 text-muted transition-colors hover:text-foreground"
             aria-label={t("toggleMenuAriaLabel")}
             aria-expanded={mobileOpen}
           >

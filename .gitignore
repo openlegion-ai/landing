@@ -44,3 +44,4 @@ next-env.d.ts
 src/lingo/metadata-dev
 src/lingo/translation-server.log
 # Keep src/lingo/cache/*.json — these are the committed translation cache
+.claude/
