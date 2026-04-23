@@ -17,6 +17,7 @@ import { Comparison } from "@/components/comparison";
 import { FAQ } from "@/components/faq";
 import { CTA } from "@/components/cta";
 import { CapabilityBand } from "@/components/capability-band";
+import { LaunchPricingBand } from "@/components/launch-pricing-band";
 import { TechnicalDefinition } from "@/components/technical-definition";
 import { Footer } from "@/components/footer";
 import { ALL_FAQ_ITEMS, GITHUB_URL, APP_URL } from "@/lib/constants";
@@ -87,14 +88,6 @@ export default async function Home() {
       height: 630,
     },
     offers: [
-      {
-        "@type": "Offer",
-        name: "Free Trial",
-        price: "0",
-        priceCurrency: "USD",
-        availability: "https://schema.org/InStock",
-        description: "7-day free trial",
-      },
       {
         "@type": "Offer",
         name: "Basic",
@@ -253,6 +246,7 @@ export default async function Home() {
       <a href="#main" className="skip-nav">{t("skipToContent")}</a>
       <Navbar />
       <main id="main">
+        <LaunchPricingBand />
         <Hero />
         <CapabilityBand />
         <PromptToTeam />
@@ -266,7 +260,7 @@ export default async function Home() {
           <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
           <p className="mb-3 text-sm text-muted">{t("readyToStart")}</p>
           <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
-            {t("startFreeTrialInline")}
+            {t("getStartedInline")}
           </a>
           <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>
@@ -275,7 +269,7 @@ export default async function Home() {
           <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
           <p className="mb-3 text-sm text-muted">{t("fleetLivePrompt")}</p>
           <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
-            {t("tryFree7Days")}
+            {t("getStartedInMinutes")}
           </a>
           <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>

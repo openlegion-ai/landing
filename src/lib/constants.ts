@@ -67,7 +67,7 @@ export const TWITTER_URL = "https://x.com/openlegion";
 export const HERO = {
   subtitle:
     "Tell OpenLegion \"I want a marketing agency\", \"I want a sales team\", or \"I want a research desk\", and it will deploy the agent stack with budgets, permissions, and secure credential controls built in.",
-  ctaPrimary: "Start free trial",
+  ctaPrimary: "Get Started",
   ctaSecondary: "Read the docs",
 } as const;
 
@@ -357,7 +357,7 @@ export const ALL_FAQ_ITEMS: FAQItem[] = [
   {
     question: "Do I need to be a developer to use OpenLegion?",
     answer:
-      "No. The managed hosting at app.openlegion.ai requires no coding — start a free trial, pick a template, add your LLM API key, and your agents are live in minutes. The self-hosted version requires Python 3.10+ and Docker. Either way, the built-in team templates (Dev Team, Sales Pipeline, Content Studio) work out of the box with no configuration needed.",
+      "No. The managed hosting at app.openlegion.ai requires no coding — sign up, pick a template, add your LLM API key, and your agents are live in minutes. The self-hosted version requires Python 3.10+ and Docker. Either way, the built-in team templates (Dev Team, Sales Pipeline, Content Studio) work out of the box with no configuration needed.",
   },
   {
     question: "Do I pay for LLM usage on top of the subscription?",

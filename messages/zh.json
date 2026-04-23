@@ -24,7 +24,7 @@
     "homeAriaLabel": "OpenLegion 首页",
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub 代码仓库",
-    "freeTrial": "免费试用",
+    "getStarted": "立即开始",
     "tryFree": "免费试用 →",
     "toggleMenuAriaLabel": "切换菜单",
     "billingPeriodAriaLabel": "计费周期"
@@ -37,7 +37,7 @@
     "headingLine2": "只需描述你想要的团队。",
     "tagline": "为生产环境打造的 AI 智能体框架与平台。",
     "subtitle": "告诉 OpenLegion「我要一个营销团队」「我要一个销售团队」或「我要一个研究团队」，系统会自动部署智能体编队，预算、权限和安全凭证管控一步到位。",
-    "ctaPrimary": "开始免费试用",
+    "ctaPrimary": "立即开始",
     "ctaSecondary": "阅读文档",
     "trustStrip": {
       "0": "全天候运行",
@@ -327,7 +327,7 @@
     "managedBadge": "最简单——无需任何配置",
     "managedHeading": "无需终端，无需配置文件。",
     "managedDescription": "我们为你管理容器、凭证和基础设施。",
-    "managedCta": "开始免费试用 →",
+    "managedCta": "立即开始 →",
     "steps": {
       "0": "创建你的账户",
       "1": "选择方案",
@@ -491,7 +491,7 @@
     "items": {
       "0": {
         "question": "使用 OpenLegion 需要开发经验吗？",
-        "answer": "不需要。app.openlegion.ai 上的托管服务无需编码——开始免费试用，选择模板，添加你的 LLM API 密钥，你的智能体几分钟内即可上线。自托管版本需要 Python 3.10+ 和 Docker。无论哪种方式，内置的团队模板（研发团队、销售管线、内容工作室）开箱即用，无需任何配置。"
+        "answer": "不需要。app.openlegion.ai 上的托管服务无需编码——注册账户，选择模板，添加你的 LLM API 密钥，你的智能体几分钟内即可上线。自托管版本需要 Python 3.10+ 和 Docker。无论哪种方式，内置的团队模板（研发团队、销售管线、内容工作室）开箱即用，无需任何配置。"
       },
       "1": {
         "question": "订阅之外是否还需要支付 LLM 使用费用？",
@@ -558,8 +558,8 @@
     "heading": "你的 AI 团队只差一次",
     "headingHighlight": "部署",
     "headingEnd": "。",
-    "subtitle": "7 天免费试用 · 无需信用卡 · 100+ LLM 提供商 · 无厂商锁定",
-    "primaryButton": "开始免费试用 →",
+    "subtitle": "首日即付 · 100+ LLM 提供商 · 14 天退款保证",
+    "primaryButton": "立即开始 →",
     "secondaryButton": "加入我们的 Discord"
   },
   "footer": {
@@ -627,10 +627,10 @@
   },
   "pricing": {
     "sectionLabel": "定价方案",
-    "heading": "免费试用你的 AI 团队",
-    "headingHighlight": "7 天",
+    "heading": "套餐起价 ",
+    "headingHighlight": "$19/月",
     "headingEnd": "。",
-    "subtitle": "无需信用卡。你提供 API 密钥，我们运行基础设施。",
+    "subtitle": "你提供 API 密钥，我们运行基础设施。",
     "included": {
       "0": {
         "title": "密钥库安全",
@@ -676,8 +676,11 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "约 ${monthlyEquivalent}/月（按年计费）",
-    "monthlyTrialNote": "7 天免费试用 · 随时取消",
-    "startFreeTrial": "开始免费试用",
+    "monthlyNote": "首日即付 · 14 天退款保证",
+    "moneyBackPrefix": "所有方案均包含我们的",
+    "moneyBackLinkLabel": "14 天退款保证",
+    "moneyBackSuffix": "。",
+    "getStarted": "立即开始",
     "agentsLabel": "{count, plural, one {个智能体} other {个智能体}}",
     "creditsLabel": "欢迎赠送额度",
     "browsersLabel": "{count, plural, one {个并发浏览器} other {个并发浏览器}}",
@@ -710,8 +713,8 @@
     "faqHeading": "常见问题",
     "faq": {
       "0": {
-        "question": "7 天免费试用如何运作？",
-        "answer": "注册即可获得任一方案的 7 天完整访问权限——无需信用卡。部署智能体、测试工作流、探索控制台。如果试用期结束前未升级，你的账户将自动暂停。除非你选择了方案，否则不会产生任何费用。"
+        "question": "方案首日包含哪些内容？",
+        "answer": "每个付费方案首日即包含欢迎额度礼包及完整功能访问权限——VPS、系统代理和运营商控制台。不合适？14 天内取消，我们将退还首月费用，无需任何理由。希望使用自己的 API 密钥？完全可以，欢迎额度依然归你所有。"
       },
       "1": {
         "question": "方案价格之外是否还需支付 LLM 使用费用？",
@@ -727,7 +730,7 @@
       },
       "4": {
         "question": "可以自托管 OpenLegion 吗？",
-        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 BSL 1.1 源码可见许可协议。托管服务起价 $19/月（含 7 天免费试用），适合不想管理基础设施的团队。"
+        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 BSL 1.1 源码可见许可协议。托管服务起价 $19/月，适合不想管理基础设施的团队。"
       },
       "5": {
         "question": "什么算作一个「智能体」？",
@@ -805,9 +808,9 @@
   "common": {
     "skipToContent": "跳至正文",
     "readyToStart": "准备好让你的第一个智能体开始工作了吗？",
-    "startFreeTrialInline": "开始免费试用 →",
+    "getStartedInline": "立即开始 →",
     "fleetLivePrompt": "这就是你的编队，正在运行。",
-    "tryFree7Days": "免费试用 7 天 →",
+    "getStartedInMinutes": "几分钟即可上手 →",
     "brandName": "OpenLegion",
     "selectLanguage": "选择语言",
     "copyToClipboard": "复制到剪贴板",
@@ -818,19 +821,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI 智能体框架与平台 | 自动化一切，尽在掌控",
-    "homeDescription": "OpenLegion 是为生产环境打造的 AI 智能体框架与平台。部署自主智能体，自动化任何计算机任务——浏览、表单、代码、外发、数据。7 天免费试用，无需信用卡。",
+    "homeDescription": "OpenLegion 是为生产环境打造的 AI 智能体框架与平台。部署自主智能体，自动化任何计算机任务——浏览、表单、代码、外发、数据。首日即付，14 天退款保证。",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI 智能体框架与平台",
-    "ogDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。安全、可控预算、生产就绪。7 天免费试用。",
+    "ogDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。安全、可控预算、生产就绪。首日即付，14 天退款保证。",
     "ogImageAlt": "OpenLegion — AI 智能体框架与平台",
     "twitterTitle": "OpenLegion — AI 智能体框架与平台",
-    "twitterDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。7 天免费试用，无需信用卡。",
-    "pricingTitle": "AI 智能体平台定价——7 天免费试用",
-    "pricingDescription": "免费试用你的 AI 团队 7 天。无需信用卡。方案起价 $19/月，含容器隔离、密钥库安全和 100+ LLM 提供商。",
-    "pricingOgTitle": "AI 智能体平台定价——7 天免费试用 | OpenLegion",
-    "pricingOgDescription": "免费试用你的 AI 团队 7 天。无需信用卡。容器隔离、密钥库安全和 100+ LLM 提供商。",
-    "pricingTwitterTitle": "AI 智能体平台定价——7 天免费试用 | OpenLegion",
-    "pricingTwitterDescription": "免费试用你的 AI 团队 7 天。无需信用卡。",
+    "twitterDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。首日即付，14 天退款保证。",
+    "pricingTitle": "AI 智能体平台定价——首日即付",
+    "pricingDescription": "方案起价 $19/月，含容器隔离、密钥库安全和 100+ LLM 提供商。首日即付，14 天退款保证。",
+    "pricingOgTitle": "AI 智能体平台定价——首日即付 | OpenLegion",
+    "pricingOgDescription": "方案起价 $19/月。容器隔离、密钥库安全和 100+ LLM 提供商。14 天退款保证。",
+    "pricingTwitterTitle": "AI 智能体平台定价——首日即付 | OpenLegion",
+    "pricingTwitterDescription": "方案起价 $19/月。14 天退款保证。",
     "faqTitle": "常见问题",
     "faqDescription": "关于 OpenLegion 的常见问题解答——为生产环境打造的 AI 智能体框架与平台。涵盖安全、定价、LLM 提供商、编排、企业部署等内容。",
     "faqOgTitle": "常见问题 — OpenLegion",
@@ -851,7 +854,7 @@
     "breadcrumbAriaLabel": "面包屑导航"
   },
   "inlineCta": {
-    "startFreeTrial": "开始免费试用",
+    "getStarted": "立即开始",
     "readTheDocs": "阅读文档"
   },
   "seoLinks": {
@@ -1145,5 +1148,18 @@
       "text": "对本条款有疑问？请联系我们：",
       "email": "support@openlegion.ai"
     }
+  },
+  "launchPricing": {
+    "message": "上线优惠价 — 限时活动。结束后将恢复标准价格。",
+    "cta": "立即开始 →"
+  },
+  "pricingAnchors": {
+    "basicMonthly": "39",
+    "basicYearly": "348",
+    "growthMonthly": "119",
+    "growthYearly": "1068",
+    "proMonthly": "299",
+    "proYearly": "2688",
+    "anchorLabel": "上线优惠价"
   }
 }

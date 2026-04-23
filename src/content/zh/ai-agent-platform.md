@@ -143,7 +143,7 @@ openlegion start   # inline setup on first run, then agents deploy in isolated c
 ## CTA
 
 **准备好部署安全智能体了吗？**
-[开始免费试用](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai)
+[立即开始](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai)
 
 ---
 

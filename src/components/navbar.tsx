@@ -101,7 +101,7 @@ export function Navbar() {
           </a>
           <LanguageSwitcher className="ml-1" />
           <span className={`ml-1 text-[13px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
-            {t("freeTrial")}
+            {t("getStarted")}
           </span>
           <a
             href={APP_URL}
@@ -116,7 +116,7 @@ export function Navbar() {
         {/* Mobile — visible below lg */}
         <div className="flex items-center gap-1.5 lg:hidden ml-auto">
           <span className={`text-[11px] text-emerald-400 font-medium transition-opacity duration-300 ${pastHero ? "opacity-100" : "opacity-0"}`}>
-            {t("freeTrial")}
+            {t("getStarted")}
           </span>
           <a
             href={APP_URL}

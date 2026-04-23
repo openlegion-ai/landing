@@ -26,7 +26,7 @@ export function InlineCTA({ heading }: InlineCTAProps) {
               rel="noopener noreferrer"
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
-              {t("startFreeTrial")}
+              {t("getStarted")}
               <ChevronRight
                 className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5"
                 aria-hidden="true"

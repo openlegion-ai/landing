@@ -156,7 +156,7 @@ For the full landscape, see our [AI agent frameworks comparison](/ai-agent-frame
 ## CTA
 
 **Production security without migration uncertainty.**
-[Start Free Trial](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 

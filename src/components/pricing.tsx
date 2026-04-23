@@ -6,6 +6,7 @@ import { Bot, Check, Coins, FolderOpen, Globe, ChevronRight, Mail, Shield, Dolla
 import { ChevronDown } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { APP_URL } from "@/lib/constants";
+import { Link } from "@/i18n/navigation";
 
 type Billing = "monthly" | "yearly";
 
@@ -73,6 +74,7 @@ const PRICING_FAQ_INDICES = [0, 1, 2, 3, 4, 5, 6];
 export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
   const t = useTranslations("pricing");
+  const tAnchors = useTranslations("pricingAnchors");
 
   return (
     <section className="relative px-5 pt-28 pb-16 sm:px-6 md:px-8 md:pt-36 md:pb-28 lg:pt-40 lg:pb-36">
@@ -148,6 +150,16 @@ export function Pricing() {
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
             const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
+            // pricingAnchors values are strings like "39", "1068".
+            // Plan type uses `name` (verified — not `id`).
+            const anchorKey = `${plan.name}${billing === "monthly" ? "Monthly" : "Yearly"}`;
+            const anchor = (() => {
+              try {
+                return tAnchors(anchorKey);
+              } catch {
+                return null;
+              }
+            })();
 
             return (
               <StaggerItem key={plan.name}>
@@ -170,15 +182,30 @@ export function Pricing() {
                     {t(`plans.${planIdx}.name`)}
                   </h3>
                   <div className="mt-3">
-                    <span className="text-4xl font-bold tracking-tight text-foreground">
-                      ${price.toLocaleString()}
-                    </span>
-                    <span className="text-muted">{suffix}</span>
+                    <div className="flex flex-wrap items-baseline gap-2">
+                      <span className="text-4xl font-bold tracking-tight text-foreground">
+                        ${price.toLocaleString()}
+                      </span>
+                      <span className="text-muted">{suffix}</span>
+                    </div>
+                    {anchor && (
+                      <div className="mt-1 flex flex-wrap items-center gap-2">
+                        <s
+                          className="text-sm text-muted line-through"
+                          aria-label={`Original price $${anchor}`}
+                        >
+                          ${anchor}
+                        </s>
+                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
+                          {tAnchors("anchorLabel")}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <p className="mt-1 h-5 text-xs text-muted">
                     {billing === "yearly"
                       ? t("yearlyBilledNote", { monthlyEquivalent: plan.yearlyMonthly })
-                      : t("monthlyTrialNote")}
+                      : t("monthlyNote")}
                   </p>
 
                   <a
@@ -191,7 +218,7 @@ export function Pricing() {
                         : "border border-border text-foreground hover:border-accent/40 hover:bg-accent/5"
                     }`}
                   >
-                    {t("startFreeTrial")}
+                    {t("getStarted")}
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </a>
 
@@ -309,6 +336,20 @@ export function Pricing() {
             </div>
           </StaggerItem>
         </StaggerContainer>
+
+        {/* Money-back guarantee footer note */}
+        <AnimateIn delay={0.08}>
+          <p className="mt-6 text-center text-xs text-muted">
+            {t("moneyBackPrefix")}{" "}
+            <Link
+              href="/money-back-guarantee"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              {t("moneyBackLinkLabel")}
+            </Link>
+            {t("moneyBackSuffix")}
+          </p>
+        </AnimateIn>
 
         {/* Pricing FAQ */}
         <AnimateIn delay={0.1}>
