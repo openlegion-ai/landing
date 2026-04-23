@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { Link } from "@/i18n/navigation";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -151,9 +152,9 @@ export default function TermsPage() {
               Customers who receive a money-back refund are not eligible for a second
               money-back refund or a second welcome-credits grant on a future
               subscription. See our{" "}
-              <a href="/money-back-guarantee" className="underline">
+              <Link href="/money-back-guarantee" className="underline">
                 Money-Back Guarantee
-              </a>{" "}
+              </Link>{" "}
               page for full terms.
             </p>
             <p className="mt-2">
