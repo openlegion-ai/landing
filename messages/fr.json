@@ -740,7 +740,9 @@
         "answer": "Les crédits servent à payer les appels LLM (Claude, GPT, Gemini, etc.) via notre plateforme. Vous recevez un bonus de bienvenue à l'abonnement — Basic reçoit 5 $, Growth reçoit 15 $, Pro reçoit 30 $. Les crédits n'expirent jamais. Quand ils sont épuisés, rechargez n'importe quel montant de 5 $ à 500 $, ou ajoutez vos propres clés API pour utiliser les fournisseurs directement."
       }
     },
-    "billingPeriodAriaLabel": "Période de facturation"
+    "billingPeriodAriaLabel": "Période de facturation",
+    "urgencyHint": "Verrouillez aujourd’hui — fin le 20 août",
+    "savingsPill": "Économisez ${amount}{suffix} ({percent}%)"
   },
   "notFound": {
     "title": "404",
@@ -755,35 +757,83 @@
     "examples": {
       "0": {
         "name": "Agence marketing",
-        "roles": { "0": "Recherche", "1": "Rédaction", "2": "Révision", "3": "Rapports" }
+        "roles": {
+          "0": "Recherche",
+          "1": "Rédaction",
+          "2": "Révision",
+          "3": "Rapports"
+        }
       },
       "1": {
         "name": "Équipe commerciale",
-        "roles": { "0": "Recherche de leads", "1": "Qualification", "2": "Prise de contact", "3": "Suivi" }
+        "roles": {
+          "0": "Recherche de leads",
+          "1": "Qualification",
+          "2": "Prise de contact",
+          "3": "Suivi"
+        }
       },
       "2": {
         "name": "Équipe de recherche",
-        "roles": { "0": "Veille", "1": "Navigation", "2": "Synthèse", "3": "Livraison" }
+        "roles": {
+          "0": "Veille",
+          "1": "Navigation",
+          "2": "Synthèse",
+          "3": "Livraison"
+        }
       },
       "3": {
         "name": "Équipe de développement",
-        "roles": { "0": "PM", "1": "Ingénieur", "2": "Réviseur" }
+        "roles": {
+          "0": "PM",
+          "1": "Ingénieur",
+          "2": "Réviseur"
+        }
       },
       "4": {
         "name": "Équipe de trading",
-        "roles": { "0": "Chercheur", "1": "Trader", "2": "Moniteur" }
+        "roles": {
+          "0": "Chercheur",
+          "1": "Trader",
+          "2": "Moniteur"
+        }
       }
     },
     "visuals": {
       "marketing": {
-        "0": { "title": "Article de blog", "status": "publié" },
-        "1": { "title": "Brief de campagne", "status": "en révision" },
-        "2": { "title": "Rapport hebdomadaire", "status": "en rédaction" }
+        "0": {
+          "title": "Article de blog",
+          "status": "publié"
+        },
+        "1": {
+          "title": "Brief de campagne",
+          "status": "en révision"
+        },
+        "2": {
+          "title": "Rapport hebdomadaire",
+          "status": "en rédaction"
+        }
       },
-      "sales": { "0": "prospects", "1": "qualifiés", "2": "convertis" },
-      "research": { "0": "12 sources analysées", "1": "Synthèse livrée", "2": "Suivi des mises à jour…" },
-      "dev": { "0": "PM a créé la tâche #42", "1": "Ingénieur a ouvert la PR #18", "2": "Réviseur en cours de revue…" },
-      "trading": { "0": "Échange 0.5 ETH → USDC", "1": "Limite de dépense : $48 / $500", "2": "Moniteur vérifie les positions…" }
+      "sales": {
+        "0": "prospects",
+        "1": "qualifiés",
+        "2": "convertis"
+      },
+      "research": {
+        "0": "12 sources analysées",
+        "1": "Synthèse livrée",
+        "2": "Suivi des mises à jour…"
+      },
+      "dev": {
+        "0": "PM a créé la tâche #42",
+        "1": "Ingénieur a ouvert la PR #18",
+        "2": "Réviseur en cours de revue…"
+      },
+      "trading": {
+        "0": "Échange 0.5 ETH → USDC",
+        "1": "Limite de dépense : $48 / $500",
+        "2": "Moniteur vérifie les positions…"
+      }
     },
     "customNote": "Vous ne trouvez pas votre cas d'usage ? Créez n'importe quelle équipe avec n'importe quelle combinaison de rôles, outils et budgets.",
     "customCta": "Commencez à construire →"
@@ -798,10 +848,18 @@
     "heading": "Commencez avec une équipe prête à l'emploi",
     "cta": "Découvrez comment ça marche",
     "teams": {
-      "0": { "name": "Agence marketing" },
-      "1": { "name": "Équipe commerciale" },
-      "2": { "name": "Équipe de recherche" },
-      "3": { "name": "Équipe sur mesure" }
+      "0": {
+        "name": "Agence marketing"
+      },
+      "1": {
+        "name": "Équipe commerciale"
+      },
+      "2": {
+        "name": "Équipe de recherche"
+      },
+      "3": {
+        "name": "Équipe sur mesure"
+      }
     }
   },
   "common": {

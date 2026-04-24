@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Bot, Check, Coins, FolderOpen, Globe, ChevronRight, Mail, Shield, DollarSign, LayoutDashboard, Plug } from "lucide-react";
+import { Bot, Check, Clock, Coins, FolderOpen, Globe, ChevronRight, Mail, Shield, DollarSign, LayoutDashboard, Plug } from "lucide-react";
 import { ChevronDown } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { APP_URL } from "@/lib/constants";
@@ -160,6 +160,13 @@ export function Pricing() {
                 return null;
               }
             })();
+            const anchorNum = anchor ? parseInt(anchor.replace(/,/g, ""), 10) : null;
+            const savingsAmount =
+              anchorNum && !Number.isNaN(anchorNum) ? anchorNum - price : null;
+            const savingsPercent =
+              anchorNum && !Number.isNaN(anchorNum) && anchorNum > 0
+                ? Math.round((1 - price / anchorNum) * 100)
+                : null;
 
             return (
               <StaggerItem key={plan.name}>
@@ -189,16 +196,31 @@ export function Pricing() {
                       <span className="text-muted">{suffix}</span>
                     </div>
                     {anchor && (
-                      <div className="mt-1 flex flex-wrap items-center gap-2">
-                        <s
-                          className="text-sm text-muted line-through"
-                          aria-label={`Original price $${anchor}`}
-                        >
-                          ${anchor}
-                        </s>
-                        <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary">
-                          {tAnchors("anchorLabel")}
-                        </span>
+                      <div className="mt-2 space-y-1.5">
+                        <div className="flex flex-wrap items-baseline gap-2">
+                          <s
+                            className="text-base text-muted line-through"
+                            aria-label={`Original price $${anchor}`}
+                          >
+                            ${anchor}
+                          </s>
+                          {savingsAmount !== null && savingsPercent !== null && (
+                            <span className="animate-pulse rounded-full bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-600 ring-1 ring-amber-500/20 dark:text-amber-400">
+                              {t("savingsPill", {
+                                amount: savingsAmount.toLocaleString(),
+                                suffix:
+                                  billing === "monthly"
+                                    ? t("priceSuffixMonthly")
+                                    : t("priceSuffixYearly"),
+                                percent: savingsPercent,
+                              })}
+                            </span>
+                          )}
+                        </div>
+                        <p className="flex items-center gap-1.5 text-[11px] font-medium text-amber-600 dark:text-amber-400">
+                          <Clock className="size-3.5 shrink-0" aria-hidden="true" />
+                          {t("urgencyHint")}
+                        </p>
                       </div>
                     )}
                   </div>

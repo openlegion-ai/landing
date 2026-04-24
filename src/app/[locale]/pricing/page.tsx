@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { Navbar } from "@/components/navbar";
 import { Pricing } from "@/components/pricing";
 import { Footer } from "@/components/footer";
 
@@ -31,10 +30,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function PricingPage() {
   return (
     <>
-      <a href="#main" className="skip-nav">
-        Skip to content
-      </a>
-      <Navbar />
       <main id="main">
         <Pricing />
       </main>

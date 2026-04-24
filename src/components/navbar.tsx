@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import { NAV_LINKS, APP_URL, GITHUB_URL } from "@/lib/constants";
 import { LanguageSwitcher } from "@/components/language-switcher";
 
-export function Navbar({ withBanner = false }: { withBanner?: boolean } = {}) {
+export function Navbar() {
   const t = useTranslations("nav");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -32,7 +32,7 @@ export function Navbar({ withBanner = false }: { withBanner?: boolean } = {}) {
   return (
     <nav
       aria-label={t("ariaLabel")}
-      className={`fixed ${withBanner ? "top-9" : "top-0"} z-50 w-full px-6 transition-all duration-300 md:px-8 ${
+      className={`w-full px-6 transition-all duration-300 md:px-8 ${
         scrolled
           ? "bg-background/80 backdrop-blur-2xl"
           : "bg-transparent"
