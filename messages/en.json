@@ -740,7 +740,9 @@
         "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when your first payment processes — Basic gets $15, Growth gets $50, Pro gets $100. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly."
       }
     },
-    "billingPeriodAriaLabel": "Billing period"
+    "billingPeriodAriaLabel": "Billing period",
+    "urgencyHint": "Lock in today — ends Aug 20",
+    "savingsPill": "Save ${amount}{suffix} ({percent}%)"
   },
   "notFound": {
     "title": "404",
@@ -755,35 +757,83 @@
     "examples": {
       "0": {
         "name": "Marketing agency",
-        "roles": { "0": "Research", "1": "Writing", "2": "Editing", "3": "Reporting" }
+        "roles": {
+          "0": "Research",
+          "1": "Writing",
+          "2": "Editing",
+          "3": "Reporting"
+        }
       },
       "1": {
         "name": "Sales team",
-        "roles": { "0": "Lead research", "1": "Qualification", "2": "Outreach", "3": "Follow-up" }
+        "roles": {
+          "0": "Lead research",
+          "1": "Qualification",
+          "2": "Outreach",
+          "3": "Follow-up"
+        }
       },
       "2": {
         "name": "Research desk",
-        "roles": { "0": "Monitoring", "1": "Browsing", "2": "Summarizing", "3": "Delivery" }
+        "roles": {
+          "0": "Monitoring",
+          "1": "Browsing",
+          "2": "Summarizing",
+          "3": "Delivery"
+        }
       },
       "3": {
         "name": "Dev team",
-        "roles": { "0": "PM", "1": "Engineer", "2": "Reviewer" }
+        "roles": {
+          "0": "PM",
+          "1": "Engineer",
+          "2": "Reviewer"
+        }
       },
       "4": {
         "name": "Trading team",
-        "roles": { "0": "Researcher", "1": "Trader", "2": "Monitor" }
+        "roles": {
+          "0": "Researcher",
+          "1": "Trader",
+          "2": "Monitor"
+        }
       }
     },
     "visuals": {
       "marketing": {
-        "0": { "title": "Blog post", "status": "published" },
-        "1": { "title": "Campaign brief", "status": "in review" },
-        "2": { "title": "Weekly report", "status": "drafting" }
+        "0": {
+          "title": "Blog post",
+          "status": "published"
+        },
+        "1": {
+          "title": "Campaign brief",
+          "status": "in review"
+        },
+        "2": {
+          "title": "Weekly report",
+          "status": "drafting"
+        }
       },
-      "sales": { "0": "leads", "1": "qualified", "2": "converted" },
-      "research": { "0": "Scanned 12 sources", "1": "Summary delivered", "2": "Monitoring updates…" },
-      "dev": { "0": "PM created task #42", "1": "Engineer opened PR #18", "2": "Reviewer reviewing…" },
-      "trading": { "0": "Swapped 0.5 ETH → USDC", "1": "Spend limit: $48 / $500", "2": "Monitor checking positions…" }
+      "sales": {
+        "0": "leads",
+        "1": "qualified",
+        "2": "converted"
+      },
+      "research": {
+        "0": "Scanned 12 sources",
+        "1": "Summary delivered",
+        "2": "Monitoring updates…"
+      },
+      "dev": {
+        "0": "PM created task #42",
+        "1": "Engineer opened PR #18",
+        "2": "Reviewer reviewing…"
+      },
+      "trading": {
+        "0": "Swapped 0.5 ETH → USDC",
+        "1": "Spend limit: $48 / $500",
+        "2": "Monitor checking positions…"
+      }
     },
     "customNote": "Don't see your use case? Build any team with any combination of roles, tools, and budgets.",
     "customCta": "Start building →"
@@ -798,10 +848,18 @@
     "heading": "Start with a ready-made team",
     "cta": "See how it works",
     "teams": {
-      "0": { "name": "Marketing Agency" },
-      "1": { "name": "Sales Team" },
-      "2": { "name": "Research Desk" },
-      "3": { "name": "Custom Workforce" }
+      "0": {
+        "name": "Marketing Agency"
+      },
+      "1": {
+        "name": "Sales Team"
+      },
+      "2": {
+        "name": "Research Desk"
+      },
+      "3": {
+        "name": "Custom Workforce"
+      }
     }
   },
   "common": {

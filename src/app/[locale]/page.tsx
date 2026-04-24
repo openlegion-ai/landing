@@ -1,7 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { Navbar } from "@/components/navbar";
 import { Hero } from "@/components/hero";
-import { AudienceSelector } from "@/components/audience-selector";
 import { UseCases } from "@/components/use-cases";
 import { PromptToTeam } from "@/components/prompt-to-team";
 import { ProductionReady } from "@/components/production-ready";
@@ -17,7 +15,6 @@ import { Comparison } from "@/components/comparison";
 import { FAQ } from "@/components/faq";
 import { CTA } from "@/components/cta";
 import { CapabilityBand } from "@/components/capability-band";
-import { LaunchPricingBand } from "@/components/launch-pricing-band";
 import { TechnicalDefinition } from "@/components/technical-definition";
 import { Footer } from "@/components/footer";
 import { ALL_FAQ_ITEMS, GITHUB_URL, APP_URL } from "@/lib/constants";
@@ -243,16 +240,12 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd).replace(/</g, "\\u003c") }}
       />
-      <a href="#main" className="skip-nav">{t("skipToContent")}</a>
-      <LaunchPricingBand />
-      <Navbar withBanner />
       <main id="main">
         <Hero />
         <CapabilityBand />
         <PromptToTeam />
         <ReadyMadeTeams />
-        {/* <AudienceSelector /> */}
-        {/* <UseCases /> */}
+        <UseCases />
         <SocialProof stars={stars} />
         <ProductionReady />
         <Features />

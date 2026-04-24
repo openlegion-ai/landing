@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { Link } from "@/i18n/navigation";
 
@@ -14,11 +13,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <>
-      <a href="#main" className="skip-nav">
-        Skip to content
-      </a>
-      <Navbar />
-      <main id="main" className="mx-auto max-w-3xl px-6 pb-24 pt-32 md:px-8">
+      <main id="main" className="mx-auto max-w-3xl px-6 pb-24 pt-16 md:px-8">
         <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           Terms of Service
         </h1>

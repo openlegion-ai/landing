@@ -3,7 +3,6 @@ import { getContentPage } from "@/lib/markdown";
 import { buildMetadata } from "@/lib/content-page-helpers";
 import { ContentPage } from "@/components/content-page";
 import { JsonLd, buildItemListSchema } from "@/components/json-ld";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
 const SLUG = "/comparison";
@@ -39,8 +38,6 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   return (
     <>
       <JsonLd data={buildItemListSchema(COMPARISON_ITEMS)} />
-      <a href="#main" className="skip-nav">Skip to content</a>
-      <Navbar />
       <main id="main">
         <ContentPage page={page} />
       </main>

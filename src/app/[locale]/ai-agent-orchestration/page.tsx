@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { getContentPage } from "@/lib/markdown";
 import { buildMetadata } from "@/lib/content-page-helpers";
 import { ContentPage } from "@/components/content-page";
-import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
 const SLUG = "/ai-agent-orchestration";
@@ -18,8 +17,6 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const page = await getContentPage(SLUG, locale);
   return (
     <>
-      <a href="#main" className="skip-nav">Skip to content</a>
-      <Navbar />
       <main id="main">
         <ContentPage page={page} />
       </main>

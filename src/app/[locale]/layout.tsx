@@ -6,6 +6,8 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { GITHUB_URL, DISCORD_URL, TWITTER_URL, RTL_LOCALES, SUPPORTED_LOCALES } from "@/lib/constants";
+import { Navbar } from "@/components/navbar";
+import { LaunchPricingBand } from "@/components/launch-pricing-band";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -148,6 +150,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
+  const tNav = await getTranslations("common");
 
   const orgJsonLd = {
     "@context": "https://schema.org",
@@ -209,6 +212,11 @@ export default async function LocaleLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} antialiased`}
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <a href="#main" className="skip-nav">{tNav("skipToContent")}</a>
+          <header className="sticky top-0 z-50">
+            <LaunchPricingBand />
+            <Navbar />
+          </header>
           {children}
         </NextIntlClientProvider>
         <Script
