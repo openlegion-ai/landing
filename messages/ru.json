@@ -629,25 +629,7 @@
     "heading": "Тарифы от ",
     "headingHighlight": "$19/месяц",
     "headingEnd": ".",
-    "subtitle": "Вы приносите свои API-ключи — мы обеспечиваем инфраструктуру.",
-    "included": {
-      "0": {
-        "title": "Безопасность хранилища",
-        "sub": "Ключи никогда не раскрываются"
-      },
-      "1": {
-        "title": "Контроль бюджета",
-        "sub": "Автостоп агентов"
-      },
-      "2": {
-        "title": "100+ провайдеров LLM",
-        "sub": "Без привязки к поставщику"
-      },
-      "3": {
-        "title": "Панель управления флотом",
-        "sub": "Отслеживание расходов в реальном времени"
-      }
-    },
+    "subtitle": "Простые и предсказуемые цены. Отмена в любой момент.",
     "billingMonthly": "Ежемесячно",
     "billingYearly": "Ежегодно",
     "billingSaveLabel": "Экономия ~25%",
@@ -656,29 +638,29 @@
         "name": "Базовый",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "Для соло-разработчиков"
       },
       "1": {
         "name": "Рост",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "Для растущих команд"
       },
       "2": {
         "name": "Про",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "Для агентств и продвинутых пользователей"
       }
     },
     "popularBadge": "Популярный",
     "priceSuffixMonthly": "/мес.",
     "priceSuffixYearly": "/год",
     "yearlyBilledNote": "~${monthlyEquivalent}/мес. при годовой оплате",
-    "monthlyNote": "Платно с первого дня · возврат денег в течение 14 дней",
-    "moneyBackPrefix": "Каждый тариф включает",
-    "moneyBackLinkLabel": "14-дневную гарантию возврата денег",
-    "moneyBackSuffix": ".",
+    "monthlyNote": "Платно с первого дня",
     "getStarted": "Начать",
     "agentsLabel": "{count, plural, one {агент} few {агента} many {агентов} other {агентов}}",
     "creditsLabel": "приветственные кредиты",
@@ -741,8 +723,17 @@
       }
     },
     "billingPeriodAriaLabel": "Период оплаты",
-    "urgencyHint": "Зафиксируйте сегодня — до 20 авг.",
-    "savingsPill": "Экономия ${amount}{suffix} ({percent}%)"
+    "savingsPill": "Экономия ${amount}{suffix} ({percent}%)",
+    "trust": {
+      "moneyBack": "Возврат за 14 дней",
+      "cancel": "Отмена в любой момент",
+      "switch": "Смена тарифа в любой момент"
+    },
+    "a11y": {
+      "mostPopular": "Самый популярный тариф",
+      "ctaAria": "Начать — {plan}",
+      "originalPriceAria": "Исходная цена ${price}"
+    }
   },
   "notFound": {
     "title": "404",

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 interface AnimateInProps {
   children: React.ReactNode;
@@ -10,12 +10,13 @@ interface AnimateInProps {
 }
 
 export function AnimateIn({ children, delay = 0, className = "", scale = false }: AnimateInProps) {
+  const reduce = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: 32, ...(scale ? { scale: 0.97 } : {}) }}
-      whileInView={{ opacity: 1, y: 0, ...(scale ? { scale: 1 } : {}) }}
+      initial={reduce ? false : { opacity: 0, y: 32, ...(scale ? { scale: 0.97 } : {}) }}
+      whileInView={reduce ? undefined : { opacity: 1, y: 0, ...(scale ? { scale: 1 } : {}) }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay, ease: "easeOut" }}
+      transition={reduce ? { duration: 0 } : { duration: 0.55, delay, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -30,6 +31,7 @@ export function StaggerContainer({
   children: React.ReactNode;
   className?: string;
 }) {
+  const reduce = useReducedMotion();
   return (
     <motion.div
       initial="hidden"
@@ -37,7 +39,7 @@ export function StaggerContainer({
       viewport={{ once: true, margin: "-60px" }}
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: 0.1 } },
+        visible: { transition: { staggerChildren: reduce ? 0 : 0.1 } },
       }}
       className={className}
     >
@@ -53,12 +55,20 @@ export function StaggerItem({
   children: React.ReactNode;
   className?: string;
 }) {
+  const reduce = useReducedMotion();
   return (
     <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 32 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
-      }}
+      variants={
+        reduce
+          ? {
+              hidden: { opacity: 1, y: 0 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0 } },
+            }
+          : {
+              hidden: { opacity: 0, y: 32 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
+            }
+      }
       className={className}
     >
       {children}

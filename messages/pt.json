@@ -629,25 +629,7 @@
     "heading": "Planos a partir de ",
     "headingHighlight": "US$ 19/mês",
     "headingEnd": ".",
-    "subtitle": "Você traz suas chaves API, nós rodamos a infraestrutura.",
-    "included": {
-      "0": {
-        "title": "Segurança de cofre",
-        "sub": "Chaves nunca expostas"
-      },
-      "1": {
-        "title": "Controles de orçamento",
-        "sub": "Agentes param automaticamente"
-      },
-      "2": {
-        "title": "100+ provedores LLM",
-        "sub": "Sem dependência de fornecedor"
-      },
-      "3": {
-        "title": "Painel da frota",
-        "sub": "Rastreamento de custos ao vivo"
-      }
-    },
+    "subtitle": "Preços simples e previsíveis. Cancele quando quiser.",
     "billingMonthly": "Mensal",
     "billingYearly": "Anual",
     "billingSaveLabel": "Economize ~25%",
@@ -656,29 +638,29 @@
         "name": "Basic",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "Para criadores individuais"
       },
       "1": {
         "name": "Growth",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "Para equipas em crescimento"
       },
       "2": {
         "name": "Pro",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "Para agências e utilizadores avançados"
       }
     },
     "popularBadge": "Popular",
     "priceSuffixMonthly": "/mês",
     "priceSuffixYearly": "/ano",
     "yearlyBilledNote": "~US$ {monthlyEquivalent}/mês cobrado anualmente",
-    "monthlyNote": "Pago desde o primeiro dia · reembolso em 14 dias",
-    "moneyBackPrefix": "Todos os planos incluem nossa",
-    "moneyBackLinkLabel": "garantia de reembolso de 14 dias",
-    "moneyBackSuffix": ".",
+    "monthlyNote": "Pago desde o primeiro dia",
     "getStarted": "Começar",
     "agentsLabel": "{count, plural, one {agente} other {agentes}}",
     "creditsLabel": "créditos de boas-vindas",
@@ -741,8 +723,17 @@
       }
     },
     "billingPeriodAriaLabel": "Período de cobrança",
-    "urgencyHint": "Garanta hoje — termina em 20 de ago.",
-    "savingsPill": "Economize ${amount}{suffix} ({percent}%)"
+    "savingsPill": "Economize ${amount}{suffix} ({percent}%)",
+    "trust": {
+      "moneyBack": "14 dias para reembolso",
+      "cancel": "Cancele quando quiser",
+      "switch": "Mude de plano quando quiser"
+    },
+    "a11y": {
+      "mostPopular": "Plano mais popular",
+      "ctaAria": "Começar — {plan}",
+      "originalPriceAria": "Preço original ${price}"
+    }
   },
   "notFound": {
     "title": "404",

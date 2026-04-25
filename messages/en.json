@@ -629,25 +629,7 @@
     "heading": "Plans start at ",
     "headingHighlight": "$19/month",
     "headingEnd": ".",
-    "subtitle": "You bring your API keys, we run the infrastructure.",
-    "included": {
-      "0": {
-        "title": "Vault security",
-        "sub": "Keys never exposed"
-      },
-      "1": {
-        "title": "Budget controls",
-        "sub": "Agents auto-stop"
-      },
-      "2": {
-        "title": "100+ LLM providers",
-        "sub": "No vendor lock-in"
-      },
-      "3": {
-        "title": "Fleet dashboard",
-        "sub": "Live cost tracking"
-      }
-    },
+    "subtitle": "Simple, predictable pricing. Cancel anytime.",
     "billingMonthly": "Monthly",
     "billingYearly": "Yearly",
     "billingSaveLabel": "Save ~25%",
@@ -656,29 +638,29 @@
         "name": "Basic",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "For solo builders"
       },
       "1": {
         "name": "Growth",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "For growing teams"
       },
       "2": {
         "name": "Pro",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "For agencies & power users"
       }
     },
     "popularBadge": "Popular",
     "priceSuffixMonthly": "/mo",
     "priceSuffixYearly": "/yr",
     "yearlyBilledNote": "~${monthlyEquivalent}/mo billed annually",
-    "monthlyNote": "Paid from day one · 14-day money-back",
-    "moneyBackPrefix": "Every plan includes our",
-    "moneyBackLinkLabel": "14-day money-back guarantee",
-    "moneyBackSuffix": ".",
+    "monthlyNote": "Paid from day one",
     "getStarted": "Get Started",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "welcome credits",
@@ -741,8 +723,17 @@
       }
     },
     "billingPeriodAriaLabel": "Billing period",
-    "urgencyHint": "Lock in today — ends Aug 20",
-    "savingsPill": "Save ${amount}{suffix} ({percent}%)"
+    "savingsPill": "Save ${amount}{suffix} ({percent}%)",
+    "trust": {
+      "moneyBack": "14-day money-back",
+      "cancel": "Cancel anytime",
+      "switch": "Switch plans anytime"
+    },
+    "a11y": {
+      "mostPopular": "Most popular plan",
+      "ctaAria": "Get started — {plan}",
+      "originalPriceAria": "Original price ${price}"
+    }
   },
   "notFound": {
     "title": "404",
