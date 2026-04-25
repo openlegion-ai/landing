@@ -638,26 +638,29 @@
         "name": "基础版",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "适合独立开发者"
       },
       "1": {
         "name": "成长版",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "适合成长中的团队"
       },
       "2": {
         "name": "专业版",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "适合代理机构与高级用户"
       }
     },
     "popularBadge": "热门",
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "约 ${monthlyEquivalent}/月（按年计费）",
-    "monthlyNote": "首日即付 · 14 天退款保证",
+    "monthlyNote": "首日即付",
     "getStarted": "立即开始",
     "agentsLabel": "{count, plural, one {个智能体} other {个智能体}}",
     "creditsLabel": "欢迎赠送额度",
@@ -720,12 +723,15 @@
       }
     },
     "billingPeriodAriaLabel": "计费周期",
-    "urgencyHint": "今天锁定 — 8 月 20 日截止",
     "savingsPill": "节省 ${amount}{suffix}（{percent}%）",
     "trust": {
       "moneyBack": "14 天退款保证",
       "cancel": "随时取消",
       "switch": "随时切换套餐"
+    },
+    "a11y": {
+      "mostPopular": "最受欢迎的方案",
+      "ctaAria": "开始使用 — {plan}"
     }
   },
   "notFound": {

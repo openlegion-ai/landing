@@ -638,26 +638,29 @@
         "name": "बेसिक",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "सोलो बिल्डर्स के लिए"
       },
       "1": {
         "name": "ग्रोथ",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "बढ़ती टीमों के लिए"
       },
       "2": {
         "name": "प्रो",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "एजेंसियों और पावर यूज़र्स के लिए"
       }
     },
     "popularBadge": "लोकप्रिय",
     "priceSuffixMonthly": "/माह",
     "priceSuffixYearly": "/वर्ष",
     "yearlyBilledNote": "~${monthlyEquivalent}/माह वार्षिक बिलिंग",
-    "monthlyNote": "पहले दिन से भुगतान · 14 दिन में पैसे वापस",
+    "monthlyNote": "पहले दिन से भुगतान",
     "getStarted": "शुरू करें",
     "agentsLabel": "{count, plural, one {एजेंट} other {एजेंट}}",
     "creditsLabel": "स्वागत क्रेडिट",
@@ -720,12 +723,15 @@
       }
     },
     "billingPeriodAriaLabel": "बिलिंग अवधि",
-    "urgencyHint": "आज लॉक करें — 20 अग. को समाप्त",
     "savingsPill": "${amount}{suffix} बचाएं ({percent}%)",
     "trust": {
       "moneyBack": "14-दिन की मनी-बैक",
       "cancel": "कभी भी रद्द करें",
       "switch": "कभी भी प्लान बदलें"
+    },
+    "a11y": {
+      "mostPopular": "सबसे लोकप्रिय प्लान",
+      "ctaAria": "शुरू करें — {plan}"
     }
   },
   "notFound": {

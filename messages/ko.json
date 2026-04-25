@@ -638,26 +638,29 @@
         "name": "Basic",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "개인 개발자에게"
       },
       "1": {
         "name": "Growth",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "성장하는 팀에게"
       },
       "2": {
         "name": "Pro",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "에이전시와 파워 유저에게"
       }
     },
     "popularBadge": "인기",
     "priceSuffixMonthly": "/월",
     "priceSuffixYearly": "/년",
     "yearlyBilledNote": "연간 결제 시 약 ${monthlyEquivalent}/월",
-    "monthlyNote": "첫날부터 유료 · 14일 환불 보장",
+    "monthlyNote": "첫날부터 유료",
     "getStarted": "시작하기",
     "agentsLabel": "{count, plural, one {에이전트} other {에이전트}}",
     "creditsLabel": "웰컴 크레딧",
@@ -720,12 +723,15 @@
       }
     },
     "billingPeriodAriaLabel": "결제 기간",
-    "urgencyHint": "오늘 확정 — 8월 20일 마감",
     "savingsPill": "${amount}{suffix} 절약 ({percent}%)",
     "trust": {
       "moneyBack": "14일 환불 보장",
       "cancel": "언제든지 취소 가능",
       "switch": "언제든지 요금제 변경"
+    },
+    "a11y": {
+      "mostPopular": "가장 인기 있는 요금제",
+      "ctaAria": "시작하기 — {plan}"
     }
   },
   "notFound": {

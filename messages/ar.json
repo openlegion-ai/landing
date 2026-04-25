@@ -638,26 +638,29 @@
         "name": "أساسي",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "للمطورين الأفراد"
       },
       "1": {
         "name": "نمو",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "للفرق المتنامية"
       },
       "2": {
         "name": "احترافي",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "للوكالات والمستخدمين المتقدمين"
       }
     },
     "popularBadge": "الأكثر شعبية",
     "priceSuffixMonthly": "/شهر",
     "priceSuffixYearly": "/سنة",
     "yearlyBilledNote": "~${monthlyEquivalent}/شهر يُفوتر سنويًا",
-    "monthlyNote": "مدفوع منذ اليوم الأول · ضمان استرداد خلال 14 يومًا",
+    "monthlyNote": "مدفوع منذ اليوم الأول",
     "getStarted": "ابدأ الآن",
     "agentsLabel": "{count, plural, one {وكيل} other {وكلاء}}",
     "creditsLabel": "رصيد ترحيبي",
@@ -720,12 +723,15 @@
       }
     },
     "billingPeriodAriaLabel": "فترة الفوترة",
-    "urgencyHint": "احجز اليوم — ينتهي في 20 أغسطس",
     "savingsPill": "وفر ${amount}{suffix} ({percent}%)",
     "trust": {
       "moneyBack": "استرداد خلال 14 يومًا",
       "cancel": "ألغِ في أي وقت",
       "switch": "غيّر باقتك في أي وقت"
+    },
+    "a11y": {
+      "mostPopular": "الخطة الأكثر شيوعًا",
+      "ctaAria": "ابدأ — {plan}"
     }
   },
   "notFound": {

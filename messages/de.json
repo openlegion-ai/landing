@@ -638,26 +638,29 @@
         "name": "Basic",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "Für Einzelentwickler"
       },
       "1": {
         "name": "Growth",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "Für wachsende Teams"
       },
       "2": {
         "name": "Pro",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "Für Agenturen & Power-User"
       }
     },
     "popularBadge": "Beliebt",
     "priceSuffixMonthly": "/Monat",
     "priceSuffixYearly": "/Jahr",
     "yearlyBilledNote": "~${monthlyEquivalent}/Monat bei jährlicher Abrechnung",
-    "monthlyNote": "Ab dem ersten Tag kostenpflichtig · 14 Tage Geld-zurück-Garantie",
+    "monthlyNote": "Ab dem ersten Tag kostenpflichtig",
     "getStarted": "Loslegen",
     "agentsLabel": "{count, plural, one {Agent} other {Agenten}}",
     "creditsLabel": "Willkommens-Credits",
@@ -720,12 +723,15 @@
       }
     },
     "billingPeriodAriaLabel": "Abrechnungszeitraum",
-    "urgencyHint": "Heute sichern — endet am 20. Aug.",
     "savingsPill": "Spare ${amount}{suffix} ({percent}%)",
     "trust": {
       "moneyBack": "14 Tage Geld-zurück",
       "cancel": "Jederzeit kündbar",
       "switch": "Tarif jederzeit wechseln"
+    },
+    "a11y": {
+      "mostPopular": "Beliebtester Tarif",
+      "ctaAria": "Loslegen — {plan}"
     }
   },
   "notFound": {

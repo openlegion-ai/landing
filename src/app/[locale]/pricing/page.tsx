@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { Pricing } from "@/components/pricing";
+import { Pricing, PricingFAQ } from "@/components/pricing";
+import { SocialProof } from "@/components/social-proof";
 import { Footer } from "@/components/footer";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -32,6 +33,8 @@ export default function PricingPage() {
     <>
       <main id="main">
         <Pricing />
+        <SocialProof />
+        <PricingFAQ />
       </main>
       <Footer />
     </>

@@ -638,26 +638,29 @@
         "name": "Básico",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "Para creadores en solitario"
       },
       "1": {
         "name": "Growth",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "Para equipos en crecimiento"
       },
       "2": {
         "name": "Pro",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "Para agencias y usuarios avanzados"
       }
     },
     "popularBadge": "Popular",
     "priceSuffixMonthly": "/mes",
     "priceSuffixYearly": "/año",
     "yearlyBilledNote": "~${monthlyEquivalent}/mes facturado anualmente",
-    "monthlyNote": "De pago desde el primer día · reembolso en 14 días",
+    "monthlyNote": "De pago desde el primer día",
     "getStarted": "Empezar",
     "agentsLabel": "{count, plural, one {agente} other {agentes}}",
     "creditsLabel": "créditos de bienvenida",
@@ -720,12 +723,15 @@
       }
     },
     "billingPeriodAriaLabel": "Período de facturación",
-    "urgencyHint": "Asegúralo hoy — termina el 20 de ago.",
     "savingsPill": "Ahorra ${amount}{suffix} ({percent}%)",
     "trust": {
       "moneyBack": "14 días de reembolso",
       "cancel": "Cancela cuando quieras",
       "switch": "Cambia de plan cuando quieras"
+    },
+    "a11y": {
+      "mostPopular": "Plan más popular",
+      "ctaAria": "Empezar — {plan}"
     }
   },
   "notFound": {

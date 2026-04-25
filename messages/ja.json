@@ -638,26 +638,29 @@
         "name": "Basic",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "ソロビルダー向け"
       },
       "1": {
         "name": "Growth",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "成長中のチーム向け"
       },
       "2": {
         "name": "Pro",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "エージェンシー・パワーユーザー向け"
       }
     },
     "popularBadge": "人気",
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年払いで約${monthlyEquivalent}/月",
-    "monthlyNote": "初日から有料 · 14日間返金保証",
+    "monthlyNote": "初日から有料",
     "getStarted": "今すぐ始める",
     "agentsLabel": "{count, plural, one {エージェント} other {エージェント}}",
     "creditsLabel": "ウェルカムクレジット",
@@ -720,12 +723,15 @@
       }
     },
     "billingPeriodAriaLabel": "請求期間",
-    "urgencyHint": "今すぐ確定 — 8月20日終了",
     "savingsPill": "${amount}{suffix}節約（{percent}%）",
     "trust": {
       "moneyBack": "14日間返金保証",
       "cancel": "いつでもキャンセル可能",
       "switch": "プランをいつでも変更可能"
+    },
+    "a11y": {
+      "mostPopular": "最も人気のプラン",
+      "ctaAria": "{plan}を始める"
     }
   },
   "notFound": {

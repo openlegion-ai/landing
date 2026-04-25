@@ -638,26 +638,29 @@
         "name": "Basic",
         "monthlyPrice": "19",
         "yearlyPrice": "170",
-        "yearlyMonthly": "14"
+        "yearlyMonthly": "14",
+        "tagline": "適合獨立開發者"
       },
       "1": {
         "name": "Growth",
         "monthlyPrice": "59",
         "yearlyPrice": "530",
-        "yearlyMonthly": "44"
+        "yearlyMonthly": "44",
+        "tagline": "適合成長中的團隊"
       },
       "2": {
         "name": "Pro",
         "monthlyPrice": "149",
         "yearlyPrice": "1340",
-        "yearlyMonthly": "112"
+        "yearlyMonthly": "112",
+        "tagline": "適合代理機構與進階使用者"
       }
     },
     "popularBadge": "熱門",
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年付約 ${monthlyEquivalent}/月",
-    "monthlyNote": "首日即付 · 14 天退款保證",
+    "monthlyNote": "首日即付",
     "getStarted": "立即開始",
     "agentsLabel": "{count, plural, one {個智慧代理} other {個智慧代理}}",
     "creditsLabel": "歡迎贈送額度",
@@ -720,12 +723,15 @@
       }
     },
     "billingPeriodAriaLabel": "計費週期",
-    "urgencyHint": "立即鎖定 — 8 月 20 日截止",
     "savingsPill": "節省 ${amount}{suffix}（{percent}%）",
     "trust": {
       "moneyBack": "14 天退款保證",
       "cancel": "隨時取消",
       "switch": "隨時切換方案"
+    },
+    "a11y": {
+      "mostPopular": "最受歡迎的方案",
+      "ctaAria": "開始使用 — {plan}"
     }
   },
   "notFound": {
