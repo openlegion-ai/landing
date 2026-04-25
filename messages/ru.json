@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "Самый популярный тариф",
-      "ctaAria": "Начать — {plan}"
+      "ctaAria": "Начать — {plan}",
+      "originalPriceAria": "Исходная цена ${price}"
     }
   },
   "notFound": {

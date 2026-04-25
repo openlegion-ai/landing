@@ -19,7 +19,13 @@ const STATS: StatDef[] = [
   { target: 0, prefix: "$", suffix: "" },
 ];
 
-export function SocialProof({ stars = null }: { stars?: string | null }) {
+export function SocialProof({
+  stars = null,
+  showCommunityLinks = true,
+}: {
+  stars?: string | null;
+  showCommunityLinks?: boolean;
+}) {
   const t = useTranslations("socialProof");
 
   return (
@@ -43,6 +49,7 @@ export function SocialProof({ stars = null }: { stars?: string | null }) {
           </div>
         </AnimateIn>
 
+        {showCommunityLinks && (
         <AnimateIn delay={0.1}>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <a
@@ -67,6 +74,7 @@ export function SocialProof({ stars = null }: { stars?: string | null }) {
             </a>
           </div>
         </AnimateIn>
+        )}
       </div>
     </section>
   );

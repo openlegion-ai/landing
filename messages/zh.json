@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "最受欢迎的方案",
-      "ctaAria": "开始使用 — {plan}"
+      "ctaAria": "开始使用 — {plan}",
+      "originalPriceAria": "原价 ${price}"
     }
   },
   "notFound": {

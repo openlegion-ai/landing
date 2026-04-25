@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "Plan más popular",
-      "ctaAria": "Empezar — {plan}"
+      "ctaAria": "Empezar — {plan}",
+      "originalPriceAria": "Precio original ${price}"
     }
   },
   "notFound": {

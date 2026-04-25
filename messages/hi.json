@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "सबसे लोकप्रिय प्लान",
-      "ctaAria": "शुरू करें — {plan}"
+      "ctaAria": "शुरू करें — {plan}",
+      "originalPriceAria": "मूल मूल्य ${price}"
     }
   },
   "notFound": {

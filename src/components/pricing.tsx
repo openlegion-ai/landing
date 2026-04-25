@@ -121,7 +121,7 @@ export function Pricing() {
               <button
                 onClick={() => setBilling("monthly")}
                 aria-pressed={billing === "monthly"}
-                className={`min-h-[44px] cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
+                className={`min-h-[44px] cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                   billing === "monthly"
                     ? "bg-accent text-white shadow-sm"
                     : "text-muted hover:text-foreground"
@@ -132,7 +132,7 @@ export function Pricing() {
               <button
                 onClick={() => setBilling("yearly")}
                 aria-pressed={billing === "yearly"}
-                className={`min-h-[44px] cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
+                className={`min-h-[44px] cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                   billing === "yearly"
                     ? "bg-accent text-white shadow-sm"
                     : "text-muted hover:text-foreground"
@@ -195,12 +195,12 @@ export function Pricing() {
                     </div>
                   )}
 
-                  <h3 className="text-lg font-semibold text-foreground">
+                  <h2 className="text-lg font-semibold text-foreground">
                     {plan.popular && (
                       <span className="sr-only">{t("a11y.mostPopular")} — </span>
                     )}
                     {planName}
-                  </h3>
+                  </h2>
                   <p className="mt-1 text-sm text-muted">
                     {t(`plans.${planIdx}.tagline`)}
                   </p>
@@ -216,7 +216,7 @@ export function Pricing() {
                       <div className="mt-2 flex flex-wrap items-baseline gap-2">
                         <s
                           className="text-base text-muted line-through"
-                          aria-label={`Original price $${anchor}`}
+                          aria-label={t("a11y.originalPriceAria", { price: anchor })}
                         >
                           ${anchor}
                         </s>
@@ -246,7 +246,7 @@ export function Pricing() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={t("a11y.ctaAria", { plan: planName })}
-                    className={`mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all ${
+                    className={`mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                       plan.popular
                         ? "btn-shine btn-glow btn-gradient text-white"
                         : "border border-border text-foreground hover:border-accent/40 hover:bg-accent/5"
@@ -310,15 +310,36 @@ export function Pricing() {
           })}
         </StaggerContainer>
 
-        {/* Enterprise band */}
+        {/* Trust strip — anchors trust signals to the self-serve plans */}
         <AnimateIn delay={0.08}>
-          <div className="mt-5 rounded-2xl border border-border/50 glass-card p-6 md:p-8">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted">
+            <Link
+              href="/money-back-guarantee"
+              className="flex items-center gap-2 rounded-md transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            >
+              <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+              <span className="underline decoration-border underline-offset-4 hover:decoration-foreground">
+                {t("trust.moneyBack")}
+              </span>
+            </Link>
+            {TRUST_KEYS.map((key) => (
+              <span key={key} className="flex items-center gap-2">
+                <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                {t(key)}
+              </span>
+            ))}
+          </div>
+        </AnimateIn>
+
+        {/* Enterprise band */}
+        <AnimateIn delay={0.1}>
+          <div className="mt-12 rounded-2xl border border-border/50 glass-card p-6 md:p-8">
             <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center md:gap-10">
               <div>
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                  <h3 className="text-xl font-semibold text-foreground md:text-2xl">
+                  <h2 className="text-lg font-semibold text-foreground">
                     {t("enterprise.name")}
-                  </h3>
+                  </h2>
                   <span className="text-sm text-muted">
                     {t("enterprise.subtitle")}
                   </span>
@@ -363,34 +384,13 @@ export function Pricing() {
                 <a
                   href="mailto:sales@openlegion.ai"
                   aria-label={t("a11y.ctaAria", { plan: t("enterprise.name") })}
-                  className="flex items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 md:min-w-[180px]"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background md:min-w-[180px]"
                 >
                   <Mail className="h-4 w-4" aria-hidden="true" />
                   {t("enterprise.cta")}
                 </a>
               </div>
             </div>
-          </div>
-        </AnimateIn>
-
-        {/* Trust strip */}
-        <AnimateIn delay={0.1}>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted">
-            <Link
-              href="/money-back-guarantee"
-              className="flex items-center gap-2 transition-colors hover:text-foreground"
-            >
-              <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              <span className="underline decoration-border underline-offset-4 hover:decoration-foreground">
-                {t("trust.moneyBack")}
-              </span>
-            </Link>
-            {TRUST_KEYS.map((key) => (
-              <span key={key} className="flex items-center gap-2">
-                <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                {t(key)}
-              </span>
-            ))}
           </div>
         </AnimateIn>
       </div>
@@ -420,7 +420,7 @@ export function PricingFAQ() {
                 key={i}
                 className="faq-details gradient-border glass-shine group overflow-hidden rounded-xl border border-border/50 glass-card transition-all duration-300"
               >
-                <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.02] [&::-webkit-details-marker]:hidden">
+                <summary className="flex w-full cursor-pointer list-none items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-inset [&::-webkit-details-marker]:hidden">
                   <span className="text-sm font-medium text-foreground md:text-base">
                     {t(`faq.${i}.question`)}
                   </span>

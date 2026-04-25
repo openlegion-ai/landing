@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "最も人気のプラン",
-      "ctaAria": "{plan}を始める"
+      "ctaAria": "{plan}を始める",
+      "originalPriceAria": "通常価格 ${price}"
     }
   },
   "notFound": {

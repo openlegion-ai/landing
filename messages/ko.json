@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "가장 인기 있는 요금제",
-      "ctaAria": "시작하기 — {plan}"
+      "ctaAria": "시작하기 — {plan}",
+      "originalPriceAria": "기존 가격 ${price}"
     }
   },
   "notFound": {

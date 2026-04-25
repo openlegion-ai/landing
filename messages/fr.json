@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "Forfait le plus populaire",
-      "ctaAria": "Commencer — {plan}"
+      "ctaAria": "Commencer — {plan}",
+      "originalPriceAria": "Prix initial ${price}"
     }
   },
   "notFound": {

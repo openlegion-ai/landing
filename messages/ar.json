@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "الخطة الأكثر شيوعًا",
-      "ctaAria": "ابدأ — {plan}"
+      "ctaAria": "ابدأ — {plan}",
+      "originalPriceAria": "السعر الأصلي ${price}"
     }
   },
   "notFound": {

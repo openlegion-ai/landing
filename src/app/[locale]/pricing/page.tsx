@@ -33,7 +33,7 @@ export default function PricingPage() {
     <>
       <main id="main">
         <Pricing />
-        <SocialProof />
+        <SocialProof showCommunityLinks={false} />
         <PricingFAQ />
       </main>
       <Footer />

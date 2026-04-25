@@ -731,7 +731,8 @@
     },
     "a11y": {
       "mostPopular": "Beliebtester Tarif",
-      "ctaAria": "Loslegen — {plan}"
+      "ctaAria": "Loslegen — {plan}",
+      "originalPriceAria": "Ursprünglicher Preis ${price}"
     }
   },
   "notFound": {
