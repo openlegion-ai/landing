@@ -185,11 +185,11 @@ export function Pricing() {
                   }`}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
-                      <span
-                        className="rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-md shadow-accent/30"
-                        aria-label={t("a11y.mostPopular")}
-                      >
+                    <div
+                      className="absolute -top-3 left-1/2 z-10 -translate-x-1/2"
+                      aria-hidden="true"
+                    >
+                      <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-md shadow-accent/30">
                         {t("popularBadge")}
                       </span>
                     </div>
