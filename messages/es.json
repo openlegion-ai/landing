@@ -629,25 +629,7 @@
     "heading": "Planes desde ",
     "headingHighlight": "19 $/mes",
     "headingEnd": ".",
-    "subtitle": "Tú traes tus claves API, nosotros ejecutamos la infraestructura.",
-    "included": {
-      "0": {
-        "title": "Seguridad de bóveda",
-        "sub": "Las claves nunca se exponen"
-      },
-      "1": {
-        "title": "Controles de presupuesto",
-        "sub": "Los agentes se detienen automáticamente"
-      },
-      "2": {
-        "title": "Más de 100 proveedores LLM",
-        "sub": "Sin dependencia de proveedor"
-      },
-      "3": {
-        "title": "Panel de la flota",
-        "sub": "Seguimiento de costos en vivo"
-      }
-    },
+    "subtitle": "Precios simples y predecibles. Cancela cuando quieras.",
     "billingMonthly": "Mensual",
     "billingYearly": "Anual",
     "billingSaveLabel": "Ahorra ~25%",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/año",
     "yearlyBilledNote": "~${monthlyEquivalent}/mes facturado anualmente",
     "monthlyNote": "De pago desde el primer día · reembolso en 14 días",
-    "moneyBackPrefix": "Todos los planes incluyen nuestra",
-    "moneyBackLinkLabel": "garantía de devolución de 14 días",
-    "moneyBackSuffix": ".",
     "getStarted": "Empezar",
     "agentsLabel": "{count, plural, one {agente} other {agentes}}",
     "creditsLabel": "créditos de bienvenida",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "Período de facturación",
     "urgencyHint": "Asegúralo hoy — termina el 20 de ago.",
-    "savingsPill": "Ahorra ${amount}{suffix} ({percent}%)"
+    "savingsPill": "Ahorra ${amount}{suffix} ({percent}%)",
+    "trust": {
+      "moneyBack": "14 días de reembolso",
+      "cancel": "Cancela cuando quieras",
+      "switch": "Cambia de plan cuando quieras"
+    }
   },
   "notFound": {
     "title": "404",

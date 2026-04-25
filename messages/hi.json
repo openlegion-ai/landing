@@ -629,25 +629,7 @@
     "heading": "प्लान्स ",
     "headingHighlight": "$19/महीना",
     "headingEnd": " से शुरू।",
-    "subtitle": "आप अपनी API कुंजियाँ लाएँ, हम इन्फ़्रास्ट्रक्चर चलाते हैं।",
-    "included": {
-      "0": {
-        "title": "वॉल्ट सुरक्षा",
-        "sub": "कुंजियाँ कभी एक्सपोज़ नहीं"
-      },
-      "1": {
-        "title": "बजट कंट्रोल",
-        "sub": "एजेंट ऑटो-स्टॉप"
-      },
-      "2": {
-        "title": "100+ LLM प्रदाता",
-        "sub": "कोई वेंडर लॉक-इन नहीं"
-      },
-      "3": {
-        "title": "फ़्लीट डैशबोर्ड",
-        "sub": "लाइव कॉस्ट ट्रैकिंग"
-      }
-    },
+    "subtitle": "सरल, पारदर्शी मूल्य निर्धारण। कभी भी रद्द करें।",
     "billingMonthly": "मासिक",
     "billingYearly": "वार्षिक",
     "billingSaveLabel": "~25% बचाएँ",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/वर्ष",
     "yearlyBilledNote": "~${monthlyEquivalent}/माह वार्षिक बिलिंग",
     "monthlyNote": "पहले दिन से भुगतान · 14 दिन में पैसे वापस",
-    "moneyBackPrefix": "हर प्लान में शामिल है हमारी",
-    "moneyBackLinkLabel": "14-दिन मनी-बैक गारंटी",
-    "moneyBackSuffix": ".",
     "getStarted": "शुरू करें",
     "agentsLabel": "{count, plural, one {एजेंट} other {एजेंट}}",
     "creditsLabel": "स्वागत क्रेडिट",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "बिलिंग अवधि",
     "urgencyHint": "आज लॉक करें — 20 अग. को समाप्त",
-    "savingsPill": "${amount}{suffix} बचाएं ({percent}%)"
+    "savingsPill": "${amount}{suffix} बचाएं ({percent}%)",
+    "trust": {
+      "moneyBack": "14-दिन की मनी-बैक",
+      "cancel": "कभी भी रद्द करें",
+      "switch": "कभी भी प्लान बदलें"
+    }
   },
   "notFound": {
     "title": "404",

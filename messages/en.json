@@ -629,25 +629,7 @@
     "heading": "Plans start at ",
     "headingHighlight": "$19/month",
     "headingEnd": ".",
-    "subtitle": "You bring your API keys, we run the infrastructure.",
-    "included": {
-      "0": {
-        "title": "Vault security",
-        "sub": "Keys never exposed"
-      },
-      "1": {
-        "title": "Budget controls",
-        "sub": "Agents auto-stop"
-      },
-      "2": {
-        "title": "100+ LLM providers",
-        "sub": "No vendor lock-in"
-      },
-      "3": {
-        "title": "Fleet dashboard",
-        "sub": "Live cost tracking"
-      }
-    },
+    "subtitle": "Simple, predictable pricing. Cancel anytime.",
     "billingMonthly": "Monthly",
     "billingYearly": "Yearly",
     "billingSaveLabel": "Save ~25%",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/yr",
     "yearlyBilledNote": "~${monthlyEquivalent}/mo billed annually",
     "monthlyNote": "Paid from day one · 14-day money-back",
-    "moneyBackPrefix": "Every plan includes our",
-    "moneyBackLinkLabel": "14-day money-back guarantee",
-    "moneyBackSuffix": ".",
     "getStarted": "Get Started",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "welcome credits",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "Billing period",
     "urgencyHint": "Lock in today — ends Aug 20",
-    "savingsPill": "Save ${amount}{suffix} ({percent}%)"
+    "savingsPill": "Save ${amount}{suffix} ({percent}%)",
+    "trust": {
+      "moneyBack": "14-day money-back",
+      "cancel": "Cancel anytime",
+      "switch": "Switch plans anytime"
+    }
   },
   "notFound": {
     "title": "404",

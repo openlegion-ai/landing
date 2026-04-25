@@ -629,25 +629,7 @@
     "heading": "プランは",
     "headingHighlight": "月額 $19",
     "headingEnd": "から。",
-    "subtitle": "APIキーはお客様持ち込み、インフラは私たちが運用します。",
-    "included": {
-      "0": {
-        "title": "Vaultセキュリティ",
-        "sub": "キーは非公開"
-      },
-      "1": {
-        "title": "予算管理",
-        "sub": "エージェント自動停止"
-      },
-      "2": {
-        "title": "100以上のLLMプロバイダー",
-        "sub": "ベンダーロックインなし"
-      },
-      "3": {
-        "title": "フリートダッシュボード",
-        "sub": "リアルタイムコスト追跡"
-      }
-    },
+    "subtitle": "シンプルで予測可能な料金。いつでもキャンセル可能。",
     "billingMonthly": "月払い",
     "billingYearly": "年払い",
     "billingSaveLabel": "約25%お得",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年払いで約${monthlyEquivalent}/月",
     "monthlyNote": "初日から有料 · 14日間返金保証",
-    "moneyBackPrefix": "すべてのプランに",
-    "moneyBackLinkLabel": "14日間の返金保証",
-    "moneyBackSuffix": "が付いています。",
     "getStarted": "今すぐ始める",
     "agentsLabel": "{count, plural, one {エージェント} other {エージェント}}",
     "creditsLabel": "ウェルカムクレジット",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "請求期間",
     "urgencyHint": "今すぐ確定 — 8月20日終了",
-    "savingsPill": "${amount}{suffix}節約（{percent}%）"
+    "savingsPill": "${amount}{suffix}節約（{percent}%）",
+    "trust": {
+      "moneyBack": "14日間返金保証",
+      "cancel": "いつでもキャンセル可能",
+      "switch": "プランをいつでも変更可能"
+    }
   },
   "notFound": {
     "title": "404",

@@ -629,25 +629,7 @@
     "heading": "الخطط تبدأ من ",
     "headingHighlight": "19$/شهر",
     "headingEnd": ".",
-    "subtitle": "أحضر مفاتيح API الخاصة بك، ونحن ندير البنية التحتية.",
-    "included": {
-      "0": {
-        "title": "أمان الخزنة",
-        "sub": "المفاتيح لا تُكشف أبدًا"
-      },
-      "1": {
-        "title": "ضوابط الميزانية",
-        "sub": "الوكلاء يتوقفون تلقائيًا"
-      },
-      "2": {
-        "title": "أكثر من 100 مزوّد LLM",
-        "sub": "لا تقييد بمزوّد واحد"
-      },
-      "3": {
-        "title": "لوحة تحكم الأسطول",
-        "sub": "تتبع تكاليف مباشر"
-      }
-    },
+    "subtitle": "أسعار بسيطة وواضحة. ألغِ في أي وقت.",
     "billingMonthly": "شهري",
     "billingYearly": "سنوي",
     "billingSaveLabel": "وفّر ~25%",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/سنة",
     "yearlyBilledNote": "~${monthlyEquivalent}/شهر يُفوتر سنويًا",
     "monthlyNote": "مدفوع منذ اليوم الأول · ضمان استرداد خلال 14 يومًا",
-    "moneyBackPrefix": "تتضمن كل خطة",
-    "moneyBackLinkLabel": "ضمان استرداد الأموال خلال 14 يومًا",
-    "moneyBackSuffix": ".",
     "getStarted": "ابدأ الآن",
     "agentsLabel": "{count, plural, one {وكيل} other {وكلاء}}",
     "creditsLabel": "رصيد ترحيبي",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "فترة الفوترة",
     "urgencyHint": "احجز اليوم — ينتهي في 20 أغسطس",
-    "savingsPill": "وفر ${amount}{suffix} ({percent}%)"
+    "savingsPill": "وفر ${amount}{suffix} ({percent}%)",
+    "trust": {
+      "moneyBack": "استرداد خلال 14 يومًا",
+      "cancel": "ألغِ في أي وقت",
+      "switch": "غيّر باقتك في أي وقت"
+    }
   },
   "notFound": {
     "title": "404",

@@ -629,25 +629,7 @@
     "heading": "플랜은 ",
     "headingHighlight": "월 $19",
     "headingEnd": "부터.",
-    "subtitle": "API 키는 고객이 가져오고, 인프라는 저희가 운영합니다.",
-    "included": {
-      "0": {
-        "title": "Vault 보안",
-        "sub": "키 노출 방지"
-      },
-      "1": {
-        "title": "예산 관리",
-        "sub": "에이전트 자동 중지"
-      },
-      "2": {
-        "title": "100개 이상 LLM 제공업체",
-        "sub": "벤더 종속 없음"
-      },
-      "3": {
-        "title": "플릿 대시보드",
-        "sub": "실시간 비용 추적"
-      }
-    },
+    "subtitle": "단순하고 예측 가능한 가격. 언제든지 취소할 수 있습니다.",
     "billingMonthly": "월간",
     "billingYearly": "연간",
     "billingSaveLabel": "약 25% 절약",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/년",
     "yearlyBilledNote": "연간 결제 시 약 ${monthlyEquivalent}/월",
     "monthlyNote": "첫날부터 유료 · 14일 환불 보장",
-    "moneyBackPrefix": "모든 플랜에",
-    "moneyBackLinkLabel": "14일 환불 보장",
-    "moneyBackSuffix": "이 포함됩니다.",
     "getStarted": "시작하기",
     "agentsLabel": "{count, plural, one {에이전트} other {에이전트}}",
     "creditsLabel": "웰컴 크레딧",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "결제 기간",
     "urgencyHint": "오늘 확정 — 8월 20일 마감",
-    "savingsPill": "${amount}{suffix} 절약 ({percent}%)"
+    "savingsPill": "${amount}{suffix} 절약 ({percent}%)",
+    "trust": {
+      "moneyBack": "14일 환불 보장",
+      "cancel": "언제든지 취소 가능",
+      "switch": "언제든지 요금제 변경"
+    }
   },
   "notFound": {
     "title": "404",

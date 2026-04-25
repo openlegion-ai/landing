@@ -629,25 +629,7 @@
     "heading": "Tarifs à partir de ",
     "headingHighlight": "19 $/mois",
     "headingEnd": ".",
-    "subtitle": "Vous apportez vos clés API, nous gérons l'infrastructure.",
-    "included": {
-      "0": {
-        "title": "Sécurité coffre-fort",
-        "sub": "Les clés ne sont jamais exposées"
-      },
-      "1": {
-        "title": "Contrôles budgétaires",
-        "sub": "Les agents s'arrêtent automatiquement"
-      },
-      "2": {
-        "title": "Plus de 100 fournisseurs LLM",
-        "sub": "Sans dépendance fournisseur"
-      },
-      "3": {
-        "title": "Tableau de bord de la flotte",
-        "sub": "Suivi des coûts en direct"
-      }
-    },
+    "subtitle": "Tarification simple et prévisible. Annulez à tout moment.",
     "billingMonthly": "Mensuel",
     "billingYearly": "Annuel",
     "billingSaveLabel": "Économisez ~25 %",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/an",
     "yearlyBilledNote": "~${monthlyEquivalent}/mois facturé annuellement",
     "monthlyNote": "Payant dès le premier jour · remboursement sous 14 jours",
-    "moneyBackPrefix": "Chaque formule inclut notre",
-    "moneyBackLinkLabel": "garantie satisfait ou remboursé sous 14 jours",
-    "moneyBackSuffix": ".",
     "getStarted": "Commencer",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "crédits de bienvenue",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "Période de facturation",
     "urgencyHint": "Verrouillez aujourd’hui — fin le 20 août",
-    "savingsPill": "Économisez ${amount}{suffix} ({percent}%)"
+    "savingsPill": "Économisez ${amount}{suffix} ({percent}%)",
+    "trust": {
+      "moneyBack": "Remboursement sous 14 jours",
+      "cancel": "Annulez à tout moment",
+      "switch": "Changez de plan à tout moment"
+    }
   },
   "notFound": {
     "title": "404",

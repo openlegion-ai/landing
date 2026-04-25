@@ -2,8 +2,17 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Bot, Check, Clock, Coins, FolderOpen, Globe, ChevronRight, Mail, Shield, DollarSign, LayoutDashboard, Plug } from "lucide-react";
-import { ChevronDown } from "lucide-react";
+import {
+  Bot,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  Clock,
+  Coins,
+  FolderOpen,
+  Globe,
+  Mail,
+} from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { APP_URL } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
@@ -60,8 +69,6 @@ const PLANS: Plan[] = [
   },
 ];
 
-const INCLUDED_ICONS = [Shield, DollarSign, Plug, LayoutDashboard];
-
 const ENTERPRISE_FEATURE_KEYS = [
   "enterprise.features.0",
   "enterprise.features.1",
@@ -71,45 +78,36 @@ const ENTERPRISE_FEATURE_KEYS = [
 
 const PRICING_FAQ_INDICES = [0, 1, 2, 3, 4, 5, 6];
 
+const TRUST_KEYS = ["trust.cancel", "trust.switch"] as const;
+
 export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
   const t = useTranslations("pricing");
   const tAnchors = useTranslations("pricingAnchors");
 
   return (
-    <section className="relative px-5 pt-28 pb-16 sm:px-6 md:px-8 md:pt-36 md:pb-28 lg:pt-40 lg:pb-36">
+    <section className="relative px-5 pt-28 pb-16 sm:px-6 md:px-8 md:pt-36 md:pb-24 lg:pt-40 lg:pb-32">
       <div className="mx-auto max-w-6xl">
+        {/* Hero */}
         <AnimateIn>
-          <div className="mb-10 text-center">
-            <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
+          <div className="mb-12 text-center md:mb-14">
+            <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-accent">
               {t("sectionLabel")}
             </p>
-            <h1 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+            <h1 className="mb-5 text-balance text-4xl font-bold tracking-tight md:text-5xl lg:text-6xl">
               {t("heading")}
-              <span className="gradient-text">{t("headingHighlight")}</span>{t("headingEnd")}
+              <span className="gradient-text">{t("headingHighlight")}</span>
+              {t("headingEnd")}
             </h1>
-            <p className="mx-auto max-w-lg text-muted">
+            <p className="mx-auto max-w-xl text-balance text-base text-muted md:text-lg">
               {t("subtitle")}
             </p>
           </div>
         </AnimateIn>
 
-        {/* What's included strip */}
-        <AnimateIn delay={0.04}>
-          <div className="mx-auto mb-12 grid max-w-3xl grid-cols-2 gap-6 md:grid-cols-4">
-            {INCLUDED_ICONS.map((Icon, i) => (
-              <div key={i} className="text-center">
-                <Icon className="mx-auto mb-2 h-5 w-5 text-accent-light" />
-                <p className="text-sm font-medium text-foreground">{t(`included.${i}.title`)}</p>
-                <p className="text-xs text-muted">{t(`included.${i}.sub`)}</p>
-              </div>
-            ))}
-          </div>
-        </AnimateIn>
-
         {/* Billing toggle */}
         <AnimateIn delay={0.06}>
-          <div className="mb-12 flex items-center justify-center">
+          <div className="mb-10 flex items-center justify-center md:mb-12">
             <div
               className="inline-flex items-center rounded-full border border-border bg-card/50 p-1"
               role="group"
@@ -144,14 +142,12 @@ export function Pricing() {
           </div>
         </AnimateIn>
 
-        {/* Cards */}
+        {/* Plan cards */}
         <StaggerContainer className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {PLANS.map((plan, planIdx) => {
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
             const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
-            // pricingAnchors values are strings like "39", "1068".
-            // Plan type uses `name` (verified — not `id`).
             const anchorKey = `${plan.name}${billing === "monthly" ? "Monthly" : "Yearly"}`;
             const anchor = (() => {
               try {
@@ -171,15 +167,15 @@ export function Pricing() {
             return (
               <StaggerItem key={plan.name}>
                 <div
-                  className={`card-hover gradient-border glass-shine group relative flex h-full flex-col rounded-xl border glass-card p-6 ${
+                  className={`card-hover gradient-border glass-shine group relative flex h-full flex-col rounded-2xl border glass-card p-6 ${
                     plan.popular
-                      ? "border-accent/30 bg-gradient-to-br from-accent/[0.06] to-transparent"
+                      ? "border-accent/50 bg-gradient-to-br from-accent/[0.08] to-transparent shadow-lg shadow-accent/10 ring-1 ring-accent/20"
                       : "border-border/50"
                   }`}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
-                      <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
+                      <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-md shadow-accent/30">
                         {t("popularBadge")}
                       </span>
                     </div>
@@ -205,7 +201,7 @@ export function Pricing() {
                             ${anchor}
                           </s>
                           {savingsAmount !== null && savingsPercent !== null && (
-                            <span className="animate-pulse rounded-full bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-600 ring-1 ring-amber-500/20 dark:text-amber-400">
+                            <span className="rounded-full bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-600 ring-1 ring-amber-500/20 dark:text-amber-400">
                               {t("savingsPill", {
                                 amount: savingsAmount.toLocaleString(),
                                 suffix:
@@ -299,7 +295,7 @@ export function Pricing() {
 
           {/* Enterprise */}
           <StaggerItem>
-            <div className="card-hover gradient-border glass-shine group relative flex h-full flex-col rounded-xl border border-border/50 glass-card p-6">
+            <div className="card-hover gradient-border glass-shine group relative flex h-full flex-col rounded-2xl border border-border/50 glass-card p-6">
               <h3 className="text-lg font-semibold text-foreground">
                 {t("enterprise.name")}
               </h3>
@@ -359,18 +355,25 @@ export function Pricing() {
           </StaggerItem>
         </StaggerContainer>
 
-        {/* Money-back guarantee footer note */}
+        {/* Trust strip */}
         <AnimateIn delay={0.08}>
-          <p className="mt-6 text-center text-xs text-muted">
-            {t("moneyBackPrefix")}{" "}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted">
             <Link
               href="/money-back-guarantee"
-              className="underline underline-offset-2 hover:text-foreground"
+              className="flex items-center gap-2 transition-colors hover:text-foreground"
             >
-              {t("moneyBackLinkLabel")}
+              <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+              <span className="underline decoration-border underline-offset-4 hover:decoration-foreground">
+                {t("trust.moneyBack")}
+              </span>
             </Link>
-            {t("moneyBackSuffix")}
-          </p>
+            {TRUST_KEYS.map((key) => (
+              <span key={key} className="flex items-center gap-2">
+                <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                {t(key)}
+              </span>
+            ))}
+          </div>
         </AnimateIn>
 
         {/* Pricing FAQ */}

@@ -629,25 +629,7 @@
     "heading": "套餐起价 ",
     "headingHighlight": "$19/月",
     "headingEnd": "。",
-    "subtitle": "你提供 API 密钥，我们运行基础设施。",
-    "included": {
-      "0": {
-        "title": "密钥库安全",
-        "sub": "密钥永不暴露"
-      },
-      "1": {
-        "title": "预算控制",
-        "sub": "智能体自动停止"
-      },
-      "2": {
-        "title": "100+ LLM 提供商",
-        "sub": "无厂商锁定"
-      },
-      "3": {
-        "title": "编队控制台",
-        "sub": "实时成本追踪"
-      }
-    },
+    "subtitle": "定价简单透明，随时可取消。",
     "billingMonthly": "月付",
     "billingYearly": "年付",
     "billingSaveLabel": "省约 25%",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "约 ${monthlyEquivalent}/月（按年计费）",
     "monthlyNote": "首日即付 · 14 天退款保证",
-    "moneyBackPrefix": "所有方案均包含我们的",
-    "moneyBackLinkLabel": "14 天退款保证",
-    "moneyBackSuffix": "。",
     "getStarted": "立即开始",
     "agentsLabel": "{count, plural, one {个智能体} other {个智能体}}",
     "creditsLabel": "欢迎赠送额度",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "计费周期",
     "urgencyHint": "今天锁定 — 8 月 20 日截止",
-    "savingsPill": "节省 ${amount}{suffix}（{percent}%）"
+    "savingsPill": "节省 ${amount}{suffix}（{percent}%）",
+    "trust": {
+      "moneyBack": "14 天退款保证",
+      "cancel": "随时取消",
+      "switch": "随时切换套餐"
+    }
   },
   "notFound": {
     "title": "404",

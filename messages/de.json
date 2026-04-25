@@ -629,25 +629,7 @@
     "heading": "Tarife ab ",
     "headingHighlight": "19 $/Monat",
     "headingEnd": ".",
-    "subtitle": "Du bringst deine API-Schlüssel, wir betreiben die Infrastruktur.",
-    "included": {
-      "0": {
-        "title": "Tresor-Sicherheit",
-        "sub": "Schlüssel nie exponiert"
-      },
-      "1": {
-        "title": "Budgetkontrollen",
-        "sub": "Agenten stoppen automatisch"
-      },
-      "2": {
-        "title": "100+ LLM-Anbieter",
-        "sub": "Kein Vendor Lock-in"
-      },
-      "3": {
-        "title": "Flotten-Dashboard",
-        "sub": "Live-Kostenverfolgung"
-      }
-    },
+    "subtitle": "Einfache, transparente Preise. Jederzeit kündbar.",
     "billingMonthly": "Monatlich",
     "billingYearly": "Jährlich",
     "billingSaveLabel": "~25 % sparen",
@@ -676,9 +658,6 @@
     "priceSuffixYearly": "/Jahr",
     "yearlyBilledNote": "~${monthlyEquivalent}/Monat bei jährlicher Abrechnung",
     "monthlyNote": "Ab dem ersten Tag kostenpflichtig · 14 Tage Geld-zurück-Garantie",
-    "moneyBackPrefix": "Jeder Tarif enthält unsere",
-    "moneyBackLinkLabel": "14-Tage-Geld-zurück-Garantie",
-    "moneyBackSuffix": ".",
     "getStarted": "Loslegen",
     "agentsLabel": "{count, plural, one {Agent} other {Agenten}}",
     "creditsLabel": "Willkommens-Credits",
@@ -742,7 +721,12 @@
     },
     "billingPeriodAriaLabel": "Abrechnungszeitraum",
     "urgencyHint": "Heute sichern — endet am 20. Aug.",
-    "savingsPill": "Spare ${amount}{suffix} ({percent}%)"
+    "savingsPill": "Spare ${amount}{suffix} ({percent}%)",
+    "trust": {
+      "moneyBack": "14 Tage Geld-zurück",
+      "cancel": "Jederzeit kündbar",
+      "switch": "Tarif jederzeit wechseln"
+    }
   },
   "notFound": {
     "title": "404",
