@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function MoneyBackGuaranteePage() {
   return (
     <>
-      <main id="main" className="mx-auto max-w-3xl px-6 pb-24 pt-16 md:px-8">
+      <main id="main" className="mx-auto max-w-3xl px-6 pb-24 pt-8 md:px-8">
         <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
           14-Day Money-Back Guarantee
         </h1>

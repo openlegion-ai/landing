@@ -77,7 +77,7 @@ export function Pricing() {
   const tAnchors = useTranslations("pricingAnchors");
 
   return (
-    <section className="relative px-5 pt-28 pb-16 sm:px-6 md:px-8 md:pt-36 md:pb-28 lg:pt-40 lg:pb-36">
+    <section className="relative px-5 pt-20 pb-16 sm:px-6 md:px-8 md:pt-28 md:pb-28 lg:pt-32 lg:pb-36">
       <div className="mx-auto max-w-6xl">
         <AnimateIn>
           <div className="mb-10 text-center">
