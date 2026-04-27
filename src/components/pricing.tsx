@@ -87,7 +87,7 @@ export function Pricing() {
   return (
     <section
       aria-labelledby="pricing-heading"
-      className="relative px-5 pt-28 pb-16 sm:px-6 md:px-8 md:pt-36 md:pb-20 lg:pt-40"
+      className="relative px-5 pt-20 pb-16 sm:px-6 md:px-8 md:pt-28 md:pb-20 lg:pt-32"
     >
       <div className="mx-auto max-w-6xl">
         {/* Hero */}

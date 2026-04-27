@@ -64,7 +64,7 @@ export default async function FAQPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }}
       />
-      <main id="main" className="relative px-5 pt-16 pb-16 sm:px-6 md:px-8 md:pt-24 md:pb-28 lg:pt-28 lg:pb-36">
+      <main id="main" className="relative px-5 pt-8 pb-16 sm:px-6 md:px-8 md:pt-16 md:pb-28 lg:pt-20 lg:pb-36">
         <div className="mx-auto max-w-3xl">
           <AnimateIn>
             <div className="mb-16 text-center">

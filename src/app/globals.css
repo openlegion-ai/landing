@@ -889,12 +889,12 @@ body {
 .content-page {
   max-width: 880px;
   margin: 0 auto;
-  padding: 120px 24px 80px;
+  padding: 56px 24px 80px;
 }
 
 @media (min-width: 768px) {
   .content-page {
-    padding: 140px 32px 100px;
+    padding: 72px 32px 100px;
   }
 }
 
