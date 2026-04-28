@@ -47,7 +47,7 @@ export function Hero() {
     <section
       id="hero"
       aria-label={t("ariaLabel")}
-      className="relative flex min-h-[100dvh] items-center overflow-hidden px-6 md:px-8"
+      className="relative flex min-h-[calc(100dvh-96px)] items-center overflow-hidden px-6 md:px-8"
     >
       <div className="hero-glow" aria-hidden="true" />
       <div className="hero-orb-3" aria-hidden="true" />
