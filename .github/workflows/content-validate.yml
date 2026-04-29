@@ -1,0 +1,43 @@
+name: Content Validate
+
+# Runs the content quality gate on every PR that touches src/content/** or
+# the validation infrastructure itself. Make this a Required Check on the
+# default branch — the OpenLegion engine merges based solely on green CI.
+
+on:
+  pull_request:
+    paths:
+      - "src/content/**"
+      - "content-schema.json"
+      - "scripts/validate-content.mjs"
+      - ".github/workflows/content-validate.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/content/**"
+      - "content-schema.json"
+      - "scripts/validate-content.mjs"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Show calibration baseline
+        run: node scripts/validate-content.mjs --calibrate
+
+      - name: Validate content
+        run: node scripts/validate-content.mjs
+
+      - name: Verify build artifacts regenerate
+        run: node scripts/generate-content-derivatives.mjs
