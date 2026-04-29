@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "Возможности"
       },
-      "1": {
+      "useCases": {
         "label": "Сценарии"
       },
-      "2": {
+      "architecture": {
         "label": "Архитектура"
       },
-      "3": {
+      "security": {
         "label": "Безопасность"
       },
-      "4": {
+      "learn": {
+        "label": "Учиться"
+      },
+      "compare": {
+        "label": "Сравнить"
+      },
+      "pricing": {
         "label": "Тарифы"
       },
-      "5": {
+      "docs": {
         "label": "Документация"
       }
     },

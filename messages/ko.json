@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "기능"
       },
-      "1": {
+      "useCases": {
         "label": "활용 사례"
       },
-      "2": {
+      "architecture": {
         "label": "아키텍처"
       },
-      "3": {
+      "security": {
         "label": "보안"
       },
-      "4": {
+      "learn": {
+        "label": "학습"
+      },
+      "compare": {
+        "label": "비교"
+      },
+      "pricing": {
         "label": "요금제"
       },
-      "5": {
+      "docs": {
         "label": "문서"
       }
     },

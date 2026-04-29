@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "功能特性"
       },
-      "1": {
+      "useCases": {
         "label": "应用场景"
       },
-      "2": {
+      "architecture": {
         "label": "技术架构"
       },
-      "3": {
+      "security": {
         "label": "安全防护"
       },
-      "4": {
+      "learn": {
+        "label": "学习"
+      },
+      "compare": {
+        "label": "对比"
+      },
+      "pricing": {
         "label": "定价方案"
       },
-      "5": {
+      "docs": {
         "label": "文档"
       }
     },

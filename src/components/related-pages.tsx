@@ -1,94 +1,91 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import {
+  getContentEntry,
+  getComparisonSubPageEntries,
+  getLearnEntries,
+} from "@/lib/markdown";
 
-// ── Full page registry ──────────────────────────────────────────────────────
-
-interface PageEntry {
+interface RelatedLink {
   href: string;
-  labelKey: string;
+  label: string;
 }
 
-const TOPIC_PAGES: PageEntry[] = [
-  { href: "/ai-agent-platform", labelKey: "topicPages.0" },
-  { href: "/ai-agent-orchestration", labelKey: "topicPages.1" },
-  { href: "/ai-agent-frameworks", labelKey: "topicPages.2" },
-  { href: "/ai-agent-security", labelKey: "topicPages.3" },
-  { href: "/openclaw-alternative", labelKey: "topicPages.4" },
-  { href: "/deepseek-v4-agents", labelKey: "topicPages.5" },
-];
-
-const COMPARISON_HUB: PageEntry = {
+const COMPARISON_HUB: RelatedLink = {
   href: "/comparison",
-  labelKey: "comparisonHub",
+  label: "All AI agent framework comparisons",
 };
 
-const COMPARISON_PAGES: Record<string, PageEntry> = {
-  openclaw: { href: "/comparison/openclaw", labelKey: "comparisons.openclaw" },
-  langgraph: { href: "/comparison/langgraph", labelKey: "comparisons.langgraph" },
-  crewai: { href: "/comparison/crewai", labelKey: "comparisons.crewai" },
-  autogen: { href: "/comparison/autogen", labelKey: "comparisons.autogen" },
-  dify: { href: "/comparison/dify", labelKey: "comparisons.dify" },
-  "google-adk": { href: "/comparison/google-adk", labelKey: "comparisons.googleAdk" },
-  "aws-strands": { href: "/comparison/aws-strands", labelKey: "comparisons.awsStrands" },
-  "openai-agents-sdk": { href: "/comparison/openai-agents-sdk", labelKey: "comparisons.openaiAgentsSdk" },
-  "manus-ai": { href: "/comparison/manus-ai", labelKey: "comparisons.manusAi" },
-  "semantic-kernel": { href: "/comparison/semantic-kernel", labelKey: "comparisons.semanticKernel" },
-  zeroclaw: { href: "/comparison/zeroclaw", labelKey: "comparisons.zeroclaw" },
-  nanoclaw: { href: "/comparison/nanoclaw", labelKey: "comparisons.nanoclaw" },
-  nanobot: { href: "/comparison/nanobot", labelKey: "comparisons.nanobot" },
-  picoclaw: { href: "/comparison/picoclaw", labelKey: "comparisons.picoclaw" },
-  openfang: { href: "/comparison/openfang", labelKey: "comparisons.openfang" },
-  memu: { href: "/comparison/memu", labelKey: "comparisons.memu" },
+const LEARN_HUB: RelatedLink = {
+  href: "/learn",
+  label: "Learn — guides & frameworks",
 };
 
-// Per-comparison related siblings (4 most relevant based on cross-references)
-const RELATED_MAP: Record<string, string[]> = {
-  openclaw: ["zeroclaw", "nanoclaw", "openfang", "langgraph"],
-  langgraph: ["crewai", "autogen", "openclaw", "openfang"],
-  crewai: ["langgraph", "autogen", "openclaw", "openfang"],
-  autogen: ["langgraph", "crewai", "semantic-kernel", "openai-agents-sdk"],
-  dify: ["langgraph", "crewai", "manus-ai", "google-adk"],
-  "google-adk": ["langgraph", "crewai", "aws-strands", "openai-agents-sdk"],
-  "aws-strands": ["google-adk", "langgraph", "semantic-kernel", "openai-agents-sdk"],
-  "openai-agents-sdk": ["langgraph", "crewai", "google-adk", "autogen"],
-  "manus-ai": ["crewai", "openclaw", "dify", "google-adk"],
-  "semantic-kernel": ["autogen", "langgraph", "aws-strands", "openai-agents-sdk"],
-  zeroclaw: ["openfang", "openclaw", "nanoclaw", "picoclaw"],
-  nanoclaw: ["zeroclaw", "openclaw", "picoclaw", "nanobot"],
-  nanobot: ["nanoclaw", "picoclaw", "zeroclaw", "openclaw"],
-  picoclaw: ["nanobot", "zeroclaw", "nanoclaw", "openclaw"],
-  openfang: ["zeroclaw", "openclaw", "langgraph", "crewai"],
-  memu: ["nanobot", "openclaw", "crewai", "langgraph"],
-};
+const MAX_RELATED = 5;
 
-// ── Context-aware link selection ────────────────────────────────────────────
+/**
+ * Resolve related links for a given page.
+ *
+ * Priority:
+ *   1. Frontmatter `related: ["/comparison/foo", ...]` — engine-curated.
+ *   2. Same-section siblings (other comparison or other learn pages).
+ *   3. Section hub fallback.
+ */
+function getRelatedLinks(currentSlug: string): RelatedLink[] {
+  const entry = getContentEntry(currentSlug);
+  const links: RelatedLink[] = [];
 
-function getRelatedLinks(currentPath: string): PageEntry[] {
-  // On comparison sub-pages: hub + 4 related comparisons
-  const compMatch = currentPath.match(/^\/comparison\/(.+)$/);
-  if (compMatch) {
-    const slug = compMatch[1];
-    const siblings = (RELATED_MAP[slug] ?? [])
-      .map((s) => COMPARISON_PAGES[s])
-      .filter(Boolean);
-    return [COMPARISON_HUB, ...siblings];
+  // 1. Curated from frontmatter.
+  if (entry?.frontmatter.related?.length) {
+    for (const slug of entry.frontmatter.related) {
+      const target = getContentEntry(slug);
+      if (target && slug !== currentSlug) {
+        links.push({ href: slug, label: target.frontmatter.title });
+      }
+    }
   }
 
-  // On the comparison hub: show topic pages
-  if (currentPath === "/comparison") {
-    return TOPIC_PAGES;
+  // 2. Section siblings if curation didn't fill the slot.
+  if (links.length < MAX_RELATED) {
+    if (currentSlug.startsWith("/comparison/")) {
+      const siblings = getComparisonSubPageEntries()
+        .filter((e) => e.slug !== currentSlug && !links.some((l) => l.href === e.slug))
+        .slice(0, MAX_RELATED - links.length)
+        .map((e) => ({ href: e.slug, label: e.frontmatter.title }));
+      links.push(...siblings);
+    } else if (currentSlug.startsWith("/learn/")) {
+      const siblings = getLearnEntries()
+        .filter((e) => e.slug !== currentSlug && !links.some((l) => l.href === e.slug))
+        .slice(0, MAX_RELATED - links.length)
+        .map((e) => ({ href: e.slug, label: e.frontmatter.title }));
+      links.push(...siblings);
+    }
   }
 
-  // On topic pages: other topic pages + comparison hub
-  const otherTopics = TOPIC_PAGES.filter((p) => p.href !== currentPath);
-  return [...otherTopics, COMPARISON_HUB];
+  // 3. Always include the relevant hub at the top.
+  if (currentSlug.startsWith("/comparison/")) {
+    return [COMPARISON_HUB, ...links.slice(0, MAX_RELATED)];
+  }
+  if (currentSlug === "/comparison") {
+    // Hub itself — surface a few learn pages.
+    const learn = getLearnEntries()
+      .slice(0, MAX_RELATED)
+      .map((e) => ({ href: e.slug, label: e.frontmatter.title }));
+    return [LEARN_HUB, ...learn];
+  }
+  if (currentSlug.startsWith("/learn/")) {
+    return [LEARN_HUB, ...links.slice(0, MAX_RELATED)];
+  }
+
+  // Root content pages: a mix of both hubs.
+  return [COMPARISON_HUB, LEARN_HUB, ...links.slice(0, MAX_RELATED - 2)];
 }
-
-// ── Component ───────────────────────────────────────────────────────────────
 
 export function RelatedPages({ currentSlug }: { currentSlug: string }) {
   const t = useTranslations("relatedPages");
   const links = getRelatedLinks(currentSlug);
+
+  if (links.length === 0) return null;
 
   return (
     <nav aria-label={t("ariaLabel")} className="related-pages">
@@ -96,7 +93,7 @@ export function RelatedPages({ currentSlug }: { currentSlug: string }) {
       <ul>
         {links.map((link) => (
           <li key={link.href}>
-            <Link href={link.href}>{t(link.labelKey)}</Link>
+            <Link href={link.href}>{link.label}</Link>
           </li>
         ))}
       </ul>

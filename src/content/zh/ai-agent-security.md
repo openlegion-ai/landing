@@ -1,7 +1,7 @@
 ---
 title: "AI 智能体安全 — 威胁、隔离、密钥库"
 description: "AI 智能体安全指南：凭证泄露、提示注入、沙箱逃逸，以及容器隔离、盲注凭证注入和预算控制如何缓解每种威胁。"
-slug: "/ai-agent-security"
+slug: "/learn/ai-agent-security"
 primary_keyword: "ai 智能体安全"
 secondary_keywords:
   - "ai 智能体凭证泄露"
@@ -62,7 +62,7 @@ schema_types:
 
 **有多常见。** 这被列为 OWASP LLM10:2025（无限制消耗）。大多数云计费系统在超出预算时不会自动停止收费——警报会触发，但计费器继续运转。CrewAI 和 LangGraph 用户的社区报告描述了消耗 10 倍预期预算的 token 燃烧循环。
 
-**OpenLegion 如何缓解。** 单智能体每日和每月预算控制，硬性截止。集群中的每个智能体都有自己的 token 预算，实时追踪。达到限额时，[编排层](/ai-agent-orchestration)会暂停该特定智能体。工作流的其余部分继续运行或优雅暂停。没有被忽略的"软警告"——截止是在基础设施层面强制执行的。
+**OpenLegion 如何缓解。** 单智能体每日和每月预算控制，硬性截止。集群中的每个智能体都有自己的 token 预算，实时追踪。达到限额时，[编排层](/learn/ai-agent-orchestration)会暂停该特定智能体。工作流的其余部分继续运行或优雅暂停。没有被忽略的"软警告"——截止是在基础设施层面强制执行的。
 
 ### 威胁 4：数据窃取
 
@@ -98,7 +98,7 @@ OpenLegion 的三区信任模型将每个部署分为不同的安全边界：
 
 ## AI 智能体凭证管理：密钥库代理 vs 环境变量
 
-在 [AI 智能体框架](/ai-agent-frameworks) 中，最常见的凭证管理模式是环境变量。你的 API 密钥放在 `.env` 文件中或通过 `OAI_CONFIG_LIST` 传递。智能体进程直接读取它。这意味着：
+在 [AI 智能体框架](/learn/ai-agent-frameworks) 中，最常见的凭证管理模式是环境变量。你的 API 密钥放在 `.env` 文件中或通过 `OAI_CONFIG_LIST` 传递。智能体进程直接读取它。这意味着：
 
 - 密钥存在于智能体的内存空间中
 - 提示注入攻击可以指示智能体打印或窃取密钥
@@ -107,7 +107,7 @@ OpenLegion 的三区信任模型将每个部署分为不同的安全边界：
 
 OpenLegion 的密钥库代理从根本上改变了这种架构。API 密钥存储在网格主机的凭证密钥库（区域 2）中。当智能体需要进行认证 API 调用时，它将请求发送到密钥库代理。代理在网络层注入凭证，进行认证调用，并将结果返回给智能体。智能体永远看不到、存储不到、也无法通过内存访问原始密钥。
 
-这就是**盲注凭证注入**——与 HashiCorp Vault 等企业密钥管理系统使用的原理相同，但内置于 [AI 智能体编排](/ai-agent-orchestration) 层，而非需要独立的基础设施。
+这就是**盲注凭证注入**——与 HashiCorp Vault 等企业密钥管理系统使用的原理相同，但内置于 [AI 智能体编排](/learn/ai-agent-orchestration) 层，而非需要独立的基础设施。
 
 ## 容器化 AI 智能体：为什么进程级隔离不够
 
@@ -197,10 +197,10 @@ OWASP 于 2025 年 12 月发布了智能体应用 Top 10。排名第一的风险
 
 | 锚文本 | 目标 |
 |---|---|
-| AI 智能体平台 | /ai-agent-platform |
-| AI 智能体编排 | /ai-agent-orchestration |
-| AI 智能体框架对比 | /ai-agent-frameworks |
-| AI 智能体安全 | /ai-agent-security |
+| AI 智能体平台 | /learn/ai-agent-platform |
+| AI 智能体编排 | /learn/ai-agent-orchestration |
+| AI 智能体框架对比 | /learn/ai-agent-frameworks |
+| AI 智能体安全 | /learn/ai-agent-security |
 | OpenClaw 替代方案 | /openclaw-alternative |
 | OpenLegion vs OpenClaw | /comparison/openclaw |
 | 文档 | /docs |

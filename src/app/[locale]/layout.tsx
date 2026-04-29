@@ -152,9 +152,14 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const tNav = await getTranslations("common");
 
+  // Stable @id for cross-schema entity references — lets AI assistants
+  // disambiguate "OpenLegion the company" from any generic phrase match.
+  const ORG_ID = "https://www.openlegion.ai/#organization";
+
   const orgJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORG_ID,
     name: "OpenLegion",
     url: "https://www.openlegion.ai",
     logo: {
@@ -165,19 +170,61 @@ export default async function LocaleLayout({
     },
     description:
       "Managed AI agent platform with container isolation, credential vaults, and production-grade orchestration.",
+    foundingDate: "2025",
+    knowsAbout: [
+      "AI agent orchestration",
+      "AI agent security",
+      "Container isolation",
+      "Credential vaulting",
+      "Multi-agent systems",
+      "Large language model deployment",
+    ],
     sameAs: [GITHUB_URL, TWITTER_URL, DISCORD_URL],
   };
 
   const webSiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://www.openlegion.ai/#website",
     name: "OpenLegion",
     url: "https://www.openlegion.ai",
+    publisher: { "@id": ORG_ID },
     potentialAction: {
       "@type": "SearchAction",
       target: "https://docs.openlegion.ai/search?q={search_term_string}",
       "query-input": "required name=search_term_string",
     },
+  };
+
+  const softwareAppJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://www.openlegion.ai/#software",
+    name: "OpenLegion",
+    applicationCategory: "DeveloperApplication",
+    applicationSubCategory: "AI Agent Platform",
+    operatingSystem: "Linux, macOS, Windows",
+    url: "https://www.openlegion.ai",
+    downloadUrl: GITHUB_URL,
+    softwareVersion: "1.0",
+    description:
+      "Production-grade AI agent platform with container isolation, blind credential injection, and per-agent budget controls. Self-hosted (BSL 1.1) or managed.",
+    publisher: { "@id": ORG_ID },
+    offers: {
+      "@type": "Offer",
+      price: "19",
+      priceCurrency: "USD",
+      url: "https://www.openlegion.ai/pricing",
+      availability: "https://schema.org/InStock",
+    },
+    featureList: [
+      "Container isolation per agent",
+      "Blind credential injection via vault proxy",
+      "Per-agent daily and monthly budget enforcement",
+      "Deterministic YAML DAG orchestration",
+      "100+ LLM providers via LiteLLM",
+      "Self-hosted or managed deployment",
+    ],
   };
 
   return (
@@ -206,6 +253,10 @@ export default async function LocaleLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd).replace(/</g, "\\u003c") }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body

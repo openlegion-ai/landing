@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import { SUPPORTED_LOCALES } from "./src/lib/constants";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -27,6 +28,26 @@ const securityHeaders = [
   },
 ];
 
+// Topic pages moved from root to /learn/* on 2026-04. Preserve the existing
+// rankings + inbound links via 301 redirects across every locale prefix.
+const RELOCATED_TOPICS = [
+  "ai-agent-platform",
+  "ai-agent-orchestration",
+  "ai-agent-frameworks",
+  "ai-agent-security",
+];
+
+function buildTopicRedirects() {
+  const localePaths = ["", ...SUPPORTED_LOCALES.map((l) => `/${l}`)];
+  return RELOCATED_TOPICS.flatMap((topic) =>
+    localePaths.map((prefix) => ({
+      source: `${prefix}/${topic}`,
+      destination: `${prefix}/learn/${topic}`,
+      permanent: true,
+    }))
+  );
+}
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
@@ -53,6 +74,7 @@ const nextConfig: NextConfig = {
         destination: "/comparison",
         permanent: true,
       },
+      ...buildTopicRedirects(),
     ];
   },
 };

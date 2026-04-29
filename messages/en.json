@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "Features"
       },
-      "1": {
+      "useCases": {
         "label": "Use Cases"
       },
-      "2": {
+      "architecture": {
         "label": "Architecture"
       },
-      "3": {
+      "security": {
         "label": "Security"
       },
-      "4": {
+      "learn": {
+        "label": "Learn"
+      },
+      "compare": {
+        "label": "Compare"
+      },
+      "pricing": {
         "label": "Pricing"
       },
-      "5": {
+      "docs": {
         "label": "Docs"
       }
     },

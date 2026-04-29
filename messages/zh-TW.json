@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "功能"
       },
-      "1": {
+      "useCases": {
         "label": "使用案例"
       },
-      "2": {
+      "architecture": {
         "label": "架構"
       },
-      "3": {
+      "security": {
         "label": "安全性"
       },
-      "4": {
+      "learn": {
+        "label": "學習"
+      },
+      "compare": {
+        "label": "對比"
+      },
+      "pricing": {
         "label": "定價"
       },
-      "5": {
+      "docs": {
         "label": "文件"
       }
     },

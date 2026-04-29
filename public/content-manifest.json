@@ -1,0 +1,610 @@
+{
+  "generatedAt": "2026-04-29T14:07:11.111Z",
+  "baseUrl": "https://www.openlegion.ai",
+  "pageCount": 23,
+  "pages": [
+    {
+      "slug": "/comparison",
+      "title": "OpenLegion vs Every AI Agent Framework — 2026 Comparison Hub",
+      "description": "Compare OpenLegion against 16 AI agent frameworks: LangGraph, CrewAI, AutoGen, OpenClaw, ZeroClaw, NanoClaw, OpenFang, MemU, and more. Security, pricing, and architecture, side by side.",
+      "primaryKeyword": "ai agent framework comparison 2026",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "hub",
+      "related": [
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-security"
+      ],
+      "availableLocales": [
+        "en",
+        "zh"
+      ],
+      "url": "https://www.openlegion.ai/comparison"
+    },
+    {
+      "slug": "/comparison/autogen",
+      "title": "OpenLegion vs AutoGen — Security, Migration & 2026 Verdict",
+      "description": "OpenLegion vs AutoGen: security-first framework vs Microsoft's multi-agent pioneer. Maintenance mode, 97% attack rate, credential handling, migration risk, and production security compared.",
+      "primaryKeyword": "openlegion vs autogen",
+      "secondaryKeywords": [
+        "autogen alternative",
+        "autogen security",
+        "autogen maintenance mode",
+        "microsoft agent framework",
+        "autogen vs openlegion"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/crewai",
+        "/comparison/semantic-kernel",
+        "/comparison/openai-agents-sdk"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/autogen"
+    },
+    {
+      "slug": "/comparison/aws-strands",
+      "title": "OpenLegion vs AWS Strands - Detailed Comparison",
+      "description": "OpenLegion vs AWS Strands Agents SDK: comparison of security, agent isolation, credential management, AWS integration, and multi-agent orchestration.",
+      "primaryKeyword": "openlegion vs aws strands",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/google-adk",
+        "/comparison/langgraph",
+        "/comparison/semantic-kernel",
+        "/comparison/openai-agents-sdk"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/aws-strands"
+    },
+    {
+      "slug": "/comparison/crewai",
+      "title": "OpenLegion vs CrewAI — Detailed Comparison (2026)",
+      "description": "OpenLegion vs CrewAI: security-first framework vs role-based multi-agent platform. Credential isolation, loop-of-doom risk, telemetry, budget controls, and production deployment compared.",
+      "primaryKeyword": "openlegion vs crewai",
+      "secondaryKeywords": [
+        "crewai alternative",
+        "crewai security",
+        "crewai loop of doom",
+        "crewai telemetry",
+        "multi-agent framework comparison"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/autogen",
+        "/comparison/openclaw",
+        "/comparison/openfang"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/crewai"
+    },
+    {
+      "slug": "/comparison/dify",
+      "title": "OpenLegion vs Dify — Detailed Comparison",
+      "description": "OpenLegion vs Dify: comparison of security, agent isolation, credential management, visual workflow building, and production deployment for AI agents.",
+      "primaryKeyword": "openlegion vs dify",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/crewai",
+        "/comparison/manus-ai",
+        "/comparison/google-adk"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/dify"
+    },
+    {
+      "slug": "/comparison/google-adk",
+      "title": "OpenLegion vs Google ADK - Detailed Comparison",
+      "description": "OpenLegion vs Google Agent Development Kit: comparison of security, agent isolation, credential management, A2A protocol, and multi-agent orchestration.",
+      "primaryKeyword": "openlegion vs google adk",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/crewai",
+        "/comparison/aws-strands",
+        "/comparison/openai-agents-sdk"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/google-adk"
+    },
+    {
+      "slug": "/comparison/langgraph",
+      "title": "OpenLegion vs LangGraph — Detailed Comparison (2026)",
+      "description": "OpenLegion vs LangGraph: security architecture, credential isolation, CVE history, budget controls, graph-based vs YAML orchestration, and production deployment compared.",
+      "primaryKeyword": "openlegion vs langgraph",
+      "secondaryKeywords": [
+        "langgraph alternative",
+        "langgraph security",
+        "langgraph cve",
+        "ai agent orchestration comparison",
+        "langgraph vs openlegion"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/crewai",
+        "/comparison/autogen",
+        "/comparison/openclaw",
+        "/comparison/openfang"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/langgraph"
+    },
+    {
+      "slug": "/comparison/manus-ai",
+      "title": "OpenLegion vs Manus AI — Detailed Comparison",
+      "description": "OpenLegion vs Manus AI: comparison of security, agent isolation, credential management, cost controls, and deployment models for AI agent platforms.",
+      "primaryKeyword": "openlegion vs manus ai",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/crewai",
+        "/comparison/openclaw",
+        "/comparison/dify",
+        "/comparison/google-adk"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/manus-ai"
+    },
+    {
+      "slug": "/comparison/memu",
+      "title": "OpenLegion vs MemU — Detailed Comparison (2026)",
+      "description": "OpenLegion vs MemU: full security-first agent framework vs specialized agentic memory layer. Architecture, memory models, integration patterns, and when to use each.",
+      "primaryKeyword": "openlegion vs memu",
+      "secondaryKeywords": [
+        "memu alternative",
+        "memu ai memory",
+        "agent memory framework",
+        "ai agent persistent memory"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/nanobot",
+        "/comparison/openclaw",
+        "/comparison/crewai",
+        "/comparison/langgraph"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/memu"
+    },
+    {
+      "slug": "/comparison/nanobot",
+      "title": "OpenLegion vs nanobot — Detailed Comparison (2026)",
+      "description": "OpenLegion vs nanobot: security-first framework vs ultra-lightweight OpenClaw alternative. Credential handling, isolation, and production readiness compared.",
+      "primaryKeyword": "openlegion vs nanobot",
+      "secondaryKeywords": [
+        "nanobot alternative",
+        "nanobot security",
+        "nanobot vulnerability",
+        "lightweight ai agent framework",
+        "openclaw alternative python"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/nanoclaw",
+        "/comparison/picoclaw",
+        "/comparison/zeroclaw",
+        "/comparison/openclaw"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/nanobot"
+    },
+    {
+      "slug": "/comparison/nanoclaw",
+      "title": "OpenLegion vs NanoClaw — Detailed Comparison (2026)",
+      "description": "OpenLegion vs NanoClaw: container-isolated AI agents compared. Credential management, multi-agent orchestration, provider support, and production security side by side.",
+      "primaryKeyword": "openlegion vs nanoclaw",
+      "secondaryKeywords": [
+        "nanoclaw alternative",
+        "nanoclaw security",
+        "container ai agent",
+        "claude agent sdk"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/zeroclaw",
+        "/comparison/openclaw",
+        "/comparison/picoclaw",
+        "/comparison/nanobot"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/nanoclaw"
+    },
+    {
+      "slug": "/comparison/openai-agents-sdk",
+      "title": "OpenLegion vs OpenAI Agents SDK — Detailed Comparison",
+      "description": "OpenLegion vs OpenAI Agents SDK: side-by-side comparison of security, agent isolation, credential management, vendor lock-in, and multi-agent orchestration.",
+      "primaryKeyword": "openlegion vs openai agents sdk",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/crewai",
+        "/comparison/google-adk",
+        "/comparison/autogen"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/openai-agents-sdk"
+    },
+    {
+      "slug": "/comparison/openclaw",
+      "title": "OpenLegion vs OpenClaw — Detailed Comparison (2026)",
+      "description": "OpenLegion vs OpenClaw: security architecture, credential isolation, Docker socket risks, budget controls, and production deployment compared side by side.",
+      "primaryKeyword": "openlegion vs openclaw",
+      "secondaryKeywords": [
+        "openclaw alternative",
+        "openclaw security",
+        "openclaw cve",
+        "ai agent framework comparison",
+        "openclaw vs openlegion"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/zeroclaw",
+        "/comparison/nanoclaw",
+        "/comparison/openfang",
+        "/comparison/langgraph"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/openclaw"
+    },
+    {
+      "slug": "/comparison/openfang",
+      "title": "OpenLegion vs OpenFang — Detailed Comparison (2026)",
+      "description": "OpenLegion vs OpenFang: security architecture, credential management, agent isolation, Rust performance, and production deployment compared side by side.",
+      "primaryKeyword": "openlegion vs openfang",
+      "secondaryKeywords": [
+        "openfang alternative",
+        "openfang security",
+        "ai agent operating system comparison",
+        "rust ai agent framework"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/zeroclaw",
+        "/comparison/openclaw",
+        "/comparison/langgraph",
+        "/comparison/crewai"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/openfang"
+    },
+    {
+      "slug": "/comparison/picoclaw",
+      "title": "OpenLegion vs PicoClaw — Detailed Comparison (2026)",
+      "description": "OpenLegion vs PicoClaw: production security framework vs Go-powered edge agent for $10 hardware. Security gaps, RISC-V deployment, credential handling, and isolation compared.",
+      "primaryKeyword": "openlegion vs picoclaw",
+      "secondaryKeywords": [
+        "picoclaw alternative",
+        "picoclaw security",
+        "edge ai agent framework",
+        "go ai agent lightweight",
+        "risc-v ai agent"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/nanobot",
+        "/comparison/zeroclaw",
+        "/comparison/nanoclaw",
+        "/comparison/openclaw"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/picoclaw"
+    },
+    {
+      "slug": "/comparison/semantic-kernel",
+      "title": "OpenLegion vs Semantic Kernel — Detailed Comparison",
+      "description": "OpenLegion vs Semantic Kernel: side-by-side comparison of security, agent isolation, credential management, enterprise features, and multi-agent orchestration.",
+      "primaryKeyword": "openlegion vs semantic kernel",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/autogen",
+        "/comparison/langgraph",
+        "/comparison/aws-strands",
+        "/comparison/openai-agents-sdk"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/semantic-kernel"
+    },
+    {
+      "slug": "/comparison/zeroclaw",
+      "title": "OpenLegion vs ZeroClaw — Detailed Comparison (2026)",
+      "description": "OpenLegion vs ZeroClaw: Rust single-binary agent runtime vs Python security-first framework. Credential management, isolation, budget controls, and deployment compared.",
+      "primaryKeyword": "openlegion vs zeroclaw",
+      "secondaryKeywords": [
+        "zeroclaw alternative",
+        "zeroclaw security",
+        "rust ai agent runtime",
+        "openclaw alternative lightweight"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/openfang",
+        "/comparison/openclaw",
+        "/comparison/nanoclaw",
+        "/comparison/picoclaw"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/comparison/zeroclaw"
+    },
+    {
+      "slug": "/deepseek-v4-agents",
+      "title": "Run DeepSeek V4 Agents Securely with OpenLegion (2026)",
+      "description": "Run DeepSeek V4 agents with vault proxy credentials, container isolation, and per-agent budget controls. OpenLegion's AI agent framework has day-1 DeepSeek V4 support via LiteLLM.",
+      "primaryKeyword": "deepseek v4 agents",
+      "secondaryKeywords": [
+        "deepseek v4 openlegion",
+        "deepseek v4 ai agent framework",
+        "deepseek v4 secure deployment",
+        "deepseek v4 open source agents",
+        "run deepseek v4 locally agents",
+        "deepseek v4 alternative to claude",
+        "deepseek v4 budget controls",
+        "deepseek v4 api agents"
+      ],
+      "schemaTypes": [
+        "FAQPage",
+        "HowTo"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "root",
+      "related": [
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-orchestration",
+        "/comparison",
+        "/learn/ai-agent-frameworks"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/deepseek-v4-agents"
+    },
+    {
+      "slug": "/learn/ai-agent-frameworks",
+      "title": "Best AI Agent Frameworks (2026 Comparison)",
+      "description": "Compare the best AI agent frameworks: OpenLegion, OpenClaw, LangGraph, CrewAI, AutoGen, Semantic Kernel. Side-by-side features, security, and pricing.",
+      "primaryKeyword": "best ai agent frameworks",
+      "secondaryKeywords": [
+        "ai agent framework comparison",
+        "ai agent frameworks 2026",
+        "langgraph vs crewai vs openlegion",
+        "production ai agent framework",
+        "ai agent framework security"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-security",
+        "/comparison"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/learn/ai-agent-frameworks"
+    },
+    {
+      "slug": "/learn/ai-agent-orchestration",
+      "title": "AI Agent Orchestration — Coordinate Agents",
+      "description": "AI agent orchestration platform with deterministic DAG workflows, container isolation, credential vaulting, and per-agent budget controls.",
+      "primaryKeyword": "ai agent orchestration",
+      "secondaryKeywords": [
+        "multi-agent orchestration",
+        "deterministic ai workflows",
+        "ai agent task routing",
+        "ai agent dag workflows",
+        "agentic ai orchestration"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-frameworks",
+        "/comparison"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/learn/ai-agent-orchestration"
+    },
+    {
+      "slug": "/learn/ai-agent-platform",
+      "title": "AI Agent Platform — Deploy Secure Agents",
+      "description": "OpenLegion is a managed AI agent platform with container isolation, credential vaulting, and budget controls. Bring your own LLM API keys.",
+      "primaryKeyword": "ai agent platform",
+      "secondaryKeywords": [
+        "managed ai agent platform",
+        "self-hosted agent deployment",
+        "ai agent cost control",
+        "ai agent credential security",
+        "production ai agent infrastructure"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-frameworks",
+        "/comparison"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/learn/ai-agent-platform"
+    },
+    {
+      "slug": "/learn/ai-agent-security",
+      "title": "AI Agent Security — Threats, Isolation, Vaults",
+      "description": "AI agent security guide: credential leakage, prompt injection, sandbox escape, and how container isolation, blind credential injection, and budget controls mitigate each threat.",
+      "primaryKeyword": "ai agent security",
+      "secondaryKeywords": [
+        "ai agent credential leakage",
+        "ai agent prompt injection",
+        "ai agent sandbox escape",
+        "secure ai agent deployment",
+        "ai agent threat model"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-frameworks",
+        "/comparison"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/learn/ai-agent-security"
+    },
+    {
+      "slug": "/openclaw-alternative",
+      "title": "OpenClaw Alternative — OpenLegion",
+      "description": "Looking for an OpenClaw alternative? OpenLegion offers container isolation, blind credential injection, per-agent budget controls, and deterministic orchestration.",
+      "primaryKeyword": "openclaw alternative",
+      "secondaryKeywords": [
+        "openclaw replacement",
+        "openclaw security issues",
+        "openclaw vs openlegion",
+        "best openclaw alternative 2026",
+        "secure openclaw alternative"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-03",
+      "pageType": "root",
+      "related": [
+        "/comparison/openclaw",
+        "/comparison/langgraph",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-security"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/openclaw-alternative"
+    }
+  ]
+}
