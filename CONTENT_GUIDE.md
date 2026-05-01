@@ -110,7 +110,7 @@ merge-blocker:
 - Any internal link (`/...`) that doesn't resolve to a known page or recognized nav route.
 - Any `related:` slug that doesn't resolve, or includes self.
 - Placeholder strings: `Lorem ipsum`, `TODO:`, `<!-- TODO`, `[INSERT`, `{{ `, `as an AI`, `as a language model`, `I am an AI`.
-- Near-duplicate detection: TF-IDF cosine similarity of (H1 + lede + all H2s) vs every existing page exceeds the dynamic baseline (`max-existing-pairwise + 0.05`). Calibrate and inspect with `--calibrate`.
+- Near-duplicate detection: TF-IDF cosine similarity of (H1 + lede + all H2s) against any other page exceeds `MAX_SIMILARITY` in `scripts/validate-content.mjs` (currently `0.30`). Run `--calibrate` to inspect the corpus max; if it ever climbs within 30% of the cap, raise the cap and review what's driving convergence.
 - `last_updated` not a valid ISO date.
 
 ---

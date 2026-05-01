@@ -252,10 +252,15 @@ function buildManifest(entries) {
   };
 }
 
+// Must stay in sync with the same function in scripts/validate-content.mjs —
+// the engine reads this manifest to pick the right page-type rules before
+// drafting; a mismatch means a draft tuned to one threshold gets validated
+// against another. Keep these aligned.
 function inferPageType(slug) {
   if (slug === "/comparison" || slug === "/learn") return "hub";
   if (slug.startsWith("/comparison/")) return "comparison";
   if (slug.startsWith("/learn/")) return "learn";
+  if (/-alternative$/.test(slug)) return "alternative";
   return "root";
 }
 

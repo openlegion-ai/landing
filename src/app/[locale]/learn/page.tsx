@@ -1,29 +1,46 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { getLearnEntries } from "@/lib/markdown";
 import { JsonLd, buildBreadcrumbSchema, buildItemListSchema } from "@/components/json-ld";
 import { Footer } from "@/components/footer";
+import { SUPPORTED_LOCALES } from "@/lib/constants";
 
 const SLUG = "/learn";
 const BASE_URL = "https://www.openlegion.ai";
+
+export function generateStaticParams() {
+  return SUPPORTED_LOCALES.map((locale) => ({ locale }));
+}
 
 const TITLE = "Learn — AI Agent Platform, Orchestration & Security";
 const DESCRIPTION =
   "Practical guides to running production AI agents: platform architecture, orchestration patterns, framework selection, and the agent threat model.";
 
 export function generateMetadata(): Metadata {
+  // Page-level `alternates` overrides (not merges with) the layout's
+  // alternates, so we must rebuild the full hreflang map here. Without this
+  // the locale-prefixed /<locale>/learn URLs inherit the layout's homepage
+  // hreflang, which points at "/" and is wrong for this page.
+  const languages: Record<string, string> = {};
+  for (const loc of SUPPORTED_LOCALES) {
+    languages[loc] = `${BASE_URL}/${loc}${SLUG}`;
+  }
+  languages["x-default"] = `${BASE_URL}/en${SLUG}`;
+
   return {
     title: TITLE,
     description: DESCRIPTION,
     alternates: {
-      canonical: `${BASE_URL}${SLUG}`,
+      canonical: `${BASE_URL}/en${SLUG}`,
+      languages,
     },
     openGraph: {
       title: TITLE,
       description: DESCRIPTION,
       type: "website",
       siteName: "OpenLegion",
-      url: `${BASE_URL}${SLUG}`,
+      url: `${BASE_URL}/en${SLUG}`,
       images: [
         {
           url: "/og/learn.png",
@@ -50,7 +67,9 @@ export function generateMetadata(): Metadata {
   };
 }
 
-export default function Page() {
+export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const entries = getLearnEntries();
 
   const itemListItems = entries.map((entry, i) => ({

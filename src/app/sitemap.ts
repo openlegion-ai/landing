@@ -72,6 +72,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       alternates: alternatesForNavPath("/learn"),
     },
     {
+      url: `${BASE}/en/money-back-guarantee`,
+      lastModified: new Date(),
+      changeFrequency: "yearly",
+      priority: 0.4,
+      alternates: alternatesForNavPath("/money-back-guarantee"),
+    },
+    {
       url: `${BASE}/en/terms`,
       lastModified: new Date(),
       changeFrequency: "yearly",

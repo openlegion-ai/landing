@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-29T14:07:11.111Z",
+  "generatedAt": "2026-05-01T10:30:49.302Z",
   "baseUrl": "https://www.openlegion.ai",
   "pageCount": 23,
   "pages": [
@@ -594,7 +594,7 @@
         "FAQPage"
       ],
       "lastUpdated": "2026-03",
-      "pageType": "root",
+      "pageType": "alternative",
       "related": [
         "/comparison/openclaw",
         "/comparison/langgraph",

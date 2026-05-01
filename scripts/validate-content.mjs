@@ -37,7 +37,17 @@ const PAGE_TYPE_RULES = {
   hub:        { minWords: 400, requireFaq: true, requireOpenLegionTake: false },
 };
 
-const SIMILARITY_MARGIN = 0.05;
+// Hard cap on per-page max TF-IDF similarity to any other page. Calibrated
+// against the existing corpus (max pairwise = 0.158 at PR #57) with ~2.5×
+// headroom for natural drift as the comparison/learn corpus grows. Run
+// `--calibrate` periodically; if the corpus max approaches this number the
+// threshold should be raised (and the bump reviewed for what's driving it).
+//
+// Why a fixed threshold instead of `max-existing-pairwise + margin`:
+// the dynamic-baseline approach is circular — a new near-duplicate raises
+// `overallMax` to ≈1.0, the threshold becomes >1.0, and the duplicate is
+// silently accepted. Fixed threshold makes the gate honest.
+const MAX_SIMILARITY = 0.30;
 const FRESHNESS_WARN_MONTHS = 12;
 const LEDE_MIN_WORDS = 35;
 const LEDE_MAX_WORDS = 90;
@@ -68,14 +78,19 @@ const GENERIC_ALT_TEXT = new Set([
   "image", "screenshot", "chart", "graph", "logo", "diagram", "picture",
   "photo", "img", "alt text",
 ]);
+// Tokens shorter than 3 chars or matching this list are dropped before TF-IDF
+// scoring. "openlegion" is included because the brand appears in every page;
+// counting it would inflate similarity for unrelated pages. Apostrophe-bearing
+// tokens (it's, that's …) are stripped by `tokenize` before this lookup, so
+// they aren't listed here.
 const STOPWORDS = new Set([
   "a","an","and","are","as","at","be","by","for","from","has","have","he","i",
   "in","is","it","its","of","on","or","that","the","to","was","were","will",
   "with","you","your","this","these","they","them","their","but","not","do",
   "does","did","so","if","than","then","when","what","which","who","whom",
   "whose","why","how","there","here","also","more","most","such","one","two",
-  "can","may","just","also","only","very","much","into","over","up","out",
-  "we","us","our","ours","you've","we've","i've","it's","that's","openlegion",
+  "can","may","just","only","very","much","into","over","up","out",
+  "we","us","our","ours","openlegion",
 ]);
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
@@ -198,8 +213,11 @@ function validateFrontmatter(fm, expectedSlug) {
 // ── Content checks ──────────────────────────────────────────────────────────
 
 function extractH1(content) {
-  const match = content.match(/^#\s+(.+)$/m);
-  return match ? match[1].trim() : null;
+  // Use the same code-fence-aware pass as extractAllHeadings — the naive
+  // /^#\s+/m regex matches `# foo` lines inside ```code blocks.
+  const headings = extractAllHeadings(content);
+  const h1 = headings.find((h) => h.level === 1);
+  return h1 ? h1.text : null;
 }
 
 function extractAllHeadings(content) {
@@ -232,9 +250,12 @@ function checkHeadingHierarchy(content) {
 }
 
 function extractLede(content) {
-  // First non-frontmatter prose paragraph after the H1.
-  const afterH1 = content.split(/\n#\s+.+\n/)[1];
-  if (!afterH1) return null;
+  // First non-frontmatter prose paragraph after the H1. Tolerates content that
+  // begins with `# H1` (no leading newline) — gray-matter only emits a leading
+  // \n when the source file has a blank line between `---` and `# H1`.
+  const h1Match = content.match(/(?:^|\n)#\s+.+\n/);
+  if (!h1Match) return null;
+  const afterH1 = content.slice(h1Match.index + h1Match[0].length);
   const paragraphs = afterH1.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
   for (const p of paragraphs) {
     if (p.startsWith("#") || p.startsWith("<!--") || p.startsWith(">") || p.startsWith("-") || p.startsWith("|")) continue;
@@ -277,18 +298,24 @@ function checkImages(content) {
   return errors;
 }
 
+// Nav routes that exist as Next.js pages (not markdown-driven) — links to
+// these are valid even though they're absent from the content map.
+const STATIC_NAV_ROUTES = new Set([
+  "/", "/pricing", "/faq", "/terms", "/privacy", "/money-back-guarantee",
+]);
+
 function checkInternalLinks(content, knownSlugs) {
   const errors = [];
-  const re = /\]\((\/[a-z0-9/-]+)(?:#[^)]*)?\)/gi;
+  // Match absolute-path links: ](/foo) or ](/foo/bar#anchor). The regex
+  // intentionally requires a leading "/" so external https:// URLs don't
+  // match. The query/fragment is optional and ignored for resolution.
+  const re = /\]\((\/[a-z0-9/-]+)(?:[#?][^)]*)?\)/gi;
   let m;
   while ((m = re.exec(content)) !== null) {
     const url = m[1];
     if (knownSlugs.has(url)) continue;
-    // Allow well-known nav routes that aren't markdown-driven.
-    if (["/", "/pricing", "/faq", "/terms", "/privacy", "/money-back-guarantee"].includes(url)) continue;
-    if (url.startsWith("/comparison/") || url.startsWith("/learn/") || url.startsWith("/")) {
-      errors.push(`internal link 404: ${url}`);
-    }
+    if (STATIC_NAV_ROUTES.has(url)) continue;
+    errors.push(`internal link 404: ${url}`);
   }
   return errors;
 }
@@ -408,7 +435,7 @@ function loadCanonicalPages() {
   return pages;
 }
 
-function validatePage(page, knownSlugs, baseline, baselineByOthers) {
+function validatePage(page, knownSlugs, simByPage) {
   const errors = [];
   const fm = page.frontmatter;
 
@@ -490,12 +517,22 @@ function validatePage(page, knownSlugs, baseline, baselineByOthers) {
     errors.push(...checkFreshness(fm.last_updated));
   }
 
-  // Similarity.
-  const myMaxSimilarity = baselineByOthers.get(page.slug);
-  if (myMaxSimilarity !== undefined && myMaxSimilarity > baseline + SIMILARITY_MARGIN) {
-    errors.push(
-      `near-duplicate: TF-IDF similarity ${myMaxSimilarity.toFixed(3)} exceeds baseline ${baseline.toFixed(3)} + ${SIMILARITY_MARGIN}`
-    );
+  // Cross-field schema requirement: HowTo schema requires a duration so the
+  // resulting JSON-LD validates against Google's Rich Results checker.
+  if (Array.isArray(fm.schema_types) && fm.schema_types.includes("HowTo") && !fm.howto_total_time) {
+    errors.push("howto_total_time required when schema_types includes \"HowTo\"");
+  }
+
+  // Near-duplicate detection. Fixed threshold (see MAX_SIMILARITY) — a
+  // dynamic baseline is circular: a duplicate raises `max-pairwise` to ~1.0,
+  // making any threshold-relative-to-max trivially passable.
+  const sim = simByPage.get(page.slug);
+  if (sim) {
+    if (sim.value > MAX_SIMILARITY) {
+      errors.push(
+        `near-duplicate of ${sim.against}: TF-IDF similarity ${sim.value.toFixed(3)} exceeds ${MAX_SIMILARITY}`
+      );
+    }
   }
 
   return errors;
@@ -515,19 +552,24 @@ function main() {
   }));
   const vectors = buildTfidfVectors(docs);
 
-  // Compute pairwise similarity matrix once.
-  const sims = new Map(); // slug -> max similarity to any other page
+  // Pairwise similarity matrix → for each page, record the highest similarity
+  // it has to any OTHER page, plus which page caused it. The "against" slug
+  // is what makes failure messages actionable.
+  const simByPage = new Map(); // slug -> { value, against }
   for (let i = 0; i < vectors.length; i++) {
-    let max = 0;
+    let bestVal = 0;
+    let bestAgainst = null;
     for (let j = 0; j < vectors.length; j++) {
       if (i === j) continue;
       const s = cosine(vectors[i].vec, vectors[j].vec);
-      if (s > max) max = s;
+      if (s > bestVal) {
+        bestVal = s;
+        bestAgainst = vectors[j].slug;
+      }
     }
-    sims.set(vectors[i].slug, max);
+    simByPage.set(vectors[i].slug, { value: bestVal, against: bestAgainst });
   }
-  const overallMax = Math.max(...sims.values());
-  const baseline = overallMax; // pairs already include each page; new pages get + margin
+  const overallMax = Math.max(...[...simByPage.values()].map((s) => s.value));
 
   if (calibrate) {
     console.log("\n=== Calibration report ===\n");
@@ -537,20 +579,25 @@ function main() {
     console.log(`\nWord counts:`);
     for (const { slug, wc } of wcs) console.log(`  ${wc.toString().padStart(5)} ${slug}`);
     console.log(`\nMax pairwise TF-IDF similarity: ${overallMax.toFixed(3)}`);
-    const top = [...sims.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const top = [...simByPage.entries()].sort((a, b) => b[1].value - a[1].value).slice(0, 5);
     console.log(`Top 5 pages by max sim to any other:`);
-    for (const [slug, s] of top) console.log(`  ${s.toFixed(3)} ${slug}`);
-    console.log(`\nSuggested similarity threshold: ${(overallMax + SIMILARITY_MARGIN).toFixed(3)}`);
+    for (const [slug, s] of top) console.log(`  ${s.value.toFixed(3)} ${slug}  (vs ${s.against})`);
+    console.log(`\nFixed similarity threshold: ${MAX_SIMILARITY}`);
+    if (overallMax > MAX_SIMILARITY * 0.7) {
+      console.log(
+        `WARNING: corpus max (${overallMax.toFixed(3)}) is within 30% of MAX_SIMILARITY — consider raising the cap.`
+      );
+    }
     return;
   }
 
   console.log(`Validating ${pages.length} pages…`);
-  console.log(`Similarity baseline: ${baseline.toFixed(3)} (margin +${SIMILARITY_MARGIN})\n`);
+  console.log(`Similarity threshold: ${MAX_SIMILARITY} (corpus max: ${overallMax.toFixed(3)})\n`);
 
   let totalErrors = 0;
   let failedPages = 0;
   for (const page of pages) {
-    const errors = validatePage(page, knownSlugs, baseline, sims);
+    const errors = validatePage(page, knownSlugs, simByPage);
     if (errors.length) {
       failedPages += 1;
       totalErrors += errors.length;

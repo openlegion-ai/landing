@@ -19,20 +19,26 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
   // to avoid double branding (e.g. "OpenLegion vs X | OpenLegion")
   const titleAlreadyBranded = frontmatter.title.includes("OpenLegion");
 
+  // Canonical points to the English URL with locale prefix — `withLocaleAlternates`
+  // overrides this with the same value when wrapping, but we set it correctly
+  // here too so direct callers (or future routes that skip the wrapper) don't
+  // emit an unprefixed canonical that conflicts with the live `/en/...` path.
+  const canonical = `${BASE_URL}/en${frontmatter.slug}`;
+
   return {
     title: titleAlreadyBranded
       ? { absolute: frontmatter.title }
       : frontmatter.title,
     description: frontmatter.description,
     alternates: {
-      canonical: `${BASE_URL}${frontmatter.slug}`,
+      canonical,
     },
     openGraph: {
       title: frontmatter.title,
       description: frontmatter.description,
       type: "article",
       siteName: "OpenLegion",
-      url: `${BASE_URL}${frontmatter.slug}`,
+      url: canonical,
       locale: "en_US",
       images: [
         {
