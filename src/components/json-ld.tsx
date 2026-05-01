@@ -21,36 +21,49 @@ export function JsonLd({ data }: JsonLdProps) {
 
 // ── Schema builders ─────────────────────────────────────────────────────────
 
+// All breadcrumb item URLs are /en-prefixed to match the live canonical
+// (set by withLocaleAlternates) — Google extracts this for SERP display
+// against the canonical, so the URLs must match.
+const BREADCRUMB_BASE = "https://www.openlegion.ai/en";
+
 export function buildBreadcrumbSchema(title: string, slug: string) {
   const items: { "@type": string; position: number; name: string; item: string }[] = [
     {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://www.openlegion.ai",
+      item: "https://www.openlegion.ai/en",
     },
   ];
 
-  // 3-level breadcrumb for /comparison/* sub-pages
-  if (/^\/comparison\/.+$/.test(slug)) {
+  // 3-level breadcrumb for sectioned sub-pages: /comparison/<x>, /learn/<x>.
+  // Without the parent step, the breadcrumb collapses to Home → Title and
+  // the section hub disappears from SERP markup.
+  const sections: Array<{ prefix: string; name: string; hub: string }> = [
+    { prefix: "/comparison/", name: "Comparisons", hub: "/comparison" },
+    { prefix: "/learn/", name: "Learn", hub: "/learn" },
+  ];
+  const section = sections.find((s) => slug.startsWith(s.prefix));
+
+  if (section) {
     items.push({
       "@type": "ListItem",
       position: 2,
-      name: "Comparisons",
-      item: "https://www.openlegion.ai/comparison",
+      name: section.name,
+      item: `${BREADCRUMB_BASE}${section.hub}`,
     });
     items.push({
       "@type": "ListItem",
       position: 3,
       name: title,
-      item: `https://www.openlegion.ai${slug}`,
+      item: `${BREADCRUMB_BASE}${slug}`,
     });
   } else {
     items.push({
       "@type": "ListItem",
       position: 2,
       name: title,
-      item: `https://www.openlegion.ai${slug}`,
+      item: `${BREADCRUMB_BASE}${slug}`,
     });
   }
 
@@ -138,7 +151,10 @@ export function buildArticleSchema(
   slug: string,
   datePublished?: string
 ) {
-  const canonicalUrl = `https://www.openlegion.ai${slug}`;
+  // mainEntityOfPage @id must equal the live canonical URL
+  // (`/en/<slug>` per `withLocaleAlternates`) — otherwise Google can't
+  // associate the structured data with the canonical it indexed.
+  const canonicalUrl = `https://www.openlegion.ai/en${slug}`;
   const slugForOg = slug.replace(/^\//, "").replace(/\//g, "-");
 
   return {

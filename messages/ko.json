@@ -902,6 +902,7 @@
   "contentPage": {
     "breadcrumbHome": "홈",
     "breadcrumbComparisons": "비교",
+    "breadcrumbLearn": "배우기",
     "publishedPrefix": "게시일 ",
     "updatedPrefix": "업데이트일 ",
     "relatedContentAriaLabel": "관련 콘텐츠",

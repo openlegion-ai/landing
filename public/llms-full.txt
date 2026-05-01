@@ -49,7 +49,7 @@ All plans bill monthly or yearly with a 14-day money-back guarantee. Plans start
 ---
 
 # Hub Pages
-<!-- https://www.openlegion.ai/comparison | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison | last_updated: 2026-03 -->
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -194,7 +194,7 @@ Both are in maintenance mode — receiving only bug fixes and security patches w
 ---
 
 # Learn
-<!-- https://www.openlegion.ai/learn/ai-agent-frameworks | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/learn/ai-agent-frameworks | last_updated: 2026-03 -->
 
 # Best AI Agent Frameworks: 2026 Comparison
 
@@ -364,7 +364,7 @@ Based on public documentation at the time of writing, OpenLegion provides the mo
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/learn/ai-agent-orchestration | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/learn/ai-agent-orchestration | last_updated: 2026-03 -->
 
 # AI Agent Orchestration: Coordinate, Govern, and Control Agent Fleets
 
@@ -539,7 +539,7 @@ LangGraph uses a programmatic StateGraph where nodes are Python functions and ed
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/learn/ai-agent-platform | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/learn/ai-agent-platform | last_updated: 2026-03 -->
 
 # The AI Agent Platform Built for Production
 
@@ -724,7 +724,7 @@ Three commands and under three minutes. `git clone`, `./install.sh`, `openlegion
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/learn/ai-agent-security | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/learn/ai-agent-security | last_updated: 2026-03 -->
 
 # AI Agent Security: The Threat Model for Production Agent Fleets
 
@@ -920,7 +920,7 @@ Key frameworks include OWASP Top 10 for LLM Applications (2025) and Agentic Appl
 ---
 
 # Comparisons
-<!-- https://www.openlegion.ai/comparison/autogen | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/autogen | last_updated: 2026-03 -->
 
 # OpenLegion vs AutoGen: Security-First Framework vs the Multi-Agent Pioneer (in Maintenance Mode)
 
@@ -1116,7 +1116,7 @@ AutoGen agent classes map to OpenLegion configurations. LLM provider settings tr
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 | AI agent security analysis | /learn/ai-agent-security |
 
-<!-- https://www.openlegion.ai/comparison/aws-strands | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/aws-strands | last_updated: 2026-03 -->
 
 # OpenLegion vs AWS Strands: Which AI Agent Framework for Production?
 
@@ -1258,7 +1258,7 @@ Strands is free (Apache 2.0). AWS service costs apply: Bedrock per-token pricing
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/comparison/crewai | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/crewai | last_updated: 2026-03 -->
 
 # OpenLegion vs CrewAI: Security-First Framework vs the Fastest Multi-Agent Prototype
 
@@ -1456,7 +1456,7 @@ Both use LiteLLM, so provider configurations transfer directly. CrewAI role/goal
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 | AI agent security analysis | /learn/ai-agent-security |
 
-<!-- https://www.openlegion.ai/comparison/dify | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/dify | last_updated: 2026-03 -->
 
 # OpenLegion vs Dify: Which AI Agent Platform for Production?
 
@@ -1595,7 +1595,7 @@ Dify visual workflows need restructuring as YAML DAGs. LLM configurations transf
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/comparison/google-adk | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/google-adk | last_updated: 2026-03 -->
 
 # OpenLegion vs Google ADK: Which AI Agent Framework for Production?
 
@@ -1735,7 +1735,7 @@ OpenLegion does not implement A2A natively but supports MCP tool servers for ext
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/comparison/langgraph | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/langgraph | last_updated: 2026-03 -->
 
 # OpenLegion vs LangGraph: Security-First Framework vs the Orchestration Standard
 
@@ -1937,7 +1937,7 @@ Yes. Some teams use LangGraph for complex internal orchestration and OpenLegion 
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 | AI agent security analysis | /learn/ai-agent-security |
 
-<!-- https://www.openlegion.ai/comparison/manus-ai | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/manus-ai | last_updated: 2026-03 -->
 
 # OpenLegion vs Manus AI: Self-Hosted Control vs Cloud Autonomy
 
@@ -2075,7 +2075,7 @@ Manus tasks are not exportable as reusable workflows. Moving to OpenLegion means
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/comparison/memu | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/memu | last_updated: 2026-03 -->
 
 # OpenLegion vs MemU: Full Agent Framework vs Specialized Memory Layer
 
@@ -2259,7 +2259,7 @@ Potentially. MemU's REST API could serve as an external memory backend for OpenL
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 | AI agent security analysis | /learn/ai-agent-security |
 
-<!-- https://www.openlegion.ai/comparison/nanobot | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/nanobot | last_updated: 2026-03 -->
 
 # OpenLegion vs nanobot: What a CVSS 10.0 Vulnerability Teaches About Agent Security
 
@@ -2465,7 +2465,7 @@ nanobot's JSON config and agent setup would be restructured as YAML DAG workflow
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 | AI agent security analysis | /learn/ai-agent-security |
 
-<!-- https://www.openlegion.ai/comparison/nanoclaw | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/nanoclaw | last_updated: 2026-03 -->
 
 # OpenLegion vs NanoClaw: Two Container-First Philosophies, Different Depths
 
@@ -2645,7 +2645,7 @@ NanoClaw's AI-rewritten source and chat-driven configuration would need to be re
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 | AI agent security analysis | /learn/ai-agent-security |
 
-<!-- https://www.openlegion.ai/comparison/openai-agents-sdk | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/openai-agents-sdk | last_updated: 2026-03 -->
 
 # OpenLegion vs OpenAI Agents SDK: Which AI Agent Framework for Production?
 
@@ -2783,7 +2783,7 @@ The SDK uses LLM-driven handoffs — flexible but unpredictable. OpenLegion uses
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/comparison/openclaw | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/openclaw | last_updated: 2026-03 -->
 
 # OpenLegion vs OpenClaw: Security-First Framework vs the 248K-Star Giant
 
@@ -2984,7 +2984,7 @@ Yes. Both self-host on Docker. OpenClaw requires Docker socket mounting; OpenLeg
 | OpenLegion vs LangGraph | /comparison/langgraph |
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 
-<!-- https://www.openlegion.ai/comparison/openfang | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/openfang | last_updated: 2026-03 -->
 
 # OpenLegion vs OpenFang: Security-First Framework vs Agent Operating System
 
@@ -3175,7 +3175,7 @@ OpenFang workflows and Hands would need to be restructured as YAML DAG workflows
 | AI agent security analysis | /learn/ai-agent-security |
 | AI agent platform overview | /learn/ai-agent-platform |
 
-<!-- https://www.openlegion.ai/comparison/picoclaw | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/picoclaw | last_updated: 2026-03 -->
 
 # OpenLegion vs PicoClaw: Production Security vs AI Agents on $10 Hardware
 
@@ -3373,7 +3373,7 @@ PicoClaw has documented gaps including: Slack allowlist bypass (any workspace us
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 | AI agent security analysis | /learn/ai-agent-security |
 
-<!-- https://www.openlegion.ai/comparison/semantic-kernel | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/semantic-kernel | last_updated: 2026-03 -->
 
 # OpenLegion vs Semantic Kernel: Which AI Agent Framework for Production?
 
@@ -3517,7 +3517,7 @@ SK plugins can be adapted to work with OpenLegion's tool permission matrix. The 
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
-<!-- https://www.openlegion.ai/comparison/zeroclaw | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/zeroclaw | last_updated: 2026-03 -->
 
 # OpenLegion vs ZeroClaw: Security-First Framework vs Ultra-Lightweight Rust Runtime
 
@@ -3708,7 +3708,7 @@ ZeroClaw offers three levels: ReadOnly, Supervised (default), and Full — all e
 ---
 
 # More
-<!-- https://www.openlegion.ai/deepseek-v4-agents | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/deepseek-v4-agents | last_updated: 2026-03 -->
 
 # Run DeepSeek V4 Agents Securely — OpenLegion Has Day-1 Support
 
@@ -3943,7 +3943,7 @@ A 1-million-token context window enables DeepSeek V4 agent workflows that proces
 | AI agent security analysis | /learn/ai-agent-security |
 | AI agent platform overview | /learn/ai-agent-platform |
 
-<!-- https://www.openlegion.ai/openclaw-alternative | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/openclaw-alternative | last_updated: 2026-03 -->
 
 # OpenClaw Alternative: Secure AI Agents with OpenLegion
 

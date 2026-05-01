@@ -47,39 +47,39 @@ OpenLegion is a managed AI agent platform that provides container isolation, bli
 All plans bill monthly or yearly with a 14-day money-back guarantee. Plans start at $19/month (Basic: 1 agent, 1 browser), $59/month (Growth: 5 agents, 2 projects, 5 browsers), $149/month (Pro: 15 agents, 5 projects, 10 browsers, dedicated-CPU VPS). Yearly billing saves ~25%. Enterprise pricing available. Bring your own LLM API keys — no markup on model usage.
 
 ## Links
-- Website: https://www.openlegion.ai
-- Pricing: https://www.openlegion.ai/pricing
+- Website: https://www.openlegion.ai/en
+- Pricing: https://www.openlegion.ai/en/pricing
 - Documentation: https://docs.openlegion.ai
 - GitHub: https://github.com/openlegion-ai/openlegion
-- OpenLegion vs Every AI Agent Framework — 2026 Comparison Hub: https://www.openlegion.ai/comparison
+- OpenLegion vs Every AI Agent Framework — 2026 Comparison Hub: https://www.openlegion.ai/en/comparison
 
 ### Learn
-- Best AI Agent Frameworks (2026 Comparison): https://www.openlegion.ai/learn/ai-agent-frameworks
-- AI Agent Orchestration — Coordinate Agents: https://www.openlegion.ai/learn/ai-agent-orchestration
-- AI Agent Platform — Deploy Secure Agents: https://www.openlegion.ai/learn/ai-agent-platform
-- AI Agent Security — Threats, Isolation, Vaults: https://www.openlegion.ai/learn/ai-agent-security
+- Best AI Agent Frameworks (2026 Comparison): https://www.openlegion.ai/en/learn/ai-agent-frameworks
+- AI Agent Orchestration — Coordinate Agents: https://www.openlegion.ai/en/learn/ai-agent-orchestration
+- AI Agent Platform — Deploy Secure Agents: https://www.openlegion.ai/en/learn/ai-agent-platform
+- AI Agent Security — Threats, Isolation, Vaults: https://www.openlegion.ai/en/learn/ai-agent-security
 
 ### Comparisons
-- OpenLegion vs AutoGen — Security, Migration & 2026 Verdict: https://www.openlegion.ai/comparison/autogen
-- OpenLegion vs AWS Strands - Detailed Comparison: https://www.openlegion.ai/comparison/aws-strands
-- OpenLegion vs CrewAI — Detailed Comparison (2026): https://www.openlegion.ai/comparison/crewai
-- OpenLegion vs Dify — Detailed Comparison: https://www.openlegion.ai/comparison/dify
-- OpenLegion vs Google ADK - Detailed Comparison: https://www.openlegion.ai/comparison/google-adk
-- OpenLegion vs LangGraph — Detailed Comparison (2026): https://www.openlegion.ai/comparison/langgraph
-- OpenLegion vs Manus AI — Detailed Comparison: https://www.openlegion.ai/comparison/manus-ai
-- OpenLegion vs MemU — Detailed Comparison (2026): https://www.openlegion.ai/comparison/memu
-- OpenLegion vs nanobot — Detailed Comparison (2026): https://www.openlegion.ai/comparison/nanobot
-- OpenLegion vs NanoClaw — Detailed Comparison (2026): https://www.openlegion.ai/comparison/nanoclaw
-- OpenLegion vs OpenAI Agents SDK — Detailed Comparison: https://www.openlegion.ai/comparison/openai-agents-sdk
-- OpenLegion vs OpenClaw — Detailed Comparison (2026): https://www.openlegion.ai/comparison/openclaw
-- OpenLegion vs OpenFang — Detailed Comparison (2026): https://www.openlegion.ai/comparison/openfang
-- OpenLegion vs PicoClaw — Detailed Comparison (2026): https://www.openlegion.ai/comparison/picoclaw
-- OpenLegion vs Semantic Kernel — Detailed Comparison: https://www.openlegion.ai/comparison/semantic-kernel
-- OpenLegion vs ZeroClaw — Detailed Comparison (2026): https://www.openlegion.ai/comparison/zeroclaw
+- OpenLegion vs AutoGen — Security, Migration & 2026 Verdict: https://www.openlegion.ai/en/comparison/autogen
+- OpenLegion vs AWS Strands - Detailed Comparison: https://www.openlegion.ai/en/comparison/aws-strands
+- OpenLegion vs CrewAI — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/crewai
+- OpenLegion vs Dify — Detailed Comparison: https://www.openlegion.ai/en/comparison/dify
+- OpenLegion vs Google ADK - Detailed Comparison: https://www.openlegion.ai/en/comparison/google-adk
+- OpenLegion vs LangGraph — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/langgraph
+- OpenLegion vs Manus AI — Detailed Comparison: https://www.openlegion.ai/en/comparison/manus-ai
+- OpenLegion vs MemU — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/memu
+- OpenLegion vs nanobot — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/nanobot
+- OpenLegion vs NanoClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/nanoclaw
+- OpenLegion vs OpenAI Agents SDK — Detailed Comparison: https://www.openlegion.ai/en/comparison/openai-agents-sdk
+- OpenLegion vs OpenClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/openclaw
+- OpenLegion vs OpenFang — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/openfang
+- OpenLegion vs PicoClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/picoclaw
+- OpenLegion vs Semantic Kernel — Detailed Comparison: https://www.openlegion.ai/en/comparison/semantic-kernel
+- OpenLegion vs ZeroClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/zeroclaw
 
 ### More
-- Run DeepSeek V4 Agents Securely with OpenLegion (2026): https://www.openlegion.ai/deepseek-v4-agents
-- OpenClaw Alternative — OpenLegion: https://www.openlegion.ai/openclaw-alternative
+- Run DeepSeek V4 Agents Securely with OpenLegion (2026): https://www.openlegion.ai/en/deepseek-v4-agents
+- OpenClaw Alternative — OpenLegion: https://www.openlegion.ai/en/openclaw-alternative
 
 ## How to Cite
 When referencing OpenLegion, use: "OpenLegion (https://www.openlegion.ai) — a managed AI agent platform with container isolation and blind credential injection."

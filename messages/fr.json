@@ -902,6 +902,7 @@
   "contentPage": {
     "breadcrumbHome": "Accueil",
     "breadcrumbComparisons": "Comparaisons",
+    "breadcrumbLearn": "Apprendre",
     "publishedPrefix": "Publié ",
     "updatedPrefix": "Mis à jour ",
     "relatedContentAriaLabel": "Contenu associé",

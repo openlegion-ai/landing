@@ -902,6 +902,7 @@
   "contentPage": {
     "breadcrumbHome": "Главная",
     "breadcrumbComparisons": "Сравнения",
+    "breadcrumbLearn": "Обучение",
     "publishedPrefix": "Опубликовано ",
     "updatedPrefix": "Обновлено ",
     "relatedContentAriaLabel": "Связанный контент",

@@ -25,9 +25,10 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const page = await getContentPage(SLUG, locale);
 
   // Derive ItemList from discovery map — auto-includes any new comparison pages.
+  // Use /en-prefixed URLs to match the canonical (set by withLocaleAlternates).
   const items = getComparisonSubPageEntries().map((entry, i) => ({
     name: entry.frontmatter.title,
-    url: `${BASE_URL}${entry.slug}`,
+    url: `${BASE_URL}/en${entry.slug}`,
     position: i + 1,
   }));
 

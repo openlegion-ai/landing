@@ -165,13 +165,15 @@ function groupForLinks(entries) {
 function buildLlmsTxt(entries) {
   const { hubs, learn, comparisons, more } = groupForLinks(entries);
 
-  const fmt = (e) => `- ${e.frontmatter.title}: ${BASE_URL}${e.slug}`;
+  // Use /en-prefixed URLs so AI crawlers fetch canonicals directly without
+  // following the next-intl 308 redirect from `/foo` → `/en/foo`.
+  const fmt = (e) => `- ${e.frontmatter.title}: ${BASE_URL}/en${e.slug}`;
 
   const sections = [
     PREAMBLE,
     "## Links",
-    "- Website: https://www.openlegion.ai",
-    "- Pricing: https://www.openlegion.ai/pricing",
+    "- Website: https://www.openlegion.ai/en",
+    "- Pricing: https://www.openlegion.ai/en/pricing",
     "- Documentation: https://docs.openlegion.ai",
     "- GitHub: https://github.com/openlegion-ai/openlegion",
     ...hubs.map(fmt),
@@ -198,7 +200,7 @@ function buildLlmsFullTxt(entries) {
   const { hubs, learn, comparisons, more } = groupForLinks(entries);
 
   const fmtBody = (e) => {
-    const url = `${BASE_URL}${e.slug}`;
+    const url = `${BASE_URL}/en${e.slug}`;
     const meta = `<!-- ${url} | last_updated: ${e.frontmatter.last_updated ?? "unknown"} -->`;
     return `${meta}\n\n${e.content.trim()}\n`;
   };
@@ -247,7 +249,8 @@ function buildManifest(entries) {
       pageType: e.frontmatter.page_type ?? inferPageType(e.slug),
       related: e.frontmatter.related ?? [],
       availableLocales: ["en", ...e.availableLocales],
-      url: `${BASE_URL}${e.slug}`,
+      // Canonical (English) URL — matches what `withLocaleAlternates` emits.
+      url: `${BASE_URL}/en${e.slug}`,
     })),
   };
 }

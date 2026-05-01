@@ -902,6 +902,7 @@
   "contentPage": {
     "breadcrumbHome": "首页",
     "breadcrumbComparisons": "方案对比",
+    "breadcrumbLearn": "学习",
     "publishedPrefix": "发布于 ",
     "updatedPrefix": "更新于 ",
     "relatedContentAriaLabel": "相关内容",
