@@ -28,21 +28,49 @@ const securityHeaders = [
   },
 ];
 
-// Topic pages moved from root to /learn/* on 2026-04. Preserve the existing
-// rankings + inbound links via 301 redirects across every locale prefix.
-const RELOCATED_TOPICS = [
-  "ai-agent-platform",
-  "ai-agent-orchestration",
-  "ai-agent-frameworks",
-  "ai-agent-security",
+// URLs that lived on the old flat layout before the 2026-04 SEO restructure.
+// 301 redirects across every locale prefix preserve existing rankings +
+// inbound links — the PR's whole rationale is that 301s carry equity to the
+// new canonical URLs. Any URL that was previously indexed must be listed here
+// or it 404s on production traffic.
+const URL_MIGRATIONS: Array<{ from: string; to: string }> = [
+  // Topic pages: /<topic> → /learn/<topic>
+  { from: "/ai-agent-platform",      to: "/learn/ai-agent-platform" },
+  { from: "/ai-agent-orchestration", to: "/learn/ai-agent-orchestration" },
+  { from: "/ai-agent-frameworks",    to: "/learn/ai-agent-frameworks" },
+  { from: "/ai-agent-security",      to: "/learn/ai-agent-security" },
+  // Comparison pages: /comparison-<x> → /comparison/<x> (flat → hub-relative)
+  { from: "/comparison-autogen",            to: "/comparison/autogen" },
+  { from: "/comparison-aws-strands",        to: "/comparison/aws-strands" },
+  { from: "/comparison-crewai",             to: "/comparison/crewai" },
+  { from: "/comparison-dify",               to: "/comparison/dify" },
+  { from: "/comparison-google-adk",         to: "/comparison/google-adk" },
+  { from: "/comparison-langgraph",          to: "/comparison/langgraph" },
+  { from: "/comparison-manus-ai",           to: "/comparison/manus-ai" },
+  { from: "/comparison-memu",               to: "/comparison/memu" },
+  { from: "/comparison-nanobot",            to: "/comparison/nanobot" },
+  { from: "/comparison-nanoclaw",           to: "/comparison/nanoclaw" },
+  { from: "/comparison-openai-agents-sdk",  to: "/comparison/openai-agents-sdk" },
+  { from: "/comparison-openclaw",           to: "/comparison/openclaw" },
+  { from: "/comparison-openfang",           to: "/comparison/openfang" },
+  { from: "/comparison-picoclaw",           to: "/comparison/picoclaw" },
+  { from: "/comparison-semantic-kernel",    to: "/comparison/semantic-kernel" },
+  { from: "/comparison-zeroclaw",           to: "/comparison/zeroclaw" },
+  // Hub renames: the old /comparison-all-competitors became the /comparison hub.
+  { from: "/comparison-all-competitors", to: "/comparison" },
+  // Slug rename: deepseek-v4 → deepseek-v4-agents.
+  { from: "/deepseek-v4", to: "/deepseek-v4-agents" },
 ];
 
-function buildTopicRedirects() {
+function buildMigrationRedirects() {
+  // For each migration, emit one redirect per locale-prefix variant — the
+  // un-prefixed path (so a bare /comparison-openclaw works) plus every
+  // /<locale>/<path> Google may have indexed.
   const localePaths = ["", ...SUPPORTED_LOCALES.map((l) => `/${l}`)];
-  return RELOCATED_TOPICS.flatMap((topic) =>
+  return URL_MIGRATIONS.flatMap(({ from, to }) =>
     localePaths.map((prefix) => ({
-      source: `${prefix}/${topic}`,
-      destination: `${prefix}/learn/${topic}`,
+      source: `${prefix}${from}`,
+      destination: `${prefix}${to}`,
       permanent: true,
     }))
   );
@@ -74,7 +102,7 @@ const nextConfig: NextConfig = {
         destination: "/comparison",
         permanent: true,
       },
-      ...buildTopicRedirects(),
+      ...buildMigrationRedirects(),
     ];
   },
 };
