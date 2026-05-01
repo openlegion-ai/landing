@@ -52,8 +52,6 @@ export const NAV_LINKS = [
   { key: "useCases", label: "Use Cases", href: "/#use-cases" },
   { key: "architecture", label: "Architecture", href: "/#architecture" },
   { key: "security", label: "Security", href: "/#security" },
-  { key: "learn", label: "Learn", href: "/learn" },
-  { key: "compare", label: "Compare", href: "/comparison" },
   { key: "pricing", label: "Pricing", href: "/pricing" },
   { key: "docs", label: "Docs", href: "https://docs.openlegion.ai" },
 ] as const;
