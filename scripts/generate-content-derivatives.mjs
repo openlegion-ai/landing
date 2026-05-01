@@ -234,8 +234,11 @@ function buildLlmsFullTxt(entries) {
 // ── content-manifest.json ───────────────────────────────────────────────────
 
 function buildManifest(entries) {
+  // Manifest is deterministic — same content in, same bytes out — so
+  // engine PRs that don't change the corpus produce zero diff. The freshness
+  // signal is `pages[].lastUpdated`, which already exists per page.
+  // Pages are sorted by slug (in `discover()`) so ordering is stable.
   return {
-    generatedAt: new Date().toISOString(),
     baseUrl: BASE_URL,
     pageCount: entries.length,
     pages: entries.map((e) => ({

@@ -1,5 +1,4 @@
 {
-  "generatedAt": "2026-05-01T10:41:10.023Z",
   "baseUrl": "https://www.openlegion.ai",
   "pageCount": 23,
   "pages": [
@@ -490,7 +489,8 @@
         "/comparison"
       ],
       "availableLocales": [
-        "en"
+        "en",
+        "zh"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-frameworks"
     },
@@ -518,7 +518,8 @@
         "/comparison"
       ],
       "availableLocales": [
-        "en"
+        "en",
+        "zh"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-orchestration"
     },
@@ -546,7 +547,8 @@
         "/comparison"
       ],
       "availableLocales": [
-        "en"
+        "en",
+        "zh"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-platform"
     },
@@ -574,7 +576,8 @@
         "/comparison"
       ],
       "availableLocales": [
-        "en"
+        "en",
+        "zh"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-security"
     },

@@ -417,6 +417,27 @@ function ledePlusH2s(content) {
 
 // ── Main ────────────────────────────────────────────────────────────────────
 
+/**
+ * Translation files (src/content/<locale>/<rel>.md) that have no matching
+ * canonical English file at src/content/<rel>.md. These are render-dead —
+ * markdown.ts can't resolve them — but they ship in the bundle and confuse
+ * the engine's discovery. Surface them so they get deleted alongside any
+ * canonical removal.
+ */
+function findOrphanTranslations(allFiles) {
+  const canonicalRels = new Set(
+    allFiles.filter((r) => !isTranslationPath(r))
+  );
+  const orphans = [];
+  for (const rel of allFiles) {
+    if (!isTranslationPath(rel)) continue;
+    const segs = rel.split(path.sep);
+    const canonicalRel = segs.slice(1).join(path.sep);
+    if (!canonicalRels.has(canonicalRel)) orphans.push(rel);
+  }
+  return orphans;
+}
+
 function loadCanonicalPages() {
   const all = walkMarkdown(CONTENT_DIR);
   const pages = [];
@@ -545,6 +566,10 @@ function main() {
   const pages = loadCanonicalPages();
   const knownSlugs = new Set(pages.map((p) => p.slug));
 
+  // Cross-corpus integrity checks. These run before per-page validation
+  // because they describe structural problems no single page can fix.
+  const orphans = findOrphanTranslations(walkMarkdown(CONTENT_DIR));
+
   // Build TF-IDF on (H1 + lede + H2s) — what AI assistants actually sample.
   const docs = pages.map((p) => ({
     slug: p.slug,
@@ -596,6 +621,14 @@ function main() {
 
   let totalErrors = 0;
   let failedPages = 0;
+
+  if (orphans.length) {
+    failedPages += 1;
+    totalErrors += orphans.length;
+    console.log(`✗ orphan translations (no matching canonical English file)`);
+    for (const o of orphans) console.log(`    src/content/${o}`);
+  }
+
   for (const page of pages) {
     const errors = validatePage(page, knownSlugs, simByPage);
     if (errors.length) {

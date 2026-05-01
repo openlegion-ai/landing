@@ -40,4 +40,8 @@ jobs:
         run: node scripts/validate-content.mjs
 
       - name: Verify build artifacts regenerate
+        # The generator is deterministic — engine PRs intentionally don't
+        # commit regenerated artifacts (PRs touch only .md files); Vercel
+        # regenerates fresh artifacts at deploy via the prebuild hook. This
+        # step just verifies the script doesn't throw on the new content.
         run: node scripts/generate-content-derivatives.mjs
