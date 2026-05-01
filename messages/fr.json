@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "Fonctionnalités"
       },
-      "1": {
+      "useCases": {
         "label": "Cas d'usage"
       },
-      "2": {
+      "architecture": {
         "label": "Architecture"
       },
-      "3": {
+      "security": {
         "label": "Sécurité"
       },
-      "4": {
+      "learn": {
+        "label": "Apprendre"
+      },
+      "compare": {
+        "label": "Comparer"
+      },
+      "pricing": {
         "label": "Tarifs"
       },
-      "5": {
+      "docs": {
         "label": "Docs"
       }
     },
@@ -896,6 +902,7 @@
   "contentPage": {
     "breadcrumbHome": "Accueil",
     "breadcrumbComparisons": "Comparaisons",
+    "breadcrumbLearn": "Apprendre",
     "publishedPrefix": "Publié ",
     "updatedPrefix": "Mis à jour ",
     "relatedContentAriaLabel": "Contenu associé",

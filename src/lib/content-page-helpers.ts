@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import type { ContentFrontmatter } from "@/lib/markdown";
+import type { ContentEntry, ContentFrontmatter } from "@/lib/markdown";
+
+const BASE_URL = "https://www.openlegion.ai";
 
 export function normalizeDate(dateStr: string): string {
   if (/^\d{4}-\d{2}$/.test(dateStr)) return `${dateStr}-01`;
@@ -17,20 +19,26 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
   // to avoid double branding (e.g. "OpenLegion vs X | OpenLegion")
   const titleAlreadyBranded = frontmatter.title.includes("OpenLegion");
 
+  // Canonical points to the English URL with locale prefix — `withLocaleAlternates`
+  // overrides this with the same value when wrapping, but we set it correctly
+  // here too so direct callers (or future routes that skip the wrapper) don't
+  // emit an unprefixed canonical that conflicts with the live `/en/...` path.
+  const canonical = `${BASE_URL}/en${frontmatter.slug}`;
+
   return {
     title: titleAlreadyBranded
       ? { absolute: frontmatter.title }
       : frontmatter.title,
     description: frontmatter.description,
     alternates: {
-      canonical: `https://www.openlegion.ai${frontmatter.slug}`,
+      canonical,
     },
     openGraph: {
       title: frontmatter.title,
       description: frontmatter.description,
       type: "article",
       siteName: "OpenLegion",
-      url: `https://www.openlegion.ai${frontmatter.slug}`,
+      url: canonical,
       locale: "en_US",
       images: [
         {
@@ -51,7 +59,7 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
     other: {
       "article:modified_time": lastUpdated,
       "article:published_time": published,
-      "article:author": "OpenLegion",
+      "article:author": frontmatter.author ?? "OpenLegion",
       "article:section": "AI Agents",
     },
     keywords: [frontmatter.primary_keyword, ...(frontmatter.secondary_keywords ?? [])],
@@ -62,5 +70,52 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
       "max-image-preview": "large" as const,
       "max-video-preview": -1,
     },
+  };
+}
+
+/**
+ * Layer locale-aware alternates + index/noindex onto base metadata.
+ *
+ * - hreflang map is gated on `entry.availableLocales` so we never advertise
+ *   English content under a foreign-language URL (avoids the duplicate-content
+ *   trap that currently blasts ~280 dupes into the index).
+ * - canonical always points to the English URL — that's our authority page.
+ * - If the current locale is non-English and lacks a translation, we set
+ *   `noindex,follow` on that locale's variant. Removing hreflang alone does
+ *   not de-index pages already in Google's index; the meta directive does.
+ */
+export function withLocaleAlternates(
+  base: Metadata,
+  entry: ContentEntry,
+  currentLocale: string
+): Metadata {
+  const slug = entry.slug;
+  const englishUrl = `${BASE_URL}/en${slug}`;
+  const languages: Record<string, string> = {
+    en: englishUrl,
+    "x-default": englishUrl,
+  };
+  for (const locale of entry.availableLocales) {
+    languages[locale] = `${BASE_URL}/${locale}${slug}`;
+  }
+
+  const hasTranslation =
+    currentLocale === "en" || entry.availableLocales.includes(currentLocale);
+
+  return {
+    ...base,
+    alternates: {
+      canonical: englishUrl,
+      languages,
+    },
+    robots: hasTranslation
+      ? base.robots
+      : {
+          index: false,
+          follow: true,
+          "max-snippet": -1,
+          "max-image-preview": "large" as const,
+          "max-video-preview": -1,
+        },
   };
 }

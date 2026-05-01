@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "सुविधाएँ"
       },
-      "1": {
+      "useCases": {
         "label": "उपयोग के मामले"
       },
-      "2": {
+      "architecture": {
         "label": "आर्किटेक्चर"
       },
-      "3": {
+      "security": {
         "label": "सुरक्षा"
       },
-      "4": {
+      "learn": {
+        "label": "सीखें"
+      },
+      "compare": {
+        "label": "तुलना करें"
+      },
+      "pricing": {
         "label": "मूल्य निर्धारण"
       },
-      "5": {
+      "docs": {
         "label": "डॉक्स"
       }
     },
@@ -896,6 +902,7 @@
   "contentPage": {
     "breadcrumbHome": "होम",
     "breadcrumbComparisons": "तुलनाएँ",
+    "breadcrumbLearn": "सीखें",
     "publishedPrefix": "प्रकाशित ",
     "updatedPrefix": "अपडेटेड ",
     "relatedContentAriaLabel": "संबंधित कंटेंट",

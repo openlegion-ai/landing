@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "المزايا"
       },
-      "1": {
+      "useCases": {
         "label": "حالات الاستخدام"
       },
-      "2": {
+      "architecture": {
         "label": "البنية التقنية"
       },
-      "3": {
+      "security": {
         "label": "الأمان"
       },
-      "4": {
+      "learn": {
+        "label": "تعلم"
+      },
+      "compare": {
+        "label": "قارن"
+      },
+      "pricing": {
         "label": "الأسعار"
       },
-      "5": {
+      "docs": {
         "label": "التوثيق"
       }
     },
@@ -896,6 +902,7 @@
   "contentPage": {
     "breadcrumbHome": "الرئيسية",
     "breadcrumbComparisons": "المقارنات",
+    "breadcrumbLearn": "تعلم",
     "publishedPrefix": "نُشر في ",
     "updatedPrefix": "حُدّث في ",
     "relatedContentAriaLabel": "محتوى ذو صلة",

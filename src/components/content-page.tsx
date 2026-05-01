@@ -15,7 +15,13 @@ interface ContentPageProps {
   page: ContentPageData;
 }
 
-const isComparisonSubPage = (slug: string) => /^\/comparison\/.+$/.test(slug);
+// Sub-page detection: pages under a section hub (`/comparison/<x>` or
+// `/learn/<x>`) get a 3-level breadcrumb so the hub is one click away.
+const sectionForSlug = (slug: string): { hub: string; labelKey: "breadcrumbComparisons" | "breadcrumbLearn" } | null => {
+  if (/^\/comparison\/.+$/.test(slug)) return { hub: "/comparison", labelKey: "breadcrumbComparisons" };
+  if (/^\/learn\/.+$/.test(slug)) return { hub: "/learn", labelKey: "breadcrumbLearn" };
+  return null;
+};
 
 function formatDate(iso: string): string {
   const date = new Date(`${iso}T00:00:00`);
@@ -61,12 +67,16 @@ export function ContentPage({ page }: ContentPageProps) {
         <div className="content-page-header">
           <nav aria-label={t("breadcrumbAriaLabel")} className="breadcrumb">
             <Link href="/">{t("breadcrumbHome")}</Link>
-            {isComparisonSubPage(slug) && (
-              <>
-                <span aria-hidden="true">/</span>
-                <Link href="/comparison">{t("breadcrumbComparisons")}</Link>
-              </>
-            )}
+            {(() => {
+              const section = sectionForSlug(slug);
+              if (!section) return null;
+              return (
+                <>
+                  <span aria-hidden="true">/</span>
+                  <Link href={section.hub}>{t(section.labelKey)}</Link>
+                </>
+              );
+            })()}
             <span aria-hidden="true">/</span>
             <span aria-current="page">{frontmatter.title}</span>
           </nav>

@@ -1,31 +1,25 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
+import { getAllContentEntries } from "@/lib/markdown";
 
-const SLUG_TO_TITLE: Record<string, string> = {
-  "ai-agent-platform": "AI Agent Platform — Deploy Secure Agents",
-  "ai-agent-orchestration": "AI Agent Orchestration — Coordinate Agents",
-  "ai-agent-frameworks": "Best AI Agent Frameworks (2026 Comparison)",
-  "ai-agent-security": "AI Agent Security — Threats, Isolation, Vaults",
-  "comparison": "AI Agent Framework Comparison 2026",
-  "comparison-openclaw": "OpenLegion vs OpenClaw — Detailed Comparison",
-  "comparison-dify": "OpenLegion vs Dify — Detailed Comparison",
-  "comparison-openai-agents-sdk": "OpenLegion vs OpenAI Agents SDK — Comparison",
-  "comparison-semantic-kernel": "OpenLegion vs Semantic Kernel — Comparison",
-  "comparison-autogen": "OpenLegion vs AutoGen — Detailed Comparison",
-  "comparison-crewai": "OpenLegion vs CrewAI — Detailed Comparison",
-  "comparison-langgraph": "OpenLegion vs LangGraph — Detailed Comparison",
-  "comparison-manus-ai": "OpenLegion vs Manus AI — Detailed Comparison",
-  "comparison-aws-strands": "OpenLegion vs AWS Strands — Detailed Comparison",
-  "comparison-google-adk": "OpenLegion vs Google ADK — Detailed Comparison",
-  "comparison-zeroclaw": "OpenLegion vs ZeroClaw — Detailed Comparison",
-  "comparison-nanoclaw": "OpenLegion vs NanoClaw — Detailed Comparison",
-  "comparison-nanobot": "OpenLegion vs nanobot — Detailed Comparison",
-  "comparison-picoclaw": "OpenLegion vs PicoClaw — Detailed Comparison",
-  "comparison-openfang": "OpenLegion vs OpenFang — Detailed Comparison",
-  "comparison-memu": "OpenLegion vs MemU — Detailed Comparison",
-  "openclaw-alternative": "OpenClaw Alternative — OpenLegion",
-  "deepseek-v4-agents": "Run DeepSeek V4 Agents Securely with OpenLegion",
+const BRAND_TAGLINE =
+  "Managed AI agent platform with container isolation and blind credential injection.";
+
+const STATIC_TITLES: Record<string, string> = {
+  learn: "Learn — AI Agent Platform, Orchestration & Security",
 };
+
+/** Build a slug → title map at module init from the discovery map. */
+function buildSlugToTitle(): Record<string, string> {
+  const map: Record<string, string> = { ...STATIC_TITLES };
+  for (const entry of getAllContentEntries()) {
+    const ogKey = entry.slug.replace(/^\//, "").replace(/\//g, "-");
+    map[ogKey] = entry.frontmatter.title;
+  }
+  return map;
+}
+
+const SLUG_TO_TITLE = buildSlugToTitle();
 
 export async function GET(
   _request: NextRequest,
@@ -49,7 +43,6 @@ export async function GET(
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        {/* Top accent line */}
         <div
           style={{
             position: "absolute",
@@ -61,7 +54,6 @@ export async function GET(
           }}
         />
 
-        {/* Logo + Brand */}
         <div
           style={{
             display: "flex",
@@ -99,7 +91,6 @@ export async function GET(
           </span>
         </div>
 
-        {/* Title */}
         <h1
           style={{
             fontSize: "52px",
@@ -114,7 +105,6 @@ export async function GET(
           {title}
         </h1>
 
-        {/* Tagline */}
         <p
           style={{
             fontSize: "22px",
@@ -123,11 +113,9 @@ export async function GET(
             maxWidth: "700px",
           }}
         >
-          Managed AI agent platform with container isolation and blind
-          credential injection.
+          {BRAND_TAGLINE}
         </p>
 
-        {/* URL */}
         <div
           style={{
             position: "absolute",
@@ -144,6 +132,12 @@ export async function GET(
     {
       width: 1200,
       height: 630,
+      headers: {
+        // Edge-cache for a day, allow stale-while-revalidate for a week so OG
+        // images pick up frontmatter title edits without rebuilds.
+        "Cache-Control":
+          "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800",
+      },
     }
   );
 }

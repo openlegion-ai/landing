@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeRaw from "rehype-raw";
 import rehypeStringify from "rehype-stringify";
+import { SUPPORTED_LOCALES } from "@/lib/constants";
 
 // ── Types ───────────────────────────────────────────────────────────────────
 
@@ -21,6 +22,12 @@ export interface ContentFrontmatter {
   schema_types: string[];
   howto_total_time?: string;
   howto_tools?: string[];
+  /** Page-type tag for validator rule selection ("comparison" | "learn" | "alternative" | "root"). Optional; inferred from slug. */
+  page_type?: string;
+  /** Optional related-page slugs (full URL paths). Drives the in-page Related links and the internal-link graph. */
+  related?: string[];
+  /** Optional explicit author for E-E-A-T. Defaults to "OpenLegion" via JSON-LD. */
+  author?: string;
 }
 
 export interface FAQItem {
@@ -45,76 +52,178 @@ export interface ContentPage {
   howTo: HowToData | null;
 }
 
-// ── Content directory ───────────────────────────────────────────────────────
-
-const CONTENT_DIR = path.join(process.cwd(), "src", "content");
-
-/**
- * Resolve the content file path for a given locale.
- * Tries locale-specific file first (e.g. src/content/zh/ai-agent-platform.md),
- * falls back to the default English file (src/content/ai-agent-platform.md).
- */
-function resolveContentPath(filename: string, locale?: string): string {
-  if (locale && locale !== "en") {
-    const localePath = path.join(CONTENT_DIR, locale, filename);
-    if (fs.existsSync(localePath)) return localePath;
-  }
-  return path.join(CONTENT_DIR, filename);
+export interface ContentEntry {
+  /** URL-style slug (e.g. "/comparison/openclaw"). */
+  slug: string;
+  /** Path on disk for the canonical (English) file, relative to CONTENT_DIR. */
+  relPath: string;
+  frontmatter: ContentFrontmatter;
+  /** Locales (other than English) that have a translated copy of this file. */
+  availableLocales: string[];
 }
 
-const SLUG_TO_FILE: Record<string, string> = {
-  "/ai-agent-platform": "ai-agent-platform.md",
-  "/ai-agent-orchestration": "ai-agent-orchestration.md",
-  "/ai-agent-frameworks": "ai-agent-frameworks.md",
-  "/ai-agent-security": "ai-agent-security.md",
-  "/comparison": "comparison-all-competitors.md",
-  "/comparison/openclaw": "comparison-openclaw.md",
-  "/comparison/dify": "comparison-dify.md",
-  "/comparison/openai-agents-sdk": "comparison-openai-agents-sdk.md",
-  "/comparison/semantic-kernel": "comparison-semantic-kernel.md",
-  "/comparison/autogen": "comparison-autogen.md",
-  "/comparison/crewai": "comparison-crewai.md",
-  "/comparison/langgraph": "comparison-langgraph.md",
-  "/comparison/manus-ai": "comparison-manus-ai.md",
-  "/comparison/aws-strands": "comparison-aws-strands.md",
-  "/comparison/google-adk": "comparison-google-adk.md",
-  "/comparison/zeroclaw": "comparison-zeroclaw.md",
-  "/comparison/nanoclaw": "comparison-nanoclaw.md",
-  "/comparison/nanobot": "comparison-nanobot.md",
-  "/comparison/picoclaw": "comparison-picoclaw.md",
-  "/comparison/openfang": "comparison-openfang.md",
-  "/comparison/memu": "comparison-memu.md",
-  "/openclaw-alternative": "openclaw-alternative.md",
-  "/deepseek-v4-agents": "deepseek-v4.md",
-};
+// ── Content directory + discovery ───────────────────────────────────────────
 
-// ── Load + parse content ────────────────────────────────────────────────────
+const CONTENT_DIR = path.join(process.cwd(), "src", "content");
+const LOCALE_DIRS = new Set(SUPPORTED_LOCALES.filter((l) => l !== "en"));
+
+/**
+ * Convert a content-relative file path to its URL slug.
+ *   "comparison/openclaw.md"          -> "/comparison/openclaw"
+ *   "comparison.md"                   -> "/comparison"
+ *   "openclaw-alternative.md"         -> "/openclaw-alternative"
+ *   "learn/ai-agent-platform.md"      -> "/learn/ai-agent-platform"
+ */
+function relPathToSlug(relPath: string): string {
+  const noExt = relPath.replace(/\.md$/, "");
+  return `/${noExt}`;
+}
+
+function walkMarkdown(dir: string, base: string = dir): string[] {
+  const out: string[] = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    // Skip underscore-prefixed files (templates, drafts, partials).
+    if (entry.name.startsWith("_")) continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...walkMarkdown(full, base));
+    } else if (entry.isFile() && entry.name.endsWith(".md")) {
+      out.push(path.relative(base, full));
+    }
+  }
+  return out;
+}
+
+function buildContentMap(): Map<string, ContentEntry> {
+  if (!fs.existsSync(CONTENT_DIR)) return new Map();
+
+  const allFiles = walkMarkdown(CONTENT_DIR);
+
+  // Partition: locale-prefixed files vs canonical English files.
+  const englishFiles: string[] = [];
+  const localeFiles = new Map<string, string[]>(); // relPath (without locale prefix) -> [locales]
+
+  for (const rel of allFiles) {
+    const segments = rel.split(path.sep);
+    if (segments.length > 1 && LOCALE_DIRS.has(segments[0])) {
+      const locale = segments[0];
+      const base = segments.slice(1).join(path.sep);
+      const arr = localeFiles.get(base) ?? [];
+      arr.push(locale);
+      localeFiles.set(base, arr);
+    } else {
+      englishFiles.push(rel);
+    }
+  }
+
+  const map = new Map<string, ContentEntry>();
+
+  for (const relPath of englishFiles) {
+    const filePath = path.join(CONTENT_DIR, relPath);
+    const raw = fs.readFileSync(filePath, "utf-8");
+    const { data } = matter(raw);
+    const frontmatter = data as ContentFrontmatter;
+
+    const expectedSlug = relPathToSlug(relPath);
+    if (!frontmatter.slug) {
+      throw new Error(`Missing slug frontmatter in src/content/${relPath}`);
+    }
+    if (frontmatter.slug !== expectedSlug) {
+      throw new Error(
+        `Slug mismatch in src/content/${relPath}: frontmatter.slug "${frontmatter.slug}" does not match file path (expected "${expectedSlug}"). File path must mirror URL.`
+      );
+    }
+    if (map.has(expectedSlug)) {
+      throw new Error(`Duplicate slug "${expectedSlug}" in content map`);
+    }
+
+    const availableLocales = (localeFiles.get(relPath) ?? []).sort();
+
+    map.set(expectedSlug, {
+      slug: expectedSlug,
+      relPath,
+      frontmatter: { ...frontmatter, slug: expectedSlug },
+      availableLocales,
+    });
+  }
+
+  return map;
+}
+
+// Memoized at module load. Next.js bundles this; in dev the module re-evaluates
+// on edit. CONTENT_DIR is a finite tree so the cost is bounded.
+const CONTENT_MAP: Map<string, ContentEntry> = buildContentMap();
+
+/** Resolve the actual file to read for (slug, locale). Falls back to English. */
+function resolveContentPath(entry: ContentEntry, locale?: string): string {
+  if (locale && locale !== "en" && entry.availableLocales.includes(locale)) {
+    return path.join(CONTENT_DIR, locale, entry.relPath);
+  }
+  return path.join(CONTENT_DIR, entry.relPath);
+}
+
+// ── Public API ──────────────────────────────────────────────────────────────
 
 export async function getContentPage(slug: string, locale?: string): Promise<ContentPage> {
-  const filename = SLUG_TO_FILE[slug];
-  if (!filename) throw new Error(`No content file for slug: ${slug}`);
+  const entry = CONTENT_MAP.get(slug);
+  if (!entry) throw new Error(`No content for slug: ${slug}`);
 
-  const filePath = resolveContentPath(filename, locale);
+  const filePath = resolveContentPath(entry, locale);
   const raw = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(raw);
-  const frontmatter = data as ContentFrontmatter;
+  // Translation files may legitimately omit the slug; pull it from the canonical entry.
+  const frontmatter = { ...entry.frontmatter, ...(data as ContentFrontmatter), slug: entry.slug };
 
-  // Extract FAQs and HowTo steps before processing (from raw markdown)
   const faqs = extractFAQs(content);
   const howTo = extractHowTo(content);
-
-  // Process markdown to HTML
   const html = await renderMarkdown(content);
 
   return { frontmatter, html, faqs, howTo };
 }
 
+export function getContentEntry(slug: string): ContentEntry | undefined {
+  return CONTENT_MAP.get(slug);
+}
+
+export function hasContent(slug: string): boolean {
+  return CONTENT_MAP.has(slug);
+}
+
+export function getAllContentEntries(): ContentEntry[] {
+  return Array.from(CONTENT_MAP.values());
+}
+
+/** Backwards-compatible accessor for sitemap and similar consumers. */
 export function getAllContentPages(): ContentFrontmatter[] {
-  return Object.entries(SLUG_TO_FILE).map(([slug, filename]) => {
-    const filePath = path.join(CONTENT_DIR, filename);
-    const raw = fs.readFileSync(filePath, "utf-8");
-    const { data } = matter(raw);
-    return { ...(data as ContentFrontmatter), slug };
+  return getAllContentEntries().map((e) => e.frontmatter);
+}
+
+/** Slugs whose URL starts with the given prefix (e.g., "/comparison/"). */
+export function getSlugsByPrefix(prefix: string): string[] {
+  return getAllContentEntries()
+    .filter((e) => e.slug.startsWith(prefix))
+    .map((e) => e.slug);
+}
+
+/** Comparison sub-page entries (excludes the /comparison hub itself). */
+export function getComparisonSubPageEntries(): ContentEntry[] {
+  return getAllContentEntries()
+    .filter((e) => e.slug.startsWith("/comparison/"))
+    .sort((a, b) => a.slug.localeCompare(b.slug));
+}
+
+/** Learn sub-page entries. */
+export function getLearnEntries(): ContentEntry[] {
+  return getAllContentEntries()
+    .filter((e) => e.slug.startsWith("/learn/"))
+    .sort((a, b) => a.slug.localeCompare(b.slug));
+}
+
+/** Root-level content entries (slug has exactly one segment, excluding hubs). */
+export function getRootContentEntries(): ContentEntry[] {
+  return getAllContentEntries().filter((e) => {
+    const segs = e.slug.replace(/^\//, "").split("/");
+    return segs.length === 1 && !["comparison", "learn"].includes(segs[0]);
   });
 }
 
@@ -128,27 +237,21 @@ function extractFAQs(content: string): FAQItem[] {
 
   const faqContent = content.slice(faqMarker);
 
-  // Stop at "## Internal Links" / "## Related Comparisons" / "## Related Pages" or end of content
   const internalLinksIdx = faqContent.search(/## (?:Internal Links|Related Comparisons|Related Pages)/);
   const faqSection =
     internalLinksIdx !== -1
       ? faqContent.slice(0, internalLinksIdx)
       : faqContent;
 
-  // Extract H3 questions and their answers
   const h3Regex = /### (.+)\n\n([\s\S]*?)(?=\n### |\n---|\n## |$)/g;
   let match;
   while ((match = h3Regex.exec(faqSection)) !== null) {
     const question = match[1].trim();
     const answer = match[2]
       .trim()
-      // Strip markdown links → plain text for JSON-LD
       .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-      // Strip bold markers
       .replace(/\*\*([^*]+)\*\*/g, "$1")
-      // Strip inline code
       .replace(/`([^`]+)`/g, "$1")
-      // Strip italic markers
       .replace(/\*([^*]+)\*/g, "$1")
       .replace(/_([^_]+)_/g, "$1");
     faqs.push({ question, answer });
@@ -165,7 +268,6 @@ function extractHowTo(content: string): HowToData | null {
 
   const afterMarker = content.slice(marker);
 
-  // Find the next H2 section after the HowTo marker (the "How to..." heading)
   const h2Match = afterMarker.match(/\n## (.+)\n/);
   if (!h2Match) return null;
 
@@ -173,11 +275,9 @@ function extractHowTo(content: string): HowToData | null {
   const sectionStart = afterMarker.indexOf(h2Match[0]);
   const sectionContent = afterMarker.slice(sectionStart);
 
-  // Find end of this H2 section (next H2 or end)
   const nextH2 = sectionContent.slice(1).search(/\n## /);
   const section = nextH2 !== -1 ? sectionContent.slice(0, nextH2 + 1) : sectionContent;
 
-  // Extract "### Step N: ..." patterns
   const stepRegex = /### Step \d+: (.+)\n\n([\s\S]*?)(?=\n### |\n## |$)/g;
   const steps: HowToStep[] = [];
   let match;
@@ -203,34 +303,28 @@ function extractHowTo(content: string): HowToData | null {
 async function renderMarkdown(content: string): Promise<string> {
   let processed = content;
 
-  // ── Pre-processing (before remark) ────────────────────────────────────
-
   // 1. Convert definition blocks to semantic HTML
   processed = processed.replace(
     /<!-- SCHEMA: DefinitionBlock -->\n\n> \*\*(.+?)\*\*\n> (.+)/g,
     '<section class="definition-block" itemscope itemtype="https://schema.org/DefinedTerm">\n<h2 class="definition-term" itemprop="name">$1</h2>\n<p itemprop="description">$2</p>\n</section>'
   );
 
-  // 2. Remove the "## CTA" heading (keep the content below it)
+  // 2. Remove the "## CTA" heading (keep content below)
   processed = processed.replace(/\n## CTA\n/g, "\n");
 
-  // 3. Remove "## Internal Links", "## Related Comparisons", or "## Related Pages" section and everything after it
+  // 3. Strip "## Internal Links" / "## Related Comparisons" / "## Related Pages" + everything after
   const internalLinksIdx = processed.search(/## (?:Internal Links|Related Comparisons|Related Pages)/);
   if (internalLinksIdx !== -1) {
     processed = processed.slice(0, internalLinksIdx);
   }
 
-  // 4. Remove trailing --- separators
+  // 4. Strip trailing separators
   processed = processed.replace(/\n---\s*$/g, "");
   processed = processed.replace(/\n---\n\n<!-- SCHEMA: FAQPage -->/g, "\n<!-- SCHEMA: FAQPage -->");
 
-  // 5. Strip schema comment markers (remark doesn't need them; we handle extraction separately)
+  // 5. Strip schema comment markers
   processed = processed.replace(/<!-- SCHEMA: FAQPage -->\n\n/g, "");
   processed = processed.replace(/<!-- SCHEMA: HowTo -->\n\n/g, "");
-
-  // ── Run remark pipeline ───────────────────────────────────────────────
-  // This processes ALL markdown including FAQ content, so links, bold,
-  // code, etc. are properly converted to HTML.
 
   const result = await unified()
     .use(remarkParse)
@@ -242,28 +336,20 @@ async function renderMarkdown(content: string): Promise<string> {
 
   let html = String(result);
 
-  // ── Post-processing (after remark) ────────────────────────────────────
-
-  // 1. Wrap tables in scrollable figures
   html = html.replace(
     /<table>/g,
     '<figure class="table-wrapper"><div class="table-scroll"><table>'
   );
   html = html.replace(/<\/table>/g, "</table></div></figure>");
 
-  // 2. Add scope="col" to th elements in thead
   html = html.replace(/(<thead>[\s\S]*?<\/thead>)/g, (theadBlock) =>
     theadBlock.replace(/<th>/g, '<th scope="col">')
   );
 
-  // 2b. Convert first cell in each tbody row to th (comparison tables)
   html = html.replace(/(<tbody>[\s\S]*?<\/tbody>)/g, (tbodyBlock) =>
     tbodyBlock.replace(/<tr><td>([\s\S]*?)<\/td>/g, '<tr><th scope="row">$1</th>')
   );
 
-  // 3. Wrap CTA blocks as styled buttons
-  // The bold text + links are in a single paragraph (single newline = same paragraph in markdown)
-  // Handles both 2-link (Star + Waitlist) and 3-link (Star + Docs + Comparisons) formats
   html = html.replace(
     /<p><strong>([^<]+)<\/strong>\n?((?:<a href="[^"]+?">[^<]+?<\/a>(?:\s*\|\s*)?)+)<\/p>/g,
     (_, heading, links) => {
@@ -272,20 +358,13 @@ async function renderMarkdown(content: string): Promise<string> {
     }
   );
 
-  // 4. Wrap FAQ section with semantic microdata
   html = wrapFaqSection(html);
 
   return html;
 }
 
-// ── FAQ post-processor ──────────────────────────────────────────────────────
-// Finds the "Frequently Asked Questions" h2 and wraps each h3+content pair
-// in Schema.org Question/Answer microdata. Operates on final HTML so all
-// inline markdown (links, bold, code) is already rendered.
-
 function wrapFaqSection(html: string): string {
-  const faqHeadingRegex =
-    /<h2>Frequently Asked Questions<\/h2>/;
+  const faqHeadingRegex = /<h2>Frequently Asked Questions<\/h2>/;
   const faqMatch = faqHeadingRegex.exec(html);
   if (!faqMatch) return html;
 
@@ -293,11 +372,8 @@ function wrapFaqSection(html: string): string {
   const beforeFaq = html.slice(0, faqStart);
   const faqAndAfter = html.slice(faqStart);
 
-  // Split the FAQ section at each <h3> to get question/answer blocks.
-  // We need to find each <h3>...</h3> followed by content until the next <h3> or end.
   const h3Pattern = /<h3>([\s\S]*?)<\/h3>/g;
-  const h3Matches: { question: string; startIdx: number; endIdx: number }[] =
-    [];
+  const h3Matches: { question: string; startIdx: number; endIdx: number }[] = [];
   let h3Match;
   while ((h3Match = h3Pattern.exec(faqAndAfter)) !== null) {
     h3Matches.push({
@@ -309,7 +385,6 @@ function wrapFaqSection(html: string): string {
 
   if (h3Matches.length === 0) return html;
 
-  // Build the FAQ section with semantic wrappers
   const faqHeading = faqMatch[0];
   let faqHtml = `<section class="faq-section" itemscope itemtype="https://schema.org/FAQPage">\n${faqHeading}\n`;
 
@@ -328,6 +403,5 @@ function wrapFaqSection(html: string): string {
 
   faqHtml += `</section>`;
 
-  // Replace everything from the FAQ heading to the end with our wrapped version
   return beforeFaq + faqHtml;
 }

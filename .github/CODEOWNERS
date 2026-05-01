@@ -1,0 +1,32 @@
+# CODEOWNERS — branch-protection complement.
+#
+# The content lane (src/content/**) is unowned: the OpenLegion engine opens
+# PRs there and they auto-merge on green CI. Everything that defines the
+# quality gate, the routing, or the SEO surface IS owned — those PRs require
+# explicit human review so the engine cannot silently weaken the gate that
+# governs its own output.
+#
+# Replace @openlegion-ai/maintainers with the actual GitHub team handle.
+
+# Validation infrastructure — engine MUST NOT modify.
+/scripts/validate-content.mjs    @openlegion-ai/maintainers
+/scripts/generate-content-derivatives.mjs    @openlegion-ai/maintainers
+/content-schema.json    @openlegion-ai/maintainers
+/.github/    @openlegion-ai/maintainers
+
+# Templates — only humans edit the canonical template.
+/src/content/_template.md    @openlegion-ai/maintainers
+/CONTENT_GUIDE.md    @openlegion-ai/maintainers
+
+# Routing + discovery + SEO surface.
+/src/lib/markdown.ts    @openlegion-ai/maintainers
+/src/lib/content-page-helpers.ts    @openlegion-ai/maintainers
+/src/lib/constants.ts    @openlegion-ai/maintainers
+/src/app/sitemap.ts    @openlegion-ai/maintainers
+/src/app/robots.ts    @openlegion-ai/maintainers
+/src/app/[locale]/layout.tsx    @openlegion-ai/maintainers
+/src/app/[locale]/comparison/[slug]/    @openlegion-ai/maintainers
+/src/app/[locale]/learn/    @openlegion-ai/maintainers
+/src/app/[locale]/[contentSlug]/    @openlegion-ai/maintainers
+/src/app/og/    @openlegion-ai/maintainers
+/next.config.ts    @openlegion-ai/maintainers

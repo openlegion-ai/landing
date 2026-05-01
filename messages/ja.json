@@ -1,22 +1,28 @@
 {
   "nav": {
     "links": {
-      "0": {
+      "features": {
         "label": "機能"
       },
-      "1": {
+      "useCases": {
         "label": "ユースケース"
       },
-      "2": {
+      "architecture": {
         "label": "アーキテクチャ"
       },
-      "3": {
+      "security": {
         "label": "セキュリティ"
       },
-      "4": {
+      "learn": {
+        "label": "学ぶ"
+      },
+      "compare": {
+        "label": "比較"
+      },
+      "pricing": {
         "label": "料金"
       },
-      "5": {
+      "docs": {
         "label": "ドキュメント"
       }
     },
@@ -896,6 +902,7 @@
   "contentPage": {
     "breadcrumbHome": "ホーム",
     "breadcrumbComparisons": "比較",
+    "breadcrumbLearn": "学ぶ",
     "publishedPrefix": "公開日 ",
     "updatedPrefix": "更新日 ",
     "relatedContentAriaLabel": "関連コンテンツ",

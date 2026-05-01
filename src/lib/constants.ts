@@ -48,12 +48,14 @@ export const LOCALE_LABELS: Record<string, string> = {
 // ── Nav ──────────────────────────────────────────────────────────────────────
 
 export const NAV_LINKS = [
-  { label: "Features", href: "/#features" },
-  { label: "Use Cases", href: "/#use-cases" },
-  { label: "Architecture", href: "/#architecture" },
-  { label: "Security", href: "/#security" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Docs", href: "https://docs.openlegion.ai" },
+  { key: "features", label: "Features", href: "/#features" },
+  { key: "useCases", label: "Use Cases", href: "/#use-cases" },
+  { key: "architecture", label: "Architecture", href: "/#architecture" },
+  { key: "security", label: "Security", href: "/#security" },
+  { key: "learn", label: "Learn", href: "/learn" },
+  { key: "compare", label: "Compare", href: "/comparison" },
+  { key: "pricing", label: "Pricing", href: "/pricing" },
+  { key: "docs", label: "Docs", href: "https://docs.openlegion.ai" },
 ] as const;
 
 export const APP_URL = "https://app.openlegion.ai";
@@ -301,10 +303,10 @@ export const FOOTER_COLUMNS = [
   {
     title: "Learn",
     links: [
-      { label: "AI Agent Platform", href: "/ai-agent-platform" },
-      { label: "AI Agent Orchestration", href: "/ai-agent-orchestration" },
-      { label: "AI Agent Frameworks", href: "/ai-agent-frameworks" },
-      { label: "AI Agent Security", href: "/ai-agent-security" },
+      { label: "AI Agent Platform", href: "/learn/ai-agent-platform" },
+      { label: "AI Agent Orchestration", href: "/learn/ai-agent-orchestration" },
+      { label: "AI Agent Frameworks", href: "/learn/ai-agent-frameworks" },
+      { label: "AI Agent Security", href: "/learn/ai-agent-security" },
       { label: "DeepSeek V4 Agents", href: "/deepseek-v4-agents" },
     ],
   },
