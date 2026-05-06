@@ -26,7 +26,8 @@
     "githubAriaLabel": "Repositório no GitHub",
     "getStarted": "Começar",
     "toggleMenuAriaLabel": "Abrir ou fechar menu",
-    "billingPeriodAriaLabel": "Período de cobrança"
+    "billingPeriodAriaLabel": "Período de cobrança",
+    "bookDemo": "Agendar demo"
   },
   "hero": {
     "ariaLabel": "Introdução",
@@ -436,7 +437,7 @@
       "4": "Governança de custos por agente",
       "5": "Acesso baseado em funções"
     },
-    "cta": "Fale conosco sobre implantação empresarial"
+    "cta": "Agendar demo"
   },
   "comparison": {
     "sectionLabel": "Comparação",

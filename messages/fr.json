@@ -26,7 +26,8 @@
     "githubAriaLabel": "Dépôt GitHub",
     "getStarted": "Commencer",
     "toggleMenuAriaLabel": "Ouvrir ou fermer le menu",
-    "billingPeriodAriaLabel": "Période de facturation"
+    "billingPeriodAriaLabel": "Période de facturation",
+    "bookDemo": "Réserver une démo"
   },
   "hero": {
     "ariaLabel": "Introduction",
@@ -436,7 +437,7 @@
       "4": "Gouvernance des coûts par agent",
       "5": "Accès basé sur les rôles"
     },
-    "cta": "Parlons de votre déploiement entreprise"
+    "cta": "Réserver une démo"
   },
   "comparison": {
     "sectionLabel": "Comparaison",

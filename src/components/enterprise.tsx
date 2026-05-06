@@ -2,6 +2,7 @@ import { Check, ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn } from "@/components/ui/animate-in";
+import { DEMO_URL } from "@/lib/constants";
 
 const SIGNAL_COUNT = 6;
 
@@ -30,7 +31,9 @@ export function Enterprise() {
             ))}
           </div>
           <a
-            href="mailto:sales@openlegion.ai"
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5"
           >
             {t("cta")}

@@ -26,7 +26,8 @@
     "githubAriaLabel": "مستودع GitHub",
     "getStarted": "ابدأ الآن",
     "toggleMenuAriaLabel": "تبديل القائمة",
-    "billingPeriodAriaLabel": "فترة الفوترة"
+    "billingPeriodAriaLabel": "فترة الفوترة",
+    "bookDemo": "احجز عرضًا توضيحيًا"
   },
   "hero": {
     "ariaLabel": "مقدمة",
@@ -436,7 +437,7 @@
       "4": "حوكمة تكاليف لكل وكيل",
       "5": "تحكم وصول قائم على الأدوار"
     },
-    "cta": "تحدث معنا حول النشر المؤسسي"
+    "cta": "احجز عرضًا توضيحيًا"
   },
   "comparison": {
     "sectionLabel": "المقارنة",
