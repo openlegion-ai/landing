@@ -26,7 +26,8 @@
     "githubAriaLabel": "GitHub 代码仓库",
     "getStarted": "立即开始",
     "toggleMenuAriaLabel": "切换菜单",
-    "billingPeriodAriaLabel": "计费周期"
+    "billingPeriodAriaLabel": "计费周期",
+    "bookDemo": "预约演示"
   },
   "hero": {
     "ariaLabel": "产品介绍",
@@ -436,7 +437,7 @@
       "4": "每智能体成本治理",
       "5": "基于角色的访问控制"
     },
-    "cta": "联系我们咨询企业部署方案"
+    "cta": "预约演示"
   },
   "comparison": {
     "sectionLabel": "方案对比",

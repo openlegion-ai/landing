@@ -26,7 +26,8 @@
     "githubAriaLabel": "GitHub 저장소",
     "getStarted": "시작하기",
     "toggleMenuAriaLabel": "메뉴 전환",
-    "billingPeriodAriaLabel": "결제 주기"
+    "billingPeriodAriaLabel": "결제 주기",
+    "bookDemo": "데모 예약하기"
   },
   "hero": {
     "ariaLabel": "소개",
@@ -436,7 +437,7 @@
       "4": "에이전트별 비용 거버넌스",
       "5": "역할 기반 접근"
     },
-    "cta": "엔터프라이즈 배포에 대해 상담하기"
+    "cta": "데모 예약하기"
   },
   "comparison": {
     "sectionLabel": "비교",

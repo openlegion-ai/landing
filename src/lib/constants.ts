@@ -61,6 +61,7 @@ export const GITHUB_URL = "https://github.com/openlegion-ai/openlegion";
 export const DOCS_URL = "https://docs.openlegion.ai";
 export const DISCORD_URL = "https://discord.gg/mXNkjpDvvr";
 export const TWITTER_URL = "https://x.com/openlegion";
+export const DEMO_URL = "https://calendly.com/admin-openlegion/30min";
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
 

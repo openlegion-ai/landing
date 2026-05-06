@@ -26,7 +26,8 @@
     "githubAriaLabel": "GitHub रिपॉज़िटरी",
     "getStarted": "शुरू करें",
     "toggleMenuAriaLabel": "मेनू टॉगल करें",
-    "billingPeriodAriaLabel": "बिलिंग अवधि"
+    "billingPeriodAriaLabel": "बिलिंग अवधि",
+    "bookDemo": "डेमो बुक करें"
   },
   "hero": {
     "ariaLabel": "परिचय",
@@ -436,7 +437,7 @@
       "4": "प्रति-एजेंट कॉस्ट गवर्नेंस",
       "5": "रोल-बेस्ड एक्सेस"
     },
-    "cta": "एंटरप्राइज़ डिप्लॉयमेंट के बारे में बात करें"
+    "cta": "डेमो बुक करें"
   },
   "comparison": {
     "sectionLabel": "तुलना",

@@ -26,7 +26,8 @@
     "githubAriaLabel": "GitHub-Repository",
     "getStarted": "Loslegen",
     "toggleMenuAriaLabel": "Menü ein-/ausblenden",
-    "billingPeriodAriaLabel": "Abrechnungszeitraum"
+    "billingPeriodAriaLabel": "Abrechnungszeitraum",
+    "bookDemo": "Demo buchen"
   },
   "hero": {
     "ariaLabel": "Einführung",
@@ -436,7 +437,7 @@
       "4": "Kostensteuerung pro Agent",
       "5": "Rollenbasierter Zugriff"
     },
-    "cta": "Sprich mit uns über Enterprise-Bereitstellung"
+    "cta": "Demo buchen"
   },
   "comparison": {
     "sectionLabel": "Vergleich",

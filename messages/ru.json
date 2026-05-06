@@ -26,7 +26,8 @@
     "githubAriaLabel": "Репозиторий GitHub",
     "getStarted": "Начать",
     "toggleMenuAriaLabel": "Переключить меню",
-    "billingPeriodAriaLabel": "Период оплаты"
+    "billingPeriodAriaLabel": "Период оплаты",
+    "bookDemo": "Забронировать демо"
   },
   "hero": {
     "ariaLabel": "Введение",
@@ -436,7 +437,7 @@
       "4": "Контроль затрат для каждого агента",
       "5": "Ролевой доступ"
     },
-    "cta": "Обсудить корпоративное развёртывание"
+    "cta": "Забронировать демо"
   },
   "comparison": {
     "sectionLabel": "Сравнение",

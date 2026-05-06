@@ -26,7 +26,8 @@
     "githubAriaLabel": "GitHub 儲存庫",
     "getStarted": "立即開始",
     "toggleMenuAriaLabel": "切換選單",
-    "billingPeriodAriaLabel": "帳單週期"
+    "billingPeriodAriaLabel": "帳單週期",
+    "bookDemo": "預約展示"
   },
   "hero": {
     "ariaLabel": "簡介",
@@ -436,7 +437,7 @@
       "4": "智慧代理級費用治理",
       "5": "角色型存取"
     },
-    "cta": "與我們聊聊企業部署"
+    "cta": "預約展示"
   },
   "comparison": {
     "sectionLabel": "比較",

@@ -26,7 +26,8 @@
     "githubAriaLabel": "GitHub リポジトリ",
     "getStarted": "今すぐ始める",
     "toggleMenuAriaLabel": "メニューを切り替える",
-    "billingPeriodAriaLabel": "請求期間"
+    "billingPeriodAriaLabel": "請求期間",
+    "bookDemo": "デモを予約"
   },
   "hero": {
     "ariaLabel": "はじめに",
@@ -436,7 +437,7 @@
       "4": "エージェントごとのコスト管理",
       "5": "ロールベースのアクセス"
     },
-    "cta": "エンタープライズデプロイについてご相談ください"
+    "cta": "デモを予約"
   },
   "comparison": {
     "sectionLabel": "比較",

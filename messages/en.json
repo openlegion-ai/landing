@@ -26,7 +26,8 @@
     "githubAriaLabel": "GitHub repository",
     "getStarted": "Get Started",
     "toggleMenuAriaLabel": "Toggle menu",
-    "billingPeriodAriaLabel": "Billing period"
+    "billingPeriodAriaLabel": "Billing period",
+    "bookDemo": "Book a demo"
   },
   "hero": {
     "ariaLabel": "Introduction",
@@ -436,7 +437,7 @@
       "4": "Per-agent cost governance",
       "5": "Role-based access"
     },
-    "cta": "Talk to us about enterprise deployment"
+    "cta": "Book a demo"
   },
   "comparison": {
     "sectionLabel": "Comparison",
