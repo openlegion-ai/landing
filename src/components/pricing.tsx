@@ -272,7 +272,7 @@ export function Pricing() {
                           className="text-sm text-muted/60 line-through"
                           aria-label={t("a11y.originalPriceAria", { price: anchor })}
                         >
-                          ${anchor}
+                          ${anchorNum != null && !Number.isNaN(anchorNum) ? anchorNum.toLocaleString() : anchor}
                         </s>
                       )}
                     </div>
