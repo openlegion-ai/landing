@@ -558,7 +558,7 @@
     "heading": "你的 AI 团队只差一次",
     "headingHighlight": "部署",
     "headingEnd": "。",
-    "subtitle": "首日即付 · 100+ LLM 提供商 · 14 天退款保证",
+    "subtitle": "首日即付 · 100+ LLM 提供商 · 7 天退款保证",
     "primaryButton": "立即开始 →",
     "secondaryButton": "加入我们的 Discord"
   },
@@ -733,7 +733,7 @@
     "billingPeriodAriaLabel": "计费周期",
     "savingsPill": "节省 ${amount}{suffix}（{percent}%）",
     "trust": {
-      "moneyBack": "14 天退款保证",
+      "moneyBack": "7 天退款保证",
       "cancel": "随时取消",
       "switch": "随时切换套餐"
     },
@@ -743,13 +743,13 @@
       "originalPriceAria": "原价 ${price}"
     },
     "trustTrio": {
-      "moneyBack": "14天退款保证",
+      "moneyBack": "7天退款保证",
       "fastSetup": "5分钟内启动第一个智能体",
       "noCoding": "无需编程"
     },
     "perAgent": "{amount}/智能体/月",
     "perAgentYearlySuffix": " · 按年计费",
-    "moneyBackDetail": "14天退款 · 无需理由",
+    "moneyBackDetail": "7天退款 · 无需理由",
     "basicTryFor": "用 {price} 试用 OpenLegion",
     "savingsAriaLabel": "节省 {percent}%"
   },
@@ -887,19 +887,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI 智能体框架与平台 | 自动化一切，尽在掌控",
-    "homeDescription": "OpenLegion 是为生产环境打造的 AI 智能体框架与平台。部署自主智能体，自动化任何计算机任务——浏览、表单、代码、外发、数据。首日即付，14 天退款保证。",
+    "homeDescription": "OpenLegion 是为生产环境打造的 AI 智能体框架与平台。部署自主智能体，自动化任何计算机任务——浏览、表单、代码、外发、数据。首日即付，7 天退款保证。",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI 智能体框架与平台",
-    "ogDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。安全、可控预算、生产就绪。首日即付，14 天退款保证。",
+    "ogDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。安全、可控预算、生产就绪。首日即付，7 天退款保证。",
     "ogImageAlt": "OpenLegion — AI 智能体框架与平台",
     "twitterTitle": "OpenLegion — AI 智能体框架与平台",
-    "twitterDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。首日即付，14 天退款保证。",
+    "twitterDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。首日即付，7 天退款保证。",
     "pricingTitle": "AI 智能体平台定价——首日即付",
-    "pricingDescription": "方案起价 $19/月，含容器隔离、密钥库安全和 100+ LLM 提供商。首日即付，14 天退款保证。",
+    "pricingDescription": "方案起价 $19/月，含容器隔离、密钥库安全和 100+ LLM 提供商。首日即付，7 天退款保证。",
     "pricingOgTitle": "AI 智能体平台定价——首日即付 | OpenLegion",
-    "pricingOgDescription": "方案起价 $19/月。容器隔离、密钥库安全和 100+ LLM 提供商。14 天退款保证。",
+    "pricingOgDescription": "方案起价 $19/月。容器隔离、密钥库安全和 100+ LLM 提供商。7 天退款保证。",
     "pricingTwitterTitle": "AI 智能体平台定价——首日即付 | OpenLegion",
-    "pricingTwitterDescription": "方案起价 $19/月。14 天退款保证。",
+    "pricingTwitterDescription": "方案起价 $19/月。7 天退款保证。",
     "faqTitle": "常见问题",
     "faqDescription": "关于 OpenLegion 的常见问题解答——为生产环境打造的 AI 智能体框架与平台。涵盖安全、定价、LLM 提供商、编排、企业部署等内容。",
     "faqOgTitle": "常见问题 — OpenLegion",

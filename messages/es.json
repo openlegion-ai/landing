@@ -733,7 +733,7 @@
     "billingPeriodAriaLabel": "Período de facturación",
     "savingsPill": "Ahorra ${amount}{suffix} ({percent}%)",
     "trust": {
-      "moneyBack": "14 días de reembolso",
+      "moneyBack": "7 días de reembolso",
       "cancel": "Cancela cuando quieras",
       "switch": "Cambia de plan cuando quieras"
     },
@@ -743,13 +743,13 @@
       "originalPriceAria": "Precio original ${price}"
     },
     "trustTrio": {
-      "moneyBack": "Reembolso de 14 días",
+      "moneyBack": "Reembolso de 7 días",
       "fastSetup": "Primer agente activo en 5 min",
       "noCoding": "Sin programación"
     },
     "perAgent": "{amount}/agente/mes",
     "perAgentYearlySuffix": " · facturación anual",
-    "moneyBackDetail": "Reembolso de 14 días · sin preguntas",
+    "moneyBackDetail": "Reembolso de 7 días · sin preguntas",
     "basicTryFor": "Prueba OpenLegion por {price}",
     "savingsAriaLabel": "Ahorra {percent} por ciento"
   },

@@ -558,7 +558,7 @@
     "heading": "Sua equipe de IA está a um ",
     "headingHighlight": "deploy de distância",
     "headingEnd": ".",
-    "subtitle": "Pago desde o primeiro dia · 100+ provedores LLM · Reembolso em 14 dias",
+    "subtitle": "Pago desde o primeiro dia · 100+ provedores LLM · Reembolso em 7 dias",
     "primaryButton": "Começar →",
     "secondaryButton": "Entre no nosso Discord"
   },
@@ -703,7 +703,7 @@
     "faq": {
       "0": {
         "question": "O que o plano inclui desde o primeiro dia?",
-        "answer": "Cada plano pago inclui um pacote de créditos de boas-vindas e acesso completo desde o primeiro dia — VPS, proxy do sistema e painel do operador. Não é o que procurava? Cancele em até 14 dias e reembolsamos seu primeiro mês, sem perguntas. Prefere usar suas próprias chaves API? Pode usar, e os créditos de boas-vindas continuam sendo seus."
+        "answer": "Cada plano pago inclui um pacote de créditos de boas-vindas e acesso completo desde o primeiro dia — VPS, proxy do sistema e painel do operador. Não é o que procurava? Cancele em até 7 dias e reembolsamos seu primeiro mês, sem perguntas. Prefere usar suas próprias chaves API? Pode usar, e os créditos de boas-vindas continuam sendo seus."
       },
       "1": {
         "question": "Preciso pagar pelo uso de LLM além do preço do plano?",
@@ -733,7 +733,7 @@
     "billingPeriodAriaLabel": "Período de cobrança",
     "savingsPill": "Economize ${amount}{suffix} ({percent}%)",
     "trust": {
-      "moneyBack": "14 dias para reembolso",
+      "moneyBack": "7 dias para reembolso",
       "cancel": "Cancele quando quiser",
       "switch": "Mude de plano quando quiser"
     },
@@ -743,13 +743,13 @@
       "originalPriceAria": "Preço original ${price}"
     },
     "trustTrio": {
-      "moneyBack": "Reembolso em 14 dias",
+      "moneyBack": "Reembolso em 7 dias",
       "fastSetup": "Primeiro agente em 5 min",
       "noCoding": "Sem programação"
     },
     "perAgent": "{amount}/agente/mês",
     "perAgentYearlySuffix": " · cobrança anual",
-    "moneyBackDetail": "Reembolso em 14 dias · sem perguntas",
+    "moneyBackDetail": "Reembolso em 7 dias · sem perguntas",
     "basicTryFor": "Experimente OpenLegion por {price}",
     "savingsAriaLabel": "Economize {percent} por cento"
   },
