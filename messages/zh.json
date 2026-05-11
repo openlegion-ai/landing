@@ -741,7 +741,17 @@
       "mostPopular": "最受欢迎的方案",
       "ctaAria": "开始使用 — {plan}",
       "originalPriceAria": "原价 ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "14天退款保证",
+      "fastSetup": "5分钟内启动第一个智能体",
+      "noCoding": "无需编程"
+    },
+    "perAgent": "{amount}/智能体/月",
+    "perAgentYearlySuffix": " · 按年计费",
+    "moneyBackDetail": "14天退款 · 无需理由",
+    "basicTryFor": "用 {price} 试用 OpenLegion",
+    "savingsAriaLabel": "节省 {percent}%"
   },
   "notFound": {
     "title": "404",
@@ -1220,5 +1230,10 @@
     "anchorLabel": "上线优惠价",
     "proMaxMonthly": "699",
     "proMaxYearly": "6990"
+  },
+  "testimonials": {
+    "eyebrow": "客户反馈",
+    "heading": "真实团队,自动化运营",
+    "starsAriaLabel": "5星好评"
   }
 }

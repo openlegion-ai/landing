@@ -741,7 +741,17 @@
       "mostPopular": "最受歡迎的方案",
       "ctaAria": "開始使用 — {plan}",
       "originalPriceAria": "原價 ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "14天退款保證",
+      "fastSetup": "5分鐘內啟動第一個代理人",
+      "noCoding": "無需編程"
+    },
+    "perAgent": "{amount}/代理人/月",
+    "perAgentYearlySuffix": " · 按年計費",
+    "moneyBackDetail": "14天退款 · 無需理由",
+    "basicTryFor": "用 {price} 試用 OpenLegion",
+    "savingsAriaLabel": "節省 {percent}%"
   },
   "notFound": {
     "title": "404",
@@ -1220,5 +1230,10 @@
     "anchorLabel": "上線優惠價",
     "proMaxMonthly": "699",
     "proMaxYearly": "6990"
+  },
+  "testimonials": {
+    "eyebrow": "客戶評價",
+    "heading": "真實團隊,自動化營運",
+    "starsAriaLabel": "5星好評"
   }
 }

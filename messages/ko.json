@@ -741,7 +741,17 @@
       "mostPopular": "가장 인기 있는 요금제",
       "ctaAria": "시작하기 — {plan}",
       "originalPriceAria": "기존 가격 ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "14일 환불 보장",
+      "fastSetup": "첫 에이전트, 5분 만에 실행",
+      "noCoding": "코딩 불필요"
+    },
+    "perAgent": "{amount}/에이전트/월",
+    "perAgentYearlySuffix": " · 연간 결제",
+    "moneyBackDetail": "14일 환불 보장 · 묻지 않습니다",
+    "basicTryFor": "{price}로 OpenLegion 체험",
+    "savingsAriaLabel": "{percent}% 절약"
   },
   "notFound": {
     "title": "404",
@@ -1220,5 +1230,10 @@
     "anchorLabel": "출시 기념가",
     "proMaxMonthly": "699",
     "proMaxYearly": "6990"
+  },
+  "testimonials": {
+    "eyebrow": "고객의 목소리",
+    "heading": "실제 팀이 자동화로 운영합니다",
+    "starsAriaLabel": "5점 만점에 5점"
   }
 }

@@ -741,7 +741,17 @@
       "mostPopular": "最も人気のプラン",
       "ctaAria": "{plan}を始める",
       "originalPriceAria": "通常価格 ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "14日間返金保証",
+      "fastSetup": "5分で最初のエージェントが稼働",
+      "noCoding": "コーディング不要"
+    },
+    "perAgent": "{amount}/エージェント/月",
+    "perAgentYearlySuffix": " · 年額請求",
+    "moneyBackDetail": "14日間返金保証 · 質問なし",
+    "basicTryFor": "{price}でOpenLegionを試す",
+    "savingsAriaLabel": "{percent}パーセントお得"
   },
   "notFound": {
     "title": "404",
@@ -1220,5 +1230,10 @@
     "anchorLabel": "ローンチ価格",
     "proMaxMonthly": "699",
     "proMaxYearly": "6990"
+  },
+  "testimonials": {
+    "eyebrow": "お客様の声",
+    "heading": "実在のチームが自動化を実現",
+    "starsAriaLabel": "5つ星中5つ"
   }
 }

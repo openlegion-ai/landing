@@ -741,7 +741,17 @@
       "mostPopular": "Forfait le plus populaire",
       "ctaAria": "Commencer — {plan}",
       "originalPriceAria": "Prix initial ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "Remboursé sous 14 jours",
+      "fastSetup": "Premier agent actif en 5 min",
+      "noCoding": "Aucun code requis"
+    },
+    "perAgent": "{amount}/agent/mois",
+    "perAgentYearlySuffix": " · facturé annuellement",
+    "moneyBackDetail": "Remboursé sous 14 jours · sans condition",
+    "basicTryFor": "Essayez OpenLegion pour {price}",
+    "savingsAriaLabel": "Économisez {percent} pour cent"
   },
   "notFound": {
     "title": "404",
@@ -1220,5 +1230,10 @@
     "anchorLabel": "Tarif de lancement",
     "proMaxMonthly": "699",
     "proMaxYearly": "6990"
+  },
+  "testimonials": {
+    "eyebrow": "Témoignages clients",
+    "heading": "De vraies équipes, en pilote automatique",
+    "starsAriaLabel": "5 étoiles sur 5"
   }
 }

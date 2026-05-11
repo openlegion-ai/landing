@@ -741,7 +741,17 @@
       "mostPopular": "الخطة الأكثر شيوعًا",
       "ctaAria": "ابدأ — {plan}",
       "originalPriceAria": "السعر الأصلي ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "استرداد خلال 14 يومًا",
+      "fastSetup": "أول وكيل يعمل خلال 5 دقائق",
+      "noCoding": "بدون برمجة"
+    },
+    "perAgent": "{amount}/وكيل/شهر",
+    "perAgentYearlySuffix": " · فوترة سنوية",
+    "moneyBackDetail": "استرداد خلال 14 يومًا · بدون أسئلة",
+    "basicTryFor": "جرّب OpenLegion بـ {price}",
+    "savingsAriaLabel": "وفّر {percent} بالمئة"
   },
   "notFound": {
     "title": "404",
@@ -1220,5 +1230,10 @@
     "anchorLabel": "أسعار الإطلاق",
     "proMaxMonthly": "699",
     "proMaxYearly": "6990"
+  },
+  "testimonials": {
+    "eyebrow": "من عملائنا",
+    "heading": "فرق حقيقية تعمل تلقائيًا",
+    "starsAriaLabel": "5 من 5 نجوم"
   }
 }
