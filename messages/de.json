@@ -703,7 +703,7 @@
     "faq": {
       "0": {
         "question": "Was ist ab dem ersten Tag im Plan enthalten?",
-        "answer": "Jeder kostenpflichtige Plan beinhaltet ein Willkommens-Credits-Paket und vollen Zugriff ab dem ersten Tag — VPS, System-Proxy und Operator-Dashboard. Nicht das Richtige? Kündige innerhalb von 14 Tagen und wir erstatten den ersten Monat zurück, ohne Wenn und Aber. Möchtest du lieber deine eigenen API-Schlüssel verwenden? Klar, und die Willkommens-Credits behältst du trotzdem."
+        "answer": "Jeder kostenpflichtige Plan beinhaltet ein Willkommens-Credits-Paket und vollen Zugriff ab dem ersten Tag — VPS, System-Proxy und Operator-Dashboard. Nicht das Richtige? Kündige innerhalb von 7 Tagen und wir erstatten den ersten Monat zurück, ohne Wenn und Aber. Möchtest du lieber deine eigenen API-Schlüssel verwenden? Klar, und die Willkommens-Credits behältst du trotzdem."
       },
       "1": {
         "question": "Muss ich für die LLM-Nutzung zusätzlich zum Plan-Preis zahlen?",
@@ -733,7 +733,7 @@
     "billingPeriodAriaLabel": "Abrechnungszeitraum",
     "savingsPill": "Spare ${amount}{suffix} ({percent}%)",
     "trust": {
-      "moneyBack": "14 Tage Geld-zurück",
+      "moneyBack": "7 Tage Geld-zurück",
       "cancel": "Jederzeit kündbar",
       "switch": "Tarif jederzeit wechseln"
     },
@@ -743,13 +743,13 @@
       "originalPriceAria": "Ursprünglicher Preis ${price}"
     },
     "trustTrio": {
-      "moneyBack": "14 Tage Geld-zurück",
+      "moneyBack": "7 Tage Geld-zurück",
       "fastSetup": "Erster Agent in 5 Min einsatzbereit",
       "noCoding": "Keine Programmierung nötig"
     },
     "perAgent": "{amount}/Agent/Monat",
     "perAgentYearlySuffix": " · jährliche Abrechnung",
-    "moneyBackDetail": "14 Tage Geld-zurück · ohne Fragen",
+    "moneyBackDetail": "7 Tage Geld-zurück · ohne Fragen",
     "basicTryFor": "OpenLegion für {price} testen",
     "savingsAriaLabel": "{percent} Prozent sparen"
   },
@@ -887,19 +887,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — KI-Agenten-Framework & Plattform | Alles automatisieren, Kontrolle behalten",
-    "homeDescription": "OpenLegion ist das KI-Agenten-Framework und die Plattform für den Produktiveinsatz. Stelle autonome Agenten bereit, die jede Computeraufgabe automatisieren — Surfen, Formulare, Code, Outreach, Daten. Ab dem ersten Tag kostenpflichtig, 14 Tage Geld-zurück-Garantie.",
+    "homeDescription": "OpenLegion ist das KI-Agenten-Framework und die Plattform für den Produktiveinsatz. Stelle autonome Agenten bereit, die jede Computeraufgabe automatisieren — Surfen, Formulare, Code, Outreach, Daten. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — KI-Agenten-Framework & Plattform",
-    "ogDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Sicher, im Budget, produktionsbereit. Ab dem ersten Tag kostenpflichtig, 14 Tage Geld-zurück-Garantie.",
+    "ogDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Sicher, im Budget, produktionsbereit. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
     "ogImageAlt": "OpenLegion — KI-Agenten-Framework & Plattform",
     "twitterTitle": "OpenLegion — KI-Agenten-Framework & Plattform",
-    "twitterDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Ab dem ersten Tag kostenpflichtig, 14 Tage Geld-zurück-Garantie.",
+    "twitterDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
     "pricingTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig",
-    "pricingDescription": "Pläne ab 19 $/Monat mit Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbietern. Ab dem ersten Tag kostenpflichtig, 14 Tage Geld-zurück-Garantie.",
+    "pricingDescription": "Pläne ab 19 $/Monat mit Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbietern. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
     "pricingOgTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig | OpenLegion",
-    "pricingOgDescription": "Pläne ab 19 $/Monat. Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbieter. 14 Tage Geld-zurück-Garantie.",
+    "pricingOgDescription": "Pläne ab 19 $/Monat. Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbieter. 7 Tage Geld-zurück-Garantie.",
     "pricingTwitterTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig | OpenLegion",
-    "pricingTwitterDescription": "Pläne ab 19 $/Monat. 14 Tage Geld-zurück-Garantie.",
+    "pricingTwitterDescription": "Pläne ab 19 $/Monat. 7 Tage Geld-zurück-Garantie.",
     "faqTitle": "Häufig gestellte Fragen",
     "faqDescription": "Antworten auf häufige Fragen über OpenLegion — das KI-Agenten-Framework und die Plattform für den Produktiveinsatz. Umfasst Sicherheit, Preise, LLM-Anbieter, Orchestrierung, Enterprise-Bereitstellung und mehr.",
     "faqOgTitle": "Häufig gestellte Fragen — OpenLegion",

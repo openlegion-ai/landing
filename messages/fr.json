@@ -558,7 +558,7 @@
     "heading": "Votre équipe IA est à un ",
     "headingHighlight": "déploiement près",
     "headingEnd": ".",
-    "subtitle": "Payant dès le premier jour · Plus de 100 fournisseurs LLM · Remboursement sous 14 jours",
+    "subtitle": "Payant dès le premier jour · Plus de 100 fournisseurs LLM · Remboursement sous 7 jours",
     "primaryButton": "Commencer →",
     "secondaryButton": "Rejoignez notre Discord"
   },
@@ -703,7 +703,7 @@
     "faq": {
       "0": {
         "question": "Que comprend le forfait dès le premier jour ?",
-        "answer": "Chaque forfait payant inclut un pack de crédits de bienvenue et un accès complet dès le premier jour — VPS, proxy système et tableau de bord opérateur. Pas convaincu ? Annulez sous 14 jours et nous vous remboursons votre premier mois, sans poser de questions. Vous préférez utiliser vos propres clés API ? C'est possible, et les crédits de bienvenue restent à vous."
+        "answer": "Chaque forfait payant inclut un pack de crédits de bienvenue et un accès complet dès le premier jour — VPS, proxy système et tableau de bord opérateur. Pas convaincu ? Annulez sous 7 jours et nous vous remboursons votre premier mois, sans poser de questions. Vous préférez utiliser vos propres clés API ? C'est possible, et les crédits de bienvenue restent à vous."
       },
       "1": {
         "question": "Dois-je payer l'utilisation des LLM en plus du prix du plan ?",
@@ -733,7 +733,7 @@
     "billingPeriodAriaLabel": "Période de facturation",
     "savingsPill": "Économisez ${amount}{suffix} ({percent}%)",
     "trust": {
-      "moneyBack": "Remboursement sous 14 jours",
+      "moneyBack": "Remboursement sous 7 jours",
       "cancel": "Annulez à tout moment",
       "switch": "Changez de plan à tout moment"
     },
@@ -743,13 +743,13 @@
       "originalPriceAria": "Prix initial ${price}"
     },
     "trustTrio": {
-      "moneyBack": "Remboursé sous 14 jours",
+      "moneyBack": "Remboursé sous 7 jours",
       "fastSetup": "Premier agent actif en 5 min",
       "noCoding": "Aucun code requis"
     },
     "perAgent": "{amount}/agent/mois",
     "perAgentYearlySuffix": " · facturé annuellement",
-    "moneyBackDetail": "Remboursé sous 14 jours · sans condition",
+    "moneyBackDetail": "Remboursé sous 7 jours · sans condition",
     "basicTryFor": "Essayez OpenLegion pour {price}",
     "savingsAriaLabel": "Économisez {percent} pour cent"
   },
@@ -887,19 +887,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — Framework et plateforme d'agents IA | Automatisez tout, gardez le contrôle",
-    "homeDescription": "OpenLegion est le framework et la plateforme d'agents IA conçus pour la production. Déployez des agents autonomes qui automatisent n'importe quelle tâche informatique — navigation, formulaires, code, prospection, données. Payant dès le premier jour, garantie de remboursement sous 14 jours.",
+    "homeDescription": "OpenLegion est le framework et la plateforme d'agents IA conçus pour la production. Déployez des agents autonomes qui automatisent n'importe quelle tâche informatique — navigation, formulaires, code, prospection, données. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — Framework et plateforme d'agents IA",
-    "ogDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Sécurisé, dans le budget, prêt pour la production. Payant dès le premier jour, garantie de remboursement sous 14 jours.",
+    "ogDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Sécurisé, dans le budget, prêt pour la production. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
     "ogImageAlt": "OpenLegion — Framework et plateforme d'agents IA",
     "twitterTitle": "OpenLegion — Framework et plateforme d'agents IA",
-    "twitterDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Payant dès le premier jour, garantie de remboursement sous 14 jours.",
+    "twitterDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
     "pricingTitle": "Tarifs de la plateforme d'agents IA — Payant dès le premier jour",
-    "pricingDescription": "Plans à partir de 19 $/mois avec isolation par conteneurs, sécurité coffre-fort et plus de 100 fournisseurs LLM. Payant dès le premier jour, garantie de remboursement sous 14 jours.",
+    "pricingDescription": "Plans à partir de 19 $/mois avec isolation par conteneurs, sécurité coffre-fort et plus de 100 fournisseurs LLM. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
     "pricingOgTitle": "Tarifs de la plateforme d'agents IA — Payant dès le premier jour | OpenLegion",
-    "pricingOgDescription": "Plans à partir de 19 $/mois. Isolation par conteneurs, sécurité coffre-fort et plus de 100 fournisseurs LLM. Garantie de remboursement sous 14 jours.",
+    "pricingOgDescription": "Plans à partir de 19 $/mois. Isolation par conteneurs, sécurité coffre-fort et plus de 100 fournisseurs LLM. Garantie de remboursement sous 7 jours.",
     "pricingTwitterTitle": "Tarifs de la plateforme d'agents IA — Payant dès le premier jour | OpenLegion",
-    "pricingTwitterDescription": "Plans à partir de 19 $/mois. Garantie de remboursement sous 14 jours.",
+    "pricingTwitterDescription": "Plans à partir de 19 $/mois. Garantie de remboursement sous 7 jours.",
     "faqTitle": "Questions fréquemment posées",
     "faqDescription": "Réponses aux questions courantes sur OpenLegion — le framework et la plateforme d'agents IA conçus pour la production. Couvre la sécurité, les tarifs, les fournisseurs de LLM, l'orchestration, le déploiement entreprise et plus encore.",
     "faqOgTitle": "Questions fréquemment posées — OpenLegion",

@@ -703,7 +703,7 @@
     "faq": {
       "0": {
         "question": "What does the plan include on day one?",
-        "answer": "Every paid plan includes a welcome credits bundle and full access on day one — VPS, system proxy, and the operator dashboard. Not a fit? Cancel within 14 days and we refund your first month, no questions asked. Prefer to bring your own API keys? You can, and the welcome credits are yours to keep."
+        "answer": "Every paid plan includes a welcome credits bundle and full access on day one — VPS, system proxy, and the operator dashboard. Not a fit? Cancel within 7 days and we refund your first month, no questions asked. Prefer to bring your own API keys? You can, and the welcome credits are yours to keep."
       },
       "1": {
         "question": "Do I need to pay for LLM usage on top of the plan price?",
@@ -733,7 +733,7 @@
     "billingPeriodAriaLabel": "Billing period",
     "savingsPill": "Save ${amount}{suffix} ({percent}%)",
     "trust": {
-      "moneyBack": "14-day money-back",
+      "moneyBack": "7-day money-back",
       "cancel": "Cancel anytime",
       "switch": "Switch plans anytime"
     },
@@ -743,13 +743,13 @@
       "originalPriceAria": "Original price ${price}"
     },
     "trustTrio": {
-      "moneyBack": "14-day money-back",
+      "moneyBack": "7-day money-back",
       "fastSetup": "First agent running in 5 min",
       "noCoding": "No coding required"
     },
     "perAgent": "{amount}/agent/mo",
     "perAgentYearlySuffix": " · billed annually",
-    "moneyBackDetail": "14-day money-back · no questions asked",
+    "moneyBackDetail": "7-day money-back · no questions asked",
     "basicTryFor": "The {price} way to try OpenLegion",
     "savingsAriaLabel": "Save {percent} percent"
   },
@@ -887,19 +887,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control",
-    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. Paid from day one, 14-day money-back guarantee.",
+    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. Paid from day one, 7-day money-back guarantee.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI Agent Framework & Platform",
-    "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. Paid from day one, 14-day money-back guarantee.",
+    "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. Paid from day one, 7-day money-back guarantee.",
     "ogImageAlt": "OpenLegion — AI Agent Framework & Platform",
     "twitterTitle": "OpenLegion — AI Agent Framework & Platform",
-    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. Paid from day one, 14-day money-back guarantee.",
+    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. Paid from day one, 7-day money-back guarantee.",
     "pricingTitle": "AI Agent Platform Pricing — Paid From Day One",
-    "pricingDescription": "Plans from $19/month with container isolation, vault security, and 100+ LLM providers. Paid from day one, 14-day money-back guarantee.",
+    "pricingDescription": "Plans from $19/month with container isolation, vault security, and 100+ LLM providers. Paid from day one, 7-day money-back guarantee.",
     "pricingOgTitle": "AI Agent Platform Pricing — Paid From Day One | OpenLegion",
-    "pricingOgDescription": "Plans from $19/month. Container isolation, vault security, and 100+ LLM providers. 14-day money-back guarantee.",
+    "pricingOgDescription": "Plans from $19/month. Container isolation, vault security, and 100+ LLM providers. 7-day money-back guarantee.",
     "pricingTwitterTitle": "AI Agent Platform Pricing — Paid From Day One | OpenLegion",
-    "pricingTwitterDescription": "Plans from $19/month. 14-day money-back guarantee.",
+    "pricingTwitterDescription": "Plans from $19/month. 7-day money-back guarantee.",
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to common questions about OpenLegion — the AI agent framework and platform built for production. Covers security, pricing, LLM providers, orchestration, enterprise deployment, and more.",
     "faqOgTitle": "Frequently Asked Questions — OpenLegion",

@@ -133,15 +133,15 @@ export function Pricing() {
                 (every signup provisions a real VPS + proxy at our cost). */}
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
               <span className="inline-flex items-center gap-1.5 text-foreground/90">
-                <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+                <ShieldCheck className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
                 <span className="font-medium">{t("trustTrio.moneyBack")}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-foreground/90">
-                <Zap className="h-4 w-4 shrink-0 text-amber-500" aria-hidden="true" fill="currentColor" />
+                <Zap className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
                 <span className="font-medium">{t("trustTrio.fastSetup")}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-foreground/90">
-                <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                <Check className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
                 <span className="font-medium">{t("trustTrio.noCoding")}</span>
               </span>
             </div>

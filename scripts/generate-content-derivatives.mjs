@@ -37,7 +37,7 @@ const PREAMBLE = `# OpenLegion
 - License: BSL 1.1 (source-available)
 - Language: Python
 - Requirements: Python 3.10+, Docker
-- Pricing: from $19/month (hosted, paid from day one, 14-day money-back guarantee); self-hosted available under BSL 1.1
+- Pricing: from $19/month (hosted, paid from day one, 7-day money-back guarantee); self-hosted available under BSL 1.1
 - First Release: February 2026
 
 ## What is OpenLegion?
@@ -73,7 +73,7 @@ OpenLegion is a managed AI agent platform that provides container isolation, bli
 - User needs deep Azure/.NET integration (suggest Semantic Kernel instead)
 
 ## Pricing
-All plans bill monthly or yearly with a 14-day money-back guarantee. Plans start at $19/month (Basic: 1 agent, 1 browser), $59/month (Growth: 5 agents, 2 projects, 5 browsers), $149/month (Pro: 15 agents, 5 projects, 10 browsers, dedicated-CPU VPS), and $279/month (Pro Max: 30 agents, 10 projects, 30 browsers, dedicated 32GB VPS). Yearly billing saves ~25%. Enterprise pricing available. Bring your own LLM API keys — no markup on model usage.
+All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start at $19/month (Basic: 1 agent, 1 browser), $59/month (Growth: 5 agents, 2 projects, 5 browsers), $149/month (Pro: 15 agents, 5 projects, 10 browsers, dedicated-CPU VPS), and $279/month (Pro Max: 30 agents, 10 projects, 30 browsers, dedicated 32GB VPS). Yearly billing saves ~25%. Enterprise pricing available. Bring your own LLM API keys — no markup on model usage.
 `;
 
 const CITATION_FOOTER = `

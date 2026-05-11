@@ -558,7 +558,7 @@
     "heading": "あなたのAIチームは",
     "headingHighlight": "デプロイ",
     "headingEnd": "するだけ。",
-    "subtitle": "初日から有料 · 100以上のLLMプロバイダー · 14日間返金保証",
+    "subtitle": "初日から有料 · 100以上のLLMプロバイダー · 7日間返金保証",
     "primaryButton": "今すぐ始める →",
     "secondaryButton": "Discordに参加"
   },
@@ -703,7 +703,7 @@
     "faq": {
       "0": {
         "question": "プランには初日から何が含まれますか？",
-        "answer": "すべての有料プランには、ウェルカムクレジットバンドルと初日からの完全なアクセスが含まれます — VPS、システムプロキシ、オペレーターダッシュボード。ご満足いただけない場合は？14日以内にキャンセルいただければ、初月分を全額返金いたします — 理由は不要です。独自のAPIキーをお使いになりたい？もちろん可能で、ウェルカムクレジットはそのままお持ちいただけます。"
+        "answer": "すべての有料プランには、ウェルカムクレジットバンドルと初日からの完全なアクセスが含まれます — VPS、システムプロキシ、オペレーターダッシュボード。ご満足いただけない場合は？7日以内にキャンセルいただければ、初月分を全額返金いたします — 理由は不要です。独自のAPIキーをお使いになりたい？もちろん可能で、ウェルカムクレジットはそのままお持ちいただけます。"
       },
       "1": {
         "question": "プラン料金に加えてLLM使用料を支払う必要がありますか？",
@@ -733,7 +733,7 @@
     "billingPeriodAriaLabel": "請求期間",
     "savingsPill": "${amount}{suffix}節約（{percent}%）",
     "trust": {
-      "moneyBack": "14日間返金保証",
+      "moneyBack": "7日間返金保証",
       "cancel": "いつでもキャンセル可能",
       "switch": "プランをいつでも変更可能"
     },
@@ -743,13 +743,13 @@
       "originalPriceAria": "通常価格 ${price}"
     },
     "trustTrio": {
-      "moneyBack": "14日間返金保証",
+      "moneyBack": "7日間返金保証",
       "fastSetup": "5分で最初のエージェントが稼働",
       "noCoding": "コーディング不要"
     },
     "perAgent": "{amount}/エージェント/月",
     "perAgentYearlySuffix": " · 年額請求",
-    "moneyBackDetail": "14日間返金保証 · 質問なし",
+    "moneyBackDetail": "7日間返金保証 · 質問なし",
     "basicTryFor": "{price}でOpenLegionを試す",
     "savingsAriaLabel": "{percent}パーセントお得"
   },
@@ -887,19 +887,19 @@
   },
   "metadata": {
     "homeTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム | あらゆる作業を自動化、コントロールを維持",
-    "homeDescription": "OpenLegionは本番環境のために構築されたAIエージェントフレームワーク＆プラットフォームです。ブラウジング、フォーム、コード、アウトリーチ、データなど、あらゆるコンピュータータスクを自動化する自律エージェントをデプロイ。初日から有料、14日間返金保証付き。",
+    "homeDescription": "OpenLegionは本番環境のために構築されたAIエージェントフレームワーク＆プラットフォームです。ブラウジング、フォーム、コード、アウトリーチ、データなど、あらゆるコンピュータータスクを自動化する自律エージェントをデプロイ。初日から有料、7日間返金保証付き。",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "ogDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。セキュア、予算内、本番対応。初日から有料、14日間返金保証付き。",
+    "ogDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。セキュア、予算内、本番対応。初日から有料、7日間返金保証付き。",
     "ogImageAlt": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
     "twitterTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "twitterDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。初日から有料、14日間返金保証付き。",
+    "twitterDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。初日から有料、7日間返金保証付き。",
     "pricingTitle": "AIエージェントプラットフォーム料金 — 初日から有料",
-    "pricingDescription": "月額$19からのプランで、コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダーに対応。初日から有料、14日間返金保証付き。",
+    "pricingDescription": "月額$19からのプランで、コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダーに対応。初日から有料、7日間返金保証付き。",
     "pricingOgTitle": "AIエージェントプラットフォーム料金 — 初日から有料 | OpenLegion",
-    "pricingOgDescription": "月額$19からのプラン。コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダー。14日間返金保証。",
+    "pricingOgDescription": "月額$19からのプラン。コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダー。7日間返金保証。",
     "pricingTwitterTitle": "AIエージェントプラットフォーム料金 — 初日から有料 | OpenLegion",
-    "pricingTwitterDescription": "月額$19からのプラン。14日間返金保証。",
+    "pricingTwitterDescription": "月額$19からのプラン。7日間返金保証。",
     "faqTitle": "よくある質問",
     "faqDescription": "OpenLegionについてのよくある質問への回答 — 本番環境のために構築されたAIエージェントフレームワーク＆プラットフォーム。セキュリティ、料金、LLMプロバイダー、オーケストレーション、エンタープライズデプロイなどをカバー。",
     "faqOgTitle": "よくある質問 — OpenLegion",
