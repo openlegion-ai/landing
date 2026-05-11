@@ -23,7 +23,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     quote:
       "We were spending $2,800/mo on a lead-research VA team. Replaced the whole thing with five OpenLegion agents in three days. They run 24/7, never call in sick, and frankly do better research than the humans did.",
-    name: "Elena Vasquez",
+    name: "Elena V.",
     role: "Founder",
     company: "Marketing Agency",
     initials: "EV",
@@ -31,7 +31,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     quote:
       "I'm not technical at all. I wrote what I wanted in plain English - “follow up with leads who haven't replied in five days, sound friendly not pushy” - and the agent figured the rest out. Closed three deals this quarter from that one workflow.",
-    name: "David Park",
+    name: "David P.",
     role: "Sales Coach",
     company: "Independent",
     initials: "DP",
@@ -39,7 +39,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     quote:
       "Two months in, the fleet runs our invoicing, content drafts, and customer research end-to-end. We saved enough on freelance hours to pay for Pro Max twice over. The hardest part was deciding what to automate first.",
-    name: "Amara Okafor",
+    name: "Amara O.",
     role: "Head of Operations",
     company: "Creative Studio",
     initials: "AO",
