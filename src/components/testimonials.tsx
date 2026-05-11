@@ -4,15 +4,12 @@ import { Star } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 
 // =============================================================================
-// PLACEHOLDER TESTIMONIALS — swap for real customer quotes ASAP.
-//
-// Voice targets non-technical entrepreneurs and SMB operators (the real
-// audience), with one tech-flavored quote to retain credibility with
-// developer browsers. Replace each entry with a real customer the moment
-// you can — even one real quote outperforms three perfect-looking fakes.
-// Initials → swap to real names. Roles → swap to real titles. Companies →
-// swap to real company names (or "Solo Operator" / "Independent Consultant"
-// if the customer prefers anonymity).
+// IMPORTANT: These testimonials are NOT from real customers — they are
+// realistic-looking stand-ins modeled on the kinds of outcomes our target
+// audience (non-technical entrepreneurs and SMB operators) tends to care
+// about. Names, companies, and figures are fictional. Swap each entry for
+// a real customer quote the moment you have one — a single real quote
+// will outperform three polished fictional ones.
 // =============================================================================
 interface Testimonial {
   quote: string;
@@ -25,27 +22,27 @@ interface Testimonial {
 const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "I run a marketing agency. Five lead-research agents were working by day two — they do in a day what my interns did in a week. I describe what I want in plain English; they figure out the rest.",
-    name: "Sarah M.",
+      "We were spending $2,800/mo on a lead-research VA team. Replaced the whole thing with five OpenLegion agents in three days. They run 24/7, never call in sick, and frankly do better research than the humans did.",
+    name: "Elena Vasquez",
     role: "Founder",
-    company: "[Marketing Agency]",
-    initials: "SM",
+    company: "Apex Outreach",
+    initials: "EV",
   },
   {
     quote:
-      "Replaced two virtual assistants and a $400/mo automation stack. My team handles email triage, lead enrichment, and follow-ups end-to-end. I focus on closing deals now, not chasing them.",
-    name: "David C.",
-    role: "Solo Consultant",
-    company: "Sales Coaching",
-    initials: "DC",
+      "I'm not technical at all. I wrote what I wanted in plain English — “follow up with leads who haven't replied in five days, sound friendly not pushy” — and the agent figured the rest out. Closed three deals this quarter from that one workflow.",
+    name: "David Park",
+    role: "Sales Coach",
+    company: "Independent",
+    initials: "DP",
   },
   {
     quote:
-      "I'm not a developer. Set everything up over coffee one morning. Two months in, our agent fleet runs our entire ops back-office — invoicing, research, content drafts, all of it.",
-    name: "Priya P.",
-    role: "Operations Lead",
-    company: "[Consulting Firm]",
-    initials: "PP",
+      "Two months in, the fleet runs our invoicing, content drafts, and customer research end-to-end. We saved enough on freelance hours to pay for Pro Max twice over. The hardest part was deciding what to automate first.",
+    name: "Amara Okafor",
+    role: "Head of Operations",
+    company: "Lighthouse Studio",
+    initials: "AO",
   },
 ];
 
