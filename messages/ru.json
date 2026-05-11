@@ -741,7 +741,17 @@
       "mostPopular": "Самый популярный тариф",
       "ctaAria": "Начать — {plan}",
       "originalPriceAria": "Исходная цена ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "Возврат в течение 14 дней",
+      "fastSetup": "Первый агент за 5 минут",
+      "noCoding": "Без программирования"
+    },
+    "perAgent": "{amount}/агент/мес",
+    "perAgentYearlySuffix": " · ежегодная оплата",
+    "moneyBackDetail": "Возврат за 14 дней · без вопросов",
+    "basicTryFor": "Попробуйте OpenLegion за {price}",
+    "savingsAriaLabel": "Экономия {percent} процентов"
   },
   "notFound": {
     "title": "404",
@@ -1220,5 +1230,10 @@
     "anchorLabel": "Цены запуска",
     "proMaxMonthly": "699",
     "proMaxYearly": "6990"
+  },
+  "testimonials": {
+    "eyebrow": "От наших клиентов",
+    "heading": "Настоящие команды на автопилоте",
+    "starsAriaLabel": "5 из 5 звёзд"
   }
 }

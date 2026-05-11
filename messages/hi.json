@@ -741,7 +741,17 @@
       "mostPopular": "सबसे लोकप्रिय प्लान",
       "ctaAria": "शुरू करें — {plan}",
       "originalPriceAria": "मूल मूल्य ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "14-दिन की मनी-बैक गारंटी",
+      "fastSetup": "5 मिनट में पहला एजेंट चालू",
+      "noCoding": "कोई कोडिंग आवश्यक नहीं"
+    },
+    "perAgent": "{amount}/एजेंट/महीना",
+    "perAgentYearlySuffix": " · वार्षिक बिलिंग",
+    "moneyBackDetail": "14-दिन की मनी-बैक · बिना सवाल",
+    "basicTryFor": "{price} में OpenLegion आज़माएँ",
+    "savingsAriaLabel": "{percent} प्रतिशत बचाएँ"
   },
   "notFound": {
     "title": "404",
@@ -1220,5 +1230,10 @@
     "anchorLabel": "लॉन्च मूल्य",
     "proMaxMonthly": "699",
     "proMaxYearly": "6990"
+  },
+  "testimonials": {
+    "eyebrow": "हमारे ग्राहकों से",
+    "heading": "वास्तविक टीमें, ऑटोपायलट पर",
+    "starsAriaLabel": "5 में से 5 तारे"
   }
 }

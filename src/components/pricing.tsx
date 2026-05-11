@@ -134,15 +134,15 @@ export function Pricing() {
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
               <span className="inline-flex items-center gap-1.5 text-foreground/90">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
-                <span className="font-medium">14-day money-back</span>
+                <span className="font-medium">{t("trustTrio.moneyBack")}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-foreground/90">
                 <Zap className="h-4 w-4 shrink-0 text-amber-500" aria-hidden="true" fill="currentColor" />
-                <span className="font-medium">First agent running in 5 min</span>
+                <span className="font-medium">{t("trustTrio.fastSetup")}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-foreground/90">
                 <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                <span className="font-medium">No coding required</span>
+                <span className="font-medium">{t("trustTrio.noCoding")}</span>
               </span>
             </div>
           </div>
@@ -244,7 +244,7 @@ export function Pricing() {
                   {showSavings && (
                     <div
                       className="absolute -right-2 -top-2 z-10 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md shadow-amber-500/40"
-                      aria-label={`Save ${savingsPercent} percent`}
+                      aria-label={t("savingsAriaLabel", { percent: savingsPercent! })}
                     >
                       -{savingsPercent}%
                     </div>
@@ -280,8 +280,10 @@ export function Pricing() {
                         gets seen. This is the hidden value-framing star. */}
                     {plan.agents > 1 && (
                       <div className="mt-3 inline-flex items-center gap-1 rounded-full bg-accent/10 px-2.5 py-1 text-xs font-semibold text-accent-light">
-                        ${(price / plan.agents / (billing === "yearly" ? 12 : 1)).toFixed(2)}/agent/mo
-                        {billing === "yearly" ? " · billed annually" : ""}
+                        {t("perAgent", {
+                          amount: `$${(price / plan.agents / (billing === "yearly" ? 12 : 1)).toFixed(2)}`,
+                        })}
+                        {billing === "yearly" ? t("perAgentYearlySuffix") : ""}
                       </div>
                     )}
                   </div>
@@ -311,7 +313,7 @@ export function Pricing() {
                       after the hero trio already set the trust frame. */}
                   <p className="mt-2 flex items-center justify-center gap-1.5 text-[11px] text-muted">
                     <ShieldCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
-                    <span>14-day money-back · no questions asked</span>
+                    <span>{t("moneyBackDetail")}</span>
                   </p>
 
                   <div className="mt-6 space-y-2.5 border-t border-border/50 pt-6 text-sm">
@@ -391,7 +393,7 @@ export function Pricing() {
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <h2 className="text-base font-semibold text-foreground">{planName}</h2>
                       <span className="text-sm text-muted">
-                        The ${plan.monthlyPrice} way to try OpenLegion
+                        {t("basicTryFor", { price: `$${plan.monthlyPrice}` })}
                       </span>
                     </div>
                     <p className="mt-1.5 text-sm text-muted">
