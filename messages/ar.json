@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "الأسعار",
-    "heading": "الخطط تبدأ من ",
-    "headingHighlight": "19$/شهر",
-    "headingEnd": ".",
+    "heading": "خطط لـ",
+    "headingHighlight": "قوتك العاملة بالذكاء الاصطناعي.",
+    "headingEnd": "",
     "subtitle": "أسعار بسيطة وواضحة. ألغِ في أي وقت.",
     "billingMonthly": "شهري",
     "billingYearly": "سنوي",

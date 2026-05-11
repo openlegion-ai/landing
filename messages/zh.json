@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "定价方案",
-    "heading": "套餐起价 ",
-    "headingHighlight": "$19/月",
-    "headingEnd": "。",
+    "heading": "为您的",
+    "headingHighlight": "AI 团队",
+    "headingEnd": "定制方案。",
     "subtitle": "定价简单透明，随时可取消。",
     "billingMonthly": "月付",
     "billingYearly": "年付",

@@ -237,6 +237,19 @@ export function Pricing() {
                     </div>
                   )}
 
+                  {/* Savings ribbon — top-right corner sticker. Small and
+                      tight so it doesn't compete with the Popular badge.
+                      Percent only; the dollar math is implicit in the
+                      strikethrough below. */}
+                  {showSavings && (
+                    <div
+                      className="absolute -right-2 -top-2 z-10 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md shadow-amber-500/40"
+                      aria-label={`Save ${savingsPercent} percent`}
+                    >
+                      -{savingsPercent}%
+                    </div>
+                  )}
+
                   <h2 className="text-lg font-semibold text-foreground">
                     {plan.popular && (
                       <span className="sr-only">{t("a11y.mostPopular")} — </span>
@@ -248,41 +261,31 @@ export function Pricing() {
                   </p>
 
                   <div className="mt-4">
-                    {/* LOUD savings banner — drives the "you're getting a deal" gut response */}
-                    {showSavings && (
-                      <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-md shadow-amber-500/30">
-                        <Zap className="h-3.5 w-3.5" aria-hidden="true" fill="currentColor" />
-                        <span>
-                          Save ${savingsAmount.toLocaleString()}
-                          {billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly")} · {savingsPercent}% off
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex flex-wrap items-baseline gap-2">
+                    {/* Price + strikethrough inline — reads "now / was" left-to-right */}
+                    <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
                       <span className="text-4xl font-bold tracking-tight text-foreground">
                         ${price.toLocaleString()}
                       </span>
                       <span className="text-muted">{suffix}</span>
-                    </div>
-                    {anchor && (
-                      <div className="mt-1 flex flex-wrap items-baseline gap-2">
+                      {anchor && (
                         <s
-                          className="text-sm text-muted/70 line-through"
+                          className="text-sm text-muted/60 line-through"
                           aria-label={t("a11y.originalPriceAria", { price: anchor })}
                         >
-                          was ${anchor}{billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly")}
+                          ${anchor}
                         </s>
+                      )}
+                    </div>
+                    {/* Per-agent breakdown — accent pill so it actually
+                        gets seen. This is the hidden value-framing star. */}
+                    {plan.agents > 1 && (
+                      <div className="mt-3 inline-flex items-center gap-1 rounded-full bg-accent/10 px-2.5 py-1 text-xs font-semibold text-accent-light">
+                        ${(price / plan.agents / (billing === "yearly" ? 12 : 1)).toFixed(2)}/agent/mo
+                        {billing === "yearly" ? " · billed annually" : ""}
                       </div>
                     )}
-                    {/* Per-agent breakdown — anchors against value-per-unit, not absolute price */}
-                    {plan.agents > 1 && (
-                      <p className="mt-1.5 text-xs text-muted">
-                        ≈ ${(price / plan.agents / (billing === "yearly" ? 12 : 1)).toFixed(2)}/agent/mo
-                        {billing === "yearly" ? " billed annually" : ""}
-                      </p>
-                    )}
                   </div>
-                  <p className="mt-1 min-h-[1.25rem] text-xs text-muted">
+                  <p className="mt-2 min-h-[1.25rem] text-xs text-muted">
                     {billing === "yearly"
                       ? t("yearlyBilledNote", { monthlyEquivalent: plan.yearlyMonthly })
                       : t("monthlyNote")}
@@ -303,9 +306,11 @@ export function Pricing() {
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </a>
 
-                  {/* Risk reversal — money-back is the trial equivalent in our model */}
+                  {/* Risk reversal — muted, not emerald. The shield icon
+                      carries the trust semantic; loud color isn't needed
+                      after the hero trio already set the trust frame. */}
                   <p className="mt-2 flex items-center justify-center gap-1.5 text-[11px] text-muted">
-                    <ShieldCheck className="h-3 w-3 shrink-0 text-emerald-500" aria-hidden="true" />
+                    <ShieldCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
                     <span>14-day money-back · no questions asked</span>
                   </p>
 
@@ -385,7 +390,7 @@ export function Pricing() {
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <h2 className="text-base font-semibold text-foreground">{planName}</h2>
-                      <span className="text-sm font-medium text-emerald-500/90">
+                      <span className="text-sm text-muted">
                         The ${plan.monthlyPrice} way to try OpenLegion
                       </span>
                     </div>
@@ -397,11 +402,7 @@ export function Pricing() {
                       <span className="font-medium text-foreground">
                         {plan.credits.toLocaleString()}
                       </span>{" "}
-                      {t("creditsLabel")}{" · "}
-                      <span className="inline-flex items-center gap-1 text-emerald-500/90">
-                        <ShieldCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
-                        14-day money-back
-                      </span>
+                      {t("creditsLabel")}
                     </p>
                   </div>
                   <div className="flex items-center gap-4 md:gap-5">
