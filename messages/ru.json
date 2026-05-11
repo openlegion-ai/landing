@@ -1225,11 +1225,11 @@
     "basicYearly": "348",
     "growthMonthly": "129",
     "growthYearly": "1290",
-    "proMonthly": "349",
-    "proYearly": "3490",
+    "proMonthly": "399",
+    "proYearly": "3990",
     "anchorLabel": "Цены запуска",
-    "proMaxMonthly": "699",
-    "proMaxYearly": "6990"
+    "proMaxMonthly": "899",
+    "proMaxYearly": "8990"
   },
   "testimonials": {
     "eyebrow": "От наших клиентов",
