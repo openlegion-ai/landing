@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "Tarifs",
-    "heading": "Tarifs à partir de ",
-    "headingHighlight": "19 $/mois",
-    "headingEnd": ".",
+    "heading": "Des forfaits pour votre ",
+    "headingHighlight": "force de travail IA.",
+    "headingEnd": "",
     "subtitle": "Tarification simple et prévisible. Annulez à tout moment.",
     "billingMonthly": "Mensuel",
     "billingYearly": "Annuel",

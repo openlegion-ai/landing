@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "料金",
-    "heading": "プランは",
-    "headingHighlight": "月額 $19",
-    "headingEnd": "から。",
+    "heading": "あなたの",
+    "headingHighlight": "AIワークフォース",
+    "headingEnd": "のためのプラン。",
     "subtitle": "シンプルで予測可能な料金。いつでもキャンセル可能。",
     "billingMonthly": "月払い",
     "billingYearly": "年払い",

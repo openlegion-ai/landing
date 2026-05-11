@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "요금제",
-    "heading": "플랜은 ",
-    "headingHighlight": "월 $19",
-    "headingEnd": "부터.",
+    "heading": "당신의 ",
+    "headingHighlight": "AI 워크포스",
+    "headingEnd": "를 위한 요금제.",
     "subtitle": "단순하고 예측 가능한 가격. 언제든지 취소할 수 있습니다.",
     "billingMonthly": "월간",
     "billingYearly": "연간",

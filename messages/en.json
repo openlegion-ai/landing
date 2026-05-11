@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "Pricing",
-    "heading": "Plans start at ",
-    "headingHighlight": "$19/month",
-    "headingEnd": ".",
+    "heading": "Plans for your ",
+    "headingHighlight": "AI workforce.",
+    "headingEnd": "",
     "subtitle": "Simple, predictable pricing. Cancel anytime.",
     "billingMonthly": "Monthly",
     "billingYearly": "Yearly",

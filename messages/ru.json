@@ -627,9 +627,9 @@
   },
   "pricing": {
     "sectionLabel": "Тарифы",
-    "heading": "Тарифы от ",
-    "headingHighlight": "$19/месяц",
-    "headingEnd": ".",
+    "heading": "Тарифы для вашей ",
+    "headingHighlight": "ИИ-команды.",
+    "headingEnd": "",
     "subtitle": "Простые и предсказуемые цены. Отмена в любой момент.",
     "billingMonthly": "Ежемесячно",
     "billingYearly": "Ежегодно",
