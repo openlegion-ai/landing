@@ -45,7 +45,6 @@ const PLANS: Plan[] = [
   },
   {
     name: "growth",
-    popular: true,
     monthlyPrice: 59,
     yearlyPrice: 530,
     yearlyMonthly: 44,
@@ -57,6 +56,7 @@ const PLANS: Plan[] = [
   },
   {
     name: "pro",
+    popular: true,
     monthlyPrice: 149,
     yearlyPrice: 1340,
     yearlyMonthly: 112,
@@ -66,7 +66,25 @@ const PLANS: Plan[] = [
     browsers: 10,
     featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
   },
+  {
+    name: "pro_max",
+    monthlyPrice: 279,
+    yearlyPrice: 2510,
+    yearlyMonthly: 209,
+    agents: 30,
+    credits: 20000,
+    projects: 10,
+    browsers: 30,
+    featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
+  },
 ];
+
+// Hero tiers — Growth / Pro / Pro Max anchor the pricing narrative.
+// Basic renders as a slim band below so it stays discoverable for
+// solo experimenters without anchoring new visitors' price expectations
+// at $19/1-agent (which makes the real plans feel expensive by comparison).
+const HERO_PLAN_INDICES = [1, 2, 3]; // Growth, Pro, Pro Max
+const BASIC_PLAN_INDEX = 0;
 
 const ENTERPRISE_FEATURE_KEYS = [
   "enterprise.features.0",
@@ -147,9 +165,10 @@ export function Pricing() {
           </div>
         </AnimateIn>
 
-        {/* Self-serve plans */}
+        {/* Self-serve hero plans — Growth / Pro / Pro Max */}
         <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {PLANS.map((plan, planIdx) => {
+          {HERO_PLAN_INDICES.map((planIdx) => {
+            const plan = PLANS[planIdx];
             const planName = t(`plans.${planIdx}.name`);
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
@@ -309,6 +328,57 @@ export function Pricing() {
             );
           })}
         </StaggerContainer>
+
+        {/* Basic — slim band for solo experimenters. Discoverable but
+            secondary, so the hero tiers above set the price-expectation anchor. */}
+        <AnimateIn delay={0.07}>
+          {(() => {
+            const plan = PLANS[BASIC_PLAN_INDEX];
+            const planName = t(`plans.${BASIC_PLAN_INDEX}.name`);
+            const price = billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
+            const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
+            return (
+              <div className="mt-6 rounded-2xl border border-border/50 glass-card p-5 md:p-6">
+                <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center md:gap-8">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <h2 className="text-base font-semibold text-foreground">{planName}</h2>
+                      <span className="text-sm text-muted">{t(`plans.${BASIC_PLAN_INDEX}.tagline`)}</span>
+                    </div>
+                    <p className="mt-1.5 text-sm text-muted">
+                      <span className="font-medium text-foreground">{plan.agents}</span>{" "}
+                      {t("agentsLabel", { count: plan.agents })}{" · "}
+                      <span className="font-medium text-foreground">{plan.browsers}</span>{" "}
+                      {t("browsersLabel", { count: plan.browsers })}{" · "}
+                      <span className="font-medium text-foreground">
+                        {plan.credits.toLocaleString()}
+                      </span>{" "}
+                      {t("creditsLabel")}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4 md:gap-5">
+                    <div className="text-right">
+                      <span className="text-xl font-bold tracking-tight text-foreground">
+                        ${price.toLocaleString()}
+                      </span>
+                      <span className="ml-1 text-sm text-muted">{suffix}</span>
+                    </div>
+                    <a
+                      href={APP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t("a11y.ctaAria", { plan: planName })}
+                      className="flex items-center justify-center gap-2 rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    >
+                      {t("getStarted")}
+                      <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+        </AnimateIn>
 
         {/* Trust strip — anchors trust signals to the self-serve plans */}
         <AnimateIn delay={0.08}>
