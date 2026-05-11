@@ -655,6 +655,13 @@
         "yearlyPrice": "1340",
         "yearlyMonthly": "112",
         "tagline": "For agencies & power users"
+      },
+      "3": {
+        "name": "Pro Max",
+        "monthlyPrice": "279",
+        "yearlyPrice": "2510",
+        "yearlyMonthly": "209",
+        "tagline": "For high-volume operations"
       }
     },
     "popularBadge": "Popular",
@@ -720,7 +727,7 @@
       },
       "6": {
         "question": "What are LLM credits and do they expire?",
-        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when your first payment processes — Basic gets $15, Growth gets $50, Pro gets $100. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly."
+        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when your first payment processes — Basic gets $15, Growth gets $50, Pro gets $100, Pro Max gets $200. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly."
       }
     },
     "billingPeriodAriaLabel": "Billing period",
@@ -1206,10 +1213,12 @@
   "pricingAnchors": {
     "basicMonthly": "39",
     "basicYearly": "348",
-    "growthMonthly": "119",
-    "growthYearly": "1068",
-    "proMonthly": "299",
-    "proYearly": "2688",
-    "anchorLabel": "Launch pricing"
+    "growthMonthly": "129",
+    "growthYearly": "1290",
+    "proMonthly": "349",
+    "proYearly": "3490",
+    "anchorLabel": "Launch pricing",
+    "proMaxMonthly": "699",
+    "proMaxYearly": "6990"
   }
 }

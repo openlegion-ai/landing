@@ -655,6 +655,13 @@
         "yearlyPrice": "1340",
         "yearlyMonthly": "112",
         "tagline": "适合代理机构与高级用户"
+      },
+      "3": {
+        "name": "Pro Max",
+        "monthlyPrice": "279",
+        "yearlyPrice": "2510",
+        "yearlyMonthly": "209",
+        "tagline": "适用于大规模运营"
       }
     },
     "popularBadge": "热门",
@@ -1206,10 +1213,12 @@
   "pricingAnchors": {
     "basicMonthly": "39",
     "basicYearly": "348",
-    "growthMonthly": "119",
-    "growthYearly": "1068",
-    "proMonthly": "299",
-    "proYearly": "2688",
-    "anchorLabel": "上线优惠价"
+    "growthMonthly": "129",
+    "growthYearly": "1290",
+    "proMonthly": "349",
+    "proYearly": "3490",
+    "anchorLabel": "上线优惠价",
+    "proMaxMonthly": "699",
+    "proMaxYearly": "6990"
   }
 }
