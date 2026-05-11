@@ -11,8 +11,11 @@ import {
   FolderOpen,
   Globe,
   Mail,
+  ShieldCheck,
+  Zap,
 } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
+import { Testimonials } from "@/components/testimonials";
 import { APP_URL } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
 
@@ -125,6 +128,23 @@ export function Pricing() {
             <p className="mx-auto max-w-xl text-balance text-base text-muted md:text-lg">
               {t("subtitle")}
             </p>
+            {/* Trust + time-to-value trio — risk reversal + speed reassurance.
+                These directly substitute for the "free trial" lever we can't use
+                (every signup provisions a real VPS + proxy at our cost). */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+              <span className="inline-flex items-center gap-1.5 text-foreground/90">
+                <ShieldCheck className="h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
+                <span className="font-medium">14-day money-back</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-foreground/90">
+                <Zap className="h-4 w-4 shrink-0 text-amber-500" aria-hidden="true" fill="currentColor" />
+                <span className="font-medium">First agent running in 5 min</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-foreground/90">
+                <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                <span className="font-medium">No coding required</span>
+              </span>
+            </div>
           </div>
         </AnimateIn>
 
@@ -173,7 +193,10 @@ export function Pricing() {
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
             const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
-            const anchorKey = `${plan.name}${billing === "monthly" ? "Monthly" : "Yearly"}`;
+            // plan.name uses snake_case (matches DB), anchor keys in locale
+            // files use camelCase. Normalize: pro_max → proMax.
+            const anchorPlanKey = plan.name.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase());
+            const anchorKey = `${anchorPlanKey}${billing === "monthly" ? "Monthly" : "Yearly"}`;
             const anchor = (() => {
               try {
                 return tAnchors(anchorKey);
@@ -225,6 +248,16 @@ export function Pricing() {
                   </p>
 
                   <div className="mt-4">
+                    {/* LOUD savings banner — drives the "you're getting a deal" gut response */}
+                    {showSavings && (
+                      <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 px-3 py-1.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-md shadow-amber-500/30">
+                        <Zap className="h-3.5 w-3.5" aria-hidden="true" fill="currentColor" />
+                        <span>
+                          Save ${savingsAmount.toLocaleString()}
+                          {billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly")} · {savingsPercent}% off
+                        </span>
+                      </div>
+                    )}
                     <div className="flex flex-wrap items-baseline gap-2">
                       <span className="text-4xl font-bold tracking-tight text-foreground">
                         ${price.toLocaleString()}
@@ -232,26 +265,21 @@ export function Pricing() {
                       <span className="text-muted">{suffix}</span>
                     </div>
                     {anchor && (
-                      <div className="mt-2 flex flex-wrap items-baseline gap-2">
+                      <div className="mt-1 flex flex-wrap items-baseline gap-2">
                         <s
-                          className="text-base text-muted line-through"
+                          className="text-sm text-muted/70 line-through"
                           aria-label={t("a11y.originalPriceAria", { price: anchor })}
                         >
-                          ${anchor}
+                          was ${anchor}{billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly")}
                         </s>
-                        {showSavings && (
-                          <span className="rounded-full bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-600 ring-1 ring-amber-500/20 dark:text-amber-400">
-                            {t("savingsPill", {
-                              amount: savingsAmount.toLocaleString(),
-                              suffix:
-                                billing === "monthly"
-                                  ? t("priceSuffixMonthly")
-                                  : t("priceSuffixYearly"),
-                              percent: savingsPercent,
-                            })}
-                          </span>
-                        )}
                       </div>
+                    )}
+                    {/* Per-agent breakdown — anchors against value-per-unit, not absolute price */}
+                    {plan.agents > 1 && (
+                      <p className="mt-1.5 text-xs text-muted">
+                        ≈ ${(price / plan.agents / (billing === "yearly" ? 12 : 1)).toFixed(2)}/agent/mo
+                        {billing === "yearly" ? " billed annually" : ""}
+                      </p>
                     )}
                   </div>
                   <p className="mt-1 min-h-[1.25rem] text-xs text-muted">
@@ -274,6 +302,12 @@ export function Pricing() {
                     {t("getStarted")}
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </a>
+
+                  {/* Risk reversal — money-back is the trial equivalent in our model */}
+                  <p className="mt-2 flex items-center justify-center gap-1.5 text-[11px] text-muted">
+                    <ShieldCheck className="h-3 w-3 shrink-0 text-emerald-500" aria-hidden="true" />
+                    <span>14-day money-back · no questions asked</span>
+                  </p>
 
                   <div className="mt-6 space-y-2.5 border-t border-border/50 pt-6 text-sm">
                     <div className="flex items-center gap-2 text-muted">
@@ -329,6 +363,14 @@ export function Pricing() {
           })}
         </StaggerContainer>
 
+      </div>
+
+      {/* Testimonial row — social proof immediately after the hero cards.
+          Voices substitute for the "free trial" we can't offer; non-tech
+          audience leans heavily on relatable outcomes to feel safe paying. */}
+      <Testimonials />
+
+      <div className="mx-auto max-w-6xl">
         {/* Basic — slim band for solo experimenters. Discoverable but
             secondary, so the hero tiers above set the price-expectation anchor. */}
         <AnimateIn delay={0.07}>
@@ -343,7 +385,9 @@ export function Pricing() {
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <h2 className="text-base font-semibold text-foreground">{planName}</h2>
-                      <span className="text-sm text-muted">{t(`plans.${BASIC_PLAN_INDEX}.tagline`)}</span>
+                      <span className="text-sm font-medium text-emerald-500/90">
+                        The ${plan.monthlyPrice} way to try OpenLegion
+                      </span>
                     </div>
                     <p className="mt-1.5 text-sm text-muted">
                       <span className="font-medium text-foreground">{plan.agents}</span>{" "}
@@ -353,7 +397,11 @@ export function Pricing() {
                       <span className="font-medium text-foreground">
                         {plan.credits.toLocaleString()}
                       </span>{" "}
-                      {t("creditsLabel")}
+                      {t("creditsLabel")}{" · "}
+                      <span className="inline-flex items-center gap-1 text-emerald-500/90">
+                        <ShieldCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
+                        14-day money-back
+                      </span>
                     </p>
                   </div>
                   <div className="flex items-center gap-4 md:gap-5">
