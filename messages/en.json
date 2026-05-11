@@ -1221,12 +1221,12 @@
     "cta": "Get Started →"
   },
   "pricingAnchors": {
-    "basicMonthly": "39",
-    "basicYearly": "348",
-    "growthMonthly": "129",
-    "growthYearly": "1290",
-    "proMonthly": "399",
-    "proYearly": "3990",
+    "basicMonthly": "29",
+    "basicYearly": "259",
+    "growthMonthly": "109",
+    "growthYearly": "989",
+    "proMonthly": "349",
+    "proYearly": "3099",
     "anchorLabel": "Launch pricing",
     "proMaxMonthly": "899",
     "proMaxYearly": "8990"
