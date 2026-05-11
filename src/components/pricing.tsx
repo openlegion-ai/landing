@@ -276,16 +276,6 @@ export function Pricing() {
                         </s>
                       )}
                     </div>
-                    {/* Per-agent breakdown — accent pill so it actually
-                        gets seen. This is the hidden value-framing star. */}
-                    {plan.agents > 1 && (
-                      <div className="mt-3 inline-flex items-center gap-1 rounded-full bg-accent/10 px-2.5 py-1 text-xs font-semibold text-accent-light">
-                        {t("perAgent", {
-                          amount: `$${(price / plan.agents / (billing === "yearly" ? 12 : 1)).toFixed(2)}`,
-                        })}
-                        {billing === "yearly" ? t("perAgentYearlySuffix") : ""}
-                      </div>
-                    )}
                   </div>
                   <p className="mt-2 min-h-[1.25rem] text-xs text-muted">
                     {billing === "yearly"
