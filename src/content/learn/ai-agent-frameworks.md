@@ -65,7 +65,7 @@ All competitor claims below are based on public documentation and GitHub reposit
 
 ### When to choose OpenLegion
 
-Choose OpenLegion when your primary concern is production security and governance. OpenLegion is the right fit if you need agents that never see raw API keys (blind credential injection via vault proxy), mandatory container isolation per agent, per-agent budget enforcement with hard cutoffs, or fleet-model coordination (blackboard + pub/sub + handoff) that's auditable before execution.
+Choose OpenLegion when your primary concern is production security and governance. OpenLegion is the right fit if you need agents that never see raw API keys (vault-proxied credentials via vault proxy), mandatory container isolation per agent, per-agent budget enforcement with hard cutoffs, or fleet-model coordination (blackboard + pub/sub + handoff) that's auditable before execution.
 
 OpenLegion is a younger project with a smaller community than the alternatives. If you need a massive ecosystem of community-contributed integrations, or you're building a quick prototype where security isn't a priority, other frameworks may be faster to start with.
 
@@ -161,7 +161,7 @@ Open-source AI agent frameworks (LangGraph core, CrewAI open source, AutoGen) pr
 
 ### Where does OpenLegion fit vs OpenClaw/LangGraph/CrewAI/AutoGen?
 
-OpenLegion occupies a specific niche: the security-first [AI agent platform](/learn/ai-agent-platform). Based on public documentation, it's the only framework that provides built-in blind credential injection, mandatory per-agent container isolation, and native budget enforcement. OpenClaw has the largest community and strongest AI coding capabilities. LangGraph has the highest adoption and most flexible orchestration. CrewAI has the gentlest learning curve. AutoGen is transitioning to the Microsoft Agent Framework.
+OpenLegion occupies a specific niche: the security-first [AI agent platform](/learn/ai-agent-platform). Based on public documentation, it's the only framework that provides built-in vault-proxied credentials, mandatory per-agent container isolation, and native budget enforcement. OpenClaw has the largest community and strongest AI coding capabilities. LangGraph has the highest adoption and most flexible orchestration. CrewAI has the gentlest learning curve. AutoGen is transitioning to the Microsoft Agent Framework.
 
 ### How do I choose between AI agent frameworks?
 
@@ -173,7 +173,7 @@ Most frameworks are production-capable with significant additional engineering. 
 
 ### What is the most secure AI agent framework?
 
-Based on public documentation at the time of writing, OpenLegion provides the most comprehensive built-in security: blind credential injection (agents never see raw API keys), mandatory Docker container isolation per agent, per-agent budget enforcement with hard cutoffs, permission matrices per agent, unicode sanitization at multiple choke points, and fleet-model coordination orchestration for auditability. Other frameworks can achieve similar security with custom engineering, but none provide these features out of the box.
+Based on public documentation at the time of writing, OpenLegion provides the most comprehensive built-in security: vault-proxied credentials (agents never see raw API keys), mandatory Docker container isolation per agent, per-agent budget enforcement with hard cutoffs, permission matrices per agent, unicode sanitization at multiple choke points, and fleet-model coordination orchestration for auditability. Other frameworks can achieve similar security with custom engineering, but none provide these features out of the box.
 
 ---
 

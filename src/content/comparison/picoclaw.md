@@ -143,7 +143,7 @@ PicoClaw uses the SKILL.md documentation format shared across the Claw ecosystem
 
 ### What OpenLegion covers differently
 
-OpenLegion addresses every item on PicoClaw's missing security framework (#782): credential encryption (vault proxy), audit logging (workflow execution logs), rate limiting (per-agent budget enforcement), SSRF protection (container network policies), and prompt injection defense (deterministic YAML routing). These are not optional add-ons — they are architectural.
+OpenLegion addresses every item on PicoClaw's missing security framework (#782): credential isolation (vault proxy), audit logging (blackboard audit trail), rate limiting (per-agent budgets plus mesh rate limits), SSRF protection (DNS pinning + browser-container egress filter), and prompt-injection defense (`sanitize_for_prompt` at every input boundary). These are not optional add-ons — they are architectural.
 
 ## Hosting vs Self-Host Tradeoffs
 

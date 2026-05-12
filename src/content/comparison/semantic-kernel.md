@@ -23,7 +23,7 @@ Semantic Kernel is Microsoft's model-agnostic SDK for building AI agents, with ~
 
 However, as of early 2026, Semantic Kernel is entering **reduced update frequency** alongside AutoGen. Microsoft has announced the Microsoft Agent Framework as the unified successor, with migration guides already published.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over enterprise SDK breadth.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over enterprise SDK breadth.
 
 This is a direct **OpenLegion vs Semantic Kernel** comparison based on public documentation at the time of writing.
 
@@ -38,7 +38,7 @@ This is a direct **OpenLegion vs Semantic Kernel** comparison based on public do
 - **OpenLegion** is the right choice when credential isolation, mandatory agent sandboxing, and per-agent cost controls are hard requirements.
 - **Maintenance mode**: SK is now in maintenance mode. Microsoft advises migrating to the Agent Framework within 6-12 months. Support guaranteed for at least 1 year after Agent Framework GA.
 - **Critical vulnerability**: A CVSS 9.9 RCE was disclosed in the Python SDK's InMemoryVectorStore filter (as of early 2026), patched in a subsequent release.
-- **Credential model**: SK relies on DefaultAzureCredential (Managed Identity, certificate auth). No built-in vault proxy. OpenLegion uses blind credential injection.
+- **Credential model**: SK relies on DefaultAzureCredential (Managed Identity, certificate auth). No built-in vault proxy. OpenLegion uses vault-proxied credentials.
 - **OpenLegion advantage**: Zero external dependencies, cloud-agnostic, no platform migration risk.
 
 ## Side-by-Side Comparison

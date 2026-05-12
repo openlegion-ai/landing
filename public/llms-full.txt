@@ -4,7 +4,7 @@
 - Name: OpenLegion
 - Category: AI Agent Platform / AI Agent Framework
 - Primary Use: Deploying secure, cost-controlled autonomous AI agent fleets in production
-- Key Differentiators: Container isolation, blind credential injection, per-agent budgets, fleet-model coordination (blackboard + pub/sub + handoff, no CEO agent)
+- Key Differentiators: Container isolation, vault-proxied credentials, per-agent budgets, fleet-model coordination (blackboard + pub/sub + handoff, no CEO agent)
 - License: BSL 1.1 (source-available)
 - Language: Python
 - Requirements: Python 3.10+, Docker
@@ -12,11 +12,11 @@
 - First Release: February 2026
 
 ## What is OpenLegion?
-OpenLegion is a container-isolated multi-agent runtime (with managed hosting available) that provides container isolation, blind credential injection, budget controls, and multi-agent coordination for production deployments. Users bring their own LLM API keys — no markup on model usage.
+OpenLegion is a container-isolated multi-agent runtime (with managed hosting available) that provides container isolation, vault-proxied credentials, budget controls, and multi-agent coordination for production deployments. Users bring their own LLM API keys — no markup on model usage.
 
 ## Key Features
 - Per-agent Docker container isolation with dedicated network namespaces
-- Blind credential injection (agents never access raw API keys)
+- Vault-proxied credentials (agents never access raw API keys)
 - Budget and cost governance per agent and per project
 - Multi-agent coordination with project-level organization
 - Web dashboard to deploy, configure, and chat with agents
@@ -239,7 +239,7 @@ All competitor claims below are based on public documentation and GitHub reposit
 
 ### When to choose OpenLegion
 
-Choose OpenLegion when your primary concern is production security and governance. OpenLegion is the right fit if you need agents that never see raw API keys (blind credential injection via vault proxy), mandatory container isolation per agent, per-agent budget enforcement with hard cutoffs, or fleet-model coordination (blackboard + pub/sub + handoff) that's auditable before execution.
+Choose OpenLegion when your primary concern is production security and governance. OpenLegion is the right fit if you need agents that never see raw API keys (vault-proxied credentials via vault proxy), mandatory container isolation per agent, per-agent budget enforcement with hard cutoffs, or fleet-model coordination (blackboard + pub/sub + handoff) that's auditable before execution.
 
 OpenLegion is a younger project with a smaller community than the alternatives. If you need a massive ecosystem of community-contributed integrations, or you're building a quick prototype where security isn't a priority, other frameworks may be faster to start with.
 
@@ -335,7 +335,7 @@ Open-source AI agent frameworks (LangGraph core, CrewAI open source, AutoGen) pr
 
 ### Where does OpenLegion fit vs OpenClaw/LangGraph/CrewAI/AutoGen?
 
-OpenLegion occupies a specific niche: the security-first [AI agent platform](/learn/ai-agent-platform). Based on public documentation, it's the only framework that provides built-in blind credential injection, mandatory per-agent container isolation, and native budget enforcement. OpenClaw has the largest community and strongest AI coding capabilities. LangGraph has the highest adoption and most flexible orchestration. CrewAI has the gentlest learning curve. AutoGen is transitioning to the Microsoft Agent Framework.
+OpenLegion occupies a specific niche: the security-first [AI agent platform](/learn/ai-agent-platform). Based on public documentation, it's the only framework that provides built-in vault-proxied credentials, mandatory per-agent container isolation, and native budget enforcement. OpenClaw has the largest community and strongest AI coding capabilities. LangGraph has the highest adoption and most flexible orchestration. CrewAI has the gentlest learning curve. AutoGen is transitioning to the Microsoft Agent Framework.
 
 ### How do I choose between AI agent frameworks?
 
@@ -347,7 +347,7 @@ Most frameworks are production-capable with significant additional engineering. 
 
 ### What is the most secure AI agent framework?
 
-Based on public documentation at the time of writing, OpenLegion provides the most comprehensive built-in security: blind credential injection (agents never see raw API keys), mandatory Docker container isolation per agent, per-agent budget enforcement with hard cutoffs, permission matrices per agent, unicode sanitization at multiple choke points, and fleet-model coordination orchestration for auditability. Other frameworks can achieve similar security with custom engineering, but none provide these features out of the box.
+Based on public documentation at the time of writing, OpenLegion provides the most comprehensive built-in security: vault-proxied credentials (agents never see raw API keys), mandatory Docker container isolation per agent, per-agent budget enforcement with hard cutoffs, permission matrices per agent, unicode sanitization at multiple choke points, and fleet-model coordination orchestration for auditability. Other frameworks can achieve similar security with custom engineering, but none provide these features out of the box.
 
 ---
 
@@ -545,7 +545,7 @@ LangGraph uses a programmatic StateGraph where nodes are Python functions and ed
 
 Most teams start with a framework. They string together LangGraph nodes or CrewAI crews, get a demo working, and then hit a wall: who manages the containers? Where do the API keys go? What stops a rogue agent from burning $500 in tokens overnight?
 
-An **AI agent platform** answers those questions before you write your first agent. OpenLegion is a managed AI agent platform that ships container isolation, blind credential injection, per-agent budget controls, and fleet-model coordination (blackboard + pub/sub + handoff) — all enabled by default. Bring your own LLM API keys. No markup on model usage.
+An **AI agent platform** answers those questions before you write your first agent. OpenLegion is a managed AI agent platform that ships container isolation, vault-proxied credentials, per-agent budget controls, and fleet-model coordination (blackboard + pub/sub + handoff) — all enabled by default. Bring your own LLM API keys. No markup on model usage.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -555,7 +555,7 @@ An **AI agent platform** answers those questions before you write your first age
 ## TL;DR
 
 - **Platform, not framework** — OpenLegion manages containers, credentials, budgets, and networking. You manage agent logic.
-- **Blind credential injection** — Agents execute API calls through a vault proxy. They never see raw keys.
+- **Vault-proxied credentials** — Agents execute API calls through a vault proxy. They never see raw keys.
 - **Container isolation per agent** — Each agent runs in its own Docker container with configurable resource caps (384MB RAM / 0.15 CPU default), non-root execution, and no shared filesystem.
 - **Per-agent budget enforcement** — Set daily and monthly token limits with automatic hard cutoff. No surprise bills.
 - **BYO API keys** — Connect any LLM provider via LiteLLM (100+ supported). You pay providers directly at their published rates.
@@ -687,7 +687,7 @@ An AI agent platform is managed infrastructure that handles the operational conc
 
 ### What is the best AI agent platform for production?
 
-The best AI agent platform for production depends on your security and operational requirements. If you need built-in container isolation, blind credential injection, and per-agent budget controls without building custom infrastructure, OpenLegion provides these out of the box. For teams deeply invested in the Microsoft ecosystem, Azure AI Agent Service is worth evaluating. For maximum flexibility with more DIY effort, self-hosting LangGraph with LangSmith gives strong observability.
+The best AI agent platform for production depends on your security and operational requirements. If you need built-in container isolation, vault-proxied credentials, and per-agent budget controls without building custom infrastructure, OpenLegion provides these out of the box. For teams deeply invested in the Microsoft ecosystem, Azure AI Agent Service is worth evaluating. For maximum flexibility with more DIY effort, self-hosting LangGraph with LangSmith gives strong observability.
 
 ### What is an enterprise AI agent platform?
 
@@ -703,7 +703,7 @@ Managed AI agent platforms handle container provisioning, credential vaulting, c
 
 ### How does OpenLegion compare to other AI agent platforms?
 
-OpenLegion differentiates on security-first architecture. Based on public documentation at the time of writing, no other major [AI agent framework](/learn/ai-agent-frameworks) provides built-in blind credential injection, mandatory container isolation per agent, or native per-agent budget enforcement. See our [frameworks comparison](/learn/ai-agent-frameworks) for a detailed breakdown across OpenClaw, LangGraph, CrewAI, AutoGen, and Semantic Kernel.
+OpenLegion differentiates on security-first architecture. Based on public documentation at the time of writing, no other major [AI agent framework](/learn/ai-agent-frameworks) provides built-in vault-proxied credentials, mandatory container isolation per agent, or native per-agent budget enforcement. See our [frameworks comparison](/learn/ai-agent-frameworks) for a detailed breakdown across OpenClaw, LangGraph, CrewAI, AutoGen, and Semantic Kernel.
 
 ### What license does OpenLegion use?
 
@@ -734,7 +734,7 @@ Three commands and under three minutes. `git clone`, `./install.sh`, `openlegion
 
 Every AI agent framework gives you tools to build agents. Almost none give you tools to contain them. When an agent can call APIs, browse the web, execute code, and access databases, the security question isn't whether something can go wrong — it's what the blast radius looks like when it does.
 
-**AI agent security** is the practice of constraining autonomous agents so that a compromised, misconfigured, or misbehaving agent cannot leak credentials, exfiltrate data, drain budgets, or escalate privileges. OpenLegion treats this as a core architectural concern, not an add-on. Every agent runs in an isolated container with blind credential injection, per-agent budget controls, and a permission matrix — all enabled by default.
+**AI agent security** is the practice of constraining autonomous agents so that a compromised, misconfigured, or misbehaving agent cannot leak credentials, exfiltrate data, drain budgets, or escalate privileges. OpenLegion treats this as a core architectural concern, not an add-on. Every agent runs in an isolated container with vault-proxied credentials, per-agent budget controls, and a permission matrix — all enabled by default.
 
 Bring your own LLM API keys. No markup on model usage.
 
@@ -759,7 +759,7 @@ Bring your own LLM API keys. No markup on model usage.
 
 **How common.** Research published in early 2026 found that 283 out of 3,984 scanned agent skills (7.1%) contained critical credential-handling flaws, passing API keys and passwords through LLM context in plaintext. Separately, 76 skills contained deliberately malicious payloads designed for credential theft. High-profile incidents include an xAI employee leaking an API key on GitHub that provided access to 60+ private LLMs for two months, and a vulnerability in a popular LLM platform that exposed API keys via an unauthenticated endpoint.
 
-**How OpenLegion mitigates it.** OpenLegion uses blind credential injection through a vault proxy. API keys are stored in the Mesh Host (Zone 2). When an agent needs to call an external API, the request routes through the vault proxy, which injects the credential at the network layer. The agent never sees, logs, or has memory access to the raw key. Even a fully compromised agent cannot extract credentials because they're never present in the agent's container.
+**How OpenLegion mitigates it.** OpenLegion uses vault-proxied credentials through a vault proxy. API keys are stored in the Mesh Host (Zone 2). When an agent needs to call an external API, the request routes through the vault proxy, which injects the credential at the network layer. The agent never sees, logs, or has memory access to the raw key. Even a fully compromised agent cannot extract credentials because they're never present in the agent's container.
 
 ### Threat 2: Prompt injection
 
@@ -826,7 +826,7 @@ The most common credential management pattern across [AI agent frameworks](/lear
 
 OpenLegion's vault proxy changes this architecture fundamentally. API keys are stored in the Mesh Host's Credential Vault (Zone 2). When an agent needs to make an authenticated API call, it sends the request to the vault proxy. The proxy injects the credential at the network layer, makes the authenticated call, and returns the result to the agent. The agent never sees, stores, or has memory access to the raw key.
 
-This is **blind credential injection** — the same principle used by enterprise secret management systems like HashiCorp Vault, but built into the [AI agent orchestration](/learn/ai-agent-orchestration) layer rather than requiring separate infrastructure.
+This is **vault-proxied credentials** — the same principle used by enterprise secret management systems like HashiCorp Vault, but built into the [AI agent orchestration](/learn/ai-agent-orchestration) layer rather than requiring separate infrastructure.
 
 ## Containerized AI Agents: Why Process-Level Isolation Isn't Enough
 
@@ -884,7 +884,7 @@ AI agent security is the set of controls that prevent autonomous AI agents from 
 
 ### How do you secure AI agents with API keys?
 
-The most secure approach is blind credential injection: store API keys in a vault that agents cannot access directly. When an agent needs to make an authenticated call, the request routes through a proxy that injects the credential at the network layer. The agent never sees the raw key. OpenLegion implements this through its vault proxy in Zone 2 of the four-zone trust model (plus an operator-or-internal tier). The least secure (and most common) approach is environment variables, where keys exist in the agent's memory and can be leaked via prompt injection, logging, or error output.
+The most secure approach is vault-proxied credentials: store API keys in a vault that agents cannot access directly. When an agent needs to make an authenticated call, the request routes through a proxy that injects the credential at the network layer. The agent never sees the raw key. OpenLegion implements this through its vault proxy in Zone 2 of the four-zone trust model (plus an operator-or-internal tier). The least secure (and most common) approach is environment variables, where keys exist in the agent's memory and can be leaked via prompt injection, logging, or error output.
 
 ### How does AI agent isolation work?
 
@@ -900,11 +900,11 @@ Yes. The BYO (Bring Your Own) key model is actually more secure with proper arch
 
 ### What is the OWASP Top 10 for AI agents?
 
-OWASP published the Top 10 for Agentic Applications in December 2025. The #1 risk is Agent Goal Hijacking — where an attacker manipulates an agent into pursuing goals different from what the user intended. Other top risks include credential leakage, excessive agency (agents taking actions beyond their scope), and supply chain vulnerabilities (malicious tools or plugins). OpenLegion addresses these through blind credential injection, container isolation, permission matrices, and fleet-model coordination (blackboard + pub/sub + handoff).
+OWASP published the Top 10 for Agentic Applications in December 2025. The #1 risk is Agent Goal Hijacking — where an attacker manipulates an agent into pursuing goals different from what the user intended. Other top risks include credential leakage, excessive agency (agents taking actions beyond their scope), and supply chain vulnerabilities (malicious tools or plugins). OpenLegion addresses these through vault-proxied credentials, container isolation, permission matrices, and fleet-model coordination (blackboard + pub/sub + handoff).
 
 ### How does OpenLegion compare to OpenClaw on security?
 
-Based on public documentation, OpenLegion provides stricter security defaults. OpenClaw's default local deployment requires Docker socket mounting (granting broad host access), its security analyzer has had reported issues with consistent activation, and it stores credentials in configuration accessible to the agent process. OpenLegion runs agents in mandatory isolated containers, uses a vault proxy for blind credential injection, enforces per-agent budgets, and applies unicode sanitization at multiple choke points. For a detailed comparison, see [OpenLegion vs OpenClaw](/comparison/openclaw).
+Based on public documentation, OpenLegion provides stricter security defaults. OpenClaw's default local deployment requires Docker socket mounting (granting broad host access), its security analyzer has had reported issues with consistent activation, and it stores credentials in configuration accessible to the agent process. OpenLegion runs agents in mandatory isolated containers, uses a vault proxy for vault-proxied credentials, enforces per-agent budgets, and applies unicode sanitization at multiple choke points. For a detailed comparison, see [OpenLegion vs OpenClaw](/comparison/openclaw).
 
 ### What compliance frameworks apply to AI agents?
 
@@ -1130,7 +1130,7 @@ AutoGen agent classes map to OpenLegion configurations. LLM provider settings tr
 
 AWS Strands Agents SDK is the model-driven agent framework from Amazon Web Services. With ~5,100 GitHub stars, 14+ million PyPI downloads, and the backing of AWS infrastructure, Strands takes a distinctly different approach: define a Model + Tools + Prompt, and let the LLM handle orchestration. No workflow graphs, no state machines. The model decides what to do. Strands powers Amazon Q Developer and AWS Glue internally, and deploys to the AgentCore Runtime for serverless agent execution with tasks lasting up to 8 hours.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over cloud infrastructure integration.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over cloud infrastructure integration.
 
 This is a direct **OpenLegion vs AWS Strands** comparison based on public documentation at the time of writing.
 
@@ -1470,7 +1470,7 @@ Both use LiteLLM, so provider configurations transfer directly. CrewAI role/goal
 
 Dify is the most-starred AI application platform on GitHub (~131,000 stars), offering a visual drag-and-drop workflow builder, built-in RAG pipeline, and a plugin marketplace with 120+ extensions. Founded by the LangGenius team (former Tencent Cloud), Dify has been downloaded 2.4 million times across 120+ countries and was recognized as AWS Social Impact Partner of the Year in December 2025.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over visual workflow building.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over visual workflow building.
 
 This is a direct **OpenLegion vs Dify** comparison based on public documentation at the time of writing.
 
@@ -1609,7 +1609,7 @@ Dify visual workflows need restructuring as fleet-model coordination. LLM config
 
 Google's Agent Development Kit (ADK) is the most architecturally ambitious entry in the agent framework landscape. With ~17,600 GitHub stars, three agent types (LLM, Workflow, Custom), and the A2A (Agent-to-Agent) protocol donated to the Linux Foundation with 150+ partners, ADK positions itself as the interoperability standard for multi-agent systems. It deploys natively to Vertex AI Agent Engine Runtime and integrates deeply with Google Cloud services.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over cloud ecosystem breadth.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over cloud ecosystem breadth.
 
 This is a direct **OpenLegion vs Google ADK** comparison based on public documentation at the time of writing.
 
@@ -1951,7 +1951,7 @@ Yes. Some teams use LangGraph for complex internal orchestration and OpenLegion 
 
 Manus AI launched March 2025 and was reportedly acquired by Meta in December 2025 for a reported $2 billion+, according to industry reports. In just eight months, Manus reached $100M+ ARR, processed 147 trillion tokens across 80 million virtual computers, and built a Discord community of 186,000+ members. It is a closed-source, cloud-only autonomous agent platform.
 
-OpenLegion (~59 stars) is a source-available (BSL 1.1), security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls with full self-hosted deployment.
+OpenLegion (~59 stars) is a source-available (BSL 1.1), security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls with full self-hosted deployment.
 
 This is a direct **OpenLegion vs Manus AI** comparison based on public documentation and independent security research at the time of writing.
 
@@ -2850,7 +2850,7 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 
 **You need per-agent budget enforcement.** OpenClaw has no built-in cost controls. Agents with broad LLM access can iterate in loops burning API budgets. OpenLegion enforces per-agent daily and monthly limits with automatic hard cutoff.
 
-**Remote code execution vulnerabilities concern you.** OpenClaw has disclosed critical vulnerabilities including a CVSS 8.8 one-click remote code execution flaw via malicious links. Combined with Docker socket mounting, a compromised OpenClaw instance gives an attacker effective root access. OpenLegion's zero-trust architecture — where agents are explicitly untrusted workloads — mitigates this class of attack by design.
+**Remote code execution vulnerabilities concern you.** OpenClaw has disclosed critical vulnerabilities including a CVSS 8.8 one-click remote code execution flaw via malicious links. Combined with Docker socket mounting, a compromised OpenClaw instance gives an attacker effective root access. OpenLegion's defense-in-depth model — where agents are an explicitly sandboxed (Trust Zone 1) workload behind a credential vault and per-agent ACLs — mitigates this class of attack by design.
 
 ## Security Model Comparison
 
@@ -3305,7 +3305,7 @@ PicoClaw uses the SKILL.md documentation format shared across the Claw ecosystem
 
 ### What OpenLegion covers differently
 
-OpenLegion addresses every item on PicoClaw's missing security framework (#782): credential encryption (vault proxy), audit logging (workflow execution logs), rate limiting (per-agent budget enforcement), SSRF protection (container network policies), and prompt injection defense (deterministic YAML routing). These are not optional add-ons — they are architectural.
+OpenLegion addresses every item on PicoClaw's missing security framework (#782): credential isolation (vault proxy), audit logging (blackboard audit trail), rate limiting (per-agent budgets plus mesh rate limits), SSRF protection (DNS pinning + browser-container egress filter), and prompt-injection defense (`sanitize_for_prompt` at every input boundary). These are not optional add-ons — they are architectural.
 
 ## Hosting vs Self-Host Tradeoffs
 
@@ -3389,7 +3389,7 @@ Semantic Kernel is Microsoft's model-agnostic SDK for building AI agents, with ~
 
 However, as of early 2026, Semantic Kernel is entering **reduced update frequency** alongside AutoGen. Microsoft has announced the Microsoft Agent Framework as the unified successor, with migration guides already published.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over enterprise SDK breadth.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over enterprise SDK breadth.
 
 This is a direct **OpenLegion vs Semantic Kernel** comparison based on public documentation at the time of writing.
 
@@ -3404,7 +3404,7 @@ This is a direct **OpenLegion vs Semantic Kernel** comparison based on public do
 - **OpenLegion** is the right choice when credential isolation, mandatory agent sandboxing, and per-agent cost controls are hard requirements.
 - **Maintenance mode**: SK is now in maintenance mode. Microsoft advises migrating to the Agent Framework within 6-12 months. Support guaranteed for at least 1 year after Agent Framework GA.
 - **Critical vulnerability**: A CVSS 9.9 RCE was disclosed in the Python SDK's InMemoryVectorStore filter (as of early 2026), patched in a subsequent release.
-- **Credential model**: SK relies on DefaultAzureCredential (Managed Identity, certificate auth). No built-in vault proxy. OpenLegion uses blind credential injection.
+- **Credential model**: SK relies on DefaultAzureCredential (Managed Identity, certificate auth). No built-in vault proxy. OpenLegion uses vault-proxied credentials.
 - **OpenLegion advantage**: Zero external dependencies, cloud-agnostic, no platform migration risk.
 
 ## Side-by-Side Comparison

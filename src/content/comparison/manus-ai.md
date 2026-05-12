@@ -20,7 +20,7 @@ related:
 
 Manus AI launched March 2025 and was reportedly acquired by Meta in December 2025 for a reported $2 billion+, according to industry reports. In just eight months, Manus reached $100M+ ARR, processed 147 trillion tokens across 80 million virtual computers, and built a Discord community of 186,000+ members. It is a closed-source, cloud-only autonomous agent platform.
 
-OpenLegion (~59 stars) is a source-available (BSL 1.1), security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls with full self-hosted deployment.
+OpenLegion (~59 stars) is a source-available (BSL 1.1), security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls with full self-hosted deployment.
 
 This is a direct **OpenLegion vs Manus AI** comparison based on public documentation and independent security research at the time of writing.
 

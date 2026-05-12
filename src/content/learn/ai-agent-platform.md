@@ -26,7 +26,7 @@ related:
 
 Most teams start with a framework. They string together LangGraph nodes or CrewAI crews, get a demo working, and then hit a wall: who manages the containers? Where do the API keys go? What stops a rogue agent from burning $500 in tokens overnight?
 
-An **AI agent platform** answers those questions before you write your first agent. OpenLegion is a managed AI agent platform that ships container isolation, blind credential injection, per-agent budget controls, and fleet-model coordination (blackboard + pub/sub + handoff) — all enabled by default. Bring your own LLM API keys. No markup on model usage.
+An **AI agent platform** answers those questions before you write your first agent. OpenLegion is a managed AI agent platform that ships container isolation, vault-proxied credentials, per-agent budget controls, and fleet-model coordination (blackboard + pub/sub + handoff) — all enabled by default. Bring your own LLM API keys. No markup on model usage.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -36,7 +36,7 @@ An **AI agent platform** answers those questions before you write your first age
 ## TL;DR
 
 - **Platform, not framework** — OpenLegion manages containers, credentials, budgets, and networking. You manage agent logic.
-- **Blind credential injection** — Agents execute API calls through a vault proxy. They never see raw keys.
+- **Vault-proxied credentials** — Agents execute API calls through a vault proxy. They never see raw keys.
 - **Container isolation per agent** — Each agent runs in its own Docker container with configurable resource caps (384MB RAM / 0.15 CPU default), non-root execution, and no shared filesystem.
 - **Per-agent budget enforcement** — Set daily and monthly token limits with automatic hard cutoff. No surprise bills.
 - **BYO API keys** — Connect any LLM provider via LiteLLM (100+ supported). You pay providers directly at their published rates.
@@ -168,7 +168,7 @@ An AI agent platform is managed infrastructure that handles the operational conc
 
 ### What is the best AI agent platform for production?
 
-The best AI agent platform for production depends on your security and operational requirements. If you need built-in container isolation, blind credential injection, and per-agent budget controls without building custom infrastructure, OpenLegion provides these out of the box. For teams deeply invested in the Microsoft ecosystem, Azure AI Agent Service is worth evaluating. For maximum flexibility with more DIY effort, self-hosting LangGraph with LangSmith gives strong observability.
+The best AI agent platform for production depends on your security and operational requirements. If you need built-in container isolation, vault-proxied credentials, and per-agent budget controls without building custom infrastructure, OpenLegion provides these out of the box. For teams deeply invested in the Microsoft ecosystem, Azure AI Agent Service is worth evaluating. For maximum flexibility with more DIY effort, self-hosting LangGraph with LangSmith gives strong observability.
 
 ### What is an enterprise AI agent platform?
 
@@ -184,7 +184,7 @@ Managed AI agent platforms handle container provisioning, credential vaulting, c
 
 ### How does OpenLegion compare to other AI agent platforms?
 
-OpenLegion differentiates on security-first architecture. Based on public documentation at the time of writing, no other major [AI agent framework](/learn/ai-agent-frameworks) provides built-in blind credential injection, mandatory container isolation per agent, or native per-agent budget enforcement. See our [frameworks comparison](/learn/ai-agent-frameworks) for a detailed breakdown across OpenClaw, LangGraph, CrewAI, AutoGen, and Semantic Kernel.
+OpenLegion differentiates on security-first architecture. Based on public documentation at the time of writing, no other major [AI agent framework](/learn/ai-agent-frameworks) provides built-in vault-proxied credentials, mandatory container isolation per agent, or native per-agent budget enforcement. See our [frameworks comparison](/learn/ai-agent-frameworks) for a detailed breakdown across OpenClaw, LangGraph, CrewAI, AutoGen, and Semantic Kernel.
 
 ### What license does OpenLegion use?
 

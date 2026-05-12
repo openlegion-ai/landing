@@ -555,7 +555,7 @@
     {
       "slug": "/learn/ai-agent-security",
       "title": "AI Agent Security — Threats, Isolation, Vaults",
-      "description": "AI agent security guide: credential leakage, prompt injection, sandbox escape, and how container isolation, blind credential injection, and budget controls mitigate each threat.",
+      "description": "AI agent security guide: credential leakage, prompt injection, sandbox escape, and how container isolation, vault-proxied credentials, and budget controls mitigate each threat.",
       "primaryKeyword": "ai agent security",
       "secondaryKeywords": [
         "ai agent credential leakage",

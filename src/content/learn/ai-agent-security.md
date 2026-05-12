@@ -2,7 +2,7 @@
 title: 'AI Agent Security — Threats, Isolation, Vaults'
 description: >-
  AI agent security guide: credential leakage, prompt injection, sandbox escape,
- and how container isolation, blind credential injection, and budget controls
+ and how container isolation, vault-proxied credentials, and budget controls
  mitigate each threat.
 slug: /learn/ai-agent-security
 primary_keyword: ai agent security
@@ -27,7 +27,7 @@ related:
 
 Every AI agent framework gives you tools to build agents. Almost none give you tools to contain them. When an agent can call APIs, browse the web, execute code, and access databases, the security question isn't whether something can go wrong — it's what the blast radius looks like when it does.
 
-**AI agent security** is the practice of constraining autonomous agents so that a compromised, misconfigured, or misbehaving agent cannot leak credentials, exfiltrate data, drain budgets, or escalate privileges. OpenLegion treats this as a core architectural concern, not an add-on. Every agent runs in an isolated container with blind credential injection, per-agent budget controls, and a permission matrix — all enabled by default.
+**AI agent security** is the practice of constraining autonomous agents so that a compromised, misconfigured, or misbehaving agent cannot leak credentials, exfiltrate data, drain budgets, or escalate privileges. OpenLegion treats this as a core architectural concern, not an add-on. Every agent runs in an isolated container with vault-proxied credentials, per-agent budget controls, and a permission matrix — all enabled by default.
 
 Bring your own LLM API keys. No markup on model usage.
 
@@ -52,7 +52,7 @@ Bring your own LLM API keys. No markup on model usage.
 
 **How common.** Research published in early 2026 found that 283 out of 3,984 scanned agent skills (7.1%) contained critical credential-handling flaws, passing API keys and passwords through LLM context in plaintext. Separately, 76 skills contained deliberately malicious payloads designed for credential theft. High-profile incidents include an xAI employee leaking an API key on GitHub that provided access to 60+ private LLMs for two months, and a vulnerability in a popular LLM platform that exposed API keys via an unauthenticated endpoint.
 
-**How OpenLegion mitigates it.** OpenLegion uses blind credential injection through a vault proxy. API keys are stored in the Mesh Host (Zone 2). When an agent needs to call an external API, the request routes through the vault proxy, which injects the credential at the network layer. The agent never sees, logs, or has memory access to the raw key. Even a fully compromised agent cannot extract credentials because they're never present in the agent's container.
+**How OpenLegion mitigates it.** OpenLegion uses vault-proxied credentials through a vault proxy. API keys are stored in the Mesh Host (Zone 2). When an agent needs to call an external API, the request routes through the vault proxy, which injects the credential at the network layer. The agent never sees, logs, or has memory access to the raw key. Even a fully compromised agent cannot extract credentials because they're never present in the agent's container.
 
 ### Threat 2: Prompt injection
 
@@ -119,7 +119,7 @@ The most common credential management pattern across [AI agent frameworks](/lear
 
 OpenLegion's vault proxy changes this architecture fundamentally. API keys are stored in the Mesh Host's Credential Vault (Zone 2). When an agent needs to make an authenticated API call, it sends the request to the vault proxy. The proxy injects the credential at the network layer, makes the authenticated call, and returns the result to the agent. The agent never sees, stores, or has memory access to the raw key.
 
-This is **blind credential injection** — the same principle used by enterprise secret management systems like HashiCorp Vault, but built into the [AI agent orchestration](/learn/ai-agent-orchestration) layer rather than requiring separate infrastructure.
+This is **vault-proxied credentials** — the same principle used by enterprise secret management systems like HashiCorp Vault, but built into the [AI agent orchestration](/learn/ai-agent-orchestration) layer rather than requiring separate infrastructure.
 
 ## Containerized AI Agents: Why Process-Level Isolation Isn't Enough
 
@@ -177,7 +177,7 @@ AI agent security is the set of controls that prevent autonomous AI agents from 
 
 ### How do you secure AI agents with API keys?
 
-The most secure approach is blind credential injection: store API keys in a vault that agents cannot access directly. When an agent needs to make an authenticated call, the request routes through a proxy that injects the credential at the network layer. The agent never sees the raw key. OpenLegion implements this through its vault proxy in Zone 2 of the four-zone trust model (plus an operator-or-internal tier). The least secure (and most common) approach is environment variables, where keys exist in the agent's memory and can be leaked via prompt injection, logging, or error output.
+The most secure approach is vault-proxied credentials: store API keys in a vault that agents cannot access directly. When an agent needs to make an authenticated call, the request routes through a proxy that injects the credential at the network layer. The agent never sees the raw key. OpenLegion implements this through its vault proxy in Zone 2 of the four-zone trust model (plus an operator-or-internal tier). The least secure (and most common) approach is environment variables, where keys exist in the agent's memory and can be leaked via prompt injection, logging, or error output.
 
 ### How does AI agent isolation work?
 
@@ -193,11 +193,11 @@ Yes. The BYO (Bring Your Own) key model is actually more secure with proper arch
 
 ### What is the OWASP Top 10 for AI agents?
 
-OWASP published the Top 10 for Agentic Applications in December 2025. The #1 risk is Agent Goal Hijacking — where an attacker manipulates an agent into pursuing goals different from what the user intended. Other top risks include credential leakage, excessive agency (agents taking actions beyond their scope), and supply chain vulnerabilities (malicious tools or plugins). OpenLegion addresses these through blind credential injection, container isolation, permission matrices, and fleet-model coordination (blackboard + pub/sub + handoff).
+OWASP published the Top 10 for Agentic Applications in December 2025. The #1 risk is Agent Goal Hijacking — where an attacker manipulates an agent into pursuing goals different from what the user intended. Other top risks include credential leakage, excessive agency (agents taking actions beyond their scope), and supply chain vulnerabilities (malicious tools or plugins). OpenLegion addresses these through vault-proxied credentials, container isolation, permission matrices, and fleet-model coordination (blackboard + pub/sub + handoff).
 
 ### How does OpenLegion compare to OpenClaw on security?
 
-Based on public documentation, OpenLegion provides stricter security defaults. OpenClaw's default local deployment requires Docker socket mounting (granting broad host access), its security analyzer has had reported issues with consistent activation, and it stores credentials in configuration accessible to the agent process. OpenLegion runs agents in mandatory isolated containers, uses a vault proxy for blind credential injection, enforces per-agent budgets, and applies unicode sanitization at multiple choke points. For a detailed comparison, see [OpenLegion vs OpenClaw](/comparison/openclaw).
+Based on public documentation, OpenLegion provides stricter security defaults. OpenClaw's default local deployment requires Docker socket mounting (granting broad host access), its security analyzer has had reported issues with consistent activation, and it stores credentials in configuration accessible to the agent process. OpenLegion runs agents in mandatory isolated containers, uses a vault proxy for vault-proxied credentials, enforces per-agent budgets, and applies unicode sanitization at multiple choke points. For a detailed comparison, see [OpenLegion vs OpenClaw](/comparison/openclaw).
 
 ### What compliance frameworks apply to AI agents?
 

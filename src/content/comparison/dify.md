@@ -20,7 +20,7 @@ related:
 
 Dify is the most-starred AI application platform on GitHub (~131,000 stars), offering a visual drag-and-drop workflow builder, built-in RAG pipeline, and a plugin marketplace with 120+ extensions. Founded by the LangGenius team (former Tencent Cloud), Dify has been downloaded 2.4 million times across 120+ countries and was recognized as AWS Social Impact Partner of the Year in December 2025.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over visual workflow building.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over visual workflow building.
 
 This is a direct **OpenLegion vs Dify** comparison based on public documentation at the time of writing.
 

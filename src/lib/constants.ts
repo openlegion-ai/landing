@@ -169,7 +169,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
 // ── Architecture ─────────────────────────────────────────────────────────────
 
 export const ARCHITECTURE = {
-  title: "Four trust zones — defense-in-depth",
+  title: "Defense-in-depth — trust zones at every layer",
   summary:
     "Your multi-agent fleet runs across four trust tiers — untrusted input, sandboxed agents, the trusted mesh, and a loopback-only internal tier. Agents only message each other through the mesh, gated by per-agent ACLs; the mesh holds the keys.",
   zones: [

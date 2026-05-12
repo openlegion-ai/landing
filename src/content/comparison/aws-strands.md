@@ -20,7 +20,7 @@ related:
 
 AWS Strands Agents SDK is the model-driven agent framework from Amazon Web Services. With ~5,100 GitHub stars, 14+ million PyPI downloads, and the backing of AWS infrastructure, Strands takes a distinctly different approach: define a Model + Tools + Prompt, and let the LLM handle orchestration. No workflow graphs, no state machines. The model decides what to do. Strands powers Amazon Q Developer and AWS Glue internally, and deploys to the AgentCore Runtime for serverless agent execution with tasks lasting up to 8 hours.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over cloud infrastructure integration.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over cloud infrastructure integration.
 
 This is a direct **OpenLegion vs AWS Strands** comparison based on public documentation at the time of writing.
 

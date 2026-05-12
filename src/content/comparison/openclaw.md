@@ -80,7 +80,7 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 
 **You need per-agent budget enforcement.** OpenClaw has no built-in cost controls. Agents with broad LLM access can iterate in loops burning API budgets. OpenLegion enforces per-agent daily and monthly limits with automatic hard cutoff.
 
-**Remote code execution vulnerabilities concern you.** OpenClaw has disclosed critical vulnerabilities including a CVSS 8.8 one-click remote code execution flaw via malicious links. Combined with Docker socket mounting, a compromised OpenClaw instance gives an attacker effective root access. OpenLegion's zero-trust architecture — where agents are explicitly untrusted workloads — mitigates this class of attack by design.
+**Remote code execution vulnerabilities concern you.** OpenClaw has disclosed critical vulnerabilities including a CVSS 8.8 one-click remote code execution flaw via malicious links. Combined with Docker socket mounting, a compromised OpenClaw instance gives an attacker effective root access. OpenLegion's defense-in-depth model — where agents are an explicitly sandboxed (Trust Zone 1) workload behind a credential vault and per-agent ACLs — mitigates this class of attack by design.
 
 ## Security Model Comparison
 

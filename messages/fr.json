@@ -386,7 +386,7 @@
   },
   "architecture": {
     "sectionLabel": "Sous le capot",
-    "title": "Quatre zones de confiance — défense en profondeur",
+    "title": "Défense en profondeur — zones de confiance à chaque niveau",
     "summary": "Votre flotte multi-agents s'exécute sur quatre niveaux de confiance — entrée externe non fiable, agents sandboxed, mesh de confiance et un niveau interne loopback uniquement — plus un niveau de permissions opérateur-ou-interne. Les agents ne communiquent entre eux que via le mesh, contrôlés par des ACLs par agent ; le mesh détient les clés.",
     "zones": {
       "0": {

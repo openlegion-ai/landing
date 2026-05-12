@@ -20,7 +20,7 @@ related:
 
 Google's Agent Development Kit (ADK) is the most architecturally ambitious entry in the agent framework landscape. With ~17,600 GitHub stars, three agent types (LLM, Workflow, Custom), and the A2A (Agent-to-Agent) protocol donated to the Linux Foundation with 150+ partners, ADK positions itself as the interoperability standard for multi-agent systems. It deploys natively to Vertex AI Agent Engine Runtime and integrates deeply with Google Cloud services.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over cloud ecosystem breadth.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over cloud ecosystem breadth.
 
 This is a direct **OpenLegion vs Google ADK** comparison based on public documentation at the time of writing.
 

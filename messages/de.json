@@ -386,7 +386,7 @@
   },
   "architecture": {
     "sectionLabel": "Unter der Haube",
-    "title": "Vier Vertrauenszonen — Defense-in-Depth",
+    "title": "Defense-in-Depth — Trust-Zonen auf jeder Ebene",
     "summary": "Deine Multi-Agenten-Flotte läuft über vier Vertrauensebenen — nicht vertrauenswürdige Eingaben, sandboxed Agenten, der vertrauenswürdige Mesh und eine reine Loopback-Internal-Ebene — plus eine Operator-oder-Internal-Berechtigungsebene. Agenten kommunizieren nur über den Mesh miteinander, abgesichert durch per-Agent-ACLs; der Mesh hält die Schlüssel.",
     "zones": {
       "0": {
