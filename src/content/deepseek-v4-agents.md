@@ -1,22 +1,22 @@
 ---
-title: Run DeepSeek V4 Agents Securely with OpenLegion (2026)
+title: Run DeepSeek-Based Agents Securely with OpenLegion (2026)
 description: >-
-  Run DeepSeek V4 agents with vault proxy credentials, container isolation, and
-  per-agent budget controls. OpenLegion's AI agent framework has day-1 DeepSeek
-  V4 support via LiteLLM.
+  Run DeepSeek-based AI agents with vault-proxied credentials, container
+  isolation, and per-agent budget controls. OpenLegion's AI agent framework
+  supports DeepSeek via LiteLLM.
 slug: /deepseek-v4-agents
-primary_keyword: deepseek v4 agents
+primary_keyword: deepseek agents
 secondary_keywords:
-  - deepseek v4 openlegion
-  - deepseek v4 ai agent framework
-  - deepseek v4 secure deployment
-  - deepseek v4 open source agents
-  - run deepseek v4 locally agents
-  - deepseek v4 alternative to claude
-  - deepseek v4 budget controls
-  - deepseek v4 api agents
+  - deepseek openlegion
+  - deepseek ai agent framework
+  - deepseek secure deployment
+  - deepseek open source agents
+  - run deepseek locally agents
+  - deepseek alternative to claude
+  - deepseek budget controls
+  - deepseek api agents
 date_published: 2026-03
-last_updated: 2026-03
+last_updated: 2026-05
 schema_types:
   - FAQPage
   - HowTo
@@ -31,182 +31,151 @@ related:
   - /learn/ai-agent-frameworks
 ---
 
-# Run DeepSeek V4 Agents Securely — OpenLegion Has Day-1 Support
+# Run DeepSeek-Based Agents Securely with OpenLegion
 
-**DeepSeek V4 agents** combine a trillion-parameter Mixture-of-Experts model with autonomous tool use — and OpenLegion is the AI agent framework that secures them from day one. Vault proxy credentials, Docker container isolation, and per-agent budget controls ship by default. Bring your own LLM API keys. No markup on model usage.
+**DeepSeek-based agents** combine DeepSeek's models with autonomous tool use — and OpenLegion is the AI agent framework that secures them. Vault-proxied credentials, Docker container isolation, and per-agent budget controls ship by default. Bring your own LLM API keys, or use managed credits. No markup on BYOK model usage.
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> **What are DeepSeek V4 agents?**
-> DeepSeek V4 agents are autonomous AI agents powered by DeepSeek's V4 model — a trillion-parameter MoE system with ~32B active parameters, native multimodal capabilities, and a 1M-token context window. When deployed through an AI agent framework like OpenLegion, they can execute multi-step workflows, call APIs, generate code, and process images, video, and audio — with container isolation and credential vaulting enforced at the infrastructure level.
+> **What are DeepSeek-based agents?**
+> DeepSeek-based agents are autonomous AI agents powered by a DeepSeek model (for example `deepseek-chat` or `deepseek-coder`). When deployed through an AI agent framework like OpenLegion, they can execute multi-step tasks, call APIs, generate code, and process inputs — with container isolation and credential vaulting enforced at the infrastructure level.
 
 ## TL;DR
 
-- **Day-1 support.** OpenLegion supports DeepSeek V4 agents via LiteLLM the moment the model drops — API, self-hosted open weights, or any compatible inference provider.
-- **Vault proxy credentials.** Your DeepSeek V4 API key never enters the agent container. Agents call through a proxy that injects the key at the network level.
-- **Container isolation.** Each DeepSeek V4 agent runs in its own Docker container with non-root execution, no Docker socket, and configurable resource caps.
-- **Per-agent budget controls.** Daily and monthly spending limits with automatic hard cutoff — essential for DeepSeek V4's hybrid reasoning mode where costs are unpredictable.
-- **Open-weight ready.** Run DeepSeek V4 locally with Ollama or vLLM. OpenLegion provides the same [AI agent security](/learn/ai-agent-security) guarantees whether the model runs on your hardware or through an API.
-- **Model-agnostic.** Same agents, same tools, same security — swap between DeepSeek V4, Claude, and GPT in the dashboard. DeepSeek V4 is a compelling alternative to Claude for cost-sensitive agent fleets.
+- **LiteLLM-routed support.** OpenLegion supports DeepSeek-based agents via LiteLLM — through DeepSeek's own API, OpenRouter, Together, Fireworks, or a self-hosted endpoint (Ollama, vLLM).
+- **Vault-proxied credentials.** Your DeepSeek API key never enters the agent container. Agents call through a proxy that injects the key at the network level.
+- **Container isolation.** Each DeepSeek-based agent runs in its own Docker container with non-root execution, no Docker socket, and configurable resource caps.
+- **Per-agent budget controls.** Daily and monthly spending limits with automatic hard cutoff — essential for agent workloads where iteration counts are unpredictable.
+- **Open-weight friendly.** Run DeepSeek open-weight models locally with Ollama or vLLM. OpenLegion provides the same [AI agent security](/learn/ai-agent-security) guarantees whether the model runs on your hardware or through an API.
+- **Model-agnostic.** Same agents, same tools, same security — swap between DeepSeek, Claude, and GPT models in the dashboard. DeepSeek can be a cost-effective alternative for cost-sensitive agent fleets.
 
-## Why DeepSeek V4 Agents Need a Secure Framework
+## Why DeepSeek-Based Agents Need a Secure Framework
 
-### The model gets more powerful. Your security must keep up.
+### Capable models. Wide blast radius.
 
-DeepSeek V4's leaked benchmarks suggest 90% on HumanEval and above 80% on SWE-bench Verified — frontier-competitive coding performance at a fraction of the cost. Its 1M-token Engram context window can process entire codebases in a single pass. Its native multimodal capabilities generate images, video, and audio alongside text.
+A DeepSeek-powered agent with tool access can:
+- Read and modify files in its workspace
+- Generate and execute code
+- Access APIs, databases, and external services (subject to its permissions)
+- Reason over large contexts
 
-A DeepSeek V4 agent powered by this model can:
-- Read and modify entire repositories
-- Generate and execute code across multiple files
-- Access APIs, databases, and external services
-- Process and generate images and video
-- Reason over million-token contexts
+Without a proper [AI agent runtime](/learn/ai-agent-platform), an autonomous agent also can:
+- Try to access your API keys and credentials
+- Accumulate unbounded API costs on metered endpoints
+- Affect other agents or the host if the runtime lacks isolation
+- Execute unaudited workflow paths
+- Fall victim to prompt-injection vectors in user-supplied context
 
-Without a proper [AI agent platform](/learn/ai-agent-platform), that agent also can:
-- Access your API keys and credentials
-- Accumulate unlimited API costs on V4's metered endpoints
-- Escape its execution environment to affect other agents or the host
-- Execute unaudited, non-deterministic workflows
-- Fall victim to prompt injection attacks in those million-token contexts
+OpenLegion — a source-available AI agent framework — addresses this with three architectural guarantees:
 
-OpenLegion — a source-available DeepSeek V4 AI agent framework — solves this with three architectural guarantees:
+**Vault-proxied credentials.** Your DeepSeek API key never enters the agent container. Agents make calls through a proxy that injects your key at the network level. Even if a model is steered toward looking for credentials, there is nothing to find inside the container.
 
-**Vault proxy credentials.** Your DeepSeek V4 API key never enters the agent container. DeepSeek V4 API agents make calls through a proxy that injects your key at the network level. Even if V4's powerful reasoning convinces an agent to search for credentials, there is nothing to find.
+**Docker container isolation.** Each agent runs in its own container with non-root execution (UID 1000), no Docker socket, `cap_drop=ALL`, no-new-privileges, and configurable resource caps. A compromised agent cannot affect other agents, the host system, or your credential store.
 
-**Docker container isolation.** Each DeepSeek V4 agent runs in its own container with non-root execution, no Docker socket, no shared filesystem, and configurable resource caps. A compromised agent cannot affect other agents, the host system, or your credential store.
+**Per-agent budget enforcement.** OpenLegion enforces daily and monthly spending limits per agent with automatic hard cutoff. No agent can burn through your DeepSeek budget overnight.
 
-**Per-agent budget enforcement.** DeepSeek V4 budget controls are essential — V4's pricing undercuts Western models, but unlimited is not free. OpenLegion enforces daily and monthly spending limits per agent with automatic hard cutoff. No agent can burn through your V4 budget overnight.
+## DeepSeek Model Configuration Notes
 
-## DeepSeek V4 Specs at a Glance
+DeepSeek publishes models such as `deepseek-chat` and `deepseek-coder`, plus periodic reasoning-focused releases. The exact roster and pricing change over time; consult [DeepSeek's documentation](https://api-docs.deepseek.com/) for the current list. Key practical considerations for agent workloads:
 
-| Specification | Details |
-|---|---|
-| **Parameters** | ~1 trillion total (MoE), ~32B active per token |
-| **Architecture** | Mixture-of-Experts with Multi-head Latent Attention (MLA), Manifold-Constrained Hyper-Connections (mHC), Engram Conditional Memory |
-| **Modalities** | Native text, image, video, audio (generation + understanding) |
-| **Context window** | 1 million tokens |
-| **Hybrid reasoning** | Unified reasoning + non-reasoning (merges R1 and V3 lines) |
-| **Benchmark claims** | ~90% HumanEval, ~80%+ SWE-bench Verified (unverified internal) |
-| **Hardware optimization** | Huawei Ascend + Cambricon (not Nvidia/AMD) |
-| **Expected license** | Open-weight (MIT or Apache 2.0) |
-| **Expected pricing** | Significantly below Claude/GPT frontier pricing |
-| **OpenLegion support** | Day-1 via LiteLLM (API, self-hosted, or inference provider) |
-
-*Note: Specifications based on Financial Times, Reuters, and leaked benchmark reporting as of March 2026. Independent verification pending.*
+- **Routing.** OpenLegion routes via LiteLLM. Whichever DeepSeek model IDs LiteLLM ships are available; you can also route to DeepSeek through aggregators like OpenRouter, Together, or Fireworks.
+- **Context windows and pricing** vary per model. Check the DeepSeek docs for current per-token costs; OpenLegion's per-agent budgets are the safety net regardless of model.
+- **Open weights.** Some DeepSeek model lines have released open weights. You can run them locally with Ollama or vLLM and point OpenLegion at your local endpoint — the framework's security guarantees apply identically.
 
 <!-- SCHEMA: HowTo -->
 
-## How to Run DeepSeek V4 Agents on OpenLegion
+## How to Run DeepSeek-Based Agents on OpenLegion
 
-Setting up DeepSeek V4 agents takes about 30 seconds — no config files, no YAML editing. Everything happens in the dashboard or REPL.
+Setting up DeepSeek-based agents takes about 30 seconds in managed hosting — no config files, no YAML editing. Self-hosted setup adds a Docker image build on first run.
 
 ### Step 1: Select your LLM provider
 
-In the OpenLegion dashboard or REPL, choose your provider from the dropdown. DeepSeek's own API, OpenRouter, Together, Fireworks, or a self-hosted endpoint (Ollama, vLLM) — any LiteLLM-compatible provider works. This is the same provider system that powers all [AI agent orchestration](/learn/ai-agent-orchestration) on OpenLegion.
+In the OpenLegion dashboard or REPL, choose your provider. DeepSeek's own API, OpenRouter, Together, Fireworks, or a self-hosted endpoint (Ollama, vLLM) — any LiteLLM-compatible provider works. This is the same provider system that powers all [agent coordination](/learn/ai-agent-orchestration) on OpenLegion.
 
 ### Step 2: Provide your API key
 
-Paste your API key. It goes straight into the vault — the key is never stored in config files, environment variables, or anywhere an agent can access. From this point forward, DeepSeek V4 API agents call through the vault proxy and never see the raw key.
+Paste your API key. The key is held in the mesh process / encrypted env file (with restricted file permissions) and is never passed to agent containers. From this point forward, DeepSeek-based agents call through the vault proxy and never see the raw key.
 
 ### Step 3: Select the model
 
-Pick DeepSeek V4 from the model list. Done. Your DeepSeek V4 agents are now running with full vault proxy protection, container isolation, and budget enforcement — the same security stack that applies to every model OpenLegion supports.
+Pick the DeepSeek model you want from the model list (for example `deepseek-chat` or `deepseek-coder`). Done. Your agents are now running with vault-proxy protection, container isolation, and budget enforcement — the same security stack that applies to every model OpenLegion supports.
 
-That's it. No YAML to write. No Docker commands. No manual credential management. The dashboard handles provider selection, the vault handles your key, and the framework handles isolation and budgets.
+That's it. The dashboard handles provider selection, the vault handles your key, and the framework handles isolation and budgets.
 
-### Run DeepSeek V4 locally with open weights
+### Run DeepSeek locally with open weights
 
-For teams that want to run DeepSeek V4 locally with agents — using open weights on their own GPUs via Ollama, vLLM, or another inference server — the flow is the same. Just point the provider to your local endpoint. OpenLegion still provides container isolation, tool access controls, and workflow orchestration even when the model runs on your own hardware with no external API involved. This is the most secure DeepSeek V4 deployment model for organizations with data sovereignty requirements.
+For teams that want to run DeepSeek-based agents on open weights — using their own GPUs via Ollama, vLLM, or another inference server — the flow is the same. Just point the provider to your local endpoint. OpenLegion still provides container isolation, tool access controls, and fleet coordination. This keeps inference on-premises (the LLM call doesn't leave your network), which is a strong fit for organizations with data sovereignty requirements.
 
-### Switching models — DeepSeek V4 as an alternative to Claude
+### Switching models — DeepSeek as an alternative to Claude or GPT
 
-Want to compare DeepSeek V4 against Claude or GPT on the same workflow? Change the model selection in the dashboard. Same agents, same tools, same security — different model. This makes DeepSeek V4 a practical alternative to Claude for teams evaluating cost and capability tradeoffs. See our [AI agent frameworks comparison](/learn/ai-agent-frameworks) for benchmark breakdowns across providers.
+Want to compare DeepSeek against Claude or GPT on the same task? Change the model selection in the dashboard. Same agents, same tools, same security — different model. See our [AI agent frameworks comparison](/learn/ai-agent-frameworks) for breakdowns across providers.
 
-## DeepSeek V4 Agent Workflows: What Changes
+## DeepSeek-Based Agent Workflows
 
-### 1M-token context enables repo-scale agents
+### Long contexts enable repo-scale agents
 
-DeepSeek V4's Engram Conditional Memory system processes up to 1 million tokens — enough to ingest an entire medium-sized codebase in a single context window. This enables DeepSeek V4 agent workflows that were previously impossible:
+Modern DeepSeek-family models support large context windows, enabling agent workflows like:
 
-- **Full-repository code review** in a single pass
-- **Cross-file refactoring** with complete dependency awareness
-- **Documentation generation** from entire project context
-- **Security auditing** across codebases without chunking
+- **Full-repository code review** in a single pass (when the context window allows)
+- **Cross-file refactoring** with broader dependency awareness
+- **Documentation generation** from larger project context
+- **Security auditing** across codebases
 
-OpenLegion's YAML DAG workflows orchestrate these long-context operations with [deterministic execution order](/learn/ai-agent-orchestration), per-agent tool access, and budget controls that prevent a single million-token prompt from consuming your entire budget.
+OpenLegion's per-agent iteration caps (default `MAX_ITERATIONS=20`) and tool-loop detection (warn at 2 repeats, block at 4, terminate at 9) keep these long-context operations bounded — and per-agent budgets prevent a single oversize prompt from consuming your entire monthly allowance.
 
-### Native multimodal unlocks new DeepSeek V4 agent types
+### Cost predictability with hard cutoffs
 
-V4's native image, video, and audio capabilities create new agent categories:
+DeepSeek models have historically priced below Western frontier alternatives, which makes them attractive for high-iteration agent workloads. But "cheaper per call" can still become "expensive in aggregate" when agents iterate freely. OpenLegion's per-agent daily/monthly hard cutoffs prevent cost spikes from cascading across the fleet.
 
-- **Visual QA agents** that analyze screenshots, diagrams, and UI mockups
-- **Content generation agents** producing text + images in coordinated workflows
-- **Video analysis agents** processing surveillance, tutorial, or product content
-- **Audio processing agents** for transcription, analysis, and generation
+## Security Considerations for DeepSeek-Based Agents
 
-Each capability increases the attack surface. An agent that can generate images can generate phishing content. An agent that can process video has access to sensitive visual data. OpenLegion's per-agent tool grants ensure each DeepSeek V4 agent only accesses the modalities it needs.
+### Open weights are a feature and a risk surface
 
-### Hybrid reasoning changes DeepSeek V4 agent cost profiles
+DeepSeek's open-weight releases are a strong win for self-hosted deployment and ecosystem transparency. They also mean:
 
-V4 merges the R1 reasoning model and V3 generation model into a single system. This means the same model handles both cheap non-reasoning tasks and expensive chain-of-thought reasoning — with the model deciding when to engage each mode.
+- **Fine-tuned variants will proliferate.** Not all will be aligned or safety-tested. OpenLegion's container isolation and tool restrictions apply regardless of which variant runs.
+- **Adversarial research is easier on open weights.** Agents running open-weight models benefit from [defense-in-depth](/learn/ai-agent-security): container isolation, bounded execution, explicit tool grants — not just model-level alignment.
+- **Supply chain hygiene.** Downloading open weights from Hugging Face or other sources requires verifying checksums and provenance. Document which model binary you run.
 
-For DeepSeek V4 agent deployments, this makes cost prediction harder. A task that was cheap on V3 may trigger deep reasoning on V4 if the model determines it needs it. DeepSeek V4 budget controls become essential: OpenLegion's hard cutoffs prevent reasoning-mode cost spikes from cascading.
+### Long contexts widen the prompt-injection surface
 
-## Security Considerations for DeepSeek V4 Agents
+A large context window is a large potential prompt-injection surface. An agent processing an entire codebase is processing every comment, every string literal, every README — any of which could contain adversarial instructions.
 
-### The open-weight advantage is also a risk surface
+OpenLegion's defenses: bounded execution (MAX_ITERATIONS=20), per-agent permission ACLs, vault-proxied credentials so injection can't exfiltrate keys, and tool-loop detection that terminates runaway loops. These limit the damage even when an injection succeeds.
 
-V4's expected open-weight release under MIT or Apache 2.0 is a massive win for the ecosystem — self-hosted deployment, no vendor lock-in, full model transparency. But deploying DeepSeek V4 open-weight agents also means:
+### Geopolitical considerations
 
-- **Fine-tuned variants will proliferate.** Not all will be aligned or safety-tested. OpenLegion's container isolation and tool restrictions apply regardless of which V4 variant runs.
-- **Jailbreaks will be discovered quickly.** Open weights enable adversarial research. Agents running V4 need [defense-in-depth](/learn/ai-agent-security): container isolation, deterministic workflows, and explicit tool grants — not just model-level alignment.
-- **Supply chain risk.** Downloading open weights from Hugging Face or other sources requires verifying checksums and provenance. OpenLegion's self-hosted model config documents exactly which model binary runs.
+For organizations subject to export controls, data sovereignty requirements, or supply chain compliance, deployment mode matters:
 
-### 1M-token context = 1M tokens of potential injection surface
-
-A million-token context window is a million tokens of potential prompt injection surface. A DeepSeek V4 agent processing an entire codebase is processing every comment, every string literal, every README — any of which could contain adversarial instructions.
-
-OpenLegion's defense: deterministic YAML workflows define what the agent does *before* it reads the context. The execution path is set by the workflow, not by the model's interpretation of injected instructions in the context window.
-
-### Geopolitical considerations for DeepSeek V4 secure deployment
-
-V4 is optimized for Huawei Ascend and Cambricon chips. For organizations subject to US export controls, data sovereignty requirements, or supply chain compliance, the DeepSeek V4 secure deployment model matters:
-
-- **API mode:** Data transits DeepSeek's infrastructure (Hangzhou, China).
-- **Self-hosted mode:** Data stays on your infrastructure. Open weights eliminate the API dependency entirely.
-- **Inference provider mode:** Data transits the provider's infrastructure (varies by provider).
+- **API mode:** Data transits DeepSeek's hosted infrastructure.
+- **Self-hosted mode (open weights):** Data stays on your infrastructure. Eliminates the API dependency entirely.
+- **Aggregator/inference-provider mode:** Data transits the provider's infrastructure (varies by provider).
 
 OpenLegion supports all three modes with the same [AI agent security](/learn/ai-agent-security) guarantees.
 
-## DeepSeek V4 Agents vs Other Models for Agent Workloads
+## DeepSeek-Based Agents vs Other Models for Agent Workloads
 
-| Dimension | DeepSeek V4 | Claude Opus 4.6 | GPT-5 |
+| Dimension | DeepSeek family | Claude family | GPT family |
 |---|---|---|---|
-| **Parameters** | ~1T MoE (~32B active) | Undisclosed | Undisclosed |
-| **Context** | 1M tokens | 1M tokens (beta) | 200K tokens |
-| **Multimodal** | Native (text, image, video, audio) | Text + image | Text + image + audio |
-| **Open weights** | Expected (MIT/Apache) | No | No |
-| **Self-hostable** | Yes | No | No |
-| **Expected cost** | Significantly below frontier | Premium pricing | Premium pricing |
-| **Coding benchmarks** | ~90% HumanEval (leaked) | Strong | Strong |
+| **Open weights** | Some releases open-weight | Closed | Closed |
+| **Self-hostable** | Yes (open-weight releases) | No | No |
+| **Pricing posture** | Generally lower per-token | Premium | Premium |
 | **Agent framework support** | Via LiteLLM (100+ providers) | Native + LiteLLM | Native + LiteLLM |
-| **OpenLegion support** | Day-1 | Full | Full |
+| **OpenLegion support** | Via LiteLLM | Full | Full |
 
-*OpenLegion supports all three models with the same security guarantees. Switch between them in the dashboard — same agents, same security, different model. See our [full framework comparison](/comparison) for detailed breakdowns.*
+*OpenLegion supports all three families with the same security guarantees. Switch between them in the dashboard — same agents, same security, different model. See our [full framework comparison](/comparison) for detailed breakdowns.*
 
-## Who Should Run DeepSeek V4 Agents with OpenLegion
+## Who Should Run DeepSeek-Based Agents with OpenLegion
 
-**Cost-conscious teams running agent fleets.** V4's dramatically lower pricing means you can run more DeepSeek V4 agents, more often, on the same budget. OpenLegion's per-agent cost controls ensure that "cheaper per call" does not become "more expensive in aggregate" when agents iterate freely.
+**Cost-conscious teams running agent fleets.** Lower per-token pricing means you can run more agents, more often, on the same budget. OpenLegion's per-agent cost controls keep "cheaper per call" from becoming "more expensive in aggregate."
 
-**Security-sensitive DeepSeek V4 secure deployments.** Self-hosted V4 eliminates API data transit concerns. OpenLegion adds the [AI agent security](/learn/ai-agent-security) layer that open-weight deployment alone does not provide: container isolation, credential protection, and workflow determinism.
+**Teams with data sovereignty requirements.** Self-hosted, open-weight deployment plus OpenLegion's container isolation and credential vaulting keeps inference and credentials on your infrastructure.
 
-**Teams evaluating DeepSeek V4 as an alternative to Claude and GPT.** OpenLegion's model-agnostic architecture means you can run the same agent workflow on V4, Claude, and GPT simultaneously — comparing quality, cost, and latency per task without changing any infrastructure. See [OpenLegion vs OpenClaw](/comparison/openclaw) and [OpenLegion vs LangGraph](/comparison/langgraph) for framework-level comparisons.
-
-**Developers building DeepSeek V4 API agents with multimodal capabilities.** Image, video, and audio generation create new agent categories that need new security boundaries. OpenLegion's per-agent tool grants control which modalities each agent can access.
+**Teams evaluating DeepSeek alongside Claude and GPT.** OpenLegion's model-agnostic architecture means you can run the same agent fleet against multiple providers simultaneously — comparing quality, cost, and latency per task without changing any infrastructure. See [OpenLegion vs OpenClaw](/comparison/openclaw) and [OpenLegion vs LangGraph](/comparison/langgraph) for framework-level comparisons.
 
 ## CTA
 
-**DeepSeek V4 drops — your security layer is ready.**
+**Bring your DeepSeek key — your security layer is ready.**
 [Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
@@ -215,41 +184,41 @@ OpenLegion supports all three modes with the same [AI agent security](/learn/ai-
 
 ## Frequently Asked Questions
 
-### What is DeepSeek V4?
+### What are DeepSeek-based agents?
 
-DeepSeek V4 is a trillion-parameter Mixture-of-Experts language model from Chinese AI lab DeepSeek. It features ~32 billion active parameters, native multimodal capabilities (text, image, video, audio), a 1-million-token context window powered by Engram Conditional Memory, and hybrid reasoning that merges the R1 reasoning model with V3 generation. It is optimized for Huawei Ascend and Cambricon chips and is expected to be released as open-weight under a permissive license in early March 2026.
+DeepSeek-based agents are autonomous AI agents powered by a DeepSeek model (such as `deepseek-chat` or `deepseek-coder`) running under an agent framework that provides isolation, credentials, tools, budgets, and coordination. OpenLegion is one such framework — it adds container isolation, vault-proxied credentials, and per-agent budget enforcement to whichever DeepSeek model you select.
 
-### Does OpenLegion support DeepSeek V4 agents?
+### Does OpenLegion support DeepSeek?
 
-Yes. OpenLegion supports DeepSeek V4 agents on day one via LiteLLM's 100+ provider support. Select DeepSeek as your provider in the dashboard or REPL, paste your API key, and pick V4 from the model list. Works through DeepSeek's API, self-hosted with open weights (via Ollama, vLLM, or other inference servers), or through any compatible inference provider like OpenRouter.
+Yes. OpenLegion supports DeepSeek via LiteLLM's 100+ provider support. Select DeepSeek (or an aggregator that routes to DeepSeek, like OpenRouter, Together, or Fireworks) as your provider in the dashboard or REPL, paste your API key, and pick the model you want. Works through DeepSeek's own API, self-hosted open weights (via Ollama, vLLM, or other inference servers), or through any compatible inference provider.
 
-### How do I run DeepSeek V4 agents securely?
+### How do I run DeepSeek-based agents securely?
 
-OpenLegion provides three security layers for DeepSeek V4 agents: vault proxy credentials (your V4 API key never enters the agent container — just paste it in the dashboard and the vault handles the rest), Docker container isolation (each agent runs in a separate OS-level container), and per-agent budget enforcement (daily and monthly limits with automatic hard cutoff). Select your provider, provide your key, pick V4, and the security stack applies automatically.
+OpenLegion provides three security layers for DeepSeek-based agents: vault-proxied credentials (your API key never enters the agent container — it stays in the mesh process and is injected at the network layer), Docker container isolation (each agent runs in a separate container with cap_drop=ALL, no Docker socket, non-root), and per-agent budget enforcement (daily and monthly limits with automatic hard cutoff). Select your provider, provide your key, pick the model, and the security stack applies automatically.
 
-### Is DeepSeek V4 better than Claude or GPT for agents?
+### Is DeepSeek better than Claude or GPT for agents?
 
-Leaked benchmarks suggest DeepSeek V4 is competitive with Claude Opus 4.6 and GPT-5 on coding tasks, with significantly lower pricing. Independent verification is pending. For agent workloads, the model choice depends on task requirements, cost constraints, and data residency needs. OpenLegion supports all three models with identical security guarantees — you can evaluate DeepSeek V4 agents side-by-side against Claude and GPT on the same workflows.
+It depends on the task. DeepSeek family models typically price below Claude and GPT and are competitive on many benchmarks, but specific capabilities vary by model. For agent workloads, the choice depends on task requirements, cost constraints, and data residency needs. OpenLegion supports all three families with identical security guarantees — you can evaluate them side-by-side on the same workflows.
 
-### Can I self-host DeepSeek V4 with OpenLegion?
+### Can I self-host DeepSeek with OpenLegion?
 
-Yes. V4's expected open-weight release means you can run DeepSeek V4 locally on your own GPU infrastructure via Ollama, vLLM, or other inference servers. In the OpenLegion dashboard, just point the provider to your local endpoint. Container isolation, tool access controls, workflow orchestration, and per-agent budgets all apply — even when no external API is involved.
+Yes — for DeepSeek models that have open weights. Run the model locally on your own GPU infrastructure via Ollama, vLLM, or another inference server, and in the OpenLegion dashboard point the provider to your local endpoint. Container isolation, tool access controls, fleet coordination, and per-agent budgets all apply — even when no external API is involved.
 
-### How does DeepSeek V4 pricing compare for agent workloads?
+### How does DeepSeek pricing compare for agent workloads?
 
-DeepSeek V4 is expected to maintain DeepSeek's tradition of pricing significantly below Western frontier models. For agent workloads that involve many iterative API calls, the cost difference compounds. OpenLegion's DeepSeek V4 budget controls — per-agent daily and monthly limits with hard cutoff — prevent cheaper-per-call from becoming expensive-in-aggregate when agents iterate freely.
+DeepSeek typically prices below Western frontier models on a per-token basis. For agent workloads that involve many iterative API calls, the cost difference compounds. OpenLegion's per-agent budget controls — daily and monthly limits with hard cutoff — prevent cheaper-per-call from becoming expensive-in-aggregate when agents iterate freely.
 
-### Is DeepSeek V4 a good alternative to Claude for AI agents?
+### Is DeepSeek a good alternative to Claude for AI agents?
 
-DeepSeek V4 offers competitive benchmark performance at significantly lower pricing, making it a compelling alternative to Claude for cost-sensitive agent workloads. OpenLegion supports both models with identical security guarantees, so you can evaluate DeepSeek V4 agents and Claude agents side-by-side on the same workflows and switch in the dashboard without changing any agent code or infrastructure.
+DeepSeek can be a compelling alternative for cost-sensitive agent workloads. OpenLegion supports DeepSeek and Claude with identical security guarantees, so you can evaluate them side-by-side on the same workflows and switch in the dashboard without changing any agent code or infrastructure.
 
 ### Is it safe to run agents on a Chinese AI model?
 
-The safety question depends on your deployment model. Self-hosted DeepSeek V4 open-weight agents mean no data leaves your infrastructure. API mode routes data through DeepSeek's servers in China. OpenLegion supports both modes with the same security guarantees. For organizations with data sovereignty requirements, self-hosted deployment with open weights eliminates the API dependency entirely.
+The safety question depends on your deployment model. Self-hosted, open-weight DeepSeek agents mean no data leaves your infrastructure. API mode routes data through DeepSeek's hosted servers. OpenLegion supports both with the same security guarantees. For organizations with data sovereignty requirements, self-hosted deployment with open weights keeps inference on your infrastructure.
 
-### What makes DeepSeek V4's 1M context window useful for agents?
+### What makes DeepSeek's long context window useful for agents?
 
-A 1-million-token context window enables DeepSeek V4 agent workflows that process entire codebases, complete document sets, or full conversation histories in a single pass — without chunking or retrieval augmentation. OpenLegion's YAML workflows orchestrate these long-context operations with deterministic execution order and budget controls that prevent expensive million-token prompts from exceeding limits.
+A large context window enables agent workflows that process entire codebases, complete document sets, or long conversation histories in a single pass — without chunking or retrieval augmentation. OpenLegion's bounded execution and per-agent budgets prevent expensive long-context prompts from exceeding limits, regardless of which model is in use.
 
 ---
 

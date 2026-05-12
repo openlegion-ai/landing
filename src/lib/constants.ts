@@ -363,7 +363,7 @@ export const ALL_FAQ_ITEMS: FAQItem[] = [
   {
     question: "Do I pay for LLM usage on top of the subscription?",
     answer:
-      "Yes — you bring your own API keys from Anthropic, OpenAI, Google, or any of 100+ providers supported via LiteLLM. You pay providers directly at their published rates. OpenLegion charges for the runtime and managed hosting only. There is zero markup on model usage.",
+      "Every paid subscription includes a welcome bundle of LLM credits that never expire — use them from day one with no API keys needed. You can also bring your own API keys from Anthropic, OpenAI, Google, or any of 100+ supported providers and pay those providers directly with zero markup on model usage.",
   },
   {
     question: "What kinds of tasks can OpenLegion agents actually automate?",
@@ -373,12 +373,12 @@ export const ALL_FAQ_ITEMS: FAQItem[] = [
   {
     question: "What is OpenLegion?",
     answer:
-      "OpenLegion is a container-isolated multi-agent runtime that deploys autonomous agent fleets in Docker containers (or Docker Desktop Sandbox microVMs). Each agent gets its own budget, permissions, and vault-proxied credentials — with defense-in-depth enabled by default. It requires only Python, Docker, and an API key. No Redis, no Kubernetes, no LangChain. Licensed under BSL 1.1 (source-available).",
+      "OpenLegion is a production-grade, container-isolated multi-agent runtime that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and credential vault — with defense-in-depth via container isolation, vault proxy, per-agent ACLs, and bounded execution. It requires only Python, Docker, and an API key. No Redis, no Kubernetes, no LangChain. Licensed under BSL 1.1 (source-available).",
   },
   {
     question: "How is OpenLegion different from CrewAI or other agent frameworks?",
     answer:
-      "OpenLegion container-isolates every agent, proxies all credentials through a vault, and enforces per-agent budgets — most frameworks don't. CrewAI and similar frameworks run agents in shared processes with no isolation, no cost controls, and API keys stored in config files. OpenLegion uses a fleet model — blackboard + pub/sub + handoff (no CEO agent) — instead of letting an LLM decide task routing, making execution predictable and auditable.",
+      "OpenLegion container-isolates every agent, proxies all credentials through a vault, and enforces per-agent budgets — most frameworks don't. CrewAI and similar frameworks run agents in shared processes with no isolation, no cost controls, and API keys stored in config files. OpenLegion uses a fleet model (no CEO agent) with blackboard coordination and structured handoff — no LLM in the control plane deciding task routing.",
   },
   {
     question: "What LLM providers does OpenLegion support?",
@@ -388,7 +388,7 @@ export const ALL_FAQ_ITEMS: FAQItem[] = [
   {
     question: "How does OpenLegion handle API key security?",
     answer:
-      "Through vault-proxied credentials — agents never see API keys. Keys are stored on the mesh host. When an agent calls an LLM, the request goes through a vault proxy that injects the credential at the network layer, tracks token usage, and enforces budget limits. Even a fully compromised agent cannot access your API keys.",
+      "Through the vault proxy — agents never see API keys. Keys are held in the mesh process on the mesh host. When an agent calls an LLM, the request goes through a vault proxy that injects the credential at the network layer, tracks token usage, and enforces budget limits. Even a fully compromised agent cannot access your API keys.",
   },
   {
     question: "Do I need Kubernetes or cloud infrastructure to run OpenLegion?",
@@ -396,34 +396,34 @@ export const ALL_FAQ_ITEMS: FAQItem[] = [
       "No. OpenLegion runs on a single machine with no external services. You need only Python 3.10+, Docker, and an LLM API key — no Redis, no Kubernetes, no LangChain, no external databases.",
   },
   {
-    question: "Is OpenLegion production-ready?",
+    question: "Can I run OpenLegion in production?",
     answer:
-      "Yes. OpenLegion supports self-hosted on-premises deployment via Docker, fleet-model coordination, per-agent cost governance, ACL-based per-agent permissions, vault-proxied credentials, and a codebase of ~77,000 lines in src/ with 5,800+ tests across 155 files. Defense-in-depth is enabled by default. For custom scale or compliance requirements, contact sales.",
+      "Yes — OpenLegion is designed for production deployment. It includes on-premises support, a fleet model with blackboard + pub/sub + handoff coordination, per-agent cost governance, a per-agent permission matrix, credential isolation via vault proxy, and an auditable codebase of ~77,000 lines with 5,800+ tests. Defense-in-depth controls are enabled by default.",
   },
   {
     question: "Can OpenLegion run on-premises?",
     answer:
-      "Yes. The full stack runs on your own infrastructure with Docker and Python; agents call out to LLM providers through the mesh proxy, so agents need outbound network access to providers (or a local Ollama). The mesh host, agents, vault, and dashboard all run on a single machine.",
+      "Yes. The engine runs on a single machine with Python + Docker, no external services required. For fully local inference, point the LLM provider at Ollama; for hosted models (Anthropic, OpenAI, Google, etc.) the mesh proxy reaches out to whichever provider you configure. Mesh host, agents, vault, and dashboard all run on the same machine.",
   },
   {
-    question: "What is an AI agent platform?",
+    question: "What is an AI agent framework?",
     answer:
-      "An AI agent platform is managed infrastructure for deploying and governing autonomous AI agents in production. Unlike raw framework libraries that only provide agent logic primitives, a platform handles container isolation, credential vaulting, per-agent cost controls, observability, and deployment — so teams can ship agents without building DevOps from scratch.",
+      "An AI agent framework is the runtime and library layer for deploying, coordinating, and governing autonomous AI agents in production. Unlike raw SDK libraries that only provide agent logic primitives, a framework like OpenLegion handles container isolation, credential vaulting, per-agent cost controls, observability, and deployment — so teams can ship agents without building DevOps from scratch.",
   },
   {
-    question: "What is an AI agent framework vs an agent platform?",
+    question: "What is an AI agent framework vs managed hosting?",
     answer:
-      "A framework is a code library for building agent logic — tools, prompts, memory, and coordination. A platform adds operational infrastructure on top: container isolation, credential vaults, per-agent budgets, deployment pipelines, and fleet-wide observability. OpenLegion is both: a Python framework for authoring agents and a managed-hosting offering for running them in production with security and cost governance built in.",
+      "A framework is a code library and runtime for building and running agent logic — tools, prompts, memory, coordination. Managed hosting adds an operational layer on top: dedicated VPS provisioning, dashboard, billing, and credit proxy. OpenLegion is both: a Python framework (container-isolated multi-agent runtime) for authoring and running agents, and an optional managed hosting service for teams that don't want to manage infrastructure.",
   },
   {
-    question: "How does AI agent orchestration work in OpenLegion?",
+    question: "How does agent coordination work in OpenLegion?",
     answer:
-      "OpenLegion uses a fleet model — no LLM sits in the control plane deciding who does what. Agents coordinate through a SQLite-backed blackboard (with atomic CAS), a permission-controlled pub/sub bus, per-agent FIFO lanes, and a structured handoff protocol. There is no CEO agent and no DAG — coordination is data-driven and auditable through the blackboard's audit log.",
+      "OpenLegion uses a fleet model — blackboard + pub/sub + handoff (no CEO agent). Agents coordinate through a SQLite-backed blackboard with atomic compare-and-set, a pub/sub event bus, and a structured handoff protocol. Each agent has its own permissions, budget, and tool set. Users talk to agents directly; there is no LLM in the control plane deciding task routing.",
   },
   {
     question: "What does AI agent security mean for autonomous agents?",
     answer:
-      "AI agent security addresses the unique threats autonomous agents introduce: credential leakage, prompt injection, resource abuse, and data exfiltration. OpenLegion's defense-in-depth model — runtime isolation, container hardening, vault-proxied credentials, per-agent ACLs, SSRF + path-traversal prevention, and Unicode input sanitization — mitigates each threat independently, so a breach in one layer does not compromise the others.",
+      "AI agent security addresses the unique threats autonomous agents introduce: credential leakage, prompt injection, resource abuse, and data exfiltration. OpenLegion's defense-in-depth — container isolation, credential vault proxy, per-agent permission matrix, input sanitization, SSRF protection, and Unicode/path-traversal hardening — mitigates each threat independently, so a breach in one layer does not compromise the others.",
   },
 ];
 
@@ -434,6 +434,6 @@ export const FAQ_ITEMS: FAQItem[] = ALL_FAQ_ITEMS.filter((item) =>
     "What kinds of tasks can OpenLegion agents actually automate?",
     "Do I pay for LLM usage on top of the subscription?",
     "How does OpenLegion handle API key security?",
-    "Is OpenLegion production-ready?",
+    "Can I run OpenLegion in production?",
   ].includes(item.question)
 );
