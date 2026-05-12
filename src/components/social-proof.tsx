@@ -13,7 +13,7 @@ interface StatDef {
 }
 
 const STATS: StatDef[] = [
-  { target: 2100, suffix: "+" },
+  { target: 5800, suffix: "+" },
   { target: 100, suffix: "+" },
   { target: 0, suffix: "" },
   { target: 0, prefix: "$", suffix: "" },
