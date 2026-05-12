@@ -35,9 +35,8 @@ export default function MoneyBackGuaranteePage() {
                 support@openlegion.ai
               </a>{" "}
               within 14 days of your first subscription payment and we&rsquo;ll
-              refund the full amount you actually paid (the launch-pricing
-              amount billed by Polar &mdash; not the higher anchor displayed
-              alongside).
+              refund the full amount you actually paid (the amount billed by
+              Polar for your subscription).
             </p>
           </section>
 
@@ -49,7 +48,7 @@ export default function MoneyBackGuaranteePage() {
             <ul className="ml-5 mt-2 list-disc space-y-1">
               <li>
                 Your first subscription payment (the actual amount charged
-                &mdash; e.g. $19 for Basic monthly, not the $39 anchor).
+                &mdash; e.g. $19 for Basic monthly).
               </li>
               <li>
                 Full refund of that amount &mdash; no questions asked, no
@@ -85,7 +84,7 @@ export default function MoneyBackGuaranteePage() {
             <ul className="ml-5 mt-2 list-disc space-y-1">
               <li>
                 Your subscription is cancelled and your hosted instance is
-                taken offline within 24 hours of the refund.
+                deprovisioned shortly after the refund is processed.
               </li>
               <li>
                 Welcome credits granted with the subscription are reclaimed

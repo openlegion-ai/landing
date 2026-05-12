@@ -4,7 +4,7 @@ import { Footer } from "@/components/footer";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy Policy for OpenLegion AI agent platform. Learn how we collect, use, and protect your data across managed hosting and the openlegion.ai website.",
+    "Privacy Policy for the OpenLegion AI agent framework and managed hosting. Learn how we collect, use, and protect your data across managed hosting and the openlegion.ai website.",
   alternates: { canonical: "https://www.openlegion.ai/privacy" },
   robots: { index: true, follow: true },
 };
@@ -57,8 +57,8 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>Payment information:</strong> Billing details processed by our
-                third-party payment processor (e.g., Stripe). We do not store full credit
-                card numbers on our servers.
+                third-party payment processor (Polar). We do not store full credit card
+                numbers on our servers.
               </li>
               <li>
                 <strong>Communications:</strong> Information you provide when contacting us
@@ -141,7 +141,7 @@ export default function PrivacyPage() {
                 <strong>Tawk.to</strong> &mdash; live chat widget for customer support.
               </li>
               <li>
-                <strong>Stripe</strong> (or equivalent) &mdash; payment processing.
+                <strong>Polar</strong> &mdash; payment processing.
               </li>
               <li>
                 <strong>LLM API providers</strong> (e.g., Anthropic, OpenAI, Google,

@@ -13,9 +13,9 @@ export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
 }
 
-const TITLE = "Learn — AI Agent Platform, Orchestration & Security";
+const TITLE = "Learn — AI Agent Framework, Coordination & Security";
 const DESCRIPTION =
-  "Practical guides to running production AI agents: platform architecture, orchestration patterns, framework selection, and the agent threat model.";
+  "Practical guides to running production AI agents: runtime architecture, coordination patterns, framework selection, and the agent threat model.";
 
 export function generateMetadata(): Metadata {
   // Page-level `alternates` overrides (not merges with) the layout's

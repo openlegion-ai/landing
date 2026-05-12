@@ -100,7 +100,6 @@ const TRUST_KEYS = ["trust.cancel", "trust.switch"] as const;
 export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
   const t = useTranslations("pricing");
-  const tAnchors = useTranslations("pricingAnchors");
 
   return (
     <section
@@ -173,26 +172,6 @@ export function Pricing() {
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
             const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
-            const anchorKey = `${plan.name}${billing === "monthly" ? "Monthly" : "Yearly"}`;
-            const anchor = (() => {
-              try {
-                return tAnchors(anchorKey);
-              } catch {
-                return null;
-              }
-            })();
-            const anchorNum = anchor ? parseInt(anchor.replace(/,/g, ""), 10) : null;
-            const savingsAmount =
-              anchorNum && !Number.isNaN(anchorNum) ? anchorNum - price : null;
-            const savingsPercent =
-              anchorNum && !Number.isNaN(anchorNum) && anchorNum > 0
-                ? Math.round((1 - price / anchorNum) * 100)
-                : null;
-            const showSavings =
-              savingsAmount !== null &&
-              savingsAmount > 0 &&
-              savingsPercent !== null &&
-              savingsPercent > 0;
 
             return (
               <StaggerItem key={plan.name}>
@@ -231,28 +210,6 @@ export function Pricing() {
                       </span>
                       <span className="text-muted">{suffix}</span>
                     </div>
-                    {anchor && (
-                      <div className="mt-2 flex flex-wrap items-baseline gap-2">
-                        <s
-                          className="text-base text-muted line-through"
-                          aria-label={t("a11y.originalPriceAria", { price: anchor })}
-                        >
-                          ${anchor}
-                        </s>
-                        {showSavings && (
-                          <span className="rounded-full bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-amber-600 ring-1 ring-amber-500/20 dark:text-amber-400">
-                            {t("savingsPill", {
-                              amount: savingsAmount.toLocaleString(),
-                              suffix:
-                                billing === "monthly"
-                                  ? t("priceSuffixMonthly")
-                                  : t("priceSuffixYearly"),
-                              percent: savingsPercent,
-                            })}
-                          </span>
-                        )}
-                      </div>
-                    )}
                   </div>
                   <p className="mt-1 min-h-[1.25rem] text-xs text-muted">
                     {billing === "yearly"
