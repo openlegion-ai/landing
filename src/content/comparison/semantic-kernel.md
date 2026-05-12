@@ -1,20 +1,20 @@
 ---
 title: OpenLegion vs Semantic Kernel — Detailed Comparison
 description: >-
-  OpenLegion vs Semantic Kernel: side-by-side comparison of security, agent
-  isolation, credential management, enterprise features, and multi-agent
-  orchestration.
+ OpenLegion vs Semantic Kernel: side-by-side comparison of security, agent
+ isolation, credential management, enterprise features, and multi-agent
+ orchestration.
 slug: /comparison/semantic-kernel
 primary_keyword: openlegion vs semantic kernel
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /comparison/autogen
-  - /comparison/langgraph
-  - /comparison/aws-strands
-  - /comparison/openai-agents-sdk
+ - /comparison/autogen
+ - /comparison/langgraph
+ - /comparison/aws-strands
+ - /comparison/openai-agents-sdk
 ---
 
 # OpenLegion vs Semantic Kernel: Which AI Agent Framework for Production?
@@ -30,7 +30,7 @@ This is a direct **OpenLegion vs Semantic Kernel** comparison based on public do
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and Semantic Kernel?**
-> Semantic Kernel is a multi-language AI agent SDK from Microsoft that powers Copilot products, with deep Azure integration and enterprise plugin architecture. OpenLegion is a security-first agent platform with mandatory container isolation, vault proxy credential management, and per-agent budget enforcement. Semantic Kernel offers the broadest enterprise Microsoft integration; OpenLegion offers the strongest production security defaults.
+> Semantic Kernel is a multi-language AI agent SDK from Microsoft that powers Copilot products, with deep Azure integration and enterprise plugin architecture. OpenLegion is a security-first agent framework with mandatory container isolation, vault proxy credential management, and per-agent budget enforcement. Semantic Kernel offers the broadest enterprise Microsoft integration; OpenLegion offers the strongest production security defaults.
 
 ## TL;DR
 
@@ -46,12 +46,12 @@ This is a direct **OpenLegion vs Semantic Kernel** comparison based on public do
 | Dimension | OpenLegion | Semantic Kernel |
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Enterprise AI agent SDK with plugin architecture |
-| **Architecture** | Three-zone trust model | Kernel DI container managing services, plugins, and AI workflows |
+| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Kernel DI container managing services, plugins, and AI workflows |
 | **Status** | Active development | Reduced update frequency (as of early 2026); successor is Microsoft Agent Framework |
 | **Agent isolation** | Mandatory Docker container per agent | No built-in isolation; agents run in host process |
 | **Credential management** | Vault proxy — blind injection, agents never see keys | DefaultAzureCredential (Managed Identity, certificate, service principal) |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in |
-| **Orchestration** | Deterministic YAML DAG workflows | Function calling + planning; agent-as-plugin composition |
+| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Function calling + planning; agent-as-plugin composition |
 | **Multi-agent** | Native fleet orchestration (sequential, parallel DAGs with blackboard coordination) | ChatCompletionAgent GA, group chat, AgentGroupChat |
 | **Language support** | Python | C#, Python, Java (C# most mature; Java lags significantly) |
 | **LLM support** | 100+ via LiteLLM | Azure OpenAI, OpenAI, Anthropic, Google, Mistral, and 20+ via connectors |
@@ -75,7 +75,7 @@ A critical RCE vulnerability (CVSS 9.9, reported early 2026) was found in the Py
 
 ### OpenLegion's architecture
 
-OpenLegion uses a three-zone trust model where agents are explicitly untrusted. Each agent runs in a Docker container with no host access, non-root execution, and resource caps. The vault proxy handles credential injection from Zone 2 — agents never see raw API keys. YAML workflows define exact tool access, permissions, and budgets per agent before execution.
+OpenLegion uses a four-zone trust model (plus an operator-or-internal tier) where agents are explicitly untrusted. Each agent runs in a Docker container with no host access, non-root execution, and resource caps. The vault proxy handles credential injection from Zone 2 — agents never see raw API keys. fleet-model coordination define exact tool access, permissions, and budgets per agent before execution.
 
 ## When to Choose Semantic Kernel
 
@@ -122,7 +122,7 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ### What is the difference between OpenLegion and Semantic Kernel?
 
-Semantic Kernel (~27,300 stars) is Microsoft's multi-language AI agent SDK powering Copilot products. OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement. SK offers the broadest Microsoft integration; OpenLegion offers the strongest security defaults.
+Semantic Kernel (~27,300 stars) is Microsoft's multi-language AI agent SDK powering Copilot products. OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement. SK offers the broadest Microsoft integration; OpenLegion offers the strongest security defaults.
 
 ### Is Semantic Kernel being discontinued?
 

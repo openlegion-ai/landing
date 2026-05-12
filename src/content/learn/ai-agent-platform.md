@@ -1,32 +1,32 @@
 ---
 title: AI Agent Platform — Deploy Secure Agents
 description: >-
-  OpenLegion is a managed AI agent platform with container isolation, credential
-  vaulting, and budget controls. Bring your own LLM API keys.
+ OpenLegion is a managed AI agent platform with container isolation, credential
+ vaulting, and budget controls. Bring your own LLM API keys.
 slug: /learn/ai-agent-platform
 primary_keyword: ai agent platform
 secondary_keywords:
-  - managed ai agent platform
-  - self-hosted agent deployment
-  - ai agent cost control
-  - ai agent credential security
-  - production ai agent infrastructure
+ - managed ai agent platform
+ - self-hosted agent deployment
+ - ai agent cost control
+ - ai agent credential security
+ - production ai agent infrastructure
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /learn/ai-agent-orchestration
-  - /learn/ai-agent-security
-  - /learn/ai-agent-frameworks
-  - /comparison
+ - /learn/ai-agent-orchestration
+ - /learn/ai-agent-security
+ - /learn/ai-agent-frameworks
+ - /comparison
 ---
 
 # The AI Agent Platform Built for Production
 
 Most teams start with a framework. They string together LangGraph nodes or CrewAI crews, get a demo working, and then hit a wall: who manages the containers? Where do the API keys go? What stops a rogue agent from burning $500 in tokens overnight?
 
-An **AI agent platform** answers those questions before you write your first agent. OpenLegion is a managed AI agent platform that ships container isolation, blind credential injection, per-agent budget controls, and deterministic orchestration — all enabled by default. Bring your own LLM API keys. No markup on model usage.
+An **AI agent platform** answers those questions before you write your first agent. OpenLegion is a managed AI agent platform that ships container isolation, blind credential injection, per-agent budget controls, and fleet-model coordination (blackboard + pub/sub + handoff) — all enabled by default. Bring your own LLM API keys. No markup on model usage.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -40,7 +40,7 @@ An **AI agent platform** answers those questions before you write your first age
 - **Container isolation per agent** — Each agent runs in its own Docker container with configurable resource caps (384MB RAM / 0.15 CPU default), non-root execution, and no shared filesystem.
 - **Per-agent budget enforcement** — Set daily and monthly token limits with automatic hard cutoff. No surprise bills.
 - **BYO API keys** — Connect any LLM provider via LiteLLM (100+ supported). You pay providers directly at their published rates.
-- **Deterministic orchestration** — YAML-defined DAG workflows for task routing. No "CEO agent" making opaque decisions.
+- **Auditable fleet-model coordination** — fleet-model coordination (blackboard + pub/sub + handoff) for task routing. No "CEO agent" making opaque decisions.
 - **MCP-compatible extensibility** — Connect any MCP tool server (databases, filesystems, APIs) alongside 50+ built-in skills. Auto-discovered by agents.
 - **Persistent agent memory** — Agents remember across sessions with vector search, workspace files, and error learnings. Context managed automatically.
 
@@ -94,7 +94,7 @@ Your team is 2–10 engineers. You need agents in production this sprint, not ne
 
 ### Enterprise security teams
 
-You need request tracing and workflow observability, credential isolation that survives a compromised agent, and budget controls that prevent runaway costs. OpenLegion's architecture is designed for environments that require SOC 2-level controls. Deterministic DAG execution means every workflow step is explicit and traceable — no opaque LLM decision-making in the control plane. See our [AI agent security](/learn/ai-agent-security) page for the full threat model.
+You need request tracing and workflow observability, credential isolation that survives a compromised agent, and budget controls that prevent runaway costs. OpenLegion's architecture is designed for environments that require defense-in-depth. Auditable fleet-model coordination means every workflow step is explicit and traceable — no opaque LLM decision-making in the control plane. See our [AI agent security](/learn/ai-agent-security) page for the full threat model.
 
 ## Production Readiness: What OpenLegion Handles vs DIY
 
@@ -103,10 +103,10 @@ You need request tracing and workflow observability, credential isolation that s
 | **Agent runtime** | You configure Docker, manage images, handle networking | Each agent auto-provisioned in isolated container (384MB RAM, 0.15 CPU default, non-root, no-new-privileges) |
 | **Credential management** | Environment variables or custom vault integration | Vault proxy with blind injection — agents never see raw keys |
 | **Cost controls** | Manual tracking, no hard limits | Per-agent daily/monthly budgets with automatic cutoff |
-| **Orchestration** | Code your own routing logic or use LLM-based routing | YAML-defined DAG workflows — deterministic, auditable |
+| **Orchestration** | Code your own routing logic or use LLM-based routing | fleet-model coordination (blackboard + pub/sub + handoff) — auditable |
 | **Observability** | Integrate LangSmith, Datadog, or custom logging | Built-in dashboard with live streaming, cost charts, request traces |
 | **Multi-channel deployment** | Build integrations per channel | CLI, Telegram, Discord, Slack, WhatsApp — plus webhook endpoints for external integrations |
-| **Browser automation** | Configure Playwright/Puppeteer, manage Chrome instances | Shared Camoufox (stealth Firefox) browser service with KasmVNC, CDP control, auto-recovery |
+| **Browser automation** | Configure Playwright/Puppeteer, manage Chrome instances | Per-agent Camoufox (stealth Firefox) in a shared browser service container, with KasmVNC (ports 6100..6163), CDP control, and auto-recovery |
 | **Tool extensibility** | Build custom integrations or use LangChain tools | MCP-compatible — connect any MCP server + 50+ built-in skills, auto-discovered |
 | **Agent memory** | Build custom RAG or state management | Persistent vector memory per agent with auto context management |
 | **Model failover** | Custom retry logic per provider | Configurable failover chains across providers via LiteLLM |
@@ -125,15 +125,19 @@ Agents in OpenLegion maintain memory across sessions using vector search, worksp
 
 Memory is scoped per agent and stored in each agent's isolated SQLite + vector database within its container. Auto context management keeps token usage efficient by surfacing only relevant memories for the current task, rather than loading entire conversation histories.
 
-## Architecture: The Three-Zone Trust Model
+## Architecture: The Four-Zone Trust Model
 
-OpenLegion separates every deployment into three trust zones:
+OpenLegion separates every deployment into four trust zones plus an operator-or-internal tier:
 
-**Zone 1 — User Zone (Full Trust).** This is where you interact: CLI, Telegram, Discord, Slack, WhatsApp — plus webhook endpoints. All inputs are validated and sanitized before reaching the mesh.
+**Zone 0 — Untrusted External Input.** Anything arriving from users or third parties: CLI, Telegram, Discord, Slack, WhatsApp, and webhook endpoints. All inputs are validated and sanitized via prompt-injection guards before reaching the mesh.
 
-**Zone 2 — Mesh Host (Trusted Coordinator).** The FastAPI server that runs the Blackboard (shared state via SQLite), PubSub message router, Credential Vault (the proxy that handles blind injection), Orchestrator with permission matrix, and the Container Manager with cost tracking. This is the brain — and it's the only component that touches your API keys.
+**Zone 1 — Sandboxed Agent Containers (Untrusted).** Each agent runs as its own FastAPI instance in a dedicated Docker container with its own `/data` volume, memory database, and strict resource caps. Even a fully compromised agent cannot access your API keys, other agents' data, or the host system.
 
-**Zone 3 — Agent Containers (Untrusted).** Each agent runs as its own FastAPI instance in a dedicated Docker container with its own `/data` volume, memory database, and strict resource caps. Even a fully compromised agent cannot access your API keys, other agents' data, or the host system.
+**Zone 2 — Mesh Host (Trusted).** The FastAPI server that runs the Blackboard (shared state via SQLite + WAL), PubSub message router, Credential Vault (the proxy that handles blind injection), ACL matrix, Container Manager, Cost Tracker, and Browser Service (per-agent Camoufox on :8500). This is the brain — and it's the only component that touches your API keys.
+
+**Zone 2.5 — Operator-or-Internal.** Reserved control-plane operations available to the Operator agent or internal mesh tooling — fleet management, agent edits, permission grants (the Operator cannot grant `can_spawn` or `can_use_wallet`).
+
+**Zone 3 — Loopback-Only Internal.** The most-restricted tier: endpoints that require both an `x-mesh-internal: 1` header and a loopback source IP. Used for mesh-internal coordination calls only.
 
 This architecture means [AI agent orchestration](/learn/ai-agent-orchestration) and security aren't separate concerns — they're the same system.
 
@@ -142,7 +146,7 @@ This architecture means [AI agent orchestration](/learn/ai-agent-orchestration) 
 ```bash
 git clone https://github.com/openlegion-ai/openlegion.git
 cd openlegion && ./install.sh
-openlegion start   # inline setup on first run, then agents deploy in isolated containers
+openlegion start # inline setup on first run, then agents deploy in isolated containers
 ```
 
 First install takes 2–3 minutes. Requires Python 3.10+ and Docker.

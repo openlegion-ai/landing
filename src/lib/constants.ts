@@ -103,9 +103,9 @@ export const USE_CASES: UseCase[] = [
     id: "uc-content",
     icon: Pen,
     name: "Your content team",
-    agents: ["Researcher", "Writer", "Editor"],
+    agents: ["Researcher", "Writer"],
     description:
-      "OpenLegion's Content Studio template handles topic research, long-form drafts, and editorial review with consistent brand voice across every piece.",
+      "OpenLegion's Content Studio template pairs a researcher and a writer to handle topic research and long-form drafts with consistent brand voice across every piece.",
   },
   {
     id: "uc-treasury",

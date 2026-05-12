@@ -102,8 +102,8 @@
         "tip": "Alerta você quando preços caem, páginas atualizam ou eventos disparam"
       },
       "11": {
-        "label": "Acionar via Slack, Telegram, Discord",
-        "tip": "Acione agentes e receba atualizações pelas ferramentas que sua equipe já usa"
+        "label": "Acionar via Telegram, Discord, Slack, WhatsApp, Webhook",
+        "tip": "Cinco canais de mensagens mais um CLI REPL — acione agentes e receba atualizações pelas ferramentas que sua equipe já usa"
       }
     }
   },
@@ -155,19 +155,18 @@
         "name": "Sua equipe de conteúdo",
         "agents": {
           "0": "Pesquisador",
-          "1": "Redator",
-          "2": "Editor"
+          "1": "Redator"
         },
-        "description": "O template Content Studio do OpenLegion cuida da pesquisa de temas, rascunhos longos e revisão editorial com voz de marca consistente em cada peça."
+        "description": "O template Content Studio do OpenLegion combina um pesquisador e um redator para lidar com pesquisa de tópicos e rascunhos longos com voz de marca consistente."
       },
       "3": {
-        "name": "Sua equipe de trading",
+        "name": "Sua equipe de tesouraria",
         "agents": {
           "0": "Pesquisador",
-          "1": "Trader",
+          "1": "Executor",
           "2": "Monitor"
         },
-        "description": "Agentes executam onchain — swaps, transferências, posições DeFi — enquanto as chaves privadas permanecem no cofre. Limites de gasto por agente e simulação de transação em cada operação."
+        "description": "Agentes com carteira executam onchain — swaps, transferências, posições DeFi — enquanto as chaves privadas ficam no vault e são assinadas no servidor. Limites de gasto por agente, tetos diários e suporte a EVM + Solana."
       },
       "4": {
         "name": "Sua equipe personalizada",
@@ -215,7 +214,7 @@
       "2": "execução",
       "3": "entrega"
     },
-    "tradingEvents": {
+    "treasuryEvents": {
       "0": "Swap de 0.5 ETH → USDC na Base",
       "1": "Limite de gasto: $48 / $500 hoje",
       "2": "Monitor verificando posições…"
@@ -326,7 +325,7 @@
     "headingHighlight": "agente de IA",
     "managedBadge": "Mais fácil — sem configuração necessária",
     "managedHeading": "Sem terminal. Sem arquivos de configuração.",
-    "managedDescription": "Nós cuidamos dos contêineres, credenciais e infraestrutura.",
+    "managedDescription": "Nós cuidamos dos contêineres, credenciais e infraestrutura. Fale com o Operator — o capataz da sua frota, criado automaticamente quando seu VPS fica online.",
     "managedCta": "Começar →",
     "steps": {
       "0": "Crie sua conta",
@@ -387,39 +386,39 @@
   },
   "architecture": {
     "sectionLabel": "Sob o capô",
-    "title": "Três zonas de proteção",
-    "summary": "Sua frota multi-agente roda em três zonas isoladas — usuário, coordenador e contêineres em sandbox. Nada que um agente toque pode alcançar suas chaves API, outros agentes ou a máquina host.",
+    "title": "Quatro zonas de confiança — defesa em profundidade",
+    "summary": "Sua frota multi-agente roda em quatro níveis de confiança — entrada externa não confiável, agentes em sandbox, mesh confiável e um nível interno apenas loopback — mais um nível de permissão operador-ou-interno. Agentes só se comunicam entre si através do mesh, controlado por ACLs por agente; o mesh guarda as chaves.",
     "zones": {
       "0": {
         "name": "Zona do usuário",
-        "trust": "Confiança total",
+        "trust": "Entrada não confiável",
         "items": {
           "0": "CLI / Telegram / Discord",
           "1": "Slack / WhatsApp / Webhooks",
-          "2": "Comunicação direta com agentes"
+          "2": "Sanitizado via guardas de prompt-injection"
         }
       },
       "1": {
         "name": "Host de malha",
-        "trust": "Trust Zone 2",
+        "trust": "Confiável (Zona 2)",
         "items": {
           "0": "FastAPI na :8420",
-          "1": "Quadro-negro (SQLite)",
+          "1": "Blackboard (SQLite + WAL)",
           "2": "PubSub + Roteador de mensagens",
           "3": "Cofre de credenciais (API Proxy)",
-          "4": "Message Router + matriz ACL",
-          "5": "Gerenciador de contêineres + Rastreador de custos"
+          "4": "Matriz ACL + roteador de pistas",
+          "5": "Serviço de navegador :8500 (Camoufox por agente)"
         }
       },
       "2": {
         "name": "Contêineres de agentes",
-        "trust": "Não confiável / Sandbox",
+        "trust": "Sandboxed (Zona 1)",
         "items": {
           "0": "FastAPI :8400 (por contêiner)",
           "1": "Volume /data próprio",
           "2": "BD de memória próprio (SQLite + vec)",
           "3": "384 MB RAM / 0,15 CPU padrão",
-          "4": "Não-root, no-new-privileges"
+          "4": "UID 1000, cap_drop=ALL, no-new-privileges, FS somente leitura"
         }
       }
     },
@@ -755,16 +754,16 @@
     "subtitle": "Descreva a função que você precisa. O OpenLegion cria a estrutura de agentes, atribui papéis e dá a cada agente os controles necessários para trabalhar com segurança.",
     "examples": {
       "0": {
-        "name": "Agência de marketing",
+        "name": "Content Studio",
         "roles": {
           "0": "Pesquisa",
           "1": "Redação",
-          "2": "Edição",
-          "3": "Relatórios"
+          "2": "Briefs",
+          "3": "Entrega"
         }
       },
       "1": {
-        "name": "Equipe de vendas",
+        "name": "Pipeline de vendas",
         "roles": {
           "0": "Pesquisa de leads",
           "1": "Qualificação",
@@ -773,12 +772,12 @@
         }
       },
       "2": {
-        "name": "Mesa de pesquisa",
+        "name": "Pesquisa Profunda",
         "roles": {
-          "0": "Monitoramento",
-          "1": "Navegação",
-          "2": "Resumo",
-          "3": "Entrega"
+          "0": "Batedor",
+          "1": "Analista",
+          "2": "Síntese",
+          "3": "Citações"
         }
       },
       "3": {
@@ -790,10 +789,10 @@
         }
       },
       "4": {
-        "name": "Equipe de trading",
+        "name": "Equipe de tesouraria",
         "roles": {
-          "0": "Researcher",
-          "1": "Trader",
+          "0": "Pesquisador",
+          "1": "Executor",
           "2": "Monitor"
         }
       }
@@ -828,7 +827,7 @@
         "1": "Engineer abriu PR #18",
         "2": "Reviewer revisando…"
       },
-      "trading": {
+      "treasury": {
         "0": "Trocou 0,5 ETH → USDC",
         "1": "Limite de gasto: $48 / $500",
         "2": "Monitor verificando posições…"
@@ -848,13 +847,13 @@
     "cta": "Veja como funciona",
     "teams": {
       "0": {
-        "name": "Agência de Marketing"
+        "name": "Content Studio"
       },
       "1": {
-        "name": "Equipe de Vendas"
+        "name": "Pipeline de vendas"
       },
       "2": {
-        "name": "Mesa de Pesquisa"
+        "name": "Pesquisa Profunda"
       },
       "3": {
         "name": "Equipe Personalizada"

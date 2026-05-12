@@ -1,54 +1,54 @@
 ---
 title: OpenLegion vs LangGraph — Detailed Comparison (2026)
 description: >-
-  OpenLegion vs LangGraph: security architecture, credential isolation, CVE
-  history, budget controls, graph-based vs YAML orchestration, and production
-  deployment compared.
+ OpenLegion vs LangGraph: security architecture, credential isolation, CVE
+ history, budget controls, graph-based vs fleet-model coordination, and
+ production deployment compared.
 slug: /comparison/langgraph
 primary_keyword: openlegion vs langgraph
 secondary_keywords:
-  - langgraph alternative
-  - langgraph security
-  - langgraph cve
-  - ai agent orchestration comparison
-  - langgraph vs openlegion
+ - langgraph alternative
+ - langgraph security
+ - langgraph cve
+ - ai agent orchestration comparison
+ - langgraph vs openlegion
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /comparison/crewai
-  - /comparison/autogen
-  - /comparison/openclaw
-  - /comparison/openfang
+ - /comparison/crewai
+ - /comparison/autogen
+ - /comparison/openclaw
+ - /comparison/openfang
 ---
 
 # OpenLegion vs LangGraph: Security-First Framework vs the Orchestration Standard
 
 LangGraph is the most widely adopted agent orchestration framework in production. Built by the LangChain team, it has approximately 25,200 GitHub stars, 6.17 million monthly PyPI downloads, and reached 1.0 GA on October 22, 2025 — the first major agent framework to hit a stable release. Enterprise deployments at Uber, LinkedIn, Klarna, and Replit demonstrate real-world adoption at scale.
 
-OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
+OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
 
-LangGraph and OpenLegion represent two different answers to the same question: how should agent workflows be orchestrated? LangGraph says: give developers graph primitives with maximum flexibility. OpenLegion says: give developers deterministic workflows with maximum security. Both are valid — the right choice depends on whether your bottleneck is orchestration complexity or security risk.
+LangGraph and OpenLegion represent two different answers to the same question: how should agent workflows be orchestrated? LangGraph says: give developers graph primitives with maximum flexibility. OpenLegion says: give developers auditable fleet-model coordination with maximum security. Both are valid — the right choice depends on whether your bottleneck is orchestration complexity or security risk.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and LangGraph?**
-> LangGraph is a graph-based orchestration framework for building stateful, long-running AI agents with directed graphs (including cycles), durable checkpoint/replay execution, and deep LangChain ecosystem integration. OpenLegion is a security-first AI agent platform with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and deterministic YAML DAG workflows. LangGraph gives you maximum orchestration flexibility; OpenLegion gives you maximum production safety.
+> LangGraph is a graph-based orchestration framework for building stateful, long-running AI agents with directed graphs (including cycles), durable checkpoint/replay execution, and deep LangChain ecosystem integration. OpenLegion is a security-first AI agent framework with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). LangGraph gives you maximum orchestration flexibility; OpenLegion gives you maximum production safety.
 
 ## TL;DR
 
 | Dimension | OpenLegion | LangGraph |
 |---|---|---|
 | **Primary focus** | Production security infrastructure | Graph-based stateful orchestration |
-| **Architecture** | Three-zone trust model (User → Mesh Host → Agent Containers) | StateGraph with typed state, nodes, conditional edges, checkpointing |
+| **Architecture** | Four-zone trust model (User → Mesh Host → Agent Containers, plus operator-or-internal) | StateGraph with typed state, nodes, conditional edges, checkpointing |
 | **Agent isolation** | Docker container per agent, non-root, no-new-privileges | No built-in isolation; Pyodide/WASM sandbox for code execution only |
 | **Credential security** | Vault proxy — agents never see keys | No built-in system; relies on environment variables or external vaults |
 | **Budget controls** | Per-agent daily/monthly hard cutoff | None native; LangSmith provides cost tracking only |
-| **Orchestration** | Deterministic YAML DAG workflows (acyclic by design) | Directed graphs with cycles, conditional edges, Command-based routing |
+| **Orchestration** | Fleet-model coordination — blackboard + pub/sub + handoff (no CEO agent) | Directed graphs with cycles, conditional edges, Command-based routing |
 | **Durable execution** | Task state persisted in SQLite | Checkpoint-based (PostgreSQL/SQLite), survives restarts, time travel |
-| **Human-in-the-loop** | Approval gates in YAML workflows | `interrupt` primitive, configurable breakpoints |
-| **Multi-agent** | YAML-defined fleets with per-agent ACLs | Supervisor, Swarm, graph-of-graphs (subgraph composition) |
+| **Human-in-the-loop** | Approval gates in fleet-model coordination | `interrupt` primitive, configurable breakpoints |
+| **Multi-agent** | Fleet templates with per-agent ACLs | Supervisor, Swarm, graph-of-graphs (subgraph composition) |
 | **LLM support** | 100+ via LiteLLM | 100+ via LangChain integrations |
 | **Observability** | Built-in dashboard | LangSmith (tracing, evaluation, monitoring) |
 | **Dependencies** | Python + SQLite + Docker (zero external) | LangChain ecosystem (langgraph, langchain-core, checkpointing) |
@@ -60,7 +60,7 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 
 ## Choose LangGraph if...
 
-**You need complex stateful workflows with cycles.** LangGraph's graph model handles branching, looping, and conditional routing that YAML DAGs cannot express. If your agent workflow requires dynamic branching based on intermediate results — a research agent that loops until quality thresholds are met, or a supervisor that re-routes failed tasks — LangGraph is purpose-built for this.
+**You need complex stateful workflows with cycles.** LangGraph's graph model handles branching, looping, and conditional routing that fleet-model coordination cannot express. If your agent workflow requires dynamic branching based on intermediate results — a research agent that loops until quality thresholds are met, or a supervisor that re-routes failed tasks — LangGraph is purpose-built for this.
 
 **You need durable execution with checkpoint/replay.** LangGraph's checkpointing system (PostgreSQL or SQLite backed) lets workflows survive server restarts, enables time-travel debugging from any historical state, and supports branching from any checkpoint. This is a mature capability that no other framework matches.
 
@@ -76,9 +76,9 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 
 **You need per-agent budget enforcement.** LangGraph provides cost tracking through LangSmith but no mechanism to automatically stop an agent that exceeds a spending threshold. An agent caught in a reasoning loop will continue accumulating costs until manually terminated. OpenLegion enforces hard cutoffs per agent, per day, and per month — when budget is exhausted, the agent stops.
 
-**You want security built in, not bolted on.** The LangChain ecosystem's 4 critical CVEs in 18 months demonstrate the challenge of adding security to a framework not designed for it. AES checkpoint encryption and a Pyodide sandbox were added retroactively. OpenLegion's three-zone trust model was the starting architecture.
+**You want security built in, not bolted on.** The LangChain ecosystem's 4 critical CVEs in 18 months demonstrate the challenge of adding security to a framework not designed for it. AES checkpoint encryption and a Pyodide sandbox were added retroactively. OpenLegion's four-zone trust model (plus an operator-or-internal tier) was the starting architecture.
 
-**You need auditable, deterministic workflows.** YAML DAG workflows can be code-reviewed, version-controlled, and compliance-audited before any agent executes. Execution order is predetermined and acyclic by design — infinite loops are structurally impossible. Graph-based workflows with dynamic routing are harder to audit statically, and cycles introduce the possibility of infinite loops.
+**You need auditable fleet-model coordination.** Fleet templates and ACLs can be code-reviewed, version-controlled, and compliance-audited before any agent executes. Coordination is bounded by per-agent tool-loop detection (warn@2, block@4, terminate@9). Graph-based workflows with dynamic routing are harder to audit statically, and cycles introduce the possibility of infinite loops without bounded detection.
 
 **You want zero external dependencies.** OpenLegion runs on Python + SQLite + Docker. LangGraph requires the LangChain ecosystem and typically LangSmith ($39/seat/month on Plus) for production features like auth and RBAC.
 
@@ -105,7 +105,7 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 - **Serialization injection (CVSS 9.3, December 2025):** Serialization injection extracting secrets and executing arbitrary code.
 - **Additional checkpoint vulnerabilities** addressed with AES encryption (January 2026).
 
-**OpenLegion** has zero CVEs. Its vault proxy architecture means there are no credentials in agent state to extract via serialization attacks.
+**OpenLegion** has no CVEs reported as of v0.1.0. Its vault proxy architecture means there are no credentials in agent state to extract via serialization attacks.
 
 ### Budget controls
 
@@ -143,7 +143,7 @@ LangSmith adds tracing, evaluation, monitoring, and (on Plus/Enterprise tiers) a
 
 ### What OpenLegion covers differently
 
-OpenLegion includes security primitives that LangGraph requires you to source externally: vault proxy replaces HashiCorp Vault integration, Docker container isolation replaces Kubernetes pod isolation, per-agent budgets replace manual cost monitoring, YAML DAGs replace graph-based workflows with static auditability, and zero external dependencies replace the LangChain ecosystem stack.
+OpenLegion includes security primitives that LangGraph requires you to source externally: vault proxy replaces HashiCorp Vault integration, Docker container isolation replaces Kubernetes pod isolation, per-agent budgets replace manual cost monitoring, fleet-model coordination replace graph-based workflows with static auditability, and zero external dependencies replace the LangChain ecosystem stack.
 
 ## Hosting vs Self-Host Tradeoffs
 
@@ -159,9 +159,9 @@ OpenLegion includes security primitives that LangGraph requires you to source ex
 
 ## The Honest Trade-off
 
-LangGraph has the orchestration power, production maturity (1.0 GA), enterprise adoption, and ecosystem breadth. Its graph-based model handles workflows that YAML DAGs cannot express.
+LangGraph has the orchestration power, production maturity (1.0 GA), enterprise adoption, and ecosystem breadth. Its graph-based model handles workflows that fleet-model coordination cannot express.
 
-OpenLegion has the security architecture, credential protection, and cost governance built in. Its YAML DAGs are less expressive than LangGraph's graphs but provide static auditability and structural safety guarantees.
+OpenLegion has the security architecture, credential protection, and cost governance built in. Its fleet-model coordination are less expressive than LangGraph's graphs but provide static auditability and structural safety guarantees.
 
 If your bottleneck is orchestration complexity, choose LangGraph. If your bottleneck is security risk, choose OpenLegion. Some teams use both: LangGraph for complex internal workflows, OpenLegion for externally-facing agents handling sensitive credentials.
 
@@ -184,11 +184,11 @@ LangGraph is a graph-based agent orchestration framework built by the LangChain 
 
 ### OpenLegion vs LangGraph: what's the difference?
 
-LangGraph is a graph-based orchestration framework optimized for complex stateful workflows with cycles, checkpoint/replay, and LangChain ecosystem integration. OpenLegion is a security-first platform with Docker container isolation, vault proxy credentials (agents never see keys), per-agent budgets, and deterministic YAML workflows. LangGraph offers more orchestration flexibility; OpenLegion offers stronger security guarantees.
+LangGraph is a graph-based orchestration framework optimized for complex stateful workflows with cycles, checkpoint/replay, and LangChain ecosystem integration. OpenLegion is a security-first framework with Docker container isolation, vault proxy credentials (agents never see keys), per-agent budgets, and fleet-model coordination (blackboard + pub/sub + handoff). LangGraph offers more orchestration flexibility; OpenLegion offers stronger security guarantees.
 
 ### Is OpenLegion a LangGraph alternative?
 
-Yes. OpenLegion serves as a LangGraph alternative for teams whose primary requirement is built-in security rather than orchestration flexibility. It provides capabilities LangGraph lacks natively: mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic auditable workflows. It does not replicate LangGraph's graph-based cycles, durable checkpoint/replay, or LangChain ecosystem integration.
+Yes. OpenLegion serves as a LangGraph alternative for teams whose primary requirement is built-in security rather than orchestration flexibility. It provides capabilities LangGraph lacks natively: mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and auditable fleet-model coordination. It does not replicate LangGraph's graph-based cycles, durable checkpoint/replay, or LangChain ecosystem integration.
 
 ### How does credential handling compare between OpenLegion and LangGraph?
 

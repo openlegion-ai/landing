@@ -1,38 +1,38 @@
 ---
 title: OpenLegion vs OpenFang — Detailed Comparison (2026)
 description: >-
-  OpenLegion vs OpenFang: security architecture, credential management, agent
-  isolation, Rust performance, and production deployment compared side by side.
+ OpenLegion vs OpenFang: security architecture, credential management, agent
+ isolation, Rust performance, and production deployment compared side by side.
 slug: /comparison/openfang
 primary_keyword: openlegion vs openfang
 secondary_keywords:
-  - openfang alternative
-  - openfang security
-  - ai agent operating system comparison
-  - rust ai agent framework
+ - openfang alternative
+ - openfang security
+ - ai agent operating system comparison
+ - rust ai agent framework
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /comparison/zeroclaw
-  - /comparison/openclaw
-  - /comparison/langgraph
-  - /comparison/crewai
+ - /comparison/zeroclaw
+ - /comparison/openclaw
+ - /comparison/langgraph
+ - /comparison/crewai
 ---
 
 # OpenLegion vs OpenFang: Security-First Framework vs Agent Operating System
 
 OpenFang burst onto the scene on February 24, 2026 and hit 9,300 GitHub stars in its first week. Built entirely in Rust, OpenFang bills itself as a full "Agent Operating System" — not a chatbot wrapper but an infrastructure layer for autonomous agents that run 24/7 without human prompting.
 
-OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) built around container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
+OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) built around container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
 
-Both projects prioritize security. Both use Rust-grade isolation primitives. But the philosophies diverge sharply: OpenFang maximizes feature surface (137,000 lines of Rust, 14 crates, 53 tools, 40 channels); OpenLegion minimizes attack surface (~30,000 lines, auditable in hours). This page breaks down the real trade-offs.
+Both projects prioritize security. Both use Rust-grade isolation primitives. But the philosophies diverge sharply: OpenFang maximizes feature surface (137,000 lines of Rust, 14 crates, 53 tools, 40 channels); OpenLegion minimizes attack surface (~77,000 lines, auditable in hours). This page breaks down the real trade-offs.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and OpenFang?**
-> OpenFang is a Rust-native Agent Operating System with 16 claimed security layers, 40 messaging adapters, 7 autonomous "Hands," a WASM sandbox, and a built-in P2P protocol — all compiled into a ~32MB binary. OpenLegion is a Python-based, security-first agent framework with mandatory Docker container isolation per agent, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and deterministic YAML DAG workflows. OpenFang optimizes for feature completeness; OpenLegion optimizes for minimal, auditable security.
+> OpenFang is a Rust-native Agent Operating System with 16 claimed security layers, 40 messaging adapters, 7 autonomous "Hands," a WASM sandbox, and a built-in P2P protocol — all compiled into a ~32MB binary. OpenLegion is a Python-based, security-first agent framework with mandatory Docker container isolation per agent, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). OpenFang optimizes for feature completeness; OpenLegion optimizes for minimal, auditable security.
 
 ## TL;DR
 
@@ -40,17 +40,17 @@ Both projects prioritize security. Both use Rust-grade isolation primitives. But
 |---|---|---|
 | **Primary focus** | Minimal, auditable security | Feature-complete Agent OS |
 | **Language** | Python | Rust |
-| **Codebase** | ~30,000 lines | 137,000 lines (14 crates) |
+| **Codebase** | ~77,000 lines | 137,000 lines (14 crates) |
 | **Binary size** | Python + Docker | ~32MB single binary |
 | **Cold start** | Standard Docker (~2-5s) | 180ms (claimed) |
 | **Agent isolation** | Docker container per agent, non-root | WASM dual-metered sandbox |
 | **Credential security** | Vault proxy — agents never see keys | AES-256-GCM vault + memory zeroization |
 | **Budget controls** | Per-agent daily/monthly hard cutoff | No documented per-agent budget limits |
-| **Orchestration** | Deterministic YAML DAG (acyclic by design) | Workflow engine with fan-out, conditionals, loops |
+| **Orchestration** | Fleet-model coordination — blackboard + pub/sub + handoff (no CEO agent) | Workflow engine with fan-out, conditionals, loops |
 | **LLM providers** | 100+ via LiteLLM | 27+ (3 native drivers) |
 | **Messaging channels** | 5 | 40 |
 | **Security layers** | 6 built-in | 16 (claimed) |
-| **Multi-agent** | YAML-defined fleets with per-agent ACLs | MCP + A2A + OFP P2P protocol |
+| **Multi-agent** | Fleet templates with per-agent ACLs | MCP + A2A + OFP P2P protocol |
 | **Autonomous execution** | Scheduled via workflows | 7 built-in "Hands" (autonomous agents) |
 | **Migration tools** | Manual | Built-in from OpenClaw, LangChain, AutoGPT |
 | **Desktop app** | No | Tauri 2.0 native app |
@@ -73,13 +73,13 @@ Both projects prioritize security. Both use Rust-grade isolation primitives. But
 
 ## Choose OpenLegion if...
 
-**Auditability matters more than feature count.** OpenLegion's ~30,000-line codebase can be read end-to-end by a single engineer. OpenFang's 137,000 lines of Rust across 14 crates is ambitious — but an independent analyst noted this "raises sustainability questions" for a v0.3 project.
+**Auditability matters more than feature count.** OpenLegion's ~77,000-line codebase can be read end-to-end by a single engineer. OpenFang's 137,000 lines of Rust across 14 crates is ambitious — but an independent analyst noted this "raises sustainability questions" for a v0.3 project.
 
 **You need credential isolation, not just encryption.** Both frameworks encrypt secrets at rest. The architectural difference: OpenFang's AES-256-GCM vault stores encrypted keys that the agent runtime decrypts into memory (with zeroization after use). OpenLegion's vault proxy means agents make API calls through a proxy — they never hold decrypted keys in their process memory at any point. If an agent is compromised, there are no keys to extract.
 
 **You need per-agent cost controls with hard cutoffs.** OpenLegion enforces daily and monthly spending limits per agent with automatic hard cutoffs. OpenFang's documentation does not describe per-agent budget enforcement — in a system designed for 24/7 autonomous operation, this is a meaningful gap.
 
-**You want deterministic, auditable routing.** OpenLegion uses YAML DAG workflows that are acyclic by design — infinite loops are structurally impossible, and every workflow is reviewable before execution. OpenFang's workflow engine supports loops and conditional branching controlled by LLM reasoning, which provides flexibility but introduces non-deterministic routing.
+**You want auditable routing.** OpenLegion uses fleet-model coordination — blackboard + pub/sub + handoff — with per-agent tool-loop detection (warn at 2 repeats, block at 4, terminate at 9) so runaway loops are bounded. OpenFang's workflow engine supports loops and conditional branching controlled by LLM reasoning, which provides flexibility but introduces LLM-driven routing.
 
 **You prefer Python's ecosystem.** OpenLegion is Python-native with 100+ LLM providers via LiteLLM. OpenFang requires Rust compilation and currently supports 27 providers through 3 native drivers.
 
@@ -125,11 +125,11 @@ The 1,767+ test count and zero clippy warnings suggest engineering discipline.
 
 **Missing budget controls.** For a system designed for 24/7 autonomous agent operation, the absence of documented per-agent spending limits creates real production risk. An uncontrolled Hand making API calls on a schedule can burn through budgets without alerting anyone.
 
-**Unverified security claims.** 16 security layers is a marketing-friendly number, but none have been independently audited. The project has no SOC 2, ISO 27001, or third-party penetration test results. Neither does OpenLegion — but OpenLegion's ~30,000-line codebase is practical to audit manually.
+**Unverified security claims.** 16 security layers is a marketing-friendly number, but none have been independently audited. The project has no SOC 2, ISO 27001, or third-party penetration test results. Neither does OpenLegion — but OpenLegion's ~77,000-line codebase is practical to audit manually.
 
 ### What OpenLegion covers differently
 
-Where OpenFang addresses security through breadth (16 layers across WASM sandboxing, taint tracking, Merkle audit trails, SSRF protection, and more), OpenLegion addresses it through depth in the three areas that matter most for production agent deployments: credential isolation (vault proxy), execution isolation (Docker containers), and cost isolation (per-agent budgets). OpenLegion's YAML DAG workflows trade OpenFang's loop-capable workflow flexibility for structural guarantees: infinite loops cannot occur, and every workflow is auditable before execution.
+Where OpenFang addresses security through breadth (16 layers across WASM sandboxing, taint tracking, Merkle audit trails, SSRF protection, and more), OpenLegion addresses it through depth in the three areas that matter most for production agent deployments: credential isolation (vault proxy), execution isolation (Docker containers), and cost isolation (per-agent budgets). OpenLegion's fleet-model coordination trade OpenFang's loop-capable workflow flexibility for structural guarantees: infinite loops cannot occur, and every workflow is auditable before execution.
 
 ## Hosting vs Self-Host Tradeoffs
 
@@ -170,7 +170,7 @@ OpenFang is a Rust-native Agent Operating System. It compiles 137,000 lines of R
 
 ### OpenLegion vs OpenFang: what's the difference?
 
-OpenFang maximizes feature surface — 16 security layers, 40 channels, autonomous Hands, P2P networking, migration tools, and a desktop app. OpenLegion maximizes security depth — vault proxy credential isolation (agents never see keys), per-agent budget enforcement with hard cutoffs, Docker container isolation per agent, and deterministic YAML workflows that are auditable before execution.
+OpenFang maximizes feature surface — 16 security layers, 40 channels, autonomous Hands, P2P networking, migration tools, and a desktop app. OpenLegion maximizes security depth — vault proxy credential isolation (agents never see keys), per-agent budget enforcement with hard cutoffs, Docker container isolation per agent, and fleet-model coordination (blackboard + pub/sub + handoff) that are auditable before execution.
 
 ### Is OpenLegion an OpenFang alternative?
 
@@ -190,11 +190,11 @@ OpenFang's documentation does not describe per-agent budget enforcement. For sys
 
 ### How do OpenFang's 16 security layers compare to OpenLegion's 6?
 
-OpenFang's 16 layers span WASM sandboxing, Ed25519 signing, Merkle audit trails, taint tracking, SSRF protection, secret zeroization, HMAC authentication, rate limiting, subprocess isolation, prompt injection scanning, path traversal prevention, AES-256-GCM vault, RBAC, HTTP headers, human approval gates, and a watchdog thread. OpenLegion's 6 layers focus on Docker container isolation, vault proxy credentials, per-agent ACLs, budget enforcement, YAML DAG determinism, and resource caps. OpenFang covers more surface area; OpenLegion goes deeper on the three highest-impact vectors (credentials, isolation, costs). Neither set of claims has been independently audited.
+OpenFang's 16 layers span WASM sandboxing, Ed25519 signing, Merkle audit trails, taint tracking, SSRF protection, secret zeroization, HMAC authentication, rate limiting, subprocess isolation, prompt injection scanning, path traversal prevention, AES-256-GCM vault, RBAC, HTTP headers, human approval gates, and a watchdog thread. OpenLegion's 6 layers focus on Docker container isolation, vault proxy credentials, per-agent ACLs, budget enforcement, fleet-model coordination determinism, and resource caps. OpenFang covers more surface area; OpenLegion goes deeper on the three highest-impact vectors (credentials, isolation, costs). Neither set of claims has been independently audited.
 
 ### Can I migrate from OpenFang to OpenLegion?
 
-OpenFang workflows and Hands would need to be restructured as YAML DAG workflows with explicit agent definitions, tool access controls, and budget limits. LLM configurations transfer directly since both support major providers. See our [AI agent orchestration](/learn/ai-agent-orchestration) page for workflow patterns.
+OpenFang workflows and Hands would need to be restructured as fleet-model coordination with explicit agent definitions, tool access controls, and budget limits. LLM configurations transfer directly since both support major providers. See our [AI agent orchestration](/learn/ai-agent-orchestration) page for workflow patterns.
 
 ---
 

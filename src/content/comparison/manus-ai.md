@@ -1,19 +1,19 @@
 ---
 title: OpenLegion vs Manus AI — Detailed Comparison
 description: >-
-  OpenLegion vs Manus AI: comparison of security, agent isolation, credential
-  management, cost controls, and deployment models for AI agent platforms.
+ OpenLegion vs Manus AI: comparison of security, agent isolation, credential
+ management, cost controls, and deployment models for AI agent platforms.
 slug: /comparison/manus-ai
 primary_keyword: openlegion vs manus ai
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /comparison/crewai
-  - /comparison/openclaw
-  - /comparison/dify
-  - /comparison/google-adk
+ - /comparison/crewai
+ - /comparison/openclaw
+ - /comparison/dify
+ - /comparison/google-adk
 ---
 
 # OpenLegion vs Manus AI: Self-Hosted Control vs Cloud Autonomy
@@ -27,12 +27,12 @@ This is a direct **OpenLegion vs Manus AI** comparison based on public documenta
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and Manus AI?**
-> Manus AI is a closed-source, cloud-only autonomous agent platform that gives each user session a dedicated virtual computer (Firecracker microVM) for task execution. OpenLegion is a source-available (BSL 1.1), security-first AI agent framework with mandatory Docker container isolation per agent, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows. Manus optimizes for autonomous task completion; OpenLegion optimizes for security, transparency, and developer control.
+> Manus AI is a closed-source, cloud-only autonomous agent platform that gives each user session a dedicated virtual computer (Firecracker microVM) for task execution. OpenLegion is a source-available (BSL 1.1), security-first AI agent framework with mandatory Docker container isolation per agent, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). Manus optimizes for autonomous task completion; OpenLegion optimizes for security, transparency, and developer control.
 
 ## TL;DR
 
 - **Manus AI** is the right choice when you need a turnkey autonomous agent that handles research, data analysis, and web automation with minimal developer involvement.
-- **OpenLegion** is the right choice when credential isolation, codebase transparency, self-hosted deployment, per-agent cost controls, and deterministic workflows are hard requirements.
+- **OpenLegion** is the right choice when credential isolation, codebase transparency, self-hosted deployment, per-agent cost controls, and auditable fleet-model coordination are hard requirements.
 - **Security concern**: Independent researchers at Aurascape discovered SilentBridge — a class of zero-click indirect prompt injection attacks against Manus that could access cloud metadata IPs and internal networks.
 - **Credential model**: Manus stores login credentials as encrypted session replay files uploaded to its backend. OpenLegion uses a vault proxy — agents never see raw keys.
 - **Cost predictability**: Manus users report unpredictable credit consumption. One user spent 8,555 credits on a task reported as "100% complete" that was only 37% finished. OpenLegion enforces per-agent daily and monthly budget hard cutoffs.
@@ -43,12 +43,12 @@ This is a direct **OpenLegion vs Manus AI** comparison based on public documenta
 | Dimension | OpenLegion | Manus AI |
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Autonomous task execution |
-| **Architecture** | Three-zone trust model | Virtual computer per session (Firecracker microVM) |
+| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Virtual computer per session (Firecracker microVM) |
 | **Source model** | Source-available (BSL 1.1) | Closed source (proprietary) |
 | **Agent isolation** | Mandatory Docker container per agent, non-root, no-new-privileges | Firecracker microVM per session (~150ms spin-up) |
 | **Credential management** | Vault proxy — blind injection, agents never see keys | Encrypted session replay files uploaded to Manus backend |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | Credit-based, no per-task limits, no rollover |
-| **Orchestration** | Deterministic YAML DAG workflows | Black-box LLM-driven (Analyze-Plan-Execute-Observe-Iterate) |
+| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Black-box LLM-driven (Analyze-Plan-Execute-Observe-Iterate) |
 | **Underlying models** | 100+ via LiteLLM (BYO keys) | Claude 3.5/3.7 Sonnet + Alibaba Qwen (no model choice) |
 | **Self-hosted** | Yes — Python + SQLite + Docker | No — cloud-only, explicitly rejected |
 | **Multi-agent** | YAML-defined agent fleets with per-agent ACLs | "Wide Research" deploys parallel sub-agents (no user control) |
@@ -70,7 +70,7 @@ Post-Meta acquisition, Manus is being integrated into Meta's advertising ecosyst
 
 ### OpenLegion's architecture
 
-OpenLegion uses a three-zone trust model. Each agent runs in its own Docker container — non-root, no Docker socket access, resource-capped. The vault proxy handles all authenticated API calls so agents never see raw credentials. YAML workflows define exact tool access, resource limits, and budgets per agent. Workflows are acyclic by design — infinite loops are structurally impossible.
+OpenLegion uses a four-zone trust model (plus an operator-or-internal tier). Each agent runs in its own Docker container — non-root, no Docker socket access, resource-capped. The vault proxy handles all authenticated API calls so agents never see raw credentials. fleet-model coordination define exact tool access, resource limits, and budgets per agent. Per-agent tool-loop detection (warn at 2 repeats, block at 4, terminate at 9) prevents runaway loops.
 
 ## When to Choose Manus AI
 
@@ -88,9 +88,9 @@ OpenLegion uses a three-zone trust model. Each agent runs in its own Docker cont
 
 **You need cost predictability.** Manus credit consumption is unpredictable — users report tasks draining entire credit allowances with incomplete results. OpenLegion enforces per-agent daily and monthly hard cutoffs. You control exactly what each agent can spend.
 
-**You need self-hosted deployment.** Manus explicitly rejects local deployment. For regulated industries, air-gapped environments, or data sovereignty requirements, OpenLegion runs anywhere you can run Python + Docker.
+**You need self-hosted deployment.** Manus explicitly rejects local deployment. For regulated industries and on-premises environments, or data sovereignty requirements, OpenLegion runs anywhere you can run Python + Docker.
 
-**You need transparency and auditability.** Manus is a closed-source black box. OpenLegion's ~30,000-line codebase is fully auditable. YAML DAG workflows are version-controllable and compliance-reviewable before execution.
+**You need transparency and auditability.** Manus is a closed-source black box. OpenLegion's ~77,000-line codebase is fully auditable. fleet-model coordination are version-controllable and compliance-reviewable before execution.
 
 **You need model choice.** Manus locks you into its chosen model stack. OpenLegion supports 100+ models via LiteLLM with BYO API keys and zero markup on usage.
 
@@ -131,11 +131,11 @@ Manus offers Free (300 daily credits), Plus ($39/month, 3,900 credits), and Pro 
 
 ### Can I self-host Manus AI?
 
-No. Manus AI is cloud-only with no self-hosted option. OpenLegion requires only Python, SQLite, and Docker and runs in any environment including air-gapped networks.
+No. Manus AI is cloud-only with no self-hosted option. OpenLegion requires only Python, SQLite, and Docker and runs in on-premises environments.
 
 ### Can I migrate from Manus AI to OpenLegion?
 
-Manus tasks are not exportable as reusable workflows. Moving to OpenLegion means rebuilding task logic as YAML DAG workflows with explicit agent definitions, tool access controls, and budget limits. The benefit is full transparency and control over every step. See our [AI agent orchestration](/learn/ai-agent-orchestration) page for workflow patterns.
+Manus tasks are not exportable as reusable workflows. Moving to OpenLegion means rebuilding task logic as fleet-model coordination with explicit agent definitions, tool access controls, and budget limits. The benefit is full transparency and control over every step. See our [AI agent orchestration](/learn/ai-agent-orchestration) page for workflow patterns.
 
 ---
 

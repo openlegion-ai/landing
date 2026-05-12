@@ -102,8 +102,8 @@
         "tip": "Alerts you when prices drop, pages update, or events fire"
       },
       "11": {
-        "label": "Trigger via Slack, Telegram, Discord",
-        "tip": "Trigger agents and get updates via the tools your team already uses"
+        "label": "Trigger via Telegram, Discord, Slack, WhatsApp, Webhook",
+        "tip": "Five messaging channels plus a CLI REPL — trigger agents and get updates via the tools your team already uses"
       }
     }
   },
@@ -155,19 +155,18 @@
         "name": "Your content team",
         "agents": {
           "0": "Researcher",
-          "1": "Writer",
-          "2": "Editor"
+          "1": "Writer"
         },
-        "description": "OpenLegion's Content Studio template handles topic research, long-form drafts, and editorial review with consistent brand voice across every piece."
+        "description": "OpenLegion's Content Studio template pairs a researcher and a writer to handle topic research and long-form drafts with consistent brand voice across every piece."
       },
       "3": {
-        "name": "Your trading team",
+        "name": "Your treasury team",
         "agents": {
           "0": "Researcher",
-          "1": "Trader",
+          "1": "Executor",
           "2": "Monitor"
         },
-        "description": "Agents execute onchain — swaps, transfers, DeFi positions — while private keys stay locked in the vault. Per-agent spend limits and transaction simulation on every trade."
+        "description": "Wallet-aware agents execute onchain — swaps, transfers, DeFi positions — while private keys stay locked in the vault and are signed server-side. Per-agent spend limits, daily caps, and EVM + Solana support."
       },
       "4": {
         "name": "Your custom team",
@@ -215,7 +214,7 @@
       "2": "execute",
       "3": "deliver"
     },
-    "tradingEvents": {
+    "treasuryEvents": {
       "0": "Swapped 0.5 ETH → USDC on Base",
       "1": "Spend limit: $48 / $500 today",
       "2": "Monitor checking positions…"
@@ -326,7 +325,7 @@
     "headingHighlight": "AI agent",
     "managedBadge": "Easiest — no setup required",
     "managedHeading": "No terminal. No config files.",
-    "managedDescription": "We handle the containers, credentials, and infrastructure.",
+    "managedDescription": "We handle the containers, credentials, and infrastructure. Talk to the Operator — your fleet's foreman, auto-created when your VPS comes online.",
     "managedCta": "Get Started →",
     "steps": {
       "0": "Create your account",
@@ -387,39 +386,39 @@
   },
   "architecture": {
     "sectionLabel": "Under the hood",
-    "title": "Three zones of protection",
-    "summary": "Your multi-agent fleet runs in three isolated zones — user, coordinator, and sandboxed containers. Nothing any agent touches can reach your API keys, other agents, or the host machine.",
+    "title": "Four trust zones — defense-in-depth",
+    "summary": "Your multi-agent fleet runs across four trust tiers — untrusted external input, sandboxed agents, the trusted mesh, and a loopback-only internal tier — plus an operator-or-internal permission tier. Agents only message each other through the mesh, gated by per-agent ACLs; the mesh holds the keys.",
     "zones": {
       "0": {
         "name": "User Zone",
-        "trust": "Full Trust",
+        "trust": "Untrusted Input",
         "items": {
           "0": "CLI / Telegram / Discord",
           "1": "Slack / WhatsApp / Webhooks",
-          "2": "Direct agent communication"
+          "2": "Sanitized via prompt-injection guards"
         }
       },
       "1": {
         "name": "Mesh Host",
-        "trust": "Trust Zone 2",
+        "trust": "Trusted (Zone 2)",
         "items": {
           "0": "FastAPI on :8420",
-          "1": "Blackboard (SQLite)",
+          "1": "Blackboard (SQLite + WAL)",
           "2": "PubSub + Message Router",
           "3": "Credential Vault (API Proxy)",
-          "4": "Message Router + ACL matrix",
-          "5": "Container Manager + Cost Tracker"
+          "4": "ACL Matrix + Lane Router",
+          "5": "Browser Service :8500 (per-agent Camoufox)"
         }
       },
       "2": {
         "name": "Agent Containers",
-        "trust": "Untrusted / Sandboxed",
+        "trust": "Sandboxed (Zone 1)",
         "items": {
           "0": "FastAPI :8400 (per container)",
           "1": "Own /data volume",
           "2": "Own memory DB (SQLite + vec)",
           "3": "384MB RAM / 0.15 CPU default",
-          "4": "Non-root, no-new-privileges"
+          "4": "UID 1000, cap_drop=ALL, no-new-privileges, read-only FS"
         }
       }
     },
@@ -755,16 +754,16 @@
     "subtitle": "Describe the function you need. OpenLegion creates the agent stack, assigns roles, and gives each agent the controls it needs to work safely.",
     "examples": {
       "0": {
-        "name": "Marketing agency",
+        "name": "Content Studio",
         "roles": {
           "0": "Research",
           "1": "Writing",
-          "2": "Editing",
-          "3": "Reporting"
+          "2": "Briefs",
+          "3": "Delivery"
         }
       },
       "1": {
-        "name": "Sales team",
+        "name": "Sales Pipeline",
         "roles": {
           "0": "Lead research",
           "1": "Qualification",
@@ -773,12 +772,12 @@
         }
       },
       "2": {
-        "name": "Research desk",
+        "name": "Deep Research",
         "roles": {
-          "0": "Monitoring",
-          "1": "Browsing",
-          "2": "Summarizing",
-          "3": "Delivery"
+          "0": "Scout",
+          "1": "Analyst",
+          "2": "Synthesis",
+          "3": "Citations"
         }
       },
       "3": {
@@ -790,10 +789,10 @@
         }
       },
       "4": {
-        "name": "Trading team",
+        "name": "Treasury team",
         "roles": {
           "0": "Researcher",
-          "1": "Trader",
+          "1": "Executor",
           "2": "Monitor"
         }
       }
@@ -828,7 +827,7 @@
         "1": "Engineer opened PR #18",
         "2": "Reviewer reviewing…"
       },
-      "trading": {
+      "treasury": {
         "0": "Swapped 0.5 ETH → USDC",
         "1": "Spend limit: $48 / $500",
         "2": "Monitor checking positions…"
@@ -848,13 +847,13 @@
     "cta": "See how it works",
     "teams": {
       "0": {
-        "name": "Marketing Agency"
+        "name": "Content Studio"
       },
       "1": {
-        "name": "Sales Team"
+        "name": "Sales Pipeline"
       },
       "2": {
-        "name": "Research Desk"
+        "name": "Deep Research"
       },
       "3": {
         "name": "Custom Workforce"

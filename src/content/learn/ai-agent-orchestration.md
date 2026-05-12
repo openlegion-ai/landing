@@ -1,25 +1,25 @@
 ---
 title: AI Agent Orchestration — Coordinate Agents
 description: >-
-  AI agent orchestration platform with deterministic DAG workflows, container
-  isolation, credential vaulting, and per-agent budget controls.
+ Container-isolated multi-agent runtime with fleet-model coordination (blackboard +
+ pub/sub + handoff), credential vaulting, and per-agent budget controls.
 slug: /learn/ai-agent-orchestration
 primary_keyword: ai agent orchestration
 secondary_keywords:
-  - multi-agent orchestration
-  - deterministic ai workflows
-  - ai agent task routing
-  - ai agent dag workflows
-  - agentic ai orchestration
+ - multi-agent coordination
+ - fleet model coordination
+ - ai agent task routing
+ - blackboard pub/sub handoff
+ - agentic ai orchestration
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /learn/ai-agent-platform
-  - /learn/ai-agent-security
-  - /learn/ai-agent-frameworks
-  - /comparison
+ - /learn/ai-agent-platform
+ - /learn/ai-agent-security
+ - /learn/ai-agent-frameworks
+ - /comparison
 ---
 
 # AI Agent Orchestration: Coordinate, Govern, and Control Agent Fleets
@@ -36,8 +36,8 @@ When a single AI agent runs a task, orchestration is simple — there's nothing 
 ## TL;DR
 
 - **Orchestration = coordination + governance.** Routing agents without controlling credentials, budgets, and isolation isn't orchestration — it's a liability.
-- **Deterministic DAG workflows** — OpenLegion uses YAML-defined Directed Acyclic Graphs for task routing. No LLM "CEO agent" making opaque routing decisions.
-- **Fleet model orchestration** — Sequential and parallel execution via deterministic YAML DAGs, with blackboard coordination and pub/sub messaging. Fleet model, not hierarchy.
+- **Fleet-model coordination** — OpenLegion uses blackboard, pub/sub, and handoff primitives for task routing. No LLM "CEO agent" making opaque routing decisions.
+- **Fleet model orchestration** — Sequential and parallel execution via fleet-model coordination, with blackboard coordination and pub/sub messaging. Fleet model, not hierarchy.
 - **Credential isolation is an orchestration concern** — When Agent A hands off to Agent B, neither should see the other's API keys or be able to escalate permissions.
 - **Per-agent cost controls** — Each agent in the fleet has its own daily/monthly budget with hard cutoff. A runaway agent doesn't drain your entire account.
 - **Shared state via Blackboard** — Agents communicate through a centralized SQLite Blackboard with PubSub messaging. No direct agent-to-agent connections.
@@ -75,7 +75,7 @@ Three Research Agents run in parallel — one per competitor — each scraping p
 
 ### Blackboard coordination and pub/sub messaging
 
-OpenLegion uses a fleet model, not a hierarchy. All agents communicate through a centralized Blackboard (SQLite-backed shared state) with pub/sub messaging handled by the Mesh Host. There is no "CEO agent" or supervisor agent making routing decisions — the YAML DAG defines the execution order, and the Blackboard provides the shared context that agents read from and write to during execution. This keeps coordination deterministic and auditable.
+OpenLegion uses a fleet model, not a hierarchy. All agents communicate through a centralized Blackboard (SQLite-backed shared state) with pub/sub messaging handled by the Mesh Host. There is no "CEO agent" or supervisor agent making routing decisions — the fleet-model coordination defines the execution order, and the Blackboard provides the shared context that agents read from and write to during execution. This keeps coordination auditable.
 
 ## Why Isolation, Vault, and Budget Controls Are Orchestration Concerns
 
@@ -95,9 +95,9 @@ In a multi-agent workflow, token costs distribute unevenly. A Research Agent mig
 
 OpenLegion's orchestrator tracks token usage per agent in real time. When an agent hits its daily or monthly cap, the orchestrator halts that specific agent and reroutes or pauses the workflow — without killing the entire pipeline. This is orchestration logic, not just monitoring.
 
-### Permission enforcement across the DAG
+### Permission enforcement across the fleet
 
-In a YAML-defined DAG workflow, each node maps to an agent with a specific permission set. The Permission Matrix defines which tools each agent can call, which files it can access, and which mesh operations it's allowed to perform. The orchestrator enforces these constraints at every transition point.
+In a fleet-model coordination (blackboard + pub/sub + handoff), each agent has a specific permission set. The per-agent ACL matrix defines which tools each agent can call, which files it can access, and which mesh operations it's allowed to perform. The orchestrator enforces these constraints at every transition point.
 
 This means you can audit the entire workflow statically — before any agent runs — and verify that no agent has permissions it shouldn't.
 
@@ -115,20 +115,20 @@ The PM can read project files and write to the Blackboard. The Engineer can exec
 PM: $2/day (mostly planning, low token usage). Engineer: $15/day (heavy code generation). Reviewer: $5/day (analysis and feedback). Monthly caps prevent cumulative overruns.
 
 **Step 4: Deploy.**
-`openlegion start` provisions three isolated containers, injects the appropriate credentials into each via the vault proxy, and starts the DAG. The dashboard shows real-time token usage, cost tracking, and streaming output per agent.
+`openlegion start` provisions three isolated containers, injects the appropriate credentials into each via the vault proxy, and starts the fleet. The dashboard shows real-time token usage, cost tracking, and streaming output per agent.
 
 **Step 5: Monitor and audit.**
-Deterministic DAG execution means every workflow step is explicit and traceable. The built-in request tracing system records task transitions, tool calls, and token expenditure for real-time observability — without parsing opaque LLM decision logs.
+Auditable fleet-model coordination means every workflow step is explicit and traceable. The built-in request tracing system records task transitions, tool calls, and token expenditure for real-time observability — without parsing opaque LLM decision logs.
 
 ## AI Agent Orchestration Tools Compared
 
 | Capability | OpenLegion | LangGraph | CrewAI | AutoGen |
 |---|---|---|---|---|
-| **Orchestration model** | Deterministic YAML DAG | Programmatic StateGraph | Role-based Crews + event-driven Flows | Conversation-based group chat |
+| **Orchestration model** | Fleet-model coordination (blackboard + pub/sub + handoff) | Programmatic StateGraph | Role-based Crews + event-driven Flows | Conversation-based group chat |
 | **Agent isolation** | Docker container per agent (mandatory) | None built-in | Shared Python process | Docker for code execution only |
 | **Credential management** | Vault proxy — blind injection | Environment variables | Environment variables | Environment variables |
 | **Budget controls** | Per-agent daily/monthly with hard cutoff | None | None | None |
-| **Task routing** | Static DAG — auditable before execution | Conditional edges (code-defined) | Hierarchical manager agent or sequential | RoundRobin, Selector, Swarm, GraphFlow |
+| **Task routing** | Fleet model — blackboard + pub/sub + handoff (no CEO agent) | Conditional edges (code-defined) | Hierarchical manager agent or sequential | RoundRobin, Selector, Swarm, GraphFlow |
 | **Shared state** | Blackboard (SQLite) with PubSub | StateGraph with checkpointing | Shared crew memory | Message-passing between agents |
 | **Human-in-the-loop** | Supported via channel integrations | Native `interrupt()` API with time-travel | Supported | UserProxy agent |
 | **Multi-channel** | CLI, Telegram, Discord, Slack, WhatsApp + webhooks | Custom integration required | Custom integration required | Custom integration required |
@@ -162,15 +162,15 @@ An AI agent orchestration platform provides managed infrastructure for coordinat
 
 ### How do you orchestrate multiple AI agents in production?
 
-In production, multi-agent orchestration requires four things beyond a working prototype: runtime isolation (each agent in its own container), credential separation (no shared API keys between agents), budget enforcement (per-agent cost limits with hard cutoffs), and deterministic routing (auditable task flows). OpenLegion handles all four through YAML-defined DAG workflows deployed across isolated Docker containers with a vault proxy for credential management.
+In production, multi-agent orchestration requires four things beyond a working prototype: runtime isolation (each agent in its own container), credential separation (no shared API keys between agents), budget enforcement (per-agent cost limits with hard cutoffs), and auditable task routing. OpenLegion handles all four through fleet-model coordination (blackboard + pub/sub + handoff) deployed across isolated Docker containers with a vault proxy for credential management.
 
 ### How do cost controls work in AI agent orchestration?
 
 OpenLegion enforces per-agent daily and monthly token budgets with automatic hard cutoff. When an agent reaches its limit, the orchestrator halts that specific agent without killing the rest of the pipeline. This prevents a single chatty agent from consuming the entire project budget. Costs are tracked in real time and visible in the fleet dashboard.
 
-### What's the difference between LLM-based and deterministic orchestration?
+### What's the difference between LLM-based and fleet-model coordination (blackboard + pub/sub + handoff)?
 
-LLM-based orchestration uses an AI model (a "CEO agent") to decide which agent handles each task at runtime. This is flexible but opaque — you can't predict or audit routing decisions in advance. Deterministic orchestration uses predefined rules (YAML DAGs in OpenLegion's case) that are auditable before any agent runs. You know exactly which agent handles what, under what conditions, with what permissions.
+LLM-based orchestration uses an AI model (a "CEO agent") to decide which agent handles each task at runtime. This is flexible but opaque — you can't predict or audit routing decisions in advance. Auditable fleet-model coordination uses predefined rules (fleet-model coordination in OpenLegion's case) that are auditable before any agent runs. You know exactly which agent handles what, under what conditions, with what permissions.
 
 ### Can I use OpenLegion for multi-agent orchestration with any LLM?
 
@@ -178,7 +178,7 @@ Yes. OpenLegion supports 100+ LLM providers through LiteLLM, including OpenAI, A
 
 ### How does OpenLegion's orchestration compare to LangGraph?
 
-LangGraph uses a programmatic StateGraph where nodes are Python functions and edges define transitions. It offers powerful control over state and flow but provides no built-in isolation, credential management, or cost controls. OpenLegion uses YAML-defined DAGs with container isolation, vault proxy credential injection, and per-agent budgets as native orchestration features. LangGraph gives more programmatic flexibility; OpenLegion adds governance as a first-class orchestration concern.
+LangGraph uses a programmatic StateGraph where nodes are Python functions and edges define transitions. It offers powerful control over state and flow but provides no built-in isolation, credential management, or cost controls. OpenLegion uses fleet-model coordination — blackboard + pub/sub + handoff — with container isolation, vault proxy credential injection, and per-agent budgets as native orchestration features. LangGraph gives more programmatic flexibility; OpenLegion adds governance as a first-class orchestration concern.
 
 ---
 
