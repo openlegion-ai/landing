@@ -38,10 +38,19 @@ export default async function FAQPage({ params }: PageProps) {
   const t = await getTranslations("faq");
   const tCommon = await getTranslations("contentPage");
 
+  // Build the localized FAQ list from translations, matching the canonical
+  // English ordering in ALL_FAQ_ITEMS (used as the source of truth for the
+  // 14-item index range). Each locale's messages/<loc>.json provides the
+  // translated question/answer at faq.items.<idx>.{question,answer}.
+  const faqItems = ALL_FAQ_ITEMS.map((_, idx) => ({
+    question: t(`items.${idx}.question`),
+    answer: t(`items.${idx}.answer`),
+  }));
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: ALL_FAQ_ITEMS.map((item) => ({
+    mainEntity: faqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -88,7 +97,7 @@ export default async function FAQPage({ params }: PageProps) {
           </AnimateIn>
 
           <StaggerContainer className="space-y-3">
-            {ALL_FAQ_ITEMS.map((item, i) => (
+            {faqItems.map((item, i) => (
               <StaggerItem key={i}>
                 <details className="faq-details gradient-border glass-shine overflow-hidden rounded-xl border border-border/50 glass-card transition-all duration-300 group">
                   <summary

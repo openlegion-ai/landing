@@ -42,6 +42,15 @@ async function getGitHubStars(): Promise<string | null> {
 export default async function Home() {
   const stars = await getGitHubStars();
   const t = await getTranslations("common");
+  const tFaq = await getTranslations("faq");
+
+  // Locale-aware FAQ items for the FAQPage JSON-LD payload below. The
+  // canonical 14-item ordering comes from ALL_FAQ_ITEMS; each locale's
+  // messages/<loc>.json supplies translated text at faq.items.<idx>.*.
+  const localizedFaqItems = ALL_FAQ_ITEMS.map((_, idx) => ({
+    question: tFaq(`items.${idx}.question`),
+    answer: tFaq(`items.${idx}.answer`),
+  }));
 
   const homeTitle =
     "OpenLegion — Container-Isolated Multi-Agent Runtime | Automate, Stay in Control";
@@ -217,7 +226,7 @@ export default async function Home() {
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: ALL_FAQ_ITEMS.map((item) => ({
+    mainEntity: localizedFaqItems.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
