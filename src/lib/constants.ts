@@ -22,6 +22,7 @@ export const SUPPORTED_LOCALES = [
   "ar",      // Arabic
   "hi",      // Hindi
   "ru",      // Russian
+  "th",      // Thai
 ];
 
 export const DEFAULT_LOCALE = "en";
@@ -43,6 +44,7 @@ export const LOCALE_LABELS: Record<string, string> = {
   ar: "العربية",
   hi: "हिन्दी",
   ru: "Русский",
+  th: "ไทย",
 };
 
 // ── Nav ──────────────────────────────────────────────────────────────────────

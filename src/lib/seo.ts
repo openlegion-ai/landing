@@ -41,4 +41,5 @@ export const OG_LOCALE_MAP: Record<string, string> = {
   ar: "ar_SA",
   hi: "hi_IN",
   ru: "ru_RU",
+  th: "th_TH",
 };
