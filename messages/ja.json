@@ -483,7 +483,7 @@
     "footnote": "OpenLegionは2026年2月にローンチしました。GitHubスター数はプロジェクトの歴史を反映しており、本番環境での実績ではありません。"
   },
   "faq": {
-    "sectionLabel": "FAQ",
+    "sectionLabel": "よくある質問",
     "heading": "よくある",
     "headingHighlight": "ご質問",
     "fullPageSubtitle": "OpenLegionでのAIエージェントフリートのデプロイ、セキュリティ、スケーリングについて知っておくべきすべてのこと。",
@@ -574,7 +574,7 @@
           "3": "セキュリティ",
           "4": "料金",
           "5": "クイックスタート",
-          "6": "FAQ"
+          "6": "よくある質問"
         }
       },
       "1": {
@@ -908,7 +908,9 @@
     "privacyTitle": "プライバシーポリシー",
     "privacyDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングのプライバシーポリシー。マネージドホスティングおよびopenlegion.aiウェブサイト全体で、データをどのように収集、利用、保護しているかをご覧ください。",
     "termsTitle": "利用規約",
-    "termsDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングの利用規約。マネージドホスティング、BSL 1.1ライセンス下でのセルフホスト型デプロイメント、openlegion.aiウェブサイトをカバーします。"
+    "termsDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングの利用規約。マネージドホスティング、BSL 1.1ライセンス下でのセルフホスト型デプロイメント、openlegion.aiウェブサイトをカバーします。",
+    "moneyBackTitle": "7日間返金保証",
+    "moneyBackDescription": "OpenLegion がご期待に沿わない場合、初月分を全額返金。理由は問いません。"
   },
   "contentPage": {
     "breadcrumbHome": "ホーム",

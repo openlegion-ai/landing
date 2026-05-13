@@ -1,13 +1,30 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Footer } from "@/components/footer";
+import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "Privacy Policy for the OpenLegion AI agent framework and managed hosting. Learn how we collect, use, and protect your data across managed hosting and the openlegion.ai website.",
-  alternates: { canonical: "https://www.openlegion.ai/privacy" },
-  robots: { index: true, follow: true },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations("metadata");
+  return {
+    title: t("privacyTitle"),
+    description: t("privacyDescription"),
+    alternates: navPageAlternates(locale, "/privacy"),
+    openGraph: {
+      title: t("privacyTitle"),
+      description: t("privacyDescription"),
+      type: "website",
+      siteName: "OpenLegion",
+      url: `${SITE_URL}/${locale}/privacy`,
+      locale: OG_LOCALE_MAP[locale] || "en_US",
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 export default function PrivacyPage() {
   return (

@@ -1,14 +1,31 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Footer } from "@/components/footer";
 import { Link } from "@/i18n/navigation";
+import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Terms of Service",
-  description:
-    "Terms of Service for the OpenLegion AI agent framework and managed hosting. Covers managed hosting, self-hosted deployment under BSL 1.1 license, and the openlegion.ai website.",
-  alternates: { canonical: "https://www.openlegion.ai/terms" },
-  robots: { index: true, follow: true },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations("metadata");
+  return {
+    title: t("termsTitle"),
+    description: t("termsDescription"),
+    alternates: navPageAlternates(locale, "/terms"),
+    openGraph: {
+      title: t("termsTitle"),
+      description: t("termsDescription"),
+      type: "website",
+      siteName: "OpenLegion",
+      url: `${SITE_URL}/${locale}/terms`,
+      locale: OG_LOCALE_MAP[locale] || "en_US",
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 export default function TermsPage() {
   return (

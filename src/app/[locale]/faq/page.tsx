@@ -4,21 +4,27 @@ import { getTranslations } from "next-intl/server";
 import { Footer } from "@/components/footer";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { ALL_FAQ_ITEMS } from "@/lib/constants";
+import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations("metadata");
+  const alternates = navPageAlternates(locale, "/faq");
   return {
     title: t("faqTitle"),
     description: t("faqDescription"),
-    alternates: {
-      canonical: "https://www.openlegion.ai/faq",
-    },
+    alternates,
     openGraph: {
       title: t("faqOgTitle"),
       description: t("faqOgDescription"),
       type: "website",
       siteName: "OpenLegion",
-      url: "https://www.openlegion.ai/faq",
+      url: `${SITE_URL}/${locale}/faq`,
+      locale: OG_LOCALE_MAP[locale] || "en_US",
     },
     twitter: {
       card: "summary_large_image",

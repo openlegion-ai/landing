@@ -17,7 +17,7 @@
         "label": "Precios"
       },
       "docs": {
-        "label": "Docs"
+        "label": "Documentación"
       }
     },
     "ariaLabel": "Navegación principal",
@@ -185,7 +185,7 @@
     },
     "funnelBars": {
       "0": {
-        "label": "leads"
+        "label": "prospectos"
       },
       "1": {
         "label": "calificados"
@@ -823,7 +823,7 @@
         }
       },
       "sales": {
-        "0": "leads",
+        "0": "prospectos",
         "1": "cualificados",
         "2": "convertidos"
       },
@@ -908,7 +908,9 @@
     "privacyTitle": "Política de privacidad",
     "privacyDescription": "Política de privacidad del framework de agentes de IA OpenLegion y del alojamiento gestionado. Aprende cómo recopilamos, usamos y protegemos tus datos en el alojamiento gestionado y en el sitio openlegion.ai.",
     "termsTitle": "Términos de servicio",
-    "termsDescription": "Términos de servicio del framework de agentes de IA OpenLegion y del alojamiento gestionado. Cubre alojamiento gestionado, despliegue autoalojado bajo licencia BSL 1.1 y el sitio openlegion.ai."
+    "termsDescription": "Términos de servicio del framework de agentes de IA OpenLegion y del alojamiento gestionado. Cubre alojamiento gestionado, despliegue autoalojado bajo licencia BSL 1.1 y el sitio openlegion.ai.",
+    "moneyBackTitle": "Garantía de devolución de 7 días",
+    "moneyBackDescription": "Reembolso completo de tu primer mes si OpenLegion no encaja. Sin preguntas."
   },
   "contentPage": {
     "breadcrumbHome": "Inicio",

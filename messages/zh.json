@@ -908,7 +908,9 @@
     "privacyTitle": "隐私政策",
     "privacyDescription": "OpenLegion AI 智能体框架与托管服务的隐私政策。了解我们如何在托管服务及 openlegion.ai 网站上收集、使用和保护你的数据。",
     "termsTitle": "服务条款",
-    "termsDescription": "OpenLegion AI 智能体框架与托管服务的服务条款。涵盖托管服务、BSL 1.1 许可下的自托管部署以及 openlegion.ai 网站。"
+    "termsDescription": "OpenLegion AI 智能体框架与托管服务的服务条款。涵盖托管服务、BSL 1.1 许可下的自托管部署以及 openlegion.ai 网站。",
+    "moneyBackTitle": "7 天退款保证",
+    "moneyBackDescription": "如果 OpenLegion 不适合你，首月费用全额退款，无需任何理由。"
   },
   "contentPage": {
     "breadcrumbHome": "首页",

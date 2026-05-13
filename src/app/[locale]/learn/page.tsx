@@ -5,9 +5,10 @@ import { getLearnEntries } from "@/lib/markdown";
 import { JsonLd, buildBreadcrumbSchema, buildItemListSchema } from "@/components/json-ld";
 import { Footer } from "@/components/footer";
 import { SUPPORTED_LOCALES } from "@/lib/constants";
+import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
 
 const SLUG = "/learn";
-const BASE_URL = "https://www.openlegion.ai";
+const BASE_URL = SITE_URL;
 
 export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
@@ -17,30 +18,23 @@ const TITLE = "Learn — AI Agent Framework, Coordination & Security";
 const DESCRIPTION =
   "Practical guides to running production AI agents: runtime architecture, coordination patterns, framework selection, and the agent threat model.";
 
-export function generateMetadata(): Metadata {
-  // Page-level `alternates` overrides (not merges with) the layout's
-  // alternates, so we must rebuild the full hreflang map here. Without this
-  // the locale-prefixed /<locale>/learn URLs inherit the layout's homepage
-  // hreflang, which points at "/" and is wrong for this page.
-  const languages: Record<string, string> = {};
-  for (const loc of SUPPORTED_LOCALES) {
-    languages[loc] = `${BASE_URL}/${loc}${SLUG}`;
-  }
-  languages["x-default"] = `${BASE_URL}/en${SLUG}`;
-
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
   return {
     title: TITLE,
     description: DESCRIPTION,
-    alternates: {
-      canonical: `${BASE_URL}/en${SLUG}`,
-      languages,
-    },
+    alternates: navPageAlternates(locale, SLUG),
     openGraph: {
       title: TITLE,
       description: DESCRIPTION,
       type: "website",
       siteName: "OpenLegion",
-      url: `${BASE_URL}/en${SLUG}`,
+      url: `${BASE_URL}/${locale}${SLUG}`,
+      locale: OG_LOCALE_MAP[locale] || "en_US",
       images: [
         {
           url: "/og/learn.png",

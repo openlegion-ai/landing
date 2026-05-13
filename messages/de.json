@@ -17,7 +17,7 @@
         "label": "Preise"
       },
       "docs": {
-        "label": "Docs"
+        "label": "Dokumentation"
       }
     },
     "ariaLabel": "Hauptnavigation",
@@ -412,7 +412,7 @@
       },
       "2": {
         "name": "Agenten-Container",
-        "trust": "Sandboxed (Zone 1)",
+        "trust": "Sandbox (Zone 1)",
         "items": {
           "0": "FastAPI :8400 (pro Container)",
           "1": "Eigenes /data-Volume",
@@ -908,7 +908,9 @@
     "privacyTitle": "Datenschutzrichtlinie",
     "privacyDescription": "Datenschutzrichtlinie des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Erfahre, wie wir deine Daten im Managed Hosting und auf der Website openlegion.ai erfassen, verwenden und schützen.",
     "termsTitle": "Nutzungsbedingungen",
-    "termsDescription": "Nutzungsbedingungen des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Umfasst Managed Hosting, selbstgehostetes Deployment unter BSL 1.1 Lizenz und die Website openlegion.ai."
+    "termsDescription": "Nutzungsbedingungen des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Umfasst Managed Hosting, selbstgehostetes Deployment unter BSL 1.1 Lizenz und die Website openlegion.ai.",
+    "moneyBackTitle": "7-Tage Geld-zurück-Garantie",
+    "moneyBackDescription": "Volle Rückerstattung des ersten Monats, falls OpenLegion nicht passt. Ohne Wenn und Aber."
   },
   "contentPage": {
     "breadcrumbHome": "Startseite",

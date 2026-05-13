@@ -284,7 +284,7 @@
     "healthOnline": "En ligne",
     "healthDegraded": "Dégradé",
     "activityLabel": "Activité",
-    "heartbeatLabel": "Heartbeat",
+    "heartbeatLabel": "Pulsation",
     "costTodayLabel": "Coût aujourd'hui",
     "chatButton": "Chat",
     "pauseButton": "Pause",
@@ -412,7 +412,7 @@
       },
       "2": {
         "name": "Conteneurs d'agents",
-        "trust": "Sandboxed (Zone 1)",
+        "trust": "En sandbox (Zone 1)",
         "items": {
           "0": "FastAPI :8400 (par conteneur)",
           "1": "Volume /data propre",
@@ -908,7 +908,9 @@
     "privacyTitle": "Politique de confidentialité",
     "privacyDescription": "Politique de confidentialité du framework d'agents IA OpenLegion et de l'hébergement managé. Découvrez comment nous collectons, utilisons et protégeons vos données sur l'hébergement managé et le site openlegion.ai.",
     "termsTitle": "Conditions d'utilisation",
-    "termsDescription": "Conditions d'utilisation du framework d'agents IA OpenLegion et de l'hébergement managé. Couvre l'hébergement managé, le déploiement auto-hébergé sous licence BSL 1.1 et le site openlegion.ai."
+    "termsDescription": "Conditions d'utilisation du framework d'agents IA OpenLegion et de l'hébergement managé. Couvre l'hébergement managé, le déploiement auto-hébergé sous licence BSL 1.1 et le site openlegion.ai.",
+    "moneyBackTitle": "Garantie satisfait ou remboursé sous 7 jours",
+    "moneyBackDescription": "Remboursement intégral du premier mois si OpenLegion ne vous convient pas. Sans condition."
   },
   "contentPage": {
     "breadcrumbHome": "Accueil",
