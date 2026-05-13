@@ -19,6 +19,7 @@ const allMessages: Record<string, Record<string, unknown>> = {
   ar: require("../../messages/ar.json"),
   hi: require("../../messages/hi.json"),
   ru: require("../../messages/ru.json"),
+  th: require("../../messages/th.json"),
 };
 
 export default getRequestConfig(async ({ requestLocale }) => {

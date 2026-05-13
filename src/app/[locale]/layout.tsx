@@ -35,7 +35,7 @@ export function generateStaticParams() {
 const OG_LOCALE_MAP: Record<string, string> = {
   en: "en_US", zh: "zh_CN", "zh-TW": "zh_TW", ja: "ja_JP", ko: "ko_KR",
   es: "es_ES", fr: "fr_FR", de: "de_DE", pt: "pt_BR", ar: "ar_SA",
-  hi: "hi_IN", ru: "ru_RU",
+  hi: "hi_IN", ru: "ru_RU", th: "th_TH",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
