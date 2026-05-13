@@ -1253,5 +1253,38 @@
         "company": "Studio Créatif"
       }
     }
+  },
+  "moneyBackPage": {
+    "title": "Garantie satisfait ou remboursé sous 7 jours",
+    "tagline": "Remboursement intégral du premier mois, sans condition.",
+    "intro": "On assume OpenLegion. Si ton premier mois ne te convient pas pour quelque raison que ce soit, écris à {email} dans les 7 jours suivant ton premier paiement d'abonnement, et on te rembourse intégralement le montant réellement payé (le tarif de lancement facturé par Polar — pas le prix d'ancrage plus élevé affiché à côté).",
+    "covered": {
+      "heading": "Ce qui est couvert",
+      "items": {
+        "0": "Ton premier paiement d'abonnement (le montant réellement débité — p. ex. 19 $ pour Basic mensuel).",
+        "1": "Remboursement intégral de ce montant — sans condition, sans prorata."
+      }
+    },
+    "notCovered": {
+      "heading": "Ce qui n'est pas couvert",
+      "items": {
+        "0": "Les recharges de crédits (les crédits déjà consommés ne sont pas remboursables — les crédits non utilisés restent sur ton compte jusqu'au traitement du remboursement).",
+        "1": "Les facturations de renouvellement après les 7 premiers jours.",
+        "2": "Les abonnements utilisés de manière abusive (violation de la politique d'utilisation acceptable)."
+      }
+    },
+    "afterRefund": {
+      "heading": "Ce qu'il advient de ton compte après un remboursement",
+      "items": {
+        "0": "Ton abonnement est annulé et ton instance hébergée est désapprovisionnée peu après le traitement du remboursement.",
+        "1": "Les crédits de bienvenue accordés avec l'abonnement sont récupérés et ton solde de crédits revient à zéro (cohérent avec le remboursement).",
+        "2": "Tu n'as plus droit à un second remboursement ni à une seconde dotation de crédits de bienvenue sur un abonnement futur. Les abonnements futurs sont facturés normalement."
+      }
+    },
+    "howTo": {
+      "heading": "Comment demander un remboursement",
+      "body": "Écris à {email} avec l'email de ton compte et l'ID d'abonnement. Les remboursements sont traités sous 5 jours ouvrés via Polar (les fonds reviennent sur ton moyen de paiement d'origine)."
+    },
+    "email": "support@openlegion.ai"
   }
 }

@@ -1253,5 +1253,38 @@
         "company": "Kreativ-Studio"
       }
     }
+  },
+  "moneyBackPage": {
+    "title": "7-Tage Geld-zurück-Garantie",
+    "tagline": "Volle Rückerstattung des ersten Monats, ohne Wenn und Aber.",
+    "intro": "Wir stehen hinter OpenLegion. Falls dein erster Monat aus irgendeinem Grund nicht passt, schreib innerhalb von 7 Tagen nach deiner ersten Abo-Zahlung an {email} und wir erstatten den vollen tatsächlich gezahlten Betrag (den Launch-Pricing-Betrag, der von Polar abgerechnet wurde — nicht den höheren Anker-Preis daneben).",
+    "covered": {
+      "heading": "Was abgedeckt ist",
+      "items": {
+        "0": "Deine erste Abo-Zahlung (der tatsächlich abgerechnete Betrag — z.B. $19 für Basic monatlich).",
+        "1": "Volle Rückerstattung dieses Betrags — ohne Wenn und Aber, ohne anteilige Verrechnung."
+      }
+    },
+    "notCovered": {
+      "heading": "Was nicht abgedeckt ist",
+      "items": {
+        "0": "Credit-Aufladungen (bereits verbrauchte Credits sind nicht rückerstattbar — ungenutzte Credits bleiben bis zur Rückerstattung in deinem Konto).",
+        "1": "Folge-Abrechnungen nach den ersten 7 Tagen.",
+        "2": "Missbräuchlich genutzte Abos (Verstoß gegen die Nutzungsbedingungen)."
+      }
+    },
+    "afterRefund": {
+      "heading": "Was nach der Rückerstattung mit deinem Konto passiert",
+      "items": {
+        "0": "Dein Abo wird gekündigt und deine gehostete Instanz kurz nach der Rückerstattung deprovisioniert.",
+        "1": "Mit dem Abo gewährte Welcome-Credits werden zurückgenommen und dein Credit-Saldo geht auf null (konsistent mit der Rückerstattung).",
+        "2": "Du bist nicht berechtigt, eine zweite Geld-zurück-Erstattung oder erneute Welcome-Credits bei einem späteren Abo zu erhalten. Zukünftige Abos werden normal abgerechnet."
+      }
+    },
+    "howTo": {
+      "heading": "Wie du eine Rückerstattung beantragst",
+      "body": "Schick eine E-Mail an {email} mit deiner Konto-E-Mail und Abo-ID. Rückerstattungen werden innerhalb von 5 Werktagen über Polar abgewickelt (Beträge gehen auf deine ursprüngliche Zahlungsmethode zurück)."
+    },
+    "email": "support@openlegion.ai"
   }
 }

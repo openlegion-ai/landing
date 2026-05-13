@@ -1253,5 +1253,38 @@
         "company": "Estúdio Criativo"
       }
     }
+  },
+  "moneyBackPage": {
+    "title": "Garantia de reembolso em 7 dias",
+    "tagline": "Reembolso total do primeiro mês, sem perguntas.",
+    "intro": "Acreditamos no OpenLegion. Se o seu primeiro mês não servir por qualquer motivo, escreva para {email} em até 7 dias após o primeiro pagamento da assinatura e devolvemos o valor total que você realmente pagou (o valor de preço de lançamento cobrado pelo Polar — não o preço de âncora mais alto exibido ao lado).",
+    "covered": {
+      "heading": "O que está coberto",
+      "items": {
+        "0": "Seu primeiro pagamento de assinatura (o valor realmente cobrado — por exemplo, $19 para o Basic mensal).",
+        "1": "Reembolso total desse valor — sem perguntas, sem proporcionalidade."
+      }
+    },
+    "notCovered": {
+      "heading": "O que não está coberto",
+      "items": {
+        "0": "Recargas de créditos (créditos já consumidos não são reembolsáveis — créditos não utilizados permanecem na sua conta até o reembolso ser processado).",
+        "1": "Cobranças de renovação após os primeiros 7 dias.",
+        "2": "Assinaturas usadas abusivamente (violando a política de uso aceitável)."
+      }
+    },
+    "afterRefund": {
+      "heading": "O que acontece com sua conta após o reembolso",
+      "items": {
+        "0": "Sua assinatura é cancelada e sua instância hospedada é desprovisionada logo após o reembolso ser processado.",
+        "1": "Os créditos de boas-vindas concedidos com a assinatura são recuperados e o saldo de créditos volta a zero (consistente com o reembolso).",
+        "2": "Você não tem direito a um segundo reembolso nem a uma segunda concessão de créditos de boas-vindas em uma assinatura futura. Assinaturas futuras são cobradas normalmente."
+      }
+    },
+    "howTo": {
+      "heading": "Como solicitar reembolso",
+      "body": "Escreva para {email} com o e-mail da sua conta e o ID da assinatura. Os reembolsos são processados em até 5 dias úteis via Polar (os fundos retornam à forma de pagamento original)."
+    },
+    "email": "support@openlegion.ai"
   }
 }

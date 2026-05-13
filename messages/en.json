@@ -1253,5 +1253,38 @@
         "company": "Creative Studio"
       }
     }
+  },
+  "moneyBackPage": {
+    "title": "7-Day Money-Back Guarantee",
+    "tagline": "Full refund on your first month, no questions asked.",
+    "intro": "We stand behind OpenLegion. If your first month isn't a fit for any reason, email {email} within 7 days of your first subscription payment and we'll refund the full amount you actually paid (the launch-pricing amount billed by Polar — not the higher anchor displayed alongside).",
+    "covered": {
+      "heading": "What's covered",
+      "items": {
+        "0": "Your first subscription payment (the actual amount charged — e.g. $19 for Basic monthly).",
+        "1": "Full refund of that amount — no questions asked, no partial pro-ration."
+      }
+    },
+    "notCovered": {
+      "heading": "What's not covered",
+      "items": {
+        "0": "Credit top-ups (already consumed credits are non-refundable — unused credits remain on your account until the refund is processed).",
+        "1": "Renewal billing after the first 7 days.",
+        "2": "Subscriptions used abusively (violating the acceptable use policy)."
+      }
+    },
+    "afterRefund": {
+      "heading": "What happens to your account after a refund",
+      "items": {
+        "0": "Your subscription is cancelled and your hosted instance is deprovisioned shortly after the refund is processed.",
+        "1": "Welcome credits granted with the subscription are reclaimed and your credit balance returns to zero (consistent with the refund).",
+        "2": "You are not eligible to claim a second money-back refund or a second welcome-credits grant on a future subscription. Future subscriptions are billed normally."
+      }
+    },
+    "howTo": {
+      "heading": "How to request a refund",
+      "body": "Email {email} with your account email and subscription ID. Refunds are processed within 5 business days via Polar (funds return to your original payment method)."
+    },
+    "email": "support@openlegion.ai"
   }
 }

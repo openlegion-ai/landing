@@ -1253,5 +1253,38 @@
         "company": "Estudio Creativo"
       }
     }
+  },
+  "moneyBackPage": {
+    "title": "Garantía de devolución de 7 días",
+    "tagline": "Reembolso completo de tu primer mes, sin preguntas.",
+    "intro": "Respaldamos OpenLegion. Si tu primer mes no encaja por cualquier razón, escríbenos a {email} dentro de los 7 días posteriores a tu primer pago de suscripción y te reembolsaremos el monto total que pagaste (el precio de lanzamiento cobrado por Polar — no el precio ancla más alto que se muestra al lado).",
+    "covered": {
+      "heading": "Qué cubre",
+      "items": {
+        "0": "Tu primer pago de suscripción (el monto realmente cobrado — p. ej. $19 para Basic mensual).",
+        "1": "Reembolso total de ese monto — sin preguntas, sin prorrateo."
+      }
+    },
+    "notCovered": {
+      "heading": "Qué no cubre",
+      "items": {
+        "0": "Recargas de créditos (los créditos ya consumidos no son reembolsables — los créditos no usados permanecen en tu cuenta hasta que se procese el reembolso).",
+        "1": "Renovaciones después de los primeros 7 días.",
+        "2": "Suscripciones usadas de forma abusiva (violando la política de uso aceptable)."
+      }
+    },
+    "afterRefund": {
+      "heading": "Qué sucede con tu cuenta tras un reembolso",
+      "items": {
+        "0": "Tu suscripción se cancela y tu instancia alojada se desaprovisiona poco después de procesarse el reembolso.",
+        "1": "Los créditos de bienvenida otorgados con la suscripción se recuperan y tu saldo de créditos vuelve a cero (coherente con el reembolso).",
+        "2": "No tienes derecho a un segundo reembolso ni a una segunda concesión de créditos de bienvenida en una suscripción futura. Las suscripciones futuras se facturan con normalidad."
+      }
+    },
+    "howTo": {
+      "heading": "Cómo solicitar un reembolso",
+      "body": "Envía un correo a {email} con el email de tu cuenta y el ID de suscripción. Los reembolsos se procesan en 5 días hábiles vía Polar (los fondos regresan a tu método de pago original)."
+    },
+    "email": "support@openlegion.ai"
   }
 }
