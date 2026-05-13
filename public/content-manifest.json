@@ -1,7 +1,39 @@
 {
   "baseUrl": "https://www.openlegion.ai",
-  "pageCount": 23,
+  "pageCount": 24,
   "pages": [
+    {
+      "slug": "/ai-social-media-management",
+      "title": "AI Social Media Management — Autonomous Agents, Vaulted Logins",
+      "description": "AI social media management with autonomous agents that post, reply, and engage across accounts — vaulted logins, per-agent budget caps, and BYO LLM keys.",
+      "primaryKeyword": "ai social media management",
+      "secondaryKeywords": [
+        "ai social media manager",
+        "ai social media agent",
+        "autonomous social media management",
+        "ai social media automation",
+        "ai social media engagement",
+        "ai social media posting",
+        "automated social media management",
+        "ai social media tools"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05",
+      "pageType": "root",
+      "related": [
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-frameworks",
+        "/comparison"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/ai-social-media-management"
+    },
     {
       "slug": "/comparison",
       "title": "OpenLegion vs Every AI Agent Framework — 2026 Comparison Hub",

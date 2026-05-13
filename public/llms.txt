@@ -78,6 +78,7 @@ All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start 
 - OpenLegion vs ZeroClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/zeroclaw
 
 ### More
+- AI Social Media Management — Autonomous Agents, Vaulted Logins: https://www.openlegion.ai/en/ai-social-media-management
 - Run DeepSeek-Based Agents Securely with OpenLegion (2026): https://www.openlegion.ai/en/deepseek-v4-agents
 - OpenClaw Alternative — OpenLegion: https://www.openlegion.ai/en/openclaw-alternative
 
