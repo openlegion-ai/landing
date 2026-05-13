@@ -17,7 +17,7 @@
         "label": "Preços"
       },
       "docs": {
-        "label": "Docs"
+        "label": "Documentação"
       }
     },
     "ariaLabel": "Navegação principal",
@@ -483,7 +483,7 @@
     "footnote": "OpenLegion foi lançado em fevereiro de 2026. A contagem de estrelas no GitHub reflete a idade do projeto, não a maturidade para produção."
   },
   "faq": {
-    "sectionLabel": "FAQ",
+    "sectionLabel": "Perguntas frequentes",
     "heading": "Perguntas ",
     "headingHighlight": "frequentes",
     "fullPageSubtitle": "Tudo o que você precisa saber sobre implantar, proteger e escalar frotas de agentes de IA com OpenLegion.",
@@ -574,7 +574,7 @@
           "3": "Segurança",
           "4": "Preços",
           "5": "Início rápido",
-          "6": "FAQ"
+          "6": "Perguntas frequentes"
         }
       },
       "1": {
@@ -794,8 +794,8 @@
         "name": "Equipe de desenvolvimento",
         "roles": {
           "0": "PM",
-          "1": "Engineer",
-          "2": "Reviewer"
+          "1": "Engenheiro",
+          "2": "Revisor"
         }
       },
       "4": {
@@ -908,7 +908,9 @@
     "privacyTitle": "Política de privacidade",
     "privacyDescription": "Política de Privacidade do framework de agentes de IA OpenLegion e da hospedagem gerenciada. Saiba como coletamos, usamos e protegemos seus dados na hospedagem gerenciada e no site openlegion.ai.",
     "termsTitle": "Termos de serviço",
-    "termsDescription": "Termos de Serviço do framework de agentes de IA OpenLegion e da hospedagem gerenciada. Cobre hospedagem gerenciada, implantação auto-hospedada sob licença BSL 1.1 e o site openlegion.ai."
+    "termsDescription": "Termos de Serviço do framework de agentes de IA OpenLegion e da hospedagem gerenciada. Cobre hospedagem gerenciada, implantação auto-hospedada sob licença BSL 1.1 e o site openlegion.ai.",
+    "moneyBackTitle": "Garantia de reembolso em 7 dias",
+    "moneyBackDescription": "Reembolso total do primeiro mês caso o OpenLegion não sirva para você. Sem perguntas."
   },
   "contentPage": {
     "breadcrumbHome": "Início",

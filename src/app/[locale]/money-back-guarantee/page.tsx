@@ -1,15 +1,30 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Footer } from "@/components/footer";
+import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "7-Day Money-Back Guarantee",
-  description:
-    "Full refund on your first month if OpenLegion isn't a fit. No questions asked.",
-  alternates: {
-    canonical: "https://www.openlegion.ai/money-back-guarantee",
-  },
-  robots: { index: true, follow: true },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations("metadata");
+  return {
+    title: t("moneyBackTitle"),
+    description: t("moneyBackDescription"),
+    alternates: navPageAlternates(locale, "/money-back-guarantee"),
+    openGraph: {
+      title: t("moneyBackTitle"),
+      description: t("moneyBackDescription"),
+      type: "website",
+      siteName: "OpenLegion",
+      url: `${SITE_URL}/${locale}/money-back-guarantee`,
+      locale: OG_LOCALE_MAP[locale] || "en_US",
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 export default function MoneyBackGuaranteePage() {
   return (

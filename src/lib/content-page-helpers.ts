@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import type { ContentEntry, ContentFrontmatter } from "@/lib/markdown";
+import { SITE_URL } from "@/lib/seo";
 
-const BASE_URL = "https://www.openlegion.ai";
+const BASE_URL = SITE_URL;
 
 export function normalizeDate(dateStr: string): string {
   if (/^\d{4}-\d{2}$/.test(dateStr)) return `${dateStr}-01`;
@@ -15,14 +16,8 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
     : lastUpdated;
   const slugForOg = frontmatter.slug.replace(/^\//, "").replace(/\//g, "-");
 
-  // Titles already containing "OpenLegion" opt out of the layout template
-  // to avoid double branding (e.g. "OpenLegion vs X | OpenLegion")
   const titleAlreadyBranded = frontmatter.title.includes("OpenLegion");
 
-  // Canonical points to the English URL with locale prefix — `withLocaleAlternates`
-  // overrides this with the same value when wrapping, but we set it correctly
-  // here too so direct callers (or future routes that skip the wrapper) don't
-  // emit an unprefixed canonical that conflicts with the live `/en/...` path.
   const canonical = `${BASE_URL}/en${frontmatter.slug}`;
 
   return {
@@ -78,11 +73,11 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
  *
  * - hreflang map is gated on `entry.availableLocales` so we never advertise
  *   English content under a foreign-language URL (avoids the duplicate-content
- *   trap that currently blasts ~280 dupes into the index).
- * - canonical always points to the English URL — that's our authority page.
- * - If the current locale is non-English and lacks a translation, we set
- *   `noindex,follow` on that locale's variant. Removing hreflang alone does
- *   not de-index pages already in Google's index; the meta directive does.
+ *   trap that bloats the index with near-duplicates).
+ * - When the current locale has a translation, canonical is self-referential
+ *   (the locale-prefixed URL). When it doesn't, canonical falls back to the
+ *   English authority page AND we emit `noindex,follow` so Google won't
+ *   surface the English-content-under-foreign-URL as a separate result.
  */
 export function withLocaleAlternates(
   base: Metadata,
@@ -102,10 +97,14 @@ export function withLocaleAlternates(
   const hasTranslation =
     currentLocale === "en" || entry.availableLocales.includes(currentLocale);
 
+  const canonical = hasTranslation
+    ? `${BASE_URL}/${currentLocale}${slug}`
+    : englishUrl;
+
   return {
     ...base,
     alternates: {
-      canonical: englishUrl,
+      canonical,
       languages,
     },
     robots: hasTranslation

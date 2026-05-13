@@ -483,7 +483,7 @@
     "footnote": "OpenLegion 於 2026 年 2 月推出。GitHub 星數反映專案歷史，而非生產就緒程度。"
   },
   "faq": {
-    "sectionLabel": "FAQ",
+    "sectionLabel": "常見問題",
     "heading": "常見",
     "headingHighlight": "問題",
     "fullPageSubtitle": "關於使用 OpenLegion 部署、保護和擴展 AI 智慧代理艦隊的所有須知。",
@@ -574,7 +574,7 @@
           "3": "安全性",
           "4": "定價",
           "5": "快速開始",
-          "6": "FAQ"
+          "6": "常見問題"
         }
       },
       "1": {
@@ -908,7 +908,9 @@
     "privacyTitle": "隱私權政策",
     "privacyDescription": "OpenLegion AI 智慧代理框架與代管服務的隱私政策。了解我們如何在代管服務及 openlegion.ai 網站上收集、使用與保護您的資料。",
     "termsTitle": "服務條款",
-    "termsDescription": "OpenLegion AI 智慧代理框架與代管服務的服務條款。涵蓋代管服務、BSL 1.1 授權下的自架部署，以及 openlegion.ai 網站。"
+    "termsDescription": "OpenLegion AI 智慧代理框架與代管服務的服務條款。涵蓋代管服務、BSL 1.1 授權下的自架部署，以及 openlegion.ai 網站。",
+    "moneyBackTitle": "7 天退款保證",
+    "moneyBackDescription": "如果 OpenLegion 不適合你，首月費用全額退款，無需任何理由。"
   },
   "contentPage": {
     "breadcrumbHome": "首頁",
