@@ -36,7 +36,7 @@
     "headingHighlight": "AIワークフォース",
     "headingLine2": "欲しいチームを伝えるだけで構築。",
     "tagline": "本番環境向けに構築された、コンテナ分離型マルチエージェントランタイム。",
-    "subtitle": "13種類のテンプレート — devteam、sales、content、research desk など — から選ぶか、エージェントごとの予算・権限・vault プロキシ経由のクレデンシャルを備えた独自のエージェントフリートを構成できます。",
+    "subtitle": "必要なものを伝えるだけ — マーケティングチーム、営業チーム、リサーチチーム、なんでも — OpenLegion が最適なエージェントを数分でデプロイし、予算・権限・認証情報はデフォルトで保護されます。",
     "ctaPrimary": "今すぐ始める",
     "ctaSecondary": "デモを予約",
     "trustStrip": {
