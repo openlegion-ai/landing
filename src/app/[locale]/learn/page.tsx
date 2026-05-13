@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getLearnEntries } from "@/lib/markdown";
 import { JsonLd, buildBreadcrumbSchema, buildItemListSchema } from "@/components/json-ld";
 import { Footer } from "@/components/footer";
@@ -64,6 +64,7 @@ export async function generateMetadata({
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const tCommon = await getTranslations("contentPage");
   const entries = getLearnEntries();
 
   const itemListItems = entries.map((entry, i) => {
@@ -86,15 +87,15 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
         ]}
       />
       <main id="main" className="mx-auto max-w-4xl px-6 pb-24 pt-12 md:px-8">
-        <nav aria-label="Breadcrumb" className="breadcrumb">
-          <Link href="/">Home</Link>
+        <nav aria-label={tCommon("breadcrumbAriaLabel")} className="breadcrumb">
+          <Link href="/">{tCommon("breadcrumbHome")}</Link>
           <span aria-hidden="true">/</span>
-          <span aria-current="page">Learn</span>
+          <span aria-current="page">{tCommon("breadcrumbLearn")}</span>
         </nav>
 
         <header className="mt-6">
           <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Learn
+            {tCommon("breadcrumbLearn")}
           </h1>
           <p className="mt-3 max-w-2xl text-muted">{DESCRIPTION}</p>
         </header>

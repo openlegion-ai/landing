@@ -26,112 +26,73 @@ export async function generateMetadata({
   };
 }
 
-export default function MoneyBackGuaranteePage() {
+const COVERED_KEYS = ["0", "1"] as const;
+const NOT_COVERED_KEYS = ["0", "1", "2"] as const;
+const AFTER_REFUND_KEYS = ["0", "1", "2"] as const;
+
+export default async function MoneyBackGuaranteePage() {
+  const t = await getTranslations("moneyBackPage");
+  const email = t("email");
+  const mailLink = (
+    <a
+      href={`mailto:${email}`}
+      className="text-accent underline underline-offset-2 hover:text-accent/80"
+    >
+      {email}
+    </a>
+  );
+
   return (
     <>
       <main id="main" className="mx-auto max-w-3xl px-6 pb-24 pt-8 md:px-8">
         <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          7-Day Money-Back Guarantee
+          {t("title")}
         </h1>
-        <p className="mt-2 text-sm text-muted">
-          Full refund on your first month, no questions asked.
-        </p>
+        <p className="mt-2 text-sm text-muted">{t("tagline")}</p>
 
         <div className="prose-legal mt-10 space-y-8 text-sm leading-relaxed text-muted">
-          {/* ── Intro ── */}
           <section>
-            <p>
-              We stand behind OpenLegion. If your first month isn&rsquo;t a fit
-              for any reason, email{" "}
-              <a
-                href="mailto:support@openlegion.ai"
-                className="text-accent underline underline-offset-2 hover:text-accent/80"
-              >
-                support@openlegion.ai
-              </a>{" "}
-              within 7 days of your first subscription payment and we&rsquo;ll
-              refund the full amount you actually paid (the launch-pricing
-              amount billed by Polar &mdash; not the higher anchor displayed
-              alongside).
-            </p>
+            <p>{t.rich("intro", { email: () => mailLink })}</p>
           </section>
 
-          {/* ── What's covered ── */}
           <section>
             <h2 className="mb-3 text-lg font-semibold text-foreground">
-              What&rsquo;s covered
+              {t("covered.heading")}
             </h2>
             <ul className="ml-5 mt-2 list-disc space-y-1">
-              <li>
-                Your first subscription payment (the actual amount charged
-                &mdash; e.g. $19 for Basic monthly).
-              </li>
-              <li>
-                Full refund of that amount &mdash; no questions asked, no
-                partial pro-ration.
-              </li>
+              {COVERED_KEYS.map((idx) => (
+                <li key={idx}>{t(`covered.items.${idx}`)}</li>
+              ))}
             </ul>
           </section>
 
-          {/* ── What's not covered ── */}
           <section>
             <h2 className="mb-3 text-lg font-semibold text-foreground">
-              What&rsquo;s not covered
+              {t("notCovered.heading")}
             </h2>
             <ul className="ml-5 mt-2 list-disc space-y-1">
-              <li>
-                Credit top-ups (already consumed credits are non-refundable
-                &mdash; unused credits remain on your account until the refund
-                is processed).
-              </li>
-              <li>Renewal billing after the first 7 days.</li>
-              <li>
-                Subscriptions used abusively (violating the acceptable use
-                policy).
-              </li>
+              {NOT_COVERED_KEYS.map((idx) => (
+                <li key={idx}>{t(`notCovered.items.${idx}`)}</li>
+              ))}
             </ul>
           </section>
 
-          {/* ── What happens to your account after a refund ── */}
           <section>
             <h2 className="mb-3 text-lg font-semibold text-foreground">
-              What happens to your account after a refund
+              {t("afterRefund.heading")}
             </h2>
             <ul className="ml-5 mt-2 list-disc space-y-1">
-              <li>
-                Your subscription is cancelled and your hosted instance is
-                deprovisioned shortly after the refund is processed.
-              </li>
-              <li>
-                Welcome credits granted with the subscription are reclaimed
-                and your credit balance returns to zero (consistent with the
-                refund).
-              </li>
-              <li>
-                You are not eligible to claim a second money-back refund or a
-                second welcome-credits grant on a future subscription. Future
-                subscriptions are billed normally.
-              </li>
+              {AFTER_REFUND_KEYS.map((idx) => (
+                <li key={idx}>{t(`afterRefund.items.${idx}`)}</li>
+              ))}
             </ul>
           </section>
 
-          {/* ── How to request a refund ── */}
           <section>
             <h2 className="mb-3 text-lg font-semibold text-foreground">
-              How to request a refund
+              {t("howTo.heading")}
             </h2>
-            <p>
-              Email{" "}
-              <a
-                href="mailto:support@openlegion.ai"
-                className="text-accent underline underline-offset-2 hover:text-accent/80"
-              >
-                support@openlegion.ai
-              </a>{" "}
-              with your account email and subscription ID. Refunds are
-              processed within 5 business days via Polar (funds return to your
-              original payment method).
-            </p>
+            <p>{t.rich("howTo.body", { email: () => mailLink })}</p>
           </section>
         </div>
       </main>
