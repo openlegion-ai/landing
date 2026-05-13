@@ -6,11 +6,9 @@ import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animat
 import { ALL_FAQ_ITEMS } from "@/lib/constants";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
+type PageProps = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations("metadata");
   const alternates = navPageAlternates(locale, "/faq");
@@ -35,8 +33,10 @@ export async function generateMetadata({
   };
 }
 
-export default async function FAQPage() {
+export default async function FAQPage({ params }: PageProps) {
+  const { locale } = await params;
   const t = await getTranslations("faq");
+  const tCommon = await getTranslations("contentPage");
 
   const faqJsonLd = {
     "@context": "https://schema.org",
@@ -55,8 +55,8 @@ export default async function FAQPage() {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.openlegion.ai" },
-      { "@type": "ListItem", position: 2, name: "FAQ", item: "https://www.openlegion.ai/faq" },
+      { "@type": "ListItem", position: 1, name: tCommon("breadcrumbHome"), item: `${SITE_URL}/${locale}` },
+      { "@type": "ListItem", position: 2, name: t("sectionLabel"), item: `${SITE_URL}/${locale}/faq` },
     ],
   };
 

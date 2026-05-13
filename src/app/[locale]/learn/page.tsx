@@ -66,11 +66,16 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   setRequestLocale(locale);
   const entries = getLearnEntries();
 
-  const itemListItems = entries.map((entry, i) => ({
-    name: entry.frontmatter.title,
-    url: `${BASE_URL}/en${entry.slug}`,
-    position: i + 1,
-  }));
+  const itemListItems = entries.map((entry, i) => {
+    const hasTranslation =
+      locale === "en" || entry.availableLocales.includes(locale);
+    const urlLocale = hasTranslation ? locale : "en";
+    return {
+      name: entry.frontmatter.title,
+      url: `${BASE_URL}/${urlLocale}${entry.slug}`,
+      position: i + 1,
+    };
+  });
 
   return (
     <>
