@@ -209,7 +209,7 @@ export default async function LocaleLayout({
       "@type": "Offer",
       price: "19",
       priceCurrency: "USD",
-      url: "https://www.openlegion.ai/pricing",
+      url: `https://www.openlegion.ai/${locale}/pricing`,
       availability: "https://schema.org/InStock",
     },
     featureList: [
