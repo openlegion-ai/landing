@@ -557,7 +557,7 @@
     "heading": "您的 AI 團隊只差",
     "headingHighlight": "一鍵部署",
     "headingEnd": "。",
-    "subtitle": "首日即付 · 100+ LLM 供應商 · 14 天退款保證",
+    "subtitle": "首日即付 · 100+ LLM 供應商 · 7 天退款保證",
     "primaryButton": "立即開始 →",
     "secondaryButton": "加入我們的 Discord"
   },
@@ -626,9 +626,9 @@
   },
   "pricing": {
     "sectionLabel": "定價",
-    "heading": "方案起價 ",
-    "headingHighlight": "$19/月",
-    "headingEnd": "。",
+    "heading": "為您的",
+    "headingHighlight": "AI 團隊",
+    "headingEnd": "量身打造的方案。",
     "subtitle": "定價簡單透明，隨時可取消。",
     "billingMonthly": "月付",
     "billingYearly": "年付",
@@ -732,7 +732,7 @@
     "billingPeriodAriaLabel": "計費週期",
     "savingsPill": "節省 ${amount}{suffix}（{percent}%）",
     "trust": {
-      "moneyBack": "14 天退款保證",
+      "moneyBack": "7 天退款保證",
       "cancel": "隨時取消",
       "switch": "隨時切換方案"
     },
@@ -740,7 +740,17 @@
       "mostPopular": "最受歡迎的方案",
       "ctaAria": "開始使用 — {plan}",
       "originalPriceAria": "原價 ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "7天退款保證",
+      "fastSetup": "5分鐘內啟動第一個代理人",
+      "noCoding": "無需編程"
+    },
+    "perAgent": "{amount}/代理人/月",
+    "perAgentYearlySuffix": " · 按年計費",
+    "moneyBackDetail": "7天退款 · 無需理由",
+    "basicTryFor": "用 {price} 試用 OpenLegion",
+    "savingsAriaLabel": "節省 {percent}%"
   },
   "notFound": {
     "title": "404",
@@ -875,20 +885,20 @@
     "copiedLabel": "已複製"
   },
   "metadata": {
-    "homeTitle": "OpenLegion — AI 智慧代理框架 | 自動化一切，掌控全程",
-    "homeDescription": "OpenLegion 是為生產環境打造的容器隔離式多智慧代理執行環境。部署自治智慧代理，自動化任何電腦任務 — 瀏覽、表單、程式、外聯、資料。第一天起付費，14 天退款保證。",
+    "homeTitle": "OpenLegion — AI 智慧代理框架與平台 | 自動化一切，掌握全局",
+    "homeDescription": "OpenLegion 是專為生產環境打造的 AI 智慧代理框架與平台。部署自主智慧代理，自動化任何電腦任務 — 瀏覽、表單、程式碼、外展、資料。首日即付，7 天退款保證。",
     "titleTemplate": "{title} | OpenLegion",
-    "ogTitle": "OpenLegion — AI 智慧代理框架",
-    "ogDescription": "部署 AI 智慧代理，自動化人類在電腦上能完成的一切。安全、可控預算、可用於生產。第一天起付費，14 天退款保證。",
-    "ogImageAlt": "OpenLegion — AI 智慧代理框架",
-    "twitterTitle": "OpenLegion — AI 智慧代理框架",
-    "twitterDescription": "部署 AI 智慧代理，自動化人類在電腦上能完成的一切。第一天起付費，14 天退款保證。",
-    "pricingTitle": "AI 智慧代理框架定價 — 第一天起付費",
-    "pricingDescription": "$19/月起的方案，包含容器隔離、密鑰庫安全與 100+ LLM 提供者。第一天起付費，14 天退款保證。",
-    "pricingOgTitle": "AI 智慧代理框架定價 — 第一天起付費 | OpenLegion",
-    "pricingOgDescription": "$19/月起的方案。容器隔離、密鑰庫安全與 100+ LLM 提供者。14 天退款保證。",
-    "pricingTwitterTitle": "AI 智慧代理框架定價 — 第一天起付費 | OpenLegion",
-    "pricingTwitterDescription": "方案從每月 $19 起。14 天退款保證。",
+    "ogTitle": "OpenLegion — AI 智慧代理框架與平台",
+    "ogDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。安全、預算可控、生產就緒。首日即付，7 天退款保證。",
+    "ogImageAlt": "OpenLegion — AI 智慧代理框架與平台",
+    "twitterTitle": "OpenLegion — AI 智慧代理框架與平台",
+    "twitterDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。首日即付，7 天退款保證。",
+    "pricingTitle": "AI 智慧代理平台定價 — 首日即付",
+    "pricingDescription": "方案從每月 $19 起，含容器隔離、Vault 安全性和 100+ LLM 供應商。首日即付，7 天退款保證。",
+    "pricingOgTitle": "AI 智慧代理平台定價 — 首日即付 | OpenLegion",
+    "pricingOgDescription": "方案從每月 $19 起。容器隔離、Vault 安全性和 100+ LLM 供應商。7 天退款保證。",
+    "pricingTwitterTitle": "AI 智慧代理平台定價 — 首日即付 | OpenLegion",
+    "pricingTwitterDescription": "方案從每月 $19 起。7 天退款保證。",
     "faqTitle": "常見問題",
     "faqDescription": "關於 OpenLegion 的常見問題解答 — 為生產環境打造的容器隔離式多智慧代理執行環境。涵蓋安全、定價、LLM 提供者、協同、生產部署等。",
     "faqOgTitle": "常見問題 — OpenLegion",
@@ -1210,14 +1220,19 @@
     "cta": "立即開始 →"
   },
   "pricingAnchors": {
-    "basicMonthly": "39",
-    "basicYearly": "348",
-    "growthMonthly": "129",
-    "growthYearly": "1290",
+    "basicMonthly": "29",
+    "basicYearly": "259",
+    "growthMonthly": "109",
+    "growthYearly": "989",
     "proMonthly": "349",
-    "proYearly": "3490",
-    "anchorLabel": "創辦人價格",
-    "proMaxMonthly": "699",
-    "proMaxYearly": "6990"
+    "proYearly": "3099",
+    "anchorLabel": "上線優惠價",
+    "proMaxMonthly": "899",
+    "proMaxYearly": "8990"
+  },
+  "testimonials": {
+    "eyebrow": "客戶評價",
+    "heading": "真實團隊,自動化營運",
+    "starsAriaLabel": "5星好評"
   }
 }

@@ -139,7 +139,7 @@ export default function TermsPage() {
             </p>
             <p className="mt-2">
               <strong>Money-back guarantee.</strong> New customers may request a full
-              refund of their first subscription payment within 14 days of that payment.
+              refund of their first subscription payment within 7 days of that payment.
               Refunds are processed via our payment processor and typically settle within
               5 business days. Receiving a refund cancels your subscription immediately,
               and your hosted instance is taken offline within 24 hours. Welcome credits
@@ -153,7 +153,7 @@ export default function TermsPage() {
               page for full terms.
             </p>
             <p className="mt-2">
-              Outside the 14-day money-back window, fees are non-refundable except where
+              Outside the 7-day money-back window, fees are non-refundable except where
               required by applicable law. We reserve the right to change pricing at any
               time with 30 days&apos; notice. Continued use after a price change
               constitutes acceptance of the new pricing.

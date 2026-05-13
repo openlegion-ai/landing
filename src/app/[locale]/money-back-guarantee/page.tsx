@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "14-Day Money-Back Guarantee",
+  title: "7-Day Money-Back Guarantee",
   description:
     "Full refund on your first month if OpenLegion isn't a fit. No questions asked.",
   alternates: {
@@ -16,7 +16,7 @@ export default function MoneyBackGuaranteePage() {
     <>
       <main id="main" className="mx-auto max-w-3xl px-6 pb-24 pt-8 md:px-8">
         <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-          14-Day Money-Back Guarantee
+          7-Day Money-Back Guarantee
         </h1>
         <p className="mt-2 text-sm text-muted">
           Full refund on your first month, no questions asked.
@@ -34,9 +34,10 @@ export default function MoneyBackGuaranteePage() {
               >
                 support@openlegion.ai
               </a>{" "}
-              within 14 days of your first subscription payment and we&rsquo;ll
-              refund the full amount you actually paid (the amount billed by
-              Polar for your subscription).
+              within 7 days of your first subscription payment and we&rsquo;ll
+              refund the full amount you actually paid (the launch-pricing
+              amount billed by Polar &mdash; not the higher anchor displayed
+              alongside).
             </p>
           </section>
 
@@ -68,7 +69,7 @@ export default function MoneyBackGuaranteePage() {
                 &mdash; unused credits remain on your account until the refund
                 is processed).
               </li>
-              <li>Renewal billing after the first 14 days.</li>
+              <li>Renewal billing after the first 7 days.</li>
               <li>
                 Subscriptions used abusively (violating the acceptable use
                 policy).

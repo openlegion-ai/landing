@@ -557,7 +557,7 @@
     "heading": "Sua equipe de IA está a um ",
     "headingHighlight": "deploy de distância",
     "headingEnd": ".",
-    "subtitle": "Pago desde o primeiro dia · 100+ provedores LLM · Reembolso em 14 dias",
+    "subtitle": "Pago desde o primeiro dia · 100+ provedores LLM · Reembolso em 7 dias",
     "primaryButton": "Começar →",
     "secondaryButton": "Entre no nosso Discord"
   },
@@ -626,9 +626,9 @@
   },
   "pricing": {
     "sectionLabel": "Preços",
-    "heading": "Planos a partir de ",
-    "headingHighlight": "US$ 19/mês",
-    "headingEnd": ".",
+    "heading": "Planos para sua ",
+    "headingHighlight": "força de trabalho com IA.",
+    "headingEnd": "",
     "subtitle": "Preços simples e previsíveis. Cancele quando quiser.",
     "billingMonthly": "Mensal",
     "billingYearly": "Anual",
@@ -702,7 +702,7 @@
     "faq": {
       "0": {
         "question": "O que o plano inclui desde o primeiro dia?",
-        "answer": "Cada plano pago inclui um pacote de créditos de boas-vindas e acesso completo desde o primeiro dia — VPS, proxy do sistema e painel do operador. Não é o que procurava? Cancele em até 14 dias e reembolsamos seu primeiro mês, sem perguntas. Prefere usar suas próprias chaves API? Pode usar, e os créditos de boas-vindas continuam sendo seus."
+        "answer": "Cada plano pago inclui um pacote de créditos de boas-vindas e acesso completo desde o primeiro dia — VPS, proxy do sistema e painel do operador. Não é o que procurava? Cancele em até 7 dias e reembolsamos seu primeiro mês, sem perguntas. Prefere usar suas próprias chaves API? Pode usar, e os créditos de boas-vindas continuam sendo seus."
       },
       "1": {
         "question": "Preciso pagar pelo uso de LLM além do preço do plano?",
@@ -732,7 +732,7 @@
     "billingPeriodAriaLabel": "Período de cobrança",
     "savingsPill": "Economize ${amount}{suffix} ({percent}%)",
     "trust": {
-      "moneyBack": "14 dias para reembolso",
+      "moneyBack": "7 dias para reembolso",
       "cancel": "Cancele quando quiser",
       "switch": "Mude de plano quando quiser"
     },
@@ -740,7 +740,17 @@
       "mostPopular": "Plano mais popular",
       "ctaAria": "Começar — {plan}",
       "originalPriceAria": "Preço original ${price}"
-    }
+    },
+    "trustTrio": {
+      "moneyBack": "Reembolso em 7 dias",
+      "fastSetup": "Primeiro agente em 5 min",
+      "noCoding": "Sem programação"
+    },
+    "perAgent": "{amount}/agente/mês",
+    "perAgentYearlySuffix": " · cobrança anual",
+    "moneyBackDetail": "Reembolso em 7 dias · sem perguntas",
+    "basicTryFor": "Experimente OpenLegion por {price}",
+    "savingsAriaLabel": "Economize {percent} por cento"
   },
   "notFound": {
     "title": "404",
@@ -1210,14 +1220,19 @@
     "cta": "Começar →"
   },
   "pricingAnchors": {
-    "basicMonthly": "39",
-    "basicYearly": "348",
-    "growthMonthly": "129",
-    "growthYearly": "1290",
+    "basicMonthly": "29",
+    "basicYearly": "259",
+    "growthMonthly": "109",
+    "growthYearly": "989",
     "proMonthly": "349",
-    "proYearly": "3490",
-    "anchorLabel": "Preço de fundador",
-    "proMaxMonthly": "699",
-    "proMaxYearly": "6990"
+    "proYearly": "3099",
+    "anchorLabel": "Preço de lançamento",
+    "proMaxMonthly": "899",
+    "proMaxYearly": "8990"
+  },
+  "testimonials": {
+    "eyebrow": "Dos nossos clientes",
+    "heading": "Equipes reais, no piloto automático",
+    "starsAriaLabel": "5 de 5 estrelas"
   }
 }

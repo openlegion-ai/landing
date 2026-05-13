@@ -5,6 +5,7 @@ import { PromptToTeam } from "@/components/prompt-to-team";
 import { ProductionReady } from "@/components/production-ready";
 import { ReadyMadeTeams } from "@/components/ready-made-teams";
 import { SocialProof } from "@/components/social-proof";
+import { Testimonials } from "@/components/testimonials";
 import { Features } from "@/components/features";
 import { DashboardPreview } from "@/components/dashboard-preview";
 import { Quickstart } from "@/components/quickstart";
@@ -255,6 +256,7 @@ export default async function Home() {
         <ReadyMadeTeams />
         <UseCases />
         <SocialProof stars={stars} />
+        <Testimonials />
         <ProductionReady />
         <Features />
         <div className="px-5 py-10 text-center sm:px-6 md:px-8 md:py-14">

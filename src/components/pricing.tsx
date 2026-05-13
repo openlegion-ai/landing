@@ -11,8 +11,11 @@ import {
   FolderOpen,
   Globe,
   Mail,
+  ShieldCheck,
+  Zap,
 } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
+import { Testimonials } from "@/components/testimonials";
 import { APP_URL } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
 
@@ -100,6 +103,7 @@ const TRUST_KEYS = ["trust.cancel", "trust.switch"] as const;
 export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
   const t = useTranslations("pricing");
+  const tAnchors = useTranslations("pricingAnchors");
 
   return (
     <section
@@ -124,6 +128,23 @@ export function Pricing() {
             <p className="mx-auto max-w-xl text-balance text-base text-muted md:text-lg">
               {t("subtitle")}
             </p>
+            {/* Trust + time-to-value trio — risk reversal + speed reassurance.
+                These directly substitute for the "free trial" lever we can't use
+                (every signup provisions a real VPS + proxy at our cost). */}
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+              <span className="inline-flex items-center gap-1.5 text-foreground/90">
+                <ShieldCheck className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
+                <span className="font-medium">{t("trustTrio.moneyBack")}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-foreground/90">
+                <Zap className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
+                <span className="font-medium">{t("trustTrio.fastSetup")}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-foreground/90">
+                <Check className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
+                <span className="font-medium">{t("trustTrio.noCoding")}</span>
+              </span>
+            </div>
           </div>
         </AnimateIn>
 
@@ -172,6 +193,29 @@ export function Pricing() {
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
             const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
+            // plan.name uses snake_case (matches DB), anchor keys in locale
+            // files use camelCase. Normalize: pro_max → proMax.
+            const anchorPlanKey = plan.name.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase());
+            const anchorKey = `${anchorPlanKey}${billing === "monthly" ? "Monthly" : "Yearly"}`;
+            const anchor = (() => {
+              try {
+                return tAnchors(anchorKey);
+              } catch {
+                return null;
+              }
+            })();
+            const anchorNum = anchor ? parseInt(anchor.replace(/,/g, ""), 10) : null;
+            const savingsAmount =
+              anchorNum && !Number.isNaN(anchorNum) ? anchorNum - price : null;
+            const savingsPercent =
+              anchorNum && !Number.isNaN(anchorNum) && anchorNum > 0
+                ? Math.round((1 - price / anchorNum) * 100)
+                : null;
+            const showSavings =
+              savingsAmount !== null &&
+              savingsAmount > 0 &&
+              savingsPercent !== null &&
+              savingsPercent > 0;
 
             return (
               <StaggerItem key={plan.name}>
@@ -193,6 +237,19 @@ export function Pricing() {
                     </div>
                   )}
 
+                  {/* Savings ribbon — top-right corner sticker. Small and
+                      tight so it doesn't compete with the Popular badge.
+                      Percent only; the dollar math is implicit in the
+                      strikethrough below. */}
+                  {showSavings && (
+                    <div
+                      className="absolute -right-2 -top-2 z-10 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md shadow-amber-500/40"
+                      aria-label={t("savingsAriaLabel", { percent: savingsPercent! })}
+                    >
+                      -{savingsPercent}%
+                    </div>
+                  )}
+
                   <h2 className="text-lg font-semibold text-foreground">
                     {plan.popular && (
                       <span className="sr-only">{t("a11y.mostPopular")} — </span>
@@ -204,14 +261,23 @@ export function Pricing() {
                   </p>
 
                   <div className="mt-4">
-                    <div className="flex flex-wrap items-baseline gap-2">
+                    {/* Price + strikethrough inline — reads "now / was" left-to-right */}
+                    <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
                       <span className="text-4xl font-bold tracking-tight text-foreground">
                         ${price.toLocaleString()}
                       </span>
                       <span className="text-muted">{suffix}</span>
+                      {anchor && (
+                        <s
+                          className="text-sm text-muted/60 line-through"
+                          aria-label={t("a11y.originalPriceAria", { price: anchor })}
+                        >
+                          ${anchorNum != null && !Number.isNaN(anchorNum) ? anchorNum.toLocaleString() : anchor}
+                        </s>
+                      )}
                     </div>
                   </div>
-                  <p className="mt-1 min-h-[1.25rem] text-xs text-muted">
+                  <p className="mt-2 min-h-[1.25rem] text-xs text-muted">
                     {billing === "yearly"
                       ? t("yearlyBilledNote", { monthlyEquivalent: plan.yearlyMonthly })
                       : t("monthlyNote")}
@@ -231,6 +297,14 @@ export function Pricing() {
                     {t("getStarted")}
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </a>
+
+                  {/* Risk reversal — muted, not emerald. The shield icon
+                      carries the trust semantic; loud color isn't needed
+                      after the hero trio already set the trust frame. */}
+                  <p className="mt-2 flex items-center justify-center gap-1.5 text-[11px] text-muted">
+                    <ShieldCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
+                    <span>{t("moneyBackDetail")}</span>
+                  </p>
 
                   <div className="mt-6 space-y-2.5 border-t border-border/50 pt-6 text-sm">
                     <div className="flex items-center gap-2 text-muted">
@@ -286,6 +360,14 @@ export function Pricing() {
           })}
         </StaggerContainer>
 
+      </div>
+
+      {/* Testimonial row — social proof immediately after the hero cards.
+          Voices substitute for the "free trial" we can't offer; non-tech
+          audience leans heavily on relatable outcomes to feel safe paying. */}
+      <Testimonials />
+
+      <div className="mx-auto max-w-6xl">
         {/* Basic — slim band for solo experimenters. Discoverable but
             secondary, so the hero tiers above set the price-expectation anchor. */}
         <AnimateIn delay={0.07}>
@@ -300,7 +382,9 @@ export function Pricing() {
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <h2 className="text-base font-semibold text-foreground">{planName}</h2>
-                      <span className="text-sm text-muted">{t(`plans.${BASIC_PLAN_INDEX}.tagline`)}</span>
+                      <span className="text-sm text-muted">
+                        {t("basicTryFor", { price: `$${plan.monthlyPrice}` })}
+                      </span>
                     </div>
                     <p className="mt-1.5 text-sm text-muted">
                       <span className="font-medium text-foreground">{plan.agents}</span>{" "}
