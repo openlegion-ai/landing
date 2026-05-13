@@ -1,33 +1,33 @@
 ---
 title: OpenLegion vs AWS Strands - Detailed Comparison
 description: >-
-  OpenLegion vs AWS Strands Agents SDK: comparison of security, agent isolation,
-  credential management, AWS integration, and multi-agent orchestration.
+ OpenLegion vs AWS Strands Agents SDK: comparison of security, agent isolation,
+ credential management, AWS integration, and multi-agent orchestration.
 slug: /comparison/aws-strands
 primary_keyword: openlegion vs aws strands
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /comparison/google-adk
-  - /comparison/langgraph
-  - /comparison/semantic-kernel
-  - /comparison/openai-agents-sdk
+ - /comparison/google-adk
+ - /comparison/langgraph
+ - /comparison/semantic-kernel
+ - /comparison/openai-agents-sdk
 ---
 
 # OpenLegion vs AWS Strands: Which AI Agent Framework for Production?
 
 AWS Strands Agents SDK is the model-driven agent framework from Amazon Web Services. With ~5,100 GitHub stars, 14+ million PyPI downloads, and the backing of AWS infrastructure, Strands takes a distinctly different approach: define a Model + Tools + Prompt, and let the LLM handle orchestration. No workflow graphs, no state machines. The model decides what to do. Strands powers Amazon Q Developer and AWS Glue internally, and deploys to the AgentCore Runtime for serverless agent execution with tasks lasting up to 8 hours.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over cloud infrastructure integration.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over cloud infrastructure integration.
 
 This is a direct **OpenLegion vs AWS Strands** comparison based on public documentation at the time of writing.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and AWS Strands?**
-> AWS Strands is a model-driven agent SDK where the LLM handles orchestration decisions, optimized for AWS deployment via AgentCore Runtime. OpenLegion is a security-first agent platform with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows. Strands offers the deepest AWS integration; OpenLegion offers the strongest production security defaults.
+> AWS Strands is a model-driven agent SDK where the LLM handles orchestration decisions, optimized for AWS deployment via AgentCore Runtime. OpenLegion is a security-first agent framework with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). Strands offers the deepest AWS integration; OpenLegion offers the strongest production security defaults.
 
 ## TL;DR
 
@@ -43,11 +43,11 @@ This is a direct **OpenLegion vs AWS Strands** comparison based on public docume
 | Dimension | OpenLegion | AWS Strands |
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Model-driven agent SDK with AWS integration |
-| **Architecture** | Three-zone trust model | Model + Tools + Prompt; LLM handles orchestration |
+| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Model + Tools + Prompt; LLM handles orchestration |
 | **Agent isolation** | Mandatory Docker container per agent, non-root | None at SDK level; AgentCore provides code interpreter sandbox |
 | **Credential management** | Vault proxy, blind injection, agents never see keys | boto3 credential chains, IAM policies |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in; AWS billing and cost alerts |
-| **Orchestration** | Deterministic YAML DAG workflows | Model-driven (LLM decides tool order and flow) |
+| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Model-driven (LLM decides tool order and flow) |
 | **Multi-agent** | Native fleet orchestration (sequential, parallel DAGs with blackboard coordination) | Agents-as-tools, handoffs, swarms, graphs |
 | **LLM support** | 100+ via LiteLLM | Bedrock, Anthropic, OpenAI, Gemini, Llama, Ollama, LiteLLM, llama.cpp |
 | **Deployment** | Cloud-agnostic (any Docker host) | AgentCore Runtime (Lambda, Fargate, EC2) or self-hosted |
@@ -72,7 +72,7 @@ Strands powers Amazon Q Developer and AWS Glue internally, providing real produc
 
 ### OpenLegion's architecture
 
-OpenLegion uses a three-zone trust model where every agent runs in a Docker container with non-root execution, no Docker socket access, and resource caps. Credentials are handled by a vault proxy that works on any infrastructure. YAML workflows define deterministic execution paths, tool access permissions, and budgets per agent.
+OpenLegion uses a four-zone trust model (plus an operator-or-internal tier) where every agent runs in a Docker container with non-root execution, no Docker socket access, and resource caps. Credentials are handled by a vault proxy that works on any infrastructure. fleet-model coordination define auditable execution paths, tool access permissions, and budgets per agent.
 
 ## When to Choose AWS Strands
 
@@ -82,13 +82,13 @@ OpenLegion uses a three-zone trust model where every agent runs in a Docker cont
 
 **You need genuine multi-provider support from a cloud vendor.** Unlike most cloud-vendor frameworks, Strands genuinely supports Anthropic, OpenAI, Gemini, Llama, Ollama, and local models via llama.cpp. This is not just Bedrock.
 
-**You need battle-tested scale.** Strands powers Amazon Q Developer and AWS Glue. The 14+ million PyPI downloads demonstrate real adoption beyond experimentation.
+**You need production-ready scale.** Strands powers Amazon Q Developer and AWS Glue. The 14+ million PyPI downloads demonstrate real adoption beyond experimentation.
 
 ## When to Choose OpenLegion
 
 **You need cloud-agnostic deployment.** Strands works outside AWS but loses AgentCore, IAM, and managed infrastructure. OpenLegion runs identically on any infrastructure.
 
-**You need deterministic, auditable workflows.** Strands' model-driven approach means the LLM decides execution flow at runtime. This makes static auditing difficult. OpenLegion's YAML DAGs define the exact execution path before any agent runs.
+**You need auditable fleet-model coordination.** Strands' model-driven approach means the LLM decides execution flow at runtime. This makes static auditing difficult. OpenLegion's fleet-model coordination define the exact execution path before any agent runs.
 
 **Credential security needs agent-level isolation.** Strands uses boto3 credential chains accessible to the agent process. OpenLegion's vault proxy ensures agents never see raw credentials, regardless of cloud provider.
 
@@ -100,7 +100,7 @@ Bring your own LLM API keys. No markup on model usage.
 
 ## The Honest Trade-off
 
-AWS Strands has the AWS integration, model-driven flexibility, genuine multi-provider support, and production scale (Q Developer, Glue). OpenLegion has the deterministic workflows, mandatory isolation, credential protection, and cloud independence.
+AWS Strands has the AWS integration, model-driven flexibility, genuine multi-provider support, and production scale (Q Developer, Glue). OpenLegion has the auditable fleet-model coordination, mandatory isolation, credential protection, and cloud independence.
 
 If you are building on AWS and want model-driven agents with serverless deployment, the answer is Strands. If you need auditable workflows, credential isolation, and per-agent cost controls that work anywhere, the answer is OpenLegion.
 
@@ -119,7 +119,7 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ### What is the difference between OpenLegion and AWS Strands?
 
-AWS Strands (~5,100 stars) is a model-driven agent SDK optimized for AWS deployment. OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement. Strands excels at AWS integration; OpenLegion excels at cloud-agnostic production security.
+AWS Strands (~5,100 stars) is a model-driven agent SDK optimized for AWS deployment. OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement. Strands excels at AWS integration; OpenLegion excels at cloud-agnostic production security.
 
 ### Is AWS Strands locked to AWS?
 
@@ -129,9 +129,9 @@ No. Strands supports Anthropic, OpenAI, Gemini, Llama, Ollama, and local models.
 
 Not at the SDK level. Tools run in the same Python process with access to environment variables and filesystem. AgentCore provides a sandboxed Code Interpreter for code execution. OpenLegion isolates every agent in a Docker container. See our [AI agent security](/learn/ai-agent-security) page for details.
 
-### How does Strands' model-driven approach compare to OpenLegion's YAML DAGs?
+### How does Strands' model-driven approach compare to OpenLegion's fleet-model coordination?
 
-Strands lets the LLM decide tool order and flow dynamically, adapting to inputs at runtime. OpenLegion uses deterministic YAML DAGs where the execution path is defined before any agent runs. Strands is more flexible; OpenLegion is more predictable and auditable. See our [orchestration](/learn/ai-agent-orchestration) page for workflow pattern comparisons.
+Strands lets the LLM decide tool order and flow dynamically, adapting to inputs at runtime. OpenLegion uses fleet-model coordination where the execution path is defined before any agent runs. Strands is more flexible; OpenLegion is more predictable and auditable. See our [orchestration](/learn/ai-agent-orchestration) page for workflow pattern comparisons.
 
 ### What powers Amazon Q Developer?
 

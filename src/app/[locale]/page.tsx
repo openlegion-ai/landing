@@ -44,9 +44,9 @@ export default async function Home() {
   const t = await getTranslations("common");
 
   const homeTitle =
-    "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control";
+    "OpenLegion — Container-Isolated Multi-Agent Runtime | Automate, Stay in Control";
   const homeDescription =
-    "OpenLegion is a production-grade AI agent framework and platform for agentic AI orchestration. Deploy autonomous agents that automate anything a human can do on a computer — in container-isolated sandboxes with built-in AI agent security. Per-agent budgets, credential vaults, deterministic workflows, 100+ LLM providers.";
+    "OpenLegion is a container-isolated multi-agent runtime with managed hosting. Deploy autonomous agents in Docker-isolated sandboxes with vault-proxied credentials, per-agent budgets, fleet-model coordination (blackboard + pub/sub + handoff, no CEO agent), and 100+ LLM providers via LiteLLM.";
 
   const softwareJsonLd = {
     "@context": "https://schema.org",
@@ -54,30 +54,30 @@ export default async function Home() {
     name: "OpenLegion",
     applicationCategory: "BusinessApplication",
     operatingSystem: "Linux, macOS, Windows",
-    description: "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — each in its own isolated Docker container with per-agent budgets, vault-proxied credentials, and six security layers enabled by default.",
+    description: "OpenLegion is a container-isolated multi-agent runtime built for production. Deploy autonomous agents in isolated Docker containers with per-agent budgets, vault-proxied credentials, and defense-in-depth security enabled by default.",
     url: "https://www.openlegion.ai",
     downloadUrl: GITHUB_URL,
     softwareVersion: "0.1.0",
     programmingLanguage: "Python",
     license: `${GITHUB_URL}/blob/main/LICENSE`,
     releaseNotes:
-      "Enterprise-ready AI agent fleets with container isolation, six security layers, per-agent cost governance, on-premises deployment, deterministic YAML workflows, 2,100+ tests, 50+ built-in tools, 100+ LLM providers, real-time dashboard, and MCP support.",
+      "Production-ready AI agent fleets with container isolation, defense-in-depth security, per-agent cost governance, self-hosted deployment, fleet-model coordination (blackboard + pub/sub + handoff, no CEO agent), 5,800+ tests across 155 files, 20+ built-in skill modules + 24+ browser actions, 100+ LLM providers via LiteLLM, real-time dashboard, and MCP (stdio) support.",
     softwareHelp: {
       "@type": "CreativeWork",
       url: "https://docs.openlegion.ai",
     },
     softwareRequirements: "Python 3.10+, Docker",
     featureList: [
-      "Autonomous agents that automate any computer task",
-      "Built-in stealth browser — agents operate any website",
-      "Container isolation per agent — Docker or microVM",
+      "Autonomous agents that automate browser, file, code, and API tasks",
+      "Built-in stealth browser — per-agent Camoufox in a shared browser service container",
+      "Container isolation per agent — Docker or Docker Desktop Sandbox microVM",
       "Vault proxy — agents never see API keys",
       "Per-agent budget enforcement — automatic cutoff",
       "100+ LLM providers via LiteLLM — no vendor lock-in",
       "Fleet dashboard with real-time cost monitoring",
-      "Deterministic YAML orchestration — no LLM in control plane",
-      "MCP-compatible tool extensibility — 50+ built-in skills",
-      "On-premises and air-gapped deployment support",
+      "Fleet model coordination — blackboard + pub/sub + handoff (no CEO agent)",
+      "MCP (stdio) tool extensibility — 20+ built-in skill modules",
+      "Self-hosted (BSL 1.1) or managed hosting on a dedicated VPS",
     ],
     screenshot: {
       "@type": "ImageObject",
@@ -106,6 +106,14 @@ export default async function Home() {
         "@type": "Offer",
         name: "Pro",
         price: "149",
+        priceCurrency: "USD",
+        billingPeriod: "P1M",
+        availability: "https://schema.org/InStock",
+      },
+      {
+        "@type": "Offer",
+        name: "Pro Max",
+        price: "279",
         priceCurrency: "USD",
         billingPeriod: "P1M",
         availability: "https://schema.org/InStock",
@@ -154,11 +162,11 @@ export default async function Home() {
     "@type": "HowTo",
     name: "How to install and run OpenLegion AI agent fleet",
     description: "Deploy a production-ready AI agent fleet with container isolation using three commands.",
-    totalTime: "PT1M",
+    totalTime: "PT5M",
     tool: [
       { "@type": "HowToTool", name: "Python 3.10+" },
       { "@type": "HowToTool", name: "Docker" },
-      { "@type": "HowToTool", name: "An LLM API key (Anthropic, OpenAI, or Moonshot)" },
+      { "@type": "HowToTool", name: "An LLM API key (any of 15+ supported providers — Anthropic / OpenAI / Gemini / Mistral / Groq / DeepSeek / OpenRouter / etc.)" },
     ],
     step: [
       {

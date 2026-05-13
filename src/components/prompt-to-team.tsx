@@ -104,21 +104,21 @@ function DevVisual({ t }: { t: (key: string) => string }) {
   );
 }
 
-const TRADING_EVENT_META = [
+const TREASURY_EVENT_META = [
   { icon: "↑", color: "text-green-400" },
   { icon: "↓", color: "text-amber-400" },
   { icon: "◆", color: "text-accent" },
 ];
 
-function TradingVisual({ t }: { t: (key: string) => string }) {
+function TreasuryVisual({ t }: { t: (key: string) => string }) {
   return (
     <motion.div variants={vContainer} className="flex flex-col gap-1.5" aria-hidden="true">
-      {TRADING_EVENT_META.map((e, i) => (
+      {TREASURY_EVENT_META.map((e, i) => (
         <motion.div key={i} variants={vItem} className="flex items-center gap-2">
           <span className={`shrink-0 font-mono text-[10px] ${e.color}`}>
             {e.icon}
           </span>
-          <span className="font-mono text-[10px] text-muted">{t(`visuals.trading.${i}`)}</span>
+          <span className="font-mono text-[10px] text-muted">{t(`visuals.treasury.${i}`)}</span>
         </motion.div>
       ))}
     </motion.div>
@@ -130,7 +130,7 @@ const VISUALS = [
   (t: (key: string) => string) => <SalesVisual t={t} />,
   (t: (key: string) => string) => <ResearchVisual t={t} />,
   (t: (key: string) => string) => <DevVisual t={t} />,
-  (t: (key: string) => string) => <TradingVisual t={t} />,
+  (t: (key: string) => string) => <TreasuryVisual t={t} />,
 ];
 
 const ICONS = [Megaphone, TrendingUp, Search, Code, Wallet] as const;

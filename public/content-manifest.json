@@ -150,7 +150,7 @@
     {
       "slug": "/comparison/langgraph",
       "title": "OpenLegion vs LangGraph — Detailed Comparison (2026)",
-      "description": "OpenLegion vs LangGraph: security architecture, credential isolation, CVE history, budget controls, graph-based vs YAML orchestration, and production deployment compared.",
+      "description": "OpenLegion vs LangGraph: security architecture, credential isolation, CVE history, budget controls, graph-based vs fleet-model coordination, and production deployment compared.",
       "primaryKeyword": "openlegion vs langgraph",
       "secondaryKeywords": [
         "langgraph alternative",
@@ -435,24 +435,24 @@
     },
     {
       "slug": "/deepseek-v4-agents",
-      "title": "Run DeepSeek V4 Agents Securely with OpenLegion (2026)",
-      "description": "Run DeepSeek V4 agents with vault proxy credentials, container isolation, and per-agent budget controls. OpenLegion's AI agent framework has day-1 DeepSeek V4 support via LiteLLM.",
-      "primaryKeyword": "deepseek v4 agents",
+      "title": "Run DeepSeek-Based Agents Securely with OpenLegion (2026)",
+      "description": "Run DeepSeek-based AI agents with vault-proxied credentials, container isolation, and per-agent budget controls. OpenLegion's AI agent framework supports DeepSeek via LiteLLM.",
+      "primaryKeyword": "deepseek agents",
       "secondaryKeywords": [
-        "deepseek v4 openlegion",
-        "deepseek v4 ai agent framework",
-        "deepseek v4 secure deployment",
-        "deepseek v4 open source agents",
-        "run deepseek v4 locally agents",
-        "deepseek v4 alternative to claude",
-        "deepseek v4 budget controls",
-        "deepseek v4 api agents"
+        "deepseek openlegion",
+        "deepseek ai agent framework",
+        "deepseek secure deployment",
+        "deepseek open source agents",
+        "run deepseek locally agents",
+        "deepseek alternative to claude",
+        "deepseek budget controls",
+        "deepseek api agents"
       ],
       "schemaTypes": [
         "FAQPage",
         "HowTo"
       ],
-      "lastUpdated": "2026-03",
+      "lastUpdated": "2026-05",
       "pageType": "root",
       "related": [
         "/learn/ai-agent-security",
@@ -497,13 +497,13 @@
     {
       "slug": "/learn/ai-agent-orchestration",
       "title": "AI Agent Orchestration — Coordinate Agents",
-      "description": "AI agent orchestration platform with deterministic DAG workflows, container isolation, credential vaulting, and per-agent budget controls.",
+      "description": "Container-isolated multi-agent runtime with fleet-model coordination (blackboard + pub/sub + handoff), credential vaulting, and per-agent budget controls.",
       "primaryKeyword": "ai agent orchestration",
       "secondaryKeywords": [
-        "multi-agent orchestration",
-        "deterministic ai workflows",
+        "multi-agent coordination",
+        "fleet model coordination",
         "ai agent task routing",
-        "ai agent dag workflows",
+        "blackboard pub/sub handoff",
         "agentic ai orchestration"
       ],
       "schemaTypes": [
@@ -555,7 +555,7 @@
     {
       "slug": "/learn/ai-agent-security",
       "title": "AI Agent Security — Threats, Isolation, Vaults",
-      "description": "AI agent security guide: credential leakage, prompt injection, sandbox escape, and how container isolation, blind credential injection, and budget controls mitigate each threat.",
+      "description": "AI agent security guide: credential leakage, prompt injection, sandbox escape, and how container isolation, vault-proxied credentials, and budget controls mitigate each threat.",
       "primaryKeyword": "ai agent security",
       "secondaryKeywords": [
         "ai agent credential leakage",
@@ -584,7 +584,7 @@
     {
       "slug": "/openclaw-alternative",
       "title": "OpenClaw Alternative — OpenLegion",
-      "description": "Looking for an OpenClaw alternative? OpenLegion offers container isolation, blind credential injection, per-agent budget controls, and deterministic orchestration.",
+      "description": "Looking for an OpenClaw alternative? OpenLegion offers container isolation, vault-proxied credentials, per-agent budget controls, and fleet coordination (blackboard + pub/sub + handoff).",
       "primaryKeyword": "openclaw alternative",
       "secondaryKeywords": [
         "openclaw replacement",

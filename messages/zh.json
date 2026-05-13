@@ -35,8 +35,8 @@
     "headingLine1": "构建你的",
     "headingHighlight": "AI 团队",
     "headingLine2": "只需描述你想要的团队。",
-    "tagline": "为生产环境打造的 AI 智能体框架与平台。",
-    "subtitle": "告诉 OpenLegion「我要一个营销团队」「我要一个销售团队」或「我要一个研究团队」，系统会自动部署智能体编队，预算、权限和安全凭证管控一步到位。",
+    "tagline": "为生产环境打造的容器隔离式多智能体运行时。",
+    "subtitle": "从 13 个现成模板中选择 — devteam、sales、content、research desk 等 — 或者自行编排智能体编队，按智能体配置预算、权限和经由密钥库代理的凭证。",
     "ctaPrimary": "立即开始",
     "ctaSecondary": "预约演示",
     "trustStrip": {
@@ -102,8 +102,8 @@
         "tip": "当价格下降、页面更新或事件触发时提醒你"
       },
       "11": {
-        "label": "通过 Slack、Telegram、Discord 触发",
-        "tip": "通过团队已在使用的工具触发智能体并获取动态"
+        "label": "通过 Telegram、Discord、Slack、WhatsApp、Webhook 触发",
+        "tip": "五个消息通道加上 CLI REPL — 通过你团队已在使用的工具来触发智能体并接收更新"
       }
     }
   },
@@ -155,19 +155,18 @@
         "name": "你的内容团队",
         "agents": {
           "0": "调研员",
-          "1": "写作者",
-          "2": "编辑"
+          "1": "写作者"
         },
-        "description": "OpenLegion 的内容工作室模板负责选题调研、长文撰写和编辑审校，确保每篇内容保持一致的品牌调性。"
+        "description": "OpenLegion 的 Content Studio 模板将研究员和作家配对，处理主题研究和长篇草稿，并在每篇内容中保持一致的品牌声音。"
       },
       "3": {
-        "name": "您的交易团队",
+        "name": "你的财库团队",
         "agents": {
           "0": "研究员",
-          "1": "交易员",
-          "2": "监控员"
+          "1": "执行者",
+          "2": "监控器"
         },
-        "description": "代理在链上执行 — 兑换、转账、DeFi 仓位 — 私钥始终锁定在保险库中。每个代理设有消费限额，每笔交易都经过模拟验证。"
+        "description": "钱包感知的智能体在链上执行 — 兑换、转账、DeFi 仓位 — 同时私钥锁定在保险库中并在服务器端签名。提供每个智能体的支出限额、每日上限以及 EVM + Solana 支持。"
       },
       "4": {
         "name": "你的自定义团队",
@@ -215,7 +214,7 @@
       "2": "执行",
       "3": "交付"
     },
-    "tradingEvents": {
+    "treasuryEvents": {
       "0": "在 Base 上将 0.5 ETH 兑换为 USDC",
       "1": "消费限额：今日 $48 / $500",
       "2": "监控员检查仓位中…"
@@ -224,7 +223,7 @@
   "socialProof": {
     "stats": {
       "0": {
-        "fallback": "2,100+",
+        "fallback": "5,800+",
         "label": "测试通过"
       },
       "1": {
@@ -233,7 +232,7 @@
       },
       "2": {
         "fallback": "0",
-        "label": "已报告的 CVE"
+        "label": "CVE 数（engine v0.1.0）"
       },
       "3": {
         "fallback": "$0",
@@ -249,7 +248,7 @@
     "heading": "为不容",
     "headingHighlight": "出错",
     "headingEnd": "的团队而生。",
-    "subtitle": "从第一天起就将安全、成本控制和智能体自动化深度内置的 AI 智能体平台。",
+    "subtitle": "从第一天起内置安全、成本管控和智能体自动化的 AI 智能体框架。",
     "outcomes": {
       "0": {
         "title": "AI 智能体安全：你的密钥存储在智能体永远无法触及的密钥库中。",
@@ -262,12 +261,12 @@
         "linkLabel": "了解成本控制机制 →"
       },
       "2": {
-        "title": "确定性 AI 智能体编排——你来决定谁做什么。",
-        "description": "智能体可浏览任意网站、操作任意工具、执行链上交易、运行任意任务。兼容 MCP，内置 50+ 技能。YAML 定义工作流——每条执行路径可预测、可审计、完全在你的控制之下。",
-        "linkLabel": "了解编排机制 →"
+        "title": "编队模型协同 — 你来决定谁做什么。",
+        "description": "智能体可访问任何网站、操作任何工具、链上执行、运行任何任务。MCP 兼容，内置浏览器、文件、记忆、钱包等技能。Fleet model — blackboard + pub/sub + handoff (no CEO agent) — 配合受限执行和按智能体的权限矩阵。",
+        "linkLabel": "协同方式 →"
       }
     },
-    "allFeaturesLink": "查看所有 AI 智能体平台功能，包括浏览器自动化、持久记忆、MCP 扩展性和多智能体编排 →"
+    "allFeaturesLink": "查看 AI 智能体框架的全部功能，包括浏览器自动化、持久记忆、MCP 可扩展性和多智能体协同 →"
   },
   "dashboardPreview": {
     "sectionLabel": "编队控制台",
@@ -326,7 +325,7 @@
     "headingHighlight": "AI 智能体",
     "managedBadge": "最简单——无需任何配置",
     "managedHeading": "无需终端，无需配置文件。",
-    "managedDescription": "我们为你管理容器、凭证和基础设施。",
+    "managedDescription": "我们为你管理容器、凭证和基础设施。 与 Operator 对话 — 你舰队的工头，在 VPS 启动后自动创建。",
     "managedCta": "立即开始 →",
     "steps": {
       "0": "创建你的账户",
@@ -356,7 +355,7 @@
     "heading": "AI 智能体安全：假设智能体会",
     "headingHighlight": "越界行事",
     "headingEnd": "来设计。",
-    "subtitle": "六层防护默认开启，此处展示四层。",
+    "subtitle": "默认启用纵深防御。下面展示六层架构。",
     "layers": {
       "0": {
         "title": "每个智能体运行在独立的容器中",
@@ -387,39 +386,39 @@
   },
   "architecture": {
     "sectionLabel": "技术架构",
-    "title": "三层隔离防护区",
-    "summary": "你的多智能体编队运行在三个隔离区域中——用户区、协调器区和沙箱容器区。智能体触及的任何内容都无法接触到你的 API 密钥、其他智能体或宿主机。",
+    "title": "纵深防御 — 每一层都有信任分区",
+    "summary": "你的多智能体舰队在四个信任层中运行 — 不可信的外部输入、沙箱化的智能体、可信的网格以及仅回环的内部层 — 外加一个操作员或内部权限层。智能体只通过网格相互通信，由每个智能体的 ACL 控制；密钥由网格持有。",
     "zones": {
       "0": {
         "name": "用户区",
-        "trust": "完全信任",
+        "trust": "不可信输入",
         "items": {
           "0": "CLI / Telegram / Discord",
           "1": "Slack / WhatsApp / Webhooks",
-          "2": "智能体直接通信"
+          "2": "通过提示注入防护进行清理"
         }
       },
       "1": {
         "name": "网格主机",
-        "trust": "可信协调器",
+        "trust": "可信（区域 2）",
         "items": {
           "0": "FastAPI :8420",
-          "1": "黑板 (SQLite)",
+          "1": "黑板（SQLite + WAL）",
           "2": "发布/订阅 + 消息路由",
           "3": "凭证密钥库 (API 代理)",
-          "4": "编排器 + 权限矩阵",
-          "5": "容器管理器 + 成本追踪器"
+          "4": "ACL 矩阵 + 车道路由器",
+          "5": "浏览器服务 :8500（每智能体独立 Camoufox）"
         }
       },
       "2": {
         "name": "智能体容器",
-        "trust": "不受信任 / 沙箱隔离",
+        "trust": "沙箱（区域 1）",
         "items": {
-          "0": "每个 FastAPI :8400+",
+          "0": "FastAPI :8400（每个容器）",
           "1": "独立 /data 数据卷",
           "2": "独立内存数据库 (SQLite + vec)",
           "3": "默认 384MB RAM / 0.15 CPU",
-          "4": "非 root、no-new-privileges"
+          "4": "UID 1000，cap_drop=ALL，no-new-privileges，只读文件系统"
         }
       }
     },
@@ -427,15 +426,15 @@
     "learnMoreLink": "了解更多关于 AI 智能体编排 →"
   },
   "enterprise": {
-    "heading": "为企业而生。",
-    "description": "本地部署、气隙环境、SOC 2 对齐的凭证隔离、确定性审计追踪、每智能体成本治理和基于角色的访问控制——全部默认启用。引擎约 30,000 行 Python 代码，包含 2,100+ 测试，依赖面极小。",
+    "heading": "为重负载工作而生。",
+    "description": "自托管的本地化部署、纵深防御的凭证隔离、确定性审计轨迹、按智能体的成本治理，以及按智能体的权限矩阵 — 全部默认强制执行。引擎约 77,000 行 Python 代码，超过 5,800 个测试，依赖面极小。",
     "signals": {
-      "0": "本地部署与气隙环境",
-      "1": "SOC 2 对齐",
+      "0": "自托管本地化",
+      "1": "纵深防御",
       "2": "确定性审计追踪",
-      "3": "确定性工作流",
+      "3": "受限执行",
       "4": "每智能体成本治理",
-      "5": "基于角色的访问控制"
+      "5": "按智能体的权限矩阵"
     },
     "cta": "预约演示"
   },
@@ -443,7 +442,7 @@
     "sectionLabel": "方案对比",
     "heading": "OpenLegion 的不同之处",
     "subtitle": "大多数 AI 智能体工具是为演示而生——OpenLegion 是为生产环境而生。",
-    "detailParagraph": "OpenLegion 是唯一将密钥库代理凭证、容器隔离和每智能体预算控制作为默认配置的 AI 智能体框架——自发布以来零 CVE 报告。",
+    "detailParagraph": "OpenLegion 默认提供经密钥库代理的凭证、容器隔离和按智能体的预算强制 — 自 v0.1.0 起未报告任何 CVE。",
     "disclaimer": "基于公开安全披露和社区反馈。",
     "tableCaption": "典型 AI 智能体框架与 OpenLegion 的功能对比",
     "columnAspect": "对比项",
@@ -468,17 +467,17 @@
       "3": {
         "aspect": "任务路由",
         "them": "由 LLM CEO 智能体决定",
-        "openlegion": "确定性 YAML DAG"
+        "openlegion": "编队模型 — blackboard + pub/sub + handoff (no CEO agent)"
       },
       "4": {
         "aspect": "测试覆盖率",
         "them": "很少",
-        "openlegion": "2,100+ 测试覆盖单元 + 集成 + 端到端"
+        "openlegion": "5,800+ 个测试：单元 + 集成 + E2E"
       },
       "5": {
         "aspect": "代码库规模",
-        "them": "430,000+ 行",
-        "openlegion": "约 30,000 行（引擎代码，可审计）"
+        "them": "庞杂",
+        "openlegion": "~77,000 行（引擎，可审计）"
       }
     },
     "footnote": "OpenLegion 于 2026 年 2 月发布。GitHub 星标数反映项目年龄，而非生产就绪度。"
@@ -495,7 +494,7 @@
       },
       "1": {
         "question": "订阅之外是否还需要支付 LLM 使用费用？",
-        "answer": "是的——你使用自己的 Anthropic、OpenAI、Google 或 100+ 支持的提供商的 API 密钥。你按提供商的公开价格直接付费。OpenLegion 仅收取平台和基础设施费用。模型使用零加价。"
+        "answer": "每个付费订阅都包含一份永不过期的 LLM 额度欢迎包 — 第一天即可使用，无需 API 密钥。你也可以使用自己的 Anthropic、OpenAI、Google 或 100 多家受支持厂商的 API 密钥，按使用量直接向这些厂商付费，模型用量零加价。"
       },
       "2": {
         "question": "OpenLegion 智能体可以自动化哪些类型的任务？",
@@ -503,11 +502,11 @@
       },
       "3": {
         "question": "什么是 OpenLegion？",
-        "answer": "OpenLegion 是一个生产级 AI 智能体框架和平台，可在隔离的 Docker 容器中部署自主智能体编队。每个智能体拥有独立的预算、权限和密钥库——六层安全防护默认开启。仅需 Python、Docker 和一个 API 密钥。无需 Redis、无需 Kubernetes、无需 LangChain。采用 BSL 1.1 许可协议（源码可见）。"
+        "answer": "OpenLegion 是一款生产级、容器隔离式的多智能体运行时，将自治智能体编队部署到隔离的 Docker 容器中。每个智能体拥有独立的预算、权限和凭证库 — 通过容器隔离、密钥库代理、按智能体的 ACL 和受限执行实现纵深防御。仅需 Python、Docker 和 API 密钥。无需 Redis、Kubernetes 或 LangChain。采用 BSL 1.1 许可（source-available）。"
       },
       "4": {
         "question": "OpenLegion 与 CrewAI 或其他智能体框架有什么区别？",
-        "answer": "OpenLegion 对每个智能体进行容器隔离，通过密钥库代理所有凭证，并强制执行每智能体预算——大多数框架做不到这些。CrewAI 等类似框架在共享进程中运行智能体，没有隔离、没有成本控制，API 密钥存储在配置文件中。OpenLegion 使用确定性 YAML 工作流，而非让 LLM 决定任务路由，使执行过程可预测、可审计。"
+        "answer": "OpenLegion 将每个智能体进行容器隔离，所有凭证均通过密钥库代理，并按智能体强制预算 — 大多数框架不会这样做。CrewAI 等类似框架在共享进程中运行智能体，没有隔离、没有成本管控，API 密钥保存在配置文件里。OpenLegion 采用编队模型（no CEO agent），通过 blackboard 协同和结构化 handoff 实现协作 — 控制面没有 LLM 决定任务路由。"
       },
       "5": {
         "question": "OpenLegion 支持哪些 LLM 提供商？",
@@ -515,44 +514,44 @@
       },
       "6": {
         "question": "OpenLegion 如何保障 API 密钥安全？",
-        "answer": "通过盲注凭证注入——智能体永远看不到 API 密钥。密钥存储在网格主机上的密钥库中。当智能体调用 LLM 时，请求通过密钥库代理传输，代理在网络层注入凭证、追踪令牌使用量并强制执行预算限制。即使智能体被完全入侵，也无法获取你的 API 密钥。"
+        "answer": "通过密钥库代理 — 智能体永远看不到 API 密钥。密钥保存在 mesh 主机上的 mesh 进程中。智能体调用 LLM 时，请求会经过密钥库代理，在网络层注入凭证、追踪 token 用量并强制预算上限。即便智能体被完全攻陷，也无法访问你的 API 密钥。"
       },
       "7": {
         "question": "运行 OpenLegion 需要 Kubernetes 或云基础设施吗？",
         "answer": "不需要。OpenLegion 可以在单台机器上运行，无需外部服务。你只需要 Python 3.10+、Docker 和一个 LLM API 密钥——无需 Redis、无需 Kubernetes、无需 LangChain、无需外部数据库。"
       },
       "8": {
-        "question": "OpenLegion 是否具备企业级能力？",
-        "answer": "是的——OpenLegion 专为企业部署设计。包括本地部署支持（含气隙环境）、确定性 YAML 工作流、每智能体成本治理、基于角色的访问控制、通过密钥库代理的凭证隔离，以及约 30,000 行、2,100+ 测试的可审计代码库。所有安全层默认开启。"
+        "question": "我可以在生产环境运行 OpenLegion 吗？",
+        "answer": "可以 — OpenLegion 专为生产环境部署而设计。它提供本地化部署支持、采用 blackboard + pub/sub + handoff 协同的编队模型、按智能体的成本治理、按智能体的权限矩阵、通过密钥库代理的凭证隔离，以及约 77,000 行、5,800+ 测试的可审计代码库。纵深防御控制默认开启。"
       },
       "9": {
-        "question": "OpenLegion 可以在气隙环境中本地部署吗？",
-        "answer": "可以。完整技术栈完全运行在你自己的基础设施上，除 Docker 和 Python 外无外部依赖。数据不会离开你的网络。协调器、智能体、密钥库和控制面板全部运行在单台机器上，适用于气隙、受监管和本地部署环境。"
+        "question": "OpenLegion 可以在本地部署吗？",
+        "answer": "可以。引擎仅需 Python + Docker 即可在单台机器上运行，无需任何外部服务。若需要完全本地推理，可将 LLM 提供方指向 Ollama；若使用托管模型（Anthropic、OpenAI、Google 等），mesh 代理会连接你配置的提供方。mesh 主机、智能体、密钥库和控制面板都运行在同一台机器上。"
       },
       "10": {
-        "question": "什么是 AI 智能体平台？",
-        "answer": "AI 智能体平台是用于在生产环境中部署、编排和治理自主 AI 智能体的托管基础设施。与仅提供智能体逻辑原语的原始框架库不同，平台负责容器隔离、凭证密钥库、每智能体成本控制、可观测性和部署——让团队无需从零构建 DevOps 即可上线智能体。"
+        "question": "什么是 AI 智能体框架？",
+        "answer": "AI 智能体框架是用于在生产环境中部署、协同和治理自治 AI 智能体的运行时和库层。与仅提供智能体逻辑原语的纯 SDK 库不同，像 OpenLegion 这样的框架会处理容器隔离、凭证密钥库化、按智能体的成本管控、可观测性和部署 — 团队无需从零搭建 DevOps 就能发布智能体。"
       },
       "11": {
-        "question": "AI 智能体框架和智能体平台有什么区别？",
-        "answer": "框架是用于构建智能体逻辑的代码库——包括工具、提示、记忆和链式调用。平台则在此之上提供运营基础设施：容器隔离、凭证密钥库、每智能体预算、部署管线和编队级可观测性。OpenLegion 两者兼备：一个用于编写智能体的 Python 框架，以及一个在生产环境中运行智能体的自托管平台，安全和成本治理内置其中。"
+        "question": "AI 智能体框架与托管服务有何区别？",
+        "answer": "框架是用于构建和运行智能体逻辑（工具、提示、记忆、协同）的代码库与运行时。托管服务在其之上增加运维层：专属 VPS 预置、控制面板、计费、额度代理。OpenLegion 同时提供两者：用于编写和运行智能体的 Python 框架（容器隔离式多智能体运行时），以及面向不愿自行管理基础设施团队的可选托管服务。"
       },
       "12": {
-        "question": "OpenLegion 中的 AI 智能体编排是如何工作的？",
-        "answer": "OpenLegion 使用确定性 YAML DAG 工作流——控制平面中没有 LLM 来决定谁做什么。你通过顺序和并行执行模式定义任务图，通过集中式黑板和发布/订阅消息进行协调。编排器根据 DAG 定义路由任务，使每条执行路径可预测、可重复、可审计。采用编队模型而非层级模型——智能体执行分配的步骤并将结果报告给协调器。"
+        "question": "OpenLegion 中智能体协同如何工作？",
+        "answer": "OpenLegion 采用编队模型 — blackboard + pub/sub + handoff (no CEO agent)。智能体通过基于 SQLite、支持原子 compare-and-set 的 blackboard、pub/sub 事件总线，以及结构化的 handoff 协议进行协同。每个智能体拥有独立的权限、预算和工具集。用户直接与智能体对话；控制面没有 LLM 决定任务路由。"
       },
       "13": {
         "question": "AI 智能体安全对自主智能体意味着什么？",
-        "answer": "AI 智能体安全应对自主智能体引入的独特威胁：凭证泄露、提示注入、资源滥用和数据外泄。OpenLegion 的六层防御——运行时隔离、容器加固、凭证分离、权限强制执行、输入验证和 Unicode 清理——独立缓解每个威胁，单层被突破不会危及其他层。"
+        "answer": "AI 智能体安全针对自治智能体特有的威胁：凭证泄露、提示词注入、资源滥用和数据外泄。OpenLegion 的纵深防御 — 容器隔离、凭证密钥库代理、按智能体的权限矩阵、输入净化、SSRF 防护、Unicode/路径穿越加固 — 独立地缓解各类威胁，使得某一层被突破不会波及其他层。"
       }
     },
-    "seeFullFaqPrefix": "更多问题解答——包括架构、LLM 提供商和 AI 智能体编排。",
+    "seeFullFaqPrefix": "更多问题解答 — 包括架构、LLM 提供方与智能体协同。",
     "seeFullFaqLink": "查看完整常见问题 →"
   },
   "technicalDefinition": {
     "label": "技术定义",
     "srOnlyPrefix": "什么是 OpenLegion？",
-    "text": "OpenLegion 是一个生产级 AI 智能体平台，具备容器隔离、盲注凭证注入、每智能体预算和确定性 YAML 编排——专为需要在生产环境中运行安全、可控成本的智能体编队的团队设计。"
+    "text": "OpenLegion 是一款容器隔离式的多智能体运行时，具备凭证密钥库代理、按智能体的预算，以及编队协同模型（blackboard + pub/sub + handoff, no CEO agent）— 为需要在生产环境中安全、可控成本地运行智能体编队的团队而设计。"
   },
   "cta": {
     "heading": "你的 AI 团队只差一次",
@@ -563,7 +562,7 @@
     "secondaryButton": "加入我们的 Discord"
   },
   "footer": {
-    "brandDescription": "为生产环境打造的 AI 智能体框架与平台。使用安全、可控成本的智能体编队自动化任何计算机任务。",
+    "brandDescription": "为生产环境打造的容器隔离式多智能体运行时。用安全、可控成本的智能体编队自动化任何计算机任务。",
     "license": "BSL 1.1 许可协议 © {year} OpenLegion 贡献者",
     "columns": {
       "0": {
@@ -711,11 +710,11 @@
       },
       "2": {
         "question": "可以切换方案吗？",
-        "answer": "可以——随时升级或降级。更改将在下一个计费周期开始时生效。"
+        "answer": "可以 — 任何时候都能升级，新限额立即生效。降级在下一个计费周期开始时生效。"
       },
       "3": {
         "question": "取消后我的智能体会怎样？",
-        "answer": "取消后你的智能体配置和数据将保留 30 天。你可以在账户关闭前导出所有数据。"
+        "answer": "取消后，你将保留访问权限至当前计费周期结束。之后 VPS 会被注销，实例数据被移除。"
       },
       "4": {
         "question": "可以自托管 OpenLegion 吗？",
@@ -765,16 +764,16 @@
     "subtitle": "描述你需要的功能，OpenLegion 会自动创建智能体架构、分配角色，并为每个智能体配置安全运行所需的权限。",
     "examples": {
       "0": {
-        "name": "营销团队",
+        "name": "内容工作室",
         "roles": {
-          "0": "调研",
+          "0": "研究",
           "1": "撰写",
-          "2": "编辑",
-          "3": "报告"
+          "2": "简报",
+          "3": "交付"
         }
       },
       "1": {
-        "name": "销售团队",
+        "name": "销售流水线",
         "roles": {
           "0": "线索调研",
           "1": "资质筛选",
@@ -783,12 +782,12 @@
         }
       },
       "2": {
-        "name": "研究团队",
+        "name": "深度研究",
         "roles": {
-          "0": "监控",
-          "1": "浏览",
-          "2": "总结",
-          "3": "交付"
+          "0": "侦察员",
+          "1": "分析师",
+          "2": "综合",
+          "3": "引用"
         }
       },
       "3": {
@@ -800,11 +799,11 @@
         }
       },
       "4": {
-        "name": "交易团队",
+        "name": "财库团队",
         "roles": {
           "0": "研究员",
-          "1": "交易员",
-          "2": "监控员"
+          "1": "执行者",
+          "2": "监控器"
         }
       }
     },
@@ -838,7 +837,7 @@
         "1": "工程师提交了 PR #18",
         "2": "审查员审查中…"
       },
-      "trading": {
+      "treasury": {
         "0": "兑换 0.5 ETH → USDC",
         "1": "消费限额：$48 / $500",
         "2": "监控员检查持仓中…"
@@ -858,13 +857,13 @@
     "cta": "了解工作原理",
     "teams": {
       "0": {
-        "name": "营销团队"
+        "name": "内容工作室"
       },
       "1": {
-        "name": "销售团队"
+        "name": "销售流水线"
       },
       "2": {
-        "name": "研究团队"
+        "name": "深度研究"
       },
       "3": {
         "name": "自定义团队"
@@ -901,15 +900,15 @@
     "pricingTwitterTitle": "AI 智能体平台定价——首日即付 | OpenLegion",
     "pricingTwitterDescription": "方案起价 $19/月。7 天退款保证。",
     "faqTitle": "常见问题",
-    "faqDescription": "关于 OpenLegion 的常见问题解答——为生产环境打造的 AI 智能体框架与平台。涵盖安全、定价、LLM 提供商、编排、企业部署等内容。",
+    "faqDescription": "关于 OpenLegion 的常见问题解答 — 为生产环境打造的容器隔离式多智能体运行时。涵盖安全、定价、LLM 提供方、协同、生产部署等。",
     "faqOgTitle": "常见问题 — OpenLegion",
-    "faqOgDescription": "关于 OpenLegion 的常见问题解答——安全、定价、LLM 提供商、编排和企业部署。",
+    "faqOgDescription": "关于 OpenLegion 的常见问题解答 — 安全、定价、LLM 提供方、协同与生产部署。",
     "faqTwitterTitle": "常见问题 — OpenLegion",
-    "faqTwitterDescription": "关于 OpenLegion 的常见问题解答——安全、定价、LLM 提供商、编排和企业部署。",
+    "faqTwitterDescription": "关于 OpenLegion 的常见问题解答 — 安全、定价、LLM 提供方、协同与生产部署。",
     "privacyTitle": "隐私政策",
-    "privacyDescription": "OpenLegion AI 智能体平台隐私政策。了解我们如何在托管服务和 openlegion.ai 网站上收集、使用和保护您的数据。",
+    "privacyDescription": "OpenLegion AI 智能体框架与托管服务的隐私政策。了解我们如何在托管服务及 openlegion.ai 网站上收集、使用和保护你的数据。",
     "termsTitle": "服务条款",
-    "termsDescription": "OpenLegion AI 智能体平台服务条款。涵盖托管服务、BSL 1.1 许可协议下的自托管部署和 openlegion.ai 网站。"
+    "termsDescription": "OpenLegion AI 智能体框架与托管服务的服务条款。涵盖托管服务、BSL 1.1 许可下的自托管部署以及 openlegion.ai 网站。"
   },
   "contentPage": {
     "breadcrumbHome": "首页",
@@ -931,8 +930,8 @@
     "subtitle": "关于 AI 智能体平台、编排、安全以及 OpenLegion 与各主流框架对比的详细指南。",
     "cards": {
       "0": {
-        "title": "平台与基础设施",
-        "description": "OpenLegion 如何处理容器隔离、凭证密钥库、成本控制和生产级智能体编队的确定性编排。",
+        "title": "运行时与基础设施",
+        "description": "OpenLegion 如何为生产环境的智能体编队处理容器隔离、凭证密钥库化、成本管控与编队协同。",
         "links": {
           "0": "AI 智能体平台",
           "1": "AI 智能体编排",
@@ -1003,7 +1002,7 @@
         "title": "2.1 您提供的信息",
         "items": {
           "0": "账户信息：创建账户时的电子邮件地址、姓名和密码。",
-          "1": "支付信息：由我们的第三方支付处理商（如 Stripe）处理的账单详情。我们不会在自己的服务器上存储完整的信用卡号码。",
+          "1": "支付信息：由我们的第三方支付处理商（Polar）处理的账单详情。我们不会在自己的服务器上保存完整的信用卡号。",
           "2": "通讯信息：您通过电子邮件、在线客服（Tawk.to）或 Discord 联系我们时提供的信息。",
           "3": "客户数据：您提交至本服务的智能体配置、工作流定义及其他数据。"
         }
@@ -1040,7 +1039,7 @@
         "0": "Google Analytics — 网站分析和流量统计。",
         "1": "Microsoft Clarity — 用于用户体验分析的会话录制和热力图。",
         "2": "Tawk.to — 客户支持在线聊天组件。",
-        "3": "Stripe（或同等服务）— 支付处理。",
+        "3": "Polar — 支付处理。",
         "4": "LLM API 提供商（如 Anthropic、OpenAI、Google、Mistral）— AI 模型推理。发送至这些提供商的提示和智能体数据受其各自的隐私政策和数据处理条款约束。OpenLegion 不对第三方 LLM 提供商处理数据的方式承担责任。"
       },
       "review": "我们建议您查阅这些第三方服务的隐私政策。"
@@ -1217,7 +1216,7 @@
     }
   },
   "launchPricing": {
-    "message": "上线优惠价 — 限时活动",
+    "message": "创始价格 — 早期客户锁定",
     "cta": "立即开始 →"
   },
   "pricingAnchors": {

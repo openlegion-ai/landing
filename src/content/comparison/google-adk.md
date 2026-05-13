@@ -1,33 +1,33 @@
 ---
 title: OpenLegion vs Google ADK - Detailed Comparison
 description: >-
-  OpenLegion vs Google Agent Development Kit: comparison of security, agent
-  isolation, credential management, A2A protocol, and multi-agent orchestration.
+ OpenLegion vs Google Agent Development Kit: comparison of security, agent
+ isolation, credential management, A2A protocol, and multi-agent orchestration.
 slug: /comparison/google-adk
 primary_keyword: openlegion vs google adk
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /comparison/langgraph
-  - /comparison/crewai
-  - /comparison/aws-strands
-  - /comparison/openai-agents-sdk
+ - /comparison/langgraph
+ - /comparison/crewai
+ - /comparison/aws-strands
+ - /comparison/openai-agents-sdk
 ---
 
 # OpenLegion vs Google ADK: Which AI Agent Framework for Production?
 
 Google's Agent Development Kit (ADK) is the most architecturally ambitious entry in the agent framework landscape. With ~17,600 GitHub stars, three agent types (LLM, Workflow, Custom), and the A2A (Agent-to-Agent) protocol donated to the Linux Foundation with 150+ partners, ADK positions itself as the interoperability standard for multi-agent systems. It deploys natively to Vertex AI Agent Engine Runtime and integrates deeply with Google Cloud services.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over cloud ecosystem breadth.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over cloud ecosystem breadth.
 
 This is a direct **OpenLegion vs Google ADK** comparison based on public documentation at the time of writing.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and Google ADK?**
-> Google ADK is an event-driven async agent framework with three agent types and the A2A interoperability protocol, optimized for Google Cloud deployment. OpenLegion is a security-first agent platform with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows. ADK offers the broadest agent interoperability; OpenLegion offers the strongest production security defaults.
+> Google ADK is an event-driven async agent framework with three agent types and the A2A interoperability protocol, optimized for Google Cloud deployment. OpenLegion is a security-first agent framework with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). ADK offers the broadest agent interoperability; OpenLegion offers the strongest production security defaults.
 
 ## TL;DR
 
@@ -43,11 +43,11 @@ This is a direct **OpenLegion vs Google ADK** comparison based on public documen
 | Dimension | OpenLegion | Google ADK |
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Event-driven agent framework with A2A interoperability |
-| **Architecture** | Three-zone trust model | Runner/Events with three agent types (LLM, Workflow, Custom) |
+| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Runner/Events with three agent types (LLM, Workflow, Custom) |
 | **Agent isolation** | Mandatory Docker container per agent, non-root | Tiered: Vertex sandbox (managed), Docker, Unsafe (no isolation) |
 | **Credential management** | Vault proxy, blind injection, agents never see keys | Google Secret Manager integration |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in; Vertex billing per vCPU-hr and events |
-| **Orchestration** | Deterministic YAML DAG workflows | Event-driven async with Sequential, Parallel, and Loop workflows |
+| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Event-driven async with Sequential, Parallel, and Loop workflows |
 | **Interoperability** | MCP tool servers | A2A protocol (Linux Foundation, 150+ partners) + MCP |
 | **LLM support** | 100+ via LiteLLM | Gemini native + LiteLLM for 100+ models |
 | **Deployment** | Cloud-agnostic (any Docker host) | Vertex AI Agent Engine Runtime or self-hosted |
@@ -70,7 +70,7 @@ No direct CVEs exist for ADK. One dependency-level security patch was issued. AD
 
 ### OpenLegion's architecture
 
-OpenLegion uses a three-zone trust model where every agent runs in a Docker container with non-root execution, no Docker socket access, and resource caps. Credentials are handled by a vault proxy in Zone 2. YAML workflows define exact tool access, permissions, and budgets per agent before execution.
+OpenLegion uses a four-zone trust model (plus an operator-or-internal tier) where every agent runs in a Docker container with non-root execution, no Docker socket access, and resource caps. Credentials are handled by a vault proxy in Zone 2. fleet-model coordination define exact tool access, permissions, and budgets per agent before execution.
 
 ## When to Choose Google ADK
 
@@ -78,7 +78,7 @@ OpenLegion uses a three-zone trust model where every agent runs in a Docker cont
 
 **You are building on Google Cloud.** Vertex AI Agent Engine Runtime provides managed deployment, auto-scaling, and Google-managed sandboxing. If you are already on GCP, ADK is the path of least resistance.
 
-**You need multiple agent types.** ADK's three agent types (LLM, Workflow, Custom) provide architectural flexibility that YAML DAGs do not match for complex, mixed-pattern systems.
+**You need multiple agent types.** ADK's three agent types (LLM, Workflow, Custom) provide architectural flexibility that fleet-model coordination do not match for complex, mixed-pattern systems.
 
 **You value a clean security record.** ADK has no framework-level CVEs and benefits from Google's security infrastructure on Vertex.
 
@@ -117,7 +117,7 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ### What is the difference between OpenLegion and Google ADK?
 
-Google ADK (~17,600 stars) is an event-driven agent framework with A2A interoperability and Google Cloud integration. OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement. ADK excels at cross-framework interoperability; OpenLegion excels at cloud-agnostic production security.
+Google ADK (~17,600 stars) is an event-driven agent framework with A2A interoperability and Google Cloud integration. OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement. ADK excels at cross-framework interoperability; OpenLegion excels at cloud-agnostic production security.
 
 ### What is the A2A protocol?
 

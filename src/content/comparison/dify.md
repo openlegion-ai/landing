@@ -1,33 +1,33 @@
 ---
 title: OpenLegion vs Dify — Detailed Comparison
 description: >-
-  OpenLegion vs Dify: comparison of security, agent isolation, credential
-  management, visual workflow building, and production deployment for AI agents.
+ OpenLegion vs Dify: comparison of security, agent isolation, credential
+ management, visual workflow building, and production deployment for AI agents.
 slug: /comparison/dify
 primary_keyword: openlegion vs dify
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /comparison/langgraph
-  - /comparison/crewai
-  - /comparison/manus-ai
-  - /comparison/google-adk
+ - /comparison/langgraph
+ - /comparison/crewai
+ - /comparison/manus-ai
+ - /comparison/google-adk
 ---
 
 # OpenLegion vs Dify: Which AI Agent Platform for Production?
 
 Dify is the most-starred AI application platform on GitHub (~131,000 stars), offering a visual drag-and-drop workflow builder, built-in RAG pipeline, and a plugin marketplace with 120+ extensions. Founded by the LangGenius team (former Tencent Cloud), Dify has been downloaded 2.4 million times across 120+ countries and was recognized as AWS Social Impact Partner of the Year in December 2025.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, blind credential injection, and per-agent budget controls over visual workflow building.
+OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over visual workflow building.
 
 This is a direct **OpenLegion vs Dify** comparison based on public documentation at the time of writing.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and Dify?**
-> Dify is a visual AI application platform with drag-and-drop workflow building, built-in RAG, and a plugin marketplace. OpenLegion is a code-first, security-first AI agent platform with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows. Dify optimizes for low-code accessibility; OpenLegion optimizes for production security.
+> Dify is a visual AI application platform with drag-and-drop workflow building, built-in RAG, and a plugin marketplace. OpenLegion is a code-first, security-first AI agent framework with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). Dify optimizes for low-code accessibility; OpenLegion optimizes for production security.
 
 ## TL;DR
 
@@ -43,11 +43,11 @@ This is a direct **OpenLegion vs Dify** comparison based on public documentation
 | Dimension | OpenLegion | Dify |
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Visual AI application platform |
-| **Architecture** | Three-zone trust model | Visual workflow builder + agent runtime + plugin system |
+| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Visual workflow builder + agent runtime + plugin system |
 | **Agent isolation** | Mandatory Docker container per agent, non-root, no-new-privileges | Plugin sandbox; applications share workspace context |
 | **Credential management** | Vault proxy — blind injection, agents never see keys | Workspace-level API key storage shared across team |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in |
-| **Orchestration** | Deterministic YAML DAG workflows | Visual Chatflow and Workflow with drag-and-drop nodes |
+| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Visual Chatflow and Workflow with drag-and-drop nodes |
 | **RAG / Knowledge** | External RAG via tools | Built-in: ingestion, retrieval, reranking, multimodal knowledge bases |
 | **Plugin ecosystem** | MCP tool server support | 120+ plugins |
 | **LLM support** | 100+ via LiteLLM | 100+ via model plugins |
@@ -71,7 +71,7 @@ Self-hosted deployment requires ~12 Docker containers with hardcoded PostgreSQL 
 
 ### OpenLegion's architecture
 
-OpenLegion uses a three-zone trust model. Each agent runs in its own Docker container — non-root, no Docker socket, resource-capped. The vault proxy handles all authenticated calls. YAML workflows define exact tool access and budgets per agent.
+OpenLegion uses a four-zone trust model (plus an operator-or-internal tier). Each agent runs in its own Docker container — non-root, no Docker socket, resource-capped. The vault proxy handles all authenticated calls. fleet-model coordination define exact tool access and budgets per agent.
 
 ## When to Choose Dify
 
@@ -91,7 +91,7 @@ OpenLegion uses a three-zone trust model. Each agent runs in its own Docker cont
 
 **You need minimal infrastructure complexity.** OpenLegion: Python + SQLite + Docker. Dify: ~12 containers.
 
-**You need code-first, auditable orchestration.** YAML DAGs are version-controllable and compliance-auditable.
+**You need code-first, auditable orchestration.** fleet-model coordination are version-controllable and compliance-auditable.
 
 Bring your own LLM API keys. No markup on model usage.
 
@@ -116,7 +116,7 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ### What is the difference between OpenLegion and Dify?
 
-Dify (~131,000 stars) is a visual AI application platform with drag-and-drop workflows, built-in RAG, and a plugin marketplace. OpenLegion is a code-first, security-first [AI agent platform](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement.
+Dify (~131,000 stars) is a visual AI application platform with drag-and-drop workflows, built-in RAG, and a plugin marketplace. OpenLegion is a code-first, security-first [AI agent framework](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement.
 
 ### How does Dify security compare to OpenLegion?
 
@@ -136,7 +136,7 @@ Dify uses a modified Apache 2.0 license that prohibits multi-tenant SaaS usage w
 
 ### Can I migrate from Dify to OpenLegion?
 
-Dify visual workflows need restructuring as YAML DAGs. LLM configurations transfer directly. Dify RAG pipelines need external replacement. See our [AI agent orchestration](/learn/ai-agent-orchestration) page for workflow patterns.
+Dify visual workflows need restructuring as fleet-model coordination. LLM configurations transfer directly. Dify RAG pipelines need external replacement. See our [AI agent orchestration](/learn/ai-agent-orchestration) page for workflow patterns.
 
 ---
 

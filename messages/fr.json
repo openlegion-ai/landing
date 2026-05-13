@@ -35,8 +35,8 @@
     "headingLine1": "Créez une ",
     "headingHighlight": "équipe IA",
     "headingLine2": "en décrivant celle dont vous avez besoin.",
-    "tagline": "Le framework et la plateforme d'agents IA conçus pour la production.",
-    "subtitle": "Dites à OpenLegion « je veux une agence marketing », « je veux une équipe commerciale » ou « je veux un pôle recherche », et il déploie la stack d'agents avec budgets, permissions et contrôle sécurisé des identifiants intégrés.",
+    "tagline": "Le runtime multi-agent isolé par conteneur, conçu pour la production.",
+    "subtitle": "Choisissez parmi 13 modèles prêts à l'emploi — devteam, sales, content, research desk et plus — ou composez votre propre flotte d'agents avec budgets, permissions et identifiants protégés par proxy coffre-fort, agent par agent.",
     "ctaPrimary": "Commencer",
     "ctaSecondary": "Réserver une démo",
     "trustStrip": {
@@ -102,8 +102,8 @@
         "tip": "Vous alerte quand les prix baissent, les pages changent ou des événements se déclenchent"
       },
       "11": {
-        "label": "Déclencher via Slack, Telegram, Discord",
-        "tip": "Déclenchez des agents et recevez des mises à jour via les outils que votre équipe utilise déjà"
+        "label": "Déclencher via Telegram, Discord, Slack, WhatsApp, Webhook",
+        "tip": "Cinq canaux de messagerie plus une CLI REPL — déclenchez des agents et recevez des mises à jour via les outils que votre équipe utilise déjà"
       }
     }
   },
@@ -155,19 +155,18 @@
         "name": "Votre équipe de contenu",
         "agents": {
           "0": "Chercheur",
-          "1": "Rédacteur",
-          "2": "Éditeur"
+          "1": "Rédacteur"
         },
-        "description": "Le modèle Content Studio d'OpenLegion gère la recherche de sujets, les brouillons longs et la relecture éditoriale avec une voix de marque cohérente sur chaque contenu."
+        "description": "Le modèle Content Studio d'OpenLegion associe un chercheur et un rédacteur pour la recherche de sujets et les brouillons longs, avec une voix de marque cohérente sur chaque pièce."
       },
       "3": {
-        "name": "Votre équipe de trading",
+        "name": "Votre équipe trésorerie",
         "agents": {
           "0": "Chercheur",
-          "1": "Trader",
+          "1": "Exécuteur",
           "2": "Moniteur"
         },
-        "description": "Les agents exécutent onchain — swaps, transferts, positions DeFi — tandis que les clés privées restent dans le coffre-fort. Limites de dépenses par agent et simulation de transaction à chaque opération."
+        "description": "Les agents wallet-aware exécutent on-chain — swaps, transferts, positions DeFi — tandis que les clés privées restent dans le vault et sont signées côté serveur. Limites de dépense par agent, plafonds quotidiens et support EVM + Solana."
       },
       "4": {
         "name": "Votre équipe personnalisée",
@@ -215,7 +214,7 @@
       "2": "exécution",
       "3": "livraison"
     },
-    "tradingEvents": {
+    "treasuryEvents": {
       "0": "Swap 0.5 ETH → USDC sur Base",
       "1": "Limite de dépenses : $48 / $500 aujourd'hui",
       "2": "Moniteur vérifie les positions…"
@@ -224,7 +223,7 @@
   "socialProof": {
     "stats": {
       "0": {
-        "fallback": "2 100+",
+        "fallback": "5 800+",
         "label": "tests réussis"
       },
       "1": {
@@ -233,7 +232,7 @@
       },
       "2": {
         "fallback": "0",
-        "label": "CVEs signalés"
+        "label": "CVEs (engine v0.1.0)"
       },
       "3": {
         "fallback": "0 $",
@@ -249,7 +248,7 @@
     "heading": "Conçu pour les équipes qui ne peuvent pas se permettre que les choses ",
     "headingHighlight": "tournent mal",
     "headingEnd": ".",
-    "subtitle": "La plateforme d'agents IA avec sécurité, contrôle des coûts et automatisation agentique intégrés dès le premier jour.",
+    "subtitle": "Le framework d'agents IA avec sécurité, contrôle des coûts et automatisation agentique intégrés dès le premier jour.",
     "outcomes": {
       "0": {
         "title": "Sécurité des agents IA : vos clés restent dans un coffre-fort que les agents ne touchent jamais.",
@@ -262,12 +261,12 @@
         "linkLabel": "Comment fonctionne le contrôle des coûts →"
       },
       "2": {
-        "title": "Orchestration déterministe des agents IA — vous décidez qui fait quoi.",
-        "description": "Les agents naviguent sur n'importe quel site, utilisent n'importe quel outil, exécutent n'importe quelle tâche — y compris l'exécution onchain. Compatible MCP avec plus de 50 compétences intégrées. Workflows définis en YAML — chaque chemin d'exécution est prévisible, auditable et sous votre contrôle.",
-        "linkLabel": "Comment fonctionne l'orchestration →"
+        "title": "Coordination en modèle de flotte — vous décidez qui fait quoi.",
+        "description": "Les agents naviguent sur n'importe quel site, opèrent n'importe quel outil, exécutent onchain, accomplissent n'importe quelle tâche. Compatible MCP avec des skills intégrées pour navigateur, fichiers, mémoire, wallet et plus. Fleet model — blackboard + pub/sub + handoff (no CEO agent) — avec exécution bornée et une matrice de permissions par agent.",
+        "linkLabel": "Comment fonctionne la coordination →"
       }
     },
-    "allFeaturesLink": "Voir toutes les fonctionnalités de la plateforme d'agents IA, incluant l'automatisation du navigateur, la mémoire persistante, l'extensibilité MCP et l'orchestration multi-agents →"
+    "allFeaturesLink": "Voir toutes les fonctionnalités du framework d'agents IA, dont l'automatisation du navigateur, la mémoire persistante, l'extensibilité MCP et la coordination multi-agent →"
   },
   "dashboardPreview": {
     "sectionLabel": "Tableau de bord de la flotte",
@@ -326,7 +325,7 @@
     "headingHighlight": "agent IA",
     "managedBadge": "Le plus simple — aucune configuration requise",
     "managedHeading": "Pas de terminal. Pas de fichiers de configuration.",
-    "managedDescription": "Nous gérons les conteneurs, les identifiants et l'infrastructure.",
+    "managedDescription": "Nous gérons les conteneurs, les identifiants et l'infrastructure. Parlez à l'Operator — le contremaître de votre flotte, créé automatiquement dès que votre VPS est en ligne.",
     "managedCta": "Commencer →",
     "steps": {
       "0": "Créez votre compte",
@@ -356,7 +355,7 @@
     "heading": "Sécurité des agents IA : conçue en partant du principe que les agents vont ",
     "headingHighlight": "mal se comporter",
     "headingEnd": ".",
-    "subtitle": "Six couches activées par défaut. Quatre présentées ici.",
+    "subtitle": "Défense en profondeur activée par défaut. Six couches montrées ci-dessous.",
     "layers": {
       "0": {
         "title": "Chaque agent s'exécute dans son propre conteneur",
@@ -387,39 +386,39 @@
   },
   "architecture": {
     "sectionLabel": "Sous le capot",
-    "title": "Trois zones de protection",
-    "summary": "Votre flotte multi-agents s'exécute dans trois zones isolées — utilisateur, coordinateur et conteneurs en sandbox. Rien de ce qu'un agent touche ne peut atteindre vos clés API, les autres agents ou la machine hôte.",
+    "title": "Défense en profondeur — zones de confiance à chaque niveau",
+    "summary": "Votre flotte multi-agents s'exécute sur quatre niveaux de confiance — entrée externe non fiable, agents sandboxed, mesh de confiance et un niveau interne loopback uniquement — plus un niveau de permissions opérateur-ou-interne. Les agents ne communiquent entre eux que via le mesh, contrôlés par des ACLs par agent ; le mesh détient les clés.",
     "zones": {
       "0": {
         "name": "Zone utilisateur",
-        "trust": "Confiance totale",
+        "trust": "Entrée non fiable",
         "items": {
           "0": "CLI / Telegram / Discord",
           "1": "Slack / WhatsApp / Webhooks",
-          "2": "Communication directe avec les agents"
+          "2": "Nettoyé via des protections anti-injection de prompt"
         }
       },
       "1": {
         "name": "Hôte maillé",
-        "trust": "Coordinateur de confiance",
+        "trust": "Confiance (Zone 2)",
         "items": {
           "0": "FastAPI sur :8420",
-          "1": "Tableau noir (SQLite)",
+          "1": "Blackboard (SQLite + WAL)",
           "2": "PubSub + Routeur de messages",
           "3": "Coffre-fort d'identifiants (API Proxy)",
-          "4": "Orchestrateur + Matrice de permissions",
-          "5": "Gestionnaire de conteneurs + Suivi des coûts"
+          "4": "Matrice ACL + routeur de voies",
+          "5": "Service navigateur :8500 (Camoufox par agent)"
         }
       },
       "2": {
         "name": "Conteneurs d'agents",
-        "trust": "Non fiable / Sandbox",
+        "trust": "Sandboxed (Zone 1)",
         "items": {
-          "0": "FastAPI :8400+ chacun",
+          "0": "FastAPI :8400 (par conteneur)",
           "1": "Volume /data propre",
           "2": "BD mémoire propre (SQLite + vec)",
           "3": "384 Mo RAM / 0,15 CPU par défaut",
-          "4": "Non-root, no-new-privileges"
+          "4": "UID 1000, cap_drop=ALL, no-new-privileges, FS en lecture seule"
         }
       }
     },
@@ -427,15 +426,15 @@
     "learnMoreLink": "En savoir plus sur l'orchestration d'agents IA →"
   },
   "enterprise": {
-    "heading": "Conçu pour l'entreprise.",
-    "description": "Déploiement sur site, environnements isolés, isolation des identifiants alignée SOC 2, pistes d'audit déterministes, gouvernance des coûts par agent et accès basé sur les rôles — tout appliqué par défaut. Le moteur fait ~30 000 lignes de Python avec plus de 2 100 tests et une surface de dépendances minimale.",
+    "heading": "Conçu pour les charges de travail sérieuses.",
+    "description": "Déploiement on-premises auto-hébergé, isolation des identifiants en défense en profondeur, journaux d'audit déterministes, gouvernance des coûts par agent et matrice de permissions par agent — tout appliqué par défaut. L'engine compte environ 77 000 lignes de Python avec plus de 5 800 tests et une surface de dépendances minimale.",
     "signals": {
-      "0": "Sur site et isolé",
-      "1": "Aligné SOC 2",
+      "0": "Auto-hébergé on-premises",
+      "1": "Défense en profondeur",
       "2": "Pistes d'audit déterministes",
-      "3": "Workflows déterministes",
+      "3": "Exécution bornée",
       "4": "Gouvernance des coûts par agent",
-      "5": "Accès basé sur les rôles"
+      "5": "Matrice de permissions par agent"
     },
     "cta": "Réserver une démo"
   },
@@ -443,7 +442,7 @@
     "sectionLabel": "Comparaison",
     "heading": "Ce qui différencie OpenLegion",
     "subtitle": "La plupart des outils d'agents IA ont été conçus pour des démos — OpenLegion a été conçu pour la production.",
-    "detailParagraph": "OpenLegion est le seul framework d'agents IA livrant des identifiants via proxy coffre-fort, l'isolation par conteneurs et l'application de budgets par agent par défaut — avec zéro CVE signalé depuis le lancement.",
+    "detailParagraph": "OpenLegion livre par défaut des identifiants protégés par proxy coffre-fort, l'isolation par conteneur et l'application des budgets par agent — aucune CVE signalée depuis v0.1.0.",
     "disclaimer": "Basé sur les divulgations de sécurité publiques et les rapports communautaires.",
     "tableCaption": "Comparaison des fonctionnalités entre les frameworks d'agents IA classiques et OpenLegion",
     "columnAspect": "Aspect",
@@ -468,17 +467,17 @@
       "3": {
         "aspect": "Routage des tâches",
         "them": "Un agent CEO LLM décide",
-        "openlegion": "DAG YAML déterministe"
+        "openlegion": "Modèle de flotte — blackboard + pub/sub + handoff (no CEO agent)"
       },
       "4": {
         "aspect": "Couverture de tests",
         "them": "Minimale",
-        "openlegion": "Plus de 2 100 tests : unitaires + intégration + E2E"
+        "openlegion": "Plus de 5 800 tests : unit + intégration + E2E"
       },
       "5": {
         "aspect": "Taille du code",
-        "them": "430 000+ lignes",
-        "openlegion": "~30 000 lignes (moteur, auditable)"
+        "them": "Tentaculaire",
+        "openlegion": "~77 000 lignes (engine, auditable)"
       }
     },
     "footnote": "OpenLegion a été lancé en février 2026. Le nombre d'étoiles GitHub reflète l'ancienneté du projet, pas sa maturité en production."
@@ -495,7 +494,7 @@
       },
       "1": {
         "question": "Dois-je payer l'utilisation des LLM en plus de l'abonnement ?",
-        "answer": "Oui — vous apportez vos propres clés API d'Anthropic, OpenAI, Google ou de n'importe lequel des 100+ fournisseurs pris en charge. Vous payez directement les fournisseurs à leurs tarifs publiés. OpenLegion facture uniquement la plateforme et l'infrastructure. Il n'y a aucune majoration sur l'utilisation des modèles."
+        "answer": "Chaque abonnement payant inclut un pack de bienvenue de crédits LLM qui n'expirent jamais — utilisables dès le premier jour, sans clé API. Vous pouvez aussi apporter vos propres clés API d'Anthropic, OpenAI, Google ou de l'un des 100+ fournisseurs supportés et payer ces fournisseurs directement, avec zéro markup sur l'utilisation des modèles."
       },
       "2": {
         "question": "Quels types de tâches les agents OpenLegion peuvent-ils automatiser ?",
@@ -503,11 +502,11 @@
       },
       "3": {
         "question": "Qu'est-ce qu'OpenLegion ?",
-        "answer": "OpenLegion est un framework et une plateforme d'agents IA de qualité production qui déploie des flottes d'agents autonomes dans des conteneurs Docker isolés. Chaque agent dispose de son propre budget, de ses permissions et de son coffre-fort de secrets — avec six couches de sécurité activées par défaut. Il ne nécessite que Python, Docker et une clé API. Pas de Redis, pas de Kubernetes, pas de LangChain. Sous licence BSL 1.1 (code source disponible)."
+        "answer": "OpenLegion est un runtime multi-agent isolé par conteneur, de qualité production, qui déploie des flottes d'agents autonomes dans des conteneurs Docker isolés. Chaque agent dispose de son propre budget, de ses propres permissions et de son propre coffre-fort de credentials — avec défense en profondeur via isolation par conteneur, proxy coffre-fort, ACLs par agent et exécution bornée. Ne nécessite que Python, Docker et une clé API. Pas de Redis, pas de Kubernetes, pas de LangChain. Sous licence BSL 1.1 (source-available)."
       },
       "4": {
         "question": "En quoi OpenLegion est-il différent de CrewAI ou d'autres frameworks d'agents ?",
-        "answer": "OpenLegion isole chaque agent dans un conteneur, fait transiter tous les identifiants par un coffre-fort et applique des budgets par agent — la plupart des frameworks ne le font pas. CrewAI et les frameworks similaires exécutent les agents dans des processus partagés sans isolation, sans contrôle des coûts et avec les clés API stockées dans des fichiers de configuration. OpenLegion utilise des workflows YAML déterministes au lieu de laisser un LLM décider du routage des tâches, rendant l'exécution prévisible et auditable."
+        "answer": "OpenLegion isole chaque agent par conteneur, fait passer tous les identifiants par un coffre-fort en proxy et applique les budgets par agent — la plupart des frameworks ne le font pas. CrewAI et les frameworks similaires exécutent les agents dans des processus partagés, sans isolation, sans contrôle des coûts, avec des clés API stockées dans des fichiers de configuration. OpenLegion utilise un modèle de flotte (no CEO agent) avec coordination par blackboard et handoff structuré — aucun LLM dans le plan de contrôle ne décide du routage des tâches."
       },
       "5": {
         "question": "Quels fournisseurs de LLM OpenLegion prend-il en charge ?",
@@ -515,44 +514,44 @@
       },
       "6": {
         "question": "Comment OpenLegion gère-t-il la sécurité des clés API ?",
-        "answer": "Par injection aveugle d'identifiants — les agents ne voient jamais les clés API. Les clés sont stockées dans un coffre-fort sur l'hôte maillé. Quand un agent appelle un LLM, la requête passe par un proxy coffre-fort qui injecte l'identifiant au niveau réseau, suit l'utilisation des tokens et applique les limites budgétaires. Même un agent entièrement compromis ne peut pas accéder à vos clés API."
+        "answer": "Via le proxy coffre-fort — les agents ne voient jamais les clés API. Les clés sont conservées dans le processus mesh sur l'hôte mesh. Quand un agent appelle un LLM, la requête passe par un proxy coffre-fort qui injecte l'identifiant au niveau réseau, suit l'utilisation des tokens et applique les limites de budget. Même un agent entièrement compromis ne peut pas accéder à vos clés API."
       },
       "7": {
         "question": "Ai-je besoin de Kubernetes ou d'une infrastructure cloud pour exécuter OpenLegion ?",
         "answer": "Non. OpenLegion fonctionne sur une seule machine sans services externes. Vous n'avez besoin que de Python 3.10+, Docker et d'une clé API LLM — pas de Redis, pas de Kubernetes, pas de LangChain, pas de bases de données externes."
       },
       "8": {
-        "question": "OpenLegion est-il prêt pour l'entreprise ?",
-        "answer": "Oui — OpenLegion est conçu pour le déploiement en entreprise. Il inclut le support sur site (y compris les environnements isolés), des workflows YAML déterministes, la gouvernance des coûts par agent, le contrôle d'accès basé sur les rôles, l'isolation des identifiants via proxy coffre-fort et une base de code auditable d'environ 30 000 lignes avec plus de 2 100 tests. Toutes les couches de sécurité sont activées par défaut."
+        "question": "Puis-je faire tourner OpenLegion en production ?",
+        "answer": "Oui — OpenLegion est conçu pour le déploiement en production. Il inclut le support on-premises, un modèle de flotte avec coordination blackboard + pub/sub + handoff, la gouvernance des coûts par agent, une matrice de permissions par agent, l'isolation des identifiants via proxy coffre-fort et une base de code auditable d'environ 77 000 lignes avec plus de 5 800 tests. Les contrôles de défense en profondeur sont activés par défaut."
       },
       "9": {
-        "question": "OpenLegion peut-il fonctionner sur site dans des environnements isolés ?",
-        "answer": "Oui. La pile complète fonctionne entièrement sur votre propre infrastructure sans dépendances externes au-delà de Docker et Python. Aucune donnée ne quitte votre réseau. Le coordinateur, les agents, le coffre-fort et le tableau de bord fonctionnent tous sur une seule machine, ce qui le rend adapté aux environnements isolés, réglementés et sur site."
+        "question": "OpenLegion peut-il fonctionner on-premises ?",
+        "answer": "Oui. L'engine fonctionne sur une seule machine avec Python + Docker, sans service externe requis. Pour une inférence totalement locale, pointez le fournisseur LLM vers Ollama ; pour les modèles hébergés (Anthropic, OpenAI, Google, etc.) le proxy mesh contacte le fournisseur que vous configurez. Hôte mesh, agents, coffre-fort et tableau de bord s'exécutent tous sur la même machine."
       },
       "10": {
-        "question": "Qu'est-ce qu'une plateforme d'agents IA ?",
-        "answer": "Une plateforme d'agents IA est une infrastructure gérée pour déployer, orchestrer et gouverner des agents IA autonomes en production. Contrairement aux bibliothèques de frameworks brutes qui ne fournissent que des primitives de logique d'agent, une plateforme gère l'isolation des conteneurs, le coffre-fort d'identifiants, les contrôles de coûts par agent, l'observabilité et le déploiement — pour que les équipes puissent livrer des agents sans construire le DevOps de zéro."
+        "question": "Qu'est-ce qu'un framework d'agents IA ?",
+        "answer": "Un framework d'agents IA est la couche de runtime et de bibliothèque pour déployer, coordonner et gouverner des agents IA autonomes en production. Contrairement aux simples bibliothèques SDK qui ne fournissent que des primitives de logique d'agent, un framework comme OpenLegion gère l'isolation par conteneur, le coffre-fort des credentials, les contrôles de coûts par agent, l'observabilité et le déploiement — pour que les équipes puissent livrer des agents sans construire de DevOps de zéro."
       },
       "11": {
-        "question": "Quelle est la différence entre un framework d'agents IA et une plateforme d'agents ?",
-        "answer": "Un framework est une bibliothèque de code pour construire la logique des agents — outils, prompts, mémoire et chaînes. Une plateforme ajoute l'infrastructure opérationnelle par-dessus : isolation des conteneurs, coffres-forts d'identifiants, budgets par agent, pipelines de déploiement et observabilité de toute la flotte. OpenLegion est les deux : un framework Python pour créer des agents et une plateforme auto-hébergée pour les exécuter en production avec sécurité et gouvernance des coûts intégrées."
+        "question": "Qu'est-ce qu'un framework d'agents IA par rapport à un hébergement managé ?",
+        "answer": "Un framework est une bibliothèque de code et un runtime pour construire et exécuter la logique d'agents — outils, prompts, mémoire, coordination. L'hébergement managé ajoute une couche opérationnelle par-dessus : approvisionnement dédié de VPS, tableau de bord, facturation et proxy de crédits. OpenLegion est les deux : un framework Python (runtime multi-agent isolé par conteneur) pour écrire et exécuter des agents, et un service optionnel d'hébergement managé pour les équipes qui ne veulent pas gérer l'infrastructure."
       },
       "12": {
-        "question": "Comment fonctionne l'orchestration d'agents IA dans OpenLegion ?",
-        "answer": "OpenLegion utilise des workflows DAG YAML déterministes — aucun LLM ne siège dans le plan de contrôle pour décider qui fait quoi. Vous définissez des graphes de tâches avec des patterns d'exécution séquentiels et parallèles, coordonnés via un Tableau noir centralisé et une messagerie pub/sub. L'orchestrateur route les tâches selon la définition du DAG, rendant chaque chemin d'exécution prévisible, reproductible et auditable. Modèle de flotte, pas de hiérarchie — les agents exécutent leurs étapes assignées et rapportent les résultats au coordinateur."
+        "question": "Comment fonctionne la coordination d'agents dans OpenLegion ?",
+        "answer": "OpenLegion utilise un modèle de flotte — blackboard + pub/sub + handoff (no CEO agent). Les agents se coordonnent via un blackboard adossé à SQLite avec compare-and-set atomique, un bus d'événements pub/sub et un protocole de handoff structuré. Chaque agent a ses propres permissions, son propre budget et son propre ensemble d'outils. Les utilisateurs parlent directement aux agents ; aucun LLM dans le plan de contrôle ne décide du routage des tâches."
       },
       "13": {
         "question": "Que signifie la sécurité des agents IA pour les agents autonomes ?",
-        "answer": "La sécurité des agents IA traite les menaces uniques que les agents autonomes introduisent : fuite d'identifiants, injection de prompts, abus de ressources et exfiltration de données. La défense à six couches d'OpenLegion — isolation d'exécution, durcissement des conteneurs, séparation des identifiants, application des permissions, validation des entrées et assainissement Unicode — atténue chaque menace indépendamment, de sorte qu'une brèche dans une couche ne compromet pas les autres."
+        "answer": "La sécurité des agents IA répond aux menaces propres aux agents autonomes : fuite d'identifiants, prompt injection, abus de ressources et exfiltration de données. La défense en profondeur d'OpenLegion — isolation par conteneur, proxy coffre-fort de credentials, matrice de permissions par agent, sanitisation des entrées, protection SSRF et durcissement Unicode/path-traversal — atténue chaque menace de façon indépendante, de sorte qu'une brèche dans une couche ne compromet pas les autres."
       }
     },
-    "seeFullFaqPrefix": "Plus de questions répondues — incluant l'architecture, les fournisseurs de LLM et l'orchestration d'agents IA.",
+    "seeFullFaqPrefix": "Plus de questions répondues — dont l'architecture, les fournisseurs LLM et la coordination d'agents.",
     "seeFullFaqLink": "Voir la FAQ complète →"
   },
   "technicalDefinition": {
     "label": "Définition technique",
     "srOnlyPrefix": "Qu'est-ce qu'OpenLegion ? ",
-    "text": "OpenLegion est une plateforme d'agents IA de qualité production avec isolation par conteneurs, injection aveugle d'identifiants, budgets par agent et orchestration YAML déterministe — conçue pour les équipes qui ont besoin de flottes d'agents sécurisées et contrôlées en coûts en production."
+    "text": "OpenLegion est un runtime multi-agent isolé par conteneur, avec proxy coffre-fort de credentials, budgets par agent et un modèle de coordination en flotte (blackboard + pub/sub + handoff, no CEO agent) — conçu pour les équipes qui ont besoin de flottes d'agents sécurisées et maîtrisées en coût, en production."
   },
   "cta": {
     "heading": "Votre équipe IA est à un ",
@@ -563,7 +562,7 @@
     "secondaryButton": "Rejoignez notre Discord"
   },
   "footer": {
-    "brandDescription": "Le framework et la plateforme d'agents IA conçus pour la production. Automatisez n'importe quelle tâche informatique avec des flottes d'agents sécurisées et contrôlées en coûts.",
+    "brandDescription": "Le runtime multi-agent isolé par conteneur, conçu pour la production. Automatisez n'importe quelle tâche informatique avec des flottes d'agents sécurisées et maîtrisées en coût.",
     "license": "Licence BSL 1.1 © {year} Contributeurs OpenLegion",
     "columns": {
       "0": {
@@ -711,11 +710,11 @@
       },
       "2": {
         "question": "Puis-je changer de plan ?",
-        "answer": "Oui — montez ou descendez en gamme à tout moment. Les changements prennent effet au début de votre prochaine période de facturation."
+        "answer": "Oui — passez à un plan supérieur à tout moment et vos nouvelles limites s'appliquent immédiatement. Les rétrogradations prennent effet au début de votre prochaine période de facturation."
       },
       "3": {
         "question": "Qu'arrive-t-il à mes agents si j'annule ?",
-        "answer": "Les configurations et données de vos agents restent accessibles pendant 30 jours après l'annulation. Vous pouvez tout exporter avant la fermeture de votre compte."
+        "answer": "Après l'annulation, vous conservez l'accès jusqu'à la fin de votre période de facturation en cours. Ensuite, votre VPS est déprovisionné et les données d'instance sont supprimées."
       },
       "4": {
         "question": "Puis-je auto-héberger OpenLegion ?",
@@ -765,16 +764,16 @@
     "subtitle": "Décrivez la fonction dont vous avez besoin. OpenLegion crée l'architecture d'agents, attribue les rôles et donne à chaque agent les contrôles nécessaires pour fonctionner en toute sécurité.",
     "examples": {
       "0": {
-        "name": "Agence marketing",
+        "name": "Content Studio",
         "roles": {
           "0": "Recherche",
           "1": "Rédaction",
-          "2": "Révision",
-          "3": "Rapports"
+          "2": "Briefs",
+          "3": "Livraison"
         }
       },
       "1": {
-        "name": "Équipe commerciale",
+        "name": "Pipeline commerciale",
         "roles": {
           "0": "Recherche de leads",
           "1": "Qualification",
@@ -783,12 +782,12 @@
         }
       },
       "2": {
-        "name": "Équipe de recherche",
+        "name": "Recherche approfondie",
         "roles": {
-          "0": "Veille",
-          "1": "Navigation",
+          "0": "Éclaireur",
+          "1": "Analyste",
           "2": "Synthèse",
-          "3": "Livraison"
+          "3": "Citations"
         }
       },
       "3": {
@@ -800,10 +799,10 @@
         }
       },
       "4": {
-        "name": "Équipe de trading",
+        "name": "Équipe trésorerie",
         "roles": {
           "0": "Chercheur",
-          "1": "Trader",
+          "1": "Exécuteur",
           "2": "Moniteur"
         }
       }
@@ -838,7 +837,7 @@
         "1": "Ingénieur a ouvert la PR #18",
         "2": "Réviseur en cours de revue…"
       },
-      "trading": {
+      "treasury": {
         "0": "Échange 0.5 ETH → USDC",
         "1": "Limite de dépense : $48 / $500",
         "2": "Moniteur vérifie les positions…"
@@ -858,13 +857,13 @@
     "cta": "Découvrez comment ça marche",
     "teams": {
       "0": {
-        "name": "Agence marketing"
+        "name": "Content Studio"
       },
       "1": {
-        "name": "Équipe commerciale"
+        "name": "Pipeline commerciale"
       },
       "2": {
-        "name": "Équipe de recherche"
+        "name": "Recherche approfondie"
       },
       "3": {
         "name": "Équipe sur mesure"
@@ -901,15 +900,15 @@
     "pricingTwitterTitle": "Tarifs de la plateforme d'agents IA — Payant dès le premier jour | OpenLegion",
     "pricingTwitterDescription": "Plans à partir de 19 $/mois. Garantie de remboursement sous 7 jours.",
     "faqTitle": "Questions fréquemment posées",
-    "faqDescription": "Réponses aux questions courantes sur OpenLegion — le framework et la plateforme d'agents IA conçus pour la production. Couvre la sécurité, les tarifs, les fournisseurs de LLM, l'orchestration, le déploiement entreprise et plus encore.",
+    "faqDescription": "Réponses aux questions courantes sur OpenLegion — le runtime multi-agent isolé par conteneur, conçu pour la production. Couvre sécurité, tarifs, fournisseurs LLM, coordination, déploiement en production et plus.",
     "faqOgTitle": "Questions fréquemment posées — OpenLegion",
-    "faqOgDescription": "Réponses aux questions courantes sur OpenLegion — sécurité, tarifs, fournisseurs de LLM, orchestration et déploiement entreprise.",
+    "faqOgDescription": "Réponses aux questions courantes sur OpenLegion — sécurité, tarifs, fournisseurs LLM, coordination et déploiement en production.",
     "faqTwitterTitle": "Questions fréquemment posées — OpenLegion",
-    "faqTwitterDescription": "Réponses aux questions courantes sur OpenLegion — sécurité, tarifs, fournisseurs de LLM, orchestration et déploiement entreprise.",
+    "faqTwitterDescription": "Réponses aux questions courantes sur OpenLegion — sécurité, tarifs, fournisseurs LLM, coordination et déploiement en production.",
     "privacyTitle": "Politique de confidentialité",
-    "privacyDescription": "Politique de confidentialité de la plateforme d'agents IA OpenLegion. Découvrez comment nous collectons, utilisons et protégeons vos données sur l'hébergement géré et le site web openlegion.ai.",
+    "privacyDescription": "Politique de confidentialité du framework d'agents IA OpenLegion et de l'hébergement managé. Découvrez comment nous collectons, utilisons et protégeons vos données sur l'hébergement managé et le site openlegion.ai.",
     "termsTitle": "Conditions d'utilisation",
-    "termsDescription": "Conditions d'utilisation de la plateforme d'agents IA OpenLegion. Couvre l'hébergement géré, le déploiement auto-hébergé sous licence BSL 1.1 et le site web openlegion.ai."
+    "termsDescription": "Conditions d'utilisation du framework d'agents IA OpenLegion et de l'hébergement managé. Couvre l'hébergement managé, le déploiement auto-hébergé sous licence BSL 1.1 et le site openlegion.ai."
   },
   "contentPage": {
     "breadcrumbHome": "Accueil",
@@ -931,8 +930,8 @@
     "subtitle": "Guides détaillés sur les plateformes d'agents IA, l'orchestration, la sécurité et comment OpenLegion se compare à chaque framework majeur.",
     "cards": {
       "0": {
-        "title": "Plateforme et infrastructure",
-        "description": "Comment OpenLegion gère l'isolation des conteneurs, le coffre-fort d'identifiants, les contrôles de coûts et l'orchestration déterministe pour les flottes d'agents en production.",
+        "title": "Runtime et infrastructure",
+        "description": "Comment OpenLegion gère l'isolation par conteneur, le coffre-fort des credentials, le contrôle des coûts et la coordination de flotte pour les flottes d'agents en production.",
         "links": {
           "0": "Plateforme d'agents IA",
           "1": "Orchestration d'agents IA",
@@ -1003,7 +1002,7 @@
         "title": "2.1 Informations que vous fournissez",
         "items": {
           "0": "Informations de compte : Adresse e-mail, nom et mot de passe lorsque vous créez un compte.",
-          "1": "Informations de paiement : Coordonnées de facturation traitées par notre prestataire de paiement tiers (par exemple, Stripe). Nous ne stockons pas les numéros complets de cartes bancaires sur nos serveurs.",
+          "1": "Informations de paiement : détails de facturation traités par notre prestataire de paiement tiers (Polar). Nous ne stockons pas les numéros de carte de crédit complets sur nos serveurs.",
           "2": "Communications : Informations que vous fournissez lorsque vous nous contactez par e-mail, chat en direct (Tawk.to) ou Discord.",
           "3": "Données client : Configurations d'agents, définitions de workflows et autres données que vous soumettez au Service."
         }
@@ -1040,7 +1039,7 @@
         "0": "Google Analytics — analyse de sites web et mesure du trafic.",
         "1": "Microsoft Clarity — enregistrement de sessions et cartes de chaleur pour l'analyse UX.",
         "2": "Tawk.to — widget de chat en direct pour le support client.",
-        "3": "Stripe (ou équivalent) — traitement des paiements.",
+        "3": "Polar — traitement des paiements.",
         "4": "Fournisseurs d'API LLM (par exemple, Anthropic, OpenAI, Google, Mistral) — inférence de modèles d'IA. Les prompts et données d'agents envoyés à ces fournisseurs sont régis par leurs politiques de confidentialité et conditions de traitement des données respectives. OpenLegion n'est pas responsable de la manière dont les fournisseurs de LLM tiers traitent les données."
       },
       "review": "Nous vous encourageons à consulter les politiques de confidentialité de ces services tiers."
@@ -1217,7 +1216,7 @@
     }
   },
   "launchPricing": {
-    "message": "Tarif de lancement — durée limitée",
+    "message": "Tarif fondateur — verrouillé pour les premiers clients",
     "cta": "Commencer →"
   },
   "pricingAnchors": {

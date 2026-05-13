@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "Terms of Service for OpenLegion AI agent platform. Covers managed hosting, self-hosted deployment under BSL 1.1 license, and the openlegion.ai website.",
+    "Terms of Service for the OpenLegion AI agent framework and managed hosting. Covers managed hosting, self-hosted deployment under BSL 1.1 license, and the openlegion.ai website.",
   alternates: { canonical: "https://www.openlegion.ai/terms" },
   robots: { index: true, follow: true },
 };

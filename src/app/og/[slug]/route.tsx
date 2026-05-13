@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 import { getAllContentEntries } from "@/lib/markdown";
 
 const BRAND_TAGLINE =
-  "Managed AI agent platform with container isolation and blind credential injection.";
+  "Managed AI agent platform with container isolation and vault-proxied credentials.";
 
 const STATIC_TITLES: Record<string, string> = {
   learn: "Learn — AI Agent Platform, Orchestration & Security",

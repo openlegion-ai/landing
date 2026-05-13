@@ -1,40 +1,40 @@
 ---
 title: OpenLegion vs AutoGen — Security, Migration & 2026 Verdict
 description: >-
-  OpenLegion vs AutoGen: security-first framework vs Microsoft's multi-agent
-  pioneer. Maintenance mode, 97% attack rate, credential handling, migration
-  risk, and production security compared.
+ OpenLegion vs AutoGen: security-first framework vs Microsoft's multi-agent
+ pioneer. Maintenance mode, 97% attack rate, credential handling, migration
+ risk, and production security compared.
 slug: /comparison/autogen
 primary_keyword: openlegion vs autogen
 secondary_keywords:
-  - autogen alternative
-  - autogen security
-  - autogen maintenance mode
-  - microsoft agent framework
-  - autogen vs openlegion
+ - autogen alternative
+ - autogen security
+ - autogen maintenance mode
+ - microsoft agent framework
+ - autogen vs openlegion
 date_published: 2025-12
 last_updated: 2026-03
 schema_types:
-  - FAQPage
+ - FAQPage
 related:
-  - /comparison/langgraph
-  - /comparison/crewai
-  - /comparison/semantic-kernel
-  - /comparison/openai-agents-sdk
+ - /comparison/langgraph
+ - /comparison/crewai
+ - /comparison/semantic-kernel
+ - /comparison/openai-agents-sdk
 ---
 
 # OpenLegion vs AutoGen: Security-First Framework vs the Multi-Agent Pioneer (in Maintenance Mode)
 
 AutoGen pioneered open-source multi-agent orchestration. With approximately 54,700 GitHub stars and a Best Paper award at ICLR 2024, it established the conversational multi-agent pattern that influenced every framework that followed. But as of March 2026, AutoGen is in **maintenance mode** — receiving only bug fixes and security patches. Microsoft has announced the Microsoft Agent Framework as its successor, merging AutoGen and Semantic Kernel into a unified SDK, with Release Candidate status reached February 19, 2026 and GA targeted for end of Q1 2026.
 
-OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and deterministic YAML workflows.
+OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
 
 Evaluating AutoGen in 2026 means evaluating a platform in transition. Teams choosing AutoGen today face a known migration to the Microsoft Agent Framework within 6-12 months. OpenLegion offers active development without platform transition uncertainty.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and AutoGen?**
-> AutoGen is a conversational multi-agent framework from Microsoft Research with approximately 54,700 GitHub stars, now entering maintenance mode. Its successor, the Microsoft Agent Framework, merges AutoGen and Semantic Kernel with Azure AI Foundry integration. OpenLegion is a security-first agent platform with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and deterministic YAML DAG workflows. AutoGen offers deep multi-agent conversation patterns and Microsoft ecosystem integration; OpenLegion offers production security guarantees without migration risk.
+> AutoGen is a conversational multi-agent framework from Microsoft Research with approximately 54,700 GitHub stars, now entering maintenance mode. Its successor, the Microsoft Agent Framework, merges AutoGen and Semantic Kernel with Azure AI Foundry integration. OpenLegion is a security-first agent framework with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). AutoGen offers deep multi-agent conversation patterns and Microsoft ecosystem integration; OpenLegion offers production security guarantees without migration risk.
 
 ## TL;DR
 
@@ -45,11 +45,11 @@ Evaluating AutoGen in 2026 means evaluating a platform in transition. Teams choo
 | **Agent isolation** | Docker container per agent, non-root, no-new-privileges | Docker for code execution only; agents share process |
 | **Credential security** | Vault proxy — agents never see keys | No built-in vault; environment variables |
 | **Budget controls** | Per-agent daily/monthly hard cutoff | None built-in |
-| **Orchestration** | Deterministic YAML DAG workflows (acyclic) | Async message passing, group chat, GraphFlow; Agent Framework adds graph workflows |
+| **Orchestration** | Fleet-model coordination — blackboard + pub/sub + handoff (no CEO agent) | Async message passing, group chat, GraphFlow; Agent Framework adds graph workflows |
 | **Language support** | Python | Python + .NET |
 | **LLM support** | 100+ via LiteLLM | Azure OpenAI, Anthropic, Ollama, Bedrock |
 | **Cloud integration** | Cloud-agnostic | Deep Azure (Foundry, Entra ID, Key Vault) |
-| **Multi-agent** | YAML-defined fleets with per-agent ACLs | Conversations, group chat, nested agents, RoundRobin |
+| **Multi-agent** | Fleet templates with per-agent ACLs | Conversations, group chat, nested agents, RoundRobin |
 | **Dependencies** | Python + SQLite + Docker (zero external) | AutoGen ecosystem + optional Azure services |
 | **GitHub stars** | ~59 | ~54,700 (AutoGen) / ~5,700 (Agent Framework) |
 | **Known vulnerabilities** | 0 CVEs | 97% attack success rate (COLM 2025 research) |
@@ -97,7 +97,7 @@ Evaluating AutoGen in 2026 means evaluating a platform in transition. Teams choo
 
 Academic research published at COLM 2025 demonstrated a 97% attack success rate against Magentic-One (AutoGen's flagship multi-agent system using GPT-4o). Attackers placed malicious files in the agent's working context to achieve control-flow hijacking — directing agents to take unintended actions. Palo Alto Networks characterized these as misconfigurations or insecure design patterns rather than framework bugs. But the result highlights that AutoGen's shared-process architecture does not prevent tool manipulation attacks.
 
-OpenLegion's YAML DAG workflows define exactly which tools each agent can access before execution. Per-agent container isolation means a compromised agent cannot influence other agents. The deterministic execution order means control flow cannot be hijacked through adversarial content.
+OpenLegion's fleet-model coordination define exactly which tools each agent can access before execution. Per-agent container isolation means a compromised agent cannot influence other agents. The predefined execution flow means control flow cannot be hijacked through adversarial content.
 
 ### Budget controls
 
@@ -137,7 +137,7 @@ For Microsoft-native enterprises, the Agent Framework's Azure AI Foundry integra
 
 ### What OpenLegion covers differently
 
-OpenLegion addresses AutoGen's core gaps without Azure dependency: vault proxy replaces environment variable credentials and Key Vault integration, Docker containers replace shared-process execution, per-agent budgets prevent unbounded conversation costs, YAML DAGs prevent control-flow hijacking by defining execution paths before runtime, and active development replaces migration uncertainty.
+OpenLegion addresses AutoGen's core gaps without Azure dependency: vault proxy replaces environment variable credentials and Key Vault integration, Docker containers replace shared-process execution, per-agent budgets prevent unbounded conversation costs, fleet-model coordination prevent control-flow hijacking by defining execution paths before runtime, and active development replaces migration uncertainty.
 
 ## Hosting vs Self-Host Tradeoffs
 
@@ -178,7 +178,7 @@ AutoGen is a conversational multi-agent framework from Microsoft Research with a
 
 ### OpenLegion vs AutoGen: what's the difference?
 
-AutoGen is a Microsoft Research multi-agent framework entering maintenance mode, with a successor (Microsoft Agent Framework) in pre-GA. OpenLegion is a security-first platform with Docker container isolation, vault proxy credentials (agents never see keys), per-agent budgets, and deterministic YAML workflows. AutoGen offers Microsoft ecosystem integration and deep conversation patterns; OpenLegion offers production security without migration risk.
+AutoGen is a Microsoft Research multi-agent framework entering maintenance mode, with a successor (Microsoft Agent Framework) in pre-GA. OpenLegion is a security-first framework with Docker container isolation, vault proxy credentials (agents never see keys), per-agent budgets, and fleet-model coordination (blackboard + pub/sub + handoff). AutoGen offers Microsoft ecosystem integration and deep conversation patterns; OpenLegion offers production security without migration risk.
 
 ### Is OpenLegion an AutoGen alternative?
 
@@ -202,7 +202,7 @@ The successor to both AutoGen and Semantic Kernel, merging their capabilities in
 
 ### Can I migrate from AutoGen to OpenLegion?
 
-AutoGen agent classes map to OpenLegion configurations. LLM provider settings translate from model wrappers to LiteLLM strings. Group chat patterns restructure as YAML DAG workflows. Code execution moves from DockerCommandLineCodeExecutor to per-agent containers. You gain security and stability; you lose .NET support and Azure integration.
+AutoGen agent classes map to OpenLegion configurations. LLM provider settings translate from model wrappers to LiteLLM strings. Group chat patterns restructure as fleet-model coordination. Code execution moves from DockerCommandLineCodeExecutor to per-agent containers. You gain security and stability; you lose .NET support and Azure integration.
 
 ---
 
