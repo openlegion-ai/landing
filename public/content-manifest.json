@@ -4,18 +4,20 @@
   "pages": [
     {
       "slug": "/ai-social-media-management",
-      "title": "AI Social Media Management — Autonomous Agents, Vaulted Logins",
-      "description": "AI social media management with autonomous agents that post, reply, and engage across accounts — vaulted logins, per-agent budget caps, and BYO LLM keys.",
+      "title": "AI Social Media Management Software — Autonomous Agent Platform",
+      "description": "AI social media management software that runs autonomous agents to post, reply, and engage across X, LinkedIn, Instagram, and TikTok — multi-account, BYO LLM keys.",
       "primaryKeyword": "ai social media management",
       "secondaryKeywords": [
+        "ai social media management software",
+        "ai social media management platform",
         "ai social media manager",
         "ai social media agent",
         "autonomous social media management",
         "ai social media automation",
-        "ai social media engagement",
-        "ai social media posting",
-        "automated social media management",
-        "ai social media tools"
+        "ai social media tools",
+        "ai social media marketing",
+        "best ai social media management tool",
+        "ai social media management for agencies"
       ],
       "schemaTypes": [
         "FAQPage"
