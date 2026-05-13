@@ -1235,6 +1235,23 @@
   "testimonials": {
     "eyebrow": "Von unseren Kunden",
     "heading": "Echte Teams im Autopilot-Modus",
-    "starsAriaLabel": "5 von 5 Sternen"
+    "starsAriaLabel": "5 von 5 Sternen",
+    "items": {
+      "0": {
+        "quote": "Wir gaben $2.800/Monat für ein VA-Team zur Lead-Recherche aus. Das Ganze in drei Tagen durch fünf OpenLegion-Agenten ersetzt. Sie laufen 24/7, melden sich nie krank — und liefern ehrlich gesagt bessere Recherche als die Menschen.",
+        "role": "Gründerin",
+        "company": "Marketing-Agentur"
+      },
+      "1": {
+        "quote": "Ich bin überhaupt nicht technisch. Ich habe einfach beschrieben, was ich wollte — «melde dich bei Leads, die seit fünf Tagen nicht geantwortet haben, freundlich, nicht aufdringlich» — und der Agent hat den Rest gemacht. Drei Abschlüsse dieses Quartal aus diesem einen Workflow.",
+        "role": "Sales Coach",
+        "company": "Selbstständig"
+      },
+      "2": {
+        "quote": "Nach zwei Monaten übernimmt die Flotte unsere Rechnungsstellung, Content-Entwürfe und Kundenrecherche komplett. Wir sparen so viel an Freelancer-Stunden, dass es Pro Max doppelt finanziert. Das Schwierigste war zu entscheiden, was zuerst automatisiert wird.",
+        "role": "Head of Operations",
+        "company": "Kreativ-Studio"
+      }
+    }
   }
 }

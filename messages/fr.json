@@ -232,7 +232,7 @@
       },
       "2": {
         "fallback": "0",
-        "label": "CVEs (engine v0.1.0)"
+        "label": "CVE (engine v0.1.0)"
       },
       "3": {
         "fallback": "0 $",
@@ -1235,6 +1235,23 @@
   "testimonials": {
     "eyebrow": "Témoignages clients",
     "heading": "De vraies équipes, en pilote automatique",
-    "starsAriaLabel": "5 étoiles sur 5"
+    "starsAriaLabel": "5 étoiles sur 5",
+    "items": {
+      "0": {
+        "quote": "On dépensait 2 800 $/mois pour une équipe d'assistants virtuels qui faisaient de la recherche de prospects. Remplacée intégralement par cinq agents OpenLegion en trois jours. Ils tournent 24/7, ne prennent pas de jours malades, et franchement font de meilleures recherches que les humains.",
+        "role": "Fondatrice",
+        "company": "Agence Marketing"
+      },
+      "1": {
+        "quote": "Je ne suis pas du tout technique. J'ai écrit ce que je voulais en français simple — « relance les leads qui n'ont pas répondu depuis cinq jours, sois amical pas insistant » — et l'agent s'est débrouillé pour le reste. Trois deals signés ce trimestre grâce à ce seul workflow.",
+        "role": "Coach Commercial",
+        "company": "Indépendant"
+      },
+      "2": {
+        "quote": "Deux mois plus tard, la flotte gère notre facturation, nos brouillons de contenu et la recherche client de bout en bout. On a économisé assez d'heures de freelance pour payer Pro Max deux fois. Le plus dur a été de choisir quoi automatiser en premier.",
+        "role": "Responsable des Opérations",
+        "company": "Studio Créatif"
+      }
+    }
   }
 }

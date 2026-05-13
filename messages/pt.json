@@ -232,7 +232,7 @@
       },
       "2": {
         "fallback": "0",
-        "label": "CVEs (engine v0.1.0)"
+        "label": "CVE (engine v0.1.0)"
       },
       "3": {
         "fallback": "US$ 0",
@@ -1235,6 +1235,23 @@
   "testimonials": {
     "eyebrow": "Dos nossos clientes",
     "heading": "Equipes reais, no piloto automático",
-    "starsAriaLabel": "5 de 5 estrelas"
+    "starsAriaLabel": "5 de 5 estrelas",
+    "items": {
+      "0": {
+        "quote": "Gastávamos $2.800/mês em uma equipe de assistentes virtuais para pesquisa de leads. Substituímos tudo por cinco agentes da OpenLegion em três dias. Funcionam 24/7, nunca tiram atestado e, francamente, pesquisam melhor que os humanos.",
+        "role": "Fundadora",
+        "company": "Agência de Marketing"
+      },
+      "1": {
+        "quote": "Não sou técnico de jeito nenhum. Escrevi o que queria em linguagem simples — «faça follow-up com leads que não responderam em cinco dias, tom amigável, sem ser insistente» — e o agente resolveu o resto. Fechei três deals neste trimestre só com esse fluxo.",
+        "role": "Coach de Vendas",
+        "company": "Autônomo"
+      },
+      "2": {
+        "quote": "Dois meses depois, a frota cuida do nosso faturamento, dos rascunhos de conteúdo e da pesquisa de clientes de ponta a ponta. Economizamos em horas de freelancer o suficiente para pagar o Pro Max duas vezes. A parte mais difícil foi decidir o que automatizar primeiro.",
+        "role": "Diretora de Operações",
+        "company": "Estúdio Criativo"
+      }
+    }
   }
 }
