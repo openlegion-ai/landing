@@ -54,7 +54,7 @@
   "capabilityBand": {
     "ariaLabel": "สิ่งที่เอเจนต์ทำได้แบบอัตโนมัติ",
     "heading": "ถ้ามนุษย์ทำได้ เอเจนต์ก็ทำได้",
-    "subheading": "Stealth browser ในตัว ทำงาน 24/7",
+    "subheading": "Stealth browser ในตัว · ทำงาน 24/7",
     "footer": "เอเจนต์ทุกตัวทำงานในคอนเทนเนอร์แยก ข้อมูลรับรองเก็บใน Vault และมีเพดานค่าใช้จ่ายอัตโนมัติ",
     "pills": {
       "0": {
@@ -108,9 +108,9 @@
     }
   },
   "audienceSelector": {
-    "heading": "คุณต้องการ",
+    "heading": "คุณอยากให้อะไรทำงาน",
     "headingHighlight": "อัตโนมัติ",
-    "headingEnd": "อะไร?",
+    "headingEnd": "?",
     "cards": {
       "0": {
         "title": "ฉันต้องการให้เวิร์กโฟลว์ของทีมทำงานอัตโนมัติ"
@@ -200,11 +200,11 @@
         "status": "เผยแพร่แล้ว"
       },
       "1": {
-        "title": "เคสสตัดดี้",
+        "title": "กรณีศึกษา",
         "status": "อยู่ระหว่างรีวิว"
       },
       "2": {
-        "title": "ไวต์เปเปอร์",
+        "title": "เอกสารวิชาการ",
         "status": "กำลังเขียนร่าง"
       }
     },
@@ -245,8 +245,8 @@
   },
   "features": {
     "sectionLabel": "ฟีเจอร์",
-    "heading": "สร้างมาเพื่อทีมที่ยอมให้",
-    "headingHighlight": "เกิดข้อผิดพลาดไม่ได้",
+    "heading": "สร้างมาเพื่อทีมที่",
+    "headingHighlight": "พลาดไม่ได้",
     "headingEnd": "",
     "subtitle": "AI agent framework ที่มีความปลอดภัย การควบคุมต้นทุน และการอัตโนมัติของเอเจนต์มาให้ตั้งแต่วันแรก",
     "outcomes": {
@@ -272,17 +272,17 @@
     "sectionLabel": "Fleet Dashboard",
     "heading": "ดูฟลีตของคุณแบบ",
     "headingHighlight": "เรียลไทม์",
-    "subtitle": "เอเจนต์ทุกตัว ค่าใช้จ่ายทุกบาท เหตุการณ์ทุกครั้ง — สด แชตกับเอเจนต์ ตรวจสอบสุขภาพ และติดตามค่าใช้จ่ายในมุมมองเดียว",
+    "subtitle": "เอเจนต์ทุกตัว ค่าใช้จ่ายทุกรายการ เหตุการณ์ทุกครั้ง — สด แชตกับเอเจนต์ ตรวจสอบสถานะ และติดตามค่าใช้จ่ายในมุมมองเดียว",
     "windowTitle": "Fleet Overview",
     "liveIndicator": "สด",
     "agentsCount": "{count} เอเจนต์",
     "todaySuffix": "วันนี้",
     "tokensSuffix": "โทเค็น",
     "onlineCount": "{count} ออนไลน์",
-    "degradedCount": "{count} เสื่อมสภาพ",
+    "degradedCount": "{count} ผิดปกติ",
     "agentLabel": "เอเจนต์ {n}",
     "healthOnline": "ออนไลน์",
-    "healthDegraded": "เสื่อมสภาพ",
+    "healthDegraded": "ผิดปกติ",
     "activityLabel": "กิจกรรม",
     "heartbeatLabel": "Heartbeat",
     "costTodayLabel": "ค่าใช้จ่ายวันนี้",
@@ -353,7 +353,7 @@
   "security": {
     "sectionLabel": "ความปลอดภัย",
     "heading": "ความปลอดภัยของเอเจนต์ AI: ออกแบบโดยสมมติว่าเอเจนต์จะ",
-    "headingHighlight": "ประพฤติตัวไม่ดี",
+    "headingHighlight": "ก่อปัญหา",
     "headingEnd": "",
     "subtitle": "Defense-in-depth เปิดใช้งานเป็นค่าเริ่มต้น แสดง 6 ชั้นด้านล่าง",
     "layers": {
@@ -426,7 +426,7 @@
     "learnMoreLink": "เรียนรู้เพิ่มเติมเกี่ยวกับการประสานงานเอเจนต์ AI →"
   },
   "enterprise": {
-    "heading": "สร้างมาเพื่อโหลดงานจริงจัง",
+    "heading": "สร้างมาเพื่อภาระงานระดับองค์กร",
     "description": "ดีพลอย on-premise แบบ self-hosted, การแยกข้อมูลรับรองแบบ defense-in-depth, audit trail ที่ตรวจสอบได้, การควบคุมต้นทุนต่อเอเจนต์ และเมทริกซ์สิทธิ์ต่อเอเจนต์ — ทั้งหมดเปิดใช้เป็นค่าเริ่มต้น เอนจินคือโค้ด Python ประมาณ 77,000 บรรทัด พร้อมเทสต์ 5,800+ และ dependency น้อยที่สุด",
     "signals": {
       "0": "self-hosted on-premise",
@@ -445,7 +445,7 @@
     "detailParagraph": "OpenLegion มาพร้อมข้อมูลรับรองที่ผ่าน vault proxy, การแยกคอนเทนเนอร์ และการบังคับงบประมาณต่อเอเจนต์เป็นค่าเริ่มต้น — ยังไม่มี CVE ที่รายงานในเวอร์ชัน v0.1.0",
     "disclaimer": "อ้างอิงจากการเปิดเผยด้านความปลอดภัยและรายงานจากชุมชนที่เผยแพร่ต่อสาธารณะ",
     "tableCaption": "การเปรียบเทียบฟีเจอร์ระหว่าง AI agent framework ทั่วไปกับ OpenLegion",
-    "columnAspect": "หัวข้อ",
+    "columnAspect": "ด้าน",
     "columnThem": "OpenClaw และอื่นๆ",
     "columnOpenLegion": "OpenLegion",
     "rows": {
@@ -483,7 +483,7 @@
     "footnote": "OpenLegion เปิดตัวในเดือนกุมภาพันธ์ 2026 จำนวนดาวบน GitHub สะท้อนอายุของโปรเจกต์ ไม่ใช่ความพร้อมสำหรับโปรดักชัน"
   },
   "faq": {
-    "sectionLabel": "คำถามที่พบบ่อย",
+    "sectionLabel": "FAQ",
     "heading": "คำถามที่",
     "headingHighlight": "พบบ่อย",
     "fullPageSubtitle": "ทุกสิ่งที่คุณต้องรู้เกี่ยวกับการดีพลอย ทำให้ปลอดภัย และสเกลฟลีตเอเจนต์ AI ด้วย OpenLegion",
@@ -554,8 +554,8 @@
     "text": "OpenLegion คือ container-isolated multi-agent runtime พร้อม credential vault proxy, งบประมาณต่อเอเจนต์ และโมเดลการประสานงานแบบฟลีต (blackboard + pub/sub + handoff โดยไม่มี CEO agent) — ออกแบบมาสำหรับทีมที่ต้องการฟลีตเอเจนต์ที่ปลอดภัยและควบคุมต้นทุนได้ในโปรดักชัน"
   },
   "cta": {
-    "heading": "ทีม AI ของคุณห่างแค่",
-    "headingHighlight": "การดีพลอยเดียว",
+    "heading": "ทีม AI ของคุณห่างเพียง",
+    "headingHighlight": "การดีพลอยครั้งเดียว",
     "headingEnd": "",
     "subtitle": "ชำระเงินตั้งแต่วันแรก · LLM 100+ ราย · คืนเงินภายใน 14 วัน",
     "primaryButton": "เริ่มต้นใช้งาน →",
@@ -726,7 +726,7 @@
       },
       "6": {
         "question": "เครดิต LLM คืออะไรและหมดอายุไหม?",
-        "answer": "เครดิตใช้จ่ายค่าเรียก LLM (Claude, GPT, Gemini ฯลฯ) ผ่านแพลตฟอร์มของเรา คุณได้โบนัสต้อนรับเมื่อชำระเงินครั้งแรกผ่าน — Basic ได้ $15, Growth ได้ $50, Pro ได้ $100, Pro Max ได้ $200 เครดิตไม่มีวันหมดอายุ เมื่อหมดให้เติมจำนวนใดก็ได้ตั้งแต่ $5 ถึง $500 หรือเพิ่ม API key ของตัวเองเพื่อใช้ผู้ให้บริการโดยตรง"
+        "answer": "เครดิตใช้สำหรับจ่ายค่าใช้งาน LLM (Claude, GPT, Gemini ฯลฯ) ผ่านแพลตฟอร์มของเรา คุณได้โบนัสต้อนรับเมื่อชำระเงินครั้งแรกผ่าน — Basic ได้ $15, Growth ได้ $50, Pro ได้ $100, Pro Max ได้ $200 เครดิตไม่มีวันหมดอายุ เมื่อหมดให้เติมจำนวนใดก็ได้ตั้งแต่ $5 ถึง $500 หรือเพิ่ม API key ของตัวเองเพื่อใช้ผู้ให้บริการโดยตรง"
       }
     },
     "billingPeriodAriaLabel": "รอบการเรียกเก็บเงิน",
@@ -1234,7 +1234,7 @@
   },
   "testimonials": {
     "eyebrow": "จากลูกค้าของเรา",
-    "heading": "ทีมจริง ที่ทำงานแบบอัตโนมัติ",
+    "heading": "ทีมจริง ที่ปล่อยให้เอเจนต์ทำงานเอง",
     "starsAriaLabel": "5 จาก 5 ดาว"
   }
 }
