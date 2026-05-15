@@ -2,8 +2,9 @@
 
 import { ChevronRight, BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { APP_URL, DOCS_URL } from "@/lib/constants";
+import { DOCS_URL, PRICING_URL } from "@/lib/constants";
 import { trackCtaClick } from "@/lib/analytics";
 
 interface InlineCTAProps {
@@ -23,10 +24,8 @@ export function InlineCTA({ heading }: InlineCTAProps) {
           />
           <p className="mb-6 text-balance text-xl font-semibold gradient-text">{heading}</p>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href={APP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={PRICING_URL}
               onClick={() => trackCtaClick({ location: "inline_cta" })}
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
@@ -35,7 +34,7 @@ export function InlineCTA({ heading }: InlineCTAProps) {
                 className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5"
                 aria-hidden="true"
               />
-            </a>
+            </Link>
             <a
               href={DOCS_URL}
               target="_blank"

@@ -285,7 +285,7 @@ export function Pricing() {
                   </p>
 
                   <a
-                    href={APP_URL}
+                    href={`${APP_URL}/signin?plan=${plan.name}&billing=${billing}&callbackUrl=${encodeURIComponent(`/?plan=${plan.name}&billing=${billing}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => trackCtaClick({ location: "pricing_card", plan: plan.name, billing })}
@@ -407,7 +407,7 @@ export function Pricing() {
                       <span className="ml-1 text-sm text-muted">{suffix}</span>
                     </div>
                     <a
-                      href={APP_URL}
+                      href={`${APP_URL}/signin?plan=${plan.name}&billing=${billing}&callbackUrl=${encodeURIComponent(`/?plan=${plan.name}&billing=${billing}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => trackCtaClick({ location: "pricing_card", plan: plan.name, billing })}

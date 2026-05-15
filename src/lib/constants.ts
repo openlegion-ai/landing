@@ -59,6 +59,7 @@ export const NAV_LINKS = [
 ] as const;
 
 export const APP_URL = "https://app.openlegion.ai";
+export const PRICING_URL = "/pricing";
 export const GITHUB_URL = "https://github.com/openlegion-ai/openlegion";
 export const DOCS_URL = "https://docs.openlegion.ai";
 export const DISCORD_URL = "https://discord.gg/mXNkjpDvvr";

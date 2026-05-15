@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Github, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { NAV_LINKS, APP_URL, GITHUB_URL, DEMO_URL } from "@/lib/constants";
+import { NAV_LINKS, APP_URL, GITHUB_URL, DEMO_URL, PRICING_URL } from "@/lib/constants";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { trackCtaClick } from "@/lib/analytics";
 
@@ -97,27 +97,37 @@ export function Navbar() {
             {t("bookDemo")}
           </a>
           <a
-            href={APP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`${APP_URL}/signin`}
+            onClick={() => trackCtaClick({ location: "nav_signin" })}
+            className="nav-link ml-1 rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground whitespace-nowrap"
+          >
+            {t("signIn")}
+          </a>
+          <Link
+            href={PRICING_URL}
             onClick={() => trackCtaClick({ location: "nav_primary_desktop" })}
             className="btn-shine ml-1 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
           >
             {t("getStarted")}
-          </a>
+          </Link>
         </div>
 
         {/* Mobile — visible below lg */}
         <div className="flex items-center gap-1.5 lg:hidden ml-auto">
           <a
-            href={APP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`${APP_URL}/signin`}
+            onClick={() => trackCtaClick({ location: "nav_signin" })}
+            className="nav-link inline-flex min-h-[44px] items-center px-2 py-2 text-xs text-muted transition-colors hover:text-foreground whitespace-nowrap"
+          >
+            {t("signIn")}
+          </a>
+          <Link
+            href={PRICING_URL}
             onClick={() => trackCtaClick({ location: "nav_primary_mobile" })}
             className="btn-shine inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-accent px-4 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
           >
             {t("getStarted")}
-          </a>
+          </Link>
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:text-foreground"
