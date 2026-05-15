@@ -906,6 +906,12 @@
     "faqOgDescription": "Answers to common questions about OpenLegion — security, pricing, LLM providers, coordination, and production deployment.",
     "faqTwitterTitle": "Frequently Asked Questions — OpenLegion",
     "faqTwitterDescription": "Answers to common questions about OpenLegion — security, pricing, LLM providers, coordination, and production deployment.",
+    "learnTitle": "Learn — AI Agent Framework, Coordination & Security",
+    "learnDescription": "Practical guides to running production AI agents: runtime architecture, coordination patterns, framework selection, and the agent threat model.",
+    "learnOgTitle": "Learn — AI Agent Framework, Coordination & Security",
+    "learnOgDescription": "Practical guides to running production AI agents: runtime architecture, coordination patterns, framework selection, and the agent threat model.",
+    "learnTwitterTitle": "Learn — AI Agent Framework, Coordination & Security",
+    "learnTwitterDescription": "Practical guides to running production AI agents: runtime architecture, coordination patterns, framework selection, and the agent threat model.",
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "Privacy Policy for the OpenLegion AI agent framework and managed hosting. Learn how we collect, use, and protect your data across managed hosting and the openlegion.ai website.",
     "termsTitle": "Terms of Service",
@@ -973,6 +979,7 @@
       "5": "DeepSeek V4 Agents"
     },
     "comparisonHub": "All Framework Comparisons",
+    "learnHub": "Learn — guides & frameworks",
     "comparisons": {
       "openclaw": "OpenLegion vs OpenClaw",
       "langgraph": "OpenLegion vs LangGraph",

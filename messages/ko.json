@@ -25,6 +25,7 @@
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub 저장소",
     "getStarted": "시작하기",
+    "signIn": "로그인",
     "toggleMenuAriaLabel": "메뉴 전환",
     "billingPeriodAriaLabel": "결제 주기",
     "bookDemo": "데모 예약하기"
@@ -905,6 +906,12 @@
     "faqOgDescription": "OpenLegion에 대한 자주 묻는 질문의 답변 — 보안, 가격, LLM 프로바이더, 협업, 프로덕션 배포.",
     "faqTwitterTitle": "자주 묻는 질문 — OpenLegion",
     "faqTwitterDescription": "OpenLegion에 대한 자주 묻는 질문의 답변 — 보안, 가격, LLM 프로바이더, 협업, 프로덕션 배포.",
+    "learnTitle": "배우기 — AI 에이전트 프레임워크, 조정, 보안",
+    "learnDescription": "프로덕션 AI 에이전트 운영을 위한 실용 가이드: 런타임 아키텍처, 조정 패턴, 프레임워크 선택, 에이전트 위협 모델.",
+    "learnOgTitle": "배우기 — AI 에이전트 프레임워크, 조정, 보안",
+    "learnOgDescription": "프로덕션 AI 에이전트 운영을 위한 실용 가이드: 런타임 아키텍처, 조정 패턴, 프레임워크 선택, 에이전트 위협 모델.",
+    "learnTwitterTitle": "배우기 — AI 에이전트 프레임워크, 조정, 보안",
+    "learnTwitterDescription": "프로덕션 AI 에이전트 운영을 위한 실용 가이드: 런타임 아키텍처, 조정 패턴, 프레임워크 선택, 에이전트 위협 모델.",
     "privacyTitle": "개인정보 보호정책",
     "privacyDescription": "OpenLegion AI 에이전트 프레임워크 및 매니지드 호스팅 개인정보 처리방침. 매니지드 호스팅 및 openlegion.ai 웹사이트 전반에서 데이터를 어떻게 수집, 사용, 보호하는지 알아보세요.",
     "termsTitle": "서비스 이용약관",
@@ -972,6 +979,7 @@
       "5": "DeepSeek V4 에이전트"
     },
     "comparisonHub": "모든 프레임워크 비교",
+    "learnHub": "배우기 — 가이드 및 프레임워크",
     "comparisons": {
       "openclaw": "OpenLegion vs OpenClaw",
       "langgraph": "OpenLegion vs LangGraph",

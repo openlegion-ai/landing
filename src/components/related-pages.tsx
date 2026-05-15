@@ -4,6 +4,7 @@ import {
   getContentEntry,
   getComparisonSubPageEntries,
   getLearnEntries,
+  getContentTitle,
 } from "@/lib/markdown";
 
 interface RelatedLink {
@@ -11,36 +12,41 @@ interface RelatedLink {
   label: string;
 }
 
-const COMPARISON_HUB: RelatedLink = {
-  href: "/comparison",
-  label: "All AI agent framework comparisons",
-};
-
-const LEARN_HUB: RelatedLink = {
-  href: "/learn",
-  label: "Learn — guides & frameworks",
-};
-
 const MAX_RELATED = 5;
 
 /**
- * Resolve related links for a given page.
+ * Resolve related links for a given page, with each link label rendered in
+ * the visitor's locale.
  *
  * Priority:
  *   1. Frontmatter `related: ["/comparison/foo", ...]` — engine-curated.
  *   2. Same-section siblings (other comparison or other learn pages).
  *   3. Section hub fallback.
+ *
+ * Titles are resolved via `getContentTitle(slug, locale)` so a Japanese
+ * visitor reading /ja/comparison/openclaw sees Japanese link labels — not
+ * the canonical English title that `entry.frontmatter.title` always holds.
  */
-function getRelatedLinks(currentSlug: string): RelatedLink[] {
+function getRelatedLinks(
+  currentSlug: string,
+  locale: string,
+  hubLabels: { comparison: string; learn: string },
+): RelatedLink[] {
   const entry = getContentEntry(currentSlug);
   const links: RelatedLink[] = [];
+
+  const comparisonHub: RelatedLink = { href: "/comparison", label: hubLabels.comparison };
+  const learnHub: RelatedLink = { href: "/learn", label: hubLabels.learn };
+
+  const labelFor = (slug: string, fallback: string) =>
+    getContentTitle(slug, locale) ?? fallback;
 
   // 1. Curated from frontmatter.
   if (entry?.frontmatter.related?.length) {
     for (const slug of entry.frontmatter.related) {
       const target = getContentEntry(slug);
       if (target && slug !== currentSlug) {
-        links.push({ href: slug, label: target.frontmatter.title });
+        links.push({ href: slug, label: labelFor(slug, target.frontmatter.title) });
       }
     }
   }
@@ -51,39 +57,48 @@ function getRelatedLinks(currentSlug: string): RelatedLink[] {
       const siblings = getComparisonSubPageEntries()
         .filter((e) => e.slug !== currentSlug && !links.some((l) => l.href === e.slug))
         .slice(0, MAX_RELATED - links.length)
-        .map((e) => ({ href: e.slug, label: e.frontmatter.title }));
+        .map((e) => ({ href: e.slug, label: labelFor(e.slug, e.frontmatter.title) }));
       links.push(...siblings);
     } else if (currentSlug.startsWith("/learn/")) {
       const siblings = getLearnEntries()
         .filter((e) => e.slug !== currentSlug && !links.some((l) => l.href === e.slug))
         .slice(0, MAX_RELATED - links.length)
-        .map((e) => ({ href: e.slug, label: e.frontmatter.title }));
+        .map((e) => ({ href: e.slug, label: labelFor(e.slug, e.frontmatter.title) }));
       links.push(...siblings);
     }
   }
 
   // 3. Always include the relevant hub at the top.
   if (currentSlug.startsWith("/comparison/")) {
-    return [COMPARISON_HUB, ...links.slice(0, MAX_RELATED)];
+    return [comparisonHub, ...links.slice(0, MAX_RELATED)];
   }
   if (currentSlug === "/comparison") {
-    // Hub itself — surface a few learn pages.
+    // Hub itself — surface a few learn pages instead.
     const learn = getLearnEntries()
       .slice(0, MAX_RELATED)
-      .map((e) => ({ href: e.slug, label: e.frontmatter.title }));
-    return [LEARN_HUB, ...learn];
+      .map((e) => ({ href: e.slug, label: labelFor(e.slug, e.frontmatter.title) }));
+    return [learnHub, ...learn];
   }
   if (currentSlug.startsWith("/learn/")) {
-    return [LEARN_HUB, ...links.slice(0, MAX_RELATED)];
+    return [learnHub, ...links.slice(0, MAX_RELATED)];
   }
 
   // Root content pages: a mix of both hubs.
-  return [COMPARISON_HUB, LEARN_HUB, ...links.slice(0, MAX_RELATED - 2)];
+  return [comparisonHub, learnHub, ...links.slice(0, MAX_RELATED - 2)];
 }
 
-export function RelatedPages({ currentSlug }: { currentSlug: string }) {
+export function RelatedPages({
+  currentSlug,
+  locale,
+}: {
+  currentSlug: string;
+  locale: string;
+}) {
   const t = useTranslations("relatedPages");
-  const links = getRelatedLinks(currentSlug);
+  const links = getRelatedLinks(currentSlug, locale, {
+    comparison: t("comparisonHub"),
+    learn: t("learnHub"),
+  });
 
   if (links.length === 0) return null;
 

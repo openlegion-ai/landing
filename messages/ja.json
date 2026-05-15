@@ -25,6 +25,7 @@
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub リポジトリ",
     "getStarted": "今すぐ始める",
+    "signIn": "サインイン",
     "toggleMenuAriaLabel": "メニューを切り替える",
     "billingPeriodAriaLabel": "請求期間",
     "bookDemo": "デモを予約"
@@ -905,6 +906,12 @@
     "faqOgDescription": "OpenLegionに関するよくある質問への回答 — セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメント。",
     "faqTwitterTitle": "よくある質問 — OpenLegion",
     "faqTwitterDescription": "OpenLegionに関するよくある質問への回答 — セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメント。",
+    "learnTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
+    "learnDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
+    "learnOgTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
+    "learnOgDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
+    "learnTwitterTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
+    "learnTwitterDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
     "privacyTitle": "プライバシーポリシー",
     "privacyDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングのプライバシーポリシー。マネージドホスティングおよびopenlegion.aiウェブサイト全体で、データをどのように収集、利用、保護しているかをご覧ください。",
     "termsTitle": "利用規約",
@@ -972,6 +979,7 @@
       "5": "DeepSeek V4 エージェント"
     },
     "comparisonHub": "すべてのフレームワーク比較",
+    "learnHub": "学ぶ — ガイドとフレームワーク",
     "comparisons": {
       "openclaw": "OpenLegion vs OpenClaw",
       "langgraph": "OpenLegion vs LangGraph",

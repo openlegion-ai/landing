@@ -227,6 +227,55 @@ export function getRootContentEntries(): ContentEntry[] {
   });
 }
 
+// ── Locale-aware title lookup ───────────────────────────────────────────────
+//
+// RelatedPages and other locale-aware UI surfaces need each page's title in
+// the current locale, not the canonical English. Parsing every translation
+// file's full markdown body on every render is wasteful — instead we
+// pre-build a Map<slug, Map<locale, title>> at module load by reading only
+// the YAML frontmatter of every locale file.
+//
+// Cost: ~338 small YAML parses on cold start (~50–100ms). Subsequent lookups
+// are O(1) and don't touch disk.
+
+const TITLE_MAP: Map<string, Map<string, string>> = (() => {
+  const map = new Map<string, Map<string, string>>();
+  if (!fs.existsSync(CONTENT_DIR)) return map;
+  for (const entry of CONTENT_MAP.values()) {
+    const inner = new Map<string, string>();
+    // Canonical English title
+    inner.set("en", entry.frontmatter.title);
+    // Every locale that has a translation
+    for (const locale of entry.availableLocales) {
+      const filePath = path.join(CONTENT_DIR, locale, entry.relPath);
+      try {
+        const raw = fs.readFileSync(filePath, "utf-8");
+        const { data } = matter(raw);
+        const fm = data as Partial<ContentFrontmatter>;
+        if (typeof fm.title === "string" && fm.title.length > 0) {
+          inner.set(locale, fm.title);
+        }
+      } catch {
+        // Missing/unreadable translation — fall through to English fallback below.
+      }
+    }
+    map.set(entry.slug, inner);
+  }
+  return map;
+})();
+
+/**
+ * Locale-aware page title. Returns the translation when one exists for the
+ * given locale, otherwise falls back to the canonical English title. Used by
+ * RelatedPages and other UI surfaces that need to render link labels in the
+ * visitor's language.
+ */
+export function getContentTitle(slug: string, locale: string): string | undefined {
+  const inner = TITLE_MAP.get(slug);
+  if (!inner) return undefined;
+  return inner.get(locale) ?? inner.get("en");
+}
+
 // ── FAQ extraction (for JSON-LD) ────────────────────────────────────────────
 
 function extractFAQs(content: string): FAQItem[] {

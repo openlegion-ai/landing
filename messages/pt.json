@@ -25,6 +25,7 @@
     "brandName": "OpenLegion",
     "githubAriaLabel": "Repositório no GitHub",
     "getStarted": "Começar",
+    "signIn": "Entrar",
     "toggleMenuAriaLabel": "Abrir ou fechar menu",
     "billingPeriodAriaLabel": "Período de cobrança",
     "bookDemo": "Agendar demo"
@@ -905,6 +906,12 @@
     "faqOgDescription": "Respostas a perguntas comuns sobre o OpenLegion — segurança, preços, provedores LLM, coordenação e implantação em produção.",
     "faqTwitterTitle": "Perguntas frequentes — OpenLegion",
     "faqTwitterDescription": "Respostas a perguntas comuns sobre o OpenLegion — segurança, preços, provedores LLM, coordenação e implantação em produção.",
+    "learnTitle": "Aprender — Framework, Coordenação e Segurança de Agentes IA",
+    "learnDescription": "Guias práticos para operar agentes IA em produção: arquitetura de runtime, padrões de coordenação, seleção de framework e modelo de ameaças de agentes.",
+    "learnOgTitle": "Aprender — Framework, Coordenação e Segurança de Agentes IA",
+    "learnOgDescription": "Guias práticos para operar agentes IA em produção: arquitetura de runtime, padrões de coordenação, seleção de framework e modelo de ameaças de agentes.",
+    "learnTwitterTitle": "Aprender — Framework, Coordenação e Segurança de Agentes IA",
+    "learnTwitterDescription": "Guias práticos para operar agentes IA em produção: arquitetura de runtime, padrões de coordenação, seleção de framework e modelo de ameaças de agentes.",
     "privacyTitle": "Política de privacidade",
     "privacyDescription": "Política de Privacidade do framework de agentes de IA OpenLegion e da hospedagem gerenciada. Saiba como coletamos, usamos e protegemos seus dados na hospedagem gerenciada e no site openlegion.ai.",
     "termsTitle": "Termos de serviço",
@@ -972,6 +979,7 @@
       "5": "Agentes DeepSeek V4"
     },
     "comparisonHub": "Todas as comparações de frameworks",
+    "learnHub": "Aprender — guias e frameworks",
     "comparisons": {
       "openclaw": "OpenLegion vs OpenClaw",
       "langgraph": "OpenLegion vs LangGraph",
