@@ -18,6 +18,7 @@ import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animat
 import { Testimonials } from "@/components/testimonials";
 import { APP_URL } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
+import { trackCtaClick } from "@/lib/analytics";
 
 type Billing = "monthly" | "yearly";
 
@@ -287,6 +288,7 @@ export function Pricing() {
                     href={APP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackCtaClick({ location: "pricing_card", plan: plan.name, billing })}
                     aria-label={t("a11y.ctaAria", { plan: planName })}
                     className={`mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                       plan.popular
@@ -408,6 +410,7 @@ export function Pricing() {
                       href={APP_URL}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => trackCtaClick({ location: "pricing_card", plan: plan.name, billing })}
                       aria-label={t("a11y.ctaAria", { plan: planName })}
                       className="flex items-center justify-center gap-2 rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
@@ -494,6 +497,7 @@ export function Pricing() {
                 </span>
                 <a
                   href="mailto:sales@openlegion.ai"
+                  onClick={() => trackCtaClick({ location: "pricing_enterprise" })}
                   aria-label={t("a11y.ctaAria", { plan: t("enterprise.name") })}
                   className="flex items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background md:min-w-[180px]"
                 >

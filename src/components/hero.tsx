@@ -5,6 +5,7 @@ import { Calendar } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { APP_URL, DEMO_URL } from "@/lib/constants";
+import { trackCtaClick } from "@/lib/analytics";
 
 const PARTICLES = [
   { top: "12%", left: "8%", size: 4, color: "bg-accent/30", duration: "7s", delay: "0s" },
@@ -104,6 +105,7 @@ export function Hero() {
                   href={APP_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackCtaClick({ location: "hero_primary" })}
                   className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
                 >
                   {t("ctaPrimary")}
@@ -112,6 +114,7 @@ export function Hero() {
                   href={DEMO_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackCtaClick({ location: "hero_demo" })}
                   className="group/secondary flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
                 >
                   <Calendar className="h-4 w-4 transition-transform group-hover/secondary:scale-110" aria-hidden="true" />

@@ -1,7 +1,10 @@
+"use client";
+
 import { ChevronRight, BookOpen } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { APP_URL, DOCS_URL } from "@/lib/constants";
+import { trackCtaClick } from "@/lib/analytics";
 
 interface InlineCTAProps {
   heading: string;
@@ -24,6 +27,7 @@ export function InlineCTA({ heading }: InlineCTAProps) {
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackCtaClick({ location: "inline_cta" })}
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
               {t("getStarted")}
@@ -36,6 +40,7 @@ export function InlineCTA({ heading }: InlineCTAProps) {
               href={DOCS_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackCtaClick({ location: "inline_docs" })}
               className="group/secondary flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
             >
               <BookOpen
