@@ -1311,6 +1311,9 @@
     "serviceName": "OpenLegion 託管服務",
     "serviceDescription": "在專用 VPS 實例上為 OpenLegion 代理艦隊提供託管服務 — 容器隔離、金庫代理憑證和單代理預算,無需自行管理 DevOps。",
     "videoName": "OpenLegion 展示 — AI 代理艦隊部署",
-    "videoDescription": "觀看 OpenLegion 部署具備容器隔離、憑證金庫和即時成本追蹤的自主 AI 代理艦隊。"
+    "videoDescription": "觀看 OpenLegion 部署具備容器隔離、憑證金庫和即時成本追蹤的自主 AI 代理艦隊。",
+    "applicationSubCategory": "AI 智慧代理框架",
+    "serviceType": "託管 AI 智慧代理服務",
+    "areaServed": "全球"
   }
 }

@@ -1311,6 +1311,9 @@
     "serviceName": "OpenLegion 관리형 호스팅",
     "serviceDescription": "전용 VPS 인스턴스에서 OpenLegion 에이전트 플릿을 위한 관리형 호스팅 — 컨테이너 격리, 볼트 프록시 자격 증명, 에이전트별 예산을 자체 DevOps 관리 없이 제공합니다.",
     "videoName": "OpenLegion 데모 — AI 에이전트 플릿 배포",
-    "videoDescription": "OpenLegion이 컨테이너 격리, 자격 증명 볼팅, 실시간 비용 추적을 갖춘 자율 AI 에이전트 플릿을 배포하는 모습을 확인하세요."
+    "videoDescription": "OpenLegion이 컨테이너 격리, 자격 증명 볼팅, 실시간 비용 추적을 갖춘 자율 AI 에이전트 플릿을 배포하는 모습을 확인하세요.",
+    "applicationSubCategory": "AI 에이전트 프레임워크",
+    "serviceType": "관리형 AI 에이전트 호스팅",
+    "areaServed": "전 세계"
   }
 }

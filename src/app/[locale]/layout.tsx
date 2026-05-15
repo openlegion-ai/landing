@@ -6,6 +6,7 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { GITHUB_URL, DISCORD_URL, TWITTER_URL, RTL_LOCALES, SUPPORTED_LOCALES } from "@/lib/constants";
+import { ogLocaleFor } from "@/lib/content-page-helpers";
 import { Navbar } from "@/components/navbar";
 import { LaunchPricingBand } from "@/components/launch-pricing-band";
 
@@ -107,14 +108,14 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       siteName: "OpenLegion",
       url: `${base}/${locale}`,
       locale: OG_LOCALE_MAP[locale] || "en_US",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: t("ogTitle") }],
+      images: [{ url: `/og/${ogLocaleFor(locale)}/home.png`, width: 1200, height: 630, alt: t("ogTitle") }],
     },
     twitter: {
       card: "summary_large_image",
       site: "@openlegion",
       title: t("twitterTitle"),
       description: t("twitterDescription"),
-      images: ["/og.png"],
+      images: [`/og/${ogLocaleFor(locale)}/home.png`],
     },
     other: {
       "theme-color": "#08090c",
@@ -204,7 +205,7 @@ export default async function LocaleLayout({
         "@id": SOFTWARE_ID,
         name: "OpenLegion",
         applicationCategory: "DeveloperApplication",
-        applicationSubCategory: "AI Agent Framework",
+        applicationSubCategory: tSchema("applicationSubCategory"),
         operatingSystem: "Linux, macOS, Windows",
         url: "https://www.openlegion.ai",
         downloadUrl: GITHUB_URL,
@@ -241,9 +242,9 @@ export default async function LocaleLayout({
         "@type": "Service",
         "@id": SERVICE_ID,
         name: tSchema("serviceName"),
-        serviceType: "Managed AI Agent Hosting",
+        serviceType: tSchema("serviceType"),
         provider: { "@id": ORG_ID },
-        areaServed: "Worldwide",
+        areaServed: tSchema("areaServed"),
         description: tSchema("serviceDescription"),
         url: `https://www.openlegion.ai/${locale}/pricing`,
         offers: [

@@ -6,6 +6,7 @@ import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animat
 import { JsonLd, buildFAQSchema } from "@/components/json-ld";
 import { ALL_FAQ_ITEMS } from "@/lib/constants";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
+import { ogLocaleFor } from "@/lib/content-page-helpers";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
@@ -24,10 +25,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: "OpenLegion",
       url: `${SITE_URL}/${locale}/faq`,
       locale: OG_LOCALE_MAP[locale] || "en_US",
+      images: [{ url: `/og/${ogLocaleFor(locale)}/faq.png`, width: 1200, height: 630, alt: t("faqOgTitle") }],
     },
     twitter: {
       card: "summary_large_image",
       site: "@openlegion",
+      images: [`/og/${ogLocaleFor(locale)}/faq.png`],
       title: t("faqTwitterTitle"),
       description: t("faqTwitterDescription"),
     },

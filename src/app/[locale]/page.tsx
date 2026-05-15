@@ -20,7 +20,7 @@ import { TechnicalDefinition } from "@/components/technical-definition";
 import { Footer } from "@/components/footer";
 import { ALL_FAQ_ITEMS, APP_URL } from "@/lib/constants";
 import { getAllContentEntries } from "@/lib/markdown";
-import { normalizeDate } from "@/lib/content-page-helpers";
+import { normalizeDate, ogLocaleFor } from "@/lib/content-page-helpers";
 
 // Homepage inherits title + description from root layout metadata.
 // Page-level JSON-LD schemas are defined inline below — they reference the
@@ -107,7 +107,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         mainEntity: { "@id": SOFTWARE_ID },
         primaryImageOfPage: {
           "@type": "ImageObject",
-          url: "https://www.openlegion.ai/og.png",
+          url: `https://www.openlegion.ai/og/${ogLocaleFor(locale)}/home.png`,
           width: 1200,
           height: 630,
         },
