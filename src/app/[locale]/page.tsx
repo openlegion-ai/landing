@@ -18,10 +18,33 @@ import { CTA } from "@/components/cta";
 import { CapabilityBand } from "@/components/capability-band";
 import { TechnicalDefinition } from "@/components/technical-definition";
 import { Footer } from "@/components/footer";
-import { ALL_FAQ_ITEMS, GITHUB_URL, APP_URL } from "@/lib/constants";
+import { ALL_FAQ_ITEMS, APP_URL } from "@/lib/constants";
+import { getAllContentEntries } from "@/lib/markdown";
+import { normalizeDate } from "@/lib/content-page-helpers";
 
 // Homepage inherits title + description from root layout metadata.
-// Page-level JSON-LD schemas are defined inline below.
+// Page-level JSON-LD schemas are defined inline below — they reference the
+// site-wide Organization / WebSite / SoftwareApplication entities (declared
+// in `[locale]/layout.tsx`) by stable @id rather than re-declaring them.
+const ORG_ID = "https://www.openlegion.ai/#organization";
+const WEBSITE_ID = "https://www.openlegion.ai/#website";
+const SOFTWARE_ID = "https://www.openlegion.ai/#software";
+
+/**
+ * Newest `last_updated` across the content corpus, formatted as YYYY-MM-DD.
+ * The homepage aggregates content, so its freshness is bounded by its
+ * freshest member — and unlike `new Date()`, this doesn't bounce per build
+ * (which would train crawlers to ignore the lastmod signal).
+ */
+function homepageDateModified(): string {
+  const entries = getAllContentEntries();
+  let newest = "";
+  for (const e of entries) {
+    const d = normalizeDate(e.frontmatter.last_updated);
+    if (d > newest) newest = d;
+  }
+  return newest || new Date().toISOString().slice(0, 10);
+}
 
 async function getGitHubStars(): Promise<string | null> {
   try {
@@ -39,10 +62,12 @@ async function getGitHubStars(): Promise<string | null> {
   }
 }
 
-export default async function Home() {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   const stars = await getGitHubStars();
   const t = await getTranslations("common");
   const tFaq = await getTranslations("faq");
+  const tMeta = await getTranslations("metadata");
 
   // Locale-aware FAQ items for the FAQPage JSON-LD payload below. The
   // canonical 14-item ordering comes from ALL_FAQ_ITEMS; each locale's
@@ -52,211 +77,85 @@ export default async function Home() {
     answer: tFaq(`items.${idx}.answer`),
   }));
 
-  const homeTitle =
-    "OpenLegion — Container-Isolated Multi-Agent Runtime | Automate, Stay in Control";
-  const homeDescription =
-    "OpenLegion is a container-isolated multi-agent runtime with managed hosting. Deploy autonomous agents in Docker-isolated sandboxes with vault-proxied credentials, per-agent budgets, fleet-model coordination (blackboard + pub/sub + handoff, no CEO agent), and 100+ LLM providers via LiteLLM.";
+  const canonicalUrl = `https://www.openlegion.ai/${locale}`;
+  const WEBPAGE_ID = `${canonicalUrl}#webpage`;
+  const FAQ_ID = `${canonicalUrl}#faq`;
+  const VIDEO_ID = `${canonicalUrl}#demo-video`;
+  const dateModified = homepageDateModified();
 
-  const softwareJsonLd = {
+  // Single @graph payload — page-level WebPage / FAQPage / VideoObject
+  // entities cross-link to the site-wide @id refs declared in
+  // `[locale]/layout.tsx`. Note: HowTo schema was removed — Google
+  // deprecated HowTo rich results for non-recipe content in late 2023, so
+  // the visible quickstart block carries the signal more cleanly.
+  const pageGraphJsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "OpenLegion",
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Linux, macOS, Windows",
-    description: "OpenLegion is a container-isolated multi-agent runtime built for production. Deploy autonomous agents in isolated Docker containers with per-agent budgets, vault-proxied credentials, and defense-in-depth security enabled by default.",
-    url: "https://www.openlegion.ai",
-    downloadUrl: GITHUB_URL,
-    softwareVersion: "0.1.0",
-    programmingLanguage: "Python",
-    license: `${GITHUB_URL}/blob/main/LICENSE`,
-    releaseNotes:
-      "Production-ready AI agent fleets with container isolation, defense-in-depth security, per-agent cost governance, self-hosted deployment, fleet-model coordination (blackboard + pub/sub + handoff, no CEO agent), 5,800+ tests across 155 files, 20+ built-in skill modules + 24+ browser actions, 100+ LLM providers via LiteLLM, real-time dashboard, and MCP (stdio) support.",
-    softwareHelp: {
-      "@type": "CreativeWork",
-      url: "https://docs.openlegion.ai",
-    },
-    softwareRequirements: "Python 3.10+, Docker",
-    featureList: [
-      "Autonomous agents that automate browser, file, code, and API tasks",
-      "Built-in stealth browser — per-agent Camoufox in a shared browser service container",
-      "Container isolation per agent — Docker or Docker Desktop Sandbox microVM",
-      "Vault proxy — agents never see API keys",
-      "Per-agent budget enforcement — automatic cutoff",
-      "100+ LLM providers via LiteLLM — no vendor lock-in",
-      "Fleet dashboard with real-time cost monitoring",
-      "Fleet model coordination — blackboard + pub/sub + handoff (no CEO agent)",
-      "MCP (stdio) tool extensibility — 20+ built-in skill modules",
-      "Self-hosted (BSL 1.1) or managed hosting on a dedicated VPS",
-    ],
-    screenshot: {
-      "@type": "ImageObject",
-      url: "https://www.openlegion.ai/og.png",
-      width: 1200,
-      height: 630,
-    },
-    offers: [
+    "@graph": [
       {
-        "@type": "Offer",
-        name: "Basic",
-        price: "19",
-        priceCurrency: "USD",
-        billingPeriod: "P1M",
-        availability: "https://schema.org/InStock",
+        "@type": "WebPage",
+        "@id": WEBPAGE_ID,
+        url: canonicalUrl,
+        name: tMeta("homeTitle"),
+        description: tMeta("homeDescription"),
+        datePublished: "2026-02-18",
+        dateModified,
+        inLanguage: locale,
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": SOFTWARE_ID },
+        mainEntity: { "@id": SOFTWARE_ID },
+        primaryImageOfPage: {
+          "@type": "ImageObject",
+          url: "https://www.openlegion.ai/og.png",
+          width: 1200,
+          height: 630,
+        },
+        speakable: {
+          "@type": "SpeakableSpecification",
+          cssSelector: ["#hero", "#faq", ".definition-block"],
+        },
+        // Every sameAs has been verified to resolve to the correct entity.
+        // See PAGE_MENTIONS doc for the validation policy.
+        mentions: [
+          { "@type": "SoftwareApplication", name: "Docker",    sameAs: "https://www.wikidata.org/wiki/Q15206305" },
+          { "@type": "ProgrammingLanguage", name: "Python",    sameAs: "https://www.wikidata.org/wiki/Q28865" },
+          { "@type": "SoftwareApplication", name: "LangGraph", sameAs: "https://github.com/langchain-ai/langgraph" },
+          { "@type": "SoftwareApplication", name: "CrewAI",    sameAs: "https://github.com/crewAIInc/crewAI" },
+          { "@type": "SoftwareApplication", name: "AutoGen",   sameAs: "https://github.com/microsoft/autogen" },
+        ],
       },
       {
-        "@type": "Offer",
-        name: "Growth",
-        price: "59",
-        priceCurrency: "USD",
-        billingPeriod: "P1M",
-        availability: "https://schema.org/InStock",
+        "@type": "FAQPage",
+        "@id": FAQ_ID,
+        isPartOf: { "@id": WEBPAGE_ID },
+        mainEntity: localizedFaqItems.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: { "@type": "Answer", text: item.answer },
+        })),
       },
       {
-        "@type": "Offer",
-        name: "Pro",
-        price: "149",
-        priceCurrency: "USD",
-        billingPeriod: "P1M",
-        availability: "https://schema.org/InStock",
-      },
-      {
-        "@type": "Offer",
-        name: "Pro Max",
-        price: "279",
-        priceCurrency: "USD",
-        billingPeriod: "P1M",
-        availability: "https://schema.org/InStock",
+        "@type": "VideoObject",
+        "@id": VIDEO_ID,
+        name: "OpenLegion Demo — AI Agent Fleet Deployment",
+        description:
+          "Watch OpenLegion deploy an autonomous AI agent fleet with container isolation, credential vaulting, and real-time cost tracking.",
+        thumbnailUrl: "https://www.openlegion.ai/demo-poster.jpg",
+        uploadDate: "2026-02-18",
+        duration: "PT2M",
+        contentUrl: "https://www.openlegion.ai/demo.mp4",
+        // embedUrl is the page that *embeds* the video — not the .mp4 itself.
+        embedUrl: `${canonicalUrl}#hero`,
+        isPartOf: { "@id": WEBPAGE_ID },
+        publisher: { "@id": ORG_ID },
       },
     ],
-    author: {
-      "@type": "Organization",
-      name: "OpenLegion",
-      url: "https://www.openlegion.ai",
-    },
-  };
-
-  const webPageJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: homeTitle,
-    description: homeDescription,
-    url: "https://www.openlegion.ai",
-    datePublished: "2026-02-18",
-    dateModified: new Date().toISOString().slice(0, 10),
-    inLanguage: "en",
-    isPartOf: {
-      "@type": "WebSite",
-      name: "OpenLegion",
-      url: "https://www.openlegion.ai",
-    },
-    about: {
-      "@type": "SoftwareApplication",
-      name: "OpenLegion",
-    },
-    speakable: {
-      "@type": "SpeakableSpecification",
-      cssSelector: ["#hero", "#faq", ".definition-block"],
-    },
-    mentions: [
-      { "@type": "SoftwareApplication", name: "Docker", sameAs: "https://www.wikidata.org/wiki/Q15206305" },
-      { "@type": "ProgrammingLanguage", name: "Python", sameAs: "https://www.wikidata.org/wiki/Q28865" },
-      { "@type": "SoftwareApplication", name: "LangGraph", sameAs: "https://github.com/langchain-ai/langgraph" },
-      { "@type": "SoftwareApplication", name: "CrewAI", sameAs: "https://github.com/crewAIInc/crewAI" },
-      { "@type": "SoftwareApplication", name: "AutoGen", sameAs: "https://github.com/microsoft/autogen" },
-    ],
-  };
-
-  const howToJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: "How to install and run OpenLegion AI agent fleet",
-    description: "Deploy a production-ready AI agent fleet with container isolation using three commands.",
-    totalTime: "PT5M",
-    tool: [
-      { "@type": "HowToTool", name: "Python 3.10+" },
-      { "@type": "HowToTool", name: "Docker" },
-      { "@type": "HowToTool", name: "An LLM API key (any of 15+ supported providers — Anthropic / OpenAI / Gemini / Mistral / Groq / DeepSeek / OpenRouter / etc.)" },
-    ],
-    step: [
-      {
-        "@type": "HowToStep",
-        position: 1,
-        name: "Clone the repository",
-        text: "Clone the OpenLegion repository from GitHub and navigate into the project directory.",
-        url: "https://www.openlegion.ai/#quickstart",
-      },
-      {
-        "@type": "HowToStep",
-        position: 2,
-        name: "Run the installer",
-        text: "Run install.sh to check dependencies, create a virtual environment, and make the CLI globally available.",
-        url: "https://www.openlegion.ai/#quickstart",
-      },
-      {
-        "@type": "HowToStep",
-        position: 3,
-        name: "Start the agent fleet",
-        text: "Run 'openlegion start' to launch the inline setup wizard on first run, then deploy agents in isolated containers.",
-        url: "https://www.openlegion.ai/#quickstart",
-      },
-    ],
-  };
-
-  const videoJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    name: "OpenLegion Demo — AI Agent Fleet Deployment",
-    description: "Watch OpenLegion deploy an autonomous AI agent fleet with container isolation, credential vaulting, and real-time cost tracking.",
-    thumbnailUrl: "https://www.openlegion.ai/og.png",
-    uploadDate: "2026-02-18",
-    duration: "PT2M",
-    contentUrl: "https://www.openlegion.ai/demo.mp4",
-    embedUrl: "https://www.openlegion.ai/demo.mp4",
-    publisher: {
-      "@type": "Organization",
-      name: "OpenLegion",
-      url: "https://www.openlegion.ai",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://www.openlegion.ai/logo.png",
-      },
-    },
-  };
-
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: localizedFaqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd).replace(/</g, "\\u003c") }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd).replace(/</g, "\\u003c") }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToJsonLd).replace(/</g, "\\u003c") }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoJsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd).replace(/</g, "\\u003c") }}
       />
       <main id="main">
         <Hero />

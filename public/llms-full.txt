@@ -364,6 +364,113 @@ Based on public documentation at the time of writing, OpenLegion provides the mo
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
+<!-- https://www.openlegion.ai/en/learn/ai-agent-observability | last_updated: 2026-05 -->
+
+# AI Agent Observability: What to Track in Production
+
+**AI agent observability** is the discipline of recording every tool call, every LLM invocation, and every dollar an autonomous agent spends — capturing the non-deterministic decisions, cumulative cost, and prompt-injection attempts that traditional APM never had to handle. Without it, a production fleet operates on faith, and one stuck agent can burn hours of compute before anyone notices the bill.
+
+<!-- SCHEMA: DefinitionBlock -->
+
+> **What is AI agent observability?**
+> AI agent observability is the discipline of capturing structured telemetry from autonomous AI agents — execution traces, token spend, prompt versions, tool-call audits, and security events — so engineers can debug, govern, and optimize agents running in production.
+
+## TL;DR
+
+- **Agent observability is harder than app observability** because the agent's control flow is decided by an LLM at runtime, not by handwritten code.
+- **Four signals matter**: end-to-end traces, per-agent cost, prompt and model versioning, and security-event capture (prompt-injection attempts, ACL denies, budget cutoffs).
+- **Most agent frameworks ship with no built-in observability** — teams bolt on LangSmith, Langfuse, or Arize Phoenix and discover the gaps after their first production incident.
+- **OpenLegion's mesh dashboard records every tool call, LLM request, cost line, and security event by default** — no instrumentation code, no third-party agent integration.
+- **Cost observability is the budget you didn't know you were spending**: without per-agent caps, one stuck agent can burn hundreds of dollars in API calls overnight.
+
+## Why AI Agent Observability Is Different
+
+Datadog, Honeycomb, New Relic — every traditional APM tool was built on two assumptions: code paths are deterministic, and request handlers are human-written. Autonomous agents break both, in four specific ways:
+
+- **The control flow is generated**, not coded. An agent decides at runtime whether to call a tool, retry, hand off to another agent, or give up.
+- **Cost is unbounded by default**. Each LLM call can chain to more calls. Without per-agent budget caps, a runaway loop is a runaway invoice.
+- **The error surface is dual**: standard failures (timeout, 5xx) plus LLM-specific failures (hallucinated tool name, malformed JSON, refusal, prompt-injection success).
+- **Auditability is a compliance requirement**, not a nice-to-have. Regulated teams need to prove what an agent did, when, with which prompt, on whose data.
+
+The practical consequence: a standard APM dashboard tells you the agent run took 12 seconds. It doesn't tell you the agent made 47 LLM calls to get there because it hallucinated a database column name on attempt #3 and entered a retry loop.
+
+## The Four Signals You Actually Need
+
+### 1. End-to-end execution traces
+
+Every agent run modeled as a tree: parent task → tool calls → LLM round-trips → child agent handoffs. Span-level latency, status, and inputs and outputs. OpenTelemetry's GenAI semantic conventions are converging here; tools that implement them — Langfuse, Arize Phoenix, Helicone — interoperate.
+
+### 2. Cost per agent, per task, per provider
+
+Token counts, dollar conversions per provider, and rollups by agent, project, and team. Cost is the budget signal that should hard-cut execution, not just chart it after the fact.
+
+### 3. Prompt and model versioning
+
+When the agent regressed, was it the prompt change, the model upgrade, or upstream data drift? Without versioned prompts pinned to runs, you cannot tell. Prompt registries (LangSmith Hub, Langfuse Prompts, Promptlayer) all solve this; the runtime has to record which version each run actually used.
+
+### 4. Security events
+
+Prompt-injection attempts, ACL denies, SSRF blocks, budget cutoffs, unicode sanitization hits. These are the events compliance reviewers ask about — and the events that signal an in-progress attack on your agent fleet.
+
+## What OpenLegion Tracks by Default
+
+| Signal | What's captured | Where to see it |
+|---|---|---|
+| **Trace** | Every tool call, LLM request, agent handoff with timing | Mesh dashboard → Agent Runs |
+| **Cost** | Tokens in/out, dollar cost per provider per agent | Dashboard → Cost panel |
+| **Prompts** | System prompt hash, version, model, parameters per run | Per-run detail view |
+| **Security** | ACL denies, budget cutoffs, SSRF blocks, sanitizer hits | Dashboard → Security log |
+| **Health** | Container resource use, mesh latency, browser pool state | Dashboard → Fleet panel |
+
+The dashboard is part of the open-source runtime — not a managed service you have to subscribe to. Self-hosted deployments keep all telemetry on your infrastructure.
+
+## Open-Source vs Managed Observability Stacks
+
+If you are running a different agent framework, the leading bolt-on tools are LangSmith (LangChain ecosystem, managed), Langfuse (open-source, self-hostable), Arize Phoenix (open-source, evaluation-focused), and Helicone (proxy-based, simple integration). Each requires instrumentation code in your agent — wrap LLM clients, add callback handlers, configure trace exporters. The integration burden scales with your fleet size.
+
+OpenLegion's mesh sits in the call path of every agent operation by design — credential vault, ACL gate, cost tracker, and trace recorder are all colocated in the trusted zone. There is no instrumentation step. The trade-off: you adopt the OpenLegion runtime, not just an observability layer.
+
+See our [AI agent frameworks comparison](/learn/ai-agent-frameworks) for the full landscape, or the [vs LangGraph page](/comparison/langgraph) for a head-to-head on observability specifically.
+
+## OpenLegion's Take
+
+Agent observability is the new APM — and the AI ecosystem is repeating every mistake APM took a decade to fix. Telemetry fragments across vendor-specific SDKs. Pricing scales with event volume so the busiest fleets pay the most to watch themselves. "Advanced" features like alerting and retention sit behind enterprise tiers. OpenLegion takes the opposite stance: the dashboard, traces, cost ledger, and security event log ship with the [AI agent platform](/learn/ai-agent-platform), not as an upsell. Every run records the full trace by default, you self-host the data, you own the retention, and you can export to OpenTelemetry if you want it forwarded to Datadog or Honeycomb anyway.
+
+## CTA
+
+**Production agents need production observability — built in, not bolted on.**
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+
+---
+
+<!-- SCHEMA: FAQPage -->
+
+## Frequently Asked Questions
+
+### What is AI agent observability?
+
+AI agent observability is the structured recording of an autonomous agent's runtime behavior — tool calls, LLM invocations, prompt versions, costs, and security events — so engineers can debug failures, optimize cost, and audit decisions. It is distinct from traditional APM because the agent's control flow is decided by an LLM, not by handwritten code.
+
+### How is AI agent observability different from LLM observability?
+
+LLM observability tracks individual model calls — prompt, response, latency, token cost. AI agent observability tracks the full execution graph an agent traverses to complete a task, which typically involves many LLM calls plus tool calls, handoffs to other agents, retries, and state mutations. LLM observability is a subset of agent observability.
+
+### Do I need a separate observability tool if I'm already on Datadog?
+
+Datadog and similar APM tools handle latency, errors, and resource use well, but they do not natively understand LLM token costs, prompt versioning, or agent-trace semantics. Most teams pair an agent-native observability tool (Langfuse, Arize Phoenix, LangSmith) with their existing APM, or adopt a runtime like OpenLegion that ships telemetry built in and can export OpenTelemetry to whatever APM they already operate.
+
+### What should I track for AI agent cost observability?
+
+Track token counts (input and output) per provider per agent per run, dollar cost calculated against current provider pricing, per-agent daily and monthly rollups, and budget-cutoff events when an agent is stopped for exceeding its allotment. Without per-agent budget caps, even excellent observability only tells you about a runaway after the bill arrives.
+
+### What security events should AI agent observability capture?
+
+At minimum: prompt-injection detection, ACL denies (an agent attempted an operation outside its permission boundary), SSRF blocks, unicode and path-traversal sanitization hits, budget cutoffs, and credential-vault access logs. These are the events compliance reviewers ask about, and the events that signal an active attack against your agent fleet.
+
+### How does OpenLegion's observability compare to LangSmith?
+
+LangSmith is a managed observability service for the LangChain ecosystem — strong tracing, evaluation, and prompt-management features. OpenLegion's dashboard ships with the runtime itself, is self-hosted by default, and records the same signals (traces, cost, prompts, security events) without requiring instrumentation in your agent code. LangSmith integrates across any framework that adopts it; OpenLegion observability works automatically inside the OpenLegion runtime.
+
 <!-- https://www.openlegion.ai/en/learn/ai-agent-orchestration | last_updated: 2026-03 -->
 
 # AI Agent Orchestration: Coordinate, Govern, and Control Agent Fleets
@@ -924,6 +1031,102 @@ Key frameworks include OWASP Top 10 for LLM Applications (2025) and Agentic Appl
 | OpenLegion vs OpenClaw | /comparison/openclaw |
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
+
+<!-- https://www.openlegion.ai/en/learn/model-context-protocol | last_updated: 2026-05 -->
+
+# Model Context Protocol: The Open Standard for AI Agent Tools
+
+**Model Context Protocol** (MCP) is the open standard Anthropic published in November 2024 that lets AI agents discover and call external tools — databases, file systems, APIs, internal services — without writing bespoke glue code. MCP servers expose capabilities; MCP clients (agent runtimes, IDEs, assistants) consume them. The protocol is deliberately minimal, which is also its production catch: deployments must layer authentication, sandboxing, and per-tool budgets on top before they're safe to run.
+
+<!-- SCHEMA: DefinitionBlock -->
+
+> **What is the Model Context Protocol?**
+> The Model Context Protocol is an open JSON-RPC-based standard, originally published by Anthropic, that defines how AI agents (clients) discover and call capabilities exposed by tools (servers). It is the AI agent ecosystem's equivalent of LSP for editors or USB for hardware: one protocol, many implementations.
+
+## TL;DR
+
+- **MCP is the agent ecosystem's USB port** — one protocol that lets any compliant agent runtime use any compliant tool server without writing custom glue code.
+- **Anthropic published MCP in November 2024**; major adopters during 2025 include OpenAI, Microsoft Copilot, Cursor, Zed, Continue, and most agent frameworks.
+- **MCP defines four primitive types**: tools (function-style calls), resources (read-only data), prompts (reusable templates), and sampling (server-initiated LLM calls back to the client).
+- **Transport is JSON-RPC over stdio or HTTP/SSE**. Stdio is the dominant local form; HTTP/SSE is gaining for remote MCP servers.
+- **Production MCP requires three layers most tutorials skip**: authentication, sandboxing, and budget enforcement on tool calls.
+
+## How MCP Works
+
+An MCP client (an agent runtime or AI assistant) connects to one or more MCP servers. On connection, the client requests a capability list — what tools, resources, and prompts does this server offer? Each tool advertises a JSON schema for its arguments. The agent's LLM sees the tool list as part of its context and chooses tool calls accordingly. The client routes the calls to the right server, marshals JSON, and returns results.
+
+The transport is JSON-RPC 2.0. Two transports are common: stdio (the client spawns the server as a subprocess and communicates over stdin/stdout — the default in Claude Desktop) and HTTP with Server-Sent Events for remote servers that live across a network boundary.
+
+The protocol itself is intentionally minimal. The complexity is in what MCP servers expose: a filesystem server gives an agent read and write access to a directory; a Postgres server gives query access; a Slack server gives message-send and channel-read capabilities. The same agent can connect to multiple servers concurrently.
+
+## MCP Servers vs MCP Clients
+
+**MCP servers** are the tool side. Anyone can write one — Anthropic publishes reference SDKs in Python and TypeScript. As of mid-2026 there are thousands of community servers covering GitHub, Notion, Linear, Postgres, AWS, browser automation, and beyond. Servers tend to be small (a few hundred lines) because the protocol does most of the work.
+
+**MCP clients** are agent runtimes, IDEs, and assistants. Claude Desktop was the reference client. Cursor, Zed, Continue, Windsurf, and most agent frameworks added MCP client support during 2025. A single MCP client typically supports multiple concurrent server connections — one agent talking to a filesystem server, a database server, and a Slack server simultaneously.
+
+The key insight: the LLM does not speak MCP directly. The client renders the MCP tool list as function definitions inside the LLM prompt; the LLM emits a function call; the client maps the call to the right MCP server and forwards the JSON-RPC request.
+
+## Security Considerations for Production MCP
+
+MCP is a *capability-exposure* protocol — not an authorization or audit protocol. Production deployments need to add the parts MCP intentionally leaves out:
+
+- **Authentication**: most MCP servers run unauthenticated locally. A multi-tenant deployment needs per-agent credentials and per-server auth boundaries.
+- **Sandboxing**: an MCP filesystem server with broad path access is functionally root on the host. Run MCP servers in containers; do not mount sensitive volumes blindly.
+- **Budget enforcement**: tool calls are not free. An agent calling an MCP web-scraping server in a loop can rack up serious cost. Per-agent budgets must cover tool invocations, not just LLM tokens.
+- **Audit logs**: MCP itself does not standardize call logging. Production runtimes need to record every server call with arguments, response shape, and timing for [AI agent security](/learn/ai-agent-security) review and incident response.
+
+The reference Claude Desktop MCP integration mounts servers as host subprocesses with the host user's filesystem permissions. That works for single-user developer setups; it is not production-safe.
+
+## How OpenLegion Integrates MCP
+
+OpenLegion is an MCP client by default. Agents in the runtime auto-discover MCP servers configured for their fleet, see the tool list in their context window, and call MCP tools through the same vault-proxied, ACL-gated path as built-in skills. The mesh enforces the production-grade layers MCP leaves out:
+
+- Each MCP server runs in its own sandboxed namespace; the agent never gets direct stdio access to the server process.
+- Per-agent ACLs gate which MCP servers a given agent is allowed to call.
+- Every tool call counts against the agent's per-agent budget; an agent exceeding its cap is cut off whether the spend came from LLMs or MCP tools.
+- The mesh records every MCP call into the trace log — the same telemetry covered in [AI agent observability](/learn/ai-agent-observability).
+
+The result: you get the MCP ecosystem's breadth without inheriting its default trust assumptions.
+
+## OpenLegion's Take
+
+MCP is the most important agent-ecosystem standard since OpenAPI — it collapses what would otherwise be N × M integration work (every agent framework times every tool) into N + M servers and clients. But the protocol's intentional minimalism means production teams have to rebuild the boring infrastructure — auth, sandboxing, budgets, audit — that proprietary systems had bundled. Frameworks that treat MCP as just-add-water without layering those concerns ship insecure-by-default agents. Pick an [AI agent platform](/learn/ai-agent-platform) that takes MCP seriously enough to constrain it.
+
+## CTA
+
+**Deploy MCP-compatible agents with production-grade controls built in.**
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+
+---
+
+<!-- SCHEMA: FAQPage -->
+
+## Frequently Asked Questions
+
+### What is the Model Context Protocol?
+
+The Model Context Protocol (MCP) is an open JSON-RPC standard introduced by Anthropic in November 2024 that lets AI agents discover and call external tools through a uniform interface. MCP servers expose capabilities (tools, resources, prompts); MCP clients (agent runtimes, IDEs, assistants) consume them. Major adopters during 2025 include OpenAI, Microsoft Copilot, Cursor, Zed, and most agent frameworks.
+
+### Who created MCP and is it open?
+
+Anthropic created MCP and released it under an open specification with reference SDKs in Python and TypeScript. The spec is community-governed via GitHub, and there is no licensing or proprietary lock-in. Anyone can write an MCP server or client, and the major LLM providers ship MCP-compatible tooling.
+
+### What is the difference between an MCP server and an MCP client?
+
+An MCP server exposes capabilities — a Postgres server exposes query tools, a filesystem server exposes file read and write, a Slack server exposes message-send. An MCP client is the consumer side — typically an agent runtime, an IDE, or an AI assistant. A client can connect to many servers concurrently; a server can be reused by many clients.
+
+### Is MCP secure by default?
+
+No — and that is intentional. MCP is a capability-exposure protocol, not an authorization protocol. The reference implementations (Claude Desktop, the SDK examples) run servers unauthenticated as host subprocesses with the user's filesystem permissions. Production deployments must add authentication, sandboxing, per-tool budgets, and audit logging on top of MCP itself.
+
+### How does MCP compare to OpenAI function calling?
+
+OpenAI function calling is a single-vendor pattern for letting one LLM call functions defined in the API request — it does not standardize how tools are discovered, packaged, or shared across systems. MCP is a cross-vendor open standard for the same problem at the ecosystem level. The two are complementary: MCP servers expose capabilities; an MCP client can render them as OpenAI-format function definitions when calling GPT models, or as Anthropic tool-use format when calling Claude.
+
+### Can I use MCP with any LLM provider?
+
+Yes. MCP is LLM-agnostic — the client renders MCP tool definitions into whatever format the underlying LLM expects (Anthropic tool use, OpenAI function calling, Gemini function declarations). Runtimes like OpenLegion that support 100+ providers via LiteLLM automatically adapt MCP tools to each provider's calling convention.
 
 ---
 

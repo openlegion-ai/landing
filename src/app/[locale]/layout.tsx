@@ -147,78 +147,121 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const tNav = await getTranslations("common");
 
-  // Stable @id for cross-schema entity references — lets AI assistants
-  // disambiguate "OpenLegion the company" from any generic phrase match.
+  // Stable @id refs let AI assistants and search engines resolve every entity
+  // on this site to the same canonical record — Organization, WebSite,
+  // SoftwareApplication, SoftwareSourceCode, and the managed-hosting Service.
+  // All five are emitted in a single @graph so the relationships (publisher,
+  // codeRepository, provider, offers) collapse to ID references rather than
+  // duplicated nested objects.
   const ORG_ID = "https://www.openlegion.ai/#organization";
+  const WEBSITE_ID = "https://www.openlegion.ai/#website";
+  const SOFTWARE_ID = "https://www.openlegion.ai/#software";
+  const SOURCE_CODE_ID = "https://www.openlegion.ai/#sourcecode";
+  const SERVICE_ID = "https://www.openlegion.ai/#managed-hosting";
 
-  const orgJsonLd = {
+  const siteGraphJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": ORG_ID,
-    name: "OpenLegion",
-    url: "https://www.openlegion.ai",
-    logo: {
-      "@type": "ImageObject",
-      url: "https://www.openlegion.ai/logo.png",
-      width: 256,
-      height: 256,
-    },
-    description:
-      "Container-isolated multi-agent runtime with managed hosting — Docker-isolated agents, vault-proxied credentials, and per-agent budgets.",
-    foundingDate: "2025",
-    knowsAbout: [
-      "AI agent orchestration",
-      "AI agent security",
-      "Container isolation",
-      "Credential vaulting",
-      "Multi-agent systems",
-      "Large language model deployment",
-    ],
-    sameAs: [GITHUB_URL, TWITTER_URL, DISCORD_URL],
-  };
-
-  const webSiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": "https://www.openlegion.ai/#website",
-    name: "OpenLegion",
-    url: "https://www.openlegion.ai",
-    publisher: { "@id": ORG_ID },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://docs.openlegion.ai/search?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
-  };
-
-  const softwareAppJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "@id": "https://www.openlegion.ai/#software",
-    name: "OpenLegion",
-    applicationCategory: "DeveloperApplication",
-    applicationSubCategory: "AI Agent Framework",
-    operatingSystem: "Linux, macOS, Windows",
-    url: "https://www.openlegion.ai",
-    downloadUrl: GITHUB_URL,
-    softwareVersion: "0.1.0",
-    description:
-      "Container-isolated multi-agent runtime with vault-proxied credentials and per-agent budget controls. Self-hosted (BSL 1.1) or managed hosting on a dedicated VPS.",
-    publisher: { "@id": ORG_ID },
-    offers: {
-      "@type": "Offer",
-      price: "19",
-      priceCurrency: "USD",
-      url: `https://www.openlegion.ai/${locale}/pricing`,
-      availability: "https://schema.org/InStock",
-    },
-    featureList: [
-      "Container isolation per agent (Docker or Docker Desktop Sandbox microVMs)",
-      "Vault-proxied credentials — agents never see API keys",
-      "Per-agent daily and monthly budget enforcement",
-      "Fleet model coordination — blackboard + pub/sub + handoff (no CEO agent)",
-      "100+ LLM providers via LiteLLM",
-      "Self-hosted or managed hosting on a dedicated VPS",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": ORG_ID,
+        name: "OpenLegion",
+        url: "https://www.openlegion.ai",
+        logo: {
+          "@type": "ImageObject",
+          url: "https://www.openlegion.ai/logo.png",
+          width: 256,
+          height: 256,
+        },
+        description:
+          "Container-isolated multi-agent runtime with managed hosting — Docker-isolated agents, vault-proxied credentials, and per-agent budgets.",
+        foundingDate: "2025",
+        knowsAbout: [
+          "AI agent orchestration",
+          "AI agent security",
+          "Container isolation",
+          "Credential vaulting",
+          "Multi-agent systems",
+          "Large language model deployment",
+        ],
+        sameAs: [GITHUB_URL, TWITTER_URL, DISCORD_URL],
+      },
+      {
+        "@type": "WebSite",
+        "@id": WEBSITE_ID,
+        name: "OpenLegion",
+        url: "https://www.openlegion.ai",
+        publisher: { "@id": ORG_ID },
+        inLanguage: SUPPORTED_LOCALES,
+        potentialAction: {
+          "@type": "SearchAction",
+          target: "https://docs.openlegion.ai/search?q={search_term_string}",
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": SOFTWARE_ID,
+        name: "OpenLegion",
+        applicationCategory: "DeveloperApplication",
+        applicationSubCategory: "AI Agent Framework",
+        operatingSystem: "Linux, macOS, Windows",
+        url: "https://www.openlegion.ai",
+        downloadUrl: GITHUB_URL,
+        softwareVersion: "0.1.0",
+        description:
+          "Container-isolated multi-agent runtime with vault-proxied credentials and per-agent budget controls. Self-hosted (BSL 1.1) or managed hosting on a dedicated VPS.",
+        publisher: { "@id": ORG_ID },
+        author: { "@id": ORG_ID },
+        license: `${GITHUB_URL}/blob/main/LICENSE`,
+        codeRepository: GITHUB_URL,
+        programmingLanguage: "Python",
+        softwareRequirements: "Python 3.10+, Docker",
+        offers: {
+          "@type": "Offer",
+          price: "19",
+          priceCurrency: "USD",
+          url: `https://www.openlegion.ai/${locale}/pricing`,
+          availability: "https://schema.org/InStock",
+        },
+        featureList: [
+          "Container isolation per agent (Docker or Docker Desktop Sandbox microVMs)",
+          "Vault-proxied credentials — agents never see API keys",
+          "Per-agent daily and monthly budget enforcement",
+          "Fleet model coordination — blackboard + pub/sub + handoff (no CEO agent)",
+          "100+ LLM providers via LiteLLM",
+          "Self-hosted or managed hosting on a dedicated VPS",
+        ],
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": SOURCE_CODE_ID,
+        name: "OpenLegion (source)",
+        codeRepository: GITHUB_URL,
+        programmingLanguage: "Python",
+        runtimePlatform: "Docker",
+        license: `${GITHUB_URL}/blob/main/LICENSE`,
+        codeSampleType: "full",
+        targetProduct: { "@id": SOFTWARE_ID },
+        author: { "@id": ORG_ID },
+      },
+      {
+        "@type": "Service",
+        "@id": SERVICE_ID,
+        name: "OpenLegion Managed Hosting",
+        serviceType: "Managed AI Agent Hosting",
+        provider: { "@id": ORG_ID },
+        areaServed: "Worldwide",
+        description:
+          "Managed hosting for OpenLegion agent fleets on dedicated VPS instances — container isolation, vault-proxied credentials, and per-agent budgets without self-managed DevOps.",
+        url: `https://www.openlegion.ai/${locale}/pricing`,
+        offers: [
+          { "@type": "Offer", name: "Basic",   price: "19",  priceCurrency: "USD", availability: "https://schema.org/InStock" },
+          { "@type": "Offer", name: "Growth",  price: "59",  priceCurrency: "USD", availability: "https://schema.org/InStock" },
+          { "@type": "Offer", name: "Pro",     price: "149", priceCurrency: "USD", availability: "https://schema.org/InStock" },
+          { "@type": "Offer", name: "Pro Max", price: "279", priceCurrency: "USD", availability: "https://schema.org/InStock" },
+        ],
+      },
     ],
   };
 
@@ -243,15 +286,7 @@ export default async function LocaleLayout({
         <link rel="dns-prefetch" href="https://embed.tawk.to" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd).replace(/</g, "\\u003c") }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteJsonLd).replace(/</g, "\\u003c") }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteGraphJsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body

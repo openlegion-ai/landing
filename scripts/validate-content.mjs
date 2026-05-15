@@ -20,9 +20,12 @@ const ROOT = process.cwd();
 const CONTENT_DIR = path.join(ROOT, "src", "content");
 const SCHEMA_PATH = path.join(ROOT, "content-schema.json");
 
-// Mirror of SUPPORTED_LOCALES from src/lib/constants.ts (en excluded).
+// Mirror of SUPPORTED_LOCALES from src/lib/constants.ts (en excluded). Keep
+// in sync with constants.ts — a missing locale here makes the validator treat
+// that locale's translation files as canonical English and apply the strict
+// English ruleset to them.
 const TRANSLATION_LOCALES = new Set([
-  "zh", "zh-TW", "ja", "ko", "es", "fr", "de", "pt", "ar", "hi", "ru",
+  "zh", "zh-TW", "ja", "ko", "es", "fr", "de", "pt", "ar", "hi", "ru", "th",
 ]);
 
 const SCHEMA = JSON.parse(fs.readFileSync(SCHEMA_PATH, "utf-8"));

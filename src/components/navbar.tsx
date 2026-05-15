@@ -65,15 +65,22 @@ export function Navbar() {
         <div className="hidden items-center gap-1 lg:flex">
           {NAV_LINKS.map((link) => {
             const isExternal = link.href.startsWith("http");
-            return (
+            const className = "nav-link rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground";
+            const label = t(`links.${link.key}.label`);
+            return isExternal ? (
               <a
                 key={link.href}
                 href={link.href}
-                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                className="nav-link rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={className}
               >
-                {t(`links.${link.key}.label`)}
+                {label}
               </a>
+            ) : (
+              <Link key={link.href} href={link.href} className={className}>
+                {label}
+              </Link>
             );
           })}
           <div className="ml-3 h-5 w-px bg-border" aria-hidden="true" />
@@ -139,16 +146,29 @@ export function Navbar() {
             <div className="mx-auto flex w-full max-w-6xl flex-col gap-1 py-4">
               {NAV_LINKS.map((link) => {
                 const isExternal = link.href.startsWith("http");
-                return (
+                const className = "rounded-md px-3 py-3 text-sm text-muted transition-colors hover:bg-card hover:text-foreground";
+                const label = t(`links.${link.key}.label`);
+                const onClick = () => setMobileOpen(false);
+                return isExternal ? (
                   <a
                     key={link.href}
                     href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    className="rounded-md px-3 py-3 text-sm text-muted transition-colors hover:bg-card hover:text-foreground"
+                    onClick={onClick}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={className}
                   >
-                    {t(`links.${link.key}.label`)}
+                    {label}
                   </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={onClick}
+                    className={className}
+                  >
+                    {label}
+                  </Link>
                 );
               })}
               <div className="mt-2 flex items-center gap-3 border-t border-border/50 px-3 pt-3">

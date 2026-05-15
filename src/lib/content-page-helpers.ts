@@ -9,6 +9,36 @@ export function normalizeDate(dateStr: string): string {
   return dateStr;
 }
 
+/**
+ * Resolve a content page's effective `page_type` — honoring an explicit
+ * frontmatter declaration first, then falling back to slug-shape inference
+ * matching CONTENT_GUIDE's promise ("Inferred from slug if omitted"). Safety
+ * net for future hub pages (e.g. a `/blog` hub) whose authors forget the
+ * frontmatter.
+ *
+ *   /comparison           → hub
+ *   /learn                → hub  (markdown variant, if ever added)
+ *   /comparison/<x>       → comparison
+ *   /learn/<x>            → learn
+ *   /<root>               → root
+ */
+export type PageType = "comparison" | "learn" | "alternative" | "root" | "hub";
+
+const HUB_SLUGS = new Set<string>(["/comparison", "/learn"]);
+
+export function resolvePageType(
+  slug: string,
+  declared?: string | null,
+): PageType {
+  if (declared && /^(comparison|learn|alternative|root|hub)$/.test(declared)) {
+    return declared as PageType;
+  }
+  if (HUB_SLUGS.has(slug)) return "hub";
+  if (slug.startsWith("/comparison/")) return "comparison";
+  if (slug.startsWith("/learn/")) return "learn";
+  return "root";
+}
+
 export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
   const lastUpdated = normalizeDate(frontmatter.last_updated);
   const published = frontmatter.date_published

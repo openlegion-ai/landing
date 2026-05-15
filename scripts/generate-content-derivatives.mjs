@@ -21,8 +21,9 @@ const BASE_URL = "https://www.openlegion.ai";
 
 // Mirror of SUPPORTED_LOCALES from src/lib/constants.ts (en excluded — it's
 // the canonical, all other entries indicate locale-prefixed translation dirs).
+// Keep in sync with constants.ts and scripts/validate-content.mjs.
 const TRANSLATION_LOCALES = new Set([
-  "zh", "zh-TW", "ja", "ko", "es", "fr", "de", "pt", "ar", "hi", "ru",
+  "zh", "zh-TW", "ja", "ko", "es", "fr", "de", "pt", "ar", "hi", "ru", "th",
 ]);
 
 // Hand-curated brand context that AI crawlers ingest. Edit here, version with

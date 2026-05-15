@@ -32,11 +32,11 @@
   "hero": {
     "ariaLabel": "Introduction",
     "badge": "Your AI workforce starts here",
-    "headingLine1": "Build an ",
-    "headingHighlight": "AI workforce",
+    "headingLine1": "Build your ",
+    "headingHighlight": "AI agent workforce",
     "headingLine2": "by describing the team you want.",
     "tagline": "The container-isolated multi-agent runtime built for production.",
-    "subtitle": "Just say what you need — a marketing agency, a sales team, a research desk, anything — and OpenLegion deploys the right agents in minutes, with budgets, permissions, and credentials locked down by default.",
+    "subtitle": "Describe what you need — a marketing agency, a sales team, a research desk — and the OpenLegion AI agent framework deploys a multi-agent fleet in minutes, with budgets, permissions, and vault-proxied credentials locked down by default.",
     "ctaPrimary": "Get Started",
     "ctaSecondary": "Book a demo",
     "trustStrip": {

@@ -22,6 +22,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  const entry = getContentEntry(SLUG);
+  const hubHasTranslation =
+    locale === "en" || (entry?.availableLocales.includes(locale) ?? false);
+  const hubLocale = hubHasTranslation ? locale : "en";
   const page = await getContentPage(SLUG, locale);
 
   // Derive ItemList from discovery map — auto-includes any new comparison pages.
@@ -38,11 +42,14 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
     };
   });
 
+  // ItemList carries the slug + effective locale so its @id matches
+  // CollectionPage.mainEntity's reference inside ContentPage's graph — the
+  // two scripts cross-resolve only when both use the same canonical URL.
   return (
     <>
-      <JsonLd data={buildItemListSchema(items)} />
+      <JsonLd data={buildItemListSchema(items, SLUG, hubLocale)} />
       <main id="main">
-        <ContentPage page={page} />
+        <ContentPage page={page} locale={locale} />
       </main>
       <Footer />
     </>

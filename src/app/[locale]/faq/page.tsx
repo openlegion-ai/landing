@@ -3,6 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Footer } from "@/components/footer";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
+import { JsonLd, buildFAQSchema } from "@/components/json-ld";
 import { ALL_FAQ_ITEMS } from "@/lib/constants";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
 
@@ -47,19 +48,10 @@ export default async function FAQPage({ params }: PageProps) {
     answer: t(`items.${idx}.answer`),
   }));
 
-  const faqJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
-
+  // BreadcrumbList here is built inline (not via `buildBreadcrumbSchema`)
+  // because the FAQ page is locale-aware and uses translated breadcrumb
+  // labels — the shared helper hardcodes English. `buildFAQSchema` is
+  // reused for shape consistency.
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -69,16 +61,11 @@ export default async function FAQPage({ params }: PageProps) {
     ],
   };
 
+  // JsonLd consolidates the two schemas into a single @graph payload —
+  // matching the pattern used by the homepage and content pages.
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c") }}
-      />
+      <JsonLd data={[breadcrumbJsonLd, buildFAQSchema(faqItems, "/faq")]} />
       <main id="main" className="relative px-5 pt-8 pb-16 sm:px-6 md:px-8 md:pt-16 md:pb-28 lg:pt-20 lg:pb-36">
         <div className="mx-auto max-w-3xl">
           <AnimateIn>
