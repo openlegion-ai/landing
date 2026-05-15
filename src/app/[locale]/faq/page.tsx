@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ChevronDown } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/footer";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { JsonLd, buildFAQSchema } from "@/components/json-ld";
@@ -36,6 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function FAQPage({ params }: PageProps) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("faq");
   const tCommon = await getTranslations("contentPage");
 

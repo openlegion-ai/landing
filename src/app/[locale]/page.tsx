@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/hero";
 import { UseCases } from "@/components/use-cases";
 import { PromptToTeam } from "@/components/prompt-to-team";
@@ -64,6 +64,7 @@ async function getGitHubStars(): Promise<string | null> {
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const stars = await getGitHubStars();
   const t = await getTranslations("common");
   const tFaq = await getTranslations("faq");

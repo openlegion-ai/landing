@@ -8,6 +8,7 @@ import { buildMetadata, withLocaleAlternates } from "@/lib/content-page-helpers"
 import { ContentPage } from "@/components/content-page";
 import { JsonLd, buildItemListSchema } from "@/components/json-ld";
 import { Footer } from "@/components/footer";
+import { setRequestLocale } from "next-intl/server";
 
 const SLUG = "/comparison";
 const BASE_URL = "https://www.openlegion.ai";
@@ -22,6 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const entry = getContentEntry(SLUG);
   const hubHasTranslation =
     locale === "en" || (entry?.availableLocales.includes(locale) ?? false);

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Pricing, PricingFAQ } from "@/components/pricing";
 import { SocialProof } from "@/components/social-proof";
 import { Footer } from "@/components/footer";
@@ -34,7 +34,13 @@ export async function generateMetadata({
   };
 }
 
-export default function PricingPage() {
+export default async function PricingPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   return (
     <>
       <main id="main">

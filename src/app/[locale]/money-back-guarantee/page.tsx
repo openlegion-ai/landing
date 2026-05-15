@@ -1,7 +1,25 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { Fragment } from "react";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/footer";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
+
+/**
+ * Split a translated string on the `{email}` placeholder and interleave the
+ * provided JSX link. Avoids `t.rich({ email: () => link })` whose function
+ * argument can't be serialized by the static-rendering React Flight pipeline
+ * (it surfaces as the "Functions cannot be passed directly to Client
+ * Components" error).
+ */
+function withEmail(template: string, link: React.ReactNode): React.ReactNode {
+  const parts = template.split("{email}");
+  return parts.map((part, i) => (
+    <Fragment key={i}>
+      {part}
+      {i < parts.length - 1 ? link : null}
+    </Fragment>
+  ));
+}
 
 export async function generateMetadata({
   params,
@@ -30,7 +48,13 @@ const COVERED_KEYS = ["0", "1"] as const;
 const NOT_COVERED_KEYS = ["0", "1", "2"] as const;
 const AFTER_REFUND_KEYS = ["0", "1", "2"] as const;
 
-export default async function MoneyBackGuaranteePage() {
+export default async function MoneyBackGuaranteePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("moneyBackPage");
   const email = t("email");
   const mailLink = (
@@ -52,7 +76,7 @@ export default async function MoneyBackGuaranteePage() {
 
         <div className="prose-legal mt-10 space-y-8 text-sm leading-relaxed text-muted">
           <section>
-            <p>{t.rich("intro", { email: () => mailLink })}</p>
+            <p>{withEmail(t("intro"), mailLink)}</p>
           </section>
 
           <section>
@@ -92,7 +116,7 @@ export default async function MoneyBackGuaranteePage() {
             <h2 className="mb-3 text-lg font-semibold text-foreground">
               {t("howTo.heading")}
             </h2>
-            <p>{t.rich("howTo.body", { email: () => mailLink })}</p>
+            <p>{withEmail(t("howTo.body"), mailLink)}</p>
           </section>
         </div>
       </main>
