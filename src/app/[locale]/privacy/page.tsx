@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/footer";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
+import { ogLocaleFor } from "@/lib/content-page-helpers";
 
 export async function generateMetadata({
   params,
@@ -21,6 +22,7 @@ export async function generateMetadata({
       siteName: "OpenLegion",
       url: `${SITE_URL}/${locale}/privacy`,
       locale: OG_LOCALE_MAP[locale] || "en_US",
+      images: [{ url: `/og/${ogLocaleFor(locale)}/privacy.png`, width: 1200, height: 630, alt: t("privacyTitle") }],
     },
     robots: { index: true, follow: true },
   };

@@ -1311,6 +1311,9 @@
     "serviceName": "OpenLegion マネージドホスティング",
     "serviceDescription": "専用VPSインスタンス上で動作するOpenLegionエージェントフリートのマネージドホスティング — コンテナ分離、ボルトプロキシ認証情報、エージェント単位の予算管理を、自前のDevOps運用なしで提供。",
     "videoName": "OpenLegion デモ — AIエージェントフリートの展開",
-    "videoDescription": "OpenLegionが自律型AIエージェントフリートを展開する様子 — コンテナ分離、認証情報ボルト、リアルタイムのコスト追跡を含む。"
+    "videoDescription": "OpenLegionが自律型AIエージェントフリートを展開する様子 — コンテナ分離、認証情報ボルト、リアルタイムのコスト追跡を含む。",
+    "applicationSubCategory": "AIエージェントフレームワーク",
+    "serviceType": "マネージドAIエージェントホスティング",
+    "areaServed": "世界中"
   }
 }

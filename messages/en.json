@@ -1311,6 +1311,9 @@
     "serviceName": "OpenLegion Managed Hosting",
     "serviceDescription": "Managed hosting for OpenLegion agent fleets on dedicated VPS instances — container isolation, vault-proxied credentials, and per-agent budgets without self-managed DevOps.",
     "videoName": "OpenLegion Demo — AI Agent Fleet Deployment",
-    "videoDescription": "Watch OpenLegion deploy an autonomous AI agent fleet with container isolation, credential vaulting, and real-time cost tracking."
+    "videoDescription": "Watch OpenLegion deploy an autonomous AI agent fleet with container isolation, credential vaulting, and real-time cost tracking.",
+    "applicationSubCategory": "AI Agent Framework",
+    "serviceType": "Managed AI Agent Hosting",
+    "areaServed": "Worldwide"
   }
 }

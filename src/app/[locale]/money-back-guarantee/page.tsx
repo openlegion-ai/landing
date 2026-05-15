@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/footer";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
+import { ogLocaleFor } from "@/lib/content-page-helpers";
 
 /**
  * Split a translated string on the `{email}` placeholder and interleave the
@@ -39,6 +40,7 @@ export async function generateMetadata({
       siteName: "OpenLegion",
       url: `${SITE_URL}/${locale}/money-back-guarantee`,
       locale: OG_LOCALE_MAP[locale] || "en_US",
+      images: [{ url: `/og/${ogLocaleFor(locale)}/money-back-guarantee.png`, width: 1200, height: 630, alt: t("moneyBackTitle") }],
     },
     robots: { index: true, follow: true },
   };

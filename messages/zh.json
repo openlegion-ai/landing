@@ -1311,6 +1311,9 @@
     "serviceName": "OpenLegion 托管服务",
     "serviceDescription": "在专用 VPS 实例上为 OpenLegion 智能体舰队提供托管服务 — 容器隔离、密钥库代理凭证和单智能体预算,无需自行管理 DevOps。",
     "videoName": "OpenLegion 演示 — AI 智能体舰队部署",
-    "videoDescription": "观看 OpenLegion 部署具备容器隔离、凭证密钥库和实时成本追踪的自主 AI 智能体舰队。"
+    "videoDescription": "观看 OpenLegion 部署具备容器隔离、凭证密钥库和实时成本追踪的自主 AI 智能体舰队。",
+    "applicationSubCategory": "AI 智能体框架",
+    "serviceType": "托管 AI 智能体宿主服务",
+    "areaServed": "全球"
   }
 }

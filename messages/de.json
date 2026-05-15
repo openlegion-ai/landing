@@ -1311,6 +1311,9 @@
     "serviceName": "OpenLegion Managed Hosting",
     "serviceDescription": "Managed Hosting für OpenLegion-Agenten-Flotten auf dedizierten VPS-Instanzen — Container-Isolation, Vault-Proxy-Credentials und Pro-Agent-Budgets ohne eigenes DevOps.",
     "videoName": "OpenLegion-Demo — Bereitstellung einer KI-Agenten-Flotte",
-    "videoDescription": "OpenLegion stellt eine autonome KI-Agenten-Flotte mit Container-Isolation, Credential-Vaulting und Echtzeit-Kostentracking bereit."
+    "videoDescription": "OpenLegion stellt eine autonome KI-Agenten-Flotte mit Container-Isolation, Credential-Vaulting und Echtzeit-Kostentracking bereit.",
+    "applicationSubCategory": "KI-Agenten-Framework",
+    "serviceType": "Managed Hosting für KI-Agenten",
+    "areaServed": "Weltweit"
   }
 }

@@ -1311,6 +1311,9 @@
     "serviceName": "OpenLegion Managed Hosting",
     "serviceDescription": "บริการ managed hosting สำหรับ fleet ของ OpenLegion agent บน VPS เฉพาะ — การแยก container, credential ผ่าน vault proxy, และงบประมาณต่อ agent โดยไม่ต้องจัดการ DevOps เอง",
     "videoName": "OpenLegion Demo — การ deploy fleet ของ AI agent",
-    "videoDescription": "ชมการ deploy fleet ของ AI agent อัตโนมัติด้วย OpenLegion — มีการแยก container, vault ของ credential, และการติดตามต้นทุนแบบเรียลไทม์"
+    "videoDescription": "ชมการ deploy fleet ของ AI agent อัตโนมัติด้วย OpenLegion — มีการแยก container, vault ของ credential, และการติดตามต้นทุนแบบเรียลไทม์",
+    "applicationSubCategory": "AI Agent Framework",
+    "serviceType": "Managed AI Agent Hosting",
+    "areaServed": "ทั่วโลก"
   }
 }

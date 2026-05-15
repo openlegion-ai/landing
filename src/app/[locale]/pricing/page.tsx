@@ -4,6 +4,7 @@ import { Pricing, PricingFAQ } from "@/components/pricing";
 import { SocialProof } from "@/components/social-proof";
 import { Footer } from "@/components/footer";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
+import { ogLocaleFor } from "@/lib/content-page-helpers";
 
 export async function generateMetadata({
   params,
@@ -24,10 +25,12 @@ export async function generateMetadata({
       siteName: "OpenLegion",
       url: `${SITE_URL}/${locale}/pricing`,
       locale: OG_LOCALE_MAP[locale] || "en_US",
+      images: [{ url: `/og/${ogLocaleFor(locale)}/pricing.png`, width: 1200, height: 630, alt: t("pricingOgTitle") }],
     },
     twitter: {
       card: "summary_large_image",
       site: "@openlegion",
+      images: [`/og/${ogLocaleFor(locale)}/pricing.png`],
       title: t("pricingTwitterTitle"),
       description: t("pricingTwitterDescription"),
     },

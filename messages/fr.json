@@ -1311,6 +1311,9 @@
     "serviceName": "Hébergement géré OpenLegion",
     "serviceDescription": "Hébergement géré pour flottes d'agents OpenLegion sur VPS dédiés — isolation par conteneur, identifiants via proxy de coffre-fort et budgets par agent, sans DevOps à gérer.",
     "videoName": "Démo OpenLegion — Déploiement de flotte d'agents IA",
-    "videoDescription": "Regardez OpenLegion déployer une flotte autonome d'agents IA avec isolation par conteneur, coffre-fort d'identifiants et suivi des coûts en temps réel."
+    "videoDescription": "Regardez OpenLegion déployer une flotte autonome d'agents IA avec isolation par conteneur, coffre-fort d'identifiants et suivi des coûts en temps réel.",
+    "applicationSubCategory": "Framework d'agents IA",
+    "serviceType": "Hébergement géré d'agents IA",
+    "areaServed": "Dans le monde entier"
   }
 }

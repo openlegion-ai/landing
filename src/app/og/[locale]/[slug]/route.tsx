@@ -24,9 +24,18 @@ import { OG_RENDERABLE_LOCALES } from "@/lib/content-page-helpers";
 
 // Static-page slug keys that aren't backed by a markdown file map to a
 // translation key in the `metadata` namespace.
+const STATIC_TITLE_KEYS: Record<string, string> = {
+  home: "homeTitle",
+  learn: "learnTitle",
+  pricing: "pricingTitle",
+  faq: "faqTitle",
+  terms: "termsTitle",
+  privacy: "privacyTitle",
+  "money-back-guarantee": "moneyBackTitle",
+};
+
 function staticTitleKey(slug: string): string | null {
-  if (slug === "learn") return "learnTitle";
-  return null;
+  return STATIC_TITLE_KEYS[slug] ?? null;
 }
 
 /** Strip the `.png` decoration social-share URLs include in the segment. */
@@ -198,7 +207,9 @@ export async function GET(
 }
 
 export function generateStaticParams() {
-  const slugs: string[] = ["learn"];
+  // Static routes (homepage, pricing, legal pages, hubs) plus every
+  // markdown content entry — one OG variant per slug.
+  const slugs: string[] = Object.keys(STATIC_TITLE_KEYS);
   for (const entry of getAllContentEntries()) {
     slugs.push(entry.slug.replace(/^\//, "").replace(/\//g, "-"));
   }
