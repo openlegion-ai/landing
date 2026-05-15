@@ -39,16 +39,50 @@ export function resolvePageType(
   return "root";
 }
 
+/**
+ * Locales whose script the bundled OG renderer (Satori) can handle without
+ * loading custom font assets. Restricted to Latin-script locales because
+ * Arabic / CJK / Devanagari / Thai use OpenType glyph-substitution features
+ * (GSUB lookup type 5, substFormat 3) that Satori's default fallback font
+ * does not implement.
+ *
+ * Other locales' pages still emit a translated `og:title` and
+ * `og:description` — social platforms overlay that text on the (English)
+ * card image, so the visible share language is still correct.
+ */
+export const OG_RENDERABLE_LOCALES = new Set([
+  "en",
+  "es",
+  "fr",
+  "de",
+  "pt",
+]);
+
+/** Clamp a requested locale to one whose script the OG renderer supports. */
+export function ogLocaleFor(locale: string): string {
+  return OG_RENDERABLE_LOCALES.has(locale) ? locale : "en";
+}
+
+/** OG image path for a given content slug under a locale (locale-clamped). */
+export function ogImagePath(slug: string, locale: string = "en"): string {
+  const slugForOg = slug.replace(/^\//, "").replace(/\//g, "-");
+  return `/og/${ogLocaleFor(locale)}/${slugForOg}.png`;
+}
+
 export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
   const lastUpdated = normalizeDate(frontmatter.last_updated);
   const published = frontmatter.date_published
     ? normalizeDate(frontmatter.date_published)
     : lastUpdated;
-  const slugForOg = frontmatter.slug.replace(/^\//, "").replace(/\//g, "-");
 
   const titleAlreadyBranded = frontmatter.title.includes("OpenLegion");
 
+  // Placeholder canonical + OG locale — `withLocaleAlternates` rewrites both
+  // to the *effective* locale (page's own when a translation exists, English
+  // when it falls back). Keeps buildMetadata stateless so it composes with
+  // withLocaleAlternates without needing the entry's availableLocales.
   const canonical = `${BASE_URL}/en${frontmatter.slug}`;
+  const ogUrl = ogImagePath(frontmatter.slug, "en");
 
   return {
     title: titleAlreadyBranded
@@ -67,7 +101,7 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
       locale: "en_US",
       images: [
         {
-          url: `/og/${slugForOg}.png`,
+          url: ogUrl,
           width: 1200,
           height: 630,
           alt: frontmatter.title,
@@ -79,7 +113,7 @@ export function buildMetadata(frontmatter: ContentFrontmatter): Metadata {
       site: "@openlegion",
       title: frontmatter.title,
       description: frontmatter.description,
-      images: [`/og/${slugForOg}.png`],
+      images: [ogUrl],
     },
     other: {
       "article:modified_time": lastUpdated,
@@ -127,9 +161,18 @@ export function withLocaleAlternates(
   const hasTranslation =
     currentLocale === "en" || entry.availableLocales.includes(currentLocale);
 
-  const canonical = hasTranslation
-    ? `${BASE_URL}/${currentLocale}${slug}`
-    : englishUrl;
+  const effectiveLocale = hasTranslation ? currentLocale : "en";
+  const canonical = `${BASE_URL}/${effectiveLocale}${slug}`;
+  // OG image follows the effective locale — keeps social-share cards
+  // in-language and avoids serving the English-text fallback image at a
+  // locale URL where the rest of the metadata is translated.
+  const ogUrl = ogImagePath(slug, effectiveLocale);
+  const baseImages = base.openGraph?.images;
+  const firstImage = Array.isArray(baseImages) ? baseImages[0] : baseImages;
+  const ogAlt =
+    typeof firstImage === "object" && firstImage !== null && "alt" in firstImage
+      ? (firstImage as { alt?: string }).alt
+      : undefined;
 
   return {
     ...base,
@@ -137,6 +180,19 @@ export function withLocaleAlternates(
       canonical,
       languages,
     },
+    openGraph: base.openGraph
+      ? {
+          ...base.openGraph,
+          url: canonical,
+          images: [{ url: ogUrl, width: 1200, height: 630, alt: ogAlt }],
+        }
+      : base.openGraph,
+    twitter: base.twitter
+      ? {
+          ...base.twitter,
+          images: [ogUrl],
+        }
+      : base.twitter,
     robots: hasTranslation
       ? base.robots
       : {

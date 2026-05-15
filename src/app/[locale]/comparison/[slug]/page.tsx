@@ -9,6 +9,7 @@ import { buildMetadata, withLocaleAlternates } from "@/lib/content-page-helpers"
 import { ContentPage } from "@/components/content-page";
 import { Footer } from "@/components/footer";
 import { SUPPORTED_LOCALES } from "@/lib/constants";
+import { setRequestLocale } from "next-intl/server";
 
 export const dynamicParams = false;
 
@@ -41,6 +42,7 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<RouteParams> }) {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const fullSlug = `/comparison/${slug}`;
   if (!getContentEntry(fullSlug)) notFound();
   const page = await getContentPage(fullSlug, locale);

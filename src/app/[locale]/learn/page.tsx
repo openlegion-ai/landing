@@ -55,7 +55,7 @@ export async function generateMetadata({
       locale: OG_LOCALE_MAP[locale] || "en_US",
       images: [
         {
-          url: "/og/learn.png",
+          url: `/og/${locale}/learn.png`,
           width: 1200,
           height: 630,
           alt: title,
@@ -67,7 +67,7 @@ export async function generateMetadata({
       site: "@openlegion",
       title: t("learnTwitterTitle"),
       description: t("learnTwitterDescription"),
-      images: ["/og/learn.png"],
+      images: [`/og/${locale}/learn.png`],
     },
     robots: {
       index: true,

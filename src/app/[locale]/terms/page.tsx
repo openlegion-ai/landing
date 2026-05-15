@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/footer";
 import { Link } from "@/i18n/navigation";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
@@ -30,7 +30,13 @@ export async function generateMetadata({
 const ACCEPTABLE_USE_ITEMS = ["0", "1", "2", "3", "4", "5", "6", "7"] as const;
 const GENERAL_PROVISIONS_ITEMS = ["0", "1", "2", "3", "4", "5"] as const;
 
-export default async function TermsPage() {
+export default async function TermsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
   const t = await getTranslations("terms");
 
   return (
