@@ -274,7 +274,9 @@ export default async function LocaleLayout({
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-758JT3002Y');
+            gtag('config', 'G-758JT3002Y', {
+              linker: { domains: ['openlegion.ai', 'www.openlegion.ai', 'app.openlegion.ai'] }
+            });
           `}
         </Script>
         <Script id="microsoft-clarity" strategy="afterInteractive">

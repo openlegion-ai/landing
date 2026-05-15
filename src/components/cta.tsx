@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AnimateIn } from "@/components/ui/animate-in";
 import { APP_URL, DISCORD_URL } from "@/lib/constants";
+import { trackCtaClick } from "@/lib/analytics";
 
 const CTA_PARTICLES = [
   { top: "15%", left: "10%", size: 3, duration: "9s", delay: "0s" },
@@ -58,6 +59,7 @@ export function CTA() {
               href={APP_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackCtaClick({ location: "final_cta" })}
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
               {t("primaryButton")}
@@ -66,6 +68,7 @@ export function CTA() {
               href={DISCORD_URL}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackCtaClick({ location: "final_discord" })}
               className="group flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
             >
               {t("secondaryButton")}
