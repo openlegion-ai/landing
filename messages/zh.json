@@ -286,6 +286,7 @@
     "healthDegraded": "异常",
     "activityLabel": "活动",
     "heartbeatLabel": "心跳",
+    "heartbeatEvery": "每 {minutes} 分钟",
     "costTodayLabel": "今日开销",
     "chatButton": "对话",
     "pauseButton": "暂停",
@@ -1294,5 +1295,22 @@
       "body": "发送邮件至 {email}，附上你的账户邮箱和订阅 ID。退款将在 5 个工作日内通过 Polar 处理（款项原路退回到你的支付方式）。"
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "容器隔离的多智能体运行时,提供托管服务 — Docker 隔离的智能体、密钥库代理凭证、单智能体预算。",
+    "softwareDescription": "容器隔离的多智能体运行时,具备密钥库代理凭证和单智能体预算控制。可自托管(BSL 1.1)或在专用 VPS 上使用托管服务。",
+    "softwareFeatureList": [
+      "单智能体容器隔离(Docker 或 Docker Desktop Sandbox 微虚拟机)",
+      "密钥库代理凭证 — 智能体永远看不到 API 密钥",
+      "单智能体每日和每月预算强制执行",
+      "舰队模型协调 — 黑板 + 发布/订阅 + 交接(无 CEO 智能体)",
+      "通过 LiteLLM 接入 100+ LLM 提供商",
+      "可自托管或在专用 VPS 上使用托管服务"
+    ],
+    "sourceCodeName": "OpenLegion(源代码)",
+    "serviceName": "OpenLegion 托管服务",
+    "serviceDescription": "在专用 VPS 实例上为 OpenLegion 智能体舰队提供托管服务 — 容器隔离、密钥库代理凭证和单智能体预算,无需自行管理 DevOps。",
+    "videoName": "OpenLegion 演示 — AI 智能体舰队部署",
+    "videoDescription": "观看 OpenLegion 部署具备容器隔离、凭证密钥库和实时成本追踪的自主 AI 智能体舰队。"
   }
 }

@@ -286,6 +286,7 @@
     "healthDegraded": "ผิดปกติ",
     "activityLabel": "กิจกรรม",
     "heartbeatLabel": "Heartbeat",
+    "heartbeatEvery": "ทุก {minutes} นาที",
     "costTodayLabel": "ค่าใช้จ่ายวันนี้",
     "chatButton": "แชต",
     "pauseButton": "หยุดชั่วคราว",
@@ -1294,5 +1295,22 @@
       "body": "ส่งอีเมลถึง {email} พร้อมระบุอีเมลของบัญชีและรหัสสมาชิก การคืนเงินจะดำเนินการผ่าน Polar ภายใน 5 วันทำการ (เงินจะคืนเข้าวิธีการชำระเงินเดิมของคุณ)"
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "Runtime แบบ multi-agent ที่แยกด้วย container พร้อมบริการ managed hosting — agent ที่แยกด้วย Docker, credential ผ่าน vault proxy, และงบประมาณต่อ agent",
+    "softwareDescription": "Runtime แบบ multi-agent ที่แยกด้วย container พร้อม credential ผ่าน vault proxy และระบบควบคุมงบประมาณต่อ agent self-hosted (BSL 1.1) หรือ managed hosting บน VPS เฉพาะ",
+    "softwareFeatureList": [
+      "แยก container ต่อ agent (Docker หรือ Docker Desktop Sandbox microVMs)",
+      "Credential ผ่าน vault proxy — agent ไม่เห็น API key เลย",
+      "บังคับใช้งบประมาณรายวันและรายเดือนต่อ agent",
+      "การประสานงานแบบ fleet — blackboard + pub/sub + handoff (ไม่มี CEO agent)",
+      "รองรับ LLM provider มากกว่า 100 รายผ่าน LiteLLM",
+      "Self-hosted หรือ managed hosting บน VPS เฉพาะ"
+    ],
+    "sourceCodeName": "OpenLegion (ซอร์ส)",
+    "serviceName": "OpenLegion Managed Hosting",
+    "serviceDescription": "บริการ managed hosting สำหรับ fleet ของ OpenLegion agent บน VPS เฉพาะ — การแยก container, credential ผ่าน vault proxy, และงบประมาณต่อ agent โดยไม่ต้องจัดการ DevOps เอง",
+    "videoName": "OpenLegion Demo — การ deploy fleet ของ AI agent",
+    "videoDescription": "ชมการ deploy fleet ของ AI agent อัตโนมัติด้วย OpenLegion — มีการแยก container, vault ของ credential, และการติดตามต้นทุนแบบเรียลไทม์"
   }
 }

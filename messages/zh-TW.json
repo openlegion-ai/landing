@@ -286,6 +286,7 @@
     "healthDegraded": "降級",
     "activityLabel": "活動",
     "heartbeatLabel": "心跳",
+    "heartbeatEvery": "每 {minutes} 分鐘",
     "costTodayLabel": "今日費用",
     "chatButton": "對話",
     "pauseButton": "暫停",
@@ -1294,5 +1295,22 @@
       "body": "寄信至 {email}，附上你的帳戶 email 與訂閱 ID。退款將於 5 個工作日內透過 Polar 處理（款項原路退回你的付款方式）。"
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "容器隔離的多代理執行階段,提供託管服務 — Docker 隔離的代理、金庫代理憑證、單代理預算。",
+    "softwareDescription": "容器隔離的多代理執行階段,具備金庫代理憑證和單代理預算控制。可自我託管(BSL 1.1)或在專用 VPS 上使用託管服務。",
+    "softwareFeatureList": [
+      "單代理容器隔離(Docker 或 Docker Desktop Sandbox 微虛擬機)",
+      "金庫代理憑證 — 代理永遠看不到 API 金鑰",
+      "單代理每日和每月預算強制執行",
+      "艦隊模型協調 — 黑板 + 發布/訂閱 + 交接(無 CEO 代理)",
+      "透過 LiteLLM 接入 100+ LLM 供應商",
+      "可自我託管或在專用 VPS 上使用託管服務"
+    ],
+    "sourceCodeName": "OpenLegion(原始碼)",
+    "serviceName": "OpenLegion 託管服務",
+    "serviceDescription": "在專用 VPS 實例上為 OpenLegion 代理艦隊提供託管服務 — 容器隔離、金庫代理憑證和單代理預算,無需自行管理 DevOps。",
+    "videoName": "OpenLegion 展示 — AI 代理艦隊部署",
+    "videoDescription": "觀看 OpenLegion 部署具備容器隔離、憑證金庫和即時成本追蹤的自主 AI 代理艦隊。"
   }
 }

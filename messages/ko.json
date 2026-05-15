@@ -286,6 +286,7 @@
     "healthDegraded": "저하",
     "activityLabel": "활동",
     "heartbeatLabel": "하트비트",
+    "heartbeatEvery": "{minutes}분마다",
     "costTodayLabel": "오늘 비용",
     "chatButton": "채팅",
     "pauseButton": "일시 정지",
@@ -1294,5 +1295,22 @@
       "body": "계정 이메일과 구독 ID를 포함하여 {email}로 이메일을 보내주세요. 환불은 Polar를 통해 영업일 기준 5일 이내에 처리되며, 원래 결제 수단으로 환불됩니다."
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "관리형 호스팅을 제공하는 컨테이너 격리 멀티 에이전트 런타임 — Docker로 격리된 에이전트, 볼트 프록시 자격 증명, 에이전트별 예산.",
+    "softwareDescription": "볼트 프록시 자격 증명과 에이전트별 예산 제어를 갖춘 컨테이너 격리 멀티 에이전트 런타임. 셀프 호스트(BSL 1.1) 또는 전용 VPS 관리형 호스팅 지원.",
+    "softwareFeatureList": [
+      "에이전트별 컨테이너 격리(Docker 또는 Docker Desktop Sandbox 마이크로 VM)",
+      "볼트 프록시 자격 증명 — 에이전트는 API 키에 접근할 수 없습니다",
+      "에이전트별 일일 및 월간 예산 강제 적용",
+      "플릿 모델 조정 — 블랙보드 + Pub/Sub + 핸드오프(CEO 에이전트 없음)",
+      "LiteLLM을 통한 100개 이상 LLM 제공업체 지원",
+      "셀프 호스트 또는 전용 VPS 관리형 호스팅"
+    ],
+    "sourceCodeName": "OpenLegion(소스)",
+    "serviceName": "OpenLegion 관리형 호스팅",
+    "serviceDescription": "전용 VPS 인스턴스에서 OpenLegion 에이전트 플릿을 위한 관리형 호스팅 — 컨테이너 격리, 볼트 프록시 자격 증명, 에이전트별 예산을 자체 DevOps 관리 없이 제공합니다.",
+    "videoName": "OpenLegion 데모 — AI 에이전트 플릿 배포",
+    "videoDescription": "OpenLegion이 컨테이너 격리, 자격 증명 볼팅, 실시간 비용 추적을 갖춘 자율 AI 에이전트 플릿을 배포하는 모습을 확인하세요."
   }
 }

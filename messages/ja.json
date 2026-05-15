@@ -286,6 +286,7 @@
     "healthDegraded": "低下",
     "activityLabel": "アクティビティ",
     "heartbeatLabel": "ハートビート",
+    "heartbeatEvery": "{minutes}分ごと",
     "costTodayLabel": "本日のコスト",
     "chatButton": "チャット",
     "pauseButton": "一時停止",
@@ -1294,5 +1295,22 @@
       "body": "アカウントのメールアドレスとサブスクリプションIDを記載して {email} までメールしてください。返金は Polar 経由で5営業日以内に処理されます（元のお支払い方法に返金されます）。"
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "マネージドホスティング対応のコンテナ分離マルチエージェントランタイム — Docker分離されたエージェント、ボルトプロキシ認証情報、エージェント単位の予算管理。",
+    "softwareDescription": "ボルトプロキシ認証情報とエージェント単位の予算管理を備えたコンテナ分離マルチエージェントランタイム。セルフホスト(BSL 1.1)または専用VPSでのマネージドホスティングに対応。",
+    "softwareFeatureList": [
+      "エージェント単位のコンテナ分離(Docker または Docker Desktop Sandbox マイクロVM)",
+      "ボルトプロキシ認証情報 — エージェントはAPIキーに触れません",
+      "エージェント単位の日次・月次予算の強制適用",
+      "フリートモデル調整 — ブラックボード + Pub/Sub + ハンドオフ(CEOエージェント不要)",
+      "LiteLLM経由で100以上のLLMプロバイダーに対応",
+      "セルフホストまたは専用VPSでのマネージドホスティング"
+    ],
+    "sourceCodeName": "OpenLegion(ソース)",
+    "serviceName": "OpenLegion マネージドホスティング",
+    "serviceDescription": "専用VPSインスタンス上で動作するOpenLegionエージェントフリートのマネージドホスティング — コンテナ分離、ボルトプロキシ認証情報、エージェント単位の予算管理を、自前のDevOps運用なしで提供。",
+    "videoName": "OpenLegion デモ — AIエージェントフリートの展開",
+    "videoDescription": "OpenLegionが自律型AIエージェントフリートを展開する様子 — コンテナ分離、認証情報ボルト、リアルタイムのコスト追跡を含む。"
   }
 }

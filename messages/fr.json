@@ -286,6 +286,7 @@
     "healthDegraded": "Dégradé",
     "activityLabel": "Activité",
     "heartbeatLabel": "Pulsation",
+    "heartbeatEvery": "toutes les {minutes} min",
     "costTodayLabel": "Coût aujourd'hui",
     "chatButton": "Chat",
     "pauseButton": "Pause",
@@ -1294,5 +1295,22 @@
       "body": "Écris à {email} avec l'email de ton compte et l'ID d'abonnement. Les remboursements sont traités sous 5 jours ouvrés via Polar (les fonds reviennent sur ton moyen de paiement d'origine)."
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "Runtime multi-agents isolé par conteneur avec hébergement géré — agents isolés Docker, identifiants via proxy de coffre-fort et budgets par agent.",
+    "softwareDescription": "Runtime multi-agents isolé par conteneur avec identifiants via proxy de coffre-fort et contrôles de budget par agent. Auto-hébergé (BSL 1.1) ou hébergement géré sur VPS dédié.",
+    "softwareFeatureList": [
+      "Isolation par conteneur par agent (Docker ou micro-VMs Docker Desktop Sandbox)",
+      "Identifiants via proxy de coffre-fort — les agents ne voient jamais les clés API",
+      "Application des budgets quotidiens et mensuels par agent",
+      "Coordination en flotte — tableau noir + pub/sub + handoff (pas d'agent CEO)",
+      "Plus de 100 fournisseurs de LLM via LiteLLM",
+      "Auto-hébergé ou hébergement géré sur VPS dédié"
+    ],
+    "sourceCodeName": "OpenLegion (code source)",
+    "serviceName": "Hébergement géré OpenLegion",
+    "serviceDescription": "Hébergement géré pour flottes d'agents OpenLegion sur VPS dédiés — isolation par conteneur, identifiants via proxy de coffre-fort et budgets par agent, sans DevOps à gérer.",
+    "videoName": "Démo OpenLegion — Déploiement de flotte d'agents IA",
+    "videoDescription": "Regardez OpenLegion déployer une flotte autonome d'agents IA avec isolation par conteneur, coffre-fort d'identifiants et suivi des coûts en temps réel."
   }
 }
