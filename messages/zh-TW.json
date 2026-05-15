@@ -25,6 +25,7 @@
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub 儲存庫",
     "getStarted": "立即開始",
+    "signIn": "登入",
     "toggleMenuAriaLabel": "切換選單",
     "billingPeriodAriaLabel": "帳單週期",
     "bookDemo": "預約展示"
@@ -905,6 +906,12 @@
     "faqOgDescription": "關於 OpenLegion 的常見問題解答 — 安全、定價、LLM 提供者、協同與生產部署。",
     "faqTwitterTitle": "常見問題 — OpenLegion",
     "faqTwitterDescription": "關於 OpenLegion 的常見問題解答 — 安全、定價、LLM 提供者、協同與生產部署。",
+    "learnTitle": "學習 — AI 智慧代理框架、協調與安全",
+    "learnDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
+    "learnOgTitle": "學習 — AI 智慧代理框架、協調與安全",
+    "learnOgDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
+    "learnTwitterTitle": "學習 — AI 智慧代理框架、協調與安全",
+    "learnTwitterDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
     "privacyTitle": "隱私權政策",
     "privacyDescription": "OpenLegion AI 智慧代理框架與代管服務的隱私政策。了解我們如何在代管服務及 openlegion.ai 網站上收集、使用與保護您的資料。",
     "termsTitle": "服務條款",
@@ -972,6 +979,7 @@
       "5": "DeepSeek V4 智慧代理"
     },
     "comparisonHub": "所有框架比較",
+    "learnHub": "學習 — 指南與框架",
     "comparisons": {
       "openclaw": "OpenLegion vs OpenClaw",
       "langgraph": "OpenLegion vs LangGraph",

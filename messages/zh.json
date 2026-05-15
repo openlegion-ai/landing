@@ -25,6 +25,7 @@
     "brandName": "OpenLegion",
     "githubAriaLabel": "GitHub 代码仓库",
     "getStarted": "立即开始",
+    "signIn": "登录",
     "toggleMenuAriaLabel": "切换菜单",
     "billingPeriodAriaLabel": "计费周期",
     "bookDemo": "预约演示"
@@ -905,6 +906,12 @@
     "faqOgDescription": "关于 OpenLegion 的常见问题解答 — 安全、定价、LLM 提供方、协同与生产部署。",
     "faqTwitterTitle": "常见问题 — OpenLegion",
     "faqTwitterDescription": "关于 OpenLegion 的常见问题解答 — 安全、定价、LLM 提供方、协同与生产部署。",
+    "learnTitle": "学习 — AI 智能体框架、协调与安全",
+    "learnDescription": "运行生产级 AI 智能体的实用指南:运行时架构、协调模式、框架选型和智能体威胁模型。",
+    "learnOgTitle": "学习 — AI 智能体框架、协调与安全",
+    "learnOgDescription": "运行生产级 AI 智能体的实用指南:运行时架构、协调模式、框架选型和智能体威胁模型。",
+    "learnTwitterTitle": "学习 — AI 智能体框架、协调与安全",
+    "learnTwitterDescription": "运行生产级 AI 智能体的实用指南:运行时架构、协调模式、框架选型和智能体威胁模型。",
     "privacyTitle": "隐私政策",
     "privacyDescription": "OpenLegion AI 智能体框架与托管服务的隐私政策。了解我们如何在托管服务及 openlegion.ai 网站上收集、使用和保护你的数据。",
     "termsTitle": "服务条款",
@@ -972,6 +979,7 @@
       "5": "DeepSeek V4 智能体"
     },
     "comparisonHub": "所有框架对比",
+    "learnHub": "学习 — 指南与框架",
     "comparisons": {
       "openclaw": "OpenLegion vs OpenClaw",
       "langgraph": "OpenLegion vs LangGraph",

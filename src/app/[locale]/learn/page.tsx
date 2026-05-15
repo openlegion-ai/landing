@@ -33,23 +33,22 @@ export function generateStaticParams() {
   return SUPPORTED_LOCALES.map((locale) => ({ locale }));
 }
 
-const TITLE = "Learn — AI Agent Framework, Coordination & Security";
-const DESCRIPTION =
-  "Practical guides to running production AI agents: runtime architecture, coordination patterns, framework selection, and the agent threat model.";
-
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
+  const t = await getTranslations("metadata");
+  const title = t("learnTitle");
+  const description = t("learnDescription");
   return {
-    title: TITLE,
-    description: DESCRIPTION,
+    title,
+    description,
     alternates: navPageAlternates(locale, SLUG),
     openGraph: {
-      title: TITLE,
-      description: DESCRIPTION,
+      title: t("learnOgTitle"),
+      description: t("learnOgDescription"),
       type: "website",
       siteName: "OpenLegion",
       url: `${BASE_URL}/${locale}${SLUG}`,
@@ -59,15 +58,15 @@ export async function generateMetadata({
           url: "/og/learn.png",
           width: 1200,
           height: 630,
-          alt: TITLE,
+          alt: title,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
       site: "@openlegion",
-      title: TITLE,
-      description: DESCRIPTION,
+      title: t("learnTwitterTitle"),
+      description: t("learnTwitterDescription"),
       images: ["/og/learn.png"],
     },
     robots: {
@@ -84,7 +83,11 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   const { locale } = await params;
   setRequestLocale(locale);
   const tCommon = await getTranslations("contentPage");
+  const tMeta = await getTranslations("metadata");
   const entries = getLearnEntries();
+
+  const title = tMeta("learnTitle");
+  const description = tMeta("learnDescription");
 
   const itemListItems = entries.map((entry, i) => {
     const hasTranslation =
@@ -110,8 +113,8 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
     <>
       <JsonLd
         data={[
-          buildBreadcrumbSchema(TITLE, SLUG, locale, breadcrumbLabels),
-          buildCollectionPageSchema(TITLE, DESCRIPTION, lastUpdated, SLUG, undefined, locale),
+          buildBreadcrumbSchema(title, SLUG, locale, breadcrumbLabels),
+          buildCollectionPageSchema(title, description, lastUpdated, SLUG, undefined, locale),
           buildItemListSchema(itemListItems, SLUG, locale),
         ]}
       />
@@ -126,7 +129,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
           <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
             {tCommon("breadcrumbLearn")}
           </h1>
-          <p className="mt-3 max-w-2xl text-muted">{DESCRIPTION}</p>
+          <p className="mt-3 max-w-2xl text-muted">{description}</p>
         </header>
 
         <ul className="mt-10 grid gap-4 md:grid-cols-2">

@@ -149,7 +149,7 @@ export function ContentPage({ page, locale }: ContentPageProps) {
         </article>
 
         <aside aria-label={t("relatedContentAriaLabel")}>
-          <RelatedPages currentSlug={slug} />
+          <RelatedPages currentSlug={slug} locale={effectiveLocale} />
         </aside>
       </div>
     </>

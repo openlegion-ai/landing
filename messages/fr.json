@@ -25,6 +25,7 @@
     "brandName": "OpenLegion",
     "githubAriaLabel": "Dépôt GitHub",
     "getStarted": "Commencer",
+    "signIn": "Connexion",
     "toggleMenuAriaLabel": "Ouvrir ou fermer le menu",
     "billingPeriodAriaLabel": "Période de facturation",
     "bookDemo": "Réserver une démo"
@@ -905,6 +906,12 @@
     "faqOgDescription": "Réponses aux questions courantes sur OpenLegion — sécurité, tarifs, fournisseurs LLM, coordination et déploiement en production.",
     "faqTwitterTitle": "Questions fréquemment posées — OpenLegion",
     "faqTwitterDescription": "Réponses aux questions courantes sur OpenLegion — sécurité, tarifs, fournisseurs LLM, coordination et déploiement en production.",
+    "learnTitle": "Apprendre — Framework d'agents IA, Coordination et Sécurité",
+    "learnDescription": "Guides pratiques pour exécuter des agents IA en production : architecture du runtime, modèles de coordination, choix de framework et modèle de menaces des agents.",
+    "learnOgTitle": "Apprendre — Framework d'agents IA, Coordination et Sécurité",
+    "learnOgDescription": "Guides pratiques pour exécuter des agents IA en production : architecture du runtime, modèles de coordination, choix de framework et modèle de menaces des agents.",
+    "learnTwitterTitle": "Apprendre — Framework d'agents IA, Coordination et Sécurité",
+    "learnTwitterDescription": "Guides pratiques pour exécuter des agents IA en production : architecture du runtime, modèles de coordination, choix de framework et modèle de menaces des agents.",
     "privacyTitle": "Politique de confidentialité",
     "privacyDescription": "Politique de confidentialité du framework d'agents IA OpenLegion et de l'hébergement managé. Découvrez comment nous collectons, utilisons et protégeons vos données sur l'hébergement managé et le site openlegion.ai.",
     "termsTitle": "Conditions d'utilisation",
@@ -972,6 +979,7 @@
       "5": "Agents DeepSeek V4"
     },
     "comparisonHub": "Toutes les comparaisons de frameworks",
+    "learnHub": "Apprendre — guides et frameworks",
     "comparisons": {
       "openclaw": "OpenLegion vs OpenClaw",
       "langgraph": "OpenLegion vs LangGraph",

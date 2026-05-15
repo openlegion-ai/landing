@@ -25,6 +25,7 @@
     "brandName": "OpenLegion",
     "githubAriaLabel": "ที่เก็บโค้ดบน GitHub",
     "getStarted": "เริ่มต้นใช้งาน",
+    "signIn": "เข้าสู่ระบบ",
     "toggleMenuAriaLabel": "เปิด/ปิดเมนู",
     "billingPeriodAriaLabel": "รอบการเรียกเก็บเงิน",
     "bookDemo": "นัดสาธิต"
@@ -905,6 +906,12 @@
     "faqOgDescription": "คำตอบสำหรับคำถามทั่วไปเกี่ยวกับ OpenLegion — ความปลอดภัย ราคา ผู้ให้บริการ LLM การประสานงาน และการดีพลอยในโปรดักชัน",
     "faqTwitterTitle": "คำถามที่พบบ่อย — OpenLegion",
     "faqTwitterDescription": "คำตอบสำหรับคำถามทั่วไปเกี่ยวกับ OpenLegion — ความปลอดภัย ราคา ผู้ให้บริการ LLM การประสานงาน และการดีพลอยในโปรดักชัน",
+    "learnTitle": "เรียนรู้ — AI Agent Framework, การประสานงาน และความปลอดภัย",
+    "learnDescription": "คู่มือเชิงปฏิบัติสำหรับการรัน AI agent ในโปรดักชัน: สถาปัตยกรรมรันไทม์, รูปแบบการประสานงาน, การเลือก framework และโมเดลภัยคุกคามของเอเจนต์",
+    "learnOgTitle": "เรียนรู้ — AI Agent Framework, การประสานงาน และความปลอดภัย",
+    "learnOgDescription": "คู่มือเชิงปฏิบัติสำหรับการรัน AI agent ในโปรดักชัน: สถาปัตยกรรมรันไทม์, รูปแบบการประสานงาน, การเลือก framework และโมเดลภัยคุกคามของเอเจนต์",
+    "learnTwitterTitle": "เรียนรู้ — AI Agent Framework, การประสานงาน และความปลอดภัย",
+    "learnTwitterDescription": "คู่มือเชิงปฏิบัติสำหรับการรัน AI agent ในโปรดักชัน: สถาปัตยกรรมรันไทม์, รูปแบบการประสานงาน, การเลือก framework และโมเดลภัยคุกคามของเอเจนต์",
     "privacyTitle": "นโยบายความเป็นส่วนตัว",
     "privacyDescription": "นโยบายความเป็นส่วนตัวของ OpenLegion AI agent framework และ managed hosting เรียนรู้ว่าเรารวบรวม ใช้ และคุ้มครองข้อมูลของคุณอย่างไรในทั้ง managed hosting และเว็บไซต์ openlegion.ai",
     "termsTitle": "ข้อกำหนดการให้บริการ",
@@ -972,6 +979,7 @@
       "5": "DeepSeek V4 Agents"
     },
     "comparisonHub": "เปรียบเทียบ Framework ทั้งหมด",
+    "learnHub": "เรียนรู้ — คู่มือและ framework",
     "comparisons": {
       "openclaw": "OpenLegion vs OpenClaw",
       "langgraph": "OpenLegion vs LangGraph",
