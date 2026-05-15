@@ -3,8 +3,9 @@
 import { useRef, useEffect } from "react";
 import { Calendar } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { APP_URL, DEMO_URL } from "@/lib/constants";
+import { DEMO_URL, PRICING_URL } from "@/lib/constants";
 import { trackCtaClick } from "@/lib/analytics";
 
 const PARTICLES = [
@@ -101,15 +102,13 @@ export function Hero() {
 
             <AnimateIn delay={0.14}>
               <div id="hero-cta" className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                <a
-                  href={APP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href={PRICING_URL}
                   onClick={() => trackCtaClick({ location: "hero_primary" })}
                   className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
                 >
                   {t("ctaPrimary")}
-                </a>
+                </Link>
                 <a
                   href={DEMO_URL}
                   target="_blank"

@@ -2,8 +2,9 @@
 
 import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { APP_URL, DISCORD_URL } from "@/lib/constants";
+import { DISCORD_URL, PRICING_URL } from "@/lib/constants";
 import { trackCtaClick } from "@/lib/analytics";
 
 const CTA_PARTICLES = [
@@ -55,15 +56,13 @@ export function CTA() {
 
         <AnimateIn delay={0.14}>
           <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href={APP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={PRICING_URL}
               onClick={() => trackCtaClick({ location: "final_cta" })}
               className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
             >
               {t("primaryButton")}
-            </a>
+            </Link>
             <a
               href={DISCORD_URL}
               target="_blank"

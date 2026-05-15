@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   Bot,
@@ -18,7 +18,7 @@ import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animat
 import { Testimonials } from "@/components/testimonials";
 import { APP_URL } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
-import { trackCtaClick } from "@/lib/analytics";
+import { trackCtaClick, trackEvent } from "@/lib/analytics";
 
 type Billing = "monthly" | "yearly";
 
@@ -105,6 +105,24 @@ export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
   const t = useTranslations("pricing");
   const tAnchors = useTranslations("pricingAnchors");
+
+  // GA4 ecommerce `view_item_list` — fires when the pricing list is
+  // visible. Re-fires on billing toggle because the items[] payload
+  // (with different prices) is meaningfully different, so subsequent
+  // select_item / begin_checkout events stitch to the correct list view.
+  useEffect(() => {
+    trackEvent("view_item_list", {
+      item_list_id: "landing_pricing_tiers",
+      item_list_name: "Landing /pricing — Tier List",
+      items: PLANS.map((p) => ({
+        item_id: `${p.name}_${billing}`,
+        item_name: `${p.name} (${billing})`,
+        item_category: "subscription",
+        price: billing === "monthly" ? p.monthlyPrice : p.yearlyPrice,
+        quantity: 1,
+      })),
+    });
+  }, [billing]);
 
   return (
     <section
@@ -285,10 +303,27 @@ export function Pricing() {
                   </p>
 
                   <a
-                    href={APP_URL}
+                    href={`${APP_URL}/signin?plan=${plan.name}&billing=${billing}&callbackUrl=${encodeURIComponent(`/?plan=${plan.name}&billing=${billing}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => trackCtaClick({ location: "pricing_card", plan: plan.name, billing })}
+                    onClick={() => {
+                      // Fire both: custom cta_click for our own funnel
+                      // breakdown by location, and GA4-standard select_item
+                      // so the prebuilt Ecommerce funnel report stitches
+                      // landing → app correctly.
+                      trackCtaClick({ location: "pricing_card", plan: plan.name, billing });
+                      trackEvent("select_item", {
+                        item_list_id: "landing_pricing_tiers",
+                        item_list_name: "Landing /pricing — Tier List",
+                        items: [{
+                          item_id: `${plan.name}_${billing}`,
+                          item_name: `${plan.name} (${billing})`,
+                          item_category: "subscription",
+                          price: billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice,
+                          quantity: 1,
+                        }],
+                      });
+                    }}
                     aria-label={t("a11y.ctaAria", { plan: planName })}
                     className={`mt-5 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                       plan.popular
@@ -407,10 +442,23 @@ export function Pricing() {
                       <span className="ml-1 text-sm text-muted">{suffix}</span>
                     </div>
                     <a
-                      href={APP_URL}
+                      href={`${APP_URL}/signin?plan=${plan.name}&billing=${billing}&callbackUrl=${encodeURIComponent(`/?plan=${plan.name}&billing=${billing}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={() => trackCtaClick({ location: "pricing_card", plan: plan.name, billing })}
+                      onClick={() => {
+                        trackCtaClick({ location: "pricing_card", plan: plan.name, billing });
+                        trackEvent("select_item", {
+                          item_list_id: "landing_pricing_tiers",
+                          item_list_name: "Landing /pricing — Tier List",
+                          items: [{
+                            item_id: `${plan.name}_${billing}`,
+                            item_name: `${plan.name} (${billing})`,
+                            item_category: "subscription",
+                            price: billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice,
+                            quantity: 1,
+                          }],
+                        });
+                      }}
                       aria-label={t("a11y.ctaAria", { plan: planName })}
                       className="flex items-center justify-center gap-2 rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                     >
