@@ -286,6 +286,7 @@
     "healthDegraded": "Beeinträchtigt",
     "activityLabel": "Aktivität",
     "heartbeatLabel": "Heartbeat",
+    "heartbeatEvery": "alle {minutes} Min",
     "costTodayLabel": "Kosten heute",
     "chatButton": "Chat",
     "pauseButton": "Pause",
@@ -1294,5 +1295,22 @@
       "body": "Schick eine E-Mail an {email} mit deiner Konto-E-Mail und Abo-ID. Rückerstattungen werden innerhalb von 5 Werktagen über Polar abgewickelt (Beträge gehen auf deine ursprüngliche Zahlungsmethode zurück)."
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "Container-isolierte Multi-Agenten-Runtime mit Managed Hosting — Docker-isolierte Agenten, Vault-Proxy-Credentials und Pro-Agent-Budgets.",
+    "softwareDescription": "Container-isolierte Multi-Agenten-Runtime mit Vault-Proxy-Credentials und Pro-Agent-Budgetkontrollen. Selbst gehostet (BSL 1.1) oder Managed Hosting auf dediziertem VPS.",
+    "softwareFeatureList": [
+      "Container-Isolation pro Agent (Docker oder Docker-Desktop-Sandbox-MicroVMs)",
+      "Vault-Proxy-Credentials — Agenten sehen nie API-Schlüssel",
+      "Tägliche und monatliche Budgetdurchsetzung pro Agent",
+      "Fleet-Modell-Koordination — Blackboard + Pub/Sub + Handoff (kein CEO-Agent)",
+      "Über 100 LLM-Anbieter via LiteLLM",
+      "Selbst gehostet oder Managed Hosting auf dediziertem VPS"
+    ],
+    "sourceCodeName": "OpenLegion (Quellcode)",
+    "serviceName": "OpenLegion Managed Hosting",
+    "serviceDescription": "Managed Hosting für OpenLegion-Agenten-Flotten auf dedizierten VPS-Instanzen — Container-Isolation, Vault-Proxy-Credentials und Pro-Agent-Budgets ohne eigenes DevOps.",
+    "videoName": "OpenLegion-Demo — Bereitstellung einer KI-Agenten-Flotte",
+    "videoDescription": "OpenLegion stellt eine autonome KI-Agenten-Flotte mit Container-Isolation, Credential-Vaulting und Echtzeit-Kostentracking bereit."
   }
 }

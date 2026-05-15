@@ -286,6 +286,7 @@
     "healthDegraded": "Degraded",
     "activityLabel": "Activity",
     "heartbeatLabel": "Heartbeat",
+    "heartbeatEvery": "every {minutes}m",
     "costTodayLabel": "Cost today",
     "chatButton": "Chat",
     "pauseButton": "Pause",
@@ -1294,5 +1295,22 @@
       "body": "Email {email} with your account email and subscription ID. Refunds are processed within 5 business days via Polar (funds return to your original payment method)."
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "Container-isolated multi-agent runtime with managed hosting — Docker-isolated agents, vault-proxied credentials, and per-agent budgets.",
+    "softwareDescription": "Container-isolated multi-agent runtime with vault-proxied credentials and per-agent budget controls. Self-hosted (BSL 1.1) or managed hosting on a dedicated VPS.",
+    "softwareFeatureList": [
+      "Container isolation per agent (Docker or Docker Desktop Sandbox microVMs)",
+      "Vault-proxied credentials — agents never see API keys",
+      "Per-agent daily and monthly budget enforcement",
+      "Fleet model coordination — blackboard + pub/sub + handoff (no CEO agent)",
+      "100+ LLM providers via LiteLLM",
+      "Self-hosted or managed hosting on a dedicated VPS"
+    ],
+    "sourceCodeName": "OpenLegion (source)",
+    "serviceName": "OpenLegion Managed Hosting",
+    "serviceDescription": "Managed hosting for OpenLegion agent fleets on dedicated VPS instances — container isolation, vault-proxied credentials, and per-agent budgets without self-managed DevOps.",
+    "videoName": "OpenLegion Demo — AI Agent Fleet Deployment",
+    "videoDescription": "Watch OpenLegion deploy an autonomous AI agent fleet with container isolation, credential vaulting, and real-time cost tracking."
   }
 }

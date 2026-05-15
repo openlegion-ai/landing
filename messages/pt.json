@@ -286,6 +286,7 @@
     "healthDegraded": "Degradado",
     "activityLabel": "Atividade",
     "heartbeatLabel": "Heartbeat",
+    "heartbeatEvery": "a cada {minutes} min",
     "costTodayLabel": "Custo hoje",
     "chatButton": "Chat",
     "pauseButton": "Pausar",
@@ -1294,5 +1295,22 @@
       "body": "Escreva para {email} com o e-mail da sua conta e o ID da assinatura. Os reembolsos são processados em até 5 dias úteis via Polar (os fundos retornam à forma de pagamento original)."
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "Runtime multi-agente com isolamento por contêiner e hospedagem gerenciada — agentes isolados em Docker, credenciais via proxy de cofre e orçamentos por agente.",
+    "softwareDescription": "Runtime multi-agente com isolamento por contêiner, credenciais via proxy de cofre e controles de orçamento por agente. Auto-hospedado (BSL 1.1) ou hospedagem gerenciada em VPS dedicado.",
+    "softwareFeatureList": [
+      "Isolamento por contêiner por agente (Docker ou micro-VMs Docker Desktop Sandbox)",
+      "Credenciais via proxy de cofre — agentes nunca veem as chaves de API",
+      "Aplicação de orçamentos diários e mensais por agente",
+      "Coordenação em frota — blackboard + pub/sub + handoff (sem agente CEO)",
+      "Mais de 100 provedores de LLM via LiteLLM",
+      "Auto-hospedado ou hospedagem gerenciada em VPS dedicado"
+    ],
+    "sourceCodeName": "OpenLegion (código-fonte)",
+    "serviceName": "Hospedagem gerenciada OpenLegion",
+    "serviceDescription": "Hospedagem gerenciada para frotas de agentes OpenLegion em instâncias VPS dedicadas — isolamento por contêiner, credenciais via proxy de cofre e orçamentos por agente, sem DevOps próprio.",
+    "videoName": "Demo do OpenLegion — Implantação de frota de agentes IA",
+    "videoDescription": "Veja o OpenLegion implantar uma frota autônoma de agentes IA com isolamento por contêiner, cofre de credenciais e rastreamento de custos em tempo real."
   }
 }

@@ -68,6 +68,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const t = await getTranslations("common");
   const tFaq = await getTranslations("faq");
   const tMeta = await getTranslations("metadata");
+  const tSchema = await getTranslations("schema");
 
   // Locale-aware FAQ items for the FAQPage JSON-LD payload below. The
   // canonical 14-item ordering comes from ALL_FAQ_ITEMS; each locale's
@@ -136,9 +137,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       {
         "@type": "VideoObject",
         "@id": VIDEO_ID,
-        name: "OpenLegion Demo — AI Agent Fleet Deployment",
-        description:
-          "Watch OpenLegion deploy an autonomous AI agent fleet with container isolation, credential vaulting, and real-time cost tracking.",
+        name: tSchema("videoName"),
+        description: tSchema("videoDescription"),
         thumbnailUrl: "https://www.openlegion.ai/demo-poster.jpg",
         uploadDate: "2026-02-18",
         duration: "PT2M",

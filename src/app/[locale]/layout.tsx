@@ -146,6 +146,7 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
   const tNav = await getTranslations("common");
+  const tSchema = await getTranslations("schema");
 
   // Stable @id refs let AI assistants and search engines resolve every entity
   // on this site to the same canonical record — Organization, WebSite,
@@ -173,8 +174,7 @@ export default async function LocaleLayout({
           width: 256,
           height: 256,
         },
-        description:
-          "Container-isolated multi-agent runtime with managed hosting — Docker-isolated agents, vault-proxied credentials, and per-agent budgets.",
+        description: tSchema("orgDescription"),
         foundingDate: "2025",
         knowsAbout: [
           "AI agent orchestration",
@@ -209,8 +209,7 @@ export default async function LocaleLayout({
         url: "https://www.openlegion.ai",
         downloadUrl: GITHUB_URL,
         softwareVersion: "0.1.0",
-        description:
-          "Container-isolated multi-agent runtime with vault-proxied credentials and per-agent budget controls. Self-hosted (BSL 1.1) or managed hosting on a dedicated VPS.",
+        description: tSchema("softwareDescription"),
         publisher: { "@id": ORG_ID },
         author: { "@id": ORG_ID },
         license: `${GITHUB_URL}/blob/main/LICENSE`,
@@ -224,19 +223,12 @@ export default async function LocaleLayout({
           url: `https://www.openlegion.ai/${locale}/pricing`,
           availability: "https://schema.org/InStock",
         },
-        featureList: [
-          "Container isolation per agent (Docker or Docker Desktop Sandbox microVMs)",
-          "Vault-proxied credentials — agents never see API keys",
-          "Per-agent daily and monthly budget enforcement",
-          "Fleet model coordination — blackboard + pub/sub + handoff (no CEO agent)",
-          "100+ LLM providers via LiteLLM",
-          "Self-hosted or managed hosting on a dedicated VPS",
-        ],
+        featureList: tSchema.raw("softwareFeatureList") as string[],
       },
       {
         "@type": "SoftwareSourceCode",
         "@id": SOURCE_CODE_ID,
-        name: "OpenLegion (source)",
+        name: tSchema("sourceCodeName"),
         codeRepository: GITHUB_URL,
         programmingLanguage: "Python",
         runtimePlatform: "Docker",
@@ -248,12 +240,11 @@ export default async function LocaleLayout({
       {
         "@type": "Service",
         "@id": SERVICE_ID,
-        name: "OpenLegion Managed Hosting",
+        name: tSchema("serviceName"),
         serviceType: "Managed AI Agent Hosting",
         provider: { "@id": ORG_ID },
         areaServed: "Worldwide",
-        description:
-          "Managed hosting for OpenLegion agent fleets on dedicated VPS instances — container isolation, vault-proxied credentials, and per-agent budgets without self-managed DevOps.",
+        description: tSchema("serviceDescription"),
         url: `https://www.openlegion.ai/${locale}/pricing`,
         offers: [
           { "@type": "Offer", name: "Basic",   price: "19",  priceCurrency: "USD", availability: "https://schema.org/InStock" },

@@ -286,6 +286,7 @@
     "healthDegraded": "Degradado",
     "activityLabel": "Actividad",
     "heartbeatLabel": "Latido",
+    "heartbeatEvery": "cada {minutes} min",
     "costTodayLabel": "Costo hoy",
     "chatButton": "Chat",
     "pauseButton": "Pausar",
@@ -1294,5 +1295,22 @@
       "body": "Envía un correo a {email} con el email de tu cuenta y el ID de suscripción. Los reembolsos se procesan en 5 días hábiles vía Polar (los fondos regresan a tu método de pago original)."
     },
     "email": "support@openlegion.ai"
+  },
+  "schema": {
+    "orgDescription": "Runtime multi-agente con aislamiento por contenedor y hosting gestionado — agentes aislados en Docker, credenciales por proxy de bóveda y presupuestos por agente.",
+    "softwareDescription": "Runtime multi-agente con aislamiento por contenedor, credenciales por proxy de bóveda y controles de presupuesto por agente. Autohospedado (BSL 1.1) o hosting gestionado en VPS dedicada.",
+    "softwareFeatureList": [
+      "Aislamiento por contenedor por agente (Docker o micro-VMs de Docker Desktop Sandbox)",
+      "Credenciales por proxy de bóveda — los agentes nunca ven las claves API",
+      "Aplicación de presupuestos diarios y mensuales por agente",
+      "Coordinación tipo flota — pizarra + pub/sub + handoff (sin agente CEO)",
+      "Más de 100 proveedores de LLM vía LiteLLM",
+      "Autohospedado o hosting gestionado en VPS dedicada"
+    ],
+    "sourceCodeName": "OpenLegion (código fuente)",
+    "serviceName": "Hosting gestionado de OpenLegion",
+    "serviceDescription": "Hosting gestionado para flotas de agentes OpenLegion en instancias VPS dedicadas — aislamiento por contenedor, credenciales por proxy de bóveda y presupuestos por agente, sin DevOps propio.",
+    "videoName": "Demo de OpenLegion — Despliegue de flota de agentes IA",
+    "videoDescription": "Mira a OpenLegion desplegar una flota autónoma de agentes IA con aislamiento por contenedor, bóveda de credenciales y seguimiento de costes en tiempo real."
   }
 }

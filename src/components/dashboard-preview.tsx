@@ -31,7 +31,7 @@ interface Agent {
   health: string;
   cost: number;
   tokens: number;
-  heartbeat: string | null;
+  heartbeatMinutes: number | null;
 }
 
 const AGENT_COLORS = [
@@ -44,12 +44,12 @@ const AGENT_COLORS = [
 ];
 
 const INITIAL_AGENTS: Agent[] = [
-  { id: "researcher", role: "Lead Researcher", model: "claude-sonnet-4-6", avatar: 3, colorIndex: 0, state: "streaming", health: "healthy", cost: 1.24, tokens: 18420, heartbeat: "every 5m" },
-  { id: "engineer", role: "Code Engineer", model: "gpt-4o", avatar: 7, colorIndex: 1, state: "thinking", health: "healthy", cost: 3.87, tokens: 42100, heartbeat: "every 10m" },
-  { id: "reviewer", role: "PR Reviewer", model: "gemini-2.5-pro", avatar: 12, colorIndex: 2, state: "idle", health: "healthy", cost: 0.56, tokens: 8930, heartbeat: "every 30m" },
-  { id: "writer", role: "Content Writer", model: "claude-haiku-4-5", avatar: 21, colorIndex: 3, state: "tool", health: "healthy", cost: 0.18, tokens: 12450, heartbeat: "every 15m" },
-  { id: "qualifier", role: "Lead Qualifier", model: "deepseek-v3", avatar: 15, colorIndex: 4, state: "idle", health: "unhealthy", cost: 0.42, tokens: 5200, heartbeat: "every 20m" },
-  { id: "outreach", role: "Sales Outreach", model: "mistral-large", avatar: 28, colorIndex: 5, state: "streaming", health: "healthy", cost: 2.15, tokens: 31840, heartbeat: "every 5m" },
+  { id: "researcher", role: "Lead Researcher", model: "claude-sonnet-4-6", avatar: 3, colorIndex: 0, state: "streaming", health: "healthy", cost: 1.24, tokens: 18420, heartbeatMinutes: 5 },
+  { id: "engineer", role: "Code Engineer", model: "gpt-4o", avatar: 7, colorIndex: 1, state: "thinking", health: "healthy", cost: 3.87, tokens: 42100, heartbeatMinutes: 10 },
+  { id: "reviewer", role: "PR Reviewer", model: "gemini-2.5-pro", avatar: 12, colorIndex: 2, state: "idle", health: "healthy", cost: 0.56, tokens: 8930, heartbeatMinutes: 30 },
+  { id: "writer", role: "Content Writer", model: "claude-haiku-4-5", avatar: 21, colorIndex: 3, state: "tool", health: "healthy", cost: 0.18, tokens: 12450, heartbeatMinutes: 15 },
+  { id: "qualifier", role: "Lead Qualifier", model: "deepseek-v3", avatar: 15, colorIndex: 4, state: "idle", health: "unhealthy", cost: 0.42, tokens: 5200, heartbeatMinutes: 20 },
+  { id: "outreach", role: "Sales Outreach", model: "mistral-large", avatar: 28, colorIndex: 5, state: "streaming", health: "healthy", cost: 2.15, tokens: 31840, heartbeatMinutes: 5 },
 ];
 
 const STATE_CYCLE = ["streaming", "thinking", "tool", "idle"] as const;
@@ -330,7 +330,9 @@ export function DashboardPreview() {
                         {t("heartbeatLabel")}
                       </span>
                       <span className="text-[11px] font-medium text-pink-400">
-                        {agent.heartbeat}
+                        {agent.heartbeatMinutes !== null
+                          ? t("heartbeatEvery", { minutes: agent.heartbeatMinutes })
+                          : "—"}
                       </span>
                     </div>
                     <div className="flex items-center justify-between py-1.5">
