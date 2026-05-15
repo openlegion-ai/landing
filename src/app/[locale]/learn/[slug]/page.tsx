@@ -47,7 +47,7 @@ export default async function Page({ params }: { params: Promise<RouteParams> })
   return (
     <>
       <main id="main">
-        <ContentPage page={page} />
+        <ContentPage page={page} locale={locale} />
       </main>
       <Footer />
     </>

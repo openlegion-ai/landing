@@ -55,9 +55,11 @@ All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start 
 
 ### Learn
 - Best AI Agent Frameworks (2026 Comparison): https://www.openlegion.ai/en/learn/ai-agent-frameworks
+- AI Agent Observability — Tracing, Costs & Failure Modes: https://www.openlegion.ai/en/learn/ai-agent-observability
 - AI Agent Orchestration — Coordinate Agents: https://www.openlegion.ai/en/learn/ai-agent-orchestration
 - AI Agent Platform — Deploy Secure Agents: https://www.openlegion.ai/en/learn/ai-agent-platform
 - AI Agent Security — Threats, Isolation, Vaults: https://www.openlegion.ai/en/learn/ai-agent-security
+- Model Context Protocol (MCP) — How AI Agents Use Tools: https://www.openlegion.ai/en/learn/model-context-protocol
 
 ### Comparisons
 - OpenLegion vs AutoGen — Security, Migration & 2026 Verdict: https://www.openlegion.ai/en/comparison/autogen

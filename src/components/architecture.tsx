@@ -125,7 +125,7 @@ export function Architecture() {
 
       <AnimateIn delay={0.2}>
         <p className="mt-8 text-center text-sm text-muted">
-          <Link href="/ai-agent-orchestration" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
+          <Link href="/learn/ai-agent-orchestration" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
             {t("learnMoreLink")}
           </Link>
         </p>

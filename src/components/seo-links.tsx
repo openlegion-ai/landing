@@ -8,9 +8,9 @@ const CARDS = [
   {
     icon: Layers,
     links: [
-      { href: "/ai-agent-platform" },
-      { href: "/ai-agent-orchestration" },
-      { href: "/ai-agent-security" },
+      { href: "/learn/ai-agent-platform" },
+      { href: "/learn/ai-agent-orchestration" },
+      { href: "/learn/ai-agent-security" },
     ],
   },
   {
@@ -18,7 +18,7 @@ const CARDS = [
     links: [
       { href: "/comparison" },
       { href: "/openclaw-alternative" },
-      { href: "/ai-agent-frameworks" },
+      { href: "/learn/ai-agent-frameworks" },
     ],
   },
   {

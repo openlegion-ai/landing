@@ -7,15 +7,15 @@ import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animat
 const OUTCOMES = [
   {
     icon: Shield,
-    link: { href: "/ai-agent-security" },
+    link: { href: "/learn/ai-agent-security" },
   },
   {
     icon: DollarSign,
-    link: { href: "/ai-agent-platform" },
+    link: { href: "/learn/ai-agent-platform" },
   },
   {
     icon: Monitor,
-    link: { href: "/ai-agent-orchestration" },
+    link: { href: "/learn/ai-agent-orchestration" },
   },
 ];
 
@@ -71,7 +71,7 @@ export function Features() {
       <AnimateIn delay={0.15}>
         <p className="mt-8 text-center text-sm text-muted">
           <Link
-            href="/ai-agent-platform"
+            href="/learn/ai-agent-platform"
             className="text-accent-light underline underline-offset-2 transition-colors hover:text-accent"
           >
             {t("allFeaturesLink")}
