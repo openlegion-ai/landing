@@ -8,7 +8,7 @@ secondary_keywords:
   - mastra security
   - mastra typescript agent framework
   - mastra enterprise edition
-last_updated: 2026-05-26
+last_updated: "2026-05-26"
 schema_types:
   - FAQPage
 page_type: comparison
