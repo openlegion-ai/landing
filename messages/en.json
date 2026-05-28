@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "Growth",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "For growing teams"
       },
       "2": {
         "name": "Pro",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "For agencies & power users"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "For high-volume operations"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "welcome credits",
     "browsersLabel": "{count, plural, one {concurrent browser} other {concurrent browsers}}",
-    "projectsLabel": "{count, plural, one {project} other {projects}}",
-    "noProjects": "No projects",
+    "teamsLabel": "{count, plural, one {team} other {teams}}",
+    "noTeams": "No teams",
     "planFeatures": {
       "0": "Each agent runs in its own secure container",
       "1": "Works with Claude, GPT, Gemini + 100 more",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "Unlimited",
       "agents": "agents",
       "browsers": "concurrent browsers",
-      "projects": "projects",
+      "teams": "teams",
       "features": {
         "0": "Dedicated infrastructure",
         "1": "Custom SLAs",

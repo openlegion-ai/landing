@@ -30,7 +30,7 @@ interface Plan {
   yearlyMonthly: number;
   agents: number;
   credits: number;
-  projects: number;
+  teams: number;
   browsers: number;
   featureKeys: string[];
 }
@@ -43,41 +43,41 @@ const PLANS: Plan[] = [
     yearlyMonthly: 14,
     agents: 1,
     credits: 1500,
-    projects: 0,
+    teams: 0,
     browsers: 1,
     featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
   },
   {
     name: "growth",
-    monthlyPrice: 59,
-    yearlyPrice: 530,
-    yearlyMonthly: 44,
+    monthlyPrice: 62,
+    yearlyPrice: 557,
+    yearlyMonthly: 46,
     agents: 5,
     credits: 5000,
-    projects: 2,
+    teams: 2,
     browsers: 5,
     featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
   },
   {
     name: "pro",
     popular: true,
-    monthlyPrice: 149,
-    yearlyPrice: 1340,
-    yearlyMonthly: 112,
+    monthlyPrice: 152,
+    yearlyPrice: 1367,
+    yearlyMonthly: 114,
     agents: 15,
     credits: 10000,
-    projects: 5,
+    teams: 5,
     browsers: 10,
     featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
   },
   {
     name: "pro_max",
-    monthlyPrice: 279,
-    yearlyPrice: 2510,
-    yearlyMonthly: 209,
+    monthlyPrice: 296,
+    yearlyPrice: 2663,
+    yearlyMonthly: 222,
     agents: 30,
     credits: 20000,
-    projects: 10,
+    teams: 10,
     browsers: 30,
     featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
   },
@@ -367,15 +367,15 @@ export function Pricing() {
                     </div>
                     <div className="flex items-center gap-2 text-muted">
                       <FolderOpen className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
-                      {plan.projects > 0 ? (
+                      {plan.teams > 0 ? (
                         <>
                           <span className="font-medium text-foreground">
-                            {plan.projects}
+                            {plan.teams}
                           </span>{" "}
-                          {t("projectsLabel", { count: plan.projects })}
+                          {t("teamsLabel", { count: plan.teams })}
                         </>
                       ) : (
-                        <span className="text-muted/50">{t("noProjects")}</span>
+                        <span className="text-muted/50">{t("noTeams")}</span>
                       )}
                     </div>
                   </div>
@@ -529,7 +529,7 @@ export function Pricing() {
                     <span className="font-medium text-foreground">
                       {t("enterprise.unlimitedAgents")}
                     </span>{" "}
-                    {t("enterprise.projects")}
+                    {t("enterprise.teams")}
                   </li>
                   {ENTERPRISE_FEATURE_KEYS.map((key) => (
                     <li key={key} className="flex items-center gap-2 text-sm text-muted">

@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "Growth",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "성장하는 팀에게"
       },
       "2": {
         "name": "Pro",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "에이전시와 파워 유저에게"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "대규모 운영용"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {에이전트} other {에이전트}}",
     "creditsLabel": "웰컴 크레딧",
     "browsersLabel": "{count, plural, one {동시 브라우저} other {동시 브라우저}}",
-    "projectsLabel": "{count, plural, one {프로젝트} other {프로젝트}}",
-    "noProjects": "프로젝트 없음",
+    "teamsLabel": "{count, plural, one {팀} other {팀}}",
+    "noTeams": "팀 없음",
     "planFeatures": {
       "0": "각 에이전트는 전용 보안 컨테이너에서 실행",
       "1": "Claude, GPT, Gemini + 100개 이상 지원",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "무제한",
       "agents": "에이전트",
       "browsers": "동시 브라우저",
-      "projects": "프로젝트",
+      "teams": "팀",
       "features": {
         "0": "전용 인프라",
         "1": "맞춤 SLA",

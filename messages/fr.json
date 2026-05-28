@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "Growth",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "Pour les équipes en croissance"
       },
       "2": {
         "name": "Pro",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "Pour les agences et utilisateurs avancés"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "Pour les opérations à haut volume"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "crédits de bienvenue",
     "browsersLabel": "{count, plural, one {navigateur simultané} other {navigateurs simultanés}}",
-    "projectsLabel": "{count, plural, one {projet} other {projets}}",
-    "noProjects": "Aucun projet",
+    "teamsLabel": "{count, plural, one {équipe} other {équipes}}",
+    "noTeams": "Aucune équipe",
     "planFeatures": {
       "0": "Chaque agent s'exécute dans son propre conteneur sécurisé",
       "1": "Fonctionne avec Claude, GPT, Gemini + plus de 100 autres",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "Illimité",
       "agents": "agents",
       "browsers": "navigateurs simultanés",
-      "projects": "projets",
+      "teams": "équipes",
       "features": {
         "0": "Infrastructure dédiée",
         "1": "SLA personnalisés",

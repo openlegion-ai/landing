@@ -249,9 +249,9 @@ export default async function LocaleLayout({
         url: `https://www.openlegion.ai/${locale}/pricing`,
         offers: [
           { "@type": "Offer", name: "Basic",   price: "19",  priceCurrency: "USD", availability: "https://schema.org/InStock" },
-          { "@type": "Offer", name: "Growth",  price: "59",  priceCurrency: "USD", availability: "https://schema.org/InStock" },
-          { "@type": "Offer", name: "Pro",     price: "149", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-          { "@type": "Offer", name: "Pro Max", price: "279", priceCurrency: "USD", availability: "https://schema.org/InStock" },
+          { "@type": "Offer", name: "Growth",  price: "62",  priceCurrency: "USD", availability: "https://schema.org/InStock" },
+          { "@type": "Offer", name: "Pro",     price: "152", priceCurrency: "USD", availability: "https://schema.org/InStock" },
+          { "@type": "Offer", name: "Pro Max", price: "296", priceCurrency: "USD", availability: "https://schema.org/InStock" },
         ],
       },
     ],

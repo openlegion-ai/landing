@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "成长版",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "适合成长中的团队"
       },
       "2": {
         "name": "专业版",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "适合代理机构与高级用户"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "适用于大规模运营"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {个智能体} other {个智能体}}",
     "creditsLabel": "欢迎赠送额度",
     "browsersLabel": "{count, plural, one {个并发浏览器} other {个并发浏览器}}",
-    "projectsLabel": "{count, plural, one {个项目} other {个项目}}",
-    "noProjects": "无项目",
+    "teamsLabel": "{count, plural, one {个团队} other {个团队}}",
+    "noTeams": "无团队",
     "planFeatures": {
       "0": "每个智能体运行在独立的安全容器中",
       "1": "支持 Claude、GPT、Gemini 及 100+ 种模型",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "不限",
       "agents": "个智能体",
       "browsers": "个并发浏览器",
-      "projects": "个项目",
+      "teams": "个团队",
       "features": {
         "0": "专属基础设施",
         "1": "自定义 SLA",

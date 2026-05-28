@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "Growth",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "Para equipos en crecimiento"
       },
       "2": {
         "name": "Pro",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "Para agencias y usuarios avanzados"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "Para operaciones de alto volumen"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {agente} other {agentes}}",
     "creditsLabel": "créditos de bienvenida",
     "browsersLabel": "{count, plural, one {navegador concurrente} other {navegadores concurrentes}}",
-    "projectsLabel": "{count, plural, one {proyecto} other {proyectos}}",
-    "noProjects": "Sin proyectos",
+    "teamsLabel": "{count, plural, one {equipo} other {equipos}}",
+    "noTeams": "Sin equipos",
     "planFeatures": {
       "0": "Cada agente se ejecuta en su propio contenedor seguro",
       "1": "Funciona con Claude, GPT, Gemini + más de 100 más",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "Ilimitados",
       "agents": "agentes",
       "browsers": "navegadores concurrentes",
-      "projects": "proyectos",
+      "teams": "equipos",
       "features": {
         "0": "Infraestructura dedicada",
         "1": "SLAs personalizados",
