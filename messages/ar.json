@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "نمو",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "للفرق المتنامية"
       },
       "2": {
         "name": "احترافي",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "للوكالات والمستخدمين المتقدمين"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "للعمليات عالية الحجم"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {وكيل} other {وكلاء}}",
     "creditsLabel": "رصيد ترحيبي",
     "browsersLabel": "{count, plural, one {متصفح متزامن} other {متصفحات متزامنة}}",
-    "projectsLabel": "{count, plural, one {مشروع} other {مشاريع}}",
-    "noProjects": "لا مشاريع",
+    "teamsLabel": "{count, plural, one {فريق} other {فرق}}",
+    "noTeams": "لا فرق",
     "planFeatures": {
       "0": "كل وكيل يعمل في حاويته الآمنة الخاصة",
       "1": "يعمل مع Claude وGPT وGemini وأكثر من 100 نموذج آخر",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "غير محدود",
       "agents": "وكلاء",
       "browsers": "متصفحات متزامنة",
-      "projects": "مشاريع",
+      "teams": "فرق",
       "features": {
         "0": "بنية تحتية مخصصة",
         "1": "اتفاقيات مستوى خدمة مخصصة",

@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "Growth",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "成長中のチーム向け"
       },
       "2": {
         "name": "Pro",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "エージェンシー・パワーユーザー向け"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "大規模運用向け"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {エージェント} other {エージェント}}",
     "creditsLabel": "ウェルカムクレジット",
     "browsersLabel": "{count, plural, one {同時ブラウザ} other {同時ブラウザ}}",
-    "projectsLabel": "{count, plural, one {プロジェクト} other {プロジェクト}}",
-    "noProjects": "プロジェクトなし",
+    "teamsLabel": "{count, plural, one {チーム} other {チーム}}",
+    "noTeams": "チームなし",
     "planFeatures": {
       "0": "各エージェントは専用のセキュアコンテナで実行",
       "1": "Claude、GPT、Gemini + 100以上に対応",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "無制限",
       "agents": "エージェント",
       "browsers": "同時ブラウザ",
-      "projects": "プロジェクト",
+      "teams": "チーム",
       "features": {
         "0": "専用インフラ",
         "1": "カスタムSLA",

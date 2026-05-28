@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "Growth",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "สำหรับทีมที่กำลังเติบโต"
       },
       "2": {
         "name": "Pro",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "สำหรับเอเจนซีและพาวเวอร์ยูสเซอร์"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "สำหรับงานปริมาณสูง"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {เอเจนต์} other {เอเจนต์}}",
     "creditsLabel": "เครดิตต้อนรับ",
     "browsersLabel": "{count, plural, one {เบราว์เซอร์พร้อมกัน} other {เบราว์เซอร์พร้อมกัน}}",
-    "projectsLabel": "{count, plural, one {โปรเจกต์} other {โปรเจกต์}}",
-    "noProjects": "ไม่มีโปรเจกต์",
+    "teamsLabel": "{count, plural, one {ทีม} other {ทีม}}",
+    "noTeams": "ไม่มีทีม",
     "planFeatures": {
       "0": "เอเจนต์แต่ละตัวรันในคอนเทนเนอร์ปลอดภัยของตัวเอง",
       "1": "ใช้ได้กับ Claude, GPT, Gemini และอีก 100 รุ่น",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "ไม่จำกัด",
       "agents": "เอเจนต์",
       "browsers": "เบราว์เซอร์พร้อมกัน",
-      "projects": "โปรเจกต์",
+      "teams": "ทีม",
       "features": {
         "0": "อินฟราสตรักเจอร์เฉพาะ",
         "1": "SLA แบบกำหนดเอง",

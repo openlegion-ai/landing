@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "Рост",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "Для растущих команд"
       },
       "2": {
         "name": "Про",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "Для агентств и продвинутых пользователей"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "Для крупных операций"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {агент} few {агента} many {агентов} other {агентов}}",
     "creditsLabel": "приветственные кредиты",
     "browsersLabel": "{count, plural, one {параллельный браузер} few {параллельных браузера} many {параллельных браузеров} other {параллельных браузеров}}",
-    "projectsLabel": "{count, plural, one {проект} few {проекта} many {проектов} other {проектов}}",
-    "noProjects": "Без проектов",
+    "teamsLabel": "{count, plural, one {команда} few {команды} many {команд} other {команд}}",
+    "noTeams": "Без команд",
     "planFeatures": {
       "0": "Каждый агент работает в собственном защищённом контейнере",
       "1": "Работает с Claude, GPT, Gemini + ещё 100 моделей",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "Без ограничений",
       "agents": "агентов",
       "browsers": "параллельных браузеров",
-      "projects": "проектов",
+      "teams": "команд",
       "features": {
         "0": "Выделенная инфраструктура",
         "1": "Индивидуальные SLA",

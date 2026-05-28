@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "Growth",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "適合成長中的團隊"
       },
       "2": {
         "name": "Pro",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "適合代理機構與進階使用者"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "適用於大規模營運"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {個智慧代理} other {個智慧代理}}",
     "creditsLabel": "歡迎贈送額度",
     "browsersLabel": "{count, plural, one {個同時瀏覽器} other {個同時瀏覽器}}",
-    "projectsLabel": "{count, plural, one {個專案} other {個專案}}",
-    "noProjects": "無專案",
+    "teamsLabel": "{count, plural, one {個團隊} other {個團隊}}",
+    "noTeams": "無團隊",
     "planFeatures": {
       "0": "每個智慧代理在專屬安全容器中執行",
       "1": "支援 Claude、GPT、Gemini + 100 多種模型",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "無限制",
       "agents": "智慧代理",
       "browsers": "同時瀏覽器",
-      "projects": "專案",
+      "teams": "團隊",
       "features": {
         "0": "專屬基礎設施",
         "1": "客製 SLA",

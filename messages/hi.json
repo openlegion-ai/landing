@@ -645,23 +645,23 @@
       },
       "1": {
         "name": "ग्रोथ",
-        "monthlyPrice": "59",
-        "yearlyPrice": "530",
-        "yearlyMonthly": "44",
+        "monthlyPrice": "62",
+        "yearlyPrice": "557",
+        "yearlyMonthly": "46",
         "tagline": "बढ़ती टीमों के लिए"
       },
       "2": {
         "name": "प्रो",
-        "monthlyPrice": "149",
-        "yearlyPrice": "1340",
-        "yearlyMonthly": "112",
+        "monthlyPrice": "152",
+        "yearlyPrice": "1367",
+        "yearlyMonthly": "114",
         "tagline": "एजेंसियों और पावर यूज़र्स के लिए"
       },
       "3": {
         "name": "Pro Max",
-        "monthlyPrice": "279",
-        "yearlyPrice": "2510",
-        "yearlyMonthly": "209",
+        "monthlyPrice": "296",
+        "yearlyPrice": "2663",
+        "yearlyMonthly": "222",
         "tagline": "बड़े पैमाने पर संचालन के लिए"
       }
     },
@@ -674,8 +674,8 @@
     "agentsLabel": "{count, plural, one {एजेंट} other {एजेंट}}",
     "creditsLabel": "स्वागत क्रेडिट",
     "browsersLabel": "{count, plural, one {कन्करंट ब्राउज़र} other {कन्करंट ब्राउज़र}}",
-    "projectsLabel": "{count, plural, one {प्रोजेक्ट} other {प्रोजेक्ट}}",
-    "noProjects": "कोई प्रोजेक्ट नहीं",
+    "teamsLabel": "{count, plural, one {टीम} other {टीम}}",
+    "noTeams": "कोई टीम नहीं",
     "planFeatures": {
       "0": "हर एजेंट अपने सुरक्षित कंटेनर में चलता है",
       "1": "Claude, GPT, Gemini + 100 और मॉडल के साथ काम करता है",
@@ -692,7 +692,7 @@
       "unlimitedAgents": "असीमित",
       "agents": "एजेंट",
       "browsers": "कन्करंट ब्राउज़र",
-      "projects": "प्रोजेक्ट",
+      "teams": "टीम",
       "features": {
         "0": "डेडिकेटेड इन्फ़्रास्ट्रक्चर",
         "1": "कस्टम SLA",
