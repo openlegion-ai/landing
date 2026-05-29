@@ -34,6 +34,12 @@ export function Footer() {
             <p className="mt-4 text-sm leading-relaxed text-muted">
               {t("brandDescription")}
             </p>
+            <a
+              href="tel:+13072002803"
+              className="mt-4 inline-block text-sm text-muted transition-colors hover:text-foreground"
+            >
+              +1 (307) 200-2803
+            </a>
             <p className="mt-4 text-xs text-muted/70">
               {t("license", { year: new Date().getFullYear() })}
             </p>
