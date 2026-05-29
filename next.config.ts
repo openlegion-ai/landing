@@ -97,6 +97,19 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Canonical host: permanently send the bare apex to www, preserving the
+      // path. The host `value` is an unanchored regex, so anchor it with ^…$
+      // to match only "openlegion.ai" and not "www.openlegion.ai" (which would
+      // be a redirect loop) or other subdomains (docs., app.). Config redirects
+      // run before the next-intl middleware, so locale routing happens on the
+      // final www host. Vercel can also do this at the edge (Domains → set www
+      // as primary) — this keeps it in version control as the source of truth.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "^openlegion\\.ai$" }],
+        destination: "https://www.openlegion.ai/:path*",
+        permanent: true,
+      },
       {
         source: "/comparisons",
         destination: "/comparison",
