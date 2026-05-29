@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://www.openlegion.ai",
-  "pageCount": 26,
+  "pageCount": 31,
   "pages": [
     {
       "slug": "/ai-social-media-management",
@@ -339,6 +339,35 @@
       "url": "https://www.openlegion.ai/en/comparison/manus-ai"
     },
     {
+      "slug": "/comparison/mastra",
+      "title": "Mastra Alternative — Security-First AI Agent Platform",
+      "description": "Mastra is a TypeScript-only framework with a dual license locking RBAC behind a proprietary ee/ directory and CVE-2025-61685 exposing credentials. Compare mastra alternatives.",
+      "primaryKeyword": "mastra alternative",
+      "secondaryKeywords": [
+        "openlegion vs mastra",
+        "mastra security",
+        "mastra typescript agent framework",
+        "mastra enterprise edition"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-26",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/crewai",
+        "/comparison/autogen",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-platform"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/comparison/mastra"
+    },
+    {
       "slug": "/comparison/memu",
       "title": "OpenLegion vs MemU — Detailed Comparison (2026)",
       "description": "OpenLegion vs MemU: full security-first agent framework vs specialized agentic memory layer. Architecture, memory models, integration patterns, and when to use each.",
@@ -610,21 +639,53 @@
       "url": "https://www.openlegion.ai/en/comparison/picoclaw"
     },
     {
+      "slug": "/comparison/pydantic-ai",
+      "title": "Pydantic AI Alternative — Security-First Execution Platform",
+      "description": "PydanticAI has 17,362 GitHub stars and strong type safety, but no credential vault, container isolation, or per-agent budget controls. Compare its library model with OpenLegion platform.",
+      "primaryKeyword": "pydantic ai alternative",
+      "secondaryKeywords": [
+        "pydantic ai vs openlegion",
+        "pydantic ai production",
+        "pydantic ai security",
+        "pydanticai alternative python",
+        "ai agent framework type safe"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-28",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/crewai",
+        "/comparison/autogen",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-platform"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/comparison/pydantic-ai"
+    },
+    {
       "slug": "/comparison/semantic-kernel",
-      "title": "OpenLegion vs Semantic Kernel — Detailed Comparison",
-      "description": "OpenLegion vs Semantic Kernel: side-by-side comparison of security, agent isolation, credential management, enterprise features, and multi-agent orchestration.",
-      "primaryKeyword": "openlegion vs semantic kernel",
+      "title": "Semantic Kernel Alternative — Security-First Agent Platform",
+      "description": "Semantic Kernel enters maintenance mode in 2026. Compare OpenLegion vs Semantic Kernel on CVE-2026-26030, NuGet chain, credential isolation, and Microsoft Agent Framework migration risk.",
+      "primaryKeyword": "semantic kernel alternative",
       "secondaryKeywords": [],
       "schemaTypes": [
         "FAQPage"
       ],
-      "lastUpdated": "2026-03",
+      "lastUpdated": "2026-05-25",
       "pageType": "comparison",
       "related": [
         "/comparison/autogen",
         "/comparison/langgraph",
-        "/comparison/aws-strands",
-        "/comparison/openai-agents-sdk"
+        "/comparison/openai-agents-sdk",
+        "/comparison/crewai",
+        "/comparison/google-adk",
+        "/learn/ai-agent-security"
       ],
       "availableLocales": [
         "en",
@@ -931,6 +992,92 @@
       "url": "https://www.openlegion.ai/en/learn/ai-agent-security"
     },
     {
+      "slug": "/learn/ai-coding-agents",
+      "title": "AI Coding Agents - Deploy Secure Dev Agent Teams",
+      "description": "AI coding agents that plan, write, test, and review code autonomously. OpenLegion runs them in isolated containers with vaulted credentials and per-agent budgets - a self-hostable dev agent team.",
+      "primaryKeyword": "ai coding agents",
+      "secondaryKeywords": [
+        "ai code agent",
+        "ai coding agent",
+        "autonomous coding agents",
+        "ai software engineering agents",
+        "ai agent for developers",
+        "multi-agent coding",
+        "secure ai coding agents"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05",
+      "pageType": "learn",
+      "related": [
+        "/learn/what-is-an-ai-agent",
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-security",
+        "/comparison"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-coding-agents"
+    },
+    {
+      "slug": "/learn/managed-ai-agent-hosting",
+      "title": "Managed AI Agent Hosting - Deploy Secure Agent Fleets",
+      "description": "Managed AI agent hosting from OpenLegion: deploy container-isolated agent fleets on a dedicated VPS with vaulted credentials, per-agent budgets, and no infrastructure to run yourself.",
+      "primaryKeyword": "managed ai agent hosting",
+      "secondaryKeywords": [
+        "host ai agents",
+        "managed ai agent platform",
+        "hosted ai agents",
+        "ai agent hosting service",
+        "dedicated vps for ai agents",
+        "ai agent infrastructure",
+        "cloud ai agent hosting",
+        "secure ai agent hosting"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-orchestration",
+        "/comparison"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/managed-ai-agent-hosting"
+    },
+    {
       "slug": "/learn/model-context-protocol",
       "title": "Model Context Protocol (MCP) — How AI Agents Use Tools",
       "description": "Model Context Protocol (MCP) is Anthropic's open standard for letting AI agents discover and call external tools. How it works, security caveats, and OpenLegion's MCP support.",
@@ -973,6 +1120,49 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/learn/model-context-protocol"
+    },
+    {
+      "slug": "/learn/what-is-an-ai-agent",
+      "title": "What Is an AI Agent? Definition and How They Work",
+      "description": "What is an AI agent? A clear definition: an autonomous system that perceives, plans, and acts toward a goal using tools - plus how agents differ from chatbots and how the agent loop works.",
+      "primaryKeyword": "what is an ai agent",
+      "secondaryKeywords": [
+        "ai agent definition",
+        "what are ai agents",
+        "how do ai agents work",
+        "autonomous ai agent",
+        "ai agent vs chatbot",
+        "types of ai agents",
+        "ai agent examples"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-security",
+        "/comparison"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/what-is-an-ai-agent"
     },
     {
       "slug": "/openclaw-alternative",

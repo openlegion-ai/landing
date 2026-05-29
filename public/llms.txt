@@ -59,7 +59,10 @@ All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start 
 - AI Agent Orchestration — Coordinate Agents: https://www.openlegion.ai/en/learn/ai-agent-orchestration
 - AI Agent Platform — Deploy Secure Agents: https://www.openlegion.ai/en/learn/ai-agent-platform
 - AI Agent Security — Threats, Isolation, Vaults: https://www.openlegion.ai/en/learn/ai-agent-security
+- AI Coding Agents - Deploy Secure Dev Agent Teams: https://www.openlegion.ai/en/learn/ai-coding-agents
+- Managed AI Agent Hosting - Deploy Secure Agent Fleets: https://www.openlegion.ai/en/learn/managed-ai-agent-hosting
 - Model Context Protocol (MCP) — How AI Agents Use Tools: https://www.openlegion.ai/en/learn/model-context-protocol
+- What Is an AI Agent? Definition and How They Work: https://www.openlegion.ai/en/learn/what-is-an-ai-agent
 
 ### Comparisons
 - OpenLegion vs AutoGen — Security, Migration & 2026 Verdict: https://www.openlegion.ai/en/comparison/autogen
@@ -69,6 +72,7 @@ All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start 
 - OpenLegion vs Google ADK - Detailed Comparison: https://www.openlegion.ai/en/comparison/google-adk
 - OpenLegion vs LangGraph — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/langgraph
 - OpenLegion vs Manus AI — Detailed Comparison: https://www.openlegion.ai/en/comparison/manus-ai
+- Mastra Alternative — Security-First AI Agent Platform: https://www.openlegion.ai/en/comparison/mastra
 - OpenLegion vs MemU — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/memu
 - OpenLegion vs nanobot — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/nanobot
 - OpenLegion vs NanoClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/nanoclaw
@@ -76,7 +80,8 @@ All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start 
 - OpenLegion vs OpenClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/openclaw
 - OpenLegion vs OpenFang — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/openfang
 - OpenLegion vs PicoClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/picoclaw
-- OpenLegion vs Semantic Kernel — Detailed Comparison: https://www.openlegion.ai/en/comparison/semantic-kernel
+- Pydantic AI Alternative — Security-First Execution Platform: https://www.openlegion.ai/en/comparison/pydantic-ai
+- Semantic Kernel Alternative — Security-First Agent Platform: https://www.openlegion.ai/en/comparison/semantic-kernel
 - OpenLegion vs ZeroClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/zeroclaw
 
 ### More
