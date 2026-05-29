@@ -34,12 +34,18 @@ export function Footer() {
             <p className="mt-4 text-sm leading-relaxed text-muted">
               {t("brandDescription")}
             </p>
-            <a
-              href="tel:+13072002803"
-              className="mt-4 inline-block text-sm text-muted transition-colors hover:text-foreground"
-            >
-              +13072002803
-            </a>
+            <address className="mt-4 text-sm not-italic leading-relaxed text-muted">
+              OpenLegion LLC
+              <br />
+              30 N Gould St, Ste R, Sheridan, Wyoming 82801
+              <br />
+              <a
+                href="tel:+13072002803"
+                className="inline-block transition-colors hover:text-foreground"
+              >
+                +13072002803
+              </a>
+            </address>
             <p className="mt-4 text-xs text-muted/70">
               {t("license", { year: new Date().getFullYear() })}
             </p>
