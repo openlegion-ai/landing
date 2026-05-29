@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 31
-- **Fully translated (all 12 locales):** 26
+- **Fully translated (all 12 locales):** 29
 - **Partially translated:** 0
-- **English-only (0 translations):** 5
+- **English-only (0 translations):** 2
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 26 / 31 | 84% |
-| zh-TW | 26 / 31 | 84% |
-| ja | 26 / 31 | 84% |
-| ko | 26 / 31 | 84% |
-| es | 26 / 31 | 84% |
-| fr | 26 / 31 | 84% |
-| de | 26 / 31 | 84% |
-| pt | 26 / 31 | 84% |
-| ar | 26 / 31 | 84% |
-| hi | 26 / 31 | 84% |
-| ru | 26 / 31 | 84% |
-| th | 26 / 31 | 84% |
+| zh | 29 / 31 | 94% |
+| zh-TW | 29 / 31 | 94% |
+| ja | 29 / 31 | 94% |
+| ko | 29 / 31 | 94% |
+| es | 29 / 31 | 94% |
+| fr | 29 / 31 | 94% |
+| de | 29 / 31 | 94% |
+| pt | 29 / 31 | 94% |
+| ar | 29 / 31 | 94% |
+| hi | 29 / 31 | 94% |
+| ru | 29 / 31 | 94% |
+| th | 29 / 31 | 94% |
 
 ## Coverage matrix
 
@@ -68,17 +68,14 @@ locales; they are not tracked here.
 | `/learn/ai-agent-orchestration` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/ai-coding-agents` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
-| `/learn/managed-ai-agent-hosting` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/what-is-an-ai-agent` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/what-is-an-ai-agent` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/openclaw-alternative` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 
 ## Pages needing translation
 
 - `/comparison/mastra` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/comparison/pydantic-ai` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/ai-coding-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/managed-ai-agent-hosting` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/what-is-an-ai-agent` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 

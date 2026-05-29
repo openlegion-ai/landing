@@ -1032,6 +1032,231 @@ Key frameworks include OWASP Top 10 for LLM Applications (2025) and Agentic Appl
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
 
+<!-- https://www.openlegion.ai/en/learn/ai-coding-agents | last_updated: 2026-05 -->
+
+# AI Coding Agents: Deploy a Secure Dev Agent Team
+
+Autocomplete suggests the next line. AI coding agents finish the ticket. They are autonomous agents that read an issue, plan the work, edit files across a repo, run the test suite, fix what breaks, and open a pull request - while you do something else. OpenLegion runs them the way you would run any code that executes untrusted commands: each agent in its own container, with credentials it never directly holds.
+
+<!-- SCHEMA: DefinitionBlock -->
+
+> **What is an AI coding agent?**
+> An AI coding agent is an autonomous AI system that takes a software task, plans the steps, writes and edits code, runs tests and tools, and iterates toward a working result - operating across many steps rather than completing a single line or function on request.
+
+## TL;DR
+
+- AI coding agents do software work end to end: plan, write, test, review, and open a pull request. Not just suggest the next line.
+- A coding assistant augments a human in the editor. A coding agent runs the loop on its own toward a defined task.
+- The exciting capability and the dangerous one are the same: executing code and holding repo credentials. Isolation is not optional.
+- OpenLegion's Dev Team template ships a PM, an Engineer, and a Reviewer agent, each in its own container with its own budget.
+- It is self-hostable under BSL 1.1, so coding agents can run inside your own network for private repositories.
+
+## What a Coding Agent Actually Does
+
+The word "agent" raises the bar past suggestion. A coding agent owns a whole task, not a single completion. A typical run reads like a junior engineer's afternoon:
+
+- Read the issue or request and restate the goal in its own words.
+- Explore the repository to find the files that matter and learn the surrounding context.
+- Plan the change as a sequence of edits and checks.
+- Write and modify code across multiple files.
+- Run the build and tests, read the failures, and fix them.
+- Open a pull request with a description, or hand the diff to a reviewer agent.
+
+The language model supplies judgment at each step; the agent loop and tool access turn that judgment into committed work. For the mechanics of that loop, see [what is an AI agent](/learn/what-is-an-ai-agent).
+
+## Why Isolation Is the Whole Story
+
+Here is the uncomfortable truth the "autonomous engineer" demos skip: an agent that executes code is, by definition, running untrusted commands on a machine, and an agent that pushes to your repo is holding your most sensitive credentials. That is precisely the workload you would never run unsandboxed if a human wrote it.
+
+When coding agents share a host or a process, the failure modes are not hypothetical:
+
+- A generated command wipes files outside the intended workspace.
+- A prompt-injected dependency or README convinces the agent to exfiltrate secrets.
+- One agent's runaway loop starves another of CPU and memory.
+- Repo tokens and cloud keys sit in plain environment variables the agent can simply read.
+
+OpenLegion closes each of these structurally. Every coding agent runs in its own Docker container with resource caps, a non-root user, and a read-only base filesystem. Repository tokens and API keys live in a vault proxy on the trusted host and are injected at the network layer, so a compromised agent never sees the raw credential. The full model is laid out in [AI agent security](/learn/ai-agent-security).
+
+## Multi-Agent Coding: The Dev Team Template
+
+One agent is fine for a small fix. Bigger work benefits from the same thing human teams rely on: separation of concerns. OpenLegion's Dev Team template runs three agents that each own a job:
+
+- **PM agent** turns a request into scoped tasks with acceptance criteria.
+- **Engineer agent** implements each task, writing code and running tests.
+- **Reviewer agent** checks the diff against the criteria, then approves or sends it back.
+
+They coordinate through OpenLegion's [orchestration model](/learn/ai-agent-orchestration) - a shared blackboard, a pub/sub event bus, and a structured handoff - with no language model sitting in the control plane deciding who does what. Each agent gets its own container, budget, and permissions, so the Engineer can execute code while the Reviewer cannot, and neither can blow past its spend ceiling.
+
+## Coding Agents vs Coding Assistants
+
+The two get conflated constantly, and they solve different problems.
+
+| Aspect | AI coding assistant | AI coding agent |
+|---|---|---|
+| Where it runs | Inside your editor | As an autonomous process |
+| Human role | Drives every keystroke | Sets the goal, reviews the result |
+| Scope | Line and function completion | Whole task: plan, edit, test, PR |
+| Executes code | No | Yes, in a sandbox |
+| Holds credentials | Editor session | Vault-proxied, agent never sees raw keys |
+| Best for | Making a developer faster | Taking a whole task off the plate |
+
+An assistant makes you faster. An agent does a unit of work while you are busy with another. Most teams will run both, and the smart ones know which job to hand to which.
+
+## OpenLegion's Take
+
+The race to ship "autonomous software engineers" keeps burying the unglamorous truth: the dangerous capability is code execution, and the dangerous asset is your repository credentials. An agent that can run shell commands and push to your repo is a production security boundary wearing a productivity costume. Treat it like a gadget - shared host, keys in environment variables, no budget ceiling - and a helpful agent becomes an incident report. Our position is simple: coding agents belong in the same isolation and credential model as any untrusted workload, and that should be the default, self-hostable, and auditable, not a feature you upgrade to buy.
+
+## CTA
+
+**Deploy a secure AI coding agent team.**
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See how it compares](/comparison)
+
+---
+
+<!-- SCHEMA: FAQPage -->
+
+## Frequently Asked Questions
+
+### What is an AI coding agent?
+
+An AI coding agent is an autonomous system that performs software tasks end to end. Given an issue or request, it plans the work, explores the codebase, writes and edits code across files, runs tests, fixes failures, and opens a pull request, iterating on its own instead of completing a single suggestion. A large language model supplies the reasoning, and the agent loop plus tool access turn that reasoning into committed changes.
+
+### How are AI coding agents different from coding assistants like autocomplete?
+
+A coding assistant works inside your editor and speeds up a developer who is driving every keystroke. A coding agent runs as an autonomous process: you give it a task and review the result while it plans, edits, executes, and tests on its own. Assistants augment a human in the loop; agents take a whole task out of the loop.
+
+### Is it safe to let an AI agent execute code and access my repository?
+
+Only with proper isolation. An agent that runs code is executing untrusted commands, and one that pushes to your repo holds sensitive credentials. OpenLegion runs each coding agent in its own container with resource limits and a read-only base filesystem, and keeps repository tokens and API keys in a vault proxy the agent never directly accesses. That containment is what makes autonomous code execution acceptable in production.
+
+### Can AI coding agents work as a team rather than one agent?
+
+Yes. OpenLegion's Dev Team template runs a PM agent, an Engineer agent, and a Reviewer agent that coordinate through a shared blackboard and a structured handoff. Each has its own container, budget, and permission set, so responsibilities and risk stay separated: the Engineer runs code, the Reviewer checks the diff, and neither can exceed its spending limit.
+
+### Can I run AI coding agents on my own infrastructure?
+
+Yes. OpenLegion is source-available under BSL 1.1 and runs on a single machine with Python and Docker, so coding agents can operate entirely inside your own network. That matters for private repositories and regulated environments where code and credentials cannot leave your infrastructure. A managed hosting option exists for teams that prefer not to run it themselves.
+
+### What does it cost to run AI coding agents?
+
+OpenLegion charges a flat platform fee with no markup on model usage. You bring your own LLM API keys or use included credits and pay providers at their published rates. Per-agent daily and monthly budget caps stop a stuck agent from running up an unbounded bill. Managed plans start at $19/month with a 7-day money-back guarantee, and self-hosting the engine is available under BSL 1.1.
+
+<!-- https://www.openlegion.ai/en/learn/managed-ai-agent-hosting | last_updated: 2026-05 -->
+
+# Managed AI Agent Hosting for Secure Agent Fleets
+
+You wanted an AI workforce. What you got was a second job in DevOps. Managed AI agent hosting hands that job back. It runs the servers, containers, credential vault, and budgets your agents need, so you provision none of it yourself. OpenLegion's managed plane drops each agent into its own isolated container on a dedicated VPS, keeps your keys in a vault the agents never touch, and caps spend per agent by default. You bring a goal and a key; we run the floor underneath.
+
+<!-- SCHEMA: DefinitionBlock -->
+
+> **What is managed AI agent hosting?**
+> Managed AI agent hosting is a service that provisions, isolates, secures, and operates the infrastructure autonomous AI agents run on - containers, credential storage, budgets, networking, and a control dashboard - so a team can deploy agent fleets without building or maintaining that infrastructure themselves.
+
+## TL;DR
+
+- Managed AI agent hosting removes the work between you and a running fleet: no server setup, no Docker tuning, no vault to operate.
+- Every agent runs in its own container on a dedicated VPS, not a shared multi-tenant process, so one account's blast radius stays contained.
+- Credentials live in a vault proxy on the trusted host; agents send requests and the proxy injects keys at the network layer, so a compromised agent cannot read them.
+- Per-agent daily and monthly budget caps stop runaway LLM spend on the dollar, with no markup on model usage.
+- The same engine is source-available under BSL 1.1, so you can start managed and move to self-hosted later without a rewrite.
+- Plans start at $19/month, paid from day one, with a 7-day money-back guarantee.
+
+## The Hidden Cost of "Just Run an Agent"
+
+Standing up one agent is a weekend. Running a fleet you can trust is a quarter.
+
+Somewhere between the prototype and production, the work quietly changes shape. You stop tuning prompts and start tuning containers. You stop thinking about what the agent should say and start thinking about where its API keys live, what happens when one loops at 3am, and how to keep a compromised agent from reaching the other nine. None of that is the work you set out to do. All of it is the work that determines whether the agents are safe to leave running.
+
+Managed hosting exists to absorb exactly that layer. With OpenLegion's hosted offering you get:
+
+- **A dedicated VPS** provisioned per account, so your fleet never shares a process or memory space with anyone else's.
+- **Per-agent container isolation** with resource caps, non-root execution, dropped capabilities, and a read-only filesystem by default.
+- **A credential vault proxy** that holds LLM keys, OAuth tokens, and wallet private keys outside the agent containers entirely.
+- **Per-agent budget enforcement** with hard cutoffs, so a looping agent cannot generate a surprise invoice.
+- **A control dashboard** to deploy templates, chat with agents, watch live cost and health, and pause anything that misbehaves.
+- **Welcome LLM credits** on every paid plan, plus the option to bring your own keys across 100+ providers with zero markup.
+
+## Managed Hosting vs Self-Hosting: How to Choose
+
+OpenLegion ships the same engine two ways, so the decision is about who runs the box, not which version is more capable.
+
+| Consideration | Self-hosted (BSL 1.1) | Managed hosting |
+|---|---|---|
+| Who runs the servers | You | OpenLegion |
+| Setup time | Three commands on your machine | Sign up, pick a template |
+| Credential vault | You operate it | Operated for you on the trusted host |
+| Updates and patching | You pull and redeploy | Applied for you |
+| Data residency | Fully on your infrastructure | On a dedicated VPS we provision |
+| Best for | Regulated, air-gapped, full control | Teams that want a fleet running today |
+| Cost model | Your own server costs | Flat plan from $19/month |
+
+Choose self-hosting when compliance, data residency, or total control over the host outweighs the cost of running it. Choose managed hosting when you want agents working this afternoon and would rather not own a vault, a container runtime, and an update cadence. Because both run the same code, starting managed never locks you out of self-hosting later.
+
+## What Happens When You Hit Deploy
+
+Activate a paid plan and OpenLegion provisions a dedicated VPS and brings the mesh host online. An Operator agent is created automatically as the foreman of your fleet. From there you describe the team you want - a research desk, a sales pipeline, a content studio - and the platform deploys each role into its own container with its own memory, budget, and tool permissions.
+
+The agents coordinate through the [orchestration layer](/learn/ai-agent-orchestration): a SQLite-backed blackboard, a pub/sub event bus, and a structured handoff. No language model sits in the control plane deciding routing, which keeps behavior auditable and costs predictable. You talk to agents through the dashboard, or through Telegram, Discord, Slack, WhatsApp, or a webhook.
+
+## Security You Do Not Have to Build
+
+The hardest part of hosting agents safely is the part teams most often skip, because it is invisible until it fails. OpenLegion's managed plane enforces the same defense-in-depth described in the [AI agent security](/learn/ai-agent-security) model, on by default:
+
+- Container isolation per agent, with no shared process space.
+- A vault proxy that injects credentials at the network layer, so agents never hold raw keys.
+- A per-agent permission matrix governing which tools, files, and operations each agent may use.
+- Input sanitization, SSRF protection, and prompt-injection hardening at every boundary.
+- Per-agent budget ceilings that fail closed.
+
+You inherit these by signing up, not by reading a hardening guide and implementing it yourself. For the runtime underneath, see the [AI agent platform](/learn/ai-agent-platform) overview.
+
+## Pricing and What You Pay For
+
+Plans are flat monthly or yearly fees, paid from day one, starting at $19/month. The fee covers the dedicated VPS, the vault proxy, container provisioning, the dashboard, and a bundle of welcome LLM credits that never expire. Model usage is drawn from those credits or billed by your own provider at published rates, with no markup on tokens. Every plan carries a 7-day money-back guarantee. Compare plan limits on the [pricing page](/pricing).
+
+## OpenLegion's Take
+
+Most "AI agent hosting" on the market is a shared process running everyone's agents, keys sitting in config, no real budget enforcement. That is fine for a demo and dangerous in production, because the failure modes that actually cost you - a leaked credential, a runaway cost loop, a compromised agent reaching another tenant - are the exact ones shared infrastructure makes worse. Managed hosting is only worth paying for if it buys you isolation and credential safety you would otherwise have to build by hand. Our stance is that those guarantees should be the default and identical in the hosted and self-hosted versions, so the only real choice left is who runs the box.
+
+## CTA
+
+**Deploy a secure agent fleet without running the infrastructure.**
+[Get Started](https://app.openlegion.ai) | [See Pricing](/pricing) | [Read the Docs](https://docs.openlegion.ai)
+
+---
+
+<!-- SCHEMA: FAQPage -->
+
+## Frequently Asked Questions
+
+### What is managed AI agent hosting?
+
+Managed AI agent hosting is a service that provisions and operates the infrastructure autonomous AI agents need - isolated containers, a credential vault, budget enforcement, networking, and a control dashboard - so a team can deploy and run agent fleets without building or maintaining that infrastructure. With OpenLegion you sign up, pick a template, add an LLM key, and your agents run on a dedicated VPS.
+
+### How is managed hosting different from self-hosting OpenLegion?
+
+Both run the identical OpenLegion engine with the same security controls. Self-hosting means you run the servers, operate the vault, and apply updates yourself, which suits regulated or air-gapped environments. Managed hosting means OpenLegion provisions the VPS, operates the vault, and patches the platform for you. Because the code is the same, you can start managed and migrate to self-hosted later without rebuilding your fleet.
+
+### Is it safe to host AI agents that hold my API and wallet keys?
+
+Yes, when the keys never live inside the agent. On OpenLegion's managed plane, API keys, OAuth tokens, and wallet private keys are held in a vault proxy on the trusted mesh host. Agents send requests and the proxy injects the credential at the network layer, so even a fully compromised agent cannot read or exfiltrate the secret. Wallet transactions are signed server-side.
+
+### What does managed AI agent hosting cost?
+
+OpenLegion managed plans start at $19/month, paid from day one, with a 7-day money-back guarantee. The flat fee covers the dedicated VPS, vault proxy, container provisioning, dashboard, and a bundle of welcome LLM credits that never expire. Model token usage is drawn from those credits or billed directly by your own provider with no markup from OpenLegion.
+
+### Do I need to know Docker or DevOps to use managed hosting?
+
+No. The managed plane handles container provisioning, credential storage, networking, and updates. You work through a dashboard: pick a team template, add an LLM key, and deploy. Docker, Python, and server administration are only required if you choose the self-hosted version instead.
+
+### Can I move from managed hosting to self-hosted later?
+
+Yes. The managed plane and the self-hosted distribution run the same engine, source-available under BSL 1.1. There is no proprietary lock-in layer that would block migration, so teams commonly start on managed hosting to move fast and switch to self-hosted infrastructure once compliance or cost makes that worthwhile.
+
+### How many agents can I host on a managed plan?
+
+Agent limits scale with the plan tier, from a single agent on the entry plan up to large fleets on higher tiers, with custom limits for enterprise. Each deployed agent container counts as one agent toward the limit, so a three-role template like a Dev Team counts as three agents.
+
 <!-- https://www.openlegion.ai/en/learn/model-context-protocol | last_updated: 2026-05 -->
 
 # Model Context Protocol: The Open Standard for AI Agent Tools
@@ -1127,6 +1352,119 @@ OpenAI function calling is a single-vendor pattern for letting one LLM call func
 ### Can I use MCP with any LLM provider?
 
 Yes. MCP is LLM-agnostic — the client renders MCP tool definitions into whatever format the underlying LLM expects (Anthropic tool use, OpenAI function calling, Gemini function declarations). Runtimes like OpenLegion that support 100+ providers via LiteLLM automatically adapt MCP tools to each provider's calling convention.
+
+<!-- https://www.openlegion.ai/en/learn/what-is-an-ai-agent | last_updated: 2026-05 -->
+
+# What Is an AI Agent? Definition and How They Work
+
+Ask most people to define an AI agent and they describe a chatbot. The distinction is the whole point. An AI agent is an autonomous system that perceives its environment, decides what to do, and acts toward a goal without a human steering each step. A chatbot waits for your next message. An agent reads the situation, makes a plan, uses tools, and keeps working until the job is done.
+
+<!-- SCHEMA: DefinitionBlock -->
+
+> **What is an AI agent?**
+> An AI agent is an autonomous system that uses a large language model to perceive input, reason about a goal, select and call tools, and act on its environment in a repeating loop - operating with a degree of independence rather than responding to a single prompt.
+
+## TL;DR
+
+- An AI agent perceives, plans, acts, and observes in a loop until a goal is met. It does work, not just conversation.
+- The reasoning comes from a large language model. The capability comes from the tools the agent can call: browser, code, files, APIs.
+- A chatbot answers and stops. An agent pursues a goal across many steps and decisions.
+- Agents range from simple reflex agents to goal-based and learning agents. Production systems are usually goal-based with memory.
+- The model gives you intelligence, not safety. Isolation, credential protection, and budget limits are what make autonomy survivable.
+
+## The Difference Between Talking and Doing
+
+Here is the line that separates an agent from everything else wearing the label.
+
+A large language model predicts text. Ask it a question, get an answer. Powerful, but inert: it does nothing until you prompt it again, and it cannot touch anything outside the conversation.
+
+An AI agent takes that same model and wires it to two things it did not have before: tools and a goal. Now it can open a browser, run code, send an email, or query a database. And instead of answering once, it keeps going, checking its own work against the objective until the objective is met.
+
+That shift, from responding to pursuing, is small to describe and enormous in practice. It is the difference between an assistant that suggests and a worker that ships.
+
+## How AI Agents Work: The Loop
+
+Every working agent runs the same four-beat cycle, over and over:
+
+1. **Perceive.** Gather the current state: the request, prior memory, the last tool's output, any new event.
+2. **Plan.** The language model reasons about the best next move given the goal and the tools on hand.
+3. **Act.** The agent calls a tool. It opens a URL, executes a script, writes a file, signs a transaction.
+4. **Observe.** It reads what happened and feeds that back into the next perception.
+
+Spin that loop a few hundred times and a vague instruction ("find our top three competitors and summarize their pricing") becomes a finished deliverable. Memory is what keeps the loop coherent across steps and sessions; without it, the agent forgets what it just did. The loop ends when the goal is satisfied, a step ceiling is reached, or a budget cutoff fires.
+
+## Types of AI Agents
+
+The textbook taxonomy still maps cleanly onto today's systems, from simplest to most capable:
+
+- **Simple reflex agents** react to the current input with fixed rules. Fast, and blind to history.
+- **Model-based agents** keep an internal picture of the world to cope with partial information.
+- **Goal-based agents** choose actions that move toward an explicit objective. This is the shape of most production agents.
+- **Utility-based agents** weigh trade-offs to pick the best of several valid paths.
+- **Learning agents** sharpen their behavior over time from feedback.
+
+Most deployed LLM agents are goal-based, carry memory, hold a tool set, and increasingly work in coordinated groups where each agent owns one role.
+
+## AI Agent vs Chatbot vs LLM
+
+Three words, used interchangeably, that should not be.
+
+| | Large language model | Chatbot | AI agent |
+|---|---|---|---|
+| Core job | Predict text | Hold a conversation | Pursue a goal |
+| Acts on the world | No | Rarely | Yes, via tools |
+| Runs multiple steps | No | One turn at a time | Many, in a loop |
+| Keeps state toward a goal | No | Session context | Yes, with memory |
+| Example | GPT, Claude, Gemini | A support widget | A research or coding agent |
+
+The model is the brain. The chatbot is one conversational interface to that brain. The agent is the brain given hands and a reason to use them.
+
+## The Part Nobody Demos: Running One Safely
+
+The five-line "build an agent" tutorial always stops at the fun part. It never shows you the next morning, when the agent that browsed the web overnight also held your API keys, ran shell commands, and could spend money on every loop.
+
+That is where the real engineering lives. An autonomous system with tools and credentials is a security boundary, and the reasoning model gives you none of the controls you need: isolation so a misbehaving agent cannot reach the others, a vault so it never holds raw keys, per-agent budgets so a loop cannot run up an unbounded bill, and permissions so each agent touches only what you allow.
+
+A production-grade [AI agent platform](/learn/ai-agent-platform) supplies that operational layer. For the threat model behind it, see [AI agent security](/learn/ai-agent-security); for how several agents work as a team, see [AI agent orchestration](/learn/ai-agent-orchestration).
+
+## OpenLegion's Take
+
+By 2026 the abstract question, "what is an AI agent," is mostly settled. The question that actually decides outcomes is sharper: what does it take to let one run unsupervised? The moment an agent can browse, write code, and move money, your hard problems stop being prompt engineering and become systems engineering - blast radius, leaked credentials, runaway cost, auditability. The teams shipping agents that survive contact with production are the ones who treat the agent as a workload to be governed, not a clever script to be admired. That gap, between a demo and a deployment, is the entire game.
+
+## CTA
+
+**Ready to run real agents, not just demos?**
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [Compare frameworks](/comparison)
+
+---
+
+<!-- SCHEMA: FAQPage -->
+
+## Frequently Asked Questions
+
+### What is an AI agent in simple terms?
+
+An AI agent is software that pursues a goal on its own. You give it an objective, and it works out the steps, uses tools like a web browser or code execution to carry them out, checks the results, and keeps going until the task is done. A large language model supplies the decision-making, which is what lets the agent handle open-ended work instead of following a fixed script.
+
+### How is an AI agent different from a chatbot?
+
+A chatbot answers one message at a time and then waits for you. An AI agent runs a continuous loop toward a goal: it plans, acts on the world through tools, observes what happened, and decides the next step without being prompted for each one. Put simply, a chatbot talks and an agent does work.
+
+### How do AI agents actually work?
+
+They run a perceive-plan-act-observe loop. The agent gathers the current state, the language model reasons about the next action, the agent calls a tool to perform it, and it reads the result before looping again. Memory carries context across steps, and the loop continues until the goal is met or a step or budget limit stops it.
+
+### What are the main types of AI agents?
+
+The classic categories are simple reflex agents, model-based agents, goal-based agents, utility-based agents, and learning agents. Most production LLM systems are goal-based agents with memory and a tool set, often deployed as a coordinated group where each agent owns a specific role.
+
+### What are some examples of AI agents?
+
+A research agent that browses sources and writes a brief. A coding agent that plans a change and opens a pull request. A sales agent that qualifies and contacts leads. A treasury agent that executes on-chain transactions under spending limits. Each runs toward its goal on its own rather than waiting for turn-by-turn instructions.
+
+### Are AI agents safe to run autonomously?
+
+They can be, but only with the right controls. An autonomous agent that browses the web, executes code, and holds credentials introduces real risk: leaked keys, prompt injection, runaway cost, data exfiltration. Running agents in isolated containers, keeping credentials in a vault the agent never accesses, enforcing per-agent budgets, and limiting permissions are what make unsupervised operation safe in production.
 
 ---
 
@@ -2285,6 +2623,158 @@ Manus tasks are not exportable as reusable workflows. Moving to OpenLegion means
 | OpenLegion vs OpenClaw | /comparison/openclaw |
 | Documentation | /docs |
 | GitHub | https://github.com/openlegion-ai/openlegion |
+
+<!-- https://www.openlegion.ai/en/comparison/mastra | last_updated: 2026-05-26 -->
+
+# Mastra Alternative: Security-First Platform vs TypeScript-First Framework
+
+Mastra is a TypeScript agent framework with 24,329 GitHub stars from the Gatsby team — but CVE-2025-61685 (CVSS 6.5) exposes `~/.aws` credential files via Cursor IDE prompt injection, RBAC and auth are gated behind a proprietary `ee/` directory unavailable under Apache 2.0, and two unmerged PRs leave open-redirect and OAuth CSRF vulnerabilities in the enterprise auth stack unpatched as of May 2026. A mastra alternative built for security-first teams needs vault proxy isolation, not environment variable credentials.
+
+<!-- SCHEMA: DefinitionBlock -->
+
+> **What is Mastra?**
+> Mastra is an open-source TypeScript agent framework from Kepler Software (the team behind Gatsby) with 24,329 GitHub stars, released August 2024, that provides workflow orchestration, tool calling, and RAG primitives for JavaScript and TypeScript developers under a dual license — Apache 2.0 for the core and a proprietary license for the `ee/` enterprise directory containing auth, RBAC, and adapter permission enforcement.
+
+## Why Developers Look for a Mastra Alternative
+
+### CVE-2025-61685: Credential File Exposure via MCP Docs Server
+
+CVE-2025-61685 (CVSS 6.5, CWE-548, September 24 2025) is a directory traversal vulnerability in `@mastra/mcp-docs-server` versions ≤0.13.8. Discovered by Liran Tal, the vulnerability allows prompt injection via Cursor IDE to bypass path traversal protections in `readMdxContent` via `findNearestDirectory`, reaching filesystem paths outside the intended docs directory.
+
+The practical blast radius is narrow but severe for developer machines: the traversal exposes `~/.aws/credentials`, `~/.config/` (containing service account tokens and application credentials), and `~/.cursor/` (containing IDE configuration and any stored tokens). Any developer running an affected `@mastra/mcp-docs-server` version alongside Cursor IDE is exposed to credential file read by a malicious prompt.
+
+Mastra patched the vulnerability in version 0.17.0. Teams still running ≤0.13.8 in any environment where the MCP docs server is active are exposed to the full credential traversal path.
+
+### Dual License: Security Features Behind the `ee/` Paywall
+
+Mastra's Apache 2.0 license covers the core framework. The `ee/` directory — containing auth integrations, RBAC, and adapter permission enforcement — is proprietary and not available under the open-source license. This creates three concrete gaps:
+
+**RBAC is an enterprise add-on.** Role-based access control for agent permissions is not available without the enterprise edition. Teams that need to restrict what specific agents can do — a fundamental security primitive for multi-agent deployments — must pay for the `ee/` upgrade.
+
+**Adapter permissions are gated.** Fine-grained control over which adapters (database connections, API integrations, tool access) specific agents can use requires the proprietary tier. In a multi-tenant agent deployment, this is the difference between isolation and shared access.
+
+**Auth integrations are proprietary.** The `ee/` directory includes WorkOS AuthKit integration (`@workos/authkit-session`) and `better-auth` OAuth flows. The open-source core has no auth primitives.
+
+### Open Unmerged Security PRs in the Enterprise Auth Stack
+
+Two security vulnerabilities in Mastra's enterprise auth dependencies remain open and unmerged as of May 26 2026:
+
+**CVE-2026-42565 (CVSS 4.3)**: Open redirect in `@workos/authkit-session`. An attacker can craft a redirect URL that bypasses origin validation in the WorkOS AuthKit session handler, enabling phishing via trusted domain redirect chains.
+
+**GHSA-wxw3-q3m9-c3jr (CVSS 5.3)**: OAuth CSRF in `better-auth`. The `better-auth` library used in Mastra's enterprise auth stack has an unpatched CSRF vulnerability in OAuth callback handling. Cross-site request forgery against the OAuth callback can allow an attacker to associate their session with a victim's account during the auth flow.
+
+Both vulnerabilities exist in the `ee/` enterprise directory — the tier specifically marketed as providing production-grade security. Teams adopting Mastra enterprise edition for its auth and RBAC capabilities are running auth code with unpatched open-redirect and CSRF vulnerabilities.
+
+## OpenLegion's Take: Three Structural Security Gaps
+
+Mastra is a well-engineered TypeScript framework with genuine strengths for JS/TS teams. The developer experience is polished, the release cadence is fast (24,329 stars in under two years), and the workflow primitives are expressive. But three structural security gaps compound for teams deploying agents in production:
+
+**Credential exposure by design.** Mastra agents receive credentials as environment variables — the standard approach for most frameworks, but one that means every agent process holds every API key it needs. CVE-2025-61685 demonstrated that the surrounding toolchain (MCP docs server, Cursor IDE) can reach those credentials through path traversal even when the agent code itself is clean. OpenLegion's vault proxy injects credentials at the network layer: no agent process ever receives a plaintext API key, making `~/.aws`-style exfiltration structurally impossible regardless of what traversal exists in the toolchain.
+
+**Security as an enterprise upgrade.** RBAC, adapter permissions, and auth integrations require the proprietary `ee/` tier. A developer deploying open-source Mastra has no built-in mechanism to restrict what a given agent can access — shared credential access across all agents is the default. OpenLegion's vault proxy, per-agent container isolation, and blackboard permissions are core features available to all users, not gated behind a tier.
+
+**Unpatched auth vulnerabilities in the paid tier.** CVE-2026-42565 and GHSA-wxw3-q3m9-c3jr sit in `@workos/authkit-session` and `better-auth` — the auth dependencies inside the enterprise `ee/` directory. Teams paying for enterprise-grade security features are running enterprise auth with open-redirect and OAuth CSRF vulnerabilities that remain unmerged. OpenLegion's zero CVE record as of May 2026 reflects an architecture where credentials are never held by agents and auth is replaced by vault proxy isolation, not added as a separate module.
+
+## Mastra vs OpenLegion: Side-by-Side
+
+| **Dimension** | **Mastra** | **OpenLegion** |
+|---|---|---|
+| **Language support** | TypeScript only | Python (agents); tool interfaces for any language |
+| **License** | Apache 2.0 (core) + proprietary `ee/` | BSL 1.1 → Apache 2.0 after 4 years |
+| **GitHub stars** | 24,329 (May 2026) | Pre-release |
+| **Credential model** | Environment variables — agents hold keys | Vault proxy — agents never hold keys |
+| **Agent isolation** | Process-level, no container boundary | Mandatory per-agent Docker containers |
+| **RBAC** | Proprietary `ee/` tier only | Per-agent blackboard permissions (all users) |
+| **CVE record** | CVE-2025-61685 (CVSS 6.5) + 2 open PRs | 0 CVEs reported |
+| **Auth** | WorkOS AuthKit / better-auth (`ee/` only) | Vault proxy (no auth layer needed) |
+| **Budget controls** | None built-in | Per-agent daily/monthly caps |
+| **Multi-agent** | Workflow orchestration, tool calling | Blackboard + pub/sub + mesh handoff |
+| **Open issues** | 433 (May 26 2026) | Pre-release |
+
+## TypeScript-Only: What It Means in Practice
+
+### No Python, Go, or Java Support
+
+Mastra is TypeScript-first by design and currently TypeScript-only. There is no Python SDK, no Go client, no JVM integration. For teams with polyglot codebases or existing Python ML/data infrastructure, adopting Mastra means either rewriting agent logic in TypeScript or accepting that agent coordination cannot span languages.
+
+This is not a temporary gap — it is an architectural choice. Mastra optimizes deeply for the TypeScript developer experience: first-class type inference, native async/await patterns, tight VS Code integration. That optimization means no Python support roadmap. For Python-first teams, Mastra is not a viable option regardless of security posture. OpenLegion, LangGraph, CrewAI, and AutoGen all support Python natively.
+For JS/TS shops building internal tools or agent workflows where the entire stack is already TypeScript, Mastra's developer experience is genuinely excellent. Native type inference for tool schemas, tight integration with the Node.js ecosystem, and familiar `async/await` patterns make agent development feel native to the language rather than adapted from Python conventions.
+
+The trade-off is correct for those teams: accept environment variable credentials and `ee/`-gated RBAC in exchange for TypeScript-first developer experience — provided CVE-2025-61685 is mitigated by upgrading to 0.17.0 and the unmerged auth PRs are acceptable pending upstream fixes.
+
+## Security Architecture: Vault Proxy vs Environment Variables
+
+### How Mastra Handles Credentials
+
+Mastra agents receive LLM API keys and service credentials through environment variables — the standard Node.js pattern. Credentials exist in `process.env` and are accessible to any code running in the agent process, including tool callbacks, MCP server handlers, and any dependency in the `node_modules` tree.
+
+CVE-2025-61685 demonstrated the concrete risk: a directory traversal in `@mastra/mcp-docs-server` could reach `~/.aws/credentials` because the process environment and filesystem were accessible from the same execution context as the vulnerable server. The agent code itself was not exploited — the surrounding toolchain was. But the credentials were reachable.
+
+### How OpenLegion Handles Credentials
+
+OpenLegion's vault proxy sits at the network layer between agents and LLM providers. Agent processes issue API calls through a mesh client. The mesh host intercepts these calls, retrieves the appropriate credential from the vault, injects it into the request header, and forwards to the provider. The agent process never receives a credential string.
+
+This does not prevent all vulnerability classes. But it makes credential exfiltration structurally impossible in the CVE-2025-61685 attack pattern: there is no `process.env.OPENAI_API_KEY` to steal, no `~/.aws/credentials` relevant to agent execution, no credential object accessible from agent code. For deeper analysis of credential isolation patterns, see [AI agent security: credential isolation and container hardening](/learn/ai-agent-security).
+
+## OpenLegion as a Mastra Alternative
+
+### What OpenLegion Provides
+
+Multi-agent coordination via blackboard state, pub/sub events, and mesh handoff — analogous to Mastra's workflow orchestration but with explicit security boundaries per agent. Vault proxy credential injection where no agent process holds API keys. Per-agent Docker isolation with non-root execution and no-new-privileges enforcement. Per-agent daily and monthly budget caps. 100+ LLM providers via LiteLLM integration (OpenAI, Anthropic, Google, Cohere, Azure OpenAI, Bedrock). Fleet templates for repeatable agent topology deployment.
+
+For teams evaluating [what an AI agent platform provides beyond a framework](/learn/ai-agent-platform), the platform comparison covers the full trade-off landscape.
+
+### Honest Trade-offs
+
+No TypeScript SDK — Python only. TypeScript teams cannot use OpenLegion without Python agents or a language-bridging layer. No native Node.js ecosystem integration or TypeScript-first developer experience. Smaller community than Mastra's 24,329 stars. No built-in workflow visualization.
+
+OpenLegion is not the right answer for teams whose primary constraint is TypeScript-only development.
+
+### Who Should Consider OpenLegion Over Mastra
+
+**Python-first or polyglot teams** where TypeScript-only support is a blocker, not a feature.
+
+**Teams where credential isolation is a hard requirement** — security reviews mandating agents cannot hold plaintext API keys, or regulated environments where credential exposure is a compliance violation.
+
+**Teams needing RBAC without an enterprise upgrade** — multi-agent deployments where restricting what specific agents can access is a baseline requirement, not a paid add-on.
+
+**Teams blocked by Mastra's open CVE posture** — if CVE-2025-61685 and the two unmerged auth PRs create unacceptable risk, a zero-CVE architecture with no credential-holding agents changes that evaluation.
+
+For teams currently using Mastra who need to migrate away, the Python-first migration path goes through your tool definitions: any `@mastra/tool` becomes an OpenLegion `@skill` function, LLM provider configs move from `.env` files into the vault, and agent topology moves from Mastra workflow definitions into fleet templates. The migration is not trivial but it is well-defined. The credential migration step in particular — moving from `process.env.OPENAI_API_KEY` to vault-injected credentials — is the single step that eliminates the CVE-2025-61685 attack class structurally.
+
+See also: [OpenLegion vs LangGraph — stateful orchestration and CVE history compared](/comparison/langgraph), [OpenLegion vs CrewAI — role-based agent coordination](/comparison/crewai), and [OpenLegion vs AutoGen — multi-agent patterns](/comparison/autogen). For a full landscape, see [AI agent frameworks comparison 2026](/learn/ai-agent-frameworks).
+
+<!-- SCHEMA: FAQPage -->
+
+## Frequently Asked Questions
+
+### What is Mastra and who built it?
+
+Mastra is a TypeScript agent framework with 24,329 GitHub stars built by Kepler Software — the team behind Gatsby — since August 2024. It provides workflow orchestration, tool calling, RAG primitives, and multi-agent coordination for TypeScript developers under a dual license: Apache 2.0 for the core and a proprietary license for the `ee/` enterprise directory containing auth, RBAC, and adapter permission enforcement.
+
+### What is CVE-2025-61685 in Mastra?
+
+CVE-2025-61685 (CVSS 6.5, September 24 2025) is a directory traversal in `@mastra/mcp-docs-server` ≤0.13.8, discovered by Liran Tal. Prompt injection via Cursor IDE bypasses path traversal protections in `readMdxContent` via `findNearestDirectory`, exposing `~/.aws/credentials`, `~/.config/`, and `~/.cursor/` files. Mastra patched in version 0.17.0; teams running ≤0.13.8 with the MCP docs server active remain exposed.
+
+### Does Mastra have RBAC in the free tier?
+
+No. RBAC, adapter permissions, and auth integrations are in Mastra's proprietary `ee/` directory, unavailable under the Apache 2.0 open-source license. Multi-agent deployments that need per-agent permission enforcement require the enterprise edition upgrade. OpenLegion provides per-agent blackboard permissions and vault proxy isolation to all users as core platform features, not a paid tier.
+
+### What are the unpatched Mastra security issues as of May 2026?
+
+Two security PRs remain open in Mastra's enterprise auth stack: CVE-2026-42565 (CVSS 4.3, open redirect in `@workos/authkit-session`) and GHSA-wxw3-q3m9-c3jr (CVSS 5.3, OAuth CSRF in `better-auth`). Both affect the `ee/` enterprise directory — the tier marketed as production-ready auth and security. Neither was merged as of May 26 2026.
+
+### Can TypeScript developers use OpenLegion?
+
+OpenLegion agents are Python-only. TypeScript teams would need to run Python agents or build TypeScript tooling that calls OpenLegion APIs — there is no native TypeScript SDK. For TypeScript-first teams, Mastra (patched to 0.17.0+), LangGraph, or AutoGen are more natural choices. OpenLegion is the right fit when security isolation requirements outweigh language preferences.
+
+### Is Mastra stable enough for production?
+
+Mastra has 24,329 GitHub stars and active development since August 2024, with 433 open issues as of May 26 2026. The rapid release cadence indicates active development and community investment. Teams adopting Mastra for production should pin to stable releases, monitor the issue tracker for regressions, upgrade `@mastra/mcp-docs-server` to 0.17.0+, and plan for upstream fixes to CVE-2026-42565 and GHSA-wxw3-q3m9-c3jr before relying on enterprise auth features.
+
+## Get Started
+
+OpenLegion is free to try. [Get started at app.openlegion.ai](https://app.openlegion.ai) or [read the platform docs](https://docs.openlegion.ai). Already evaluating TypeScript frameworks? See [OpenLegion vs LangGraph — security architecture and CVE history compared](/comparison/langgraph) for a Python-native alternative comparison.
 
 <!-- https://www.openlegion.ai/en/comparison/memu | last_updated: 2026-03 -->
 
@@ -3584,104 +4074,257 @@ PicoClaw has documented gaps including: Slack allowlist bypass (any workspace us
 | AI agent frameworks comparison 2026 | /learn/ai-agent-frameworks |
 | AI agent security analysis | /learn/ai-agent-security |
 
-<!-- https://www.openlegion.ai/en/comparison/semantic-kernel | last_updated: 2026-03 -->
+<!-- https://www.openlegion.ai/en/comparison/pydantic-ai | last_updated: 2026-05-28 -->
 
-# OpenLegion vs Semantic Kernel: Which AI Agent Framework for Production?
+# Pydantic AI Alternative: From Type-Safe Library to Production Platform
 
-Semantic Kernel is Microsoft's model-agnostic SDK for building AI agents, with ~27,300 GitHub stars and support across C#, Python, and Java. It powers **Microsoft 365 Copilot** and is used by Copilot Studio across 230,000+ organizations. The agent framework within SK reached GA (ChatCompletionAgent) in April 2025, adding group chat, streaming, and agent-as-plugin composition.
-
-However, as of early 2026, Semantic Kernel is entering **reduced update frequency** alongside AutoGen. Microsoft has announced the Microsoft Agent Framework as the unified successor, with migration guides already published.
-
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over enterprise SDK breadth.
-
-This is a direct **OpenLegion vs Semantic Kernel** comparison based on public documentation at the time of writing.
+PydanticAI is a Python agent framework with 17,362 GitHub stars built around Pydantic v2 validation - it delivers excellent type-safe structured outputs and dependency injection for agent context, but ships with no credential vault, no process isolation between agents, and no runtime budget enforcement, making production security entirely the builder problem. OpenLegion is a security-first AI agent platform with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, and per-agent budget enforcement with hard cutoffs.
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> **What is the difference between OpenLegion and Semantic Kernel?**
-> Semantic Kernel is a multi-language AI agent SDK from Microsoft that powers Copilot products, with deep Azure integration and enterprise plugin architecture. OpenLegion is a security-first agent framework with mandatory container isolation, vault proxy credential management, and per-agent budget enforcement. Semantic Kernel offers the broadest enterprise Microsoft integration; OpenLegion offers the strongest production security defaults.
+> **What is PydanticAI?**
+> PydanticAI is an open-source Python framework created by the Pydantic organization (Samuel Colvin et al.) for building type-safe AI agents, providing Pydantic v2 validation for LLM outputs, dependency injection via RunContext, model-agnostic provider support, and an experimental offline evaluation harness (pydantic_evals) under an MIT license.
+
+## Why Developers Search for a Pydantic AI Alternative
+
+PydanticAI solves one problem exceptionally well: getting structured, validated, type-safe outputs from LLMs. Its RunContext dependency injection pattern is clean and testable. Its model-agnostic API spans OpenAI, Anthropic, Gemini, Groq, Mistral, and AWS Bedrock with a consistent interface. For a Python developer who wants FastAPI-style development patterns applied to LLM agents, PydanticAI is the best library for that job.
+
+The searches for PydanticAI alternatives cluster around three production problems. First: credentials. PydanticAI passes API keys via RunContext - the keys live in Python process memory as attributes of a user-defined dataclass. Second: isolation. All agents run in the same Python process with shared memory - there is no per-agent container or blast-radius boundary for a compromised agent. Third: cost control. PydanticAI has no runtime budget enforcement - an agent in a loop runs until you terminate it or your API provider cuts you off.
+
+These are not gaps patchable with a single library. They require an execution platform with different architecture.
 
 ## TL;DR
 
-- **Semantic Kernel** is the right choice when you need deep Microsoft ecosystem integration, multi-language support (C#, Python, Java), and you are building on Azure.
-- **OpenLegion** is the right choice when credential isolation, mandatory agent sandboxing, and per-agent cost controls are hard requirements.
-- **Maintenance mode**: SK is now in maintenance mode. Microsoft advises migrating to the Agent Framework within 6-12 months. Support guaranteed for at least 1 year after Agent Framework GA.
-- **Critical vulnerability**: A CVSS 9.9 RCE was disclosed in the Python SDK's InMemoryVectorStore filter (as of early 2026), patched in a subsequent release.
-- **Credential model**: SK relies on DefaultAzureCredential (Managed Identity, certificate auth). No built-in vault proxy. OpenLegion uses vault-proxied credentials.
-- **OpenLegion advantage**: Zero external dependencies, cloud-agnostic, no platform migration risk.
-
-## Side-by-Side Comparison
-
-| Dimension | OpenLegion | Semantic Kernel |
+| Dimension | OpenLegion | PydanticAI |
 |---|---|---|
-| **Primary focus** | Secure multi-agent orchestration | Enterprise AI agent SDK with plugin architecture |
-| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Kernel DI container managing services, plugins, and AI workflows |
-| **Status** | Active development | Reduced update frequency (as of early 2026); successor is Microsoft Agent Framework |
-| **Agent isolation** | Mandatory Docker container per agent | No built-in isolation; agents run in host process |
-| **Credential management** | Vault proxy — blind injection, agents never see keys | DefaultAzureCredential (Managed Identity, certificate, service principal) |
-| **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in |
-| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Function calling + planning; agent-as-plugin composition |
-| **Multi-agent** | Native fleet orchestration (sequential, parallel DAGs with blackboard coordination) | ChatCompletionAgent GA, group chat, AgentGroupChat |
-| **Language support** | Python | C#, Python, Java (C# most mature; Java lags significantly) |
-| **LLM support** | 100+ via LiteLLM | Azure OpenAI, OpenAI, Anthropic, Google, Mistral, and 20+ via connectors |
-| **Enterprise features** | Built-in: isolation, vault, budgets, audit logs | Filters (function invocation, prompt render, auto function), Copilot integration |
-| **Cloud integration** | Cloud-agnostic | Deep Azure integration (Key Vault, Managed Identity, Entra ID) |
-| **GitHub stars** | ~59 | ~27,300 |
+| **Type** | Execution platform (BSL 1.1) | Agent library (MIT) |
+| **Credential model** | Vault proxy - agents never see raw keys | Dependency injection via RunContext - keys in process memory |
+| **Agent isolation** | Docker container per agent, non-root, no-new-privileges | Shared Python process; no container isolation |
+| **Budget controls** | Per-agent daily/monthly hard cutoff | None - post-hoc result.usage() reporting only |
+| **Multi-agent coordination** | Fleet-model - blackboard + pub/sub + handoff | Agent-as-tool delegation; shared memory |
+| **Structured outputs** | Tool call schema validation | Pydantic v2 typed response models (major differentiator) |
+| **Offline evals** | Not built-in | pydantic_evals (experimental) |
+| **Graph/workflow** | Fleet-model coordination | pydantic_graph (v2 rewrite in progress, PR #5465) |
+| **v2 migration risk** | N/A | Breaking API change to graph builder underway (May 2026) |
+| **Known CVEs** | 0 | 0 (no security-relevant CVEs reported) |
+| **GitHub stars** | ~59 | ~17,362 |
 | **License** | BSL 1.1 | MIT |
-| **Best for** | Production fleets requiring security-first governance | Microsoft enterprise teams building Copilot extensions |
 
-## Architecture Differences
+## OpenLegion's Take
 
-### Semantic Kernel's architecture
+PydanticAI is genuinely excellent at what it does. Pydantic v2 validation applied to LLM outputs - typed response models, discriminated unions, field validators - is the right approach to structured output reliability. The RunContext dependency injection pattern is clean and testable. pydantic_evals gives teams a regression harness for agent behavior that most frameworks lack entirely. It is MIT-licensed, actively maintained by the team that built the most-downloaded Python validation library, and has 17,362 stars because it deserves them.
 
-The Kernel acts as a dependency injection container that manages AI services, plugins, and orchestration. Plugins expose functions via decorators. Three filter types provide middleware hooks: Function Invocation Filters (before/after tool execution), Prompt Render Filters (PII redaction, RAG injection), and Auto Function Invocation Filters (flow control).
+The production gap is architectural, not a bug. API keys passed as RunContext[MyDeps] live as attributes of a Python dataclass in process memory. Any code running in the same process - including content injected via prompt injection from a malicious tool result (OWASP LLM02, 2025 Top 10) - has the same process-level access to those credential values that the agent code does. pydantic_graph (the workflow backbone) is mid-rewrite: PR #5465 introduces a breaking change to the graph builder API with no stable completion date as of May 2026. With 564 open issues as of May 28 2026 - up sharply during the v2 rewrite phase - the library is evolving rapidly enough that production pinning strategies matter.
 
-The ChatCompletionAgent GA (April 2025) added group chat with termination strategies, streaming, structured output, and agent-as-plugin composition. Memory uses tag-based access control for multi-tenant isolation.
+OpenLegion builds the execution layer PydanticAI builders assemble from scratch: vault proxy for credentials (never in process memory), Docker container per agent (no shared state between agents), hard budget cutoffs (not post-hoc usage tracking), and fleet-model coordination (blackboard + pub/sub + handoff) for observable multi-agent workflows. The honest tradeoff: you give up Pydantic v2 typed response models and pydantic_evals structured benchmarking. Those are real losses for teams that rely on them.
 
-The filter system is a genuine architectural strength for enterprise governance. You can intercept every function call for logging, validation, or blocking. However, this operates at the application level — there is no process-level or container-level isolation between agents.
+## PydanticAI vs OpenLegion: Side-by-Side
 
-A critical RCE vulnerability (CVSS 9.9, reported early 2026) was found in the Python SDK's InMemoryVectorStore, where filter functionality allowed code injection. This is one of the highest-severity vulnerabilities found in any agent framework.
+### Credential management
 
-### OpenLegion's architecture
+**PydanticAI** uses dependency injection. You define a dataclass - for example MyDeps with an httpx.AsyncClient and your API keys as fields - and pass it to the agent at runtime via RunContext[MyDeps]. The agent accesses credentials as ctx.deps.api_key. This is clean and testable. It also means the API key lives as a Python object attribute in the process heap, accessible to any code running in the same process.
 
-OpenLegion uses a four-zone trust model (plus an operator-or-internal tier) where agents are explicitly untrusted. Each agent runs in a Docker container with no host access, non-root execution, and resource caps. The vault proxy handles credential injection from Zone 2 — agents never see raw API keys. fleet-model coordination define exact tool access, permissions, and budgets per agent before execution.
+**OpenLegion** uses a vault proxy. API keys are stored in the Mesh Host Credential Vault (Zone 2), never in the agent container. When an agent makes an authenticated API call, the request routes through the vault proxy, which injects the credential at the network layer. The agent code never receives, holds, or logs the raw key - not as an argument, not as a return value, not in an exception traceback.
 
-## When to Choose Semantic Kernel
+### Agent isolation
 
-**You are building Copilot extensions or Microsoft 365 integrations.** SK is the orchestration engine behind Copilot products. If your use case is extending existing Microsoft AI capabilities, SK is the natural choice.
+**PydanticAI** runs all agents in the same Python process. An agent-as-tool call means Agent A invokes Agent B as a function call within the same runtime. They share the heap, the environment, and the interpreter. A bug, memory corruption, or successful prompt injection in Agent B has the same process-level access as Agent A.
 
-**You need multi-language support.** SK supports C#, Python, and Java. If your team works primarily in .NET, SK provides the most mature C# agent framework available.
+**OpenLegion** runs each agent in its own Docker container with non-root execution (UID 1000), no-new-privileges flag, configurable memory limits, a read-only root filesystem, and no Docker socket. Agents communicate through the Mesh Host Blackboard, not through direct process calls. A compromised Agent B cannot read Agent A memory, credentials, or state.
 
-**You need the filter/middleware pattern.** SK's three-layer filter system provides fine-grained control over every AI interaction — ideal for enterprise governance, PII redaction, and content policy enforcement.
+### Budget controls
 
-**You are already using Azure AI services.** Deep integration with Azure Key Vault, Managed Identity, Entra ID, and Azure OpenAI makes SK the path of least resistance for Azure shops.
+**PydanticAI** provides result.usage() which returns token counts and request counts after a run completes. This is post-hoc reporting. There is no mechanism to automatically stop an agent mid-run when it exceeds a cost threshold. An agent in a loop calling expensive tools will accumulate costs until manually terminated or until an API provider rate limit fires.
 
-## When to Choose OpenLegion
+**OpenLegion** enforces per-agent daily and monthly budget limits with automatic hard cutoff at the orchestrator level. When an agent reaches its limit, the Cost Tracker (Zone 2) halts it. The rest of the workflow continues or pauses gracefully. This is enforcement, not reporting.
 
-**You need process-level agent isolation.** SK agents run in the host process with shared memory and filesystem access. OpenLegion isolates every agent in its own container with separate filesystem, network, and resource limits.
+### Multi-agent coordination
 
-**Credential security is a hard requirement.** SK relies on DefaultAzureCredential — the agent process has access to the credential chain. OpenLegion's vault proxy ensures agents never see raw credentials, even if the agent process is compromised.
+**PydanticAI** supports agent delegation: one agent calls another as a tool, passing a RunContext and receiving a structured result. For simple pipelines this is sufficient. For fleet-scale coordination - 10+ agents with independent lifecycles, observable handoffs, shared state isolation, and pub/sub event routing - PydanticAI requires custom architecture around the core library.
 
-**You need per-agent budget enforcement.** SK has no built-in cost controls. OpenLegion enforces hard per-agent limits with automatic cutoff.
+**OpenLegion** provides fleet-model coordination as a first-class primitive: blackboard (shared state, SQLite-backed), pub/sub (ephemeral event routing), and handoff (task delegation with inbox). Agents communicate through the Mesh Host, not through direct process calls. Every handoff is logged, and the execution graph is inspectable before any agent runs.
 
-**You want to avoid platform migration risk.** SK is entering maintenance mode. The migration to Microsoft Agent Framework introduces API changes. OpenLegion is actively developed with no planned deprecation.
+## What PydanticAI Does Well
 
-**You need cloud-agnostic deployment.** OpenLegion runs on any infrastructure. SK is optimized for Azure and loses significant functionality outside the Microsoft ecosystem.
+### Pydantic v2 validation: structured outputs with typed response models
 
-Bring your own LLM API keys. No markup on model usage.
+PydanticAI applies Pydantic v2 validators to LLM outputs. You define a BaseModel response type, and the framework handles retry logic when the LLM returns malformed JSON, field coercion, and discriminated union parsing. For use cases where the primary concern is getting reliable, typed data out of an LLM - extraction pipelines, classification, structured document processing - this is the strongest implementation in any Python framework. No other agent library matches it on this dimension.
 
-## The Honest Trade-off
+### Dependency injection: RunContext for clean secret and state passing
 
-Semantic Kernel has the deepest Microsoft integration, multi-language support, and powers the most widely deployed AI agent products (Copilot, 230,000+ organizations). OpenLegion has the security architecture, credential isolation, and cloud independence.
+The RunContext pattern treats agent dependencies the same way FastAPI treats route dependencies. You define what an agent needs (database connection, HTTP client, configuration, user context), the framework injects it at call time, and the agent function signature is clean and testable. Replacing credentials for tests, mocking HTTP clients, and injecting test fixtures all follow standard Python dependency injection patterns. The ergonomics are genuinely good.
 
-If you are building on Microsoft's AI stack, Semantic Kernel (or its successor, the Agent Framework) is the pragmatic choice. If you need production security that does not depend on any cloud provider, the answer is OpenLegion.
+### pydantic_evals: offline agent benchmarking and regression testing
 
-For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent-frameworks).
+pydantic_evals provides a structured harness for evaluating agent behavior against defined test cases. You define inputs, expected outputs, and scoring functions; the harness runs your agent against the suite and produces pass/fail reports with scoring breakdowns. For teams that need to prevent regressions in agent output quality across model upgrades or prompt changes, this is a capability most frameworks lack entirely. It is experimental and offline-only, but it is the right idea well-executed.
+
+### Model-agnostic provider API
+
+PydanticAI supports OpenAI, Anthropic, Google Gemini, Groq, Mistral, AWS Bedrock, Ollama, and local models through a consistent interface. Switching providers for a given agent is a one-line change. The FunctionModel and TestModel primitives make unit testing agent logic without real API calls practical without mocking an entire HTTP stack.
+
+## The Production Gap: What You Wire Yourself
+
+### Credential management: API keys in RunContext live in process memory
+
+The RunContext dependency injection pattern is clean for development. In production, any API key passed as ctx.deps.api_key exists as a Python string object on the process heap. Modern memory forensics tools can extract Python heap objects from running processes. Prompt injection via tool results (OWASP LLM02, 2025 Top 10) can instruct an agent to print, log, or exfiltrate ctx.deps contents. For a prototype or an internal tool with a low threat model, this is acceptable. For production agents handling sensitive data or customer credentials, it requires external secret management and process-level isolation that PydanticAI does not provide.
+
+### Agent isolation: all agents run in the same Python process
+
+PydanticAI agents-as-tools run as function calls within the same Python interpreter. There is no process boundary, namespace separation, or filesystem isolation between agents. A memory leak in Agent B affects Agent A. An uncaught exception in Agent B can propagate to Agent A context. For teams that need to guarantee one agent cannot read another agent memory or credentials, PydanticAI requires a custom execution wrapper - container orchestration, process spawning, or a message queue between agents.
+
+### Budget enforcement: no native per-agent spend cap
+
+PydanticAI tracks usage via result.usage() (token and request counts, post-hoc). There is no runtime mechanism to halt an agent that exceeds a cost threshold mid-run. For interactive tools and short pipelines this is low risk. For long-running agents, ReAct loops, or multi-agent workflows running overnight, the absence of budget enforcement means a runaway agent accrues costs until manual intervention or API provider rate limits fire.
+
+### Observability: requires third-party integrations
+
+PydanticAI supports Logfire (the Pydantic organization observability product) plus AgentOps and Langfuse via community integrations. These are solid options. But they require separate service accounts, additional configuration, and dependency management. There is no built-in fleet dashboard that ships with the library.
+
+## OpenLegion as a Pydantic AI Alternative
+
+### What OpenLegion covers
+
+OpenLegion provides the execution layer PydanticAI builders assemble from scratch. Vault proxy credential management (API keys injected at the network layer, never in process memory) replaces RunContext credential injection. Docker container per agent (non-root, no-new-privileges, isolated filesystem) replaces shared-process execution. Per-agent budget enforcement with hard cutoffs (daily and monthly, tracked by Cost Tracker in Zone 2) replaces post-hoc result.usage() reporting. Fleet-model coordination (blackboard + pub/sub + handoff) replaces agent-as-tool delegation for multi-agent workflows.
+
+OpenLegion supports 100+ LLM providers through LiteLLM - the same provider coverage as PydanticAI. The hosted platform offers per-user VPS instances with BYO API keys. Security features are available in both self-hosted and hosted deployments, not gated behind an enterprise tier.
+
+### Honest trade-off: what you give up
+
+Switching from PydanticAI to OpenLegion means leaving behind Pydantic v2 typed response models - OpenLegion does not ship a native structured-output validation layer equivalent to PydanticAI response types. It also means losing pydantic_evals: the offline agent benchmarking harness has no direct equivalent in OpenLegion. Teams that rely on typed response models for reliable data extraction and pydantic_evals for regression testing need to re-implement that functionality or integrate a separate library.
+
+The structured output gap is real. PydanticAI produces a typed MyResponse object that your IDE understands, your tests can assert on, and your type checker validates. OpenLegion produces tool call results and blackboard entries - useful and observable, but not the same level of compile-time type safety.
+
+### Who should stay on PydanticAI vs who should consider switching
+
+**Stay on PydanticAI** if your primary use case is structured LLM output extraction (typed response models), your agent workflows are simple enough that shared-process isolation is acceptable, you rely on pydantic_evals for offline regression testing, or your team builds Python applications where Pydantic v2 types integrate naturally with your existing data layer.
+
+**Consider OpenLegion** if agents handle sensitive credentials that must never appear in process memory, you need multi-tenant isolation where one user agent cannot affect another, you need hard budget caps not post-hoc reporting, or your multi-agent coordination has grown complex enough that agent-as-tool delegation no longer scales cleanly.
+
+For the full landscape of agent framework tradeoffs, see the [AI agent frameworks comparison](/learn/ai-agent-frameworks). For a deep dive on the security threat model, see [AI agent security: credential isolation, process separation, and injection hardening](/learn/ai-agent-security).
 
 ## CTA
 
-**Need production-grade security for your agent fleet?**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+**Production security built in - not wired in after.**
+[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
+
+---
+
+## Related Pages
+
+Explore the full comparison landscape:
+
+- [OpenLegion vs LangGraph — graph-based workflows and credential isolation compared](/comparison/langgraph)
+- [OpenLegion vs CrewAI — role-based multi-agent orchestration and security](/comparison/crewai)
+- [OpenLegion vs AutoGen — multi-agent conversation frameworks and isolation models](/comparison/autogen)
+- [AI agent security: credential isolation, process separation, and injection hardening](/learn/ai-agent-security)
+- [AI agent frameworks comparison 2026: library vs platform tradeoffs](/learn/ai-agent-frameworks)
+- [What an AI agent platform provides that a library cannot](/learn/ai-agent-platform)
+
+<!-- SCHEMA: FAQPage -->
+
+## Frequently Asked Questions
+
+### What is the best PydanticAI alternative in 2026?
+
+For teams that need a complete execution platform with credential isolation, container-level agent separation, and hard budget caps, OpenLegion is purpose-built for that. For teams primarily building typed LLM output pipelines with strong offline evals, PydanticAI remains the best Python library for that specific job. For stateful multi-agent graph workflows, LangGraph provides the most programmatic control. The right choice depends on whether you need a framework to build on or a platform that handles production infrastructure.
+
+### Does PydanticAI have a credential vault?
+
+No. PydanticAI uses dependency injection via RunContext - you define a dataclass with API keys as fields and pass it to the agent at runtime. API keys live in Python process memory as attributes of the deps object, accessible to any code in the same process. OpenLegion vault proxy injects credentials at the network layer so agent code never holds the raw key value in any form - not as a function argument, not as a return value, not in an exception traceback.
+
+### Is PydanticAI production-ready in 2026?
+
+PydanticAI is actively maintained and widely used in production for structured LLM output pipelines. However, a v2 rewrite of pydantic_graph (the workflow backbone) is in progress as of May 2026, with PR #5465 introducing a breaking change to the graph builder API. Teams building heavily on pydantic_graph face a migration path with no stable completion date. The agent validation and dependency injection layers are stable; the graph/workflow layer is in active flux.
+
+### How does PydanticAI handle multi-agent coordination?
+
+PydanticAI supports agent delegation - one agent can call another agent as a tool, passing context and receiving structured results. All agents run in the same Python process with shared memory; there is no message-bus, blackboard, or pub/sub coordination primitive built in. For a fleet of 10+ agents with independent lifecycles, shared state isolation, and observable handoffs, PydanticAI requires substantial custom architecture. OpenLegion provides fleet-model coordination (blackboard + pub/sub + handoff) as a first-class primitive with every agent isolated in its own Docker container.
+
+### What is pydantic_evals and how does it compare to production monitoring?
+
+pydantic_evals is PydanticAI offline evaluation harness - you define test cases with inputs and expected outputs, run your agent against them, and score results using customizable evaluators. It is well-suited for regression testing before deployment. It is not a production monitoring tool: evaluations run offline against static datasets, not against live agent behavior. For production cost tracking, session replay, and anomaly detection you need a third-party observability tool (Logfire, AgentOps, Langfuse) alongside PydanticAI.
+
+### Can PydanticAI enforce per-agent budget limits?
+
+No. PydanticAI has no built-in mechanism to cap an agent API spend or stop an agent that exceeds a cost threshold. Usage tracking is available via result.usage() which returns request counts and token counts after a run completes - post-hoc reporting, not pre-emptive enforcement. An agent in a loop will accumulate API costs until manually terminated or until an API provider account limit is reached. OpenLegion enforces hard per-agent daily and monthly budget caps with automatic cutoff at the platform level.
+
+### What does the pydantic_graph v2 rewrite mean for PydanticAI users?
+
+pydantic_graph is the workflow backbone of PydanticAI that powers multi-step agent graphs. PR #5465 (in progress as of May 2026) introduces a breaking change to the graph builder API, meaning teams using pydantic_graph to define agent workflows will need to migrate their graph definitions once the rewrite stabilizes. The timeline is not fixed. Teams evaluating PydanticAI for a new production system should consider whether the v2 migration cost is acceptable, or whether to wait for the rewrite to complete before building on pydantic_graph heavily.
+
+<!-- https://www.openlegion.ai/en/comparison/semantic-kernel | last_updated: 2026-05-25 -->
+
+# Semantic Kernel Alternative: OpenLegion vs Semantic Kernel (2026)
+
+Semantic Kernel is Microsoft's multi-language AI agent SDK with 27,979 GitHub stars across C#, Python, and Java. It reached v1.0 in March 2024; in May 2026, python-1.42.0 shipped a successor callout to the Microsoft Agent Framework RC (February 19, 2026). CVE-2026-26030 (CVSS 9.9, CWE-94) and CVE-2026-25592 (CVSS 9.9, CWE-22) are critical vulnerabilities in the Python SDK. OpenLegion is a security-first AI agent platform with container isolation, vault-proxied credentials, and per-agent budget enforcement.
+
+<!-- SCHEMA: DefinitionBlock -->
+
+> **Semantic Kernel** is Microsoft's open-source SDK for building AI agents using a kernel dependency-injection container with KernelPlugin, KernelFunction, and KernelArguments primitives — now entering maintenance mode as the Microsoft Agent Framework RC takes over.
+
+## OpenLegion's Take
+
+Semantic Kernel's maintenance mode is a concrete migration risk. The SequentialPlanner is gone. StepwisePlanner is deprecated. The Process Framework (experimental, May 2026) has no stable API guarantee. python-1.42.0 is signaling end-of-active-development. CVE-2026-26030 (CVSS 9.9, CWE-94) and CVE-2026-25592 (CVSS 9.9, CWE-22) are the highest-severity CVEs in any AI agent framework in 2026 — neither is mitigated by updating your dotnet build or NuGet restore pipeline, they require SDK patches.
+
+OpenLegion's vault proxy prevents the credential exposure CVE-2026-25592 (CWE-22 path traversal) enables. Container isolation prevents the code injection CVE-2026-26030 (CWE-94) enables. These are structural protections. If you're on .NET and migrating to the Process Framework, the Microsoft migration guide exists. If you need a cloud-agnostic framework with no Agent Framework RC deadline, OpenLegion is the cleaner path.
+
+## Side-by-Side Comparison
+
+| **Dimension** | OpenLegion | Semantic Kernel |
+|---|---|---|
+| **Status** | Active development | Maintenance mode; Microsoft Agent Framework RC (Feb 2026) |
+| **Critical CVEs** | 0 | CVE-2026-26030 CVSS 9.9 CWE-94; CVE-2026-25592 CVSS 9.9 CWE-22 |
+| **Language support** | Python | C# (most mature), Python, Java |
+| **Agent isolation** | Docker container per agent, non-root | None built-in; host process |
+| **Credential management** | Vault proxy — agents never see keys | DefaultAzureCredential / environment variables |
+| **Budget controls** | Per-agent daily/monthly hard cutoff | None |
+| **Orchestration** | Fleet-model: blackboard + pub/sub + handoff | KernelPlugin composition; Process Framework (experimental) |
+| **Prompt templates** | Jinja2 via LiteLLM | Handlebars (deprecated); Liquid (recommended) |
+| **Dependency chain** | Python + Docker + SQLite | NuGet (C#) / PyPI (Python) — large transitive surface |
+| **Migration risk** | None | SK → Microsoft Agent Framework RC (breaking API changes) |
+| **GitHub stars** | ~59 | 27,979 |
+| **License** | BSL 1.1 | MIT |
+
+## Why Teams Are Looking for a Semantic Kernel Alternative
+
+### Maintenance mode and migration deadline
+
+Microsoft published python-1.42.0 on May 14, 2026 with an explicit successor callout. The Microsoft Agent Framework RC (February 19, 2026) supersedes SK. Teams using SK's Python SDK face a migration with breaking API changes across KernelPlugin, KernelArguments, and the filter pipeline. The Process Framework within SK remains experimental with no stable API guarantee.
+
+For teams that cannot absorb a migration mid-project, OpenLegion provides stable, versioned agent orchestration with no announced deprecations.
+
+### CVE-2026-26030 and CVE-2026-25592
+
+CVE-2026-26030 (CVSS 9.9, CWE-94) is a code injection vulnerability in the Semantic Kernel Python SDK. CVE-2026-25592 (CVSS 9.9, CWE-22) is a path traversal vulnerability enabling credential file exposure. Both are the highest-severity CVEs recorded for any AI agent framework in 2026.
+
+OpenLegion's container isolation prevents code injection from escaping the container boundary. The vault proxy means credential files are never written to the agent's filesystem — CVE-2026-25592's path traversal attack vector finds nothing to read.
+
+### NuGet dependency chain surface
+
+A dotnet build / NuGet restore for a Semantic Kernel C# project pulls a large transitive dependency graph. OpenLegion's zero-external-dependency design (Python + SQLite + Docker) keeps the attack surface minimal.
+
+## When to Choose Semantic Kernel
+
+**You are building Microsoft 365 Copilot extensions.** SK is the orchestration engine for Copilot across 230,000+ organizations. For extending Microsoft AI products, SK or the Agent Framework is the right path.
+
+**You need C# or Java support.** SK is the only production-grade AI agent SDK for C#. For .NET teams there is no equivalent alternative.
+
+**You're on Azure with Managed Identity.** DefaultAzureCredential integrates natively with Entra ID, Key Vault, and Managed Identity — the right credential pattern for Azure-native deployments.
+
+## When to Choose OpenLegion
+
+**You need structural protection against CVE-2026-26030 and CVE-2026-25592.** Container isolation and vault proxy eliminate the attack vectors structurally, not just the specific CVE payloads.
+
+**You cannot absorb the SK to Agent Framework migration.** OpenLegion has no deprecation timeline and no breaking migration in progress.
+
+**You need cloud-agnostic deployment.** OpenLegion runs on any infrastructure. SK enterprise features require Azure.
+
+**You need per-agent budget enforcement.** SK has no cost controls.
+
+For broader context see [AI agent frameworks](/learn/ai-agent-frameworks) and [AI agent security](/learn/ai-agent-security).
+
+**Security built in, not bolted on.**
+[Get Started with OpenLegion](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 
@@ -3689,44 +4332,29 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ## Frequently Asked Questions
 
-### What is the difference between OpenLegion and Semantic Kernel?
-
-Semantic Kernel (~27,300 stars) is Microsoft's multi-language AI agent SDK powering Copilot products. OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement. SK offers the broadest Microsoft integration; OpenLegion offers the strongest security defaults.
-
 ### Is Semantic Kernel being discontinued?
 
-SK is entering maintenance mode alongside AutoGen. Microsoft advises migrating to the Microsoft Agent Framework within 6-12 months. See our [AutoGen comparison](/comparison/autogen) for details on the migration landscape.
+Semantic Kernel is in maintenance mode as of 2026. Microsoft released the Microsoft Agent Framework RC on February 19, 2026 as the successor. The python-1.42.0 release (May 14, 2026) includes a successor callout. Active SK development has stopped; the Process Framework is experimental and the SequentialPlanner was removed in v1.0 (March 2024).
 
-### What was the Semantic Kernel CVSS 9.9 vulnerability?
+### What are CVE-2026-26030 and CVE-2026-25592?
 
-A critical RCE vulnerability (CVSS 9.9, reported early 2026) in the Python SDK's InMemoryVectorStore filter allowed code injection. OpenLegion's container isolation prevents this class of vulnerability by ensuring agents cannot access host resources.
+CVE-2026-26030 (CVSS 9.9, CWE-94) is a code injection vulnerability in the Semantic Kernel Python SDK. CVE-2026-25592 (CVSS 9.9, CWE-22) is a path traversal vulnerability enabling credential file exposure. Both are the highest-severity CVEs recorded for any AI agent framework in 2026. Structural mitigation requires container isolation and vault-proxied credentials.
 
-### Does Semantic Kernel work outside of Azure?
+### What replaced SequentialPlanner in Semantic Kernel?
 
-SK supports multiple model providers and can run outside Azure. However, key enterprise features require Azure services. OpenLegion is fully cloud-agnostic with zero cloud provider dependencies.
+SequentialPlanner was removed in Semantic Kernel v1.0 (March 2024). StepwisePlanner is deprecated. The replacement within SK is function calling via the kernel's auto-invoke pipeline and the Process Framework (experimental, May 2026). The Microsoft Agent Framework RC introduces a new orchestration model superseding both.
 
-### How do Semantic Kernel filters compare to OpenLegion security?
+### How does Semantic Kernel handle credentials compared to OpenLegion?
 
-SK filters provide application-level governance (PII redaction, content blocking, logging). OpenLegion provides infrastructure-level security (container isolation, vault proxy, resource caps). These are complementary layers; SK filters govern what agents do while OpenLegion constrains what agents can access. See our [AI agent security](/learn/ai-agent-security) page for the full threat model.
+Semantic Kernel relies on DefaultAzureCredential or environment variables. The credential chain is accessible within the agent's process memory. CVE-2026-25592 demonstrates that path traversal can expose credential files from the filesystem. OpenLegion's vault proxy injects credentials at the network layer — agents never hold keys in process memory or on the filesystem.
 
-### Can I use Semantic Kernel plugins with OpenLegion?
+### Can I migrate from Semantic Kernel to OpenLegion?
 
-SK plugins can be adapted to work with OpenLegion's tool permission matrix. The main adaptation is adding per-agent access controls and routing authenticated API calls through the vault proxy.
+Yes. OpenLegion supports 100+ LLM providers via LiteLLM, including Azure OpenAI. Migration involves replacing KernelPlugin and KernelFunction definitions with OpenLegion tool permissions, replacing the DI container with fleet-model coordination, and routing credentials through the vault proxy instead of DefaultAzureCredential.
 
----
+### What is the Handlebars deprecation in Semantic Kernel?
 
-## Internal Links
-
-| Anchor Text | Destination |
-|---|---|
-| AI agent platform | /learn/ai-agent-platform |
-| AI agent orchestration | /learn/ai-agent-orchestration |
-| AI agent frameworks comparison | /learn/ai-agent-frameworks |
-| AI agent security | /learn/ai-agent-security |
-| OpenLegion vs AutoGen | /comparison/autogen |
-| OpenLegion vs LangGraph | /comparison/langgraph |
-| Documentation | /docs |
-| GitHub | https://github.com/openlegion-ai/openlegion |
+Semantic Kernel's Handlebars prompt template format was deprecated in the v1.x series. Liquid templates are the recommended replacement. Teams that invested in Handlebars-based prompt engineering face a template migration in addition to the SK to Agent Framework API migration. OpenLegion uses Jinja2-style templating via LiteLLM with no planned deprecations.
 
 <!-- https://www.openlegion.ai/en/comparison/zeroclaw | last_updated: 2026-03 -->
 
