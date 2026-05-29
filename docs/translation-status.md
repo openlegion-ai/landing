@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-05-29
 
-Tracks per-page translation coverage for the 30 canonical English pages
+Tracks per-page translation coverage for the 31 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 30
+- **Canonical pages:** 31
 - **Fully translated (all 12 locales):** 26
 - **Partially translated:** 0
-- **English-only (0 translations):** 4
+- **English-only (0 translations):** 5
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 26 / 30 | 87% |
-| zh-TW | 26 / 30 | 87% |
-| ja | 26 / 30 | 87% |
-| ko | 26 / 30 | 87% |
-| es | 26 / 30 | 87% |
-| fr | 26 / 30 | 87% |
-| de | 26 / 30 | 87% |
-| pt | 26 / 30 | 87% |
-| ar | 26 / 30 | 87% |
-| hi | 26 / 30 | 87% |
-| ru | 26 / 30 | 87% |
-| th | 26 / 30 | 87% |
+| zh | 26 / 31 | 84% |
+| zh-TW | 26 / 31 | 84% |
+| ja | 26 / 31 | 84% |
+| ko | 26 / 31 | 84% |
+| es | 26 / 31 | 84% |
+| fr | 26 / 31 | 84% |
+| de | 26 / 31 | 84% |
+| pt | 26 / 31 | 84% |
+| ar | 26 / 31 | 84% |
+| hi | 26 / 31 | 84% |
+| ru | 26 / 31 | 84% |
+| th | 26 / 31 | 84% |
 
 ## Coverage matrix
 
@@ -59,6 +59,7 @@ locales; they are not tracked here.
 | `/comparison/openclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/openfang` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/picoclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/comparison/pydantic-ai` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/comparison/semantic-kernel` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -76,6 +77,7 @@ locales; they are not tracked here.
 ## Pages needing translation
 
 - `/comparison/mastra` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/comparison/pydantic-ai` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-coding-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/managed-ai-agent-hosting` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/what-is-an-ai-agent` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
