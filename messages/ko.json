@@ -45,7 +45,8 @@
       "1": "에이전트별 예산 관리",
       "2": "Vault 보호 자격 증명",
       "3": "격리된 컨테이너",
-      "4": "100개 이상 LLM 제공업체"
+      "4": "100개 이상 LLM 제공업체",
+      "5": "셀프 호스팅 또는 완전 관리형"
     },
     "terminalTitle": "openlegion 데모",
     "videoTitle": "OpenLegion 데모 — AI 에이전트 플릿 배포",
@@ -887,7 +888,7 @@
     "copiedLabel": "복사됨"
   },
   "metadata": {
-    "homeTitle": "OpenLegion — AI 에이전트 프레임워크 & 플랫폼 | 모든 것을 자동화, 통제력 유지",
+    "homeTitle": "AI 에이전트 플랫폼 & 프레임워크 - OpenLegion | 모든 것을 자동화, 통제력 유지",
     "homeDescription": "OpenLegion은 프로덕션 환경을 위해 구축된 AI 에이전트 프레임워크 & 플랫폼입니다. 브라우징, 양식, 코드, 아웃리치, 데이터 등 모든 컴퓨터 작업을 자동화하는 자율 에이전트를 배포합니다. 첫날부터 유료, 7일 환불 보장.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI 에이전트 프레임워크 & 플랫폼",

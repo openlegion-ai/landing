@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate:content": "node scripts/generate-content-derivatives.mjs"
+    "generate:content": "node scripts/generate-content-derivatives.mjs",
+    "translation:status": "node scripts/translation-status.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.34.3",
