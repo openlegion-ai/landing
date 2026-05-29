@@ -28,7 +28,7 @@ related:
 
 # What Is an AI Agent? Definition and How They Work
 
-An AI agent is an autonomous software system that perceives its environment, decides what to do next, and takes actions toward a goal without a human directing each step. Unlike a chatbot that only replies to messages, an agent runs a loop: it reads context, plans, calls tools such as a browser or an API, observes the result, and repeats until the task is done. Modern agents are powered by a large language model that supplies the reasoning.
+Ask most people to define an AI agent and they describe a chatbot. The distinction is the whole point. An AI agent is an autonomous system that perceives its environment, decides what to do, and acts toward a goal without a human steering each step. A chatbot waits for your next message. An agent reads the situation, makes a plan, uses tools, and keeps working until the job is done.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -37,48 +37,48 @@ An AI agent is an autonomous software system that perceives its environment, dec
 
 ## TL;DR
 
-- An AI agent perceives, plans, acts, and observes in a loop until a goal is met - it does work, not just conversation.
-- The reasoning comes from a large language model; the capability comes from the tools the agent can call (browser, code, files, APIs).
-- A chatbot answers a question and stops. An agent pursues a goal across many steps and decisions.
-- Agents range from simple reflex agents to goal-based and learning agents; production systems are usually goal-based with memory.
-- Running agents safely needs isolation, credential protection, and budget limits - the reasoning model alone does not provide those.
+- An AI agent perceives, plans, acts, and observes in a loop until a goal is met. It does work, not just conversation.
+- The reasoning comes from a large language model. The capability comes from the tools the agent can call: browser, code, files, APIs.
+- A chatbot answers and stops. An agent pursues a goal across many steps and decisions.
+- Agents range from simple reflex agents to goal-based and learning agents. Production systems are usually goal-based with memory.
+- The model gives you intelligence, not safety. Isolation, credential protection, and budget limits are what make autonomy survivable.
 
-## What an AI Agent Is, and What It Is Not
+## The Difference Between Talking and Doing
 
-The word "agent" gets attached to almost anything with an AI label, so a precise line helps. An AI agent has three properties that a plain model call does not:
+Here is the line that separates an agent from everything else wearing the label.
 
-- **Autonomy.** It decides the next step itself rather than waiting for a human to specify each action.
-- **Tool use.** It can act on the world - browse a site, run code, send a message, query a database - not just emit text.
-- **Persistence toward a goal.** It keeps going across multiple steps, adjusting based on what it observes, until the objective is reached or a limit stops it.
+A large language model predicts text. Ask it a question, get an answer. Powerful, but inert: it does nothing until you prompt it again, and it cannot touch anything outside the conversation.
 
-A single prompt to a model that returns an answer is not an agent. A scripted automation with no decision-making is not an agent either. The agent is the loop that sits between a goal and the tools, using a model to choose actions.
+An AI agent takes that same model and wires it to two things it did not have before: tools and a goal. Now it can open a browser, run code, send an email, or query a database. And instead of answering once, it keeps going, checking its own work against the objective until the objective is met.
 
-## How AI Agents Work: The Agent Loop
+That shift, from responding to pursuing, is small to describe and enormous in practice. It is the difference between an assistant that suggests and a worker that ships.
 
-Every working agent runs some version of the same cycle:
+## How AI Agents Work: The Loop
 
-1. **Perceive.** Gather the current state - the user's request, prior memory, tool outputs, and any new events.
-2. **Plan.** The language model reasons about what to do next given the goal and the available tools.
-3. **Act.** The agent calls a tool: open a URL, execute code, write a file, send an email, sign a transaction.
-4. **Observe.** It reads the result of that action and feeds it back into the next perception step.
+Every working agent runs the same four-beat cycle, over and over:
 
-The loop repeats until the goal is satisfied, a step limit is hit, or a budget ceiling stops it. Memory lets the agent carry context across steps and sessions, which is what separates a useful agent from one that forgets the previous action.
+1. **Perceive.** Gather the current state: the request, prior memory, the last tool's output, any new event.
+2. **Plan.** The language model reasons about the best next move given the goal and the tools on hand.
+3. **Act.** The agent calls a tool. It opens a URL, executes a script, writes a file, signs a transaction.
+4. **Observe.** It reads what happened and feeds that back into the next perception.
+
+Spin that loop a few hundred times and a vague instruction ("find our top three competitors and summarize their pricing") becomes a finished deliverable. Memory is what keeps the loop coherent across steps and sessions; without it, the agent forgets what it just did. The loop ends when the goal is satisfied, a step ceiling is reached, or a budget cutoff fires.
 
 ## Types of AI Agents
 
-Classic AI taxonomy still maps cleanly onto today's systems:
+The textbook taxonomy still maps cleanly onto today's systems, from simplest to most capable:
 
-- **Simple reflex agents** act on the current input with fixed rules. Fast, but blind to history.
-- **Model-based agents** keep an internal picture of the world to handle partial information.
-- **Goal-based agents** choose actions that move toward an explicit objective - the common shape of production agents.
-- **Utility-based agents** weigh trade-offs to pick the best of several goal-satisfying paths.
-- **Learning agents** improve their behavior over time from feedback.
+- **Simple reflex agents** react to the current input with fixed rules. Fast, and blind to history.
+- **Model-based agents** keep an internal picture of the world to cope with partial information.
+- **Goal-based agents** choose actions that move toward an explicit objective. This is the shape of most production agents.
+- **Utility-based agents** weigh trade-offs to pick the best of several valid paths.
+- **Learning agents** sharpen their behavior over time from feedback.
 
-Most deployed LLM agents are goal-based with memory and a tool set, often coordinated in groups where each agent owns a role.
+Most deployed LLM agents are goal-based, carry memory, hold a tool set, and increasingly work in coordinated groups where each agent owns one role.
 
 ## AI Agent vs Chatbot vs LLM
 
-These three terms get used interchangeably and should not be.
+Three words, used interchangeably, that should not be.
 
 | | Large language model | Chatbot | AI agent |
 |---|---|---|---|
@@ -88,17 +88,19 @@ These three terms get used interchangeably and should not be.
 | Keeps state toward a goal | No | Session context | Yes, with memory |
 | Example | GPT, Claude, Gemini | A support widget | A research or coding agent |
 
-The model is the brain. The chatbot is one conversational interface to that brain. The agent is the brain wired to hands and a goal.
+The model is the brain. The chatbot is one conversational interface to that brain. The agent is the brain given hands and a reason to use them.
 
-## What It Takes to Run AI Agents Safely
+## The Part Nobody Demos: Running One Safely
 
-The reasoning model does not give you isolation, credential safety, or cost control - and an autonomous system that browses the web, runs code, and holds API keys needs all three. This is the part most "build an agent in five lines" tutorials skip and the part that matters in production.
+The five-line "build an agent" tutorial always stops at the fun part. It never shows you the next morning, when the agent that browsed the web overnight also held your API keys, ran shell commands, and could spend money on every loop.
 
-A production-grade [AI agent platform](/learn/ai-agent-platform) adds the operational layer: container isolation so a misbehaving agent cannot reach others, a credential vault so the agent never holds raw keys, per-agent budgets so a loop cannot run up an unbounded bill, and a permission matrix so each agent can only touch what you allow. For the threat model behind these controls, see [AI agent security](/learn/ai-agent-security); for how multiple agents coordinate, see [AI agent orchestration](/learn/ai-agent-orchestration).
+That is where the real engineering lives. An autonomous system with tools and credentials is a security boundary, and the reasoning model gives you none of the controls you need: isolation so a misbehaving agent cannot reach the others, a vault so it never holds raw keys, per-agent budgets so a loop cannot run up an unbounded bill, and permissions so each agent touches only what you allow.
+
+A production-grade [AI agent platform](/learn/ai-agent-platform) supplies that operational layer. For the threat model behind it, see [AI agent security](/learn/ai-agent-security); for how several agents work as a team, see [AI agent orchestration](/learn/ai-agent-orchestration).
 
 ## OpenLegion's Take
 
-The interesting question in 2026 is not "what is an AI agent" in the abstract - it is "what does it take to let one run unsupervised." Once an agent can browse, write code, and spend money, the hard problems stop being prompt engineering and start being systems engineering: blast radius, credential leakage, runaway cost, and auditability. The teams that ship reliable agents are the ones who treat the agent as a production workload with isolation and limits, not as a clever script. That gap - between a demo agent and a governed one - is the whole game.
+By 2026 the abstract question, "what is an AI agent," is mostly settled. The question that actually decides outcomes is sharper: what does it take to let one run unsupervised? The moment an agent can browse, write code, and move money, your hard problems stop being prompt engineering and become systems engineering - blast radius, leaked credentials, runaway cost, auditability. The teams shipping agents that survive contact with production are the ones who treat the agent as a workload to be governed, not a clever script to be admired. That gap, between a demo and a deployment, is the entire game.
 
 ## CTA
 
@@ -113,24 +115,24 @@ The interesting question in 2026 is not "what is an AI agent" in the abstract - 
 
 ### What is an AI agent in simple terms?
 
-An AI agent is software that pursues a goal on its own. You give it an objective, and it figures out the steps, uses tools like a web browser or code execution to carry them out, checks the results, and keeps going until the task is done. The decision-making is powered by a large language model, which is what lets the agent handle open-ended tasks rather than only following a fixed script.
+An AI agent is software that pursues a goal on its own. You give it an objective, and it works out the steps, uses tools like a web browser or code execution to carry them out, checks the results, and keeps going until the task is done. A large language model supplies the decision-making, which is what lets the agent handle open-ended work instead of following a fixed script.
 
 ### How is an AI agent different from a chatbot?
 
-A chatbot responds to messages one turn at a time and then waits for you. An AI agent runs a continuous loop toward a goal: it plans, takes actions in the world through tools, observes what happened, and decides the next step without you prompting each one. A chatbot talks; an agent does work.
+A chatbot answers one message at a time and then waits for you. An AI agent runs a continuous loop toward a goal: it plans, acts on the world through tools, observes what happened, and decides the next step without being prompted for each one. Put simply, a chatbot talks and an agent does work.
 
 ### How do AI agents actually work?
 
-They run a perceive-plan-act-observe loop. The agent gathers the current state, the language model reasons about the next action, the agent calls a tool to perform that action, and it reads the result before looping again. Memory carries context across steps, and the loop continues until the goal is met or a step or budget limit stops it.
+They run a perceive-plan-act-observe loop. The agent gathers the current state, the language model reasons about the next action, the agent calls a tool to perform it, and it reads the result before looping again. Memory carries context across steps, and the loop continues until the goal is met or a step or budget limit stops it.
 
 ### What are the main types of AI agents?
 
-The common categories are simple reflex agents, model-based agents, goal-based agents, utility-based agents, and learning agents. Most production LLM systems are goal-based agents with memory and a tool set, frequently deployed as a coordinated group where each agent owns a specific role.
+The classic categories are simple reflex agents, model-based agents, goal-based agents, utility-based agents, and learning agents. Most production LLM systems are goal-based agents with memory and a tool set, often deployed as a coordinated group where each agent owns a specific role.
 
 ### What are some examples of AI agents?
 
-Practical examples include a research agent that browses sources and writes a summary, a coding agent that plans a change and opens a pull request, a sales agent that qualifies and contacts leads, and a treasury agent that executes on-chain transactions under spending limits. Each runs autonomously toward its goal rather than waiting for turn-by-turn instructions.
+A research agent that browses sources and writes a brief. A coding agent that plans a change and opens a pull request. A sales agent that qualifies and contacts leads. A treasury agent that executes on-chain transactions under spending limits. Each runs toward its goal on its own rather than waiting for turn-by-turn instructions.
 
 ### Are AI agents safe to run autonomously?
 
-They can be, but only with the right controls. An autonomous agent that browses the web, executes code, and holds credentials introduces real risks: leaked keys, prompt injection, runaway cost, and data exfiltration. Running agents in isolated containers, keeping credentials in a vault the agent never accesses, enforcing per-agent budgets, and limiting permissions are what make autonomous operation safe in production.
+They can be, but only with the right controls. An autonomous agent that browses the web, executes code, and holds credentials introduces real risk: leaked keys, prompt injection, runaway cost, data exfiltration. Running agents in isolated containers, keeping credentials in a vault the agent never accesses, enforcing per-agent budgets, and limiting permissions are what make unsupervised operation safe in production.

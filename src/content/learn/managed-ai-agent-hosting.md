@@ -28,7 +28,7 @@ related:
 
 # Managed AI Agent Hosting for Secure Agent Fleets
 
-Managed AI agent hosting lets you run autonomous agent fleets without provisioning servers, wiring up Docker, or operating a credential vault yourself. OpenLegion's managed plane deploys each agent into its own isolated container on a dedicated VPS, holds your API and wallet keys in a vault the agents never touch, and enforces per-agent budgets by default. You bring an LLM key and a task; OpenLegion runs the infrastructure underneath.
+You wanted an AI workforce. What you got was a second job in DevOps. Managed AI agent hosting hands that job back. It runs the servers, containers, credential vault, and budgets your agents need, so you provision none of it yourself. OpenLegion's managed plane drops each agent into its own isolated container on a dedicated VPS, keeps your keys in a vault the agents never touch, and caps spend per agent by default. You bring a goal and a key; we run the floor underneath.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -37,29 +37,31 @@ Managed AI agent hosting lets you run autonomous agent fleets without provisioni
 
 ## TL;DR
 
-- Managed AI agent hosting removes the DevOps work between you and a running agent fleet: no server setup, no Docker tuning, no vault to operate.
+- Managed AI agent hosting removes the work between you and a running fleet: no server setup, no Docker tuning, no vault to operate.
 - Every agent runs in its own container on a dedicated VPS, not a shared multi-tenant process, so one account's blast radius stays contained.
 - Credentials live in a vault proxy on the trusted host; agents send requests and the proxy injects keys at the network layer, so a compromised agent cannot read them.
 - Per-agent daily and monthly budget caps stop runaway LLM spend on the dollar, with no markup on model usage.
-- The same OpenLegion engine is source-available under BSL 1.1, so you can start managed and move to self-hosted later without a rewrite.
+- The same engine is source-available under BSL 1.1, so you can start managed and move to self-hosted later without a rewrite.
 - Plans start at $19/month, paid from day one, with a 7-day money-back guarantee.
 
-## What Managed AI Agent Hosting Includes
+## The Hidden Cost of "Just Run an Agent"
 
-Running agents in production is mostly infrastructure work, not prompt work. A managed plane exists to absorb that work. With OpenLegion's hosted offering you get:
+Standing up one agent is a weekend. Running a fleet you can trust is a quarter.
 
-- **A dedicated VPS** provisioned per account, so your fleet does not share a process or memory space with anyone else's.
+Somewhere between the prototype and production, the work quietly changes shape. You stop tuning prompts and start tuning containers. You stop thinking about what the agent should say and start thinking about where its API keys live, what happens when one loops at 3am, and how to keep a compromised agent from reaching the other nine. None of that is the work you set out to do. All of it is the work that determines whether the agents are safe to leave running.
+
+Managed hosting exists to absorb exactly that layer. With OpenLegion's hosted offering you get:
+
+- **A dedicated VPS** provisioned per account, so your fleet never shares a process or memory space with anyone else's.
 - **Per-agent container isolation** with resource caps, non-root execution, dropped capabilities, and a read-only filesystem by default.
-- **A credential vault proxy** that holds LLM API keys, OAuth tokens, and wallet private keys outside the agent containers entirely.
+- **A credential vault proxy** that holds LLM keys, OAuth tokens, and wallet private keys outside the agent containers entirely.
 - **Per-agent budget enforcement** with hard cutoffs, so a looping agent cannot generate a surprise invoice.
 - **A control dashboard** to deploy templates, chat with agents, watch live cost and health, and pause anything that misbehaves.
-- **Welcome LLM credits** on every paid plan, plus the option to bring your own keys across 100+ providers via LiteLLM with zero markup.
-
-The point is to host AI agents the way you would host any production workload: isolated, observable, budgeted, and recoverable - without you assembling those guarantees from scratch.
+- **Welcome LLM credits** on every paid plan, plus the option to bring your own keys across 100+ providers with zero markup.
 
 ## Managed Hosting vs Self-Hosting: How to Choose
 
-OpenLegion ships the same engine two ways. The decision is about who operates the infrastructure, not about which version is more capable.
+OpenLegion ships the same engine two ways, so the decision is about who runs the box, not which version is more capable.
 
 | Consideration | Self-hosted (BSL 1.1) | Managed hosting |
 |---|---|---|
@@ -68,38 +70,36 @@ OpenLegion ships the same engine two ways. The decision is about who operates th
 | Credential vault | You operate it | Operated for you on the trusted host |
 | Updates and patching | You pull and redeploy | Applied for you |
 | Data residency | Fully on your infrastructure | On a dedicated VPS we provision |
-| Best for | Regulated industries, air-gapped, full control | Teams that want a fleet running today |
+| Best for | Regulated, air-gapped, full control | Teams that want a fleet running today |
 | Cost model | Your own server costs | Flat plan from $19/month |
 
-Choose self-hosting when compliance, data residency, or full control over the host outweigh the operational cost of running it. Choose managed hosting when you want agents working this afternoon and would rather not own a vault, a container runtime, and an update cadence. Because both run the same code, starting on the managed plane never locks you out of self-hosting later.
+Choose self-hosting when compliance, data residency, or total control over the host outweighs the cost of running it. Choose managed hosting when you want agents working this afternoon and would rather not own a vault, a container runtime, and an update cadence. Because both run the same code, starting managed never locks you out of self-hosting later.
 
-## How OpenLegion Provisions Your Dedicated VPS
+## What Happens When You Hit Deploy
 
-When a paid plan activates, OpenLegion provisions a dedicated VPS and brings the mesh host online. An Operator agent is created automatically as the foreman of your fleet. From there you describe the team you want - a research desk, a sales pipeline, a content studio - and the platform deploys each role into its own container with its own memory, budget, and tool permissions.
+Activate a paid plan and OpenLegion provisions a dedicated VPS and brings the mesh host online. An Operator agent is created automatically as the foreman of your fleet. From there you describe the team you want - a research desk, a sales pipeline, a content studio - and the platform deploys each role into its own container with its own memory, budget, and tool permissions.
 
-The agents coordinate through the [orchestration layer](/learn/ai-agent-orchestration): a SQLite-backed blackboard, a pub/sub event bus, and a structured handoff protocol. There is no LLM sitting in the control plane deciding routing, which keeps behavior auditable and costs predictable. You talk to agents directly through the dashboard or through Telegram, Discord, Slack, WhatsApp, or a webhook.
+The agents coordinate through the [orchestration layer](/learn/ai-agent-orchestration): a SQLite-backed blackboard, a pub/sub event bus, and a structured handoff. No language model sits in the control plane deciding routing, which keeps behavior auditable and costs predictable. You talk to agents through the dashboard, or through Telegram, Discord, Slack, WhatsApp, or a webhook.
 
 ## Security You Do Not Have to Build
 
-The hardest part of hosting AI agents safely is the part teams most often skip. OpenLegion's managed plane enforces the same defense-in-depth controls described in the [AI agent security](/learn/ai-agent-security) model, on by default:
+The hardest part of hosting agents safely is the part teams most often skip, because it is invisible until it fails. OpenLegion's managed plane enforces the same defense-in-depth described in the [AI agent security](/learn/ai-agent-security) model, on by default:
 
 - Container isolation per agent, with no shared process space.
-- A vault proxy that injects credentials at the network layer so agents never hold raw keys.
+- A vault proxy that injects credentials at the network layer, so agents never hold raw keys.
 - A per-agent permission matrix governing which tools, files, and operations each agent may use.
 - Input sanitization, SSRF protection, and prompt-injection hardening at every boundary.
 - Per-agent budget ceilings that fail closed.
 
-You inherit these controls by signing up rather than by reading a hardening guide and implementing them yourself. For a fuller picture of the runtime underneath, see the [AI agent platform](/learn/ai-agent-platform) overview.
+You inherit these by signing up, not by reading a hardening guide and implementing it yourself. For the runtime underneath, see the [AI agent platform](/learn/ai-agent-platform) overview.
 
 ## Pricing and What You Pay For
 
-OpenLegion's managed plans are flat monthly or yearly fees, paid from day one, starting at $19/month. The fee covers the dedicated VPS, the vault proxy, container provisioning, the dashboard, and a bundle of welcome LLM credits that never expire. Model usage itself is either drawn from those credits or billed by your own provider at published rates - OpenLegion adds no markup on tokens. Every plan carries a 7-day money-back guarantee. Compare plan limits on the [pricing page](/pricing).
+Plans are flat monthly or yearly fees, paid from day one, starting at $19/month. The fee covers the dedicated VPS, the vault proxy, container provisioning, the dashboard, and a bundle of welcome LLM credits that never expire. Model usage is drawn from those credits or billed by your own provider at published rates, with no markup on tokens. Every plan carries a 7-day money-back guarantee. Compare plan limits on the [pricing page](/pricing).
 
 ## OpenLegion's Take
 
-Most "AI agent hosting" on the market today is a thin wrapper: a shared multi-tenant process running everyone's agents, with API keys sitting in config and no real budget enforcement. That is fine for a demo and dangerous for production, because the failure modes that matter - a leaked credential, a runaway cost loop, a compromised agent reaching another tenant - are exactly the ones shared infrastructure makes worse.
-
-Managed hosting is only worth paying for if it gives you isolation and credential safety you would otherwise have to build. OpenLegion's position is that those guarantees should be the default and the same in both the hosted and self-hosted versions, so the choice is purely about who runs the box - not about which version is safe.
+Most "AI agent hosting" on the market is a shared process running everyone's agents, keys sitting in config, no real budget enforcement. That is fine for a demo and dangerous in production, because the failure modes that actually cost you - a leaked credential, a runaway cost loop, a compromised agent reaching another tenant - are the exact ones shared infrastructure makes worse. Managed hosting is only worth paying for if it buys you isolation and credential safety you would otherwise have to build by hand. Our stance is that those guarantees should be the default and identical in the hosted and self-hosted versions, so the only real choice left is who runs the box.
 
 ## CTA
 
@@ -114,7 +114,7 @@ Managed hosting is only worth paying for if it gives you isolation and credentia
 
 ### What is managed AI agent hosting?
 
-Managed AI agent hosting is a service that provisions and operates the infrastructure autonomous AI agents need - isolated containers, a credential vault, budget enforcement, networking, and a control dashboard - so a team can deploy and run agent fleets without building or maintaining that infrastructure. With OpenLegion, you sign up, pick a template, add an LLM key, and your agents run on a dedicated VPS.
+Managed AI agent hosting is a service that provisions and operates the infrastructure autonomous AI agents need - isolated containers, a credential vault, budget enforcement, networking, and a control dashboard - so a team can deploy and run agent fleets without building or maintaining that infrastructure. With OpenLegion you sign up, pick a template, add an LLM key, and your agents run on a dedicated VPS.
 
 ### How is managed hosting different from self-hosting OpenLegion?
 
@@ -122,20 +122,20 @@ Both run the identical OpenLegion engine with the same security controls. Self-h
 
 ### Is it safe to host AI agents that hold my API and wallet keys?
 
-Yes, when keys never live inside the agent. On OpenLegion's managed plane, API keys, OAuth tokens, and wallet private keys are held in a vault proxy on the trusted mesh host. Agents send requests and the proxy injects the credential at the network layer, so even a fully compromised agent cannot read or exfiltrate the secret. Wallet transactions are signed server-side.
+Yes, when the keys never live inside the agent. On OpenLegion's managed plane, API keys, OAuth tokens, and wallet private keys are held in a vault proxy on the trusted mesh host. Agents send requests and the proxy injects the credential at the network layer, so even a fully compromised agent cannot read or exfiltrate the secret. Wallet transactions are signed server-side.
 
 ### What does managed AI agent hosting cost?
 
-OpenLegion managed plans start at $19/month and are paid from day one, with a 7-day money-back guarantee. The flat fee covers the dedicated VPS, vault proxy, container provisioning, dashboard, and a bundle of welcome LLM credits that never expire. Model token usage is drawn from those credits or billed directly by your own provider with no markup from OpenLegion.
+OpenLegion managed plans start at $19/month, paid from day one, with a 7-day money-back guarantee. The flat fee covers the dedicated VPS, vault proxy, container provisioning, dashboard, and a bundle of welcome LLM credits that never expire. Model token usage is drawn from those credits or billed directly by your own provider with no markup from OpenLegion.
 
 ### Do I need to know Docker or DevOps to use managed hosting?
 
-No. The managed plane handles container provisioning, credential storage, networking, and updates. You interact through a dashboard: pick a team template, add an LLM key, and deploy. Docker, Python, and server administration are only required if you choose the self-hosted version instead.
+No. The managed plane handles container provisioning, credential storage, networking, and updates. You work through a dashboard: pick a team template, add an LLM key, and deploy. Docker, Python, and server administration are only required if you choose the self-hosted version instead.
 
 ### Can I move from managed hosting to self-hosted later?
 
-Yes. The managed plane and the self-hosted distribution run the same engine, source-available under BSL 1.1. There is no proprietary lock-in layer that would prevent migration, so teams commonly start on managed hosting to move fast and move to self-hosted infrastructure once compliance or cost makes that worthwhile.
+Yes. The managed plane and the self-hosted distribution run the same engine, source-available under BSL 1.1. There is no proprietary lock-in layer that would block migration, so teams commonly start on managed hosting to move fast and switch to self-hosted infrastructure once compliance or cost makes that worthwhile.
 
 ### How many agents can I host on a managed plan?
 
-Agent limits scale with the plan tier, from a single agent on the entry plan up to large fleets on higher tiers, with custom limits available for enterprise. Each deployed agent container counts as one agent toward the limit, so a three-role template like a Dev Team counts as three agents.
+Agent limits scale with the plan tier, from a single agent on the entry plan up to large fleets on higher tiers, with custom limits for enterprise. Each deployed agent container counts as one agent toward the limit, so a three-role template like a Dev Team counts as three agents.
