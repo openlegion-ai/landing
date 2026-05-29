@@ -17,7 +17,7 @@ const PARTICLES = [
   { top: "55%", left: "92%", size: 3, color: "bg-accent-bright/20", duration: "12s", delay: "0.5s" },
 ];
 
-const TRUST_KEYS = ["0", "1", "2", "3", "4"] as const;
+const TRUST_KEYS = ["0", "1", "2", "3", "4", "5"] as const;
 
 export function Hero() {
   const t = useTranslations("hero");

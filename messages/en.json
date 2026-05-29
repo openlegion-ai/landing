@@ -45,7 +45,8 @@
       "1": "Per-agent budgets",
       "2": "Vault-secured credentials",
       "3": "Isolated containers",
-      "4": "100+ LLM providers"
+      "4": "100+ LLM providers",
+      "5": "Self-host or fully managed"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "OpenLegion demo — deploying an AI agent fleet",
@@ -559,7 +560,7 @@
     "heading": "Your AI team is one ",
     "headingHighlight": "deploy away",
     "headingEnd": ".",
-    "subtitle": "Paid from day one · 100+ LLM providers · Money-back in 14 days",
+    "subtitle": "Paid from day one · 100+ LLM providers · Money-back in 7 days",
     "primaryButton": "Get Started →",
     "secondaryButton": "Join our Discord"
   },
@@ -887,7 +888,7 @@
     "copiedLabel": "Copied"
   },
   "metadata": {
-    "homeTitle": "OpenLegion — AI Agent Framework & Platform | Automate Anything, Stay in Control",
+    "homeTitle": "AI Agent Platform & Framework - OpenLegion | Automate Anything, Stay in Control",
     "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. Paid from day one, 7-day money-back guarantee.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI Agent Framework & Platform",

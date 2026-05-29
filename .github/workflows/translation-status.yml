@@ -1,0 +1,78 @@
+name: Translation Status
+
+# Keeps the per-page translation coverage report accurate.
+#
+#  - On every PR touching content: regenerate the report and surface it in the
+#    job summary so reviewers see coverage. Read-only; never commits; fork-safe.
+#  - On merge to main: regenerate and commit the refreshed snapshot back, so
+#    docs/translation-status.md never drifts. Engine PRs intentionally touch a
+#    single .md file (see CONTENT_GUIDE.md), so the doc is refreshed here rather
+#    than in each PR.
+
+on:
+  pull_request:
+    paths:
+      - "src/content/**"
+      - "scripts/translation-status.mjs"
+      - ".github/workflows/translation-status.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/content/**"
+      - "scripts/translation-status.mjs"
+
+jobs:
+  report:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Generate translation status
+        run: node scripts/translation-status.mjs
+
+      - name: Publish coverage to job summary
+        run: cat docs/translation-status.md >> "$GITHUB_STEP_SUMMARY"
+
+  sync:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Regenerate translation status
+        run: node scripts/translation-status.mjs
+
+      - name: Commit refreshed report if changed
+        # Requires GitHub Actions to be permitted to push to main. If branch
+        # protection forbids direct pushes, switch this to open a PR instead.
+        run: |
+          if [ -n "$(git status --porcelain docs/translation-status.md)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/translation-status.md
+            git commit -m "chore(docs): refresh translation-status [skip ci]"
+            git push
+          else
+            echo "Translation status already up to date."
+          fi

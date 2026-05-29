@@ -45,7 +45,8 @@
       "1": "Budget par agent",
       "2": "Identifiants sécurisés en coffre",
       "3": "Conteneurs isolés",
-      "4": "Plus de 100 fournisseurs LLM"
+      "4": "Plus de 100 fournisseurs LLM",
+      "5": "Auto-hébergé ou entièrement géré"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "Démo OpenLegion — déployer une flotte d'agents IA",
@@ -887,7 +888,7 @@
     "copiedLabel": "Copié"
   },
   "metadata": {
-    "homeTitle": "OpenLegion — Framework et plateforme d'agents IA | Automatisez tout, gardez le contrôle",
+    "homeTitle": "Plateforme et framework d'agents IA - OpenLegion | Automatisez tout, gardez le contrôle",
     "homeDescription": "OpenLegion est le framework et la plateforme d'agents IA conçus pour la production. Déployez des agents autonomes qui automatisent n'importe quelle tâche informatique — navigation, formulaires, code, prospection, données. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — Framework et plateforme d'agents IA",

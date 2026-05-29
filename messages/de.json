@@ -45,7 +45,8 @@
       "1": "Budget pro Agent",
       "2": "Tresor-gesicherte Zugangsdaten",
       "3": "Isolierte Container",
-      "4": "100+ LLM-Anbieter"
+      "4": "100+ LLM-Anbieter",
+      "5": "Self-hosted oder vollständig verwaltet"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "OpenLegion Demo — Bereitstellung einer KI-Agenten-Flotte",
@@ -559,7 +560,7 @@
     "heading": "Dein KI-Team ist nur ein ",
     "headingHighlight": "Deployment entfernt",
     "headingEnd": ".",
-    "subtitle": "Ab dem ersten Tag kostenpflichtig · 100+ LLM-Anbieter · Geld-zurück-Garantie in 14 Tagen",
+    "subtitle": "Ab dem ersten Tag kostenpflichtig · 100+ LLM-Anbieter · Geld-zurück-Garantie in 7 Tagen",
     "primaryButton": "Loslegen →",
     "secondaryButton": "Tritt unserem Discord bei"
   },
@@ -887,7 +888,7 @@
     "copiedLabel": "Kopiert"
   },
   "metadata": {
-    "homeTitle": "OpenLegion — KI-Agenten-Framework & Plattform | Alles automatisieren, Kontrolle behalten",
+    "homeTitle": "KI-Agenten-Plattform & Framework - OpenLegion | Alles automatisieren, Kontrolle behalten",
     "homeDescription": "OpenLegion ist das KI-Agenten-Framework und die Plattform für den Produktiveinsatz. Stelle autonome Agenten bereit, die jede Computeraufgabe automatisieren — Surfen, Formulare, Code, Outreach, Daten. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — KI-Agenten-Framework & Plattform",

@@ -45,7 +45,8 @@
       "1": "Presupuesto por agente",
       "2": "Credenciales en bóveda",
       "3": "Contenedores aislados",
-      "4": "Más de 100 proveedores LLM"
+      "4": "Más de 100 proveedores LLM",
+      "5": "Autoalojado o gestionado"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "Demo de OpenLegion — desplegando una flota de agentes de IA",
@@ -559,7 +560,7 @@
     "heading": "Tu equipo de IA está a un ",
     "headingHighlight": "despliegue de distancia",
     "headingEnd": ".",
-    "subtitle": "De pago desde el primer día · Más de 100 proveedores LLM · Reembolso en 14 días",
+    "subtitle": "De pago desde el primer día · Más de 100 proveedores LLM · Reembolso en 7 días",
     "primaryButton": "Empezar →",
     "secondaryButton": "Únete a nuestro Discord"
   },
@@ -704,7 +705,7 @@
     "faq": {
       "0": {
         "question": "¿Qué incluye el plan desde el primer día?",
-        "answer": "Cada plan de pago incluye un paquete de créditos de bienvenida y acceso completo desde el primer día — VPS, proxy del sistema y panel de operador. ¿No es lo que buscabas? Cancela en los primeros 14 días y te reembolsamos el primer mes, sin preguntas. ¿Prefieres usar tus propias claves API? Puedes hacerlo, y los créditos de bienvenida son tuyos."
+        "answer": "Cada plan de pago incluye un paquete de créditos de bienvenida y acceso completo desde el primer día — VPS, proxy del sistema y panel de operador. ¿No es lo que buscabas? Cancela en los primeros 7 días y te reembolsamos el primer mes, sin preguntas. ¿Prefieres usar tus propias claves API? Puedes hacerlo, y los créditos de bienvenida son tuyos."
       },
       "1": {
         "question": "¿Necesito pagar por el uso de LLM además del precio del plan?",
@@ -887,20 +888,20 @@
     "copiedLabel": "Copiado"
   },
   "metadata": {
-    "homeTitle": "OpenLegion — Framework de agentes de IA | Automatiza cualquier cosa, mantén el control",
-    "homeDescription": "OpenLegion es el runtime multi-agente con aislamiento por contenedor, creado para producción. Despliega agentes autónomos que automatizan cualquier tarea de computadora — navegación, formularios, código, outreach, datos. De pago desde el primer día, 14 días de devolución de dinero.",
+    "homeTitle": "Plataforma y framework de agentes de IA - OpenLegion | Automatiza cualquier cosa, mantén el control",
+    "homeDescription": "OpenLegion es el runtime multi-agente con aislamiento por contenedor, creado para producción. Despliega agentes autónomos que automatizan cualquier tarea de computadora — navegación, formularios, código, outreach, datos. De pago desde el primer día, 7 días de devolución de dinero.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — Framework de agentes de IA",
-    "ogDescription": "Despliega agentes de IA que automatizan cualquier cosa que un humano puede hacer en una computadora. Seguro, dentro del presupuesto, listo para producción. De pago desde el primer día, 14 días de devolución de dinero.",
+    "ogDescription": "Despliega agentes de IA que automatizan cualquier cosa que un humano puede hacer en una computadora. Seguro, dentro del presupuesto, listo para producción. De pago desde el primer día, 7 días de devolución de dinero.",
     "ogImageAlt": "OpenLegion — Framework de agentes de IA",
     "twitterTitle": "OpenLegion — Framework de agentes de IA",
-    "twitterDescription": "Despliega agentes de IA que automatizan cualquier cosa que un humano puede hacer en una computadora. De pago desde el primer día, 14 días de devolución de dinero.",
+    "twitterDescription": "Despliega agentes de IA que automatizan cualquier cosa que un humano puede hacer en una computadora. De pago desde el primer día, 7 días de devolución de dinero.",
     "pricingTitle": "Precios del framework de agentes de IA — De pago desde el primer día",
-    "pricingDescription": "Planes desde 19 $/mes con aislamiento por contenedor, seguridad de bóveda y más de 100 proveedores LLM. De pago desde el primer día, 14 días de devolución de dinero.",
+    "pricingDescription": "Planes desde 19 $/mes con aislamiento por contenedor, seguridad de bóveda y más de 100 proveedores LLM. De pago desde el primer día, 7 días de devolución de dinero.",
     "pricingOgTitle": "Precios del framework de agentes de IA — De pago desde el primer día | OpenLegion",
-    "pricingOgDescription": "Planes desde 19 $/mes. Aislamiento por contenedor, seguridad de bóveda y más de 100 proveedores LLM. 14 días de devolución de dinero.",
+    "pricingOgDescription": "Planes desde 19 $/mes. Aislamiento por contenedor, seguridad de bóveda y más de 100 proveedores LLM. 7 días de devolución de dinero.",
     "pricingTwitterTitle": "Precios del framework de agentes de IA — De pago desde el primer día | OpenLegion",
-    "pricingTwitterDescription": "Planes desde $19/mes. Garantía de devolución en 14 días.",
+    "pricingTwitterDescription": "Planes desde $19/mes. Garantía de devolución en 7 días.",
     "faqTitle": "Preguntas frecuentes",
     "faqDescription": "Respuestas a preguntas comunes sobre OpenLegion — el runtime multi-agente con aislamiento por contenedor, creado para producción. Cubre seguridad, precios, proveedores LLM, coordinación, despliegue en producción y más.",
     "faqOgTitle": "Preguntas frecuentes — OpenLegion",

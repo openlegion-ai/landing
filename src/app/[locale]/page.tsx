@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Hero } from "@/components/hero";
+import { AudienceSelector } from "@/components/audience-selector";
 import { UseCases } from "@/components/use-cases";
 import { PromptToTeam } from "@/components/prompt-to-team";
 import { ProductionReady } from "@/components/production-ready";
@@ -161,6 +162,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <main id="main">
         <Hero />
         <CapabilityBand />
+        <AudienceSelector />
         <PromptToTeam />
         <ReadyMadeTeams />
         <UseCases />
