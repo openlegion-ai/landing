@@ -18,14 +18,13 @@ related:
   - /learn/ai-agent-frameworks
   - /learn/ai-agent-platform
   - /learn/ai-agent-orchestration
-  - /learn/agentic-workflows
   - /comparison/langgraph
   - /comparison/autogen
 ---
 
 # Claude Opus 4.8: Agentic Performance, Fast Mode Pricing, and What Changed from Opus 4.7
 
-Claude Opus 4.8 is Anthropic's upgrade to the Opus model class, announced May 28 2026 - the first model to complete every case in a Super-Agent benchmark at GPT-5.5 cost parity, with 84% on Online-Mind2Web browser-agent accuracy, a fix for the Opus 4.7 tool-calling verbosity issues that degraded autonomous engineering workloads, and fast mode (2.5x speed) now priced 3x cheaper than in previous Opus models. Standard API pricing is unchanged from Opus 4.7; the cost change is concentrated in fast mode. The API model identifier is `claude-opus-4-8-20260528`.
+Claude Opus 4.8 is Anthropic's May 28 2026 upgrade to the Opus class. It scores 84% on Online-Mind2Web browser-agent accuracy, is the first model to complete every case on a Super-Agent benchmark at GPT-5.5 cost parity, and fixes the Opus 4.7 tool-calling verbosity regression. Fast mode runs at 2.5x speed and is priced 3x cheaper than fast mode for previous Opus models. Standard API pricing is unchanged from 4.7. The API model identifier is `claude-opus-4-8-20260528`.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -116,7 +115,7 @@ Choose Sonnet 4 when volume and latency are the constraint. High-frequency API c
 
 The only case for staying on Opus 4.7: prompts specifically tuned to its verbosity patterns. If your pipeline post-processes Opus output and relies on the comment structure Opus 4.7 generated, stay on 4.7 until you have time to adapt. Test on Opus 4.8 before migrating production prompts.
 
-For [agentic workflow design and where Opus 4.8's judgment improvements change execution reliability](/learn/agentic-workflows), the tool-calling fix is the most impactful change for workflows with five or more tool calls per task.
+For [agentic workflow design and where Opus 4.8's judgment improvements change execution reliability](/learn/ai-agent-orchestration), the tool-calling fix is the most impactful change for workflows with five or more tool calls per task.
 
 ## OpenLegion and Claude Opus 4.8
 
