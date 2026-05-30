@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-05-30
 
-Tracks per-page translation coverage for the 31 canonical English pages
+Tracks per-page translation coverage for the 35 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 31
-- **Fully translated (all 12 locales):** 29
-- **Partially translated:** 1
-- **English-only (0 translations):** 1
+- **Canonical pages:** 35
+- **Fully translated (all 12 locales):** 30
+- **Partially translated:** 0
+- **English-only (0 translations):** 5
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 29 / 31 | 94% |
-| zh-TW | 29 / 31 | 94% |
-| ja | 29 / 31 | 94% |
-| ko | 29 / 31 | 94% |
-| es | 29 / 31 | 94% |
-| fr | 29 / 31 | 94% |
-| de | 29 / 31 | 94% |
-| pt | 30 / 31 | 97% |
-| ar | 29 / 31 | 94% |
-| hi | 29 / 31 | 94% |
-| ru | 29 / 31 | 94% |
-| th | 29 / 31 | 94% |
+| zh | 30 / 35 | 86% |
+| zh-TW | 30 / 35 | 86% |
+| ja | 30 / 35 | 86% |
+| ko | 30 / 35 | 86% |
+| es | 30 / 35 | 86% |
+| fr | 30 / 35 | 86% |
+| de | 30 / 35 | 86% |
+| pt | 30 / 35 | 86% |
+| ar | 30 / 35 | 86% |
+| hi | 30 / 35 | 86% |
+| ru | 30 / 35 | 86% |
+| th | 30 / 35 | 86% |
 
 ## Coverage matrix
 
@@ -44,6 +44,7 @@ locales; they are not tracked here.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | `/ai-social-media-management` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/comparison/agentops` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/comparison/autogen` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/aws-strands` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/crewai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -51,7 +52,7 @@ locales; they are not tracked here.
 | `/comparison/google-adk` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/langgraph` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/manus-ai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/comparison/mastra` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | 1/12 |
+| `/comparison/mastra` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/memu` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/nanobot` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/nanoclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -63,19 +64,25 @@ locales; they are not tracked here.
 | `/comparison/semantic-kernel` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/agentic-workflows` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-frameworks` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-observability` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-orchestration` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/claude-opus-4-8` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/multi-agent-systems` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/what-is-an-ai-agent` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/openclaw-alternative` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 
 ## Pages needing translation
 
-- `/comparison/mastra` — missing: zh, zh-TW, ja, ko, es, fr, de, ar, hi, ru, th
+- `/comparison/agentops` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/comparison/pydantic-ai` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/agentic-workflows` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/claude-opus-4-8` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/multi-agent-systems` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
