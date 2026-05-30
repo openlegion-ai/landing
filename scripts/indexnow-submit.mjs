@@ -119,10 +119,20 @@ async function main() {
     // IndexNow returns 200 (accepted) or 202 (accepted, key validation pending).
     const ok = status === 200 || status === 202;
     console.log(`  batch ${i / BATCH_SIZE + 1}: HTTP ${status}${body ? ` — ${body}` : ""}`);
-    if (!ok) {
-      process.exitCode = 1;
-      console.error(`  submission failed (HTTP ${status}).`);
+    if (ok) continue;
+    // A brand-new key is verified asynchronously: IndexNow rejects submissions
+    // with 403 SiteVerificationNotCompleted for a few minutes after the key
+    // file first appears, then clears on its own. Treat that one case as a
+    // soft "pending" — the next push (or a manual re-run) succeeds — so it
+    // doesn't redden CI. Every other failure is real.
+    if (status === 403 && body.includes("SiteVerificationNotCompleted")) {
+      console.warn(
+        "  ::warning::IndexNow key verification still pending; URLs not yet accepted. Re-run once verification completes (usually minutes).",
+      );
+      continue;
     }
+    process.exitCode = 1;
+    console.error(`  submission failed (HTTP ${status}).`);
   }
 }
 
