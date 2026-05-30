@@ -1,6 +1,6 @@
 ---
 title: Claude Opus 4.8 - Capabilities, Cost, and Agentic Performance
-description: Claude Opus 4.8 launched May 28 2026: 84% on Online-Mind2Web, fast mode 3x cheaper, dynamic workflows in Claude Code, first Opus to complete every Super-Agent benchmark case at GPT-5.5 cost parity.
+description: "Claude Opus 4.8 launched May 28 2026: 84% on Online-Mind2Web, fast mode 3x cheaper, dynamic workflows in Claude Code, first Opus to complete every Super-Agent benchmark case at GPT-5.5 cost parity."
 slug: /learn/claude-opus-4-8
 primary_keyword: claude opus 4.8
 secondary_keywords:
