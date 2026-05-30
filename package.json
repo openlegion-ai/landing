@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate:content": "node scripts/generate-content-derivatives.mjs",
-    "translation:status": "node scripts/translation-status.mjs"
+    "translation:status": "node scripts/translation-status.mjs",
+    "indexnow:submit": "node scripts/indexnow-submit.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.34.3",
