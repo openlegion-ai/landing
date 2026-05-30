@@ -1,0 +1,66 @@
+name: IndexNow
+
+# Pings IndexNow (Bing, Yandex, Seznam, Naver, Yep, …) so they recrawl changed
+# URLs sooner than a passive sitemap poll would. Ownership is proven by the key
+# file committed at public/<key>.txt.
+#
+#  - On merge to main touching content/sitemap: regenerate the manifest (so the
+#    submitted URL set reflects the pushed commit, since engine PRs don't commit
+#    regenerated artifacts) and submit the full site.
+#  - Manual: workflow_dispatch with an optional space-separated `urls` input to
+#    submit just those URLs.
+#
+# Note: this fires on push, which races the Vercel deploy. That's fine —
+# IndexNow recrawls are queued, not instant, and the deploy lands well before a
+# crawler arrives. The sitemap's lastmod is the durable signal; this just nudges.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/content/**"
+      - "src/app/sitemap.ts"
+      - "scripts/indexnow-submit.mjs"
+      - ".github/workflows/indexnow.yml"
+  workflow_dispatch:
+    inputs:
+      urls:
+        description: "Space-separated URLs to submit (blank = full site)"
+        required: false
+        default: ""
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Regenerate content manifest
+        # Deterministic; ensures the URL set matches the pushed content.
+        run: node scripts/generate-content-derivatives.mjs
+
+      - name: Wait for deployed key file
+        # The push that triggered this also triggers the Vercel deploy. Poll the
+        # live key file so IndexNow's validation fetch can't beat the deploy.
+        # Best-effort: proceed after the timeout rather than failing the job.
+        run: |
+          KEY_FILE=$(ls public | grep -E '^[a-f0-9]{8,128}\.txt$' | head -1)
+          URL="https://www.openlegion.ai/$KEY_FILE"
+          echo "Waiting for $URL"
+          for i in $(seq 1 30); do
+            if curl -fsS "$URL" >/dev/null; then echo "Key file is live."; exit 0; fi
+            sleep 10
+          done
+          echo "::warning::Key file not reachable after 5 min; submitting anyway."
+
+      - name: Submit to IndexNow
+        run: node scripts/indexnow-submit.mjs ${{ github.event.inputs.urls }}
