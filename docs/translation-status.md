@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-04
 
-Tracks per-page translation coverage for the 35 canonical English pages
+Tracks per-page translation coverage for the 36 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 35
+- **Canonical pages:** 36
 - **Fully translated (all 12 locales):** 30
 - **Partially translated:** 1
-- **English-only (0 translations):** 4
+- **English-only (0 translations):** 5
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 31 / 35 | 89% |
-| zh-TW | 31 / 35 | 89% |
-| ja | 31 / 35 | 89% |
-| ko | 31 / 35 | 89% |
-| es | 30 / 35 | 86% |
-| fr | 30 / 35 | 86% |
-| de | 30 / 35 | 86% |
-| pt | 30 / 35 | 86% |
-| ar | 31 / 35 | 89% |
-| hi | 31 / 35 | 89% |
-| ru | 31 / 35 | 89% |
-| th | 31 / 35 | 89% |
+| zh | 31 / 36 | 86% |
+| zh-TW | 31 / 36 | 86% |
+| ja | 31 / 36 | 86% |
+| ko | 31 / 36 | 86% |
+| es | 30 / 36 | 83% |
+| fr | 31 / 36 | 86% |
+| de | 31 / 36 | 86% |
+| pt | 30 / 36 | 83% |
+| ar | 31 / 36 | 86% |
+| hi | 31 / 36 | 86% |
+| ru | 31 / 36 | 86% |
+| th | 31 / 36 | 86% |
 
 ## Coverage matrix
 
@@ -44,7 +44,7 @@ locales; they are not tracked here.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | `/ai-social-media-management` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/comparison/agentops` | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 8/12 |
+| `/comparison/agentops` | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | 10/12 |
 | `/comparison/autogen` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/aws-strands` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/crewai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -71,6 +71,7 @@ locales; they are not tracked here.
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/browser-use-agents` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/claude-opus-4-8` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -80,9 +81,10 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/comparison/agentops` — missing: es, fr, de, pt
+- `/comparison/agentops` — missing: es, pt
 - `/comparison/pydantic-ai` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-workflows` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/browser-use-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/claude-opus-4-8` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/multi-agent-systems` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
