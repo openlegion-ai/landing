@@ -27,8 +27,8 @@ locales; they are not tracked here.
 |---|---|---|
 | zh | 30 / 35 | 86% |
 | zh-TW | 30 / 35 | 86% |
-| ja | 30 / 35 | 86% |
-| ko | 30 / 35 | 86% |
+| ja | 31 / 35 | 89% |
+| ko | 31 / 35 | 89% |
 | es | 30 / 35 | 86% |
 | fr | 30 / 35 | 86% |
 | de | 30 / 35 | 86% |
@@ -44,7 +44,7 @@ locales; they are not tracked here.
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | `/ai-social-media-management` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/comparison/agentops` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 4/12 |
+| `/comparison/agentops` | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 6/12 |
 | `/comparison/autogen` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/aws-strands` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/crewai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -80,7 +80,7 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/comparison/agentops` — missing: zh, zh-TW, ja, ko, es, fr, de, pt
+- `/comparison/agentops` — missing: zh, zh-TW, es, fr, de, pt
 - `/comparison/pydantic-ai` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-workflows` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/claude-opus-4-8` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
