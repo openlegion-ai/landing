@@ -18,8 +18,8 @@ locales; they are not tracked here.
 
 - **Canonical pages:** 36
 - **Fully translated (all 12 locales):** 31
-- **Partially translated:** 0
-- **English-only (0 translations):** 5
+- **Partially translated:** 1
+- **English-only (0 translations):** 4
 
 ### Coverage by locale
 
@@ -31,7 +31,7 @@ locales; they are not tracked here.
 | ko | 31 / 36 | 86% |
 | es | 31 / 36 | 86% |
 | fr | 31 / 36 | 86% |
-| de | 31 / 36 | 86% |
+| de | 32 / 36 | 89% |
 | pt | 31 / 36 | 86% |
 | ar | 31 / 36 | 86% |
 | hi | 31 / 36 | 86% |
@@ -60,7 +60,7 @@ locales; they are not tracked here.
 | `/comparison/openclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/openfang` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/picoclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/comparison/pydantic-ai` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/comparison/pydantic-ai` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | 1/12 |
 | `/comparison/semantic-kernel` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -81,7 +81,7 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/comparison/pydantic-ai` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/comparison/pydantic-ai` — missing: zh, zh-TW, ja, ko, es, fr, pt, ar, hi, ru, th
 - `/learn/agentic-workflows` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/browser-use-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/claude-opus-4-8` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
