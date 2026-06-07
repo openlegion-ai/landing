@@ -9,8 +9,8 @@ secondary_keywords:
   - web agent llm
   - headless browser ai agent
   - browser use security
-date_published: 2026-05
-last_updated: 2026-05-30
+date_published: "2026-05-01"
+last_updated: "2026-05-30"
 schema_types:
   - FAQPage
 page_type: learn
