@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 37
-- **Fully translated (all 12 locales):** 32
-- **Partially translated:** 1
-- **English-only (0 translations):** 4
+- **Fully translated (all 12 locales):** 34
+- **Partially translated:** 0
+- **English-only (0 translations):** 3
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 32 / 37 | 86% |
-| zh-TW | 32 / 37 | 86% |
-| ja | 32 / 37 | 86% |
-| ko | 32 / 37 | 86% |
-| es | 33 / 37 | 89% |
-| fr | 33 / 37 | 89% |
-| de | 33 / 37 | 89% |
-| pt | 33 / 37 | 89% |
-| ar | 32 / 37 | 86% |
-| hi | 32 / 37 | 86% |
-| ru | 32 / 37 | 86% |
-| th | 32 / 37 | 86% |
+| zh | 34 / 37 | 92% |
+| zh-TW | 34 / 37 | 92% |
+| ja | 34 / 37 | 92% |
+| ko | 34 / 37 | 92% |
+| es | 34 / 37 | 92% |
+| fr | 34 / 37 | 92% |
+| de | 34 / 37 | 92% |
+| pt | 34 / 37 | 92% |
+| ar | 34 / 37 | 92% |
+| hi | 34 / 37 | 92% |
+| ru | 34 / 37 | 92% |
+| th | 34 / 37 | 92% |
 
 ## Coverage matrix
 
@@ -65,14 +65,14 @@ locales; they are not tracked here.
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agentic-workflows` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
-| `/learn/ai-agent-evaluation` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/ai-agent-evaluation` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-frameworks` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-observability` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-orchestration` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/browser-use-agents` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | 4/12 |
+| `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/claude-opus-4-8` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -83,8 +83,6 @@ locales; they are not tracked here.
 ## Pages needing translation
 
 - `/learn/agentic-workflows` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/ai-agent-evaluation` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/browser-use-agents` — missing: zh, zh-TW, ja, ko, ar, hi, ru, th
 - `/learn/claude-opus-4-8` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/multi-agent-systems` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
