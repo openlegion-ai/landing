@@ -18,8 +18,8 @@ locales; they are not tracked here.
 
 - **Canonical pages:** 38
 - **Fully translated (all 12 locales):** 34
-- **Partially translated:** 0
-- **English-only (0 translations):** 4
+- **Partially translated:** 1
+- **English-only (0 translations):** 3
 
 ### Coverage by locale
 
@@ -30,7 +30,7 @@ locales; they are not tracked here.
 | ja | 34 / 38 | 89% |
 | ko | 34 / 38 | 89% |
 | es | 34 / 38 | 89% |
-| fr | 34 / 38 | 89% |
+| fr | 35 / 38 | 92% |
 | de | 34 / 38 | 89% |
 | pt | 34 / 38 | 89% |
 | ar | 34 / 38 | 89% |
@@ -64,7 +64,7 @@ locales; they are not tracked here.
 | `/comparison/semantic-kernel` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/agentic-workflows` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/agentic-workflows` | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 1/12 |
 | `/learn/ai-agent-evaluation` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-frameworks` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-observability` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -83,7 +83,7 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/learn/agentic-workflows` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/agentic-workflows` — missing: zh, zh-TW, ja, ko, es, de, pt, ar, hi, ru, th
 - `/learn/claude-opus-4-8` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/llm-cost-optimization` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/multi-agent-systems` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
