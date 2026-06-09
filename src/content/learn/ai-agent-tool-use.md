@@ -1,6 +1,7 @@
 ---
 title: "AI Agent Tool Use — Function Calling, Schemas, and Safe Execution"
 description: "How AI agents use tools: defining tool schemas, function calling across providers, parallel and chained calls, output parsing, error recovery, and permission scoping for safe production execution."
+slug: ai-agent-tool-use
 primary_keyword: ai agent tool use
 last_updated: "2026-06-08"
 schema_types:
@@ -16,7 +17,7 @@ related:
 
 # AI Agent Tool Use: Function Calling, Schemas, and Safe Execution
 
-AI agent tool use is the mechanism by which an LLM requests execution of external functions — web search, database queries, API calls, file operations — by emitting structured tool call JSON that a runtime intercepts, validates against a JSON Schema, and executes before returning a tool result. The LLM never executes anything; it only requests. The runtime enforces schema validation, ACL checks, and step budgets before any execution. tau-bench (2025) shows argument construction errors are the top tool-use failure mode — schema design is the primary reliability lever.
+AI agent tool use is the mechanism by which an LLM requests execution of external functions — web search, database queries, API calls, file operations — by emitting structured tool call JSON that a runtime intercepts, validates against a JSON Schema, and executes before returning a tool result. The LLM never executes anything; it only requests. The runtime enforces schema validation, ACL checks, and step budgets before any execution. tau-bench (2025) shows argument construction errors are the top tool-use failure mode.
 
 <!-- SCHEMA: DefinitionBlock -->
 AI agent tool use is the mechanism by which a large language model requests execution of external functions — web search, database queries, API calls, file operations, or custom business logic — by emitting a structured tool call in its output that a runtime intercepts, validates against a JSON Schema definition, executes, and returns as a tool result in the next context turn.
