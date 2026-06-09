@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 38
-- **Fully translated (all 12 locales):** 34
-- **Partially translated:** 1
-- **English-only (0 translations):** 3
+- **Fully translated (all 12 locales):** 38
+- **Partially translated:** 0
+- **English-only (0 translations):** 0
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 34 / 38 | 89% |
-| zh-TW | 34 / 38 | 89% |
-| ja | 34 / 38 | 89% |
-| ko | 34 / 38 | 89% |
-| es | 34 / 38 | 89% |
-| fr | 35 / 38 | 92% |
-| de | 34 / 38 | 89% |
-| pt | 34 / 38 | 89% |
-| ar | 34 / 38 | 89% |
-| hi | 34 / 38 | 89% |
-| ru | 34 / 38 | 89% |
-| th | 34 / 38 | 89% |
+| zh | 38 / 38 | 100% |
+| zh-TW | 38 / 38 | 100% |
+| ja | 38 / 38 | 100% |
+| ko | 38 / 38 | 100% |
+| es | 38 / 38 | 100% |
+| fr | 38 / 38 | 100% |
+| de | 38 / 38 | 100% |
+| pt | 38 / 38 | 100% |
+| ar | 38 / 38 | 100% |
+| hi | 38 / 38 | 100% |
+| ru | 38 / 38 | 100% |
+| th | 38 / 38 | 100% |
 
 ## Coverage matrix
 
@@ -64,7 +64,7 @@ locales; they are not tracked here.
 | `/comparison/semantic-kernel` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/agentic-workflows` | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 1/12 |
+| `/learn/agentic-workflows` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-evaluation` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-frameworks` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-observability` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -73,18 +73,15 @@ locales; they are not tracked here.
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/claude-opus-4-8` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
-| `/learn/llm-cost-optimization` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/claude-opus-4-8` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/llm-cost-optimization` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/multi-agent-systems` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/multi-agent-systems` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/what-is-an-ai-agent` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/openclaw-alternative` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 
 ## Pages needing translation
 
-- `/learn/agentic-workflows` — missing: zh, zh-TW, ja, ko, es, de, pt, ar, hi, ru, th
-- `/learn/claude-opus-4-8` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/llm-cost-optimization` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/multi-agent-systems` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+All pages are fully translated. 🎉
 
