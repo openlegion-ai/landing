@@ -10,7 +10,7 @@ secondary_keywords:
   - llm proxy alternative
   - litellm gateway
 date_published: 2026-05
-last_updated: 2026-06-09
+last_updated: "2026-06-09"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -23,7 +23,7 @@ related:
   - /learn/ai-agent-orchestration
 ---
 
-# OpenLegion vs LiteLLM: Distributed Vault vs Centralized Gateway
+# LiteLLM Alternative: OpenLegion Distributed Vault vs Centralized Gateway
 
 OpenLegion vs LiteLLM represents the fundamental security trade-off between distributed vault proxy architecture and centralized LLM gateway credential aggregation. LiteLLM excels as a unified provider gateway with 47,997 GitHub stars, cost tracking, and 100+ LLM provider support, but suffered CVE-2026-42208 (CVSS 9.3 CRITICAL) where SQL injection exposed the entire credential database to unauthenticated attackers. OpenLegion's distributed vault proxy injects credentials at call time without central storage, eliminating the high-value attack target that centralized gateways inherently create.
 
