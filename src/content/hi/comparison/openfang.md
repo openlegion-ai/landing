@@ -55,7 +55,7 @@ OpenLegion कंटेनर isolation, vault proxy credential management, प�
 | **Migration tools** | Manual | OpenClaw, LangChain, AutoGPT से अंतर्निहित |
 | **Desktop app** | नहीं | Tauri 2.0 native app |
 | **GitHub stars** | ~59 | ~9,300 |
-| **License** | BSL 1.1 | Apache 2.0 |
+| **License** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Production track record** | Pre-release | Pre-release (days old) |
 | **Known CVEs** | 0 | 0 |
 

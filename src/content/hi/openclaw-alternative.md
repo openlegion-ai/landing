@@ -109,7 +109,7 @@ OpenLegion BYOK (Bring Your Own Keys) को support करता है। आ�
 
 ### क्या मैं hosted OpenLegion का उपयोग करने के बजाय self-host कर सकता हूँ?
 
-हाँ। OpenLegion BSL 1.1 license के तहत source-available है। Self-hosting को Python 3.10+ और Docker चाहिए। Install process है `git clone && ./install.sh && openlegion start`; first-run Docker image builds कुछ मिनट लेते हैं। कोई external services आवश्यक नहीं — कोई Redis नहीं, कोई Kubernetes नहीं, कोई cloud services नहीं। एक single machine पर चलता है। उन teams के लिए एक hosted विकल्प भी available है जो managed infrastructure को प्राथमिकता देती हैं।
+हाँ। OpenLegion PolyForm Perimeter License 1.0.1 के तहत source-available है। Self-hosting को Python 3.10+ और Docker चाहिए। Install process है `git clone && ./install.sh && openlegion start`; first-run Docker image builds कुछ मिनट लेते हैं। कोई external services आवश्यक नहीं — कोई Redis नहीं, कोई Kubernetes नहीं, कोई cloud services नहीं। एक single machine पर चलता है। उन teams के लिए एक hosted विकल्प भी available है जो managed infrastructure को प्राथमिकता देती हैं।
 
 ### OpenClaw से OpenLegion में migrate करना कितना कठिन है?
 

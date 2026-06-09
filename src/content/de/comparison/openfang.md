@@ -56,7 +56,7 @@ Beide Projekte priorisieren Sicherheit. Beide nutzen Rust-grade Isolations-Primi
 | **Migrationstools** | Manuell | Integriert von OpenClaw, LangChain, AutoGPT |
 | **Desktop-App** | Nein | Tauri-2.0-Native-App |
 | **GitHub-Stars** | ~59 | ~9.300 |
-| **Lizenz** | BSL 1.1 | Apache 2.0 |
+| **Lizenz** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Produktions-Track-Record** | Pre-Release | Pre-Release (Tage alt) |
 | **Bekannte CVEs** | 0 | 0 |
 

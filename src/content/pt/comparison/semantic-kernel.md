@@ -58,7 +58,7 @@ Esta é uma comparação direta **OpenLegion vs Semantic Kernel** baseada em doc
 | **Funcionalidades enterprise** | Embutidas: isolamento, cofre, orçamentos, logs de auditoria | Filters (function invocation, prompt render, auto function), integração com Copilot |
 | **Integração com nuvem** | Cloud-agnóstico | Integração profunda com Azure (Key Vault, Managed Identity, Entra ID) |
 | **Estrelas no GitHub** | ~59 | ~27.300 |
-| **Licença** | BSL 1.1 | MIT |
+| **Licença** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Melhor para** | Frotas em produção exigindo governança security-first | Times Microsoft enterprise construindo extensões para Copilot |
 
 ## Diferenças de Arquitetura

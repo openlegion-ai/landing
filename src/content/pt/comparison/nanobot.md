@@ -53,7 +53,7 @@ OpenLegion é um [framework de agentes de IA](/learn/ai-agent-platform) security
 | **Multiagente** | Templates de frota com ACLs por agente | Spawning de sub-agente (sem orquestração de frota) |
 | **Memória** | Persistente por agente com busca vetorial | Recuperação baseada em grep (evita RAG deliberadamente) |
 | **Estrelas no GitHub** | ~59 | ~20.000-26.000 |
-| **Licença** | BSL 1.1 | MIT |
+| **Licença** | PolyForm Perimeter License 1.0.1 | MIT |
 | **CVEs conhecidos** | 0 | **vulnerabilidade crítica no bridge WhatsApp (CVSS 10.0)** + 3 patches críticos adicionais |
 | **Origem** | Independente | Laboratório de pesquisa acadêmico |
 

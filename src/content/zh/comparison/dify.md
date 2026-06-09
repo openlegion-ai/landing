@@ -35,7 +35,7 @@ OpenLegion（约 59 星标）是一个安全优先的 [AI 智能体平台](/lear
 - **关键漏洞**：CVE-2025-3466（CVSS 9.8）允许在 Dify v1.1.0-1.1.2 中沙箱逃逸——具备 root 权限的任意代码执行、访问密钥和内部网络。已在 v1.1.3 修复。
 - **凭证模型**：Dify 在工作区级别存储 API 密钥，并在团队成员和应用之间共享。OpenLegion 使用密钥库代理——智能体永远看不到原始密钥。
 - **架构复杂度**：Dify 自托管部署需要约 12 个 Docker 容器。OpenLegion 仅需 Python + SQLite + Docker，零外部服务。
-- **许可证差异**：Dify 使用修改版 Apache 2.0（未经书面协议不得用于多租户 SaaS）。OpenLegion 使用 BSL 1.1。
+- **许可证差异**：Dify 使用修改版 Apache 2.0（未经书面协议不得用于多租户 SaaS）。OpenLegion 使用 PolyForm Perimeter License 1.0.1。
 
 ## 并排对比
 
@@ -53,7 +53,7 @@ OpenLegion（约 59 星标）是一个安全优先的 [AI 智能体平台](/lear
 | **自托管复杂度** | Python + SQLite + Docker（零外部） | 约 12 个 Docker 容器 |
 | **云选项** | 托管平台（即将推出） | Dify Cloud：免费到 $159/月 |
 | **GitHub 星标** | ~59 | ~131,000 |
-| **许可证** | BSL 1.1 | 修改版 Apache 2.0 |
+| **许可证** | PolyForm Perimeter License 1.0.1 | 修改版 Apache 2.0 |
 | **最适合** | 需要安全优先治理的生产舰队 | 含可视化工作流和 RAG 的低代码 AI 应用构建 |
 
 ## 架构差异

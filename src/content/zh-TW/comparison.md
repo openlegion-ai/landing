@@ -43,7 +43,7 @@ OpenLegion 是一個以安全為先的 [AI 代理框架](/learn/ai-agent-platfor
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27,300 | MIT | 無內建 | DefaultAzureCredential | 免費(開源) | 重大 RCE(CVSS 9.9) | 更新頻率降低 |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19,200 | MIT | 無(同程序) | 環境變數 API 金鑰 | SDK 免費;API 按用量計費 | 0 | 活躍 |
 | [**Dify**](/comparison/dify) | 131,000 | 修改版 Apache 2.0 | 外掛沙箱 | 工作區共享金鑰 | 雲端 $59-159/月 | CVE-2025-3466(CVSS 9.8) | 活躍 |
-| **OpenLegion** | 新 | BSL 1.1 | 每代理 Docker(預設且唯一模式) | 金庫代理(代理永不見金鑰) | 每代理每日/每月硬性截止 | 尚未報告(v0.1.0) | 活躍 |
+| **OpenLegion** | 新 | PolyForm Perimeter License 1.0.1 | 每代理 Docker(預設且唯一模式) | 金庫代理(代理永不見金鑰) | 每代理每日/每月硬性截止 | 尚未報告(v0.1.0) | 活躍 |
 
 ## 安全性落差
 

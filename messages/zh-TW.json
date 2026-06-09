@@ -505,7 +505,7 @@
       },
       "3": {
         "question": "什麼是 OpenLegion？",
-        "answer": "OpenLegion 是一款生產級、容器隔離式的多智慧代理執行環境，可將自治智慧代理機隊部署於隔離的 Docker 容器中。每個代理擁有獨立的預算、權限與憑證庫 — 透過容器隔離、密鑰庫代理、每個代理的 ACL 與受限執行達成縱深防禦。僅需 Python、Docker 與 API 金鑰。無需 Redis、Kubernetes 或 LangChain。採用 BSL 1.1 授權（source-available）。"
+        "answer": "OpenLegion 是一款生產級、容器隔離式的多智慧代理執行環境，可將自治智慧代理機隊部署於隔離的 Docker 容器中。每個代理擁有獨立的預算、權限與憑證庫 — 透過容器隔離、密鑰庫代理、每個代理的 ACL 與受限執行達成縱深防禦。僅需 Python、Docker 與 API 金鑰。無需 Redis、Kubernetes 或 LangChain。採用 PolyForm Perimeter License 1.0.1 授權（source-available）。"
       },
       "4": {
         "question": "OpenLegion 與 CrewAI 或其他智慧代理框架有什麼不同？",
@@ -566,7 +566,7 @@
   },
   "footer": {
     "brandDescription": "為生產環境打造的容器隔離式多智慧代理執行環境。以安全、成本可控的智慧代理機隊自動化任何電腦任務。",
-    "license": "BSL 1.1 授權 © {year} OpenLegion Contributors",
+    "license": "PolyForm Perimeter License 1.0.1 授權 © {year} OpenLegion Contributors",
     "columns": {
       "0": {
         "title": "產品",
@@ -622,7 +622,7 @@
         "links": {
           "0": "服務條款",
           "1": "隱私權政策",
-          "2": "BSL 1.1 授權"
+          "2": "PolyForm Perimeter License 1.0.1 授權"
         }
       }
     }
@@ -721,7 +721,7 @@
       },
       "4": {
         "question": "可以自架 OpenLegion 嗎？",
-        "answer": "可以。複製儲存庫，執行三個指令，即可在自己的基礎設施上建立完整的智慧代理艦隊。引擎依 BSL 1.1 原始碼可取得。不想管理基礎設施的團隊可選擇代管服務，月費 $19 起。"
+        "answer": "可以。複製儲存庫，執行三個指令，即可在自己的基礎設施上建立完整的智慧代理艦隊。引擎依 PolyForm Perimeter License 1.0.1 原始碼可取得。不想管理基礎設施的團隊可選擇代管服務，月費 $19 起。"
       },
       "5": {
         "question": "什麼算是一個「智慧代理」？",
@@ -917,7 +917,7 @@
     "privacyTitle": "隱私權政策",
     "privacyDescription": "OpenLegion AI 智慧代理框架與代管服務的隱私政策。了解我們如何在代管服務及 openlegion.ai 網站上收集、使用與保護您的資料。",
     "termsTitle": "服務條款",
-    "termsDescription": "OpenLegion AI 智慧代理框架與代管服務的服務條款。涵蓋代管服務、BSL 1.1 授權下的自架部署，以及 openlegion.ai 網站。",
+    "termsDescription": "OpenLegion AI 智慧代理框架與代管服務的服務條款。涵蓋代管服務、PolyForm Perimeter License 1.0.1 授權下的自架部署，以及 openlegion.ai 網站。",
     "moneyBackTitle": "7 天退款保證",
     "moneyBackDescription": "如果 OpenLegion 不適合你，首月費用全額退款，無需任何理由。"
   },
@@ -1166,7 +1166,7 @@
     },
     "section7": {
       "title": "7. 智慧財產權",
-      "p1": "OpenLegion 框架原始碼依據 Business Source License 1.1（BSL 1.1）授權。本條款不授予您超出該授權許可範圍的任何權利。OpenLegion 的所有商標、標誌和品牌元素均為 OpenLegion 專案的財產，未經事先書面同意不得使用。",
+      "p1": "OpenLegion 框架原始碼依據 PolyForm Perimeter License 1.0.1授權。本條款不授予您超出該授權許可範圍的任何權利。OpenLegion 的所有商標、標誌和品牌元素均為 OpenLegion 專案的財產，未經事先書面同意不得使用。",
       "p2": "您保留提交至服務的所有資料、內容和設定（以下簡稱「客戶資料」）的所有權。您授予我們有限的、非獨占的授權，僅為提供服務之目的而代管和處理客戶資料。"
     },
     "section8": {
@@ -1299,7 +1299,7 @@
   },
   "schema": {
     "orgDescription": "容器隔離的多代理執行階段,提供託管服務 — Docker 隔離的代理、金庫代理憑證、單代理預算。",
-    "softwareDescription": "容器隔離的多代理執行階段,具備金庫代理憑證和單代理預算控制。可自我託管(BSL 1.1)或在專用 VPS 上使用託管服務。",
+    "softwareDescription": "容器隔離的多代理執行階段,具備金庫代理憑證和單代理預算控制。可自我託管(PolyForm Perimeter License 1.0.1)或在專用 VPS 上使用託管服務。",
     "softwareFeatureList": [
       "單代理容器隔離(Docker 或 Docker Desktop Sandbox 微虛擬機)",
       "金庫代理憑證 — 代理永遠看不到 API 金鑰",

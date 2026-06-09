@@ -505,7 +505,7 @@
       },
       "3": {
         "question": "什么是 OpenLegion？",
-        "answer": "OpenLegion 是一款生产级、容器隔离式的多智能体运行时，将自治智能体编队部署到隔离的 Docker 容器中。每个智能体拥有独立的预算、权限和凭证库 — 通过容器隔离、密钥库代理、按智能体的 ACL 和受限执行实现纵深防御。仅需 Python、Docker 和 API 密钥。无需 Redis、Kubernetes 或 LangChain。采用 BSL 1.1 许可（source-available）。"
+        "answer": "OpenLegion 是一款生产级、容器隔离式的多智能体运行时，将自治智能体编队部署到隔离的 Docker 容器中。每个智能体拥有独立的预算、权限和凭证库 — 通过容器隔离、密钥库代理、按智能体的 ACL 和受限执行实现纵深防御。仅需 Python、Docker 和 API 密钥。无需 Redis、Kubernetes 或 LangChain。采用 PolyForm Perimeter License 1.0.1 许可（source-available）。"
       },
       "4": {
         "question": "OpenLegion 与 CrewAI 或其他智能体框架有什么区别？",
@@ -566,7 +566,7 @@
   },
   "footer": {
     "brandDescription": "为生产环境打造的容器隔离式多智能体运行时。用安全、可控成本的智能体编队自动化任何计算机任务。",
-    "license": "BSL 1.1 许可协议 © {year} OpenLegion 贡献者",
+    "license": "PolyForm Perimeter License 1.0.1 许可协议 © {year} OpenLegion 贡献者",
     "columns": {
       "0": {
         "title": "产品",
@@ -622,7 +622,7 @@
         "links": {
           "0": "服务条款",
           "1": "隐私政策",
-          "2": "BSL 1.1 许可协议"
+          "2": "PolyForm Perimeter License 1.0.1 许可协议"
         }
       }
     }
@@ -721,7 +721,7 @@
       },
       "4": {
         "question": "可以自托管 OpenLegion 吗？",
-        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 BSL 1.1 源码可见许可协议。托管服务起价 $19/月，适合不想管理基础设施的团队。"
+        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 PolyForm Perimeter License 1.0.1 源码可见许可协议。托管服务起价 $19/月，适合不想管理基础设施的团队。"
       },
       "5": {
         "question": "什么算作一个「智能体」？",
@@ -917,7 +917,7 @@
     "privacyTitle": "隐私政策",
     "privacyDescription": "OpenLegion AI 智能体框架与托管服务的隐私政策。了解我们如何在托管服务及 openlegion.ai 网站上收集、使用和保护你的数据。",
     "termsTitle": "服务条款",
-    "termsDescription": "OpenLegion AI 智能体框架与托管服务的服务条款。涵盖托管服务、BSL 1.1 许可下的自托管部署以及 openlegion.ai 网站。",
+    "termsDescription": "OpenLegion AI 智能体框架与托管服务的服务条款。涵盖托管服务、PolyForm Perimeter License 1.0.1 许可下的自托管部署以及 openlegion.ai 网站。",
     "moneyBackTitle": "7 天退款保证",
     "moneyBackDescription": "如果 OpenLegion 不适合你，首月费用全额退款，无需任何理由。"
   },
@@ -1166,7 +1166,7 @@
     },
     "section7": {
       "title": "7. 知识产权",
-      "p1": "OpenLegion 框架源代码按照 Business Source License 1.1 (BSL 1.1) 授权。本条款不授予您超出该许可允许范围的任何权利。OpenLegion 的所有商标、标识和品牌元素均为 OpenLegion 项目的财产，未经事先书面同意不得使用。",
+      "p1": "OpenLegion 框架源代码按照 PolyForm Perimeter License 1.0.1 授权。本条款不授予您超出该许可允许范围的任何权利。OpenLegion 的所有商标、标识和品牌元素均为 OpenLegion 项目的财产，未经事先书面同意不得使用。",
       "p2": "您保留提交至本服务的所有数据、内容和配置（「客户数据」）的所有权。您授予我们有限的、非排他性的许可，仅用于托管和处理客户数据以提供本服务。"
     },
     "section8": {
@@ -1299,7 +1299,7 @@
   },
   "schema": {
     "orgDescription": "容器隔离的多智能体运行时,提供托管服务 — Docker 隔离的智能体、密钥库代理凭证、单智能体预算。",
-    "softwareDescription": "容器隔离的多智能体运行时,具备密钥库代理凭证和单智能体预算控制。可自托管(BSL 1.1)或在专用 VPS 上使用托管服务。",
+    "softwareDescription": "容器隔离的多智能体运行时,具备密钥库代理凭证和单智能体预算控制。可自托管(PolyForm Perimeter License 1.0.1)或在专用 VPS 上使用托管服务。",
     "softwareFeatureList": [
       "单智能体容器隔离(Docker 或 Docker Desktop Sandbox 微虚拟机)",
       "密钥库代理凭证 — 智能体永远看不到 API 密钥",

@@ -52,7 +52,7 @@ OpenLegion 是一個安全優先的 [AI 代理框架](/learn/ai-agent-platform),
 | **多代理** | 艦隊範本,具每代理 ACL | 子代理孵化(無艦隊編排) |
 | **記憶** | 每代理持久,具向量搜尋 | 基於 grep 的檢索(刻意避免 RAG) |
 | **GitHub 星數** | ~59 | ~20,000-26,000 |
-| **授權** | BSL 1.1 | MIT |
+| **授權** | PolyForm Perimeter License 1.0.1 | MIT |
 | **已知 CVE** | 0 | **重大 WhatsApp 橋接器弱點(CVSS 10.0)** + 3 個額外重大修補 |
 | **起源** | 獨立 | 學術研究實驗室 |
 

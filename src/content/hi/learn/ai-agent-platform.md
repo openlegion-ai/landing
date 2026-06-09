@@ -50,7 +50,7 @@ AI एजेंट frameworks और AI एजेंट platforms के बी�
 
 **Self-hosted frameworks** (LangGraph, CrewAI, AutoGen) आपको maximum control देते हैं। आप infrastructure के मालिक हैं। आप containers configure करते हैं। आप credential pipeline build करते हैं। यह तब काम करता है जब आपकी team के पास dedicated DevOps capacity और existing infrastructure है जिसके साथ एजेंट्स को deeply integrate करना है।
 
-**Managed AI एजेंट platforms** operational layer handle करते हैं ताकि आपकी team एजेंट logic पर focus करे। OpenLegion यहाँ बैठता है — लेकिन एक critical अंतर के साथ: यह BSL 1.1 के तहत source-available है। आप infrastructure side पर vendor lock-in के बिना platform-grade operations (isolation, vaulting, budget controls) प्राप्त करते हैं।
+**Managed AI एजेंट platforms** operational layer handle करते हैं ताकि आपकी team एजेंट logic पर focus करे। OpenLegion यहाँ बैठता है — लेकिन एक critical अंतर के साथ: यह PolyForm Perimeter License 1.0.1 के तहत source-available है। आप infrastructure side पर vendor lock-in के बिना platform-grade operations (isolation, vaulting, budget controls) प्राप्त करते हैं।
 
 प्रश्न यह नहीं है कि कौन सा "better" है। यह है कि आपकी team को एजेंट security infrastructure पर engineering hours खर्च करने चाहिए या एजेंट्स पर ही।
 
@@ -180,7 +180,7 @@ Production के लिए सबसे अच्छा AI एजेंट प�
 
 ### Managed बनाम self-hosted AI एजेंट्स: अंतर क्या है?
 
-Managed AI एजेंट platforms आपके लिए container provisioning, credential vaulting, cost controls, और observability handle करते हैं। Self-hosted का अर्थ है आप एक framework (LangGraph, CrewAI, AutoGen) को अपने स्वयं के infrastructure पर deploy करते हैं और इन operational layers को खुद build करते हैं। Managed production तक faster है और कम DevOps investment की आवश्यकता है। Self-hosted maximum infrastructure control देता है। OpenLegion एक hybrid प्रदान करता है: source-available code (BSL 1.1) जिसे आप self-host कर सकते हैं, अंतर्निहित managed platform capabilities के साथ।
+Managed AI एजेंट platforms आपके लिए container provisioning, credential vaulting, cost controls, और observability handle करते हैं। Self-hosted का अर्थ है आप एक framework (LangGraph, CrewAI, AutoGen) को अपने स्वयं के infrastructure पर deploy करते हैं और इन operational layers को खुद build करते हैं। Managed production तक faster है और कम DevOps investment की आवश्यकता है। Self-hosted maximum infrastructure control देता है। OpenLegion एक hybrid प्रदान करता है: source-available code (PolyForm Perimeter License 1.0.1) जिसे आप self-host कर सकते हैं, अंतर्निहित managed platform capabilities के साथ।
 
 ### OpenLegion अन्य AI एजेंट platforms से कैसे तुलना करता है?
 
@@ -188,7 +188,7 @@ OpenLegion security-first architecture पर differentiate करता है�
 
 ### OpenLegion कौन सी license उपयोग करता है?
 
-OpenLegion BSL 1.1 license के तहत source-available है और [GitHub](https://github.com/openlegion-ai/openlegion) पर available है। Project उन teams के लिए एक hosted प्लेटफ़ॉर्म भी प्रदान करता है जो self-hosting के बिना managed infrastructure चाहती हैं।
+OpenLegion PolyForm Perimeter License 1.0.1 के तहत source-available है और [GitHub](https://github.com/openlegion-ai/openlegion) पर available है। Project उन teams के लिए एक hosted प्लेटफ़ॉर्म भी प्रदान करता है जो self-hosting के बिना managed infrastructure चाहती हैं।
 
 ### मैं अपना पहला एजेंट कितनी जल्दी deploy कर सकता हूँ?
 

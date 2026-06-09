@@ -53,7 +53,7 @@ OpenLegion é um [framework de agentes de IA](/learn/ai-agent-platform) security
 | **Provedores de LLM** | 100+ via LiteLLM | OpenAI, Anthropic, Gemini (para operações de memória) |
 | **Preço** | Chaves de API BYO, US$ 19/mês hospedado | Gratuito (30 chamadas), Pro (600 chamadas), Enterprise |
 | **Estrelas no GitHub** | ~59 | ~7.200-10.500 |
-| **Licença** | BSL 1.1 | AGPL-3.0 (servidor) |
+| **Licença** | PolyForm Perimeter License 1.0.1 | AGPL-3.0 (servidor) |
 | **Benchmark** | N/A | 92,09% de acurácia no benchmark Locomo |
 
 ## Escolha MemU se...
@@ -118,7 +118,7 @@ MemU oferece uma API hospedada em memu.pro com preço por uso: Free (30 chamadas
 
 ### Preocupações comuns em produção
 
-**Licenciamento AGPL-3.0.** A licença do servidor é AGPL-3.0, que exige distribuir código-fonte de qualquer versão modificada e de qualquer software que interage com MemU por rede (dependendo da interpretação). Muitas empresas evitam AGPL. Essa é uma licença significativamente mais restritiva que a BSL 1.1 do OpenLegion ou as licenças MIT/Apache da maioria dos concorrentes.
+**Licenciamento AGPL-3.0.** A licença do servidor é AGPL-3.0, que exige distribuir código-fonte de qualquer versão modificada e de qualquer software que interage com MemU por rede (dependendo da interpretação). Muitas empresas evitam AGPL. Essa é uma licença significativamente mais restritiva que a PolyForm Perimeter License 1.0.1 do OpenLegion ou as licenças MIT/Apache da maioria dos concorrentes.
 
 **Dependência de banco externo.** PostgreSQL + pgvector adiciona complexidade operacional. Provisionamento de banco, pooling de conexão, backups e escala são responsabilidades adicionais.
 

@@ -53,7 +53,7 @@ OpenLegion(~59 스타)은 클라우드 생태계 폭보다 컨테이너 격리, 
 | **배포** | 클라우드 불가지론 (모든 Docker 호스트) | Vertex AI Agent Engine Runtime 또는 셀프 호스팅 |
 | **종속성** | 외부 없음, Python + SQLite + Docker | Google Cloud SDK + ADK 패키지 |
 | **GitHub 스타** | ~59 | ~17,600 |
-| **라이선스** | BSL 1.1 | Apache 2.0 |
+| **라이선스** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **적합 대상** | 보안 우선 거버넌스가 필요한 프로덕션 플릿 | A2A 상호 운용성이 필요한 Google Cloud 팀 |
 
 ## 아키텍처 차이
@@ -133,7 +133,7 @@ ADK는 세 가지 계층을 제공합니다: Vertex(Google 매니지드), Docker
 
 ### ADK 가격은 OpenLegion과 어떻게 비교됩니까?
 
-ADK는 무료입니다(Apache 2.0). Vertex AI Agent Engine Runtime은 vCPU-hr당 $0.0864에 1,000 이벤트당 $0.25가 듭니다. OpenLegion은 BYO API 키 모델과 마크업 없음의 소스 공개(BSL 1.1)입니다.
+ADK는 무료입니다(Apache 2.0). Vertex AI Agent Engine Runtime은 vCPU-hr당 $0.0864에 1,000 이벤트당 $0.25가 듭니다. OpenLegion은 BYO API 키 모델과 마크업 없음의 소스 공개(PolyForm Perimeter License 1.0.1)입니다.
 
 ### OpenLegion과 A2A 에이전트를 사용할 수 있습니까?
 

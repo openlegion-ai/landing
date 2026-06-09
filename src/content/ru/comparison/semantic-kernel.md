@@ -58,7 +58,7 @@ OpenLegion (~59 звёзд) — security-first [AI-агентная платфо
 | **Корпоративные функции** | Встроены: изоляция, vault, бюджеты, audit-логи | Filters (function invocation, prompt render, auto function), Copilot integration |
 | **Облачная интеграция** | Cloud-agnostic | Глубокая Azure-интеграция (Key Vault, Managed Identity, Entra ID) |
 | **GitHub-звёзды** | ~59 | ~27,300 |
-| **Лицензия** | BSL 1.1 | MIT |
+| **Лицензия** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Лучше всего для** | Production-флотов, требующих security-first governance | Корпоративных Microsoft-команд, строящих Copilot extensions |
 
 ## Архитектурные различия

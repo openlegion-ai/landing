@@ -57,7 +57,7 @@ OpenLegion (~59 ดาว) เป็น [แพลตฟอร์ม AI agent](/
 | **ฟีเจอร์ระดับองค์กร** | ในตัว: การแยก, vault, งบประมาณ, audit log | Filter (function invocation, prompt render, auto function), การผสาน Copilot |
 | **การผสานคลาวด์** | ไม่ผูกกับคลาวด์ | การผสาน Azure เชิงลึก (Key Vault, Managed Identity, Entra ID) |
 | **ดาว GitHub** | ~59 | ~27,300 |
-| **ใบอนุญาต** | BSL 1.1 | MIT |
+| **ใบอนุญาต** | PolyForm Perimeter License 1.0.1 | MIT |
 | **เหมาะสำหรับ** | ฝูงโปรดักชันที่ต้องการการกำกับดูแลที่เน้นความปลอดภัย | ทีมองค์กร Microsoft ที่สร้างส่วนขยาย Copilot |
 
 ## ความแตกต่างทางสถาปัตยกรรม

@@ -57,7 +57,7 @@ OpenLegion(約 59 星)是一個安全優先的 [AI 代理平台](/learn/ai-agent
 | **企業功能** | 內建:隔離、金庫、預算、稽核日誌 | Filters(function invocation、prompt render、auto function)、Copilot 整合 |
 | **雲端整合** | 雲端無關 | 深度 Azure 整合(Key Vault、Managed Identity、Entra ID) |
 | **GitHub 星數** | ~59 | ~27,300 |
-| **授權** | BSL 1.1 | MIT |
+| **授權** | PolyForm Perimeter License 1.0.1 | MIT |
 | **最適合** | 需安全優先治理的生產艦隊 | 建構 Copilot 擴充的微軟企業團隊 |
 
 ## 架構差異

@@ -52,7 +52,7 @@ OpenLegion（约 59 星标）是一个安全优先的 [AI 智能体平台](/lear
 | **追踪** | 内置仪表板，含实时流和成本图表 | 内置追踪 UI，零配置，免费 |
 | **依赖** | 零外部 —— Python + SQLite + Docker | openai Python 包 |
 | **GitHub 星标** | ~59 | ~19,200 |
-| **许可证** | BSL 1.1 | MIT |
+| **许可证** | PolyForm Perimeter License 1.0.1 | MIT |
 | **最适合** | 需要安全优先治理的生产舰队 | 使用 OpenAI 模型的快速开发 |
 
 ## 架构差异

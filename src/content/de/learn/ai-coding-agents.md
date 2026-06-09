@@ -41,7 +41,7 @@ Autovervollständigung schlägt die nächste Zeile vor. KI-Coding-Agenten erledi
 - Ein Coding-Assistent ergänzt einen Menschen im Editor. Ein Coding-Agent durchläuft die Schleife eigenständig auf eine definierte Aufgabe hin.
 - Die aufregende Fähigkeit und die gefährliche sind dieselbe: Code ausführen und Repo-Credentials halten. Isolation ist nicht optional.
 - OpenLegions Dev-Team-Template liefert einen PM-, einen Engineer- und einen Reviewer-Agenten, jeden in seinem eigenen Container mit eigenem Budget.
-- Es ist selbst hostbar unter BSL 1.1, sodass Coding-Agenten für private Repositories innerhalb Ihres eigenen Netzwerks laufen können.
+- Es ist selbst hostbar unter PolyForm Perimeter License 1.0.1, sodass Coding-Agenten für private Repositories innerhalb Ihres eigenen Netzwerks laufen können.
 
 ## Was ein Coding-Agent tatsächlich tut
 
@@ -127,8 +127,8 @@ Ja. OpenLegions Dev-Team-Template betreibt einen PM-Agenten, einen Engineer-Agen
 
 ### Kann ich KI-Coding-Agenten auf eigener Infrastruktur betreiben?
 
-Ja. OpenLegion ist source-available unter BSL 1.1 und läuft auf einer einzelnen Maschine mit Python und Docker, sodass Coding-Agenten vollständig innerhalb Ihres eigenen Netzwerks arbeiten können. Das zählt für private Repositories und regulierte Umgebungen, in denen Code und Credentials Ihre Infrastruktur nicht verlassen dürfen. Für Teams, die es lieber nicht selbst betreiben, existiert eine Managed-Hosting-Option.
+Ja. OpenLegion ist source-available unter PolyForm Perimeter License 1.0.1 und läuft auf einer einzelnen Maschine mit Python und Docker, sodass Coding-Agenten vollständig innerhalb Ihres eigenen Netzwerks arbeiten können. Das zählt für private Repositories und regulierte Umgebungen, in denen Code und Credentials Ihre Infrastruktur nicht verlassen dürfen. Für Teams, die es lieber nicht selbst betreiben, existiert eine Managed-Hosting-Option.
 
 ### Was kostet der Betrieb von KI-Coding-Agenten?
 
-OpenLegion berechnet eine pauschale Plattformgebühr ohne Aufschlag auf Modellnutzung. Sie bringen eigene LLM-API-Keys mit oder nutzen enthaltene Credits und zahlen Anbieter zu deren veröffentlichten Preisen. Tägliche und monatliche Budget-Obergrenzen pro Agent verhindern, dass ein feststeckender Agent eine unbegrenzte Rechnung auflaufen lässt. Verwaltete Pläne starten bei 19 $/Monat mit einer 7-tägigen Geld-zurück-Garantie, und das Self-Hosting der Engine ist unter BSL 1.1 verfügbar.
+OpenLegion berechnet eine pauschale Plattformgebühr ohne Aufschlag auf Modellnutzung. Sie bringen eigene LLM-API-Keys mit oder nutzen enthaltene Credits und zahlen Anbieter zu deren veröffentlichten Preisen. Tägliche und monatliche Budget-Obergrenzen pro Agent verhindern, dass ein feststeckender Agent eine unbegrenzte Rechnung auflaufen lässt. Verwaltete Pläne starten bei 19 $/Monat mit einer 7-tägigen Geld-zurück-Garantie, und das Self-Hosting der Engine ist unter PolyForm Perimeter License 1.0.1 verfügbar.

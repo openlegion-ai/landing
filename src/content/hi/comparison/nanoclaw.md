@@ -51,7 +51,7 @@ NanoClaw और OpenLegion इस space के दो frameworks हैं ज�
 | **Multi-agent** | प्रति-एजेंट ACLs के साथ Fleet templates | Agent Swarms (Claude Code teams) |
 | **Customization model** | Configuration + plugins | "Skills over Features" — AI source rewrite करता है |
 | **GitHub stars** | ~59 | ~7,200 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Known CVEs** | 0 | 0 |
 
 ## NanoClaw चुनें यदि...

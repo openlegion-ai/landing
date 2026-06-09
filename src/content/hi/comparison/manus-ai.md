@@ -20,14 +20,14 @@ related:
 
 Manus AI March 2025 में launch हुआ और industry reports के अनुसार reportedly December 2025 में Meta द्वारा $2 billion+ में acquired किया गया। केवल आठ महीनों में, Manus $100M+ ARR तक पहुँचा, 80 million virtual computers में 147 trillion tokens process किए, और 186,000+ members वाला एक Discord community बनाया। यह एक closed-source, cloud-only स्वायत्त एजेंट प्लेटफ़ॉर्म है।
 
-OpenLegion (~59 stars) एक source-available (BSL 1.1), security-first [AI एजेंट प्लेटफ़ॉर्म](/learn/ai-agent-platform) है जो पूर्ण self-hosted deployment के साथ कंटेनर isolation, vault-proxied credentials, और प्रति-एजेंट बजट controls को प्राथमिकता देता है।
+OpenLegion (~59 stars) एक source-available (PolyForm Perimeter License 1.0.1), security-first [AI एजेंट प्लेटफ़ॉर्म](/learn/ai-agent-platform) है जो पूर्ण self-hosted deployment के साथ कंटेनर isolation, vault-proxied credentials, और प्रति-एजेंट बजट controls को प्राथमिकता देता है।
 
 यह लिखने के समय public documentation और independent security research पर आधारित एक direct **OpenLegion बनाम Manus AI** comparison है।
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **OpenLegion और Manus AI में क्या अंतर है?**
-> Manus AI एक closed-source, cloud-only स्वायत्त एजेंट प्लेटफ़ॉर्म है जो प्रत्येक user session को task execution के लिए एक dedicated virtual computer (Firecracker microVM) देता है। OpenLegion एक source-available (BSL 1.1), security-first AI एजेंट framework है प्रति एजेंट अनिवार्य Docker कंटेनर isolation, vault proxy credential management, प्रति-एजेंट बजट enforcement, और fleet-model coordination (blackboard + pub/sub + handoff) के साथ। Manus स्वायत्त task completion के लिए optimize करता है; OpenLegion security, transparency, और developer control के लिए optimize करता है।
+> Manus AI एक closed-source, cloud-only स्वायत्त एजेंट प्लेटफ़ॉर्म है जो प्रत्येक user session को task execution के लिए एक dedicated virtual computer (Firecracker microVM) देता है। OpenLegion एक source-available (PolyForm Perimeter License 1.0.1), security-first AI एजेंट framework है प्रति एजेंट अनिवार्य Docker कंटेनर isolation, vault proxy credential management, प्रति-एजेंट बजट enforcement, और fleet-model coordination (blackboard + pub/sub + handoff) के साथ। Manus स्वायत्त task completion के लिए optimize करता है; OpenLegion security, transparency, और developer control के लिए optimize करता है।
 
 ## TL;DR
 
@@ -44,7 +44,7 @@ OpenLegion (~59 stars) एक source-available (BSL 1.1), security-first [AI ए
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | स्वायत्त task execution |
 | **Architecture** | Four-zone trust model (plus operator-or-internal tier) | प्रति session Virtual computer (Firecracker microVM) |
-| **Source model** | Source-available (BSL 1.1) | Closed source (proprietary) |
+| **Source model** | Source-available (PolyForm Perimeter License 1.0.1) | Closed source (proprietary) |
 | **एजेंट isolation** | प्रति एजेंट अनिवार्य Docker कंटेनर, non-root, no-new-privileges | प्रति session Firecracker microVM (~150ms spin-up) |
 | **Credential management** | Vault proxy — blind injection, एजेंट्स keys कभी नहीं देखते | Manus backend पर uploaded Encrypted session replay files |
 | **Budget / cost controls** | Hard cutoff के साथ प्रति-एजेंट दैनिक और मासिक | Credit-based, कोई प्रति-task limits नहीं, कोई rollover नहीं |
@@ -115,11 +115,11 @@ Manus AI और OpenLegion fundamentally विभिन्न problems solve �
 
 ### OpenLegion और Manus AI में क्या अंतर है?
 
-Manus AI एक closed-source, cloud-only स्वायत्त एजेंट प्लेटफ़ॉर्म है reportedly Meta द्वारा acquired। प्रत्येक session एक Firecracker microVM में चलता है। OpenLegion एक source-available (BSL 1.1), security-first [AI एजेंट प्लेटफ़ॉर्म](/learn/ai-agent-platform) है अनिवार्य Docker कंटेनर isolation, vault proxy credentials, प्रति-एजेंट बजट enforcement, और पूर्ण self-hosted deployment के साथ।
+Manus AI एक closed-source, cloud-only स्वायत्त एजेंट प्लेटफ़ॉर्म है reportedly Meta द्वारा acquired। प्रत्येक session एक Firecracker microVM में चलता है। OpenLegion एक source-available (PolyForm Perimeter License 1.0.1), security-first [AI एजेंट प्लेटफ़ॉर्म](/learn/ai-agent-platform) है अनिवार्य Docker कंटेनर isolation, vault proxy credentials, प्रति-एजेंट बजट enforcement, और पूर्ण self-hosted deployment के साथ।
 
 ### क्या Manus AI open source है?
 
-नहीं। Manus AI पूरी तरह closed-source और cloud-only है। प्लेटफ़ॉर्म explicitly self-hosted या local deployment reject करता है। OpenLegion पूरी तरह auditable codebase के साथ source-available (BSL 1.1) है।
+नहीं। Manus AI पूरी तरह closed-source और cloud-only है। प्लेटफ़ॉर्म explicitly self-hosted या local deployment reject करता है। OpenLegion पूरी तरह auditable codebase के साथ source-available (PolyForm Perimeter License 1.0.1) है।
 
 ### Manus AI credentials कैसे handle करता है?
 

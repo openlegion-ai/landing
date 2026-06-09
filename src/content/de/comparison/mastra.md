@@ -73,7 +73,7 @@ Mastra ist ein gut entwickeltes TypeScript-Framework mit echten Stärken für JS
 | **Dimension** | **Mastra** | **OpenLegion** |
 |---|---|---|
 | **Sprachunterstützung** | Nur TypeScript | Python (Agenten); Tool-Interfaces für jede Sprache |
-| **Lizenz** | Apache 2.0 (Kern) + proprietäres `ee/` | BSL 1.1 → Apache 2.0 nach 4 Jahren |
+| **Lizenz** | Apache 2.0 (Kern) + proprietäres `ee/` | PolyForm Perimeter License 1.0.1 |
 | **GitHub-Stars** | 24.329 (Mai 2026) | Pre-Release |
 | **Credential-Modell** | Umgebungsvariablen — Agenten halten Keys | Vault-Proxy — Agenten halten nie Keys |
 | **Agenten-Isolation** | Prozessebene, keine Container-Grenze | Obligatorische Docker-Container pro Agent |

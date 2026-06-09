@@ -54,7 +54,7 @@ OpenLegion (~59 stars) एक security-first [AI एजेंट प्लेट
 | **Tracing** | Live streaming, cost charts के साथ अंतर्निहित dashboard | अंतर्निहित tracing UI, zero-config, free |
 | **Dependencies** | Zero external — Python + SQLite + Docker | openai Python package |
 | **GitHub stars** | ~59 | ~19,200 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Best for** | Security-first governance की आवश्यकता वाले Production fleets | OpenAI models के साथ Rapid development |
 
 ## Architecture Differences

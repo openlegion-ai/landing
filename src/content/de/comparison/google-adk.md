@@ -53,7 +53,7 @@ Dies ist ein direkter **OpenLegion vs. Google ADK**-Vergleich auf Basis öffentl
 | **Deployment** | Cloud-agnostisch (beliebiger Docker-Host) | Vertex AI Agent Engine Runtime oder selbst gehostet |
 | **Abhängigkeiten** | Null extern, Python + SQLite + Docker | Google Cloud SDK + ADK-Pakete |
 | **GitHub-Stars** | ~59 | ~17.600 |
-| **Lizenz** | BSL 1.1 | Apache 2.0 |
+| **Lizenz** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Geeignet für** | Produktions-Flotten mit Security-First-Governance | Google-Cloud-Teams mit Bedarf an A2A-Interoperabilität |
 
 ## Architektur-Unterschiede
@@ -133,7 +133,7 @@ ADK bietet drei Stufen: Vertex (Google-verwaltet), Docker und Unsafe (keine Isol
 
 ### Wie vergleicht sich ADK-Pricing mit OpenLegion?
 
-ADK ist kostenlos (Apache 2.0). Die Vertex AI Agent Engine Runtime kostet 0,0864 $/vCPU-Stunde plus 0,25 $ pro 1.000 Events. OpenLegion ist source-available (BSL 1.1) mit einem Bring-Your-Own-API-Keys-Modell ohne Aufschlag.
+ADK ist kostenlos (Apache 2.0). Die Vertex AI Agent Engine Runtime kostet 0,0864 $/vCPU-Stunde plus 0,25 $ pro 1.000 Events. OpenLegion ist source-available (PolyForm Perimeter License 1.0.1) mit einem Bring-Your-Own-API-Keys-Modell ohne Aufschlag.
 
 ### Kann ich A2A-Agenten mit OpenLegion nutzen?
 

@@ -41,7 +41,7 @@ You wanted an AI workforce. What you got was a second job in DevOps. Managed AI 
 - Every agent runs in its own container on a dedicated VPS, not a shared multi-tenant process, so one account's blast radius stays contained.
 - Credentials live in a vault proxy on the trusted host; agents send requests and the proxy injects keys at the network layer, so a compromised agent cannot read them.
 - Per-agent daily and monthly budget caps stop runaway LLM spend on the dollar, with no markup on model usage.
-- The same engine is source-available under BSL 1.1, so you can start managed and move to self-hosted later without a rewrite.
+- The same engine is source-available under PolyForm Perimeter License 1.0.1, so you can start managed and move to self-hosted later without a rewrite.
 - Plans start at $19/month, paid from day one, with a 7-day money-back guarantee.
 
 ## The Hidden Cost of "Just Run an Agent"
@@ -63,7 +63,7 @@ Managed hosting exists to absorb exactly that layer. With OpenLegion's hosted of
 
 OpenLegion ships the same engine two ways, so the decision is about who runs the box, not which version is more capable.
 
-| Consideration | Self-hosted (BSL 1.1) | Managed hosting |
+| Consideration | Self-hosted (PolyForm Perimeter License 1.0.1) | Managed hosting |
 |---|---|---|
 | Who runs the servers | You | OpenLegion |
 | Setup time | Three commands on your machine | Sign up, pick a template |
@@ -134,7 +134,7 @@ No. The managed plane handles container provisioning, credential storage, networ
 
 ### Can I move from managed hosting to self-hosted later?
 
-Yes. The managed plane and the self-hosted distribution run the same engine, source-available under BSL 1.1. There is no proprietary lock-in layer that would block migration, so teams commonly start on managed hosting to move fast and switch to self-hosted infrastructure once compliance or cost makes that worthwhile.
+Yes. The managed plane and the self-hosted distribution run the same engine, source-available under PolyForm Perimeter License 1.0.1. There is no proprietary lock-in layer that would block migration, so teams commonly start on managed hosting to move fast and switch to self-hosted infrastructure once compliance or cost makes that worthwhile.
 
 ### How many agents can I host on a managed plan?
 

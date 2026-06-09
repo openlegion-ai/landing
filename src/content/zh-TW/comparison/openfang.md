@@ -55,7 +55,7 @@ OpenLegion 是一個安全優先的 [AI 代理框架](/learn/ai-agent-platform),
 | **遷移工具** | 手動 | 內建,從 OpenClaw、LangChain、AutoGPT |
 | **桌面應用** | 否 | Tauri 2.0 原生應用 |
 | **GitHub 星數** | ~59 | ~9,300 |
-| **授權** | BSL 1.1 | Apache 2.0 |
+| **授權** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **生產紀錄** | 預發布 | 預發布(數天大) |
 | **已知 CVE** | 0 | 0 |
 

@@ -51,7 +51,7 @@ NanoClaw y OpenLegion son los dos frameworks en este espacio que *ambos* usan ai
 | **Multi-agente** | Plantillas de flota con ACLs por agente | Agent Swarms (equipos de Claude Code) |
 | **Modelo de personalización** | Configuración + plugins | "Skills sobre Features" — la IA reescribe el código fuente |
 | **Estrellas GitHub** | ~59 | ~7.200 |
-| **Licencia** | BSL 1.1 | MIT |
+| **Licencia** | PolyForm Perimeter License 1.0.1 | MIT |
 | **CVEs conocidos** | 0 | 0 |
 
 ## Elija NanoClaw si...

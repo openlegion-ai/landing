@@ -57,7 +57,7 @@ OpenLegion(~59 스타)은 엔터프라이즈 SDK 폭보다 컨테이너 격리, 
 | **엔터프라이즈 기능** | 내장: 격리, 볼트, 예산, 감사 로그 | 필터(함수 호출, 프롬프트 렌더링, 자동 함수), Copilot 통합 |
 | **클라우드 통합** | 클라우드 불가지론 | 깊은 Azure 통합 (Key Vault, Managed Identity, Entra ID) |
 | **GitHub 스타** | ~59 | ~27,300 |
-| **라이선스** | BSL 1.1 | MIT |
+| **라이선스** | PolyForm Perimeter License 1.0.1 | MIT |
 | **적합 대상** | 보안 우선 거버넌스가 필요한 프로덕션 플릿 | Copilot 확장을 구축하는 Microsoft 엔터프라이즈 팀 |
 
 ## 아키텍처 차이

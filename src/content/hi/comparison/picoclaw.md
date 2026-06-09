@@ -54,7 +54,7 @@ PicoClaw और OpenLegion deployment spectrum के opposite ends पर ब�
 | **Offline capable** | नहीं (cloud LLM required) | हाँ (PicoLM companion 1B model) |
 | **Messaging channels** | 5 | 8+ (Telegram, Discord, QQ, DingTalk, LINE, etc.) |
 | **GitHub stars** | ~59 | ~20,000-21,000 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Known CVEs** | 0 | 0 formal CVEs; कई documented security gaps |
 | **Maker** | Independent | Embedded hardware company |
 | **AI-generated code** | नहीं | 95% AI-generated claim |

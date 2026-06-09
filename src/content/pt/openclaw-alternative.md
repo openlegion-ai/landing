@@ -109,7 +109,7 @@ OpenLegion suporta BYOK (Bring Your Own Keys). Você pode fornecer suas própria
 
 ### Posso auto-hospedar em vez de usar o OpenLegion hospedado?
 
-Sim. OpenLegion é código-fonte disponível sob a licença BSL 1.1. Auto-hospedar exige Python 3.10+ e Docker. O processo de instalação é `git clone && ./install.sh && openlegion start`; o build de imagens Docker na primeira execução leva alguns minutos. Sem serviços externos exigidos — sem Redis, sem Kubernetes, sem serviços de nuvem. Roda em uma única máquina. Uma opção hospedada também está disponível para times que preferem infraestrutura gerenciada.
+Sim. OpenLegion é código-fonte disponível sob a licença PolyForm Perimeter License 1.0.1. Auto-hospedar exige Python 3.10+ e Docker. O processo de instalação é `git clone && ./install.sh && openlegion start`; o build de imagens Docker na primeira execução leva alguns minutos. Sem serviços externos exigidos — sem Redis, sem Kubernetes, sem serviços de nuvem. Roda em uma única máquina. Uma opção hospedada também está disponível para times que preferem infraestrutura gerenciada.
 
 ### Quão difícil é migrar do OpenClaw para o OpenLegion?
 

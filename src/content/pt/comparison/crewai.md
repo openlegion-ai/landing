@@ -53,7 +53,7 @@ CrewAI torna fácil construir times de agentes. OpenLegion torna seguro implant�
 | **Funcionalidades enterprise** | Embutidas: isolamento, cofre, orçamentos, auditoria | AMP: SOC2, SSO, mascaramento de PII, RBAC, VPC (tiers pagos) |
 | **Estrelas no GitHub** | ~59 | ~44.600 |
 | **CVEs conhecidos** | 0 | "Uncrew" (CVSS 9,2); 65% de taxa de exfiltração de dados em pesquisa |
-| **Licença** | BSL 1.1 | MIT |
+| **Licença** | PolyForm Perimeter License 1.0.1 | MIT |
 
 ## Escolha CrewAI se...
 

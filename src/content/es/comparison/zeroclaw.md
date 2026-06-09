@@ -53,7 +53,7 @@ ZeroClaw y OpenLegion comparten la convicción de que la seguridad importa. Dive
 | **Multi-agente** | Plantillas de flota con ACLs por agente | Contexto clean-slate basado en tareas |
 | **Configuración** | Coordinación tipo flota | TOML hot-reloadable |
 | **Estrellas GitHub** | ~59 | ~21.600 |
-| **Licencia** | BSL 1.1 | Dual Apache 2.0 + MIT |
+| **Licencia** | PolyForm Perimeter License 1.0.1 | Dual Apache 2.0 + MIT |
 | **CVEs conocidos** | 0 | 0 |
 
 ## Elija ZeroClaw si...

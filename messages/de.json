@@ -505,7 +505,7 @@
       },
       "3": {
         "question": "Was ist OpenLegion?",
-        "answer": "OpenLegion ist eine produktionsreife, container-isolierte Multi-Agenten-Runtime, die autonome Agenten-Flotten in isolierten Docker-Containern bereitstellt. Jeder Agent erhält ein eigenes Budget, eigene Berechtigungen und einen eigenen Credential-Tresor — mit Defense-in-Depth über Container-Isolation, Tresor-Proxy, ACLs pro Agent und begrenzte Ausführung. Benötigt nur Python, Docker und einen API-Key. Kein Redis, kein Kubernetes, kein LangChain. Lizenziert unter BSL 1.1 (source-available)."
+        "answer": "OpenLegion ist eine produktionsreife, container-isolierte Multi-Agenten-Runtime, die autonome Agenten-Flotten in isolierten Docker-Containern bereitstellt. Jeder Agent erhält ein eigenes Budget, eigene Berechtigungen und einen eigenen Credential-Tresor — mit Defense-in-Depth über Container-Isolation, Tresor-Proxy, ACLs pro Agent und begrenzte Ausführung. Benötigt nur Python, Docker und einen API-Key. Kein Redis, kein Kubernetes, kein LangChain. Lizenziert unter PolyForm Perimeter License 1.0.1 (source-available)."
       },
       "4": {
         "question": "Wie unterscheidet sich OpenLegion von CrewAI oder anderen Agenten-Frameworks?",
@@ -566,7 +566,7 @@
   },
   "footer": {
     "brandDescription": "Die container-isolierte Multi-Agenten-Runtime für den Produktiveinsatz. Automatisiere jede Computeraufgabe mit sicheren, kostenkontrollierten Agenten-Flotten.",
-    "license": "BSL 1.1 Lizenz © {year} OpenLegion-Mitwirkende",
+    "license": "PolyForm Perimeter License 1.0.1 © {year} OpenLegion-Mitwirkende",
     "columns": {
       "0": {
         "title": "Produkt",
@@ -622,7 +622,7 @@
         "links": {
           "0": "Nutzungsbedingungen",
           "1": "Datenschutzrichtlinie",
-          "2": "BSL 1.1 Lizenz"
+          "2": "PolyForm Perimeter License 1.0.1"
         }
       }
     }
@@ -721,7 +721,7 @@
       },
       "4": {
         "question": "Kann ich OpenLegion selbst hosten?",
-        "answer": "Ja. Klone das Repository, führe drei Befehle aus und du hast eine vollständige Agenten-Flotte auf deiner eigenen Infrastruktur. Die Engine ist quelloffen unter BSL 1.1. Managed Hosting beginnt bei 19 $/Monat für Teams, die keine Infrastruktur verwalten wollen."
+        "answer": "Ja. Klone das Repository, führe drei Befehle aus und du hast eine vollständige Agenten-Flotte auf deiner eigenen Infrastruktur. Die Engine ist quelloffen unter PolyForm Perimeter License 1.0.1. Managed Hosting beginnt bei 19 $/Monat für Teams, die keine Infrastruktur verwalten wollen."
       },
       "5": {
         "question": "Was zählt als 'Agent'?",
@@ -917,7 +917,7 @@
     "privacyTitle": "Datenschutzrichtlinie",
     "privacyDescription": "Datenschutzrichtlinie des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Erfahre, wie wir deine Daten im Managed Hosting und auf der Website openlegion.ai erfassen, verwenden und schützen.",
     "termsTitle": "Nutzungsbedingungen",
-    "termsDescription": "Nutzungsbedingungen des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Umfasst Managed Hosting, selbstgehostetes Deployment unter BSL 1.1 Lizenz und die Website openlegion.ai.",
+    "termsDescription": "Nutzungsbedingungen des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Umfasst Managed Hosting, selbstgehostetes Deployment unter PolyForm Perimeter License 1.0.1 und die Website openlegion.ai.",
     "moneyBackTitle": "7-Tage Geld-zurück-Garantie",
     "moneyBackDescription": "Volle Rückerstattung des ersten Monats, falls OpenLegion nicht passt. Ohne Wenn und Aber."
   },
@@ -1166,7 +1166,7 @@
     },
     "section7": {
       "title": "7. Geistiges Eigentum",
-      "p1": "Der Quellcode des OpenLegion-Frameworks ist unter der Business Source License 1.1 (BSL 1.1) lizenziert. Diese Bedingungen gewähren Ihnen keine Rechte über das hinaus, was diese Lizenz erlaubt. Alle Marken, Logos und Markenelemente von OpenLegion sind Eigentum des OpenLegion-Projekts und dürfen nicht ohne vorherige schriftliche Zustimmung verwendet werden.",
+      "p1": "Der Quellcode des OpenLegion-Frameworks ist unter der PolyForm Perimeter License 1.0.1 lizenziert. Diese Bedingungen gewähren Ihnen keine Rechte über das hinaus, was diese Lizenz erlaubt. Alle Marken, Logos und Markenelemente von OpenLegion sind Eigentum des OpenLegion-Projekts und dürfen nicht ohne vorherige schriftliche Zustimmung verwendet werden.",
       "p2": "Sie behalten das Eigentum an allen Daten, Inhalten und Konfigurationen ('Kundendaten'), die Sie an den Dienst übermitteln. Sie gewähren uns eine beschränkte, nicht-exklusive Lizenz zum Hosten und Verarbeiten der Kundendaten ausschließlich zur Bereitstellung des Dienstes."
     },
     "section8": {
@@ -1299,7 +1299,7 @@
   },
   "schema": {
     "orgDescription": "Container-isolierte Multi-Agenten-Runtime mit Managed Hosting — Docker-isolierte Agenten, Vault-Proxy-Credentials und Pro-Agent-Budgets.",
-    "softwareDescription": "Container-isolierte Multi-Agenten-Runtime mit Vault-Proxy-Credentials und Pro-Agent-Budgetkontrollen. Selbst gehostet (BSL 1.1) oder Managed Hosting auf dediziertem VPS.",
+    "softwareDescription": "Container-isolierte Multi-Agenten-Runtime mit Vault-Proxy-Credentials und Pro-Agent-Budgetkontrollen. Selbst gehostet (PolyForm Perimeter License 1.0.1) oder Managed Hosting auf dediziertem VPS.",
     "softwareFeatureList": [
       "Container-Isolation pro Agent (Docker oder Docker-Desktop-Sandbox-MicroVMs)",
       "Vault-Proxy-Credentials — Agenten sehen nie API-Schlüssel",

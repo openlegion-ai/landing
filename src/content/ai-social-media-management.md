@@ -47,7 +47,7 @@ related:
 - **Hard monthly budgets** stop reply-spiral cost blowouts. Set a $20/mo or $200/mo ceiling per agent and the platform shuts it down on the dollar.
 - **Deterministic posting cadence.** A YAML DAG defines when, what type, and to which account each post goes. No opaque "the LLM decided to post at 3am" failure modes.
 - **Brand voice persists across sessions.** Each agent maintains its own vector memory of approved phrasing, banned topics, prior post performance, and reply patterns.
-- **Self-hosted or managed.** Source-available under BSL 1.1 — run it on your own infra for regulated-industry compliance, or use the hosted plane with the same isolation guarantees.
+- **Self-hosted or managed.** Source-available under PolyForm Perimeter License 1.0.1 — run it on your own infra for regulated-industry compliance, or use the hosted plane with the same isolation guarantees.
 - **BYO API keys.** Plug in your own OpenAI, Anthropic, Google, or any of 100+ LiteLLM-supported providers. Pay the model provider at published rates; pay OpenLegion for the platform.
 
 ## Beyond Schedulers: What AI Social Media Management Should Mean
@@ -136,7 +136,7 @@ Because the fleet is YAML-defined, you can stand up an entire AI social media ma
 | **Posting cadence** | Visual scheduler | Visual scheduler | YAML DAG — version-controlled, auditable |
 | **Multi-account** | Yes, in one dashboard | Yes, in one dashboard | Yes, with strict isolation between accounts |
 | **Model choice** | Vendor's LLM | Vendor's LLM | BYO API keys across 100+ providers via LiteLLM |
-| **Self-hostable** | No | No | Yes, source-available under BSL 1.1 |
+| **Self-hostable** | No | No | Yes, source-available under PolyForm Perimeter License 1.0.1 |
 | **Best for** | Teams comfortable with scheduling-led workflow | Quick post generation | Teams running autonomous, multi-account social operations |
 
 For a deeper read on how OpenLegion compares to alternative agent runtimes underneath, see the full [framework comparison hub](/comparison).
@@ -228,7 +228,7 @@ The best AI social media management tool depends on whether your team needs a sc
 
 ### Is OpenLegion open-source or free AI social media management software?
 
-OpenLegion is source-available under BSL 1.1, meaning the full codebase is on GitHub and you can self-host it for free. The hosted plane at app.openlegion.ai is a paid product that runs the same code with managed infrastructure. There's no separate "open-source vs. enterprise" feature gap — the security primitives (vault proxy, container isolation, budget enforcement) ship in both.
+OpenLegion is source-available under PolyForm Perimeter License 1.0.1, meaning the full codebase is on GitHub and you can self-host it for free. The hosted plane at app.openlegion.ai is a paid product that runs the same code with managed infrastructure. There's no separate "open-source vs. enterprise" feature gap — the security primitives (vault proxy, container isolation, budget enforcement) ship in both.
 
 ### Does OpenLegion work as AI social media management for agencies running many clients?
 

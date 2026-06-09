@@ -47,7 +47,7 @@ related:
 - **Orçamentos mensais rígidos** evitam estouros de custo em espirais de respostas. Defina um teto de US$ 20/mês ou US$ 200/mês por agente e a plataforma desliga no centavo.
 - **Cadência de postagem determinística.** Um DAG em YAML define quando, que tipo e para qual conta cada post vai. Sem falhas opacas do tipo "o LLM decidiu postar às 3h da manhã".
 - **Voz da marca persiste entre sessões.** Cada agente mantém sua própria memória vetorial de fraseado aprovado, tópicos banidos, desempenho de posts anteriores e padrões de resposta.
-- **Auto-hospedado ou gerenciado.** Código-fonte disponível sob BSL 1.1 — rode na sua própria infra para conformidade em setores regulados, ou use o plano hospedado com as mesmas garantias de isolamento.
+- **Auto-hospedado ou gerenciado.** Código-fonte disponível sob PolyForm Perimeter License 1.0.1 — rode na sua própria infra para conformidade em setores regulados, ou use o plano hospedado com as mesmas garantias de isolamento.
 - **BYO chaves de API.** Conecte suas próprias chaves da OpenAI, Anthropic, Google ou qualquer um dos mais de 100 provedores suportados pelo LiteLLM. Pague o provedor do modelo nos preços de tabela; pague o OpenLegion pela plataforma.
 
 ## Além dos Agendadores: O Que Gestão de Redes Sociais com IA Deveria Significar
@@ -136,7 +136,7 @@ Como a frota é definida em YAML, você consegue subir uma operação inteira de
 | **Cadência de postagem** | Agendador visual | Agendador visual | DAG em YAML — versionado, auditável |
 | **Multiconta** | Sim, em um dashboard | Sim, em um dashboard | Sim, com isolamento rígido entre contas |
 | **Escolha de modelo** | LLM do fornecedor | LLM do fornecedor | BYO chaves de API com mais de 100 provedores via LiteLLM |
-| **Auto-hospedável** | Não | Não | Sim, código-fonte disponível sob BSL 1.1 |
+| **Auto-hospedável** | Não | Não | Sim, código-fonte disponível sob PolyForm Perimeter License 1.0.1 |
 | **Melhor para** | Equipes confortáveis com fluxo orientado a agendamento | Geração rápida de posts | Equipes que rodam operações sociais autônomas e multiconta |
 
 Para uma leitura mais profunda de como o OpenLegion se compara a runtimes de agente alternativos por baixo, veja a [central de comparações de frameworks](/comparison).
@@ -228,7 +228,7 @@ A melhor ferramenta de gestão de redes sociais com IA depende se seu time preci
 
 ### O OpenLegion é software de gestão de redes sociais com IA de código aberto ou gratuito?
 
-OpenLegion é código-fonte disponível sob BSL 1.1, o que significa que o código completo está no GitHub e você pode auto-hospedá-lo gratuitamente. O plano hospedado em app.openlegion.ai é um produto pago que roda o mesmo código com infraestrutura gerenciada. Não há lacuna de funcionalidade separada entre "código aberto vs. enterprise" — as primitivas de segurança (proxy de cofre, isolamento por contêiner, controle de orçamento) vão nos dois.
+OpenLegion é código-fonte disponível sob PolyForm Perimeter License 1.0.1, o que significa que o código completo está no GitHub e você pode auto-hospedá-lo gratuitamente. O plano hospedado em app.openlegion.ai é um produto pago que roda o mesmo código com infraestrutura gerenciada. Não há lacuna de funcionalidade separada entre "código aberto vs. enterprise" — as primitivas de segurança (proxy de cofre, isolamento por contêiner, controle de orçamento) vão nos dois.
 
 ### O OpenLegion funciona como gestão de redes sociais com IA para agências rodando muitos clientes?
 

@@ -59,7 +59,7 @@ Apache 2.0 license core framework को कवर करता है। `ee/` 
 | **आयाम** | **Mastra** | **OpenLegion** |
 |---|---|---|
 | **भाषा समर्थन** | केवल TypeScript | Python (एजेंट); अन्य भाषाओं के लिए इंटरफेस |
-| **License** | Apache 2.0 (core) + proprietary `ee/` | BSL 1.1 → 4 साल बाद Apache 2.0 |
+| **License** | Apache 2.0 (core) + proprietary `ee/` | PolyForm Perimeter License 1.0.1 |
 | **GitHub स्टार** | 24,329 (मई 2026) | Pre-release |
 | **क्रेडेंशियल मॉडल** | Environment variables — एजेंट keys रखते हैं | Vault proxy — एजेंट कभी keys नहीं रखते |
 | **एजेंट isolation** | Process-level, कोई container boundary नहीं | प्रत्येक एजेंट के लिए अनिवार्य Docker container |

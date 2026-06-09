@@ -53,7 +53,7 @@ PicoClaw와 OpenLegion은 배포 스펙트럼의 반대 끝을 점유합니다. 
 | **오프라인 가능** | 불가 (클라우드 LLM 필요) | 가능 (PicoLM 동반 1B 모델) |
 | **메시징 채널** | 5 | 8+ (Telegram, Discord, QQ, DingTalk, LINE 등) |
 | **GitHub 스타** | ~59 | ~20,000-21,000 |
-| **라이선스** | BSL 1.1 | MIT |
+| **라이선스** | PolyForm Perimeter License 1.0.1 | MIT |
 | **알려진 CVE** | 0 | 공식 CVE 0; 다수의 문서화된 보안 격차 |
 | **제작자** | 독립 | 임베디드 하드웨어 회사 |
 | **AI 생성 코드** | 없음 | 95% AI 생성 주장 |

@@ -41,7 +41,7 @@ Autocomplete suggests the next line. AI coding agents finish the ticket. They ar
 - A coding assistant augments a human in the editor. A coding agent runs the loop on its own toward a defined task.
 - The exciting capability and the dangerous one are the same: executing code and holding repo credentials. Isolation is not optional.
 - OpenLegion's Dev Team template ships a PM, an Engineer, and a Reviewer agent, each in its own container with its own budget.
-- It is self-hostable under BSL 1.1, so coding agents can run inside your own network for private repositories.
+- It is self-hostable under PolyForm Perimeter License 1.0.1, so coding agents can run inside your own network for private repositories.
 
 ## What a Coding Agent Actually Does
 
@@ -127,8 +127,8 @@ Yes. OpenLegion's Dev Team template runs a PM agent, an Engineer agent, and a Re
 
 ### Can I run AI coding agents on my own infrastructure?
 
-Yes. OpenLegion is source-available under BSL 1.1 and runs on a single machine with Python and Docker, so coding agents can operate entirely inside your own network. That matters for private repositories and regulated environments where code and credentials cannot leave your infrastructure. A managed hosting option exists for teams that prefer not to run it themselves.
+Yes. OpenLegion is source-available under PolyForm Perimeter License 1.0.1 and runs on a single machine with Python and Docker, so coding agents can operate entirely inside your own network. That matters for private repositories and regulated environments where code and credentials cannot leave your infrastructure. A managed hosting option exists for teams that prefer not to run it themselves.
 
 ### What does it cost to run AI coding agents?
 
-OpenLegion charges a flat platform fee with no markup on model usage. You bring your own LLM API keys or use included credits and pay providers at their published rates. Per-agent daily and monthly budget caps stop a stuck agent from running up an unbounded bill. Managed plans start at $19/month with a 7-day money-back guarantee, and self-hosting the engine is available under BSL 1.1.
+OpenLegion charges a flat platform fee with no markup on model usage. You bring your own LLM API keys or use included credits and pay providers at their published rates. Per-agent daily and monthly budget caps stop a stuck agent from running up an unbounded bill. Managed plans start at $19/month with a 7-day money-back guarantee, and self-hosting the engine is available under PolyForm Perimeter License 1.0.1.

@@ -109,7 +109,7 @@ OpenLegion soporta BYOK (Bring Your Own Keys). Puede proporcionar sus propias cl
 
 ### ¿Puedo autoalojar en lugar de usar OpenLegion alojado?
 
-Sí. OpenLegion tiene código disponible bajo la licencia BSL 1.1. El autoalojamiento requiere Python 3.10+ y Docker. El proceso de instalación es `git clone && ./install.sh && openlegion start`; las construcciones de imagen Docker de la primera ejecución toman unos minutos. No se requieren servicios externos — sin Redis, sin Kubernetes, sin servicios cloud. Corre en una sola máquina. También está disponible una opción alojada para equipos que prefieren infraestructura gestionada.
+Sí. OpenLegion tiene código disponible bajo la licencia PolyForm Perimeter License 1.0.1. El autoalojamiento requiere Python 3.10+ y Docker. El proceso de instalación es `git clone && ./install.sh && openlegion start`; las construcciones de imagen Docker de la primera ejecución toman unos minutos. No se requieren servicios externos — sin Redis, sin Kubernetes, sin servicios cloud. Corre en una sola máquina. También está disponible una opción alojada para equipos que prefieren infraestructura gestionada.
 
 ### ¿Qué tan difícil es migrar de OpenClaw a OpenLegion?
 

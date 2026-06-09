@@ -108,7 +108,7 @@ OpenLegion은 BYOK(Bring Your Own Keys)를 지원합니다. 모든 LLM 제공자
 
 ### 호스팅 OpenLegion 대신 셀프 호스팅할 수 있습니까?
 
-가능합니다. OpenLegion은 BSL 1.1 라이선스 하에 소스가 공개되어 있습니다. 셀프 호스팅에는 Python 3.10+와 Docker가 필요합니다. 설치 프로세스는 `git clone && ./install.sh && openlegion start`입니다. 첫 실행 시 Docker 이미지 빌드는 몇 분이 걸립니다. 외부 서비스가 필요 없습니다 — Redis도, Kubernetes도, 클라우드 서비스도 없습니다. 단일 머신에서 실행됩니다. 매니지드 인프라를 선호하는 팀을 위한 호스팅 옵션도 제공됩니다.
+가능합니다. OpenLegion은 PolyForm Perimeter License 1.0.1 하에 소스가 공개되어 있습니다. 셀프 호스팅에는 Python 3.10+와 Docker가 필요합니다. 설치 프로세스는 `git clone && ./install.sh && openlegion start`입니다. 첫 실행 시 Docker 이미지 빌드는 몇 분이 걸립니다. 외부 서비스가 필요 없습니다 — Redis도, Kubernetes도, 클라우드 서비스도 없습니다. 단일 머신에서 실행됩니다. 매니지드 인프라를 선호하는 팀을 위한 호스팅 옵션도 제공됩니다.
 
 ### OpenClaw에서 OpenLegion으로 마이그레이션은 얼마나 어렵습니까?
 

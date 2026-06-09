@@ -52,7 +52,7 @@ ZeroClaw und OpenLegion teilen die Überzeugung, dass Sicherheit zählt. Sie div
 | **Multi-Agent** | Flotten-Templates mit Pro-Agent-ACLs | Task-basierter Clean-Slate-Kontext |
 | **Konfiguration** | Fleet-Modell-Koordination | TOML, hot-reloadable |
 | **GitHub-Stars** | ~59 | ~21.600 |
-| **Lizenz** | BSL 1.1 | Dual Apache 2.0 + MIT |
+| **Lizenz** | PolyForm Perimeter License 1.0.1 | Dual Apache 2.0 + MIT |
 | **Bekannte CVEs** | 0 | 0 |
 
 ## Wählen Sie ZeroClaw, wenn …

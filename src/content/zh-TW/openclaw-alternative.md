@@ -108,7 +108,7 @@ OpenLegion 支援 BYOK(自帶金鑰)。你可以提供任何 LLM 供應商的自
 
 ### 我可以自我託管而不使用代管版 OpenLegion 嗎?
 
-可以。OpenLegion 採 BSL 1.1 授權,原始碼可取得。自我託管需要 Python 3.10+ 與 Docker。安裝過程為 `git clone && ./install.sh && openlegion start`;首次執行的 Docker 映像建構需要數分鐘。無需外部服務 — 無 Redis、無 Kubernetes、無雲端服務。可在單一機器上執行。亦有代管選項可供偏好代管基礎設施的團隊使用。
+可以。OpenLegion 採 PolyForm Perimeter License 1.0.1 授權,原始碼可取得。自我託管需要 Python 3.10+ 與 Docker。安裝過程為 `git clone && ./install.sh && openlegion start`;首次執行的 Docker 映像建構需要數分鐘。無需外部服務 — 無 Redis、無 Kubernetes、無雲端服務。可在單一機器上執行。亦有代管選項可供偏好代管基礎設施的團隊使用。
 
 ### 從 OpenClaw 遷移到 OpenLegion 有多困難?
 

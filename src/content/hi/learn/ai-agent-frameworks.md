@@ -49,7 +49,7 @@ related:
 
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
-| **प्रकार** | Platform (BSL 1.1) | Agent OS (open source) | Framework + Platform | Framework + Platform | Framework | Enterprise SDK |
+| **प्रकार** | Platform (PolyForm Perimeter License 1.0.1) | Agent OS (open source) | Framework + Platform | Framework + Platform | Framework | Enterprise SDK |
 | **Hosting** | Self-hosted या managed | Self-hosted या cloud | Self-hosted या LangSmith | Self-hosted या CrewAI AMP | Self-hosted | Self-hosted (Azure-integrated) |
 | **एजेंट isolation** | प्रति एजेंट Docker कंटेनर (अनिवार्य) | Docker कंटेनर (optional, Docker socket आवश्यक) | अंतर्निहित नहीं | केवल CodeInterpreter के लिए Docker | Code execution के लिए Docker | कोई नहीं (embedded SDK) |
 | **Credential management** | Vault proxy — blind injection | Masking के साथ Secret Registry | Environment variables | Environment variables | Environment variables | Azure Key Vault integration |
@@ -58,7 +58,7 @@ related:
 | **Primary भाषा** | Python | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
 | **LLM support** | LiteLLM के माध्यम से 100+ | LiteLLM के माध्यम से 100+ | LangChain के माध्यम से कोई भी | LiteLLM के माध्यम से कोई भी | Config के माध्यम से कोई भी | Azure OpenAI + others |
 | **GitHub stars** | ~40 | ~67,300 | ~25,200 | ~33,400 | ~54,400 | ~26,900 |
-| **License** | BSL 1.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
 | **Best for** | Security-first आवश्यकताओं के साथ Production | AI-driven software development | Complex stateful workflows | Rapid prototyping, role-based teams | Research, Microsoft ecosystem | .NET enterprise, Azure shops |
 
 ## प्रत्येक Framework कब चुनें
@@ -116,7 +116,7 @@ Framework और platform के बीच अंतर तेजी से म�
 | Budget enforcement | आप build करते हैं | अंतर्निहित (प्रति-एजेंट) | Included नहीं | Included नहीं |
 | Observability | आप integrate करते हैं | अंतर्निहित dashboard | अंतर्निहित (tracing, evaluation) | अंतर्निहित (enterprise) |
 | Multi-channel deploy | आप build करते हैं | अंतर्निहित (5 channels + webhooks) | Included नहीं | Included नहीं |
-| Pricing | Free (+ infra costs) | BSL 1.1 (+ hosted option) | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
+| Pricing | Free (+ infra costs) | PolyForm Perimeter License 1.0.1 (+ hosted option) | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
 
 Top AI एजेंट frameworks का मूल्यांकन करने वाली teams के लिए, ईमानदार उत्तर है: यदि सुरक्षा और governance आपकी top priorities हैं, OpenLegion उसके लिए purpose-built है। यदि ecosystem maturity और community size सबसे अधिक मायने रखते हैं, LangGraph और CrewAI के पास significant advantages हैं। यदि आप Microsoft ecosystem में हैं, Semantic Kernel (या नया Microsoft Agent Framework) natural choice है।
 
@@ -157,7 +157,7 @@ Production के लिए सबसे अच्छा AI एजेंट fram
 
 ### Open source बनाम managed AI एजेंट platforms: अंतर क्या है?
 
-Open-source AI एजेंट frameworks (LangGraph core, CrewAI open source, AutoGen) एजेंट logic प्रदान करते हैं — आप infrastructure build करते हैं। Managed [AI एजेंट platforms](/learn/ai-agent-platform) operational layers जोड़ते हैं: container provisioning, credential vaulting, cost tracking, observability। OpenLegion इस gap को एक source-available project (BSL 1.1) के रूप में bridge करता है managed platform capabilities के साथ अंतर्निहित। LangSmith और CrewAI AMP अपने respective open-source frameworks के ऊपर paid managed layers हैं।
+Open-source AI एजेंट frameworks (LangGraph core, CrewAI open source, AutoGen) एजेंट logic प्रदान करते हैं — आप infrastructure build करते हैं। Managed [AI एजेंट platforms](/learn/ai-agent-platform) operational layers जोड़ते हैं: container provisioning, credential vaulting, cost tracking, observability। OpenLegion इस gap को एक source-available project (PolyForm Perimeter License 1.0.1) के रूप में bridge करता है managed platform capabilities के साथ अंतर्निहित। LangSmith और CrewAI AMP अपने respective open-source frameworks के ऊपर paid managed layers हैं।
 
 ### OpenLegion OpenClaw/LangGraph/CrewAI/AutoGen के सापेक्ष कहाँ fit होता है?
 

@@ -51,7 +51,7 @@ A distinção entre frameworks e plataformas de agentes de IA importa mais na ho
 
 **Frameworks auto-hospedados** (LangGraph, CrewAI, AutoGen) te dão controle máximo. Você é dono da infraestrutura. Você configura os contêineres. Você constrói o pipeline de credenciais. Isso funciona quando seu time tem capacidade dedicada de DevOps e infraestrutura existente com a qual os agentes precisam se integrar profundamente.
 
-**Plataformas gerenciadas de agentes de IA** cuidam da camada operacional para que seu time foque na lógica do agente. OpenLegion fica aqui — mas com uma diferença crítica: é código-fonte disponível sob BSL 1.1. Você ganha operações grau de plataforma (isolamento, cofre, controles de orçamento) sem vendor lock-in no lado da infraestrutura.
+**Plataformas gerenciadas de agentes de IA** cuidam da camada operacional para que seu time foque na lógica do agente. OpenLegion fica aqui — mas com uma diferença crítica: é código-fonte disponível sob PolyForm Perimeter License 1.0.1. Você ganha operações grau de plataforma (isolamento, cofre, controles de orçamento) sem vendor lock-in no lado da infraestrutura.
 
 A pergunta não é qual é "melhor". É se seu time deve gastar horas de engenharia em infraestrutura de segurança de agente ou nos próprios agentes.
 
@@ -181,7 +181,7 @@ Sim. OpenLegion usa um modelo de chaves de API BYO (Bring Your Own). Você conec
 
 ### Agentes de IA gerenciados vs auto-hospedados: qual a diferença?
 
-Plataformas gerenciadas de agentes de IA cuidam de provisionamento de contêiner, cofre de credenciais, controles de custo e observabilidade para você. Auto-hospedado significa que você implanta um framework (LangGraph, CrewAI, AutoGen) na sua própria infraestrutura e constrói essas camadas operacionais sozinho. Gerenciado é mais rápido para chegar à produção e exige menos investimento em DevOps. Auto-hospedado dá controle máximo de infraestrutura. OpenLegion oferece um híbrido: código de fonte disponível (BSL 1.1) que você pode auto-hospedar, com capacidades de plataforma gerenciada embutidas.
+Plataformas gerenciadas de agentes de IA cuidam de provisionamento de contêiner, cofre de credenciais, controles de custo e observabilidade para você. Auto-hospedado significa que você implanta um framework (LangGraph, CrewAI, AutoGen) na sua própria infraestrutura e constrói essas camadas operacionais sozinho. Gerenciado é mais rápido para chegar à produção e exige menos investimento em DevOps. Auto-hospedado dá controle máximo de infraestrutura. OpenLegion oferece um híbrido: código de fonte disponível (PolyForm Perimeter License 1.0.1) que você pode auto-hospedar, com capacidades de plataforma gerenciada embutidas.
 
 ### Como o OpenLegion se compara a outras plataformas de agentes de IA?
 
@@ -189,7 +189,7 @@ OpenLegion se diferencia pela arquitetura security-first. Com base na documenta�
 
 ### Qual licença o OpenLegion usa?
 
-OpenLegion é código-fonte disponível sob a licença BSL 1.1 e está no [GitHub](https://github.com/openlegion-ai/openlegion). O projeto também oferece uma plataforma hospedada para times que querem infraestrutura gerenciada sem auto-hospedar.
+OpenLegion é código-fonte disponível sob a licença PolyForm Perimeter License 1.0.1 e está no [GitHub](https://github.com/openlegion-ai/openlegion). O projeto também oferece uma plataforma hospedada para times que querem infraestrutura gerenciada sem auto-hospedar.
 
 ### Quão rápido posso implantar meu primeiro agente?
 

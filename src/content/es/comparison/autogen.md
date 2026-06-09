@@ -53,7 +53,7 @@ Evaluar AutoGen en 2026 significa evaluar una plataforma en transición. Los equ
 | **Dependencias** | Python + SQLite + Docker (cero externas) | Ecosistema AutoGen + servicios Azure opcionales |
 | **Estrellas GitHub** | ~59 | ~54.700 (AutoGen) / ~5.700 (Agent Framework) |
 | **Vulnerabilidades conocidas** | 0 CVEs | 97% de tasa de éxito de ataque (investigación COLM 2025) |
-| **Licencia** | BSL 1.1 | MIT (ambos) |
+| **Licencia** | PolyForm Perimeter License 1.0.1 | MIT (ambos) |
 
 ## Elija AutoGen / Microsoft Agent Framework si...
 

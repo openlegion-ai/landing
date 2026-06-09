@@ -53,7 +53,7 @@ OpenLegion(約 59 星)是一個安全優先的 [AI 代理平台](/learn/ai-agent
 | **追蹤** | 內建儀表板,具即時串流、成本圖表 | 內建追蹤 UI,零設定、免費 |
 | **相依性** | 零外部 — Python + SQLite + Docker | openai Python 套件 |
 | **GitHub 星數** | ~59 | ~19,200 |
-| **授權** | BSL 1.1 | MIT |
+| **授權** | PolyForm Perimeter License 1.0.1 | MIT |
 | **最適合** | 需安全優先治理的生產艦隊 | 以 OpenAI 模型快速開發 |
 
 ## 架構差異

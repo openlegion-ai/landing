@@ -41,7 +41,7 @@ Você queria uma força de trabalho de IA. O que ganhou foi um segundo emprego e
 - Cada agente roda no seu próprio contêiner em um VPS dedicado, não em um processo multi-inquilino compartilhado, então o raio de impacto de uma conta fica contido.
 - As credenciais ficam em um proxy de cofre no host confiável; os agentes enviam requisições e o proxy injeta as chaves na camada de rede, então um agente comprometido não consegue lê-las.
 - Limites de orçamento diários e mensais por agente interrompem o gasto descontrolado de LLM no centavo, sem markup sobre uso de modelo.
-- O mesmo motor é de código-fonte disponível sob a BSL 1.1, então você pode começar gerenciado e migrar para auto-hospedado depois sem reescrever nada.
+- O mesmo motor é de código-fonte disponível sob a PolyForm Perimeter License 1.0.1, então você pode começar gerenciado e migrar para auto-hospedado depois sem reescrever nada.
 - Os planos começam em US$ 19/mês, pagos desde o primeiro dia, com uma garantia de reembolso de 7 dias.
 
 ## O Custo Oculto de "Apenas Rode um Agente"
@@ -63,7 +63,7 @@ A hospedagem gerenciada existe para absorver exatamente essa camada. Com a ofert
 
 A OpenLegion entrega o mesmo motor de duas formas, então a decisão é sobre quem roda a máquina, não sobre qual versão é mais capaz.
 
-| Consideração | Auto-hospedado (BSL 1.1) | Hospedagem gerenciada |
+| Consideração | Auto-hospedado (PolyForm Perimeter License 1.0.1) | Hospedagem gerenciada |
 |---|---|---|
 | Quem roda os servidores | Você | OpenLegion |
 | Tempo de setup | Três comandos na sua máquina | Cadastrar-se, escolher um template |
@@ -134,7 +134,7 @@ Não. A camada gerenciada cuida do provisionamento de contêineres, do armazenam
 
 ### Posso migrar de hospedagem gerenciada para auto-hospedado depois?
 
-Sim. A camada gerenciada e a distribuição auto-hospedada rodam o mesmo motor, de código-fonte disponível sob a BSL 1.1. Não há camada proprietária de lock-in que bloquearia a migração, então os times comumente começam na hospedagem gerenciada para avançar rápido e mudam para infraestrutura auto-hospedada quando conformidade ou custo tornam isso vantajoso.
+Sim. A camada gerenciada e a distribuição auto-hospedada rodam o mesmo motor, de código-fonte disponível sob a PolyForm Perimeter License 1.0.1. Não há camada proprietária de lock-in que bloquearia a migração, então os times comumente começam na hospedagem gerenciada para avançar rápido e mudam para infraestrutura auto-hospedada quando conformidade ou custo tornam isso vantajoso.
 
 ### Quantos agentes posso hospedar em um plano gerenciado?
 

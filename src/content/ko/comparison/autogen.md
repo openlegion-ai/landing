@@ -52,7 +52,7 @@ OpenLegion은 필수 Docker 컨테이너 격리, 볼트 프록시 자격 증명 
 | **종속성** | Python + SQLite + Docker (외부 없음) | AutoGen 생태계 + 선택적 Azure 서비스 |
 | **GitHub 스타** | ~59 | ~54,700 (AutoGen) / ~5,700 (Agent Framework) |
 | **알려진 취약점** | 0 CVE | 97% 공격 성공률 (COLM 2025 연구) |
-| **라이선스** | BSL 1.1 | MIT (둘 다) |
+| **라이선스** | PolyForm Perimeter License 1.0.1 | MIT (둘 다) |
 
 ## AutoGen / Microsoft Agent Framework를 선택해야 할 때...
 

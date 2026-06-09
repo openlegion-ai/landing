@@ -51,7 +51,7 @@ La distinction entre frameworks d'agents IA et plateformes d'agents IA importe s
 
 **Les frameworks auto-hébergés** (LangGraph, CrewAI, AutoGen) vous donnent un contrôle maximal. Vous possédez l'infrastructure. Vous configurez les conteneurs. Vous construisez le pipeline d'identifiants. Cela fonctionne lorsque votre équipe a une capacité DevOps dédiée et une infrastructure existante avec laquelle les agents doivent s'intégrer profondément.
 
-**Les plateformes d'agents IA managées** gèrent la couche opérationnelle pour que votre équipe se concentre sur la logique d'agent. OpenLegion se place ici — mais avec une différence cruciale : elle est source-disponible sous BSL 1.1. Vous obtenez des opérations de niveau plateforme (isolation, coffre-fort, contrôles de budget) sans verrouillage fournisseur côté infrastructure.
+**Les plateformes d'agents IA managées** gèrent la couche opérationnelle pour que votre équipe se concentre sur la logique d'agent. OpenLegion se place ici — mais avec une différence cruciale : elle est source-disponible sous PolyForm Perimeter License 1.0.1. Vous obtenez des opérations de niveau plateforme (isolation, coffre-fort, contrôles de budget) sans verrouillage fournisseur côté infrastructure.
 
 La question n'est pas de savoir lequel est « meilleur ». C'est de savoir si votre équipe doit dépenser des heures d'ingénierie sur l'infrastructure de sécurité d'agents ou sur les agents eux-mêmes.
 
@@ -181,7 +181,7 @@ Oui. OpenLegion utilise un modèle de clé API BYO (Bring Your Own). Vous connec
 
 ### Agents IA managés vs auto-hébergés : quelle est la différence ?
 
-Les plateformes d'agents IA managées gèrent le provisionnement des conteneurs, le coffre-fort d'identifiants, les contrôles de coûts et l'observabilité pour vous. Auto-hébergé signifie que vous déployez un framework (LangGraph, CrewAI, AutoGen) sur votre propre infrastructure et construisez ces couches opérationnelles vous-même. Managé est plus rapide à mettre en production et nécessite moins d'investissement DevOps. Auto-hébergé donne un contrôle maximal de l'infrastructure. OpenLegion offre un hybride : code source-disponible (BSL 1.1) que vous pouvez auto-héberger, avec des capacités de plateforme managée intégrées.
+Les plateformes d'agents IA managées gèrent le provisionnement des conteneurs, le coffre-fort d'identifiants, les contrôles de coûts et l'observabilité pour vous. Auto-hébergé signifie que vous déployez un framework (LangGraph, CrewAI, AutoGen) sur votre propre infrastructure et construisez ces couches opérationnelles vous-même. Managé est plus rapide à mettre en production et nécessite moins d'investissement DevOps. Auto-hébergé donne un contrôle maximal de l'infrastructure. OpenLegion offre un hybride : code source-disponible (PolyForm Perimeter License 1.0.1) que vous pouvez auto-héberger, avec des capacités de plateforme managée intégrées.
 
 ### Comment OpenLegion se compare-t-il aux autres plateformes d'agents IA ?
 
@@ -189,7 +189,7 @@ OpenLegion se différencie par son architecture axée sécurité. Selon la docum
 
 ### Quelle licence utilise OpenLegion ?
 
-OpenLegion est source-disponible sous la licence BSL 1.1 et disponible sur [GitHub](https://github.com/openlegion-ai/openlegion). Le projet propose également une plateforme hébergée pour les équipes qui souhaitent une infrastructure managée sans auto-hébergement.
+OpenLegion est source-disponible sous la licence PolyForm Perimeter License 1.0.1 et disponible sur [GitHub](https://github.com/openlegion-ai/openlegion). Le projet propose également une plateforme hébergée pour les équipes qui souhaitent une infrastructure managée sans auto-hébergement.
 
 ### À quelle vitesse puis-je déployer mon premier agent ?
 

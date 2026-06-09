@@ -41,7 +41,7 @@ O autocomplete sugere a próxima linha. Os agentes de codificação de IA termin
 - Um assistente de codificação potencializa um humano no editor. Um agente de codificação roda o loop por conta própria rumo a uma tarefa definida.
 - A capacidade empolgante e a perigosa são a mesma: executar código e segurar credenciais do repositório. Isolamento não é opcional.
 - O template Dev Team da OpenLegion entrega um agente PM, um Engenheiro e um Revisor, cada um no seu próprio contêiner com seu próprio orçamento.
-- É auto-hospedável sob a BSL 1.1, então agentes de codificação podem rodar dentro da sua própria rede para repositórios privados.
+- É auto-hospedável sob a PolyForm Perimeter License 1.0.1, então agentes de codificação podem rodar dentro da sua própria rede para repositórios privados.
 
 ## O Que um Agente de Codificação de Fato Faz
 
@@ -127,8 +127,8 @@ Sim. O template Dev Team da OpenLegion roda um agente PM, um agente Engenheiro e
 
 ### Posso rodar agentes de codificação de IA na minha própria infraestrutura?
 
-Sim. A OpenLegion é de código-fonte disponível sob a BSL 1.1 e roda em uma única máquina com Python e Docker, então agentes de codificação podem operar inteiramente dentro da sua própria rede. Isso importa para repositórios privados e ambientes regulados onde código e credenciais não podem sair da sua infraestrutura. Existe uma opção de hospedagem gerenciada para times que preferem não rodar por conta própria.
+Sim. A OpenLegion é de código-fonte disponível sob a PolyForm Perimeter License 1.0.1 e roda em uma única máquina com Python e Docker, então agentes de codificação podem operar inteiramente dentro da sua própria rede. Isso importa para repositórios privados e ambientes regulados onde código e credenciais não podem sair da sua infraestrutura. Existe uma opção de hospedagem gerenciada para times que preferem não rodar por conta própria.
 
 ### Quanto custa rodar agentes de codificação de IA?
 
-A OpenLegion cobra uma taxa fixa de plataforma sem markup sobre uso de modelo. Você traz suas próprias chaves de API de LLM ou usa créditos inclusos e paga os provedores nos preços de tabela. Limites de orçamento diários e mensais por agente impedem que um agente travado acumule uma conta ilimitada. Planos gerenciados começam em US$ 19/mês com uma garantia de reembolso de 7 dias, e auto-hospedar o motor está disponível sob a BSL 1.1.
+A OpenLegion cobra uma taxa fixa de plataforma sem markup sobre uso de modelo. Você traz suas próprias chaves de API de LLM ou usa créditos inclusos e paga os provedores nos preços de tabela. Limites de orçamento diários e mensais por agente impedem que um agente travado acumule uma conta ilimitada. Planos gerenciados começam em US$ 19/mês com uma garantia de reembolso de 7 dias, e auto-hospedar o motor está disponível sob a PolyForm Perimeter License 1.0.1.

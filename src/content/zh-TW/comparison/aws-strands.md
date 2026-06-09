@@ -53,7 +53,7 @@ OpenLegion(約 59 星)是一個安全優先的 [AI 代理平台](/learn/ai-agent
 | **部署** | 雲端無關(任何 Docker 主機) | AgentCore Runtime(Lambda、Fargate、EC2)或自我託管 |
 | **相依性** | 零外部,Python + SQLite + Docker | strands-agents 套件 + 可選 AWS 服務 |
 | **GitHub 星數** | ~59 | ~5,100 |
-| **授權** | BSL 1.1 | Apache 2.0 |
+| **授權** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **最適合** | 需安全優先治理的生產艦隊 | 需要具無伺服器部署之模型驅動代理的 AWS 團隊 |
 
 ## 架構差異
@@ -139,7 +139,7 @@ AWS Strands Agents SDK 支撐 Amazon Q Developer 與 AWS Glue,提供大規模的
 
 ### Strands 的定價與 OpenLegion 相比如何?
 
-Strands 免費(Apache 2.0)。需支付 AWS 服務費用:Bedrock 按 token 計價、AgentCore Runtime 運算、Lambda/Fargate/EC2 基礎設施。OpenLegion 原始碼可取得(BSL 1.1),採自帶 API 金鑰模式,零加價。
+Strands 免費(Apache 2.0)。需支付 AWS 服務費用:Bedrock 按 token 計價、AgentCore Runtime 運算、Lambda/Fargate/EC2 基礎設施。OpenLegion 原始碼可取得(PolyForm Perimeter License 1.0.1),採自帶 API 金鑰模式,零加價。
 
 ---
 

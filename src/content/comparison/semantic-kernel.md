@@ -47,7 +47,7 @@ OpenLegion's vault proxy prevents the credential exposure CVE-2026-25592 (CWE-22
 | **Dependency chain** | Python + Docker + SQLite | NuGet (C#) / PyPI (Python) — large transitive surface |
 | **Migration risk** | None | SK → Microsoft Agent Framework RC (breaking API changes) |
 | **GitHub stars** | ~59 | 27,979 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 
 ## Why Teams Are Looking for a Semantic Kernel Alternative
 

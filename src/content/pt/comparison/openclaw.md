@@ -56,7 +56,7 @@ OpenClaw e OpenLegion compartilham uma visão — agentes de IA que agem de form
 | **CVEs conhecidos** | 0 | Vulnerabilidade crítica de RCE (CVSS 8,8) + várias outras |
 | **Skills maliciosas** | N/A | 400+ skills maliciosas no ClawHub descobertas |
 | **Status do criador** | Ativo | Criador original deixou o projeto (início de 2026) |
-| **Licença** | BSL 1.1 | MIT (núcleo) |
+| **Licença** | PolyForm Perimeter License 1.0.1 | MIT (núcleo) |
 
 ## Escolha OpenClaw se...
 

@@ -47,7 +47,7 @@ related:
 - **Harte Monatsbudgets** stoppen explodierende Kosten durch Reply-Spiralen. Setzen Sie eine Obergrenze von 20 $ oder 200 $ pro Agent und Monat — die Plattform stoppt ihn auf den Dollar genau.
 - **Deterministische Posting-Kadenz.** Ein YAML-DAG definiert, wann, welcher Typ und an welches Konto jeder Beitrag geht. Keine intransparenten "Das LLM hat entschieden, um 3 Uhr morgens zu posten"-Fehlermodi.
 - **Markenstimme bleibt über Sessions hinweg erhalten.** Jeder Agent unterhält sein eigenes Vektor-Gedächtnis mit zugelassenen Formulierungen, gesperrten Themen, vergangener Post-Performance und Antwortmustern.
-- **Selbst gehostet oder verwaltet.** Source-available unter BSL 1.1 — betreiben Sie es auf eigener Infrastruktur für Compliance in regulierten Branchen, oder nutzen Sie die gehostete Plane mit denselben Isolationsgarantien.
+- **Selbst gehostet oder verwaltet.** Source-available unter PolyForm Perimeter License 1.0.1 — betreiben Sie es auf eigener Infrastruktur für Compliance in regulierten Branchen, oder nutzen Sie die gehostete Plane mit denselben Isolationsgarantien.
 - **BYO-API-Keys.** Verbinden Sie eigene OpenAI-, Anthropic-, Google- oder einen von 100+ LiteLLM-unterstützten Anbietern. Zahlen Sie den Modellanbieter zu veröffentlichten Preisen; zahlen Sie OpenLegion für die Plattform.
 
 ## Jenseits von Schedulern: Was KI-Social-Media-Management bedeuten sollte
@@ -136,7 +136,7 @@ Weil die Flotte YAML-definiert ist, können Sie einen ganzen KI-Social-Media-Mar
 | **Posting-Kadenz** | Visueller Scheduler | Visueller Scheduler | YAML-DAG — versionskontrolliert, auditierbar |
 | **Multi-Account** | Ja, in einem Dashboard | Ja, in einem Dashboard | Ja, mit strikter Isolation zwischen Konten |
 | **Modellwahl** | LLM des Anbieters | LLM des Anbieters | BYO-API-Keys über 100+ Anbieter via LiteLLM |
-| **Selbst hostbar** | Nein | Nein | Ja, source-available unter BSL 1.1 |
+| **Selbst hostbar** | Nein | Nein | Ja, source-available unter PolyForm Perimeter License 1.0.1 |
 | **Geeignet für** | Teams mit scheduler-zentriertem Workflow | Schnelle Post-Generierung | Teams, die autonomen Multi-Account-Social-Betrieb fahren |
 
 Für einen tieferen Blick darauf, wie OpenLegion mit alternativen Agenten-Runtimes darunter abschneidet, siehe den vollständigen [Framework-Vergleichshub](/comparison).
@@ -228,7 +228,7 @@ Das beste KI-Social-Media-Management-Tool hängt davon ab, ob Ihr Team einen Sch
 
 ### Ist OpenLegion Open-Source oder kostenlose KI-Social-Media-Management-Software?
 
-OpenLegion ist source-available unter BSL 1.1, d. h. die gesamte Codebasis liegt auf GitHub und Sie können sie kostenlos selbst hosten. Die gehostete Plane unter app.openlegion.ai ist ein kostenpflichtiges Produkt, das denselben Code mit verwalteter Infrastruktur betreibt. Es gibt keine separate "Open-Source-vs.-Enterprise"-Feature-Lücke — die Sicherheits-Primitive (Vault-Proxy, Container-Isolation, Budgetdurchsetzung) sind in beiden enthalten.
+OpenLegion ist source-available unter PolyForm Perimeter License 1.0.1, d. h. die gesamte Codebasis liegt auf GitHub und Sie können sie kostenlos selbst hosten. Die gehostete Plane unter app.openlegion.ai ist ein kostenpflichtiges Produkt, das denselben Code mit verwalteter Infrastruktur betreibt. Es gibt keine separate "Open-Source-vs.-Enterprise"-Feature-Lücke — die Sicherheits-Primitive (Vault-Proxy, Container-Isolation, Budgetdurchsetzung) sind in beiden enthalten.
 
 ### Funktioniert OpenLegion als KI-Social-Media-Management für Agenturen mit vielen Kunden?
 

@@ -49,7 +49,7 @@ related:
 
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
-| **Тип** | Платформа (BSL 1.1) | Agent OS (open source) | Framework + Platform | Framework + Platform | Framework | Enterprise SDK |
+| **Тип** | Платформа (PolyForm Perimeter License 1.0.1) | Agent OS (open source) | Framework + Platform | Framework + Platform | Framework | Enterprise SDK |
 | **Хостинг** | Self-hosted или managed | Self-hosted или cloud | Self-hosted или LangSmith | Self-hosted или CrewAI AMP | Self-hosted | Self-hosted (интеграция с Azure) |
 | **Изоляция агентов** | Docker-контейнер на агента (обязательно) | Docker-контейнер (опционально, требует Docker-сокет) | Не встроена | Docker только для CodeInterpreter | Docker для исполнения кода | Не встроена (embedded SDK) |
 | **Управление учётными данными** | Vault-прокси — слепое внедрение | Secret Registry с маскировкой | Переменные окружения | Переменные окружения | Переменные окружения | Интеграция Azure Key Vault |
@@ -58,7 +58,7 @@ related:
 | **Основной язык** | Python | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
 | **Поддержка LLM** | 100+ через LiteLLM | 100+ через LiteLLM | Любой через LangChain | Любой через LiteLLM | Любой через конфиг | Azure OpenAI + другие |
 | **GitHub-звёзды** | ~40 | ~67,300 | ~25,200 | ~33,400 | ~54,400 | ~26,900 |
-| **Лицензия** | BSL 1.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
+| **Лицензия** | PolyForm Perimeter License 1.0.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
 | **Лучше всего для** | Production с security-first требованиями | AI-driven разработки ПО | Сложных stateful workflow | Быстрого прототипирования, role-based команд | Исследований, экосистемы Microsoft | .NET-предприятий, Azure-шопов |
 
 ## Когда выбирать каждый фреймворк
@@ -116,7 +116,7 @@ Trade-off: Semantic Kernel — это SDK, а не отдельная платф
 | Принуждение бюджета | Вы строите | Встроено (на агента) | Не включено | Не включено |
 | Наблюдаемость | Вы интегрируете | Встроенный дашборд | Встроена (tracing, evaluation) | Встроена (enterprise) |
 | Мульти-канальное развёртывание | Вы строите | Встроено (5 каналов + webhooks) | Не включено | Не включено |
-| Цены | Бесплатно (+ расходы на инфру) | BSL 1.1 (+ hosted-опция) | Бесплатно–$39/место/мес + использование | Бесплатно–$25/мес + enterprise |
+| Цены | Бесплатно (+ расходы на инфру) | PolyForm Perimeter License 1.0.1 (+ hosted-опция) | Бесплатно–$39/место/мес + использование | Бесплатно–$25/мес + enterprise |
 
 Для команд, оценивающих топ AI-агентных фреймворков, честный ответ: если безопасность и governance — ваши главные приоритеты, OpenLegion построен именно для этого. Если зрелость экосистемы и размер сообщества важнее всего, у LangGraph и CrewAI значительные преимущества. Если вы в экосистеме Microsoft, Semantic Kernel (или новый Microsoft Agent Framework) — естественный выбор.
 
@@ -157,7 +157,7 @@ AI-агентные фреймворки отличаются по пяти кл
 
 ### Open source vs managed AI-агентные платформы: в чём разница?
 
-Open-source AI-агентные фреймворки (LangGraph core, CrewAI open source, AutoGen) предоставляют логику агентов — инфраструктуру строите вы. Managed [AI-агентные платформы](/learn/ai-agent-platform) добавляют операционные слои: provisioning контейнеров, vault учётных данных, отслеживание расходов, наблюдаемость. OpenLegion преодолевает этот разрыв как source-available проект (BSL 1.1) со встроенными возможностями managed-платформы. LangSmith и CrewAI AMP — платные managed-слои поверх своих open-source фреймворков.
+Open-source AI-агентные фреймворки (LangGraph core, CrewAI open source, AutoGen) предоставляют логику агентов — инфраструктуру строите вы. Managed [AI-агентные платформы](/learn/ai-agent-platform) добавляют операционные слои: provisioning контейнеров, vault учётных данных, отслеживание расходов, наблюдаемость. OpenLegion преодолевает этот разрыв как source-available проект (PolyForm Perimeter License 1.0.1) со встроенными возможностями managed-платформы. LangSmith и CrewAI AMP — платные managed-слои поверх своих open-source фреймворков.
 
 ### Где находится OpenLegion vs OpenClaw/LangGraph/CrewAI/AutoGen?
 

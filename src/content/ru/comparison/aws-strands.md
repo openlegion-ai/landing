@@ -54,7 +54,7 @@ OpenLegion (~59 звёзд) — security-first [AI-агентная платфо
 | **Развёртывание** | Cloud-agnostic (любой Docker-хост) | AgentCore Runtime (Lambda, Fargate, EC2) или self-hosted |
 | **Зависимости** | Ноль внешних, Python + SQLite + Docker | Пакет strands-agents + опциональные AWS-сервисы |
 | **GitHub-звёзды** | ~59 | ~5,100 |
-| **Лицензия** | BSL 1.1 | Apache 2.0 |
+| **Лицензия** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Лучше всего для** | Production-флотов, требующих security-first governance | AWS-команд, нуждающихся в model-driven агентах с serverless-развёртыванием |
 
 ## Архитектурные различия
@@ -140,7 +140,7 @@ AWS Strands Agents SDK питает Amazon Q Developer и AWS Glue, обеспе
 
 ### Как цены Strands сравниваются с OpenLegion?
 
-Strands бесплатен (Apache 2.0). Применяются расходы AWS-сервисов: per-token цены Bedrock, compute AgentCore Runtime, инфраструктура Lambda/Fargate/EC2. OpenLegion source-available (BSL 1.1) с моделью bring-your-own-API-keys и без наценки.
+Strands бесплатен (Apache 2.0). Применяются расходы AWS-сервисов: per-token цены Bedrock, compute AgentCore Runtime, инфраструктура Lambda/Fargate/EC2. OpenLegion source-available (PolyForm Perimeter License 1.0.1) с моделью bring-your-own-API-keys и без наценки.
 
 ---
 

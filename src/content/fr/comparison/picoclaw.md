@@ -54,7 +54,7 @@ PicoClaw et OpenLegion occupent des extrémités opposées du spectre de déploi
 | **Capable hors ligne** | Non (LLM cloud requis) | Oui (modèle compagnon PicoLM 1B) |
 | **Canaux de messagerie** | 5 | 8+ (Telegram, Discord, QQ, DingTalk, LINE, etc.) |
 | **Étoiles GitHub** | ~59 | ~20 000-21 000 |
-| **Licence** | BSL 1.1 | MIT |
+| **Licence** | PolyForm Perimeter License 1.0.1 | MIT |
 | **CVE connues** | 0 | 0 CVE formelle ; plusieurs lacunes de sécurité documentées |
 | **Fabricant** | Indépendant | Entreprise de matériel embarqué |
 | **Code généré par IA** | Non | Affirmation de 95 % généré par IA |

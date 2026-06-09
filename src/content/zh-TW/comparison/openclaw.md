@@ -55,7 +55,7 @@ OpenClaw 與 OpenLegion 共享願景 — 自主行動的 AI 代理 — 但它們
 | **已知 CVE** | 0 | 重大 RCE 弱點(CVSS 8.8)+ 多個其他 |
 | **惡意技能** | N/A | 發現 400+ 個惡意 ClawHub 技能 |
 | **創作者狀態** | 活躍 | 原作者離開(2026 年初) |
-| **授權** | BSL 1.1 | MIT(核心) |
+| **授權** | PolyForm Perimeter License 1.0.1 | MIT(核心) |
 
 ## 何時選擇 OpenClaw
 

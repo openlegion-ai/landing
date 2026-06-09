@@ -43,7 +43,7 @@ OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) con enfo
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27.300 | MIT | Ninguno integrado | DefaultAzureCredential | Gratis (código abierto) | RCE crítico (CVSS 9.9) | Frecuencia de actualizaciones reducida |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19.200 | MIT | Ninguno (mismo proceso) | Clave API por variable de entorno | SDK gratis; API por uso | 0 | Activo |
 | [**Dify**](/comparison/dify) | 131.000 | Apache 2.0 modificada | Sandbox de plugins | Claves compartidas por workspace | Cloud 59-159$/mes | CVE-2025-3466 (CVSS 9.8) | Activo |
-| **OpenLegion** | nuevo | BSL 1.1 | Docker por agente (modo único y por defecto) | Proxy de bóveda (los agentes nunca ven las claves) | Corte automático diario/mensual por agente | Ninguno reportado (v0.1.0) | Activo |
+| **OpenLegion** | nuevo | PolyForm Perimeter License 1.0.1 | Docker por agente (modo único y por defecto) | Proxy de bóveda (los agentes nunca ven las claves) | Corte automático diario/mensual por agente | Ninguno reportado (v0.1.0) | Activo |
 
 ## La Brecha de Seguridad
 

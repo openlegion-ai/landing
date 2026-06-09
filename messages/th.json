@@ -505,7 +505,7 @@
       },
       "3": {
         "question": "OpenLegion คืออะไร?",
-        "answer": "OpenLegion คือ container-isolated multi-agent runtime ระดับโปรดักชัน ที่ดีพลอยฟลีตเอเจนต์อัตโนมัติในคอนเทนเนอร์ Docker แยกเดี่ยว เอเจนต์แต่ละตัวมีงบประมาณ สิทธิ์ และ vault สำหรับข้อมูลรับรองของตัวเอง — พร้อม defense-in-depth ผ่านการแยกคอนเทนเนอร์ vault proxy ACL ต่อเอเจนต์ และ bounded execution ต้องการแค่ Python, Docker และ API key ไม่ต้องใช้ Redis, Kubernetes หรือ LangChain ใช้สัญญาอนุญาตแบบ BSL 1.1 (source-available)"
+        "answer": "OpenLegion คือ container-isolated multi-agent runtime ระดับโปรดักชัน ที่ดีพลอยฟลีตเอเจนต์อัตโนมัติในคอนเทนเนอร์ Docker แยกเดี่ยว เอเจนต์แต่ละตัวมีงบประมาณ สิทธิ์ และ vault สำหรับข้อมูลรับรองของตัวเอง — พร้อม defense-in-depth ผ่านการแยกคอนเทนเนอร์ vault proxy ACL ต่อเอเจนต์ และ bounded execution ต้องการแค่ Python, Docker และ API key ไม่ต้องใช้ Redis, Kubernetes หรือ LangChain ใช้สัญญาอนุญาตแบบ PolyForm Perimeter License 1.0.1 (source-available)"
       },
       "4": {
         "question": "OpenLegion แตกต่างจาก CrewAI หรือ framework เอเจนต์อื่นอย่างไร?",
@@ -566,7 +566,7 @@
   },
   "footer": {
     "brandDescription": "Container-isolated multi-agent runtime ที่สร้างมาเพื่อโปรดักชัน อัตโนมัติงานบนคอมพิวเตอร์ใดๆ ด้วยฟลีตเอเจนต์ที่ปลอดภัยและควบคุมต้นทุนได้",
-    "license": "สัญญาอนุญาต BSL 1.1 © {year} ผู้ร่วมพัฒนา OpenLegion",
+    "license": "สัญญาอนุญาต PolyForm Perimeter License 1.0.1 © {year} ผู้ร่วมพัฒนา OpenLegion",
     "columns": {
       "0": {
         "title": "ผลิตภัณฑ์",
@@ -622,7 +622,7 @@
         "links": {
           "0": "ข้อกำหนดการให้บริการ",
           "1": "นโยบายความเป็นส่วนตัว",
-          "2": "BSL 1.1 License"
+          "2": "PolyForm Perimeter License 1.0.1"
         }
       }
     }
@@ -721,7 +721,7 @@
       },
       "4": {
         "question": "Self-host OpenLegion ได้ไหม?",
-        "answer": "ได้ Clone repo, รันสามคำสั่ง แล้วคุณก็มีฟลีตเอเจนต์เต็มรูปแบบบนอินฟราของคุณเอง เอนจินเป็น source-available ภายใต้ BSL 1.1 Managed hosting เริ่มต้นที่ $19/เดือน สำหรับทีมที่ไม่ต้องการดูแลอินฟราเอง"
+        "answer": "ได้ Clone repo, รันสามคำสั่ง แล้วคุณก็มีฟลีตเอเจนต์เต็มรูปแบบบนอินฟราของคุณเอง เอนจินเป็น source-available ภายใต้ PolyForm Perimeter License 1.0.1 Managed hosting เริ่มต้นที่ $19/เดือน สำหรับทีมที่ไม่ต้องการดูแลอินฟราเอง"
       },
       "5": {
         "question": "อะไรถือเป็น \"เอเจนต์\" หนึ่งตัว?",
@@ -917,7 +917,7 @@
     "privacyTitle": "นโยบายความเป็นส่วนตัว",
     "privacyDescription": "นโยบายความเป็นส่วนตัวของ OpenLegion AI agent framework และ managed hosting เรียนรู้ว่าเรารวบรวม ใช้ และคุ้มครองข้อมูลของคุณอย่างไรในทั้ง managed hosting และเว็บไซต์ openlegion.ai",
     "termsTitle": "ข้อกำหนดการให้บริการ",
-    "termsDescription": "ข้อกำหนดการให้บริการของ OpenLegion AI agent framework และ managed hosting ครอบคลุมทั้ง managed hosting การดีพลอย self-hosted ภายใต้สัญญาอนุญาต BSL 1.1 และเว็บไซต์ openlegion.ai",
+    "termsDescription": "ข้อกำหนดการให้บริการของ OpenLegion AI agent framework และ managed hosting ครอบคลุมทั้ง managed hosting การดีพลอย self-hosted ภายใต้สัญญาอนุญาต PolyForm Perimeter License 1.0.1 และเว็บไซต์ openlegion.ai",
     "moneyBackTitle": "รับประกันคืนเงินภายใน 7 วัน",
     "moneyBackDescription": "คืนเงินค่าเดือนแรกเต็มจำนวนหาก OpenLegion ไม่เหมาะกับคุณ โดยไม่ถามคำถาม"
   },
@@ -1166,7 +1166,7 @@
     },
     "section7": {
       "title": "7. ทรัพย์สินทางปัญญา",
-      "p1": "ซอร์สโค้ดของ OpenLegion framework ได้รับสัญญาอนุญาตภายใต้ Business Source License 1.1 (BSL 1.1) ข้อกำหนดเหล่านี้ไม่มอบสิทธิ์ใดๆ ให้คุณเกินกว่าที่สัญญาอนุญาตนั้นอนุญาต เครื่องหมายการค้า โลโก้ และองค์ประกอบของแบรนด์ของ OpenLegion ทั้งหมดเป็นทรัพย์สินของโปรเจกต์ OpenLegion และห้ามใช้โดยไม่ได้รับความยินยอมเป็นลายลักษณ์อักษรล่วงหน้า",
+      "p1": "ซอร์สโค้ดของ OpenLegion framework ได้รับสัญญาอนุญาตภายใต้ PolyForm Perimeter License 1.0.1 ข้อกำหนดเหล่านี้ไม่มอบสิทธิ์ใดๆ ให้คุณเกินกว่าที่สัญญาอนุญาตนั้นอนุญาต เครื่องหมายการค้า โลโก้ และองค์ประกอบของแบรนด์ของ OpenLegion ทั้งหมดเป็นทรัพย์สินของโปรเจกต์ OpenLegion และห้ามใช้โดยไม่ได้รับความยินยอมเป็นลายลักษณ์อักษรล่วงหน้า",
       "p2": "คุณคงสิทธิ์ความเป็นเจ้าของข้อมูล เนื้อหา และการตั้งค่าทั้งหมด (\"ข้อมูลลูกค้า\") ที่คุณส่งไปยังบริการ คุณมอบสัญญาอนุญาตที่จำกัดและไม่ผูกขาดให้เราใช้โฮสต์และประมวลผลข้อมูลลูกค้าเพื่อให้บริการเท่านั้น"
     },
     "section8": {
@@ -1299,7 +1299,7 @@
   },
   "schema": {
     "orgDescription": "Runtime แบบ multi-agent ที่แยกด้วย container พร้อมบริการ managed hosting — agent ที่แยกด้วย Docker, credential ผ่าน vault proxy, และงบประมาณต่อ agent",
-    "softwareDescription": "Runtime แบบ multi-agent ที่แยกด้วย container พร้อม credential ผ่าน vault proxy และระบบควบคุมงบประมาณต่อ agent self-hosted (BSL 1.1) หรือ managed hosting บน VPS เฉพาะ",
+    "softwareDescription": "Runtime แบบ multi-agent ที่แยกด้วย container พร้อม credential ผ่าน vault proxy และระบบควบคุมงบประมาณต่อ agent self-hosted (PolyForm Perimeter License 1.0.1) หรือ managed hosting บน VPS เฉพาะ",
     "softwareFeatureList": [
       "แยก container ต่อ agent (Docker หรือ Docker Desktop Sandbox microVMs)",
       "Credential ผ่าน vault proxy — agent ไม่เห็น API key เลย",

@@ -41,7 +41,7 @@ Sie wollten eine KI-Belegschaft. Was Sie bekamen, war ein zweiter Job in DevOps.
 - Jeder Agent läuft in seinem eigenen Container auf einem dedizierten VPS, nicht in einem geteilten Multi-Tenant-Prozess, sodass der Blast Radius eines Accounts eingedämmt bleibt.
 - Credentials liegen in einem Vault-Proxy auf dem vertrauenswürdigen Host; Agenten senden Anfragen und der Proxy injiziert Keys auf Netzwerkebene, sodass ein kompromittierter Agent sie nicht lesen kann.
 - Tägliche und monatliche Budget-Obergrenzen pro Agent stoppen außer Kontrolle geratene LLM-Ausgaben auf den Dollar genau, ohne Aufschlag auf Modellnutzung.
-- Dieselbe Engine ist source-available unter BSL 1.1, sodass Sie verwaltet starten und später ohne Neuschreiben zu Self-Hosting wechseln können.
+- Dieselbe Engine ist source-available unter PolyForm Perimeter License 1.0.1, sodass Sie verwaltet starten und später ohne Neuschreiben zu Self-Hosting wechseln können.
 - Pläne starten bei 19 $/Monat, zahlbar ab dem ersten Tag, mit einer 7-tägigen Geld-zurück-Garantie.
 
 ## Die versteckten Kosten von „Betreib einfach einen Agenten"
@@ -63,7 +63,7 @@ Verwaltetes Hosting existiert, um genau diese Schicht zu absorbieren. Mit OpenLe
 
 OpenLegion liefert dieselbe Engine auf zwei Wegen, sodass die Entscheidung darum geht, wer die Box betreibt, nicht darum, welche Version leistungsfähiger ist.
 
-| Erwägung | Selbst gehostet (BSL 1.1) | Verwaltetes Hosting |
+| Erwägung | Selbst gehostet (PolyForm Perimeter License 1.0.1) | Verwaltetes Hosting |
 |---|---|---|
 | Wer betreibt die Server | Sie | OpenLegion |
 | Setup-Zeit | Drei Befehle auf Ihrer Maschine | Anmelden, ein Template wählen |
@@ -134,7 +134,7 @@ Nein. Die verwaltete Ebene übernimmt Container-Provisionierung, Credential-Spei
 
 ### Kann ich später von verwaltetem Hosting zu Self-Hosting wechseln?
 
-Ja. Die verwaltete Ebene und die selbst gehostete Distribution betreiben dieselbe Engine, source-available unter BSL 1.1. Es gibt keine proprietäre Lock-in-Schicht, die eine Migration blockieren würde, sodass Teams häufig auf verwaltetem Hosting starten, um schnell voranzukommen, und zu selbst gehosteter Infrastruktur wechseln, sobald Compliance oder Kosten das lohnenswert machen.
+Ja. Die verwaltete Ebene und die selbst gehostete Distribution betreiben dieselbe Engine, source-available unter PolyForm Perimeter License 1.0.1. Es gibt keine proprietäre Lock-in-Schicht, die eine Migration blockieren würde, sodass Teams häufig auf verwaltetem Hosting starten, um schnell voranzukommen, und zu selbst gehosteter Infrastruktur wechseln, sobald Compliance oder Kosten das lohnenswert machen.
 
 ### Wie viele Agenten kann ich in einem verwalteten Plan hosten?
 

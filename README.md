@@ -62,4 +62,4 @@ Issues and pull requests welcome. For engine changes, contribute to the [main re
 
 ## License
 
-AGPLv3
+PolyForm Perimeter License 1.0.1

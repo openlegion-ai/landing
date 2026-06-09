@@ -505,7 +505,7 @@
       },
       "3": {
         "question": "OpenLegion이란 무엇인가요?",
-        "answer": "OpenLegion은 자율 에이전트 플릿을 격리된 Docker 컨테이너에 배포하는 프로덕션 등급의 컨테이너 격리 멀티 에이전트 런타임입니다. 각 에이전트는 고유한 예산, 권한, 자격 증명 vault을 가지며 — 컨테이너 격리, vault 프록시, 에이전트별 ACL, 제한된 실행을 통한 심층 방어를 제공합니다. Python, Docker, API 키만 있으면 됩니다. Redis 없음, Kubernetes 없음, LangChain 없음. BSL 1.1(소스 사용 가능) 라이선스입니다."
+        "answer": "OpenLegion은 자율 에이전트 플릿을 격리된 Docker 컨테이너에 배포하는 프로덕션 등급의 컨테이너 격리 멀티 에이전트 런타임입니다. 각 에이전트는 고유한 예산, 권한, 자격 증명 vault을 가지며 — 컨테이너 격리, vault 프록시, 에이전트별 ACL, 제한된 실행을 통한 심층 방어를 제공합니다. Python, Docker, API 키만 있으면 됩니다. Redis 없음, Kubernetes 없음, LangChain 없음. PolyForm Perimeter License 1.0.1(소스 사용 가능) 라이선스입니다."
       },
       "4": {
         "question": "OpenLegion은 CrewAI나 다른 에이전트 프레임워크와 어떻게 다른가요?",
@@ -566,7 +566,7 @@
   },
   "footer": {
     "brandDescription": "프로덕션을 위해 만들어진 컨테이너 격리 멀티 에이전트 런타임. 안전하고 비용 관리되는 에이전트 플릿으로 모든 컴퓨터 작업을 자동화하세요.",
-    "license": "BSL 1.1 라이선스 © {year} OpenLegion Contributors",
+    "license": "PolyForm Perimeter License 1.0.1 © {year} OpenLegion Contributors",
     "columns": {
       "0": {
         "title": "제품",
@@ -622,7 +622,7 @@
         "links": {
           "0": "서비스 이용약관",
           "1": "개인정보 보호정책",
-          "2": "BSL 1.1 라이선스"
+          "2": "PolyForm Perimeter License 1.0.1"
         }
       }
     }
@@ -721,7 +721,7 @@
       },
       "4": {
         "question": "OpenLegion을 셀프 호스팅할 수 있나요?",
-        "answer": "네. 저장소를 클론하고, 명령 3개를 실행하면 자체 인프라에 완전한 에이전트 플릿이 구축됩니다. 엔진은 BSL 1.1 소스 공개입니다. 인프라 관리를 원하지 않는 팀을 위한 매니지드 호스팅은 월 $19부터 이용 가능합니다."
+        "answer": "네. 저장소를 클론하고, 명령 3개를 실행하면 자체 인프라에 완전한 에이전트 플릿이 구축됩니다. 엔진은 PolyForm Perimeter License 1.0.1 소스 공개입니다. 인프라 관리를 원하지 않는 팀을 위한 매니지드 호스팅은 월 $19부터 이용 가능합니다."
       },
       "5": {
         "question": "\"에이전트\"란 무엇을 카운트하나요?",
@@ -917,7 +917,7 @@
     "privacyTitle": "개인정보 보호정책",
     "privacyDescription": "OpenLegion AI 에이전트 프레임워크 및 매니지드 호스팅 개인정보 처리방침. 매니지드 호스팅 및 openlegion.ai 웹사이트 전반에서 데이터를 어떻게 수집, 사용, 보호하는지 알아보세요.",
     "termsTitle": "서비스 이용약관",
-    "termsDescription": "OpenLegion AI 에이전트 프레임워크 및 매니지드 호스팅 이용약관. 매니지드 호스팅, BSL 1.1 라이선스 하의 셀프 호스팅 배포, openlegion.ai 웹사이트를 다룹니다.",
+    "termsDescription": "OpenLegion AI 에이전트 프레임워크 및 매니지드 호스팅 이용약관. 매니지드 호스팅, PolyForm Perimeter License 1.0.1 하의 셀프 호스팅 배포, openlegion.ai 웹사이트를 다룹니다.",
     "moneyBackTitle": "7일 환불 보장",
     "moneyBackDescription": "OpenLegion이 맞지 않으면 첫 달 요금을 전액 환불해 드립니다. 이유는 묻지 않습니다."
   },
@@ -1166,7 +1166,7 @@
     },
     "section7": {
       "title": "7. 지식재산권",
-      "p1": "OpenLegion 프레임워크 소스 코드는 Business Source License 1.1 (BSL 1.1)에 따라 라이선스됩니다. 본 약관은 해당 라이선스가 허용하는 범위를 넘어서는 권리를 부여하지 않습니다. OpenLegion의 모든 상표, 로고, 브랜드 요소는 OpenLegion 프로젝트의 재산이며, 사전 서면 동의 없이 사용할 수 없습니다.",
+      "p1": "OpenLegion 프레임워크 소스 코드는 PolyForm Perimeter License 1.0.1에 따라 라이선스됩니다. 본 약관은 해당 라이선스가 허용하는 범위를 넘어서는 권리를 부여하지 않습니다. OpenLegion의 모든 상표, 로고, 브랜드 요소는 OpenLegion 프로젝트의 재산이며, 사전 서면 동의 없이 사용할 수 없습니다.",
       "p2": "귀하는 서비스에 제출하는 모든 데이터, 콘텐츠, 구성(이하 \"고객 데이터\")의 소유권을 보유합니다. 귀하는 서비스 제공을 위한 목적으로만 고객 데이터를 호스팅하고 처리하기 위한 제한적, 비독점적 라이선스를 당사에 부여합니다."
     },
     "section8": {
@@ -1299,7 +1299,7 @@
   },
   "schema": {
     "orgDescription": "관리형 호스팅을 제공하는 컨테이너 격리 멀티 에이전트 런타임 — Docker로 격리된 에이전트, 볼트 프록시 자격 증명, 에이전트별 예산.",
-    "softwareDescription": "볼트 프록시 자격 증명과 에이전트별 예산 제어를 갖춘 컨테이너 격리 멀티 에이전트 런타임. 셀프 호스트(BSL 1.1) 또는 전용 VPS 관리형 호스팅 지원.",
+    "softwareDescription": "볼트 프록시 자격 증명과 에이전트별 예산 제어를 갖춘 컨테이너 격리 멀티 에이전트 런타임. 셀프 호스트(PolyForm Perimeter License 1.0.1) 또는 전용 VPS 관리형 호스팅 지원.",
     "softwareFeatureList": [
       "에이전트별 컨테이너 격리(Docker 또는 Docker Desktop Sandbox 마이크로 VM)",
       "볼트 프록시 자격 증명 — 에이전트는 API 키에 접근할 수 없습니다",
