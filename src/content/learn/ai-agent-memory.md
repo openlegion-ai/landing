@@ -25,7 +25,7 @@ related:
 
 # AI Agent Memory: Persistent Context for Autonomous Systems
 
-AI agent memory enables persistent context, learning, and coordination across sessions for autonomous AI systems operating beyond single-turn conversations. Memory transforms stateless language models into stateful agents capable of accumulating knowledge, maintaining relationships, and improving performance through experience. Four distinct memory types serve different purposes: in-context tokens for immediate recall, semantic vector stores for similarity-based retrieval, structured key-value systems for organized data, and episodic logs for procedural learning. However, shared memory architectures introduce significant security risks including memory poisoning attacks and credential exposure vulnerabilities. OpenLegion's vault-protected blackboard provides secure agent coordination without external memory dependencies.
+AI agent memory enables persistent context, learning, and coordination across sessions for autonomous AI systems operating beyond single-turn conversations. Memory transforms stateless language models into stateful agents capable of accumulating knowledge, maintaining relationships, and improving performance through experience. Four distinct memory types serve different purposes: in-context tokens for immediate recall, semantic vector stores for similarity-based retrieval, structured key-value systems for organized data, and episodic logs for procedural learning. Shared memory architectures introduce security risks including memory poisoning attacks and credential exposure vulnerabilities.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -98,9 +98,9 @@ AI agent memory enables persistent context, learning, and coordination across se
 
 ## OpenLegion's Take
 
-AI agent memory is fundamental to autonomous systems that must operate beyond single conversations, but the security implications of persistent memory create significant risks that many implementations ignore. The four memory types—in-context, semantic, structured, and episodic—each serve essential functions, but shared memory architectures introduce attack surfaces that compromise entire agent fleets.
+AI agent memory is fundamental to autonomous systems that must operate beyond single conversations, but the security implications of persistent memory create significant risks that many implementations ignore. The four memory types — in-context, semantic, structured, and episodic — each serve essential functions, but shared memory architectures introduce attack surfaces that compromise entire agent fleets.
 
-CVE-2025-67732 exposed the systematic credential exposure risk when agent memory systems share authentication tokens through queryable storage. Memory poisoning attacks documented in arXiv cs.AI 2025 demonstrate how false facts injected into persistent storage can corrupt agent behavior across sessions. These aren't theoretical risks—they're documented attack vectors against popular memory libraries.
+CVE-2025-67732 exposed the systematic credential exposure risk when agent memory systems share authentication tokens through queryable storage. Memory poisoning attacks documented in arXiv cs.AI 2025 demonstrate how false facts injected into persistent storage can corrupt agent behavior across sessions. These aren't theoretical risks — they're documented attack vectors against popular memory libraries.
 
 OpenLegion's architecture addresses these risks through isolation rather than access controls. The vault proxy ensures that credentials never enter memory systems where they could be retrieved through queries or attacks. Per-agent workspace isolation prevents memory contamination between agents while enabling coordination through controlled blackboard interfaces.
 
