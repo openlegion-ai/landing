@@ -53,7 +53,7 @@ OpenLegion เป็น [AI agent framework](/learn/ai-agent-platform) ที่
 | **Dependency** | Python + SQLite + Docker (ไม่มีภายนอก) | ระบบนิเวศ AutoGen + บริการ Azure ที่เลือกได้ |
 | **ดาว GitHub** | ~59 | ~54,700 (AutoGen) / ~5,700 (Agent Framework) |
 | **ช่องโหว่ที่ทราบ** | 0 CVE | อัตราการโจมตีสำเร็จ 97% (งานวิจัย COLM 2025) |
-| **ใบอนุญาต** | BSL 1.1 | MIT (ทั้งคู่) |
+| **ใบอนุญาต** | PolyForm Perimeter License 1.0.1 | MIT (ทั้งคู่) |
 
 ## เลือก AutoGen / Microsoft Agent Framework ถ้า...
 

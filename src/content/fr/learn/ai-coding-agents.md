@@ -41,7 +41,7 @@ L'autocomplétion suggère la ligne suivante. Les agents IA de code terminent le
 - Un assistant de code augmente un humain dans l'éditeur. Un agent de code exécute la boucle par lui-même vers une tâche définie.
 - La capacité enthousiasmante et la capacité dangereuse sont les mêmes : exécuter du code et détenir les identifiants du dépôt. L'isolation n'est pas optionnelle.
 - Le template Dev Team d'OpenLegion livre un agent PM, un agent Engineer et un agent Reviewer, chacun dans son propre conteneur avec son propre budget.
-- Il est auto-hébergeable sous BSL 1.1, afin que les agents de code puissent s'exécuter dans votre propre réseau pour les dépôts privés.
+- Il est auto-hébergeable sous PolyForm Perimeter License 1.0.1, afin que les agents de code puissent s'exécuter dans votre propre réseau pour les dépôts privés.
 
 ## Ce que fait réellement un agent de code
 
@@ -127,8 +127,8 @@ Oui. Le template Dev Team d'OpenLegion fait tourner un agent PM, un agent Engine
 
 ### Puis-je faire tourner des agents IA de code sur ma propre infrastructure ?
 
-Oui. OpenLegion est source-disponible sous BSL 1.1 et tourne sur une seule machine avec Python et Docker, de sorte que les agents de code peuvent opérer entièrement à l'intérieur de votre propre réseau. C'est important pour les dépôts privés et les environnements réglementés où le code et les identifiants ne peuvent pas quitter votre infrastructure. Une option d'hébergement managé existe pour les équipes qui préfèrent ne pas l'exploiter elles-mêmes.
+Oui. OpenLegion est source-disponible sous PolyForm Perimeter License 1.0.1 et tourne sur une seule machine avec Python et Docker, de sorte que les agents de code peuvent opérer entièrement à l'intérieur de votre propre réseau. C'est important pour les dépôts privés et les environnements réglementés où le code et les identifiants ne peuvent pas quitter votre infrastructure. Une option d'hébergement managé existe pour les équipes qui préfèrent ne pas l'exploiter elles-mêmes.
 
 ### Combien coûte l'exploitation d'agents IA de code ?
 
-OpenLegion facture des frais de plateforme forfaitaires sans majoration sur l'usage des modèles. Vous apportez vos propres clés API LLM ou utilisez des crédits inclus et payez les fournisseurs à leurs tarifs publiés. Des plafonds de budget quotidiens et mensuels par agent empêchent un agent bloqué de générer une facture non bornée. Les plans managés démarrent à 19 $/mois avec une garantie de remboursement de 7 jours, et l'auto-hébergement du moteur est disponible sous BSL 1.1.
+OpenLegion facture des frais de plateforme forfaitaires sans majoration sur l'usage des modèles. Vous apportez vos propres clés API LLM ou utilisez des crédits inclus et payez les fournisseurs à leurs tarifs publiés. Des plafonds de budget quotidiens et mensuels par agent empêchent un agent bloqué de générer une facture non bornée. Les plans managés démarrent à 19 $/mois avec une garantie de remboursement de 7 jours, et l'auto-hébergement du moteur est disponible sous PolyForm Perimeter License 1.0.1.

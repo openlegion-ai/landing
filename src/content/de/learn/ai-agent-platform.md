@@ -50,7 +50,7 @@ Die Unterscheidung zwischen KI-Agenten-Frameworks und KI-Agenten-Plattformen zä
 
 **Selbst gehostete Frameworks** (LangGraph, CrewAI, AutoGen) geben Ihnen maximale Kontrolle. Sie besitzen die Infrastruktur. Sie konfigurieren die Container. Sie bauen die Credential-Pipeline. Das funktioniert, wenn Ihr Team dedizierte DevOps-Kapazität hat und bestehende Infrastruktur, mit der Agenten tief integriert werden müssen.
 
-**Verwaltete KI-Agenten-Plattformen** übernehmen die operative Schicht, sodass Ihr Team sich auf Agentenlogik konzentriert. OpenLegion sitzt hier — mit einem entscheidenden Unterschied: Es ist source-available unter BSL 1.1. Sie bekommen Plattform-grade Operations (Isolation, Vaulting, Budget-Kontrollen) ohne Vendor Lock-in auf der Infrastrukturseite.
+**Verwaltete KI-Agenten-Plattformen** übernehmen die operative Schicht, sodass Ihr Team sich auf Agentenlogik konzentriert. OpenLegion sitzt hier — mit einem entscheidenden Unterschied: Es ist source-available unter PolyForm Perimeter License 1.0.1. Sie bekommen Plattform-grade Operations (Isolation, Vaulting, Budget-Kontrollen) ohne Vendor Lock-in auf der Infrastrukturseite.
 
 Die Frage ist nicht, welches "besser" ist. Es ist die Frage, ob Ihr Team Engineering-Stunden für Agenten-Sicherheitsinfrastruktur oder für die Agenten selbst aufwenden sollte.
 
@@ -180,7 +180,7 @@ Ja. OpenLegion nutzt ein BYO-API-Key-Modell. Sie verbinden eigene Keys von jedem
 
 ### Verwaltete vs. selbst gehostete KI-Agenten: Was ist der Unterschied?
 
-Verwaltete KI-Agenten-Plattformen übernehmen für Sie Container-Provisionierung, Credential-Vaulting, Kostenkontrollen und Observability. Selbst gehostet bedeutet, dass Sie ein Framework (LangGraph, CrewAI, AutoGen) auf eigener Infrastruktur ausspielen und diese operativen Schichten selbst bauen. Verwaltet ist schneller in der Produktion und erfordert weniger DevOps-Investition. Selbst gehostet bietet maximale Infrastrukturkontrolle. OpenLegion bietet ein Hybrid: source-available Code (BSL 1.1), den Sie selbst hosten können, mit integrierten verwalteten Plattformfähigkeiten.
+Verwaltete KI-Agenten-Plattformen übernehmen für Sie Container-Provisionierung, Credential-Vaulting, Kostenkontrollen und Observability. Selbst gehostet bedeutet, dass Sie ein Framework (LangGraph, CrewAI, AutoGen) auf eigener Infrastruktur ausspielen und diese operativen Schichten selbst bauen. Verwaltet ist schneller in der Produktion und erfordert weniger DevOps-Investition. Selbst gehostet bietet maximale Infrastrukturkontrolle. OpenLegion bietet ein Hybrid: source-available Code (PolyForm Perimeter License 1.0.1), den Sie selbst hosten können, mit integrierten verwalteten Plattformfähigkeiten.
 
 ### Wie vergleicht sich OpenLegion mit anderen KI-Agenten-Plattformen?
 
@@ -188,7 +188,7 @@ OpenLegion differenziert sich über die Security-First-Architektur. Laut öffent
 
 ### Welche Lizenz nutzt OpenLegion?
 
-OpenLegion ist source-available unter der BSL-1.1-Lizenz und auf [GitHub](https://github.com/openlegion-ai/openlegion) verfügbar. Das Projekt bietet zudem eine gehostete Plattform für Teams, die verwaltete Infrastruktur ohne Self-Hosting wünschen.
+OpenLegion ist source-available unter der PolyForm Perimeter License 1.0.1 und auf [GitHub](https://github.com/openlegion-ai/openlegion) verfügbar. Das Projekt bietet zudem eine gehostete Plattform für Teams, die verwaltete Infrastruktur ohne Self-Hosting wünschen.
 
 ### Wie schnell kann ich meinen ersten Agenten ausspielen?
 

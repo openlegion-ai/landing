@@ -43,7 +43,7 @@ OpenLegion — это security-first [AI-агентный фреймворк](/l
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27,300 | MIT | Не встроена | DefaultAzureCredential | Бесплатно (open source) | Critical RCE (CVSS 9.9) | Снижена частота обновлений |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19,200 | MIT | Нет (тот же процесс) | API-ключ в env | SDK бесплатно; API по использованию | 0 | Активный |
 | [**Dify**](/comparison/dify) | 131,000 | Modified Apache 2.0 | Песочница плагинов | Ключи, общие для рабочей области | Cloud $59–159/мес | CVE-2025-3466 (CVSS 9.8) | Активный |
-| **OpenLegion** | новый | BSL 1.1 | Docker на агента (по умолчанию и единственный режим) | Vault-прокси (агенты не видят ключи) | Жёсткий cutoff на агента в день/месяц | Не сообщалось (v0.1.0) | Активный |
+| **OpenLegion** | новый | PolyForm Perimeter License 1.0.1 | Docker на агента (по умолчанию и единственный режим) | Vault-прокси (агенты не видят ключи) | Жёсткий cutoff на агента в день/месяц | Не сообщалось (v0.1.0) | Активный |
 
 ## Разрыв в безопасности
 

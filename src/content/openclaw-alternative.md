@@ -109,7 +109,7 @@ OpenLegion supports BYOK (Bring Your Own Keys). You can provide your own API key
 
 ### Can I self-host instead of using hosted OpenLegion?
 
-Yes. OpenLegion is source-available under the BSL 1.1 license. Self-hosting requires Python 3.10+ and Docker. The install process is `git clone && ./install.sh && openlegion start`; first-run Docker image builds take a few minutes. No external services required — no Redis, no Kubernetes, no cloud services. Runs on a single machine. A hosted option is also available for teams that prefer managed infrastructure.
+Yes. OpenLegion is source-available under the PolyForm Perimeter License 1.0.1. Self-hosting requires Python 3.10+ and Docker. The install process is `git clone && ./install.sh && openlegion start`; first-run Docker image builds take a few minutes. No external services required — no Redis, no Kubernetes, no cloud services. Runs on a single machine. A hosted option is also available for teams that prefer managed infrastructure.
 
 ### How hard is it to migrate from OpenClaw to OpenLegion?
 

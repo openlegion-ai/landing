@@ -41,7 +41,7 @@ El autocompletado sugiere la siguiente línea. Los agentes de programación con 
 - Un asistente de programación aumenta a un humano en el editor. Un agente de programación ejecuta el bucle por sí mismo hacia una tarea definida.
 - La capacidad emocionante y la peligrosa son la misma: ejecutar código y tener credenciales del repositorio. El aislamiento no es opcional.
 - La plantilla Dev Team de OpenLegion incluye un agente PM, un Ingeniero y un Revisor, cada uno en su propio contenedor con su propio presupuesto.
-- Es autoalojable bajo BSL 1.1, así que los agentes de programación pueden correr dentro de su propia red para repositorios privados.
+- Es autoalojable bajo PolyForm Perimeter License 1.0.1, así que los agentes de programación pueden correr dentro de su propia red para repositorios privados.
 
 ## Lo Que un Agente de Programación Hace en Realidad
 
@@ -127,8 +127,8 @@ Sí. La plantilla Dev Team de OpenLegion ejecuta un agente PM, un agente Ingenie
 
 ### ¿Puedo ejecutar agentes de programación con IA en mi propia infraestructura?
 
-Sí. OpenLegion tiene código disponible bajo BSL 1.1 y corre en una sola máquina con Python y Docker, así que los agentes de programación pueden operar enteramente dentro de su propia red. Eso importa para repositorios privados y entornos regulados donde el código y las credenciales no pueden salir de su infraestructura. Existe una opción de alojamiento gestionado para equipos que prefieren no ejecutarlo ellos mismos.
+Sí. OpenLegion tiene código disponible bajo PolyForm Perimeter License 1.0.1 y corre en una sola máquina con Python y Docker, así que los agentes de programación pueden operar enteramente dentro de su propia red. Eso importa para repositorios privados y entornos regulados donde el código y las credenciales no pueden salir de su infraestructura. Existe una opción de alojamiento gestionado para equipos que prefieren no ejecutarlo ellos mismos.
 
 ### ¿Cuánto cuesta ejecutar agentes de programación con IA?
 
-OpenLegion cobra una tarifa de plataforma plana sin recargo en el uso del modelo. Aporta sus propias claves API de LLM o usa créditos incluidos y paga a los proveedores a sus tarifas publicadas. Los topes de presupuesto diarios y mensuales por agente impiden que un agente atascado genere una factura ilimitada. Los planes gestionados empiezan en 19$/mes con una garantía de devolución de 7 días, y autoalojar el motor está disponible bajo BSL 1.1.
+OpenLegion cobra una tarifa de plataforma plana sin recargo en el uso del modelo. Aporta sus propias claves API de LLM o usa créditos incluidos y paga a los proveedores a sus tarifas publicadas. Los topes de presupuesto diarios y mensuales por agente impiden que un agente atascado genere una factura ilimitada. Los planes gestionados empiezan en 19$/mes con una garantía de devolución de 7 días, y autoalojar el motor está disponible bajo PolyForm Perimeter License 1.0.1.

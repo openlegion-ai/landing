@@ -53,7 +53,7 @@ LangGraphとOpenLegionは、同じ問いに対する2つの異なる答えを表
 | **GitHubスター** | 約59 | 約25,200 |
 | **PyPIダウンロード** | リリース前 | 月間約617万 |
 | **既知のCVE** | 0 | LangChainエコシステムで重大4件（最大CVSS 9.3） |
-| **ライセンス** | BSL 1.1 | MIT |
+| **ライセンス** | PolyForm Perimeter License 1.0.1 | MIT |
 | **価格** | BYO APIキー、ホスト型$19/月 | 無料（MIT）、auth/RBAC用LangSmith Plus $39/シート/月 |
 
 ## LangGraphを選ぶ場合...

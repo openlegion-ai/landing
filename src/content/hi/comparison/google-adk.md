@@ -53,7 +53,7 @@ OpenLegion (~59 stars) एक security-first [AI एजेंट प्लेट
 | **Deployment** | Cloud-agnostic (कोई भी Docker host) | Vertex AI Agent Engine Runtime या self-hosted |
 | **Dependencies** | Zero external, Python + SQLite + Docker | Google Cloud SDK + ADK packages |
 | **GitHub stars** | ~59 | ~17,600 |
-| **License** | BSL 1.1 | Apache 2.0 |
+| **License** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Best for** | Security-first governance की आवश्यकता वाले Production fleets | A2A interoperability की आवश्यकता वाली Google Cloud teams |
 
 ## Architecture Differences
@@ -133,7 +133,7 @@ ADK तीन tiers प्रदान करता है: Vertex (Google-manag
 
 ### ADK pricing OpenLegion से कैसे तुलना करती है?
 
-ADK free (Apache 2.0) है। Vertex AI Agent Engine Runtime $0.0864/vCPU-hr plus $0.25 प्रति 1,000 events cost करता है। OpenLegion source-available (BSL 1.1) है bring-your-own-API-keys model और कोई markup नहीं के साथ।
+ADK free (Apache 2.0) है। Vertex AI Agent Engine Runtime $0.0864/vCPU-hr plus $0.25 प्रति 1,000 events cost करता है। OpenLegion source-available (PolyForm Perimeter License 1.0.1) है bring-your-own-API-keys model और कोई markup नहीं के साथ।
 
 ### क्या मैं OpenLegion के साथ A2A एजेंट्स का उपयोग कर सकता हूँ?
 

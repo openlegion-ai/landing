@@ -51,7 +51,7 @@ NanoClaw und OpenLegion sind die beiden Frameworks in diesem Bereich, die *beide
 | **Multi-Agent** | Flotten-Templates mit Pro-Agent-ACLs | Agent Swarms (Claude-Code-Teams) |
 | **Anpassungsmodell** | Konfiguration + Plugins | "Skills over Features" — KI schreibt Quellcode um |
 | **GitHub-Stars** | ~59 | ~7.200 |
-| **Lizenz** | BSL 1.1 | MIT |
+| **Lizenz** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Bekannte CVEs** | 0 | 0 |
 
 ## Wählen Sie NanoClaw, wenn …

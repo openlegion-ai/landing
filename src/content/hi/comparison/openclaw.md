@@ -56,7 +56,7 @@ OpenClaw और OpenLegion एक vision share करते हैं — स्
 | **Known CVEs** | 0 | Critical RCE vulnerability (CVSS 8.8) + कई अन्य |
 | **Malicious skills** | N/A | 400+ malicious ClawHub skills discovered |
 | **Creator status** | सक्रिय | Original creator departed (early 2026) |
-| **License** | BSL 1.1 | MIT (core) |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT (core) |
 
 ## OpenClaw चुनें यदि...
 

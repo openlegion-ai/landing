@@ -41,7 +41,7 @@ Quería una fuerza de trabajo de IA. Lo que obtuvo fue un segundo empleo en DevO
 - Cada agente corre en su propio contenedor en un VPS dedicado, no en un proceso multi-inquilino compartido, así que el radio de explosión de una cuenta permanece contenido.
 - Las credenciales viven en un proxy de bóveda en el anfitrión confiable; los agentes envían peticiones y el proxy inyecta las claves en la capa de red, de modo que un agente comprometido no puede leerlas.
 - Los topes de presupuesto diarios y mensuales por agente detienen el gasto descontrolado de LLM al dólar, sin recargo en el uso del modelo.
-- El mismo motor tiene código disponible bajo BSL 1.1, así que puede empezar en gestionado y pasar a autoalojado más tarde sin reescribir nada.
+- El mismo motor tiene código disponible bajo PolyForm Perimeter License 1.0.1, así que puede empezar en gestionado y pasar a autoalojado más tarde sin reescribir nada.
 - Los planes empiezan en 19$/mes, pagados desde el primer día, con una garantía de devolución de 7 días.
 
 ## El Coste Oculto de "Solo Ejecuta un Agente"
@@ -63,7 +63,7 @@ El alojamiento gestionado existe para absorber exactamente esa capa. Con la ofer
 
 OpenLegion entrega el mismo motor de dos maneras, así que la decisión es sobre quién opera la máquina, no sobre qué versión es más capaz.
 
-| Consideración | Autoalojado (BSL 1.1) | Alojamiento gestionado |
+| Consideración | Autoalojado (PolyForm Perimeter License 1.0.1) | Alojamiento gestionado |
 |---|---|---|
 | Quién opera los servidores | Usted | OpenLegion |
 | Tiempo de configuración | Tres comandos en su máquina | Regístrese, elija una plantilla |
@@ -134,7 +134,7 @@ No. El plano gestionado maneja el aprovisionamiento de contenedores, el almacena
 
 ### ¿Puedo pasar del alojamiento gestionado al autoalojado más tarde?
 
-Sí. El plano gestionado y la distribución autoalojada ejecutan el mismo motor, con código disponible bajo BSL 1.1. No hay una capa propietaria de lock-in que bloquee la migración, así que los equipos comúnmente empiezan en alojamiento gestionado para moverse rápido y cambian a infraestructura autoalojada una vez que el cumplimiento o el coste lo hacen valioso.
+Sí. El plano gestionado y la distribución autoalojada ejecutan el mismo motor, con código disponible bajo PolyForm Perimeter License 1.0.1. No hay una capa propietaria de lock-in que bloquee la migración, así que los equipos comúnmente empiezan en alojamiento gestionado para moverse rápido y cambian a infraestructura autoalojada una vez que el cumplimiento o el coste lo hacen valioso.
 
 ### ¿Cuántos agentes puedo alojar en un plan gestionado?
 

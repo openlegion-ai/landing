@@ -35,10 +35,10 @@ const PREAMBLE = `# OpenLegion
 - Category: AI Agent Platform / AI Agent Framework
 - Primary Use: Deploying secure, cost-controlled autonomous AI agent fleets in production
 - Key Differentiators: Container isolation, vault-proxied credentials, per-agent budgets, fleet-model coordination (blackboard + pub/sub + handoff, no CEO agent)
-- License: BSL 1.1 (source-available)
+- License: PolyForm Perimeter License 1.0.1 (source-available)
 - Language: Python
 - Requirements: Python 3.10+, Docker
-- Pricing: from $19/month (hosted, paid from day one, 7-day money-back guarantee); self-hosted available under BSL 1.1
+- Pricing: from $19/month (hosted, paid from day one, 7-day money-back guarantee); self-hosted available under PolyForm Perimeter License 1.0.1
 - First Release: February 2026
 
 ## What is OpenLegion?

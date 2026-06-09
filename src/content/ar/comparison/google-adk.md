@@ -53,7 +53,7 @@ OpenLegion (~59 نجمة) هو [منصة وكلاء ذكاء اصطناعي](/le
 | **النشر** | مستقل عن السحاب (أي مضيف Docker) | Vertex AI Agent Engine Runtime أو استضافة ذاتية |
 | **الاعتماديات** | صفر خارجي، Python + SQLite + Docker | Google Cloud SDK + حزم ADK |
 | **نجوم GitHub** | ~59 | ~17,600 |
-| **الترخيص** | BSL 1.1 | Apache 2.0 |
+| **الترخيص** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **الأفضل لـ** | أساطيل إنتاج تتطلب حوكمة تضع الأمان أولاً | فرق Google Cloud تحتاج إلى تشغيل بيني A2A |
 
 ## فروق البنية
@@ -133,7 +133,7 @@ A2A (وكيل إلى وكيل) هو بروتوكول تشغيل بيني كان 
 
 ### كيف تقارَن تسعير ADK بـ OpenLegion؟
 
-ADK مجاني (Apache 2.0). يكلّف Vertex AI Agent Engine Runtime 0.0864 دولار/vCPU-ساعة بالإضافة إلى 0.25 دولار لكل 1,000 حدث. OpenLegion متوفر المصدر (BSL 1.1) بنموذج أحضر مفاتيح API الخاصة بك دون هامش ربح.
+ADK مجاني (Apache 2.0). يكلّف Vertex AI Agent Engine Runtime 0.0864 دولار/vCPU-ساعة بالإضافة إلى 0.25 دولار لكل 1,000 حدث. OpenLegion متوفر المصدر (PolyForm Perimeter License 1.0.1) بنموذج أحضر مفاتيح API الخاصة بك دون هامش ربح.
 
 ### هل يمكنني استخدام وكلاء A2A مع OpenLegion؟
 

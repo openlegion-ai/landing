@@ -43,7 +43,7 @@ OpenLegion เป็น [AI agent framework](/learn/ai-agent-platform) ที่
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27,300 | MIT | ไม่มีในตัว | DefaultAzureCredential | ฟรี (โอเพนซอร์ส) | RCE วิกฤต (CVSS 9.9) | ลดความถี่อัปเดต |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19,200 | MIT | ไม่มี (โพรเซสเดียวกัน) | API key ผ่าน env var | SDK ฟรี ตามการใช้ API | 0 | แอ็กทีฟ |
 | [**Dify**](/comparison/dify) | 131,000 | Apache 2.0 ดัดแปลง | Plugin sandbox | คีย์ใช้ร่วมกันใน workspace | คลาวด์ $59-159/เดือน | CVE-2025-3466 (CVSS 9.8) | แอ็กทีฟ |
-| **OpenLegion** | ใหม่ | BSL 1.1 | Docker ต่อเอเจนต์ (โหมดเริ่มต้นและโหมดเดียว) | Vault proxy (เอเจนต์ไม่เห็นคีย์) | ตัดงบรายเอเจนต์รายวัน/รายเดือน | ไม่พบ (v0.1.0) | แอ็กทีฟ |
+| **OpenLegion** | ใหม่ | PolyForm Perimeter License 1.0.1 | Docker ต่อเอเจนต์ (โหมดเริ่มต้นและโหมดเดียว) | Vault proxy (เอเจนต์ไม่เห็นคีย์) | ตัดงบรายเอเจนต์รายวัน/รายเดือน | ไม่พบ (v0.1.0) | แอ็กทีฟ |
 
 ## ช่องว่างด้านความปลอดภัย
 

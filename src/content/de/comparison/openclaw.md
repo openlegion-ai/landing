@@ -56,7 +56,7 @@ OpenClaw und OpenLegion teilen eine Vision — autonom handelnde KI-Agenten —,
 | **Bekannte CVEs** | 0 | Kritische RCE-Schwachstelle (CVSS 8,8) + mehrere weitere |
 | **Bösartige Skills** | Nicht zutreffend | 400+ bösartige ClawHub-Skills entdeckt |
 | **Status des Schöpfers** | Aktiv | Ursprünglicher Schöpfer verließ das Projekt (Anfang 2026) |
-| **Lizenz** | BSL 1.1 | MIT (Core) |
+| **Lizenz** | PolyForm Perimeter License 1.0.1 | MIT (Core) |
 
 ## Wählen Sie OpenClaw, wenn …
 

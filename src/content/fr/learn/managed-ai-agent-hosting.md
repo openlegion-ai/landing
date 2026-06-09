@@ -41,7 +41,7 @@ Vous vouliez une main-d'œuvre IA. Ce que vous avez obtenu, c'est un second empl
 - Chaque agent s'exécute dans son propre conteneur sur un VPS dédié, pas dans un processus mutualisé, de sorte que le rayon d'impact d'un compte reste contenu.
 - Les identifiants vivent dans un proxy de coffre-fort sur l'hôte de confiance ; les agents envoient des requêtes et le proxy injecte les clés au niveau réseau, de sorte qu'un agent compromis ne peut pas les lire.
 - Des plafonds de budget quotidiens et mensuels par agent stoppent la dépense LLM incontrôlée au dollar près, sans majoration sur l'usage des modèles.
-- Le même moteur est source-disponible sous BSL 1.1, de sorte que vous pouvez commencer en managé et passer à l'auto-hébergement plus tard sans réécriture.
+- Le même moteur est source-disponible sous PolyForm Perimeter License 1.0.1, de sorte que vous pouvez commencer en managé et passer à l'auto-hébergement plus tard sans réécriture.
 - Les plans démarrent à 19 $/mois, payés dès le premier jour, avec une garantie de remboursement de 7 jours.
 
 ## Le coût caché de « faire simplement tourner un agent »
@@ -63,7 +63,7 @@ L'hébergement managé existe pour absorber exactement cette couche. Avec l'offr
 
 OpenLegion livre le même moteur de deux façons, de sorte que la décision porte sur qui exploite la machine, pas sur quelle version est plus capable.
 
-| Critère | Auto-hébergé (BSL 1.1) | Hébergement managé |
+| Critère | Auto-hébergé (PolyForm Perimeter License 1.0.1) | Hébergement managé |
 |---|---|---|
 | Qui exploite les serveurs | Vous | OpenLegion |
 | Temps de mise en place | Trois commandes sur votre machine | Inscrivez-vous, choisissez un template |
@@ -134,7 +134,7 @@ Non. Le plan managé gère le provisionnement des conteneurs, le stockage des id
 
 ### Puis-je passer de l'hébergement managé à l'auto-hébergement plus tard ?
 
-Oui. Le plan managé et la distribution auto-hébergée font tourner le même moteur, source-disponible sous BSL 1.1. Il n'existe aucune couche de verrouillage propriétaire qui bloquerait la migration, de sorte que les équipes commencent couramment en hébergement managé pour aller vite et basculent vers une infrastructure auto-hébergée une fois que la conformité ou le coût le justifie.
+Oui. Le plan managé et la distribution auto-hébergée font tourner le même moteur, source-disponible sous PolyForm Perimeter License 1.0.1. Il n'existe aucune couche de verrouillage propriétaire qui bloquerait la migration, de sorte que les équipes commencent couramment en hébergement managé pour aller vite et basculent vers une infrastructure auto-hébergée une fois que la conformité ou le coût le justifie.
 
 ### Combien d'agents puis-je héberger sur un plan managé ?
 

@@ -56,7 +56,7 @@ Ambos proyectos priorizan la seguridad. Ambos usan primitivas de aislamiento de 
 | **Herramientas de migración** | Manual | Integrada desde OpenClaw, LangChain, AutoGPT |
 | **App de escritorio** | No | App nativa Tauri 2.0 |
 | **Estrellas GitHub** | ~59 | ~9.300 |
-| **Licencia** | BSL 1.1 | Apache 2.0 |
+| **Licencia** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Historial de producción** | Pre-release | Pre-release (días de antigüedad) |
 | **CVEs conocidos** | 0 | 0 |
 

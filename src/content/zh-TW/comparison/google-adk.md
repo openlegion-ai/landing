@@ -53,7 +53,7 @@ OpenLegion(約 59 星)是一個安全優先的 [AI 代理平台](/learn/ai-agent
 | **部署** | 雲端無關(任何 Docker 主機) | Vertex AI Agent Engine Runtime 或自我託管 |
 | **相依性** | 零外部,Python + SQLite + Docker | Google Cloud SDK + ADK 套件 |
 | **GitHub 星數** | ~59 | ~17,600 |
-| **授權** | BSL 1.1 | Apache 2.0 |
+| **授權** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **最適合** | 需安全優先治理的生產艦隊 | 需要 A2A 互通的 Google Cloud 團隊 |
 
 ## 架構差異
@@ -133,7 +133,7 @@ ADK 提供三層:Vertex(Google 代管)、Docker 與 Unsafe(無隔離)。OpenLegi
 
 ### ADK 定價與 OpenLegion 相比如何?
 
-ADK 免費(Apache 2.0)。Vertex AI Agent Engine Runtime 費用為 $0.0864/vCPU-hr,加上每 1,000 事件 $0.25。OpenLegion 原始碼可取得(BSL 1.1),採自帶 API 金鑰模式,零加價。
+ADK 免費(Apache 2.0)。Vertex AI Agent Engine Runtime 費用為 $0.0864/vCPU-hr,加上每 1,000 事件 $0.25。OpenLegion 原始碼可取得(PolyForm Perimeter License 1.0.1),採自帶 API 金鑰模式,零加價。
 
 ### 我能用 OpenLegion 連接 A2A 代理嗎?
 

@@ -56,7 +56,7 @@ OpenLegion（约 59 星标）是一个安全优先的 [AI 智能体平台](/lear
 | **企业功能** | 内置：隔离、密钥库、预算、审计日志 | Filters（函数调用、提示词渲染、自动函数）、Copilot 集成 |
 | **云集成** | 云中立 | 深度 Azure 集成（Key Vault、Managed Identity、Entra ID） |
 | **GitHub 星标** | ~59 | ~27,300 |
-| **许可证** | BSL 1.1 | MIT |
+| **许可证** | PolyForm Perimeter License 1.0.1 | MIT |
 | **最适合** | 需要安全优先治理的生产舰队 | 构建 Copilot 扩展的微软企业团队 |
 
 ## 架构差异

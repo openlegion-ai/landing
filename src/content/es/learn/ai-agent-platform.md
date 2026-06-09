@@ -51,7 +51,7 @@ La distinción entre frameworks de agentes de IA y plataformas de agentes de IA 
 
 **Frameworks autoalojados** (LangGraph, CrewAI, AutoGen) le dan el máximo control. Usted posee la infraestructura. Configura los contenedores. Construye el pipeline de credenciales. Esto funciona cuando su equipo tiene capacidad dedicada de DevOps e infraestructura existente con la que los agentes necesitan integrarse profundamente.
 
-**Las plataformas gestionadas de agentes de IA** manejan la capa operativa para que su equipo se centre en la lógica del agente. OpenLegion se sitúa aquí — pero con una diferencia crítica: tiene código disponible bajo BSL 1.1. Obtiene operaciones de grado plataforma (aislamiento, bóveda, controles de presupuesto) sin lock-in con proveedor en el lado de la infraestructura.
+**Las plataformas gestionadas de agentes de IA** manejan la capa operativa para que su equipo se centre en la lógica del agente. OpenLegion se sitúa aquí — pero con una diferencia crítica: tiene código disponible bajo PolyForm Perimeter License 1.0.1. Obtiene operaciones de grado plataforma (aislamiento, bóveda, controles de presupuesto) sin lock-in con proveedor en el lado de la infraestructura.
 
 La cuestión no es cuál es "mejor". Es si su equipo debería gastar horas de ingeniería en infraestructura de seguridad de agentes o en los agentes mismos.
 
@@ -181,7 +181,7 @@ Sí. OpenLegion usa un modelo BYO (Bring Your Own) de claves API. Conecte sus pr
 
 ### Agentes de IA gestionados vs autoalojados: ¿cuál es la diferencia?
 
-Las plataformas gestionadas de agentes de IA manejan el aprovisionamiento de contenedores, la bóveda de credenciales, los controles de coste y la observabilidad por usted. Autoalojado significa que despliega un framework (LangGraph, CrewAI, AutoGen) en su propia infraestructura y construye estas capas operativas usted mismo. Gestionado es más rápido a producción y requiere menos inversión en DevOps. Autoalojado da máximo control de infraestructura. OpenLegion ofrece un híbrido: código disponible (BSL 1.1) que puede autoalojar, con capacidades de plataforma gestionada integradas.
+Las plataformas gestionadas de agentes de IA manejan el aprovisionamiento de contenedores, la bóveda de credenciales, los controles de coste y la observabilidad por usted. Autoalojado significa que despliega un framework (LangGraph, CrewAI, AutoGen) en su propia infraestructura y construye estas capas operativas usted mismo. Gestionado es más rápido a producción y requiere menos inversión en DevOps. Autoalojado da máximo control de infraestructura. OpenLegion ofrece un híbrido: código disponible (PolyForm Perimeter License 1.0.1) que puede autoalojar, con capacidades de plataforma gestionada integradas.
 
 ### ¿Cómo se compara OpenLegion con otras plataformas de agentes de IA?
 
@@ -189,7 +189,7 @@ OpenLegion se diferencia en arquitectura security-first. Basado en documentació
 
 ### ¿Qué licencia usa OpenLegion?
 
-OpenLegion tiene código disponible bajo la licencia BSL 1.1 y está disponible en [GitHub](https://github.com/openlegion-ai/openlegion). El proyecto también ofrece una plataforma alojada para equipos que quieren infraestructura gestionada sin autoalojarse.
+OpenLegion tiene código disponible bajo la licencia PolyForm Perimeter License 1.0.1 y está disponible en [GitHub](https://github.com/openlegion-ai/openlegion). El proyecto también ofrece una plataforma alojada para equipos que quieren infraestructura gestionada sin autoalojarse.
 
 ### ¿Qué tan rápido puedo desplegar mi primer agente?
 

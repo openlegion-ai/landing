@@ -51,7 +51,7 @@ OpenLegion 是一个安全优先的 [AI 智能体框架](/learn/ai-agent-platfor
 | **依赖** | Python + SQLite + Docker（零外部） | AutoGen 生态 + 可选 Azure 服务 |
 | **GitHub 星标** | ~59 | ~54,700（AutoGen）/ ~5,700（Agent Framework） |
 | **已知漏洞** | 0 CVE | 97% 攻击成功率（COLM 2025 研究） |
-| **许可证** | BSL 1.1 | MIT（两者） |
+| **许可证** | PolyForm Perimeter License 1.0.1 | MIT（两者） |
 
 ## 如果你符合以下情况，请选择 AutoGen / Microsoft Agent Framework……
 

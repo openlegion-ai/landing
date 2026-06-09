@@ -20,14 +20,14 @@ related:
 
 Manus AI launched March 2025 and was reportedly acquired by Meta in December 2025 for a reported $2 billion+, according to industry reports. In just eight months, Manus reached $100M+ ARR, processed 147 trillion tokens across 80 million virtual computers, and built a Discord community of 186,000+ members. It is a closed-source, cloud-only autonomous agent platform.
 
-OpenLegion (~59 stars) is a source-available (BSL 1.1), security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls with full self-hosted deployment.
+OpenLegion (~59 stars) is a source-available (PolyForm Perimeter License 1.0.1), security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls with full self-hosted deployment.
 
 This is a direct **OpenLegion vs Manus AI** comparison based on public documentation and independent security research at the time of writing.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and Manus AI?**
-> Manus AI is a closed-source, cloud-only autonomous agent platform that gives each user session a dedicated virtual computer (Firecracker microVM) for task execution. OpenLegion is a source-available (BSL 1.1), security-first AI agent framework with mandatory Docker container isolation per agent, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). Manus optimizes for autonomous task completion; OpenLegion optimizes for security, transparency, and developer control.
+> Manus AI is a closed-source, cloud-only autonomous agent platform that gives each user session a dedicated virtual computer (Firecracker microVM) for task execution. OpenLegion is a source-available (PolyForm Perimeter License 1.0.1), security-first AI agent framework with mandatory Docker container isolation per agent, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). Manus optimizes for autonomous task completion; OpenLegion optimizes for security, transparency, and developer control.
 
 ## TL;DR
 
@@ -44,7 +44,7 @@ This is a direct **OpenLegion vs Manus AI** comparison based on public documenta
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Autonomous task execution |
 | **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Virtual computer per session (Firecracker microVM) |
-| **Source model** | Source-available (BSL 1.1) | Closed source (proprietary) |
+| **Source model** | Source-available (PolyForm Perimeter License 1.0.1) | Closed source (proprietary) |
 | **Agent isolation** | Mandatory Docker container per agent, non-root, no-new-privileges | Firecracker microVM per session (~150ms spin-up) |
 | **Credential management** | Vault proxy — blind injection, agents never see keys | Encrypted session replay files uploaded to Manus backend |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | Credit-based, no per-task limits, no rollover |
@@ -115,11 +115,11 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ### What is the difference between OpenLegion and Manus AI?
 
-Manus AI is a closed-source, cloud-only autonomous agent platform reportedly acquired by Meta. Each session runs in a Firecracker microVM. OpenLegion is a source-available (BSL 1.1), security-first [AI agent platform](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credentials, per-agent budget enforcement, and full self-hosted deployment.
+Manus AI is a closed-source, cloud-only autonomous agent platform reportedly acquired by Meta. Each session runs in a Firecracker microVM. OpenLegion is a source-available (PolyForm Perimeter License 1.0.1), security-first [AI agent platform](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credentials, per-agent budget enforcement, and full self-hosted deployment.
 
 ### Is Manus AI open source?
 
-No. Manus AI is entirely closed-source and cloud-only. The platform explicitly rejects self-hosted or local deployment. OpenLegion is source-available (BSL 1.1) with a fully auditable codebase.
+No. Manus AI is entirely closed-source and cloud-only. The platform explicitly rejects self-hosted or local deployment. OpenLegion is source-available (PolyForm Perimeter License 1.0.1) with a fully auditable codebase.
 
 ### How does Manus AI handle credentials?
 

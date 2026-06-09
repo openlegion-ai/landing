@@ -49,7 +49,7 @@ NanoClawとOpenLegionは、この空間で*両方とも*主要なセキュリテ
 | **マルチエージェント** | エージェント単位ACL付きフリートテンプレート | エージェントSwarm（Claude Codeチーム） |
 | **カスタマイズモデル** | 設定 + プラグイン | 「Skills over Features」 — AIがソースを書き直す |
 | **GitHubスター** | 約59 | 約7,200 |
-| **ライセンス** | BSL 1.1 | MIT |
+| **ライセンス** | PolyForm Perimeter License 1.0.1 | MIT |
 | **既知のCVE** | 0 | 0 |
 
 ## NanoClawを選ぶ場合...

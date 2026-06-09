@@ -53,7 +53,7 @@ OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-
 | **Dependencies** | Python + SQLite + Docker (zero external) | AutoGen ecosystem + optional Azure services |
 | **GitHub stars** | ~59 | ~54,700 (AutoGen) / ~5,700 (Agent Framework) |
 | **Known vulnerabilities** | 0 CVEs | 97% attack success rate (COLM 2025 research) |
-| **License** | BSL 1.1 | MIT (दोनों) |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT (दोनों) |
 
 ## AutoGen / Microsoft Agent Framework चुनें यदि...
 

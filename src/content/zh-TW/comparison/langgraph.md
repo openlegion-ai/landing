@@ -54,7 +54,7 @@ LangGraph 與 OpenLegion 代表對同一問題的兩種不同答案:代理工作
 | **GitHub 星數** | ~59 | ~25,200 |
 | **PyPI 下載** | 預發布 | 每月 ~617 萬 |
 | **已知 CVE** | 0 | LangChain 生態圈 4 個重大(CVSS 最高 9.3) |
-| **授權** | BSL 1.1 | MIT |
+| **授權** | PolyForm Perimeter License 1.0.1 | MIT |
 | **定價** | 自帶 API 金鑰,代管 $19/月 | 免費(MIT);LangSmith Plus 用於驗證 / RBAC $39/席次/月 |
 
 ## 何時選擇 LangGraph

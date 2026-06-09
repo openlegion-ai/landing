@@ -344,7 +344,7 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: "Terms of Service", href: "/terms" },
       { label: "Privacy Policy", href: "/privacy" },
-      { label: "BSL 1.1 License", href: `${GITHUB_URL}/blob/main/LICENSE` },
+      { label: "PolyForm Perimeter License 1.0.1", href: `${GITHUB_URL}/blob/main/LICENSE` },
     ],
   },
 ] as const;
@@ -376,7 +376,7 @@ export const ALL_FAQ_ITEMS: FAQItem[] = [
   {
     question: "What is OpenLegion?",
     answer:
-      "OpenLegion is a production-grade, container-isolated multi-agent runtime that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and credential vault — with defense-in-depth via container isolation, vault proxy, per-agent ACLs, and bounded execution. It requires only Python, Docker, and an API key. No Redis, no Kubernetes, no LangChain. Licensed under BSL 1.1 (source-available).",
+      "OpenLegion is a production-grade, container-isolated multi-agent runtime that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and credential vault — with defense-in-depth via container isolation, vault proxy, per-agent ACLs, and bounded execution. It requires only Python, Docker, and an API key. No Redis, no Kubernetes, no LangChain. Licensed under PolyForm Perimeter License 1.0.1 (source-available).",
   },
   {
     question: "How is OpenLegion different from CrewAI or other agent frameworks?",

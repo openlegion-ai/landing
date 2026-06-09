@@ -53,7 +53,7 @@ OpenLegion est un [framework d'agents IA](/learn/ai-agent-platform) axé sécuri
 | **Dépendances** | Python + SQLite + Docker (zéro externe) | Écosystème AutoGen + services Azure optionnels |
 | **Étoiles GitHub** | ~59 | ~54 700 (AutoGen) / ~5 700 (Agent Framework) |
 | **Vulnérabilités connues** | 0 CVE | Taux de succès d'attaque de 97 % (recherche COLM 2025) |
-| **Licence** | BSL 1.1 | MIT (les deux) |
+| **Licence** | PolyForm Perimeter License 1.0.1 | MIT (les deux) |
 
 ## Choisissez AutoGen / Microsoft Agent Framework si...
 

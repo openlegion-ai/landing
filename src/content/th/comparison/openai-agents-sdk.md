@@ -53,7 +53,7 @@ OpenLegion (~59 ดาว) เป็น [แพลตฟอร์ม AI agent](/
 | **Tracing** | แดชบอร์ดในตัวพร้อม streaming สด, กราฟต้นทุน | UI tracing ในตัว ไม่ต้อง config ฟรี |
 | **Dependency** | ไม่มีภายนอก — Python + SQLite + Docker | แพ็กเกจ openai Python |
 | **ดาว GitHub** | ~59 | ~19,200 |
-| **ใบอนุญาต** | BSL 1.1 | MIT |
+| **ใบอนุญาต** | PolyForm Perimeter License 1.0.1 | MIT |
 | **เหมาะสำหรับ** | ฝูงโปรดักชันที่ต้องการการกำกับดูแลที่เน้นความปลอดภัย | การพัฒนารวดเร็วด้วยโมเดล OpenAI |
 
 ## ความแตกต่างทางสถาปัตยกรรม

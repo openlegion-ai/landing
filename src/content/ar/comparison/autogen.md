@@ -53,7 +53,7 @@ OpenLegion هو [إطار وكلاء ذكاء اصطناعي](/learn/ai-agent-pl
 | **الاعتماديات** | Python + SQLite + Docker (صفر خارجي) | نظام AutoGen البيئي + خدمات Azure اختيارية |
 | **نجوم GitHub** | ~59 | ~54,700 (AutoGen) / ~5,700 (Agent Framework) |
 | **الثغرات المعروفة** | 0 ثغرات CVE | معدل نجاح هجوم 97% (بحث COLM 2025) |
-| **الترخيص** | BSL 1.1 | MIT (كلاهما) |
+| **الترخيص** | PolyForm Perimeter License 1.0.1 | MIT (كلاهما) |
 
 ## اختر AutoGen / Microsoft Agent Framework إذا...
 

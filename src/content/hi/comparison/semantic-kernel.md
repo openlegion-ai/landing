@@ -58,7 +58,7 @@ OpenLegion (~59 stars) एक security-first [AI एजेंट प्लेट
 | **Enterprise features** | अंतर्निहित: isolation, vault, budgets, audit logs | Filters (function invocation, prompt render, auto function), Copilot integration |
 | **Cloud integration** | Cloud-agnostic | Deep Azure integration (Key Vault, Managed Identity, Entra ID) |
 | **GitHub stars** | ~59 | ~27,300 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Best for** | Security-first governance की आवश्यकता वाले Production fleets | Copilot extensions build करने वाली Microsoft enterprise teams |
 
 ## Architecture Differences

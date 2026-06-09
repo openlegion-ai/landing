@@ -50,7 +50,7 @@ Todas as afirmações sobre concorrentes abaixo se baseiam em documentação pú
 
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
-| **Tipo** | Plataforma (BSL 1.1) | OS de agentes (open source) | Framework + Plataforma | Framework + Plataforma | Framework | SDK corporativo |
+| **Tipo** | Plataforma (PolyForm Perimeter License 1.0.1) | OS de agentes (open source) | Framework + Plataforma | Framework + Plataforma | Framework | SDK corporativo |
 | **Hospedagem** | Auto-hospedado ou gerenciado | Auto-hospedado ou nuvem | Auto-hospedado ou LangSmith | Auto-hospedado ou CrewAI AMP | Auto-hospedado | Auto-hospedado (integrado ao Azure) |
 | **Isolamento de agente** | Contêiner Docker por agente (obrigatório) | Contêiner Docker (opcional, exige Docker socket) | Nenhum embutido | Docker só para o CodeInterpreter | Docker para execução de código | Nenhum (SDK embutido) |
 | **Gestão de credenciais** | Proxy de cofre — injeção cega | Secret Registry com mascaramento | Variáveis de ambiente | Variáveis de ambiente | Variáveis de ambiente | Integração com Azure Key Vault |
@@ -59,7 +59,7 @@ Todas as afirmações sobre concorrentes abaixo se baseiam em documentação pú
 | **Linguagem principal** | Python | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
 | **Suporte a LLM** | 100+ via LiteLLM | 100+ via LiteLLM | Qualquer via LangChain | Qualquer via LiteLLM | Qualquer via config | Azure OpenAI + outros |
 | **Estrelas no GitHub** | ~40 | ~67.300 | ~25.200 | ~33.400 | ~54.400 | ~26.900 |
-| **Licença** | BSL 1.1 | MIT (núcleo) | MIT | MIT (núcleo) | MIT | MIT |
+| **Licença** | PolyForm Perimeter License 1.0.1 | MIT (núcleo) | MIT | MIT (núcleo) | MIT | MIT |
 | **Melhor para** | Produção com requisitos security-first | Desenvolvimento de software orientado por IA | Workflows stateful complexos | Prototipagem rápida, times baseados em papéis | Pesquisa, ecossistema Microsoft | .NET corporativo, lojas Azure |
 
 ## Quando Escolher Cada Framework
@@ -117,7 +117,7 @@ A distinção entre framework e plataforma é cada vez mais importante à medida
 | Imposição de orçamento | Você constrói | Embutido (por agente) | Não incluído | Não incluído |
 | Observabilidade | Você integra | Dashboard embutido | Embutido (tracing, avaliação) | Embutido (enterprise) |
 | Deploy multicanal | Você constrói | Embutido (5 canais + webhooks) | Não incluído | Não incluído |
-| Preço | Gratuito (+ custos de infra) | BSL 1.1 (+ opção hospedada) | Gratuito–US$ 39/assento/mês + uso | Gratuito–US$ 25/mês + enterprise |
+| Preço | Gratuito (+ custos de infra) | PolyForm Perimeter License 1.0.1 (+ opção hospedada) | Gratuito–US$ 39/assento/mês + uso | Gratuito–US$ 25/mês + enterprise |
 
 Para times avaliando os melhores frameworks de agentes de IA, a resposta honesta é: se segurança e governança são suas prioridades principais, OpenLegion foi feito sob medida para isso. Se maturidade de ecossistema e tamanho de comunidade importam mais, LangGraph e CrewAI têm vantagens significativas. Se você está no ecossistema Microsoft, Semantic Kernel (ou o novo Microsoft Agent Framework) é a escolha natural.
 
@@ -158,7 +158,7 @@ O melhor framework de agentes de IA para produção depende das suas restriçõe
 
 ### Plataformas de agentes de IA open source vs gerenciadas: qual a diferença?
 
-Frameworks de agentes de IA open source (núcleo do LangGraph, open source do CrewAI, AutoGen) fornecem a lógica do agente — você constrói a infraestrutura. [Plataformas de agentes de IA](/learn/ai-agent-platform) gerenciadas adicionam camadas operacionais: provisionamento de contêineres, cofre de credenciais, rastreio de custo, observabilidade. OpenLegion conecta essa lacuna como um projeto de código-fonte disponível (BSL 1.1) com capacidades de plataforma gerenciada embutidas. LangSmith e CrewAI AMP são camadas gerenciadas pagas sobre seus respectivos frameworks open source.
+Frameworks de agentes de IA open source (núcleo do LangGraph, open source do CrewAI, AutoGen) fornecem a lógica do agente — você constrói a infraestrutura. [Plataformas de agentes de IA](/learn/ai-agent-platform) gerenciadas adicionam camadas operacionais: provisionamento de contêineres, cofre de credenciais, rastreio de custo, observabilidade. OpenLegion conecta essa lacuna como um projeto de código-fonte disponível (PolyForm Perimeter License 1.0.1) com capacidades de plataforma gerenciada embutidas. LangSmith e CrewAI AMP são camadas gerenciadas pagas sobre seus respectivos frameworks open source.
 
 ### Onde o OpenLegion se encaixa vs OpenClaw/LangGraph/CrewAI/AutoGen?
 

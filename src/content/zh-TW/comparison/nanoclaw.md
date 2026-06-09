@@ -50,7 +50,7 @@ NanoClaw 與 OpenLegion 是本領域中 *兩個都* 以 OS 層級容器隔離作
 | **多代理** | 艦隊範本,具每代理 ACL | Agent Swarms(Claude Code 團隊) |
 | **客製化模型** | 設定 + 外掛 | 「Skills over Features」— AI 重寫原始碼 |
 | **GitHub 星數** | ~59 | ~7,200 |
-| **授權** | BSL 1.1 | MIT |
+| **授權** | PolyForm Perimeter License 1.0.1 | MIT |
 | **已知 CVE** | 0 | 0 |
 
 ## 何時選擇 NanoClaw

@@ -70,7 +70,7 @@ Duas vulnerabilidades de segurança nas dependências de auth enterprise do Mast
 | **Dimensão** | **Mastra** | **OpenLegion** |
 |---|---|---|
 | **Suporte de linguagens** | Apenas TypeScript | Python (agentes); interfaces de ferramentas para qualquer linguagem |
-| **Licença** | Apache 2.0 (núcleo) + `ee/` proprietário | BSL 1.1 → Apache 2.0 após 4 anos |
+| **Licença** | Apache 2.0 (núcleo) + `ee/` proprietário | PolyForm Perimeter License 1.0.1 |
 | **Estrelas GitHub** | 24.329 (maio 2026) | Pré-lançamento |
 | **Modelo de credenciais** | Variáveis de ambiente — agentes mantêm chaves | Vault proxy — agentes nunca mantêm chaves |
 | **Isolamento de agentes** | Nível de processo, sem fronteira de contentor | Contentores Docker obrigatórios por agente |

@@ -55,7 +55,7 @@ OpenLegion은 컨테이너 격리, 볼트 프록시 자격 증명 관리, 에이
 | **마이그레이션 도구** | 수동 | OpenClaw, LangChain, AutoGPT에서 내장 |
 | **데스크톱 앱** | 없음 | Tauri 2.0 네이티브 앱 |
 | **GitHub 스타** | ~59 | ~9,300 |
-| **라이선스** | BSL 1.1 | Apache 2.0 |
+| **라이선스** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **프로덕션 트랙 레코드** | 사전 릴리스 | 사전 릴리스 (며칠) |
 | **알려진 CVE** | 0 | 0 |
 

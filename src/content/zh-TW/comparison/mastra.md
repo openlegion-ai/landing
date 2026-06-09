@@ -62,7 +62,7 @@ Mastra 的 Apache 2.0 許可證仅涵盖核心框架。ee/ 目錄包含 Auth 集
 | **維度** | **Mastra** | **OpenLegion** |
 |---|---|---|
 | **語言支援** | 仅 TypeScript | Python（智能体）；任意語言工具接口 |
-| **許可證** | Apache 2.0（核心）+ 專有 ee/ | BSL 1.1 → 4 年后 Apache 2.0 |
+| **許可證** | Apache 2.0（核心）+ 專有 ee/ | PolyForm Perimeter License 1.0.1 |
 | **GitHub star** | 24,329（2026 年 5 月） | 預發佈 |
 | **憑證模型** | 环境变量 — 智能体持有密鑰 | 金库代理 — 智能体不持有密鑰 |
 | **智能体隢離** | 進程级别 | 强制 Docker 容器 |

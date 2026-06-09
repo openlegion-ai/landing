@@ -47,7 +47,7 @@ Le **logiciel de gestion des réseaux sociaux par IA** a dépassé le stade des 
 - **Budgets mensuels stricts** empêchent les explosions de coûts liées aux spirales de réponses. Définissez un plafond de 20 $/mois ou 200 $/mois par agent et la plateforme l'arrête au centime près.
 - **Cadence de publication déterministe.** Un DAG YAML définit quand, quel type, et vers quel compte chaque publication est envoyée. Aucun mode d'échec opaque du type « le LLM a décidé de publier à 3h du matin ».
 - **La voix de marque persiste entre les sessions.** Chaque agent maintient sa propre mémoire vectorielle des formulations approuvées, sujets interdits, performances passées et schémas de réponse.
-- **Auto-hébergé ou managé.** Source-disponible sous BSL 1.1 — exécutez-le sur votre propre infrastructure pour la conformité dans les secteurs régulés, ou utilisez le plan managé avec les mêmes garanties d'isolation.
+- **Auto-hébergé ou managé.** Source-disponible sous PolyForm Perimeter License 1.0.1 — exécutez-le sur votre propre infrastructure pour la conformité dans les secteurs régulés, ou utilisez le plan managé avec les mêmes garanties d'isolation.
 - **BYO clés API.** Branchez vos propres clés OpenAI, Anthropic, Google ou l'un des 100+ fournisseurs supportés par LiteLLM. Payez le fournisseur de modèles au tarif affiché ; payez OpenLegion pour la plateforme.
 
 ## Au-delà des planificateurs : ce que la gestion des réseaux sociaux par IA devrait signifier
@@ -136,7 +136,7 @@ Parce que la flotte est définie en YAML, vous pouvez mettre en place une opéra
 | **Cadence de publication** | Planificateur visuel | Planificateur visuel | DAG YAML — versionné, auditable |
 | **Multi-comptes** | Oui, dans un seul tableau de bord | Oui, dans un seul tableau de bord | Oui, avec isolation stricte entre comptes |
 | **Choix du modèle** | LLM du fournisseur | LLM du fournisseur | BYO clés API parmi 100+ fournisseurs via LiteLLM |
-| **Auto-hébergeable** | Non | Non | Oui, source-disponible sous BSL 1.1 |
+| **Auto-hébergeable** | Non | Non | Oui, source-disponible sous PolyForm Perimeter License 1.0.1 |
 | **Idéal pour** | Équipes à l'aise avec un workflow centré programmation | Génération rapide de publications | Équipes exécutant des opérations sociales autonomes multi-comptes |
 
 Pour une lecture plus approfondie de la comparaison entre OpenLegion et les runtimes d'agents alternatifs en dessous, consultez le [hub de comparaison de frameworks](/comparison) complet.
@@ -228,7 +228,7 @@ Le meilleur outil de gestion des réseaux sociaux par IA dépend si votre équip
 
 ### OpenLegion est-il un logiciel de gestion des réseaux sociaux par IA open-source ou gratuit ?
 
-OpenLegion est source-disponible sous BSL 1.1, ce qui signifie que le code source complet est sur GitHub et que vous pouvez l'auto-héberger gratuitement. Le plan hébergé sur app.openlegion.ai est un produit payant qui exécute le même code avec une infrastructure managée. Il n'y a pas d'écart de fonctionnalités « open-source vs entreprise » distinct — les primitives de sécurité (proxy de coffre-fort, isolation par conteneur, application des budgets) sont présentes dans les deux.
+OpenLegion est source-disponible sous PolyForm Perimeter License 1.0.1, ce qui signifie que le code source complet est sur GitHub et que vous pouvez l'auto-héberger gratuitement. Le plan hébergé sur app.openlegion.ai est un produit payant qui exécute le même code avec une infrastructure managée. Il n'y a pas d'écart de fonctionnalités « open-source vs entreprise » distinct — les primitives de sécurité (proxy de coffre-fort, isolation par conteneur, application des budgets) sont présentes dans les deux.
 
 ### OpenLegion fonctionne-t-il comme gestion des réseaux sociaux par IA pour les agences gérant de nombreux clients ?
 

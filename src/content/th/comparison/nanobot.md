@@ -53,7 +53,7 @@ OpenLegion เป็น [AI agent framework](/learn/ai-agent-platform) ที่
 | **Multi-agent** | เทมเพลตฝูงพร้อม ACL รายเอเจนต์ | การ spawn sub-agent (ไม่มีการจัดวงฝูง) |
 | **หน่วยความจำ** | ถาวรรายเอเจนต์พร้อม vector search | การดึงแบบ grep (หลีกเลี่ยง RAG โดยตั้งใจ) |
 | **ดาว GitHub** | ~59 | ~20,000-26,000 |
-| **ใบอนุญาต** | BSL 1.1 | MIT |
+| **ใบอนุญาต** | PolyForm Perimeter License 1.0.1 | MIT |
 | **CVE ที่ทราบ** | 0 | **ช่องโหว่ WhatsApp bridge วิกฤต (CVSS 10.0)** + 3 patch วิกฤตเพิ่มเติม |
 | **ที่มา** | อิสระ | ห้องวิจัยทางวิชาการ |
 

@@ -505,7 +505,7 @@
       },
       "3": {
         "question": "OpenLegionとは何ですか？",
-        "answer": "OpenLegionは、自律エージェントのフリートを分離されたDockerコンテナにデプロイする、本番品質のコンテナ分離型マルチエージェントランタイムです。各エージェントは独自の予算、権限、クレデンシャル vault を持ち、コンテナ分離、vaultプロキシ、エージェントごとのACL、実行範囲の制限による多層防御を備えています。Python、Docker、APIキーのみで動作。Redisも、Kubernetesも、LangChainも不要です。BSL 1.1（source-available）でライセンスされています。"
+        "answer": "OpenLegionは、自律エージェントのフリートを分離されたDockerコンテナにデプロイする、本番品質のコンテナ分離型マルチエージェントランタイムです。各エージェントは独自の予算、権限、クレデンシャル vault を持ち、コンテナ分離、vaultプロキシ、エージェントごとのACL、実行範囲の制限による多層防御を備えています。Python、Docker、APIキーのみで動作。Redisも、Kubernetesも、LangChainも不要です。PolyForm Perimeter License 1.0.1（source-available）でライセンスされています。"
       },
       "4": {
         "question": "OpenLegionはCrewAIなどのエージェントフレームワークとどう違いますか？",
@@ -566,7 +566,7 @@
   },
   "footer": {
     "brandDescription": "本番環境向けに構築された、コンテナ分離型マルチエージェントランタイム。安全でコスト管理されたエージェントフリートで、あらゆるコンピュータ作業を自動化します。",
-    "license": "BSL 1.1ライセンス © {year} OpenLegion Contributors",
+    "license": "PolyForm Perimeter License 1.0.1 © {year} OpenLegion Contributors",
     "columns": {
       "0": {
         "title": "製品",
@@ -622,7 +622,7 @@
         "links": {
           "0": "利用規約",
           "1": "プライバシーポリシー",
-          "2": "BSL 1.1ライセンス"
+          "2": "PolyForm Perimeter License 1.0.1"
         }
       }
     }
@@ -721,7 +721,7 @@
       },
       "4": {
         "question": "OpenLegionをセルフホストできますか？",
-        "answer": "はい。リポジトリをクローンし、3つのコマンドを実行するだけで、自社インフラ上にフルエージェントフリートが構築できます。エンジンはBSL 1.1のソースアベイラブルです。インフラ管理が不要なチーム向けのマネージドホスティングは月額$19からご利用いただけます。"
+        "answer": "はい。リポジトリをクローンし、3つのコマンドを実行するだけで、自社インフラ上にフルエージェントフリートが構築できます。エンジンはPolyForm Perimeter License 1.0.1のソースアベイラブルです。インフラ管理が不要なチーム向けのマネージドホスティングは月額$19からご利用いただけます。"
       },
       "5": {
         "question": "「エージェント」とは何をカウントしますか？",
@@ -917,7 +917,7 @@
     "privacyTitle": "プライバシーポリシー",
     "privacyDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングのプライバシーポリシー。マネージドホスティングおよびopenlegion.aiウェブサイト全体で、データをどのように収集、利用、保護しているかをご覧ください。",
     "termsTitle": "利用規約",
-    "termsDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングの利用規約。マネージドホスティング、BSL 1.1ライセンス下でのセルフホスト型デプロイメント、openlegion.aiウェブサイトをカバーします。",
+    "termsDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングの利用規約。マネージドホスティング、PolyForm Perimeter License 1.0.1下でのセルフホスト型デプロイメント、openlegion.aiウェブサイトをカバーします。",
     "moneyBackTitle": "7日間返金保証",
     "moneyBackDescription": "OpenLegion がご期待に沿わない場合、初月分を全額返金。理由は問いません。"
   },
@@ -1166,7 +1166,7 @@
     },
     "section7": {
       "title": "7. 知的財産権",
-      "p1": "OpenLegionフレームワークのソースコードは、Business Source License 1.1（BSL 1.1）に基づいてライセンスされています。本規約は、当該ライセンスが許可する範囲を超える権利を付与するものではありません。OpenLegionのすべての商標、ロゴ、ブランド要素はOpenLegionプロジェクトの財産であり、事前の書面による同意なく使用することはできません。",
+      "p1": "OpenLegionフレームワークのソースコードは、PolyForm Perimeter License 1.0.1に基づいてライセンスされています。本規約は、当該ライセンスが許可する範囲を超える権利を付与するものではありません。OpenLegionのすべての商標、ロゴ、ブランド要素はOpenLegionプロジェクトの財産であり、事前の書面による同意なく使用することはできません。",
       "p2": "お客様は、本サービスに送信するすべてのデータ、コンテンツ、設定（以下「お客様データ」）の所有権を保持します。お客様は、本サービスを提供するためにのみ、お客様データをホストおよび処理するための限定的、非独占的なライセンスを当社に付与します。"
     },
     "section8": {
@@ -1299,7 +1299,7 @@
   },
   "schema": {
     "orgDescription": "マネージドホスティング対応のコンテナ分離マルチエージェントランタイム — Docker分離されたエージェント、ボルトプロキシ認証情報、エージェント単位の予算管理。",
-    "softwareDescription": "ボルトプロキシ認証情報とエージェント単位の予算管理を備えたコンテナ分離マルチエージェントランタイム。セルフホスト(BSL 1.1)または専用VPSでのマネージドホスティングに対応。",
+    "softwareDescription": "ボルトプロキシ認証情報とエージェント単位の予算管理を備えたコンテナ分離マルチエージェントランタイム。セルフホスト(PolyForm Perimeter License 1.0.1)または専用VPSでのマネージドホスティングに対応。",
     "softwareFeatureList": [
       "エージェント単位のコンテナ分離(Docker または Docker Desktop Sandbox マイクロVM)",
       "ボルトプロキシ認証情報 — エージェントはAPIキーに触れません",

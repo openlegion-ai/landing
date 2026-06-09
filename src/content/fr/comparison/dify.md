@@ -37,7 +37,7 @@ C'est une comparaison directe **OpenLegion vs Dify** basée sur la documentation
 - **Vulnérabilité critique** : CVE-2025-3466 (CVSS 9,8) permettait une évasion de bac à sable dans Dify v1.1.0-1.1.2 — exécution de code arbitraire avec permissions root, accès aux clés secrètes et au réseau interne. Corrigée dans la v1.1.3.
 - **Modèle d'identifiants** : Dify stocke les clés API au niveau de l'espace de travail, partagées entre membres d'équipe et applications. OpenLegion utilise un proxy de coffre-fort — les agents ne voient jamais les clés brutes.
 - **Complexité d'architecture** : le déploiement auto-hébergé de Dify nécessite ~12 conteneurs Docker. OpenLegion nécessite Python + SQLite + Docker sans services externes.
-- **Différence de licence** : Dify utilise un Apache 2.0 modifié (pas de SaaS multi-tenant sans accord écrit). OpenLegion utilise BSL 1.1.
+- **Différence de licence** : Dify utilise un Apache 2.0 modifié (pas de SaaS multi-tenant sans accord écrit). OpenLegion utilise PolyForm Perimeter License 1.0.1.
 
 ## Comparaison côte à côte
 
@@ -55,7 +55,7 @@ C'est une comparaison directe **OpenLegion vs Dify** basée sur la documentation
 | **Complexité auto-hébergement** | Python + SQLite + Docker (zéro externe) | ~12 conteneurs Docker |
 | **Option cloud** | Plateforme hébergée (à venir) | Dify Cloud : gratuit à 159 $/mois |
 | **Étoiles GitHub** | ~59 | ~131 000 |
-| **Licence** | BSL 1.1 | Apache 2.0 modifié |
+| **Licence** | PolyForm Perimeter License 1.0.1 | Apache 2.0 modifié |
 | **Idéal pour** | Flottes de production nécessitant une gouvernance axée sécurité | Construction d'applications IA low-code avec workflows visuels et RAG |
 
 ## Différences d'architecture

@@ -5,10 +5,10 @@
 - Category: AI Agent Platform / AI Agent Framework
 - Primary Use: Deploying secure, cost-controlled autonomous AI agent fleets in production
 - Key Differentiators: Container isolation, vault-proxied credentials, per-agent budgets, fleet-model coordination (blackboard + pub/sub + handoff, no CEO agent)
-- License: BSL 1.1 (source-available)
+- License: PolyForm Perimeter License 1.0.1 (source-available)
 - Language: Python
 - Requirements: Python 3.10+, Docker
-- Pricing: from $19/month (hosted, paid from day one, 7-day money-back guarantee); self-hosted available under BSL 1.1
+- Pricing: from $19/month (hosted, paid from day one, 7-day money-back guarantee); self-hosted available under PolyForm Perimeter License 1.0.1
 - First Release: February 2026
 
 ## What is OpenLegion?
@@ -76,7 +76,7 @@ OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) bu
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27,300 | MIT | None built-in | DefaultAzureCredential | Free (open source) | Critical RCE (CVSS 9.9) | Reduced update frequency |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19,200 | MIT | None (same process) | Env var API key | Free SDK; API usage-based | 0 | Active |
 | [**Dify**](/comparison/dify) | 131,000 | Modified Apache 2.0 | Plugin sandbox | Workspace-shared keys | Cloud $59-159/mo | CVE-2025-3466 (CVSS 9.8) | Active |
-| **OpenLegion** | new | BSL 1.1 | Docker per-agent (default and only mode) | Vault proxy (agents never see keys) | Per-agent daily/monthly hard cutoff | None reported (v0.1.0) | Active |
+| **OpenLegion** | new | PolyForm Perimeter License 1.0.1 | Docker per-agent (default and only mode) | Vault proxy (agents never see keys) | Per-agent daily/monthly hard cutoff | None reported (v0.1.0) | Active |
 
 ## The Security Gap
 
@@ -223,7 +223,7 @@ All competitor claims below are based on public documentation and GitHub reposit
 
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
-| **Type** | Platform (BSL 1.1) | Agent OS (open source) | Framework + Platform | Framework + Platform | Framework | Enterprise SDK |
+| **Type** | Platform (PolyForm Perimeter License 1.0.1) | Agent OS (open source) | Framework + Platform | Framework + Platform | Framework | Enterprise SDK |
 | **Hosting** | Self-hosted or managed | Self-hosted or cloud | Self-hosted or LangSmith | Self-hosted or CrewAI AMP | Self-hosted | Self-hosted (Azure-integrated) |
 | **Agent isolation** | Docker container per agent (mandatory) | Docker container (optional, requires Docker socket) | None built-in | Docker for CodeInterpreter only | Docker for code execution | None (embedded SDK) |
 | **Credential management** | Vault proxy — blind injection | Secret Registry with masking | Environment variables | Environment variables | Environment variables | Azure Key Vault integration |
@@ -232,7 +232,7 @@ All competitor claims below are based on public documentation and GitHub reposit
 | **Primary language** | Python | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
 | **LLM support** | 100+ via LiteLLM | 100+ via LiteLLM | Any via LangChain | Any via LiteLLM | Any via config | Azure OpenAI + others |
 | **GitHub stars** | ~40 | ~67,300 | ~25,200 | ~33,400 | ~54,400 | ~26,900 |
-| **License** | BSL 1.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
 | **Best for** | Production with security-first requirements | AI-driven software development | Complex stateful workflows | Rapid prototyping, role-based teams | Research, Microsoft ecosystem | .NET enterprise, Azure shops |
 
 ## When to Choose Each Framework
@@ -290,7 +290,7 @@ The distinction between a framework and a platform is increasingly important as 
 | Budget enforcement | You build it | Built-in (per-agent) | Not included | Not included |
 | Observability | You integrate | Built-in dashboard | Built-in (tracing, evaluation) | Built-in (enterprise) |
 | Multi-channel deploy | You build it | Built-in (5 channels + webhooks) | Not included | Not included |
-| Pricing | Free (+ infra costs) | BSL 1.1 (+ hosted option) | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
+| Pricing | Free (+ infra costs) | PolyForm Perimeter License 1.0.1 (+ hosted option) | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
 
 For teams evaluating the top AI agent frameworks, the honest answer is: if security and governance are your top priorities, OpenLegion is purpose-built for that. If ecosystem maturity and community size matter most, LangGraph and CrewAI have significant advantages. If you're in the Microsoft ecosystem, Semantic Kernel (or the new Microsoft Agent Framework) is the natural choice.
 
@@ -331,7 +331,7 @@ The best AI agent framework for production depends on your constraints. For secu
 
 ### Open source vs managed AI agent platforms: what's the difference?
 
-Open-source AI agent frameworks (LangGraph core, CrewAI open source, AutoGen) provide agent logic — you build the infrastructure. Managed [AI agent platforms](/learn/ai-agent-platform) add operational layers: container provisioning, credential vaulting, cost tracking, observability. OpenLegion bridges this gap as a source-available project (BSL 1.1) with managed platform capabilities built in. LangSmith and CrewAI AMP are paid managed layers on top of their respective open-source frameworks.
+Open-source AI agent frameworks (LangGraph core, CrewAI open source, AutoGen) provide agent logic — you build the infrastructure. Managed [AI agent platforms](/learn/ai-agent-platform) add operational layers: container provisioning, credential vaulting, cost tracking, observability. OpenLegion bridges this gap as a source-available project (PolyForm Perimeter License 1.0.1) with managed platform capabilities built in. LangSmith and CrewAI AMP are paid managed layers on top of their respective open-source frameworks.
 
 ### Where does OpenLegion fit vs OpenClaw/LangGraph/CrewAI/AutoGen?
 
@@ -676,7 +676,7 @@ The distinction between AI agent frameworks and AI agent platforms matters most 
 
 **Self-hosted frameworks** (LangGraph, CrewAI, AutoGen) give you maximum control. You own the infrastructure. You configure the containers. You build the credential pipeline. This works when your team has dedicated DevOps capacity and existing infrastructure that agents need to integrate with deeply.
 
-**Managed AI agent platforms** handle the operational layer so your team focuses on agent logic. OpenLegion sits here — but with a critical difference: it's source-available under BSL 1.1. You get platform-grade operations (isolation, vaulting, budget controls) without vendor lock-in on the infrastructure side.
+**Managed AI agent platforms** handle the operational layer so your team focuses on agent logic. OpenLegion sits here — but with a critical difference: it's source-available under PolyForm Perimeter License 1.0.1. You get platform-grade operations (isolation, vaulting, budget controls) without vendor lock-in on the infrastructure side.
 
 The question isn't which is "better." It's whether your team should spend engineering hours on agent security infrastructure or on the agents themselves.
 
@@ -806,7 +806,7 @@ Yes. OpenLegion uses a BYO (Bring Your Own) API key model. You connect your own 
 
 ### Managed vs self-hosted AI agents: what's the difference?
 
-Managed AI agent platforms handle container provisioning, credential vaulting, cost controls, and observability for you. Self-hosted means you deploy a framework (LangGraph, CrewAI, AutoGen) on your own infrastructure and build these operational layers yourself. Managed is faster to production and requires less DevOps investment. Self-hosted gives maximum infrastructure control. OpenLegion offers a hybrid: source-available code (BSL 1.1) you can self-host, with managed platform capabilities built in.
+Managed AI agent platforms handle container provisioning, credential vaulting, cost controls, and observability for you. Self-hosted means you deploy a framework (LangGraph, CrewAI, AutoGen) on your own infrastructure and build these operational layers yourself. Managed is faster to production and requires less DevOps investment. Self-hosted gives maximum infrastructure control. OpenLegion offers a hybrid: source-available code (PolyForm Perimeter License 1.0.1) you can self-host, with managed platform capabilities built in.
 
 ### How does OpenLegion compare to other AI agent platforms?
 
@@ -814,7 +814,7 @@ OpenLegion differentiates on security-first architecture. Based on public docume
 
 ### What license does OpenLegion use?
 
-OpenLegion is source-available under the BSL 1.1 license and available on [GitHub](https://github.com/openlegion-ai/openlegion). The project also offers a hosted platform for teams who want managed infrastructure without self-hosting.
+OpenLegion is source-available under the PolyForm Perimeter License 1.0.1 and available on [GitHub](https://github.com/openlegion-ai/openlegion). The project also offers a hosted platform for teams who want managed infrastructure without self-hosting.
 
 ### How quickly can I deploy my first agent?
 
@@ -1049,7 +1049,7 @@ Autocomplete suggests the next line. AI coding agents finish the ticket. They ar
 - A coding assistant augments a human in the editor. A coding agent runs the loop on its own toward a defined task.
 - The exciting capability and the dangerous one are the same: executing code and holding repo credentials. Isolation is not optional.
 - OpenLegion's Dev Team template ships a PM, an Engineer, and a Reviewer agent, each in its own container with its own budget.
-- It is self-hostable under BSL 1.1, so coding agents can run inside your own network for private repositories.
+- It is self-hostable under PolyForm Perimeter License 1.0.1, so coding agents can run inside your own network for private repositories.
 
 ## What a Coding Agent Actually Does
 
@@ -1135,11 +1135,11 @@ Yes. OpenLegion's Dev Team template runs a PM agent, an Engineer agent, and a Re
 
 ### Can I run AI coding agents on my own infrastructure?
 
-Yes. OpenLegion is source-available under BSL 1.1 and runs on a single machine with Python and Docker, so coding agents can operate entirely inside your own network. That matters for private repositories and regulated environments where code and credentials cannot leave your infrastructure. A managed hosting option exists for teams that prefer not to run it themselves.
+Yes. OpenLegion is source-available under PolyForm Perimeter License 1.0.1 and runs on a single machine with Python and Docker, so coding agents can operate entirely inside your own network. That matters for private repositories and regulated environments where code and credentials cannot leave your infrastructure. A managed hosting option exists for teams that prefer not to run it themselves.
 
 ### What does it cost to run AI coding agents?
 
-OpenLegion charges a flat platform fee with no markup on model usage. You bring your own LLM API keys or use included credits and pay providers at their published rates. Per-agent daily and monthly budget caps stop a stuck agent from running up an unbounded bill. Managed plans start at $19/month with a 7-day money-back guarantee, and self-hosting the engine is available under BSL 1.1.
+OpenLegion charges a flat platform fee with no markup on model usage. You bring your own LLM API keys or use included credits and pay providers at their published rates. Per-agent daily and monthly budget caps stop a stuck agent from running up an unbounded bill. Managed plans start at $19/month with a 7-day money-back guarantee, and self-hosting the engine is available under PolyForm Perimeter License 1.0.1.
 
 <!-- https://www.openlegion.ai/en/learn/managed-ai-agent-hosting | last_updated: 2026-05 -->
 
@@ -1158,7 +1158,7 @@ You wanted an AI workforce. What you got was a second job in DevOps. Managed AI 
 - Every agent runs in its own container on a dedicated VPS, not a shared multi-tenant process, so one account's blast radius stays contained.
 - Credentials live in a vault proxy on the trusted host; agents send requests and the proxy injects keys at the network layer, so a compromised agent cannot read them.
 - Per-agent daily and monthly budget caps stop runaway LLM spend on the dollar, with no markup on model usage.
-- The same engine is source-available under BSL 1.1, so you can start managed and move to self-hosted later without a rewrite.
+- The same engine is source-available under PolyForm Perimeter License 1.0.1, so you can start managed and move to self-hosted later without a rewrite.
 - Plans start at $19/month, paid from day one, with a 7-day money-back guarantee.
 
 ## The Hidden Cost of "Just Run an Agent"
@@ -1180,7 +1180,7 @@ Managed hosting exists to absorb exactly that layer. With OpenLegion's hosted of
 
 OpenLegion ships the same engine two ways, so the decision is about who runs the box, not which version is more capable.
 
-| Consideration | Self-hosted (BSL 1.1) | Managed hosting |
+| Consideration | Self-hosted (PolyForm Perimeter License 1.0.1) | Managed hosting |
 |---|---|---|
 | Who runs the servers | You | OpenLegion |
 | Setup time | Three commands on your machine | Sign up, pick a template |
@@ -1251,7 +1251,7 @@ No. The managed plane handles container provisioning, credential storage, networ
 
 ### Can I move from managed hosting to self-hosted later?
 
-Yes. The managed plane and the self-hosted distribution run the same engine, source-available under BSL 1.1. There is no proprietary lock-in layer that would block migration, so teams commonly start on managed hosting to move fast and switch to self-hosted infrastructure once compliance or cost makes that worthwhile.
+Yes. The managed plane and the self-hosted distribution run the same engine, source-available under PolyForm Perimeter License 1.0.1. There is no proprietary lock-in layer that would block migration, so teams commonly start on managed hosting to move fast and switch to self-hosted infrastructure once compliance or cost makes that worthwhile.
 
 ### How many agents can I host on a managed plan?
 
@@ -1501,7 +1501,7 @@ Evaluating AutoGen in 2026 means evaluating a platform in transition. Teams choo
 | **Dependencies** | Python + SQLite + Docker (zero external) | AutoGen ecosystem + optional Azure services |
 | **GitHub stars** | ~59 | ~54,700 (AutoGen) / ~5,700 (Agent Framework) |
 | **Known vulnerabilities** | 0 CVEs | 97% attack success rate (COLM 2025 research) |
-| **License** | BSL 1.1 | MIT (both) |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT (both) |
 
 ## Choose AutoGen / Microsoft Agent Framework if...
 
@@ -1704,7 +1704,7 @@ This is a direct **OpenLegion vs AWS Strands** comparison based on public docume
 | **Deployment** | Cloud-agnostic (any Docker host) | AgentCore Runtime (Lambda, Fargate, EC2) or self-hosted |
 | **Dependencies** | Zero external, Python + SQLite + Docker | strands-agents package + optional AWS services |
 | **GitHub stars** | ~59 | ~5,100 |
-| **License** | BSL 1.1 | Apache 2.0 |
+| **License** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Best for** | Production fleets requiring security-first governance | AWS teams needing model-driven agents with serverless deployment |
 
 ## Architecture Differences
@@ -1790,7 +1790,7 @@ AWS Strands Agents SDK powers Amazon Q Developer and AWS Glue, providing real pr
 
 ### How does Strands pricing compare to OpenLegion?
 
-Strands is free (Apache 2.0). AWS service costs apply: Bedrock per-token pricing, AgentCore Runtime compute, Lambda/Fargate/EC2 infrastructure. OpenLegion is source-available (BSL 1.1) with a bring-your-own-API-keys model and no markup.
+Strands is free (Apache 2.0). AWS service costs apply: Bedrock per-token pricing, AgentCore Runtime compute, Lambda/Fargate/EC2 infrastructure. OpenLegion is source-available (PolyForm Perimeter License 1.0.1) with a bring-your-own-API-keys model and no markup.
 
 ---
 
@@ -1839,7 +1839,7 @@ CrewAI makes it easy to build agent teams. OpenLegion makes it safe to deploy th
 | **Enterprise features** | Built-in: isolation, vault, budgets, audit | AMP: SOC2, SSO, PII masking, RBAC, VPC (paid tiers) |
 | **GitHub stars** | ~59 | ~44,600 |
 | **Known CVEs** | 0 | "Uncrew" (CVSS 9.2); 65% data exfiltration rate in research |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 
 ## Choose CrewAI if...
 
@@ -2027,7 +2027,7 @@ This is a direct **OpenLegion vs Dify** comparison based on public documentation
 - **Critical vulnerability**: CVE-2025-3466 (CVSS 9.8) allowed sandbox escape in Dify v1.1.0-1.1.2 — arbitrary code execution with root permissions, access to secret keys and internal network. Fixed in v1.1.3.
 - **Credential model**: Dify stores API keys at the workspace level, shared across team members and applications. OpenLegion uses a vault proxy — agents never see raw keys.
 - **Architecture complexity**: Dify self-hosted deployment requires ~12 Docker containers. OpenLegion requires Python + SQLite + Docker with zero external services.
-- **License difference**: Dify uses a modified Apache 2.0 (no multi-tenant SaaS without written agreement). OpenLegion uses BSL 1.1.
+- **License difference**: Dify uses a modified Apache 2.0 (no multi-tenant SaaS without written agreement). OpenLegion uses PolyForm Perimeter License 1.0.1.
 
 ## Side-by-Side Comparison
 
@@ -2045,7 +2045,7 @@ This is a direct **OpenLegion vs Dify** comparison based on public documentation
 | **Self-hosted complexity** | Python + SQLite + Docker (zero external) | ~12 Docker containers |
 | **Cloud option** | Hosted platform (coming) | Dify Cloud: free to $159/mo |
 | **GitHub stars** | ~59 | ~131,000 |
-| **License** | BSL 1.1 | Modified Apache 2.0 |
+| **License** | PolyForm Perimeter License 1.0.1 | Modified Apache 2.0 |
 | **Best for** | Production fleets requiring security-first governance | Low-code AI app building with visual workflows and RAG |
 
 ## Architecture Differences
@@ -2183,7 +2183,7 @@ This is a direct **OpenLegion vs Google ADK** comparison based on public documen
 | **Deployment** | Cloud-agnostic (any Docker host) | Vertex AI Agent Engine Runtime or self-hosted |
 | **Dependencies** | Zero external, Python + SQLite + Docker | Google Cloud SDK + ADK packages |
 | **GitHub stars** | ~59 | ~17,600 |
-| **License** | BSL 1.1 | Apache 2.0 |
+| **License** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Best for** | Production fleets requiring security-first governance | Google Cloud teams needing A2A interoperability |
 
 ## Architecture Differences
@@ -2263,7 +2263,7 @@ ADK offers three tiers: Vertex (Google-managed), Docker, and Unsafe (no isolatio
 
 ### How does ADK pricing compare to OpenLegion?
 
-ADK is free (Apache 2.0). Vertex AI Agent Engine Runtime costs $0.0864/vCPU-hr plus $0.25 per 1,000 events. OpenLegion is source-available (BSL 1.1) with a bring-your-own-API-keys model and no markup.
+ADK is free (Apache 2.0). Vertex AI Agent Engine Runtime costs $0.0864/vCPU-hr plus $0.25 per 1,000 events. OpenLegion is source-available (PolyForm Perimeter License 1.0.1) with a bring-your-own-API-keys model and no markup.
 
 ### Can I use A2A agents with OpenLegion?
 
@@ -2318,7 +2318,7 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 | **GitHub stars** | ~59 | ~25,200 |
 | **PyPI downloads** | Pre-release | ~6.17 million/month |
 | **Known CVEs** | 0 | 4 critical in LangChain ecosystem (up to CVSS 9.3) |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Pricing** | BYO API keys, $19/mo hosted | Free (MIT); LangSmith Plus $39/seat/mo for auth/RBAC |
 
 ## Choose LangGraph if...
@@ -2492,14 +2492,14 @@ Yes. Some teams use LangGraph for complex internal orchestration and OpenLegion 
 
 Manus AI launched March 2025 and was reportedly acquired by Meta in December 2025 for a reported $2 billion+, according to industry reports. In just eight months, Manus reached $100M+ ARR, processed 147 trillion tokens across 80 million virtual computers, and built a Discord community of 186,000+ members. It is a closed-source, cloud-only autonomous agent platform.
 
-OpenLegion (~59 stars) is a source-available (BSL 1.1), security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls with full self-hosted deployment.
+OpenLegion (~59 stars) is a source-available (PolyForm Perimeter License 1.0.1), security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls with full self-hosted deployment.
 
 This is a direct **OpenLegion vs Manus AI** comparison based on public documentation and independent security research at the time of writing.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and Manus AI?**
-> Manus AI is a closed-source, cloud-only autonomous agent platform that gives each user session a dedicated virtual computer (Firecracker microVM) for task execution. OpenLegion is a source-available (BSL 1.1), security-first AI agent framework with mandatory Docker container isolation per agent, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). Manus optimizes for autonomous task completion; OpenLegion optimizes for security, transparency, and developer control.
+> Manus AI is a closed-source, cloud-only autonomous agent platform that gives each user session a dedicated virtual computer (Firecracker microVM) for task execution. OpenLegion is a source-available (PolyForm Perimeter License 1.0.1), security-first AI agent framework with mandatory Docker container isolation per agent, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). Manus optimizes for autonomous task completion; OpenLegion optimizes for security, transparency, and developer control.
 
 ## TL;DR
 
@@ -2516,7 +2516,7 @@ This is a direct **OpenLegion vs Manus AI** comparison based on public documenta
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Autonomous task execution |
 | **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Virtual computer per session (Firecracker microVM) |
-| **Source model** | Source-available (BSL 1.1) | Closed source (proprietary) |
+| **Source model** | Source-available (PolyForm Perimeter License 1.0.1) | Closed source (proprietary) |
 | **Agent isolation** | Mandatory Docker container per agent, non-root, no-new-privileges | Firecracker microVM per session (~150ms spin-up) |
 | **Credential management** | Vault proxy — blind injection, agents never see keys | Encrypted session replay files uploaded to Manus backend |
 | **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | Credit-based, no per-task limits, no rollover |
@@ -2587,11 +2587,11 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ### What is the difference between OpenLegion and Manus AI?
 
-Manus AI is a closed-source, cloud-only autonomous agent platform reportedly acquired by Meta. Each session runs in a Firecracker microVM. OpenLegion is a source-available (BSL 1.1), security-first [AI agent platform](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credentials, per-agent budget enforcement, and full self-hosted deployment.
+Manus AI is a closed-source, cloud-only autonomous agent platform reportedly acquired by Meta. Each session runs in a Firecracker microVM. OpenLegion is a source-available (PolyForm Perimeter License 1.0.1), security-first [AI agent platform](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credentials, per-agent budget enforcement, and full self-hosted deployment.
 
 ### Is Manus AI open source?
 
-No. Manus AI is entirely closed-source and cloud-only. The platform explicitly rejects self-hosted or local deployment. OpenLegion is source-available (BSL 1.1) with a fully auditable codebase.
+No. Manus AI is entirely closed-source and cloud-only. The platform explicitly rejects self-hosted or local deployment. OpenLegion is source-available (PolyForm Perimeter License 1.0.1) with a fully auditable codebase.
 
 ### How does Manus AI handle credentials?
 
@@ -2680,7 +2680,7 @@ Mastra is a well-engineered TypeScript framework with genuine strengths for JS/T
 | **Dimension** | **Mastra** | **OpenLegion** |
 |---|---|---|
 | **Language support** | TypeScript only | Python (agents); tool interfaces for any language |
-| **License** | Apache 2.0 (core) + proprietary `ee/` | BSL 1.1 → Apache 2.0 after 4 years |
+| **License** | Apache 2.0 (core) + proprietary `ee/` | PolyForm Perimeter License 1.0.1 |
 | **GitHub stars** | 24,329 (May 2026) | Pre-release |
 | **Credential model** | Environment variables — agents hold keys | Vault proxy — agents never hold keys |
 | **Agent isolation** | Process-level, no container boundary | Mandatory per-agent Docker containers |
@@ -2809,7 +2809,7 @@ OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) wi
 | **LLM providers** | 100+ via LiteLLM | OpenAI, Anthropic, Gemini (for memory operations) |
 | **Pricing** | BYO API keys, $19/mo hosted | Free (30 calls), Pro (600 calls), Enterprise |
 | **GitHub stars** | ~59 | ~7,200-10,500 |
-| **License** | BSL 1.1 | AGPL-3.0 (server) |
+| **License** | PolyForm Perimeter License 1.0.1 | AGPL-3.0 (server) |
 | **Benchmark** | N/A | 92.09% accuracy on Locomo benchmark |
 
 ## Choose MemU if...
@@ -2874,7 +2874,7 @@ MemU offers a hosted API at memu.pro with usage-based pricing: Free (30 memory c
 
 ### Common production concerns
 
-**AGPL-3.0 licensing.** The server license is AGPL-3.0, which requires distributing source code for any modified versions and any software that interacts with MemU over a network (depending on interpretation). Many enterprises avoid AGPL. This is a significantly more restrictive license than OpenLegion's BSL 1.1 or most competitors' MIT/Apache licenses.
+**AGPL-3.0 licensing.** The server license is AGPL-3.0, which requires distributing source code for any modified versions and any software that interacts with MemU over a network (depending on interpretation). Many enterprises avoid AGPL. This is a significantly more restrictive license than OpenLegion's PolyForm Perimeter License 1.0.1 or most competitors' MIT/Apache licenses.
 
 **External database dependency.** PostgreSQL + pgvector adds operational complexity. Database provisioning, connection pooling, backups, and scaling are additional responsibilities.
 
@@ -2992,7 +2992,7 @@ OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) wi
 | **Multi-agent** | Fleet templates with per-agent ACLs | Sub-agent spawning (no fleet orchestration) |
 | **Memory** | Persistent per-agent with vector search | Grep-based retrieval (deliberately avoids RAG) |
 | **GitHub stars** | ~59 | ~20,000-26,000 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Known CVEs** | 0 | **critical WhatsApp bridge vulnerability (CVSS 10.0)** + 3 additional critical patches |
 | **Origin** | Independent | Academic research lab |
 
@@ -3197,7 +3197,7 @@ NanoClaw and OpenLegion are the two frameworks in this space that *both* use OS-
 | **Multi-agent** | Fleet templates with per-agent ACLs | Agent Swarms (Claude Code teams) |
 | **Customization model** | Configuration + plugins | "Skills over Features" — AI rewrites source |
 | **GitHub stars** | ~59 | ~7,200 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Known CVEs** | 0 | 0 |
 
 ## Choose NanoClaw if...
@@ -3385,7 +3385,7 @@ This is a direct **OpenLegion vs OpenAI Agents SDK** comparison based on public 
 | **Tracing** | Built-in dashboard with live streaming, cost charts | Built-in tracing UI, zero-config, free |
 | **Dependencies** | Zero external — Python + SQLite + Docker | openai Python package |
 | **GitHub stars** | ~59 | ~19,200 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Best for** | Production fleets requiring security-first governance | Rapid development with OpenAI models |
 
 ## Architecture Differences
@@ -3519,7 +3519,7 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 | **Known CVEs** | 0 | Critical RCE vulnerability (CVSS 8.8) + multiple others |
 | **Malicious skills** | N/A | 400+ malicious ClawHub skills discovered |
 | **Creator status** | Active | Original creator departed (early 2026) |
-| **License** | BSL 1.1 | MIT (core) |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT (core) |
 
 ## Choose OpenClaw if...
 
@@ -3721,7 +3721,7 @@ Both projects prioritize security. Both use Rust-grade isolation primitives. But
 | **Migration tools** | Manual | Built-in from OpenClaw, LangChain, AutoGPT |
 | **Desktop app** | No | Tauri 2.0 native app |
 | **GitHub stars** | ~59 | ~9,300 |
-| **License** | BSL 1.1 | Apache 2.0 |
+| **License** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Production track record** | Pre-release | Pre-release (days old) |
 | **Known CVEs** | 0 | 0 |
 
@@ -3909,7 +3909,7 @@ PicoClaw and OpenLegion occupy opposite ends of the deployment spectrum. PicoCla
 | **Offline capable** | No (cloud LLM required) | Yes (PicoLM companion 1B model) |
 | **Messaging channels** | 5 | 8+ (Telegram, Discord, QQ, DingTalk, LINE, etc.) |
 | **GitHub stars** | ~59 | ~20,000-21,000 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Known CVEs** | 0 | 0 formal CVEs; multiple documented security gaps |
 | **Maker** | Independent | Embedded hardware company |
 | **AI-generated code** | No | 95% AI-generated claim |
@@ -4097,7 +4097,7 @@ These are not gaps patchable with a single library. They require an execution pl
 
 | Dimension | OpenLegion | PydanticAI |
 |---|---|---|
-| **Type** | Execution platform (BSL 1.1) | Agent library (MIT) |
+| **Type** | Execution platform (PolyForm Perimeter License 1.0.1) | Agent library (MIT) |
 | **Credential model** | Vault proxy - agents never see raw keys | Dependency injection via RunContext - keys in process memory |
 | **Agent isolation** | Docker container per agent, non-root, no-new-privileges | Shared Python process; no container isolation |
 | **Budget controls** | Per-agent daily/monthly hard cutoff | None - post-hoc result.usage() reporting only |
@@ -4108,7 +4108,7 @@ These are not gaps patchable with a single library. They require an execution pl
 | **v2 migration risk** | N/A | Breaking API change to graph builder underway (May 2026) |
 | **Known CVEs** | 0 | 0 (no security-relevant CVEs reported) |
 | **GitHub stars** | ~59 | ~17,362 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 
 ## OpenLegion's Take
 
@@ -4283,7 +4283,7 @@ OpenLegion's vault proxy prevents the credential exposure CVE-2026-25592 (CWE-22
 | **Dependency chain** | Python + Docker + SQLite | NuGet (C#) / PyPI (Python) — large transitive surface |
 | **Migration risk** | None | SK → Microsoft Agent Framework RC (breaking API changes) |
 | **GitHub stars** | ~59 | 27,979 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 
 ## Why Teams Are Looking for a Semantic Kernel Alternative
 
@@ -4389,7 +4389,7 @@ ZeroClaw and OpenLegion share a conviction that security matters. They diverge o
 | **Multi-agent** | Fleet templates with per-agent ACLs | Task-based clean-slate context |
 | **Configuration** | fleet-model coordination | TOML hot-reloadable |
 | **GitHub stars** | ~59 | ~21,600 |
-| **License** | BSL 1.1 | Dual Apache 2.0 + MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | Dual Apache 2.0 + MIT |
 | **Known CVEs** | 0 | 0 |
 
 ## Choose ZeroClaw if...
@@ -4567,7 +4567,7 @@ ZeroClaw offers three levels: ReadOnly, Supervised (default), and Full — all e
 - **Hard monthly budgets** stop reply-spiral cost blowouts. Set a $20/mo or $200/mo ceiling per agent and the platform shuts it down on the dollar.
 - **Deterministic posting cadence.** A YAML DAG defines when, what type, and to which account each post goes. No opaque "the LLM decided to post at 3am" failure modes.
 - **Brand voice persists across sessions.** Each agent maintains its own vector memory of approved phrasing, banned topics, prior post performance, and reply patterns.
-- **Self-hosted or managed.** Source-available under BSL 1.1 — run it on your own infra for regulated-industry compliance, or use the hosted plane with the same isolation guarantees.
+- **Self-hosted or managed.** Source-available under PolyForm Perimeter License 1.0.1 — run it on your own infra for regulated-industry compliance, or use the hosted plane with the same isolation guarantees.
 - **BYO API keys.** Plug in your own OpenAI, Anthropic, Google, or any of 100+ LiteLLM-supported providers. Pay the model provider at published rates; pay OpenLegion for the platform.
 
 ## Beyond Schedulers: What AI Social Media Management Should Mean
@@ -4656,7 +4656,7 @@ Because the fleet is YAML-defined, you can stand up an entire AI social media ma
 | **Posting cadence** | Visual scheduler | Visual scheduler | YAML DAG — version-controlled, auditable |
 | **Multi-account** | Yes, in one dashboard | Yes, in one dashboard | Yes, with strict isolation between accounts |
 | **Model choice** | Vendor's LLM | Vendor's LLM | BYO API keys across 100+ providers via LiteLLM |
-| **Self-hostable** | No | No | Yes, source-available under BSL 1.1 |
+| **Self-hostable** | No | No | Yes, source-available under PolyForm Perimeter License 1.0.1 |
 | **Best for** | Teams comfortable with scheduling-led workflow | Quick post generation | Teams running autonomous, multi-account social operations |
 
 For a deeper read on how OpenLegion compares to alternative agent runtimes underneath, see the full [framework comparison hub](/comparison).
@@ -4748,7 +4748,7 @@ The best AI social media management tool depends on whether your team needs a sc
 
 ### Is OpenLegion open-source or free AI social media management software?
 
-OpenLegion is source-available under BSL 1.1, meaning the full codebase is on GitHub and you can self-host it for free. The hosted plane at app.openlegion.ai is a paid product that runs the same code with managed infrastructure. There's no separate "open-source vs. enterprise" feature gap — the security primitives (vault proxy, container isolation, budget enforcement) ship in both.
+OpenLegion is source-available under PolyForm Perimeter License 1.0.1, meaning the full codebase is on GitHub and you can self-host it for free. The hosted plane at app.openlegion.ai is a paid product that runs the same code with managed infrastructure. There's no separate "open-source vs. enterprise" feature gap — the security primitives (vault proxy, container isolation, budget enforcement) ship in both.
 
 ### Does OpenLegion work as AI social media management for agencies running many clients?
 
@@ -5050,7 +5050,7 @@ OpenLegion supports BYOK (Bring Your Own Keys). You can provide your own API key
 
 ### Can I self-host instead of using hosted OpenLegion?
 
-Yes. OpenLegion is source-available under the BSL 1.1 license. Self-hosting requires Python 3.10+ and Docker. The install process is `git clone && ./install.sh && openlegion start`; first-run Docker image builds take a few minutes. No external services required — no Redis, no Kubernetes, no cloud services. Runs on a single machine. A hosted option is also available for teams that prefer managed infrastructure.
+Yes. OpenLegion is source-available under the PolyForm Perimeter License 1.0.1. Self-hosting requires Python 3.10+ and Docker. The install process is `git clone && ./install.sh && openlegion start`; first-run Docker image builds take a few minutes. No external services required — no Redis, no Kubernetes, no cloud services. Runs on a single machine. A hosted option is also available for teams that prefer managed infrastructure.
 
 ### How hard is it to migrate from OpenClaw to OpenLegion?
 

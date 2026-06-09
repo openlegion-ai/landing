@@ -56,7 +56,7 @@ OpenLegion — security-first [AI-агентный фреймворк](/learn/ai
 | **Migration-инструменты** | Ручные | Встроенные из OpenClaw, LangChain, AutoGPT |
 | **Desktop-приложение** | Нет | Tauri 2.0 нативное приложение |
 | **GitHub-звёзды** | ~59 | ~9,300 |
-| **Лицензия** | BSL 1.1 | Apache 2.0 |
+| **Лицензия** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Production-трек-рекорд** | Pre-release | Pre-release (дни от роду) |
 | **Известные CVE** | 0 | 0 |
 

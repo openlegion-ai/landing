@@ -53,7 +53,7 @@ Dies ist ein direkter **OpenLegion vs. AWS Strands**-Vergleich auf Basis öffent
 | **Deployment** | Cloud-agnostisch (beliebiger Docker-Host) | AgentCore Runtime (Lambda, Fargate, EC2) oder selbst gehostet |
 | **Abhängigkeiten** | Null extern, Python + SQLite + Docker | strands-agents-Paket + optionale AWS-Dienste |
 | **GitHub-Stars** | ~59 | ~5.100 |
-| **Lizenz** | BSL 1.1 | Apache 2.0 |
+| **Lizenz** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Geeignet für** | Produktions-Flotten mit Security-First-Governance | AWS-Teams mit modellgetriebenen Agenten und serverless Deployment |
 
 ## Architektur-Unterschiede
@@ -139,7 +139,7 @@ Das AWS Strands Agents SDK treibt Amazon Q Developer und AWS Glue und liefert ec
 
 ### Wie vergleicht sich Strands-Pricing mit OpenLegion?
 
-Strands ist kostenlos (Apache 2.0). AWS-Servicekosten fallen an: Bedrock-Per-Token-Pricing, AgentCore-Runtime-Compute, Lambda/Fargate/EC2-Infrastruktur. OpenLegion ist source-available (BSL 1.1) mit einem Bring-Your-Own-API-Keys-Modell ohne Aufschlag.
+Strands ist kostenlos (Apache 2.0). AWS-Servicekosten fallen an: Bedrock-Per-Token-Pricing, AgentCore-Runtime-Compute, Lambda/Fargate/EC2-Infrastruktur. OpenLegion ist source-available (PolyForm Perimeter License 1.0.1) mit einem Bring-Your-Own-API-Keys-Modell ohne Aufschlag.
 
 ---
 

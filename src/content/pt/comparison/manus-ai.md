@@ -21,14 +21,14 @@ related:
 
 Manus AI lançou em março de 2025 e foi, segundo relatos do setor, adquirido pela Meta em dezembro de 2025 por um valor reportado de mais de US$ 2 bilhões. Em apenas oito meses, Manus atingiu mais de US$ 100M em ARR, processou 147 trilhões de tokens em 80 milhões de computadores virtuais e construiu uma comunidade no Discord com mais de 186.000 membros. É uma plataforma de agentes autônomos de código fechado e apenas em nuvem.
 
-OpenLegion (~59 estrelas) é uma [plataforma de agentes de IA](/learn/ai-agent-platform) de código-fonte disponível (BSL 1.1), security-first, que prioriza isolamento por contêiner, credenciais em proxy de cofre e controles de orçamento por agente com deploy auto-hospedado completo.
+OpenLegion (~59 estrelas) é uma [plataforma de agentes de IA](/learn/ai-agent-platform) de código-fonte disponível (PolyForm Perimeter License 1.0.1), security-first, que prioriza isolamento por contêiner, credenciais em proxy de cofre e controles de orçamento por agente com deploy auto-hospedado completo.
 
 Esta é uma comparação direta **OpenLegion vs Manus AI** baseada em documentação pública e pesquisa de segurança independente no momento da escrita.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Qual a diferença entre OpenLegion e Manus AI?**
-> Manus AI é uma plataforma de agentes autônomos de código fechado e apenas em nuvem que dá a cada sessão de usuário um computador virtual dedicado (microVM Firecracker) para execução de tarefa. OpenLegion é um framework de agentes de IA de código-fonte disponível (BSL 1.1), security-first, com isolamento obrigatório por contêiner Docker por agente, gestão de credenciais via proxy de cofre, imposição de orçamento por agente e coordenação modelo de frota (blackboard + pub/sub + handoff). Manus otimiza para conclusão autônoma de tarefa; OpenLegion otimiza para segurança, transparência e controle do desenvolvedor.
+> Manus AI é uma plataforma de agentes autônomos de código fechado e apenas em nuvem que dá a cada sessão de usuário um computador virtual dedicado (microVM Firecracker) para execução de tarefa. OpenLegion é um framework de agentes de IA de código-fonte disponível (PolyForm Perimeter License 1.0.1), security-first, com isolamento obrigatório por contêiner Docker por agente, gestão de credenciais via proxy de cofre, imposição de orçamento por agente e coordenação modelo de frota (blackboard + pub/sub + handoff). Manus otimiza para conclusão autônoma de tarefa; OpenLegion otimiza para segurança, transparência e controle do desenvolvedor.
 
 ## TL;DR
 
@@ -45,7 +45,7 @@ Esta é uma comparação direta **OpenLegion vs Manus AI** baseada em documenta�
 |---|---|---|
 | **Foco primário** | Orquestração multiagente segura | Execução autônoma de tarefa |
 | **Arquitetura** | Modelo de quatro zonas de confiança (mais camada operador-ou-interna) | Computador virtual por sessão (microVM Firecracker) |
-| **Modelo de código** | Código-fonte disponível (BSL 1.1) | Código fechado (proprietário) |
+| **Modelo de código** | Código-fonte disponível (PolyForm Perimeter License 1.0.1) | Código fechado (proprietário) |
 | **Isolamento de agente** | Contêiner Docker por agente obrigatório, non-root, no-new-privileges | microVM Firecracker por sessão (~150ms para subir) |
 | **Gestão de credenciais** | Proxy de cofre — injeção cega, agentes nunca veem chaves | Arquivos criptografados de session replay enviados ao backend do Manus |
 | **Controles de orçamento / custo** | Diário e mensal por agente com corte rígido | Baseado em créditos, sem limite por tarefa, sem rollover |
@@ -116,11 +116,11 @@ Para o cenário completo, veja nossa [comparação de frameworks de agentes de I
 
 ### Qual a diferença entre OpenLegion e Manus AI?
 
-Manus AI é uma plataforma de agentes autônomos de código fechado e apenas em nuvem, reportadamente adquirida pela Meta. Cada sessão roda em uma microVM Firecracker. OpenLegion é uma [plataforma de agentes de IA](/learn/ai-agent-platform) de código-fonte disponível (BSL 1.1), security-first, com isolamento por contêiner Docker obrigatório, credenciais via proxy de cofre, imposição de orçamento por agente e deploy auto-hospedado completo.
+Manus AI é uma plataforma de agentes autônomos de código fechado e apenas em nuvem, reportadamente adquirida pela Meta. Cada sessão roda em uma microVM Firecracker. OpenLegion é uma [plataforma de agentes de IA](/learn/ai-agent-platform) de código-fonte disponível (PolyForm Perimeter License 1.0.1), security-first, com isolamento por contêiner Docker obrigatório, credenciais via proxy de cofre, imposição de orçamento por agente e deploy auto-hospedado completo.
 
 ### O Manus AI é open source?
 
-Não. Manus AI é totalmente código fechado e apenas em nuvem. A plataforma rejeita explicitamente deploy auto-hospedado ou local. OpenLegion é código-fonte disponível (BSL 1.1) com base de código totalmente auditável.
+Não. Manus AI é totalmente código fechado e apenas em nuvem. A plataforma rejeita explicitamente deploy auto-hospedado ou local. OpenLegion é código-fonte disponível (PolyForm Perimeter License 1.0.1) com base de código totalmente auditável.
 
 ### Como o Manus AI lida com credenciais?
 

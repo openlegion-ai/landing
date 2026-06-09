@@ -53,7 +53,7 @@ ZeroClaw और OpenLegion एक conviction share करते हैं कि
 | **Multi-agent** | प्रति-एजेंट ACLs के साथ Fleet templates | Clean-slate context Task-based |
 | **Configuration** | Fleet-model coordination | TOML hot-reloadable |
 | **GitHub stars** | ~59 | ~21,600 |
-| **License** | BSL 1.1 | Dual Apache 2.0 + MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | Dual Apache 2.0 + MIT |
 | **Known CVEs** | 0 | 0 |
 
 ## ZeroClaw चुनें यदि...

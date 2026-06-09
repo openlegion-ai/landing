@@ -54,7 +54,7 @@ OpenLegion (~59 звёзд) — security-first [AI-агентная платфо
 | **Tracing** | Встроенный дашборд с live streaming, графиками расходов | Встроенный tracing UI, zero-config, бесплатно |
 | **Зависимости** | Ноль внешних — Python + SQLite + Docker | Python-пакет openai |
 | **GitHub-звёзды** | ~59 | ~19,200 |
-| **Лицензия** | BSL 1.1 | MIT |
+| **Лицензия** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Лучше всего для** | Production-флотов, требующих security-first governance | Быстрой разработки с моделями OpenAI |
 
 ## Архитектурные различия

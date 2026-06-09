@@ -56,7 +56,7 @@ Les deux projets priorisent la sécurité. Les deux utilisent des primitives d'i
 | **Outils de migration** | Manuel | Intégré depuis OpenClaw, LangChain, AutoGPT |
 | **Application desktop** | Non | Application native Tauri 2.0 |
 | **Étoiles GitHub** | ~59 | ~9 300 |
-| **Licence** | BSL 1.1 | Apache 2.0 |
+| **Licence** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **Bilan de production** | Pré-version | Pré-version (quelques jours) |
 | **CVE connues** | 0 | 0 |
 

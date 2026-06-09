@@ -43,7 +43,7 @@ AgentOps is a Python observability SDK that records session replays, tracks toke
 | **Observability model** | Built-in audit trail, blackboard, status events | Session replays, cost tracking, event graphs |
 | **Framework integration** | Native fleet model | SDK wraps 8+ external frameworks |
 | **GitHub stats** | Early-stage | 578 forks, 810+ commits, 104 open issues (May 2026) |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Deployment model** | Self-hosted + hosted ($19/mo) | Cloud dashboard + open-source SDK |
 
 ## Execution vs Monitoring: The Architectural Split
@@ -110,7 +110,7 @@ OpenLegion's design inverts the dependency: security is the foundation, observab
 
 **You use CrewAI, AutoGen, LangChain, or LlamaIndex.** AgentOps integrations for these frameworks are maintained and documented. Install the SDK, wrap your runner, and the dashboard starts populating immediately.
 
-**MIT license is a hard requirement.** AgentOps is fully open-source under MIT. OpenLegion uses BSL 1.1.
+**MIT license is a hard requirement.** AgentOps is fully open-source under MIT. OpenLegion uses PolyForm Perimeter License 1.0.1.
 
 ## Choose OpenLegion if...
 

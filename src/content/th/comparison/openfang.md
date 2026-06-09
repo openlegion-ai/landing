@@ -55,7 +55,7 @@ OpenLegion เป็น [AI agent framework](/learn/ai-agent-platform) ที่
 | **เครื่องมือย้ายระบบ** | ด้วยมือ | ในตัวจาก OpenClaw, LangChain, AutoGPT |
 | **แอป desktop** | ไม่มี | แอปเนทีฟ Tauri 2.0 |
 | **ดาว GitHub** | ~59 | ~9,300 |
-| **ใบอนุญาต** | BSL 1.1 | Apache 2.0 |
+| **ใบอนุญาต** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
 | **ประวัติโปรดักชัน** | Pre-release | Pre-release (อายุไม่กี่วัน) |
 | **CVE ที่ทราบ** | 0 | 0 |
 

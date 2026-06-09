@@ -54,7 +54,7 @@ C'est une comparaison directe **OpenLegion vs OpenAI Agents SDK** basée sur la 
 | **Traçage** | Tableau de bord intégré avec streaming en direct, graphiques de coûts | UI de traçage intégrée, zéro-config, gratuit |
 | **Dépendances** | Zéro externe — Python + SQLite + Docker | Package Python openai |
 | **Étoiles GitHub** | ~59 | ~19 200 |
-| **Licence** | BSL 1.1 | MIT |
+| **Licence** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Idéal pour** | Flottes de production nécessitant une gouvernance axée sécurité | Développement rapide avec modèles OpenAI |
 
 ## Différences d'architecture

@@ -52,7 +52,7 @@ PicoClawとOpenLegionは展開スペクトルの両極を占めます。PicoClaw
 | **オフライン対応** | 不可（クラウドLLMが必要） | 可能（PicoLMコンパニオン1Bモデル） |
 | **メッセージングチャネル** | 5 | 8+（Telegram、Discord、QQ、DingTalk、LINEなど） |
 | **GitHubスター** | 約59 | 約20,000〜21,000 |
-| **ライセンス** | BSL 1.1 | MIT |
+| **ライセンス** | PolyForm Perimeter License 1.0.1 | MIT |
 | **既知のCVE** | 0 | 正式CVE 0件、複数の文書化されたセキュリティギャップ |
 | **メーカー** | 独立 | 組み込みハードウェア企業 |
 | **AI生成コード** | なし | 95%がAI生成と主張 |

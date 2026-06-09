@@ -53,7 +53,7 @@ CrewAI एजेंट teams build करना आसान बनाता ह
 | **Enterprise features** | अंतर्निहित: isolation, vault, budgets, audit | AMP: SOC2, SSO, PII masking, RBAC, VPC (paid tiers) |
 | **GitHub stars** | ~59 | ~44,600 |
 | **Known CVEs** | 0 | "Uncrew" (CVSS 9.2); research में 65% data exfiltration rate |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 
 ## CrewAI चुनें यदि...
 

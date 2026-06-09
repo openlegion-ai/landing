@@ -55,7 +55,7 @@ LangGraph und OpenLegion repräsentieren zwei verschiedene Antworten auf dieselb
 | **GitHub-Stars** | ~59 | ~25.200 |
 | **PyPI-Downloads** | Pre-Release | ~6,17 Mio./Monat |
 | **Bekannte CVEs** | 0 | 4 kritische im LangChain-Ökosystem (bis CVSS 9,3) |
-| **Lizenz** | BSL 1.1 | MIT |
+| **Lizenz** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Pricing** | BYO-API-Keys, 19 $/Monat gehostet | Kostenlos (MIT); LangSmith Plus 39 $/Platz/Monat für Auth/RBAC |
 
 ## Wählen Sie LangGraph, wenn …

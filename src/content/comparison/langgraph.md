@@ -55,7 +55,7 @@ LangGraph and OpenLegion represent two different answers to the same question: h
 | **GitHub stars** | ~59 | ~25,200 |
 | **PyPI downloads** | Pre-release | ~6.17 million/month |
 | **Known CVEs** | 0 | 4 critical in LangChain ecosystem (up to CVSS 9.3) |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Pricing** | BYO API keys, $19/mo hosted | Free (MIT); LangSmith Plus $39/seat/mo for auth/RBAC |
 
 ## Choose LangGraph if...

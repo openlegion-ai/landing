@@ -505,7 +505,7 @@
       },
       "3": {
         "question": "What is OpenLegion?",
-        "answer": "OpenLegion is a production-grade, container-isolated multi-agent runtime that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and credential vault — with defense-in-depth via container isolation, vault proxy, per-agent ACLs, and bounded execution. It requires only Python, Docker, and an API key. No Redis, no Kubernetes, no LangChain. Licensed under BSL 1.1 (source-available)."
+        "answer": "OpenLegion is a production-grade, container-isolated multi-agent runtime that deploys autonomous agent fleets in isolated Docker containers. Each agent gets its own budget, permissions, and credential vault — with defense-in-depth via container isolation, vault proxy, per-agent ACLs, and bounded execution. It requires only Python, Docker, and an API key. No Redis, no Kubernetes, no LangChain. Licensed under PolyForm Perimeter License 1.0.1 (source-available)."
       },
       "4": {
         "question": "How is OpenLegion different from CrewAI or other agent frameworks?",
@@ -566,7 +566,7 @@
   },
   "footer": {
     "brandDescription": "The container-isolated multi-agent runtime built for production. Automate any computer task with secure, cost-controlled agent fleets.",
-    "license": "BSL 1.1 License © {year} OpenLegion Contributors",
+    "license": "PolyForm Perimeter License 1.0.1 © {year} OpenLegion Contributors",
     "columns": {
       "0": {
         "title": "Product",
@@ -622,7 +622,7 @@
         "links": {
           "0": "Terms of Service",
           "1": "Privacy Policy",
-          "2": "BSL 1.1 License"
+          "2": "PolyForm Perimeter License 1.0.1"
         }
       }
     }
@@ -721,7 +721,7 @@
       },
       "4": {
         "question": "Can I self-host OpenLegion?",
-        "answer": "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under BSL 1.1. Managed hosting starts at $19/month for teams that don't want to manage infrastructure."
+        "answer": "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under PolyForm Perimeter License 1.0.1. Managed hosting starts at $19/month for teams that don't want to manage infrastructure."
       },
       "5": {
         "question": "What counts as an \"agent\"?",
@@ -917,7 +917,7 @@
     "privacyTitle": "Privacy Policy",
     "privacyDescription": "Privacy Policy for the OpenLegion AI agent framework and managed hosting. Learn how we collect, use, and protect your data across managed hosting and the openlegion.ai website.",
     "termsTitle": "Terms of Service",
-    "termsDescription": "Terms of Service for the OpenLegion AI agent framework and managed hosting. Covers managed hosting, self-hosted deployment under BSL 1.1 license, and the openlegion.ai website.",
+    "termsDescription": "Terms of Service for the OpenLegion AI agent framework and managed hosting. Covers managed hosting, self-hosted deployment under PolyForm Perimeter License 1.0.1, and the openlegion.ai website.",
     "moneyBackTitle": "7-Day Money-Back Guarantee",
     "moneyBackDescription": "Full refund on your first month if OpenLegion isn't a fit. No questions asked."
   },
@@ -1166,7 +1166,7 @@
     },
     "section7": {
       "title": "7. Intellectual Property",
-      "p1": "The OpenLegion framework source code is licensed under the Business Source License 1.1 (BSL 1.1). These Terms do not grant you any rights beyond what that license permits. All trademarks, logos, and branding elements of OpenLegion are the property of the OpenLegion project and may not be used without prior written consent.",
+      "p1": "The OpenLegion framework source code is licensed under the PolyForm Perimeter License 1.0.1. These Terms do not grant you any rights beyond what that license permits. All trademarks, logos, and branding elements of OpenLegion are the property of the OpenLegion project and may not be used without prior written consent.",
       "p2": "You retain ownership of all data, content, and configurations (\"Customer Data\") you submit to the Service. You grant us a limited, non-exclusive license to host and process Customer Data solely to provide the Service."
     },
     "section8": {
@@ -1299,7 +1299,7 @@
   },
   "schema": {
     "orgDescription": "Container-isolated multi-agent runtime with managed hosting — Docker-isolated agents, vault-proxied credentials, and per-agent budgets.",
-    "softwareDescription": "Container-isolated multi-agent runtime with vault-proxied credentials and per-agent budget controls. Self-hosted (BSL 1.1) or managed hosting on a dedicated VPS.",
+    "softwareDescription": "Container-isolated multi-agent runtime with vault-proxied credentials and per-agent budget controls. Self-hosted (PolyForm Perimeter License 1.0.1) or managed hosting on a dedicated VPS.",
     "softwareFeatureList": [
       "Container isolation per agent (Docker or Docker Desktop Sandbox microVMs)",
       "Vault-proxied credentials — agents never see API keys",

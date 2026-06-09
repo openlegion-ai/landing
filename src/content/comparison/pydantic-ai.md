@@ -43,7 +43,7 @@ These are not gaps patchable with a single library. They require an execution pl
 
 | Dimension | OpenLegion | PydanticAI |
 |---|---|---|
-| **Type** | Execution platform (BSL 1.1) | Agent library (MIT) |
+| **Type** | Execution platform (PolyForm Perimeter License 1.0.1) | Agent library (MIT) |
 | **Credential model** | Vault proxy - agents never see raw keys | Dependency injection via RunContext - keys in process memory |
 | **Agent isolation** | Docker container per agent, non-root, no-new-privileges | Shared Python process; no container isolation |
 | **Budget controls** | Per-agent daily/monthly hard cutoff | None - post-hoc result.usage() reporting only |
@@ -54,7 +54,7 @@ These are not gaps patchable with a single library. They require an execution pl
 | **v2 migration risk** | N/A | Breaking API change to graph builder underway (May 2026) |
 | **Known CVEs** | 0 | 0 (no security-relevant CVEs reported) |
 | **GitHub stars** | ~59 | ~17,362 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 
 ## OpenLegion's Take
 

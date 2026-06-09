@@ -50,7 +50,7 @@ The distinction between AI agent frameworks and AI agent platforms matters most 
 
 **Self-hosted frameworks** (LangGraph, CrewAI, AutoGen) give you maximum control. You own the infrastructure. You configure the containers. You build the credential pipeline. This works when your team has dedicated DevOps capacity and existing infrastructure that agents need to integrate with deeply.
 
-**Managed AI agent platforms** handle the operational layer so your team focuses on agent logic. OpenLegion sits here — but with a critical difference: it's source-available under BSL 1.1. You get platform-grade operations (isolation, vaulting, budget controls) without vendor lock-in on the infrastructure side.
+**Managed AI agent platforms** handle the operational layer so your team focuses on agent logic. OpenLegion sits here — but with a critical difference: it's source-available under PolyForm Perimeter License 1.0.1. You get platform-grade operations (isolation, vaulting, budget controls) without vendor lock-in on the infrastructure side.
 
 The question isn't which is "better." It's whether your team should spend engineering hours on agent security infrastructure or on the agents themselves.
 
@@ -180,7 +180,7 @@ Yes. OpenLegion uses a BYO (Bring Your Own) API key model. You connect your own 
 
 ### Managed vs self-hosted AI agents: what's the difference?
 
-Managed AI agent platforms handle container provisioning, credential vaulting, cost controls, and observability for you. Self-hosted means you deploy a framework (LangGraph, CrewAI, AutoGen) on your own infrastructure and build these operational layers yourself. Managed is faster to production and requires less DevOps investment. Self-hosted gives maximum infrastructure control. OpenLegion offers a hybrid: source-available code (BSL 1.1) you can self-host, with managed platform capabilities built in.
+Managed AI agent platforms handle container provisioning, credential vaulting, cost controls, and observability for you. Self-hosted means you deploy a framework (LangGraph, CrewAI, AutoGen) on your own infrastructure and build these operational layers yourself. Managed is faster to production and requires less DevOps investment. Self-hosted gives maximum infrastructure control. OpenLegion offers a hybrid: source-available code (PolyForm Perimeter License 1.0.1) you can self-host, with managed platform capabilities built in.
 
 ### How does OpenLegion compare to other AI agent platforms?
 
@@ -188,7 +188,7 @@ OpenLegion differentiates on security-first architecture. Based on public docume
 
 ### What license does OpenLegion use?
 
-OpenLegion is source-available under the BSL 1.1 license and available on [GitHub](https://github.com/openlegion-ai/openlegion). The project also offers a hosted platform for teams who want managed infrastructure without self-hosting.
+OpenLegion is source-available under the PolyForm Perimeter License 1.0.1 and available on [GitHub](https://github.com/openlegion-ai/openlegion). The project also offers a hosted platform for teams who want managed infrastructure without self-hosting.
 
 ### How quickly can I deploy my first agent?
 

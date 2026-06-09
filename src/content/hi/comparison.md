@@ -43,7 +43,7 @@ OpenLegion एक security-first [AI एजेंट फ्रेमवर्क
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27,300 | MIT | अंतर्निहित नहीं | DefaultAzureCredential | Free (open source) | Critical RCE (CVSS 9.9) | अपडेट आवृत्ति घटी |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19,200 | MIT | कोई नहीं (same process) | Env var API key | Free SDK; API usage-based | 0 | सक्रिय |
 | [**Dify**](/comparison/dify) | 131,000 | Modified Apache 2.0 | Plugin sandbox | Workspace-shared keys | Cloud $59-159/mo | CVE-2025-3466 (CVSS 9.8) | सक्रिय |
-| **OpenLegion** | new | BSL 1.1 | प्रति-एजेंट Docker (default और एकमात्र mode) | Vault proxy (एजेंट्स keys कभी नहीं देखते) | प्रति-एजेंट दैनिक/मासिक hard cutoff | कोई रिपोर्ट नहीं (v0.1.0) | सक्रिय |
+| **OpenLegion** | new | PolyForm Perimeter License 1.0.1 | प्रति-एजेंट Docker (default और एकमात्र mode) | Vault proxy (एजेंट्स keys कभी नहीं देखते) | प्रति-एजेंट दैनिक/मासिक hard cutoff | कोई रिपोर्ट नहीं (v0.1.0) | सक्रिय |
 
 ## सुरक्षा अंतर
 

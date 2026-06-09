@@ -52,7 +52,7 @@ OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-
 | **Multi-agent** | प्रति-एजेंट ACLs के साथ Fleet templates | Sub-agent spawning (कोई fleet orchestration नहीं) |
 | **Memory** | Vector search के साथ प्रति-एजेंट persistent | Grep-based retrieval (deliberately RAG को avoid करता है) |
 | **GitHub stars** | ~59 | ~20,000-26,000 |
-| **License** | BSL 1.1 | MIT |
+| **License** | PolyForm Perimeter License 1.0.1 | MIT |
 | **Known CVEs** | 0 | **critical WhatsApp bridge vulnerability (CVSS 10.0)** + 3 additional critical patches |
 | **Origin** | Independent | Academic research lab |
 

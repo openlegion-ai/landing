@@ -51,7 +51,7 @@ NanoClaw และ OpenLegion เป็น framework สองตัวในพ
 | **Multi-agent** | เทมเพลตฝูงพร้อม ACL รายเอเจนต์ | Agent Swarm (ทีม Claude Code) |
 | **โมเดลการปรับแต่ง** | การตั้งค่า + ปลั๊กอิน | "Skills over Features" — AI rewrite ซอร์ส |
 | **ดาว GitHub** | ~59 | ~7,200 |
-| **ใบอนุญาต** | BSL 1.1 | MIT |
+| **ใบอนุญาต** | PolyForm Perimeter License 1.0.1 | MIT |
 | **CVE ที่ทราบ** | 0 | 0 |
 
 ## เลือก NanoClaw ถ้า...

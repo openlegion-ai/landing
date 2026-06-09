@@ -36,7 +36,7 @@ OpenLegion (~59 stars) एक security-first [AI एजेंट प्लेट
 - **Critical vulnerability**: CVE-2025-3466 (CVSS 9.8) ने Dify v1.1.0-1.1.2 में sandbox escape allowed किया — root permissions के साथ arbitrary code execution, secret keys और internal network तक access। v1.1.3 में fixed।
 - **Credential model**: Dify API keys को workspace level पर store करता है, team members और applications के बीच shared। OpenLegion एक vault proxy का उपयोग करता है — एजेंट्स कच्ची keys कभी नहीं देखते।
 - **Architecture complexity**: Dify self-hosted deployment को ~12 Docker containers चाहिए। OpenLegion को Python + SQLite + Docker zero external services के साथ चाहिए।
-- **License अंतर**: Dify modified Apache 2.0 का उपयोग करता है (written agreement के बिना कोई multi-tenant SaaS नहीं)। OpenLegion BSL 1.1 का उपयोग करता है।
+- **License अंतर**: Dify modified Apache 2.0 का उपयोग करता है (written agreement के बिना कोई multi-tenant SaaS नहीं)। OpenLegion PolyForm Perimeter License 1.0.1 का उपयोग करता है।
 
 ## Side-by-Side Comparison
 
@@ -54,7 +54,7 @@ OpenLegion (~59 stars) एक security-first [AI एजेंट प्लेट
 | **Self-hosted complexity** | Python + SQLite + Docker (zero external) | ~12 Docker containers |
 | **Cloud option** | Hosted प्लेटफ़ॉर्म (आगामी) | Dify Cloud: free से $159/mo |
 | **GitHub stars** | ~59 | ~131,000 |
-| **License** | BSL 1.1 | Modified Apache 2.0 |
+| **License** | PolyForm Perimeter License 1.0.1 | Modified Apache 2.0 |
 | **Best for** | Security-first governance की आवश्यकता वाले Production fleets | Visual workflows और RAG के साथ Low-code AI app building |
 
 ## Architecture Differences
