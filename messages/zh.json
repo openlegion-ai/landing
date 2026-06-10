@@ -36,27 +36,27 @@
     "headingLine1": "构建你的",
     "headingHighlight": "AI 团队",
     "headingLine2": "只需描述你想要的团队。",
-    "tagline": "为生产环境打造的容器隔离式多智能体运行时。",
-    "subtitle": "只需告诉我们你需要什么 — 营销团队、销售团队、研究团队，任何团队都行 — OpenLegion 几分钟内即可部署合适的智能体，预算、权限和凭证默认安全锁定。",
-    "ctaPrimary": "立即开始",
+    "tagline": "AI员工在你的团队休息时，把琐碎工作全部做完。",
+    "subtitle": "描述你的需求 —— 营销机构、销售团队、调研台 —— OpenLegion 几分钟内就能让一支AI员工团队投入工作。每个智能体都有独立的预算和权限，你的密码和 API 密钥保存在智能体永远无法接触的保险库中。",
+    "ctaPrimary": "组建你的AI团队 — 每月$19起",
     "ctaSecondary": "预约演示",
     "trustStrip": {
       "0": "全天候运行",
-      "1": "按智能体设定预算",
-      "2": "密钥库安全托管",
-      "3": "容器级隔离",
+      "1": "每个智能体的硬性支出上限",
+      "2": "智能体永远看不到你的密码",
+      "3": "无需编程",
       "4": "100+ LLM 提供商",
       "5": "自托管或全托管"
     },
     "terminalTitle": "openlegion 演示",
     "videoTitle": "OpenLegion 演示——部署 AI 智能体编队",
     "videoFallback": "您的浏览器不支持 HTML5 视频。",
-    "videoCaptionBelow": "你的团队正花费数小时做 AI 智能体可以在他们休息时完成的工作。"
+    "videoCaptionBelow": "一句提示词，就是一支真正干活的AI团队 —— 来看实拍。"
   },
   "capabilityBand": {
     "ariaLabel": "智能体可以自动化的任务",
     "heading": "人类能做的，智能体也能做。",
-    "subheading": "内置隐身浏览器，全天候运行。",
+    "subheading": "你的AI员工像真人一样浏览网页，而且全年无休。",
     "footer": "所有智能体都运行在独立容器中，凭证由密钥库保护，并自动设置开销上限。",
     "pills": {
       "0": {
@@ -225,16 +225,16 @@
   "socialProof": {
     "stats": {
       "0": {
-        "fallback": "5,800+",
-        "label": "测试通过"
+        "fallback": "5分钟",
+        "label": "首个智能体即可上线"
       },
       "1": {
         "fallback": "100+",
         "label": "支持的 LLM 提供商"
       },
       "2": {
-        "fallback": "0",
-        "label": "CVE 数（engine v0.1.0）"
+        "fallback": "24/7",
+        "label": "智能体全天候工作"
       },
       "3": {
         "fallback": "$0",
@@ -560,8 +560,8 @@
     "heading": "你的 AI 团队只差一次",
     "headingHighlight": "部署",
     "headingEnd": "。",
-    "subtitle": "首日即付 · 100+ LLM 提供商 · 7 天退款保证",
-    "primaryButton": "立即开始 →",
+    "subtitle": "试用7天 —— 不合适全额退款 · 随时取消 · 无需编程",
+    "primaryButton": "组建你的AI团队 →",
     "secondaryButton": "加入我们的 Discord"
   },
   "footer": {
@@ -670,7 +670,7 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "约 ${monthlyEquivalent}/月（按年计费）",
-    "monthlyNote": "首日即付",
+    "monthlyNote": "7天退款保证",
     "getStarted": "立即开始",
     "agentsLabel": "{count, plural, one {个智能体} other {个智能体}}",
     "creditsLabel": "欢迎赠送额度",
@@ -890,18 +890,18 @@
   },
   "metadata": {
     "homeTitle": "AI 智能体平台与框架 - OpenLegion | 自动化一切，尽在掌控",
-    "homeDescription": "OpenLegion 是为生产环境打造的 AI 智能体框架与平台。部署自主智能体，自动化任何计算机任务——浏览、表单、代码、外发、数据。首日即付，7 天退款保证。",
+    "homeDescription": "OpenLegion 是面向生产环境的AI智能体框架与平台。部署能自动完成任何电脑任务的AI员工 —— 浏览网页、填写表单、编写代码、客户触达、数据处理。无需编程，7天退款保证。",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI 智能体框架与平台",
-    "ogDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。安全、可控预算、生产就绪。首日即付，7 天退款保证。",
+    "ogDescription": "部署AI智能体，自动完成人类在电脑上能做的一切。安全、可控预算、生产就绪。7天退款保证。",
     "ogImageAlt": "OpenLegion — AI 智能体框架与平台",
     "twitterTitle": "OpenLegion — AI 智能体框架与平台",
-    "twitterDescription": "部署能自动化人类在计算机上所做一切的 AI 智能体。首日即付，7 天退款保证。",
-    "pricingTitle": "AI 智能体平台定价——首日即付",
-    "pricingDescription": "方案起价 $19/月，含容器隔离、密钥库安全和 100+ LLM 提供商。首日即付，7 天退款保证。",
-    "pricingOgTitle": "AI 智能体平台定价——首日即付 | OpenLegion",
-    "pricingOgDescription": "方案起价 $19/月。容器隔离、密钥库安全和 100+ LLM 提供商。7 天退款保证。",
-    "pricingTwitterTitle": "AI 智能体平台定价——首日即付 | OpenLegion",
+    "twitterDescription": "部署AI智能体，自动完成人类在电脑上能做的一切。7天退款保证。",
+    "pricingTitle": "AI智能体平台定价 — 每月$19起",
+    "pricingDescription": "每月$19起，含容器隔离、保险库安全与100+大模型供应商。随时取消，7天退款保证。",
+    "pricingOgTitle": "AI智能体平台定价 — 每月$19起 | OpenLegion",
+    "pricingOgDescription": "每月$19起。容器隔离、保险库安全、100+大模型供应商。7天退款保证。",
+    "pricingTwitterTitle": "AI智能体平台定价 — 每月$19起 | OpenLegion",
     "pricingTwitterDescription": "方案起价 $19/月。7 天退款保证。",
     "faqTitle": "常见问题",
     "faqDescription": "关于 OpenLegion 的常见问题解答 — 为生产环境打造的容器隔离式多智能体运行时。涵盖安全、定价、LLM 提供方、协同、生产部署等。",
