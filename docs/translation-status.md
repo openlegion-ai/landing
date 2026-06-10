@@ -17,8 +17,8 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 41
-- **Fully translated (all 12 locales):** 39
-- **Partially translated:** 2
+- **Fully translated (all 12 locales):** 40
+- **Partially translated:** 1
 - **English-only (0 translations):** 0
 
 ### Coverage by locale
@@ -30,8 +30,8 @@ locales; they are not tracked here.
 | ja | 40 / 41 | 98% |
 | ko | 40 / 41 | 98% |
 | es | 40 / 41 | 98% |
-| fr | 39 / 41 | 95% |
-| de | 39 / 41 | 95% |
+| fr | 40 / 41 | 98% |
+| de | 40 / 41 | 98% |
 | pt | 40 / 41 | 98% |
 | ar | 41 / 41 | 100% |
 | hi | 41 / 41 | 100% |
@@ -51,7 +51,7 @@ locales; they are not tracked here.
 | `/comparison/dify` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/google-adk` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/langgraph` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/comparison/litellm` | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | 10/12 |
+| `/comparison/litellm` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/manus-ai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/mastra` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/memu` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -86,6 +86,5 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/comparison/litellm` — missing: fr, de
 - `/learn/ai-agent-memory` — missing: zh, ja, ko, es, fr, de, pt
 
