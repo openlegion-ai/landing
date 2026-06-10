@@ -10,12 +10,12 @@ secondary_keywords:
   - visual agent builder alternative
   - flowise licensing
 date_published: 2026-05
-last_updated: 2026-05-22
+last_updated: "2026-05-22"
 schema_types:
   - FAQPage
 page_type: comparison
 related:
-  - /comparison/n8n
+  - /comparison/litellm
   - /comparison/langgraph
   - /comparison/dify
   - /learn/ai-agent-frameworks
@@ -101,7 +101,7 @@ For builders who need a production agent platform rather than a visual prototypi
 
 **You need per-agent cost controls.** Per-agent daily and monthly LLM budget caps prevent runaway agent costs. Flowise has no equivalent primitive.
 
-See [AI agent frameworks landscape](/learn/ai-agent-frameworks) for a broader comparison of visual builders vs code-based coordination. For how Flowise's visual approach compares to n8n workflow automation, see the [visual workflow automation comparison](/comparison/n8n).
+See [AI agent frameworks landscape](/learn/ai-agent-frameworks) for a broader comparison of visual builders vs code-based coordination. For how Flowise's visual approach compares to Dify's AI platform, see the [OpenLegion vs Dify platform comparison](/comparison/dify).
 
 ## Get Started
 
