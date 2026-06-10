@@ -169,4 +169,4 @@ Mastra has 24,329 GitHub stars and active development since August 2024, with 43
 
 ## Get Started
 
-OpenLegion is free to try. [Get started at app.openlegion.ai](https://app.openlegion.ai) or [read the platform docs](https://docs.openlegion.ai). Already evaluating TypeScript frameworks? See [OpenLegion vs LangGraph — security architecture and CVE history compared](/comparison/langgraph) for a Python-native alternative comparison.
+OpenLegion is free to try. [Get started at app.openlegion.ai](https://app.openlegion.ai/onboarding) or [read the platform docs](https://docs.openlegion.ai). Already evaluating TypeScript frameworks? See [OpenLegion vs LangGraph — security architecture and CVE history compared](/comparison/langgraph) for a Python-native alternative comparison.

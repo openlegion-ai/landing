@@ -190,4 +190,4 @@ LiteLLM runs as root in default Docker image with no sandboxing or privilege sep
 Yes, provider configurations transfer directly since OpenLegion supports 100+ LLMs via LiteLLM integration without functionality loss. Credentials migrate from centralized database storage to vault proxy injection, improving security by eliminating the credential aggregation risks. Cost tracking continues through agent-level budget controls rather than centralized gateway monitoring.
 
 **Try OpenLegion today.**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [Compare AI agent security architecture](/learn/ai-agent-security)
+[Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai) | [Compare AI agent security architecture](/learn/ai-agent-security)
