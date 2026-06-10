@@ -1268,7 +1268,7 @@
   "moneyBackPage": {
     "title": "7-Day Money-Back Guarantee",
     "tagline": "Full refund on your first month, no questions asked.",
-    "intro": "We stand behind OpenLegion. If your first month isn't a fit for any reason, email {email} within 7 days of your first subscription payment and we'll refund the full amount you paid — no questions asked.",
+    "intro": "We stand behind OpenLegion. If your first month isn't a fit for any reason, email {email} within 7 days of your first subscription payment and we'll refund the full amount you actually paid (the launch-pricing amount billed by Polar — not the higher anchor displayed alongside).",
     "covered": {
       "heading": "What's covered",
       "items": {
