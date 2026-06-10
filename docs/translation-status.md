@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-10
 
-Tracks per-page translation coverage for the 40 canonical English pages
+Tracks per-page translation coverage for the 41 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 40
+- **Canonical pages:** 41
 - **Fully translated (all 12 locales):** 38
 - **Partially translated:** 0
-- **English-only (0 translations):** 2
+- **English-only (0 translations):** 3
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 38 / 40 | 95% |
-| zh-TW | 38 / 40 | 95% |
-| ja | 38 / 40 | 95% |
-| ko | 38 / 40 | 95% |
-| es | 38 / 40 | 95% |
-| fr | 38 / 40 | 95% |
-| de | 38 / 40 | 95% |
-| pt | 38 / 40 | 95% |
-| ar | 38 / 40 | 95% |
-| hi | 38 / 40 | 95% |
-| ru | 38 / 40 | 95% |
-| th | 38 / 40 | 95% |
+| zh | 38 / 41 | 93% |
+| zh-TW | 38 / 41 | 93% |
+| ja | 38 / 41 | 93% |
+| ko | 38 / 41 | 93% |
+| es | 38 / 41 | 93% |
+| fr | 38 / 41 | 93% |
+| de | 38 / 41 | 93% |
+| pt | 38 / 41 | 93% |
+| ar | 38 / 41 | 93% |
+| hi | 38 / 41 | 93% |
+| ru | 38 / 41 | 93% |
+| th | 38 / 41 | 93% |
 
 ## Coverage matrix
 
@@ -73,6 +73,7 @@ locales; they are not tracked here.
 | `/learn/ai-agent-orchestration` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/ai-agent-tool-use` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/claude-opus-4-8` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -87,4 +88,5 @@ locales; they are not tracked here.
 
 - `/comparison/litellm` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-memory` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/ai-agent-tool-use` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
