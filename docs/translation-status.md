@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 41
-- **Fully translated (all 12 locales):** 38
+- **Fully translated (all 12 locales):** 39
 - **Partially translated:** 0
-- **English-only (0 translations):** 3
+- **English-only (0 translations):** 2
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 38 / 41 | 93% |
-| zh-TW | 38 / 41 | 93% |
-| ja | 38 / 41 | 93% |
-| ko | 38 / 41 | 93% |
-| es | 38 / 41 | 93% |
-| fr | 38 / 41 | 93% |
-| de | 38 / 41 | 93% |
-| pt | 38 / 41 | 93% |
-| ar | 38 / 41 | 93% |
-| hi | 38 / 41 | 93% |
-| ru | 38 / 41 | 93% |
-| th | 38 / 41 | 93% |
+| zh | 39 / 41 | 95% |
+| zh-TW | 39 / 41 | 95% |
+| ja | 39 / 41 | 95% |
+| ko | 39 / 41 | 95% |
+| es | 39 / 41 | 95% |
+| fr | 39 / 41 | 95% |
+| de | 39 / 41 | 95% |
+| pt | 39 / 41 | 95% |
+| ar | 39 / 41 | 95% |
+| hi | 39 / 41 | 95% |
+| ru | 39 / 41 | 95% |
+| th | 39 / 41 | 95% |
 
 ## Coverage matrix
 
@@ -73,7 +73,7 @@ locales; they are not tracked here.
 | `/learn/ai-agent-orchestration` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/ai-agent-tool-use` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/ai-agent-tool-use` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/claude-opus-4-8` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -88,5 +88,4 @@ locales; they are not tracked here.
 
 - `/comparison/litellm` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-memory` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/ai-agent-tool-use` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
