@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 42
-- **Fully translated (all 12 locales):** 41
+- **Fully translated (all 12 locales):** 42
 - **Partially translated:** 0
-- **English-only (0 translations):** 1
+- **English-only (0 translations):** 0
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 41 / 42 | 98% |
-| zh-TW | 41 / 42 | 98% |
-| ja | 41 / 42 | 98% |
-| ko | 41 / 42 | 98% |
-| es | 41 / 42 | 98% |
-| fr | 41 / 42 | 98% |
-| de | 41 / 42 | 98% |
-| pt | 41 / 42 | 98% |
-| ar | 41 / 42 | 98% |
-| hi | 41 / 42 | 98% |
-| ru | 41 / 42 | 98% |
-| th | 41 / 42 | 98% |
+| zh | 42 / 42 | 100% |
+| zh-TW | 42 / 42 | 100% |
+| ja | 42 / 42 | 100% |
+| ko | 42 / 42 | 100% |
+| es | 42 / 42 | 100% |
+| fr | 42 / 42 | 100% |
+| de | 42 / 42 | 100% |
+| pt | 42 / 42 | 100% |
+| ar | 42 / 42 | 100% |
+| hi | 42 / 42 | 100% |
+| ru | 42 / 42 | 100% |
+| th | 42 / 42 | 100% |
 
 ## Coverage matrix
 
@@ -49,7 +49,7 @@ locales; they are not tracked here.
 | `/comparison/aws-strands` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/crewai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/dify` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/comparison/flowise` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/comparison/flowise` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/google-adk` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/langgraph` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/litellm` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -87,5 +87,5 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/comparison/flowise` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+All pages are fully translated. 🎉
 
