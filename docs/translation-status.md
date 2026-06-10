@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-10
 
-Tracks per-page translation coverage for the 41 canonical English pages
+Tracks per-page translation coverage for the 42 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 41
+- **Canonical pages:** 42
 - **Fully translated (all 12 locales):** 41
 - **Partially translated:** 0
-- **English-only (0 translations):** 0
+- **English-only (0 translations):** 1
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 41 / 41 | 100% |
-| zh-TW | 41 / 41 | 100% |
-| ja | 41 / 41 | 100% |
-| ko | 41 / 41 | 100% |
-| es | 41 / 41 | 100% |
-| fr | 41 / 41 | 100% |
-| de | 41 / 41 | 100% |
-| pt | 41 / 41 | 100% |
-| ar | 41 / 41 | 100% |
-| hi | 41 / 41 | 100% |
-| ru | 41 / 41 | 100% |
-| th | 41 / 41 | 100% |
+| zh | 41 / 42 | 98% |
+| zh-TW | 41 / 42 | 98% |
+| ja | 41 / 42 | 98% |
+| ko | 41 / 42 | 98% |
+| es | 41 / 42 | 98% |
+| fr | 41 / 42 | 98% |
+| de | 41 / 42 | 98% |
+| pt | 41 / 42 | 98% |
+| ar | 41 / 42 | 98% |
+| hi | 41 / 42 | 98% |
+| ru | 41 / 42 | 98% |
+| th | 41 / 42 | 98% |
 
 ## Coverage matrix
 
@@ -49,6 +49,7 @@ locales; they are not tracked here.
 | `/comparison/aws-strands` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/crewai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/dify` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/comparison/flowise` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/comparison/google-adk` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/langgraph` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/litellm` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -86,5 +87,5 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-All pages are fully translated. 🎉
+- `/comparison/flowise` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
