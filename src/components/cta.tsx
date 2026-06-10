@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { DISCORD_URL, PRICING_URL } from "@/lib/constants";
+import { DEMO_URL, PRICING_URL } from "@/lib/constants";
 import { trackCtaClick } from "@/lib/analytics";
 
 const CTA_PARTICLES = [
@@ -16,6 +16,9 @@ const CTA_PARTICLES = [
 
 export function CTA() {
   const t = useTranslations("cta");
+  // Reuse the nav's translated "Book a demo" label — it exists in every
+  // locale, so the secondary CTA stays correct without new message keys.
+  const tNav = useTranslations("nav");
   return (
     <section className="cta-mesh relative overflow-hidden px-6 py-24 md:px-8 md:py-32">
       {/* Top divider */}
@@ -64,13 +67,13 @@ export function CTA() {
               {t("primaryButton")}
             </Link>
             <a
-              href={DISCORD_URL}
+              href={DEMO_URL}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackCtaClick({ location: "final_discord" })}
+              onClick={() => trackCtaClick({ location: "final_demo" })}
               className="group flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
             >
-              {t("secondaryButton")}
+              {tNav("bookDemo")}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
           </div>

@@ -36,27 +36,27 @@
     "headingLine1": "Créez une ",
     "headingHighlight": "équipe IA",
     "headingLine2": "en décrivant celle dont vous avez besoin.",
-    "tagline": "Le runtime multi-agent isolé par conteneur, conçu pour la production.",
-    "subtitle": "Dites simplement ce dont vous avez besoin — une agence marketing, une équipe commerciale, un pôle recherche, n'importe quoi — et OpenLegion déploie les bons agents en quelques minutes, avec budgets, permissions et identifiants sécurisés par défaut.",
-    "ctaPrimary": "Commencer",
+    "tagline": "Des employés IA qui abattent les tâches répétitives de votre équipe pendant qu'elle dort.",
+    "subtitle": "Décrivez ce qu'il vous faut — une agence marketing, une équipe commerciale, un pôle de recherche — et OpenLegion met une équipe d'employés IA au travail en quelques minutes. Chaque agent dispose de son propre budget et de ses propres permissions, et vos mots de passe et clés API restent dans un coffre que les agents ne peuvent jamais voir.",
+    "ctaPrimary": "Lancez votre équipe IA — dès $19/mois",
     "ctaSecondary": "Réserver une démo",
     "trustStrip": {
       "0": "Fonctionne 24h/24",
-      "1": "Budget par agent",
-      "2": "Identifiants sécurisés en coffre",
-      "3": "Conteneurs isolés",
+      "1": "Plafonds de dépenses stricts par agent",
+      "2": "Les agents ne voient jamais vos mots de passe",
+      "3": "Aucun code requis",
       "4": "Plus de 100 fournisseurs LLM",
       "5": "Auto-hébergé ou entièrement géré"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "Démo OpenLegion — déployer une flotte d'agents IA",
     "videoFallback": "Votre navigateur ne prend pas en charge la vidéo HTML5.",
-    "videoCaptionBelow": "Votre équipe passe des heures sur des tâches que des agents IA pourraient accomplir pendant qu'elle dort."
+    "videoCaptionBelow": "D'un simple prompt à une équipe IA opérationnelle — regardez."
   },
   "capabilityBand": {
     "ariaLabel": "Ce que les agents peuvent automatiser",
     "heading": "Si un humain peut le faire, un agent aussi.",
-    "subheading": "Navigateur furtif intégré. Fonctionne 24h/24.",
+    "subheading": "Vos employés IA naviguent sur le web comme un humain — et ne quittent jamais leur poste.",
     "footer": "Tous les agents s'exécutent dans des conteneurs isolés avec des identifiants sécurisés en coffre-fort et des plafonds de dépenses automatiques.",
     "pills": {
       "0": {
@@ -225,16 +225,16 @@
   "socialProof": {
     "stats": {
       "0": {
-        "fallback": "5 800+",
-        "label": "tests réussis"
+        "fallback": "5 min",
+        "label": "pour lancer votre premier agent"
       },
       "1": {
         "fallback": "100+",
         "label": "fournisseurs LLM pris en charge"
       },
       "2": {
-        "fallback": "0",
-        "label": "CVE (engine v0.1.0)"
+        "fallback": "24h/24",
+        "label": "les agents travaillent en continu"
       },
       "3": {
         "fallback": "0 $",
@@ -560,8 +560,8 @@
     "heading": "Votre équipe IA est à un ",
     "headingHighlight": "déploiement près",
     "headingEnd": ".",
-    "subtitle": "Payant dès le premier jour · Plus de 100 fournisseurs LLM · Remboursement sous 7 jours",
-    "primaryButton": "Commencer →",
+    "subtitle": "Essayez 7 jours — remboursement intégral si ça ne convient pas · Annulable à tout moment · Aucun code requis",
+    "primaryButton": "Lancez votre équipe IA →",
     "secondaryButton": "Rejoignez notre Discord"
   },
   "footer": {
@@ -670,7 +670,7 @@
     "priceSuffixMonthly": "/mois",
     "priceSuffixYearly": "/an",
     "yearlyBilledNote": "~${monthlyEquivalent}/mois facturé annuellement",
-    "monthlyNote": "Payant dès le premier jour",
+    "monthlyNote": "Satisfait ou remboursé pendant 7 jours",
     "getStarted": "Commencer",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "crédits de bienvenue",
@@ -877,6 +877,7 @@
     "skipToContent": "Aller au contenu",
     "readyToStart": "Prêt à mettre votre premier agent au travail ?",
     "getStartedInline": "Commencer →",
+    "developersHeading": "Pour les développeurs et évaluateurs techniques",
     "fleetLivePrompt": "Voici votre flotte, en direct.",
     "getStartedInMinutes": "Démarrez en quelques minutes →",
     "brandName": "OpenLegion",
@@ -889,18 +890,18 @@
   },
   "metadata": {
     "homeTitle": "Plateforme et framework d'agents IA - OpenLegion | Automatisez tout, gardez le contrôle",
-    "homeDescription": "OpenLegion est le framework et la plateforme d'agents IA conçus pour la production. Déployez des agents autonomes qui automatisent n'importe quelle tâche informatique — navigation, formulaires, code, prospection, données. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
+    "homeDescription": "OpenLegion est le framework et la plateforme d'agents IA conçus pour la production. Déployez des employés IA qui automatisent toute tâche informatique — navigation, formulaires, code, prospection, données. Aucun code requis, garantie satisfait ou remboursé de 7 jours.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — Framework et plateforme d'agents IA",
-    "ogDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Sécurisé, dans le budget, prêt pour la production. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
+    "ogDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Sécurisé, budgétisé, prêt pour la production. Garantie satisfait ou remboursé de 7 jours.",
     "ogImageAlt": "OpenLegion — Framework et plateforme d'agents IA",
     "twitterTitle": "OpenLegion — Framework et plateforme d'agents IA",
-    "twitterDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
-    "pricingTitle": "Tarifs de la plateforme d'agents IA — Payant dès le premier jour",
-    "pricingDescription": "Plans à partir de 19 $/mois avec isolation par conteneurs, sécurité coffre-fort et plus de 100 fournisseurs LLM. Payant dès le premier jour, garantie de remboursement sous 7 jours.",
-    "pricingOgTitle": "Tarifs de la plateforme d'agents IA — Payant dès le premier jour | OpenLegion",
-    "pricingOgDescription": "Plans à partir de 19 $/mois. Isolation par conteneurs, sécurité coffre-fort et plus de 100 fournisseurs LLM. Garantie de remboursement sous 7 jours.",
-    "pricingTwitterTitle": "Tarifs de la plateforme d'agents IA — Payant dès le premier jour | OpenLegion",
+    "twitterDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Garantie satisfait ou remboursé de 7 jours.",
+    "pricingTitle": "Tarifs de la plateforme d'agents IA — À partir de $19/mois",
+    "pricingDescription": "Forfaits à partir de $19/mois avec isolation par conteneur, sécurité par coffre et plus de 100 fournisseurs LLM. Annulable à tout moment, garantie satisfait ou remboursé de 7 jours.",
+    "pricingOgTitle": "Tarifs de la plateforme d'agents IA — À partir de $19/mois | OpenLegion",
+    "pricingOgDescription": "Forfaits à partir de $19/mois. Isolation par conteneur, sécurité par coffre, plus de 100 fournisseurs LLM. Garantie satisfait ou remboursé de 7 jours.",
+    "pricingTwitterTitle": "Tarifs de la plateforme d'agents IA — À partir de $19/mois | OpenLegion",
     "pricingTwitterDescription": "Plans à partir de 19 $/mois. Garantie de remboursement sous 7 jours.",
     "faqTitle": "Questions fréquemment posées",
     "faqDescription": "Réponses aux questions courantes sur OpenLegion — le runtime multi-agent isolé par conteneur, conçu pour la production. Couvre sécurité, tarifs, fournisseurs LLM, coordination, déploiement en production et plus.",

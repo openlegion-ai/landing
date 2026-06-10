@@ -36,27 +36,27 @@
     "headingLine1": "Baue eine ",
     "headingHighlight": "KI-Belegschaft",
     "headingLine2": "indem du dein Wunschteam beschreibst.",
-    "tagline": "Die container-isolierte Multi-Agenten-Runtime für den Produktiveinsatz.",
-    "subtitle": "Sag einfach, was du brauchst — eine Marketing-Agentur, ein Vertriebsteam, ein Research-Team, was auch immer — und OpenLegion stellt die passenden Agenten in Minuten bereit, mit Budgets, Berechtigungen und standardmäßig abgesicherten Zugangsdaten.",
-    "ctaPrimary": "Loslegen",
+    "tagline": "KI-Mitarbeiter, die die Routinearbeit deines Teams erledigen, während es schläft.",
+    "subtitle": "Sag einfach, was du brauchst — eine Marketing-Agentur, ein Vertriebsteam, einen Research-Desk — und OpenLegion bringt in Minuten ein Team aus KI-Mitarbeitern an die Arbeit. Jeder Agent erhält eigenes Budget und eigene Berechtigungen, und deine Passwörter und API-Schlüssel bleiben in einem Tresor, den Agenten nie einsehen können.",
+    "ctaPrimary": "Starte dein KI-Team — ab $19/Monat",
     "ctaSecondary": "Demo buchen",
     "trustStrip": {
       "0": "Läuft rund um die Uhr",
-      "1": "Budget pro Agent",
-      "2": "Tresor-gesicherte Zugangsdaten",
-      "3": "Isolierte Container",
+      "1": "Harte Ausgabenlimits pro Agent",
+      "2": "Agenten sehen deine Passwörter nie",
+      "3": "Keine Programmierung nötig",
       "4": "100+ LLM-Anbieter",
       "5": "Self-hosted oder vollständig verwaltet"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "OpenLegion Demo — Bereitstellung einer KI-Agenten-Flotte",
     "videoFallback": "Dein Browser unterstützt kein HTML5-Video.",
-    "videoCaptionBelow": "Dein Team verbringt Stunden mit Aufgaben, die KI-Agenten erledigen könnten, während es schläft."
+    "videoCaptionBelow": "Vom Prompt zum arbeitenden KI-Team — sieh selbst."
   },
   "capabilityBand": {
     "ariaLabel": "Was Agenten automatisieren können",
     "heading": "Wenn ein Mensch es kann, kann es auch ein Agent.",
-    "subheading": "Integrierter Stealth-Browser. Läuft rund um die Uhr.",
+    "subheading": "Deine KI-Mitarbeiter surfen im Web wie ein Mensch — und machen nie Feierabend.",
     "footer": "Alle Agenten laufen in isolierten Containern mit tresorgesicherten Zugangsdaten und automatischen Ausgabenlimits.",
     "pills": {
       "0": {
@@ -225,16 +225,16 @@
   "socialProof": {
     "stats": {
       "0": {
-        "fallback": "5.800+",
-        "label": "bestandene Tests"
+        "fallback": "5 Min.",
+        "label": "bis dein erster Agent läuft"
       },
       "1": {
         "fallback": "100+",
         "label": "unterstützte LLM-Anbieter"
       },
       "2": {
-        "fallback": "0",
-        "label": "CVEs (Engine v0.1.0)"
+        "fallback": "24/7",
+        "label": "Agenten arbeiten rund um die Uhr"
       },
       "3": {
         "fallback": "0 $",
@@ -560,8 +560,8 @@
     "heading": "Dein KI-Team ist nur ein ",
     "headingHighlight": "Deployment entfernt",
     "headingEnd": ".",
-    "subtitle": "Ab dem ersten Tag kostenpflichtig · 100+ LLM-Anbieter · Geld-zurück-Garantie in 7 Tagen",
-    "primaryButton": "Loslegen →",
+    "subtitle": "7 Tage testen — volle Rückerstattung, falls es nicht passt · Jederzeit kündbar · Keine Programmierung nötig",
+    "primaryButton": "Starte dein KI-Team →",
     "secondaryButton": "Tritt unserem Discord bei"
   },
   "footer": {
@@ -670,7 +670,7 @@
     "priceSuffixMonthly": "/Monat",
     "priceSuffixYearly": "/Jahr",
     "yearlyBilledNote": "~${monthlyEquivalent}/Monat bei jährlicher Abrechnung",
-    "monthlyNote": "Ab dem ersten Tag kostenpflichtig",
+    "monthlyNote": "7-Tage-Geld-zurück-Garantie",
     "getStarted": "Loslegen",
     "agentsLabel": "{count, plural, one {Agent} other {Agenten}}",
     "creditsLabel": "Willkommens-Credits",
@@ -877,6 +877,7 @@
     "skipToContent": "Zum Inhalt springen",
     "readyToStart": "Bereit, deinen ersten Agenten an die Arbeit zu setzen?",
     "getStartedInline": "Loslegen →",
+    "developersHeading": "Für Entwickler und technische Entscheider",
     "fleetLivePrompt": "Das ist deine Flotte, live.",
     "getStartedInMinutes": "In Minuten loslegen →",
     "brandName": "OpenLegion",
@@ -889,18 +890,18 @@
   },
   "metadata": {
     "homeTitle": "KI-Agenten-Plattform & Framework - OpenLegion | Alles automatisieren, Kontrolle behalten",
-    "homeDescription": "OpenLegion ist das KI-Agenten-Framework und die Plattform für den Produktiveinsatz. Stelle autonome Agenten bereit, die jede Computeraufgabe automatisieren — Surfen, Formulare, Code, Outreach, Daten. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
+    "homeDescription": "OpenLegion ist das AI-Agent-Framework und die Plattform für den Produktiveinsatz. Setzen Sie KI-Mitarbeiter ein, die jede Computeraufgabe automatisieren — Browsing, Formulare, Code, Outreach, Daten. Keine Programmierung nötig, 7-Tage-Geld-zurück-Garantie.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — KI-Agenten-Framework & Plattform",
-    "ogDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Sicher, im Budget, produktionsbereit. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
+    "ogDescription": "Setzen Sie KI-Agenten ein, die alles automatisieren, was ein Mensch am Computer tun kann. Sicher, budgetiert, produktionsreif. 7-Tage-Geld-zurück-Garantie.",
     "ogImageAlt": "OpenLegion — KI-Agenten-Framework & Plattform",
     "twitterTitle": "OpenLegion — KI-Agenten-Framework & Plattform",
-    "twitterDescription": "Stelle KI-Agenten bereit, die alles automatisieren, was ein Mensch am Computer tun kann. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
-    "pricingTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig",
-    "pricingDescription": "Pläne ab 19 $/Monat mit Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbietern. Ab dem ersten Tag kostenpflichtig, 7 Tage Geld-zurück-Garantie.",
-    "pricingOgTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig | OpenLegion",
-    "pricingOgDescription": "Pläne ab 19 $/Monat. Container-Isolation, Tresor-Sicherheit und über 100 LLM-Anbieter. 7 Tage Geld-zurück-Garantie.",
-    "pricingTwitterTitle": "KI-Agenten-Plattform Preise — Ab dem ersten Tag kostenpflichtig | OpenLegion",
+    "twitterDescription": "Setzen Sie KI-Agenten ein, die alles automatisieren, was ein Mensch am Computer tun kann. 7-Tage-Geld-zurück-Garantie.",
+    "pricingTitle": "AI-Agent-Plattform Preise — Pläne ab $19/Monat",
+    "pricingDescription": "Pläne ab $19/Monat mit Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbietern. Jederzeit kündbar, 7-Tage-Geld-zurück-Garantie.",
+    "pricingOgTitle": "AI-Agent-Plattform Preise — Pläne ab $19/Monat | OpenLegion",
+    "pricingOgDescription": "Pläne ab $19/Monat. Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbieter. 7-Tage-Geld-zurück-Garantie.",
+    "pricingTwitterTitle": "AI-Agent-Plattform Preise — Pläne ab $19/Monat | OpenLegion",
     "pricingTwitterDescription": "Pläne ab 19 $/Monat. 7 Tage Geld-zurück-Garantie.",
     "faqTitle": "Häufig gestellte Fragen",
     "faqDescription": "Antworten auf häufige Fragen zu OpenLegion — der container-isolierten Multi-Agenten-Runtime für den Produktiveinsatz. Umfasst Sicherheit, Preise, LLM-Anbieter, Koordination, Produktivbereitstellung und mehr.",

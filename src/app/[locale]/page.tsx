@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { Hero } from "@/components/hero";
 import { AudienceSelector } from "@/components/audience-selector";
 import { UseCases } from "@/components/use-cases";
@@ -19,7 +20,7 @@ import { CTA } from "@/components/cta";
 import { CapabilityBand } from "@/components/capability-band";
 import { TechnicalDefinition } from "@/components/technical-definition";
 import { Footer } from "@/components/footer";
-import { ALL_FAQ_ITEMS, APP_URL } from "@/lib/constants";
+import { ALL_FAQ_ITEMS, PRICING_URL } from "@/lib/constants";
 import { getAllContentEntries } from "@/lib/markdown";
 import { normalizeDate, ogLocaleFor } from "@/lib/content-page-helpers";
 
@@ -160,39 +161,39 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd).replace(/</g, "\\u003c") }}
       />
       <main id="main">
+        {/* Buyer path — outcome-first sections for entrepreneurs and
+            operators. Developer / technical-evaluation sections are grouped
+            below the FAQ so they stay on-page (SEO + nav anchors intact)
+            without interrupting the conversion path. */}
         <Hero />
         <CapabilityBand />
         <AudienceSelector />
-        <PromptToTeam />
         <ReadyMadeTeams />
+        <PromptToTeam />
         <UseCases />
         <SocialProof stars={stars} />
         <Testimonials />
         <ProductionReady />
         <Features />
-        <div className="px-5 py-10 text-center sm:px-6 md:px-8 md:py-14">
-          <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
-          <p className="mb-3 text-sm text-muted">{t("readyToStart")}</p>
-          <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
-            {t("getStartedInline")}
-          </a>
-          <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
-        </div>
         <DashboardPreview />
         <div className="px-5 py-10 text-center sm:px-6 md:px-8 md:py-14">
           <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
-          <p className="mb-3 text-sm text-muted">{t("fleetLivePrompt")}</p>
-          <a href={APP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
-            {t("getStartedInMinutes")}
-          </a>
+          <p className="mb-3 text-sm text-muted">{t("readyToStart")}</p>
+          <Link href={PRICING_URL} className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
+            {t("getStartedInline")}
+          </Link>
           <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>
-        <Quickstart />
         <Security />
-        <Architecture />
         <Enterprise />
-        <Comparison />
         <FAQ />
+        <div className="px-5 pt-16 text-center sm:px-6 md:px-8 md:pt-20" aria-hidden="false">
+          <div className="mx-auto mb-4 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
+          <p className="text-sm font-semibold uppercase tracking-widest text-muted">{t("developersHeading")}</p>
+        </div>
+        <Quickstart />
+        <Architecture />
+        <Comparison />
         <TechnicalDefinition />
         <CTA />
       </main>

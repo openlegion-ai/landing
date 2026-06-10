@@ -36,27 +36,27 @@
     "headingLine1": "打造您的",
     "headingHighlight": "AI 團隊",
     "headingLine2": "只需描述您想要的團隊。",
-    "tagline": "為生產環境打造的容器隔離式多智慧代理執行環境。",
-    "subtitle": "只需告訴我們你需要什麼 — 行銷團隊、業務團隊、研究團隊，任何團隊都行 — OpenLegion 幾分鐘內即可部署合適的智慧代理，預算、權限和憑證預設安全鎖定。",
-    "ctaPrimary": "立即開始",
+    "tagline": "AI員工在你的團隊休息時，把瑣碎工作全部完成。",
+    "subtitle": "描述你的需求 —— 行銷公司、業務團隊、研究小組 —— OpenLegion 幾分鐘內就能讓一支AI員工團隊開始工作。每個代理都有獨立的預算與權限，你的密碼和 API 金鑰保存在代理永遠無法存取的保險庫中。",
+    "ctaPrimary": "組建你的AI團隊 — 每月$19起",
     "ctaSecondary": "預約展示",
     "trustStrip": {
       "0": "全天候運行",
-      "1": "按代理設定預算",
-      "2": "Vault 安全託管憑證",
-      "3": "容器級隔離",
+      "1": "每個代理的硬性支出上限",
+      "2": "代理永遠看不到你的密碼",
+      "3": "無需編程",
       "4": "100+ LLM 供應商",
       "5": "自架或全託管"
     },
     "terminalTitle": "openlegion 示範",
     "videoTitle": "OpenLegion 示範 — 部署 AI 智慧代理艦隊",
     "videoFallback": "您的瀏覽器不支援 HTML5 影片。",
-    "videoCaptionBelow": "您的團隊花費數小時完成的工作，AI 智慧代理可以在您入睡後完成。"
+    "videoCaptionBelow": "一句提示詞，就是一支真正運作的AI團隊 —— 親眼看看。"
   },
   "capabilityBand": {
     "ariaLabel": "智慧代理可自動化的項目",
     "heading": "人類能做的，智慧代理也能做到。",
-    "subheading": "內建隱匿瀏覽器。全天候 24/7 運作。",
+    "subheading": "你的AI員工像真人一樣瀏覽網頁，而且全年無休。",
     "footer": "所有智慧代理皆在隔離容器中執行，配備 Vault 保護的憑證和自動支出上限。",
     "pills": {
       "0": {
@@ -225,16 +225,16 @@
   "socialProof": {
     "stats": {
       "0": {
-        "fallback": "5,800+",
-        "label": "測試通過數"
+        "fallback": "5分鐘",
+        "label": "首個代理即可上線"
       },
       "1": {
         "fallback": "100+",
         "label": "支援的 LLM 供應商"
       },
       "2": {
-        "fallback": "0",
-        "label": "CVE 數（engine v0.1.0）"
+        "fallback": "24/7",
+        "label": "代理全天候工作"
       },
       "3": {
         "fallback": "$0",
@@ -560,8 +560,8 @@
     "heading": "您的 AI 團隊只差",
     "headingHighlight": "一鍵部署",
     "headingEnd": "。",
-    "subtitle": "首日即付 · 100+ LLM 供應商 · 7 天退款保證",
-    "primaryButton": "立即開始 →",
+    "subtitle": "試用7天 —— 不合適全額退款 · 隨時取消 · 無需編程",
+    "primaryButton": "組建你的AI團隊 →",
     "secondaryButton": "加入我們的 Discord"
   },
   "footer": {
@@ -670,7 +670,7 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年付約 ${monthlyEquivalent}/月",
-    "monthlyNote": "首日即付",
+    "monthlyNote": "7天退款保證",
     "getStarted": "立即開始",
     "agentsLabel": "{count, plural, one {個智慧代理} other {個智慧代理}}",
     "creditsLabel": "歡迎贈送額度",
@@ -877,6 +877,7 @@
     "skipToContent": "跳至內容",
     "readyToStart": "準備好讓您的第一個智慧代理開始工作了嗎？",
     "getStartedInline": "立即開始 →",
+    "developersHeading": "面向開發者與技術評估者",
     "fleetLivePrompt": "這是您的艦隊，即時呈現。",
     "getStartedInMinutes": "幾分鐘即可上手 →",
     "brandName": "OpenLegion",
@@ -889,18 +890,18 @@
   },
   "metadata": {
     "homeTitle": "AI 智慧代理平台與框架 - OpenLegion | 自動化一切，掌握全局",
-    "homeDescription": "OpenLegion 是專為生產環境打造的 AI 智慧代理框架與平台。部署自主智慧代理，自動化任何電腦任務 — 瀏覽、表單、程式碼、外展、資料。首日即付，7 天退款保證。",
+    "homeDescription": "OpenLegion 是為生產環境打造的AI代理框架與平台。部署能自動完成任何電腦任務的AI員工 —— 瀏覽網頁、填寫表單、撰寫程式碼、客戶開發、資料處理。無需編程，7天退款保證。",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI 智慧代理框架與平台",
-    "ogDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。安全、預算可控、生產就緒。首日即付，7 天退款保證。",
+    "ogDescription": "部署AI代理，自動完成人類在電腦上能做的一切。安全、預算可控、生產就緒。7天退款保證。",
     "ogImageAlt": "OpenLegion — AI 智慧代理框架與平台",
     "twitterTitle": "OpenLegion — AI 智慧代理框架與平台",
-    "twitterDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。首日即付，7 天退款保證。",
-    "pricingTitle": "AI 智慧代理平台定價 — 首日即付",
-    "pricingDescription": "方案從每月 $19 起，含容器隔離、Vault 安全性和 100+ LLM 供應商。首日即付，7 天退款保證。",
-    "pricingOgTitle": "AI 智慧代理平台定價 — 首日即付 | OpenLegion",
-    "pricingOgDescription": "方案從每月 $19 起。容器隔離、Vault 安全性和 100+ LLM 供應商。7 天退款保證。",
-    "pricingTwitterTitle": "AI 智慧代理平台定價 — 首日即付 | OpenLegion",
+    "twitterDescription": "部署AI代理，自動完成人類在電腦上能做的一切。7天退款保證。",
+    "pricingTitle": "AI代理平台定價 — 每月$19起",
+    "pricingDescription": "每月$19起，含容器隔離、保險庫安全與100+ LLM供應商。隨時取消，7天退款保證。",
+    "pricingOgTitle": "AI代理平台定價 — 每月$19起 | OpenLegion",
+    "pricingOgDescription": "每月$19起。容器隔離、保險庫安全、100+ LLM供應商。7天退款保證。",
+    "pricingTwitterTitle": "AI代理平台定價 — 每月$19起 | OpenLegion",
     "pricingTwitterDescription": "方案從每月 $19 起。7 天退款保證。",
     "faqTitle": "常見問題",
     "faqDescription": "關於 OpenLegion 的常見問題解答 — 為生產環境打造的容器隔離式多智慧代理執行環境。涵蓋安全、定價、LLM 提供者、協同、生產部署等。",

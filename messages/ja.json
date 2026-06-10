@@ -36,27 +36,27 @@
     "headingLine1": "",
     "headingHighlight": "AIワークフォース",
     "headingLine2": "欲しいチームを伝えるだけで構築。",
-    "tagline": "本番環境向けに構築された、コンテナ分離型マルチエージェントランタイム。",
-    "subtitle": "必要なものを伝えるだけ — マーケティングチーム、営業チーム、リサーチチーム、なんでも — OpenLegion が最適なエージェントを数分でデプロイし、予算・権限・認証情報はデフォルトで保護されます。",
-    "ctaPrimary": "今すぐ始める",
+    "tagline": "あなたのチームが眠っている間に、雑務を片付けてくれるAI社員。",
+    "subtitle": "必要なものを言葉で伝えるだけ — マーケティング代理店、営業チーム、リサーチデスク — OpenLegionが数分でAI社員のチームを稼働させます。各エージェントには専用の予算と権限が割り当てられ、パスワードやAPIキーはエージェントが決して見られないVaultに保管されます。",
+    "ctaPrimary": "AIチームを始める — 月額$19から",
     "ctaSecondary": "デモを予約",
     "trustStrip": {
       "0": "24時間365日稼働",
-      "1": "エージェント単位の予算管理",
-      "2": "Vault保護の認証情報",
-      "3": "コンテナ分離",
+      "1": "エージェントごとの厳格な支出上限",
+      "2": "エージェントはパスワードを一切見られません",
+      "3": "コーディング不要",
       "4": "100以上のLLMプロバイダー",
       "5": "セルフホストまたはフルマネージド"
     },
     "terminalTitle": "openlegion デモ",
     "videoTitle": "OpenLegion デモ — AIエージェントフリートのデプロイ",
     "videoFallback": "お使いのブラウザはHTML5動画に対応していません。",
-    "videoCaptionBelow": "あなたのチームが何時間もかけている作業を、AIエージェントなら就寝中に完了できます。"
+    "videoCaptionBelow": "ひとつのプロンプトから動くAIチームへ — その様子をご覧ください。"
   },
   "capabilityBand": {
     "ariaLabel": "エージェントが自動化できること",
     "heading": "人間にできることなら、エージェントにもできます。",
-    "subheading": "ステルスブラウザ内蔵。24時間365日稼働。",
+    "subheading": "AI社員は人間のようにWebを操作し、24時間休まず働きます。",
     "footer": "すべてのエージェントは隔離されたコンテナ内で実行され、Vault保護された認証情報と自動支出上限が適用されます。",
     "pills": {
       "0": {
@@ -225,16 +225,16 @@
   "socialProof": {
     "stats": {
       "0": {
-        "fallback": "5,800+",
-        "label": "テスト通過数"
+        "fallback": "5分",
+        "label": "最初のエージェント稼働まで"
       },
       "1": {
         "fallback": "100+",
         "label": "対応LLMプロバイダー"
       },
       "2": {
-        "fallback": "0",
-        "label": "CVE件数（engine v0.1.0）"
+        "fallback": "24/7",
+        "label": "エージェントは年中無休で稼働"
       },
       "3": {
         "fallback": "$0",
@@ -560,8 +560,8 @@
     "heading": "あなたのAIチームは",
     "headingHighlight": "デプロイ",
     "headingEnd": "するだけ。",
-    "subtitle": "初日から有料 · 100以上のLLMプロバイダー · 7日間返金保証",
-    "primaryButton": "今すぐ始める →",
+    "subtitle": "7日間お試し — 合わなければ全額返金 · いつでも解約可能 · コーディング不要",
+    "primaryButton": "AIチームを始める →",
     "secondaryButton": "Discordに参加"
   },
   "footer": {
@@ -670,7 +670,7 @@
     "priceSuffixMonthly": "/月",
     "priceSuffixYearly": "/年",
     "yearlyBilledNote": "年払いで約${monthlyEquivalent}/月",
-    "monthlyNote": "初日から有料",
+    "monthlyNote": "7日間返金保証",
     "getStarted": "今すぐ始める",
     "agentsLabel": "{count, plural, one {エージェント} other {エージェント}}",
     "creditsLabel": "ウェルカムクレジット",
@@ -877,6 +877,7 @@
     "skipToContent": "コンテンツにスキップ",
     "readyToStart": "最初のエージェントを稼働させる準備はできましたか？",
     "getStartedInline": "今すぐ始める →",
+    "developersHeading": "開発者・技術評価者向け",
     "fleetLivePrompt": "これがあなたのフリートです、ライブで。",
     "getStartedInMinutes": "数分で始める →",
     "brandName": "OpenLegion",
@@ -889,18 +890,18 @@
   },
   "metadata": {
     "homeTitle": "AIエージェントプラットフォーム＆フレームワーク - OpenLegion | あらゆる作業を自動化、コントロールを維持",
-    "homeDescription": "OpenLegionは本番環境のために構築されたAIエージェントフレームワーク＆プラットフォームです。ブラウジング、フォーム、コード、アウトリーチ、データなど、あらゆるコンピュータータスクを自動化する自律エージェントをデプロイ。初日から有料、7日間返金保証付き。",
+    "homeDescription": "OpenLegionは本番運用のためのAIエージェントフレームワーク＆プラットフォーム。ブラウジング、フォーム入力、コード、アウトリーチ、データ処理など、あらゆるPC作業を自動化するAI社員を配備できます。コーディング不要、7日間返金保証。",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "ogDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。セキュア、予算内、本番対応。初日から有料、7日間返金保証付き。",
+    "ogDescription": "人間がコンピュータでできることを何でも自動化するAIエージェントを配備。安全・予算管理付き・本番対応。7日間返金保証。",
     "ogImageAlt": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
     "twitterTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "twitterDescription": "人間がコンピューター上でできることなら何でも自動化するAIエージェントをデプロイ。初日から有料、7日間返金保証付き。",
-    "pricingTitle": "AIエージェントプラットフォーム料金 — 初日から有料",
-    "pricingDescription": "月額$19からのプランで、コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダーに対応。初日から有料、7日間返金保証付き。",
-    "pricingOgTitle": "AIエージェントプラットフォーム料金 — 初日から有料 | OpenLegion",
-    "pricingOgDescription": "月額$19からのプラン。コンテナ隔離、Vaultセキュリティ、100以上のLLMプロバイダー。7日間返金保証。",
-    "pricingTwitterTitle": "AIエージェントプラットフォーム料金 — 初日から有料 | OpenLegion",
+    "twitterDescription": "人間がコンピュータでできることを何でも自動化するAIエージェントを配備。7日間返金保証。",
+    "pricingTitle": "AIエージェントプラットフォーム料金 — 月額$19から",
+    "pricingDescription": "月額$19からのプラン。コンテナ分離、Vaultセキュリティ、100以上のLLMプロバイダー対応。いつでも解約可能、7日間返金保証。",
+    "pricingOgTitle": "AIエージェントプラットフォーム料金 — 月額$19から | OpenLegion",
+    "pricingOgDescription": "月額$19からのプラン。コンテナ分離、Vaultセキュリティ、100以上のLLMプロバイダー。7日間返金保証。",
+    "pricingTwitterTitle": "AIエージェントプラットフォーム料金 — 月額$19から | OpenLegion",
     "pricingTwitterDescription": "月額$19からのプラン。7日間返金保証。",
     "faqTitle": "よくある質問",
     "faqDescription": "本番環境向けに構築された、コンテナ分離型マルチエージェントランタイムOpenLegionに関するよくある質問への回答。セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメントなどをカバーします。",
