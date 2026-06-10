@@ -1,7 +1,7 @@
 ---
 title: "AI Agent Tool Use — Function Calling, Schemas, and Safe Execution"
 description: "How AI agents use tools: defining tool schemas, function calling across providers, parallel and chained calls, output parsing, error recovery, and permission scoping for safe production execution."
-slug: ai-agent-tool-use
+slug: /learn/ai-agent-tool-use
 primary_keyword: ai agent tool use
 last_updated: "2026-06-08"
 schema_types:
@@ -116,7 +116,7 @@ Anthropic's tool use also validates argument structure against the schema before
 
 OpenAI's Responses API (March 2025) made parallel tool calls the default. In a single LLM turn, the model can request multiple tool executions simultaneously. For independent tools — tools whose outputs don't depend on each other — parallel dispatch reduces round-trips from N sequential turns to one concurrent batch.
 
-Example: a research agent needs current stock price, recent news, and a company's SEC filing. All three are independent. Sequential execution: 3 LLM turns × 10s each = 30s. Parallel execution: 1 LLM turn + max(tool latencies) ≈ 10s. The saving compounds across pipelines.
+Example: a research agent needs current stock price, recent news, and a company's SEC filing. All three are independent. Sequential execution: 3 LLM turns x 10s each = 30s. Parallel execution: 1 LLM turn + max(tool latencies) approx 10s. The saving compounds across pipelines.
 
 The precondition: the tools must be genuinely independent. If tool B needs tool A's output as an argument, they must be sequential. If both tools write to the same stateful resource without transaction support, parallel dispatch risks a race condition.
 
