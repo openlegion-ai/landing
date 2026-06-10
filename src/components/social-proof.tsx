@@ -12,8 +12,10 @@ interface StatDef {
   suffix?: string;
 }
 
+// Outcome-framed stats for the buyer audience. Developer proof points
+// (5,800+ tests, 0 CVEs) live in the Enterprise and Comparison sections.
 const STATS: StatDef[] = [
-  { target: 5800, suffix: "+" },
+  { target: 0, suffix: "" },
   { target: 100, suffix: "+" },
   { target: 0, suffix: "" },
   { target: 0, prefix: "$", suffix: "" },

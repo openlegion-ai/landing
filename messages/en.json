@@ -36,27 +36,27 @@
     "headingLine1": "Build your ",
     "headingHighlight": "AI agent workforce",
     "headingLine2": "by describing the team you want.",
-    "tagline": "The container-isolated multi-agent runtime built for production.",
-    "subtitle": "Describe what you need — a marketing agency, a sales team, a research desk — and the OpenLegion AI agent framework deploys a multi-agent fleet in minutes, with budgets, permissions, and vault-proxied credentials locked down by default.",
-    "ctaPrimary": "Get Started",
+    "tagline": "AI employees that finish your team's busywork while they sleep.",
+    "subtitle": "Describe what you need — a marketing agency, a sales team, a research desk — and OpenLegion puts a team of AI employees to work in minutes. Each agent gets its own budget and permissions, and your passwords and API keys stay in a vault agents can never see.",
+    "ctaPrimary": "Start your AI team — from $19/mo",
     "ctaSecondary": "Book a demo",
     "trustStrip": {
       "0": "Runs 24/7",
-      "1": "Per-agent budgets",
-      "2": "Vault-secured credentials",
-      "3": "Isolated containers",
+      "1": "Hard spending caps per agent",
+      "2": "Agents never see your passwords",
+      "3": "No coding required",
       "4": "100+ LLM providers",
       "5": "Self-host or fully managed"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "OpenLegion demo — deploying an AI agent fleet",
     "videoFallback": "Your browser does not support HTML5 video.",
-    "videoCaptionBelow": "Your team is spending hours on work that AI agents could finish while they sleep."
+    "videoCaptionBelow": "From one prompt to a working AI team — watch it happen."
   },
   "capabilityBand": {
     "ariaLabel": "What agents can automate",
     "heading": "If a human can do it, an agent can too.",
-    "subheading": "Built-in stealth browser. Runs 24/7.",
+    "subheading": "Your AI employees browse the web like a person — and they never clock out.",
     "footer": "All agents run in isolated containers with vault-secured credentials and automatic spend caps.",
     "pills": {
       "0": {
@@ -225,16 +225,16 @@
   "socialProof": {
     "stats": {
       "0": {
-        "fallback": "5,800+",
-        "label": "tests passing"
+        "fallback": "5 min",
+        "label": "to your first agent running"
       },
       "1": {
         "fallback": "100+",
         "label": "LLM providers supported"
       },
       "2": {
-        "fallback": "0",
-        "label": "CVEs (engine v0.1.0)"
+        "fallback": "24/7",
+        "label": "agents work around the clock"
       },
       "3": {
         "fallback": "$0",
@@ -560,8 +560,8 @@
     "heading": "Your AI team is one ",
     "headingHighlight": "deploy away",
     "headingEnd": ".",
-    "subtitle": "Paid from day one · 100+ LLM providers · Money-back in 7 days",
-    "primaryButton": "Get Started →",
+    "subtitle": "Try it for 7 days — full refund if it's not a fit · Cancel anytime · No coding required",
+    "primaryButton": "Start your AI team →",
     "secondaryButton": "Join our Discord"
   },
   "footer": {
@@ -670,7 +670,7 @@
     "priceSuffixMonthly": "/mo",
     "priceSuffixYearly": "/yr",
     "yearlyBilledNote": "~${monthlyEquivalent}/mo billed annually",
-    "monthlyNote": "Paid from day one",
+    "monthlyNote": "7-day money-back guarantee",
     "getStarted": "Get Started",
     "agentsLabel": "{count, plural, one {agent} other {agents}}",
     "creditsLabel": "welcome credits",
@@ -877,6 +877,7 @@
     "skipToContent": "Skip to content",
     "readyToStart": "Ready to put your first agent to work?",
     "getStartedInline": "Get Started →",
+    "developersHeading": "For developers & technical evaluators",
     "fleetLivePrompt": "This is your fleet, live.",
     "getStartedInMinutes": "Get started in minutes →",
     "brandName": "OpenLegion",
@@ -889,18 +890,18 @@
   },
   "metadata": {
     "homeTitle": "AI Agent Platform & Framework - OpenLegion | Automate Anything, Stay in Control",
-    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy autonomous agents that automate any computer task — browsing, forms, code, outreach, data. Paid from day one, 7-day money-back guarantee.",
+    "homeDescription": "OpenLegion is the AI agent framework and platform built for production. Deploy AI employees that automate any computer task — browsing, forms, code, outreach, data. No coding required, 7-day money-back guarantee.",
     "titleTemplate": "{title} | OpenLegion",
     "ogTitle": "OpenLegion — AI Agent Framework & Platform",
-    "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. Paid from day one, 7-day money-back guarantee.",
+    "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. 7-day money-back guarantee.",
     "ogImageAlt": "OpenLegion — AI Agent Framework & Platform",
     "twitterTitle": "OpenLegion — AI Agent Framework & Platform",
-    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. Paid from day one, 7-day money-back guarantee.",
-    "pricingTitle": "AI Agent Platform Pricing — Paid From Day One",
-    "pricingDescription": "Plans from $19/month with container isolation, vault security, and 100+ LLM providers. Paid from day one, 7-day money-back guarantee.",
-    "pricingOgTitle": "AI Agent Platform Pricing — Paid From Day One | OpenLegion",
+    "twitterDescription": "Deploy AI agents that automate anything a human can do on a computer. 7-day money-back guarantee.",
+    "pricingTitle": "AI Agent Platform Pricing — Plans From $19/Month",
+    "pricingDescription": "Plans from $19/month with container isolation, vault security, and 100+ LLM providers. Cancel anytime, 7-day money-back guarantee.",
+    "pricingOgTitle": "AI Agent Platform Pricing — Plans From $19/Month | OpenLegion",
     "pricingOgDescription": "Plans from $19/month. Container isolation, vault security, and 100+ LLM providers. 7-day money-back guarantee.",
-    "pricingTwitterTitle": "AI Agent Platform Pricing — Paid From Day One | OpenLegion",
+    "pricingTwitterTitle": "AI Agent Platform Pricing — Plans From $19/Month | OpenLegion",
     "pricingTwitterDescription": "Plans from $19/month. 7-day money-back guarantee.",
     "faqTitle": "Frequently Asked Questions",
     "faqDescription": "Answers to common questions about OpenLegion — the container-isolated multi-agent runtime built for production. Covers security, pricing, LLM providers, coordination, production deployment, and more.",
@@ -1267,7 +1268,7 @@
   "moneyBackPage": {
     "title": "7-Day Money-Back Guarantee",
     "tagline": "Full refund on your first month, no questions asked.",
-    "intro": "We stand behind OpenLegion. If your first month isn't a fit for any reason, email {email} within 7 days of your first subscription payment and we'll refund the full amount you actually paid (the launch-pricing amount billed by Polar — not the higher anchor displayed alongside).",
+    "intro": "We stand behind OpenLegion. If your first month isn't a fit for any reason, email {email} within 7 days of your first subscription payment and we'll refund the full amount you paid — no questions asked.",
     "covered": {
       "heading": "What's covered",
       "items": {

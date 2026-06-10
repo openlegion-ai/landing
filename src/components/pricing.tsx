@@ -15,7 +15,6 @@ import {
   Zap,
 } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
-import { Testimonials } from "@/components/testimonials";
 import { APP_URL } from "@/lib/constants";
 import { Link } from "@/i18n/navigation";
 import { trackCtaClick, trackEvent } from "@/lib/analytics";
@@ -104,7 +103,6 @@ const TRUST_KEYS = ["trust.cancel", "trust.switch"] as const;
 export function Pricing() {
   const [billing, setBilling] = useState<Billing>("monthly");
   const t = useTranslations("pricing");
-  const tAnchors = useTranslations("pricingAnchors");
 
   // GA4 ecommerce `view_item_list` — fires when the pricing list is
   // visible. Re-fires on billing toggle because the items[] payload
@@ -212,29 +210,6 @@ export function Pricing() {
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
             const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
-            // plan.name uses snake_case (matches DB), anchor keys in locale
-            // files use camelCase. Normalize: pro_max → proMax.
-            const anchorPlanKey = plan.name.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase());
-            const anchorKey = `${anchorPlanKey}${billing === "monthly" ? "Monthly" : "Yearly"}`;
-            const anchor = (() => {
-              try {
-                return tAnchors(anchorKey);
-              } catch {
-                return null;
-              }
-            })();
-            const anchorNum = anchor ? parseInt(anchor.replace(/,/g, ""), 10) : null;
-            const savingsAmount =
-              anchorNum && !Number.isNaN(anchorNum) ? anchorNum - price : null;
-            const savingsPercent =
-              anchorNum && !Number.isNaN(anchorNum) && anchorNum > 0
-                ? Math.round((1 - price / anchorNum) * 100)
-                : null;
-            const showSavings =
-              savingsAmount !== null &&
-              savingsAmount > 0 &&
-              savingsPercent !== null &&
-              savingsPercent > 0;
 
             return (
               <StaggerItem key={plan.name}>
@@ -256,19 +231,6 @@ export function Pricing() {
                     </div>
                   )}
 
-                  {/* Savings ribbon — top-right corner sticker. Small and
-                      tight so it doesn't compete with the Popular badge.
-                      Percent only; the dollar math is implicit in the
-                      strikethrough below. */}
-                  {showSavings && (
-                    <div
-                      className="absolute -right-2 -top-2 z-10 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md shadow-amber-500/40"
-                      aria-label={t("savingsAriaLabel", { percent: savingsPercent! })}
-                    >
-                      -{savingsPercent}%
-                    </div>
-                  )}
-
                   <h2 className="text-lg font-semibold text-foreground">
                     {plan.popular && (
                       <span className="sr-only">{t("a11y.mostPopular")} — </span>
@@ -280,20 +242,11 @@ export function Pricing() {
                   </p>
 
                   <div className="mt-4">
-                    {/* Price + strikethrough inline — reads "now / was" left-to-right */}
                     <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
                       <span className="text-4xl font-bold tracking-tight text-foreground">
                         ${price.toLocaleString()}
                       </span>
                       <span className="text-muted">{suffix}</span>
-                      {anchor && (
-                        <s
-                          className="text-sm text-muted/60 line-through"
-                          aria-label={t("a11y.originalPriceAria", { price: anchor })}
-                        >
-                          ${anchorNum != null && !Number.isNaN(anchorNum) ? anchorNum.toLocaleString() : anchor}
-                        </s>
-                      )}
                     </div>
                   </div>
                   <p className="mt-2 min-h-[1.25rem] text-xs text-muted">
@@ -398,11 +351,6 @@ export function Pricing() {
         </StaggerContainer>
 
       </div>
-
-      {/* Testimonial row — social proof immediately after the hero cards.
-          Voices substitute for the "free trial" we can't offer; non-tech
-          audience leans heavily on relatable outcomes to feel safe paying. */}
-      <Testimonials />
 
       <div className="mx-auto max-w-6xl">
         {/* Basic — slim band for solo experimenters. Discoverable but
