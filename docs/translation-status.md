@@ -18,25 +18,25 @@ locales; they are not tracked here.
 
 - **Canonical pages:** 41
 - **Fully translated (all 12 locales):** 39
-- **Partially translated:** 1
-- **English-only (0 translations):** 1
+- **Partially translated:** 2
+- **English-only (0 translations):** 0
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
 | zh | 39 / 41 | 95% |
-| zh-TW | 40 / 41 | 98% |
+| zh-TW | 41 / 41 | 100% |
 | ja | 39 / 41 | 95% |
 | ko | 39 / 41 | 95% |
 | es | 39 / 41 | 95% |
 | fr | 39 / 41 | 95% |
 | de | 39 / 41 | 95% |
 | pt | 39 / 41 | 95% |
-| ar | 40 / 41 | 98% |
-| hi | 40 / 41 | 98% |
-| ru | 40 / 41 | 98% |
-| th | 40 / 41 | 98% |
+| ar | 41 / 41 | 100% |
+| hi | 41 / 41 | 100% |
+| ru | 41 / 41 | 100% |
+| th | 41 / 41 | 100% |
 
 ## Coverage matrix
 
@@ -68,7 +68,7 @@ locales; they are not tracked here.
 | `/learn/agentic-workflows` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-evaluation` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-frameworks` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/ai-agent-memory` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/ai-agent-memory` | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | 5/12 |
 | `/learn/ai-agent-observability` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-orchestration` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -87,5 +87,5 @@ locales; they are not tracked here.
 ## Pages needing translation
 
 - `/comparison/litellm` — missing: zh, ja, ko, es, fr, de, pt
-- `/learn/ai-agent-memory` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/ai-agent-memory` — missing: zh, ja, ko, es, fr, de, pt
 
