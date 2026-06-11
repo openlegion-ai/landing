@@ -37,101 +37,23 @@
     "headingHighlight": "AI agent workforce",
     "headingLine2": "by describing the team you want.",
     "tagline": "The container-isolated multi-agent runtime built for production.",
-    "subtitle": "Describe what you need — a marketing agency, a sales team, a research desk — and the OpenLegion AI agent framework deploys a multi-agent fleet in minutes, with budgets, permissions, and vault-proxied credentials locked down by default.",
+    "subtitle": "Describe the team you need — sales, content, research, engineering — and the OpenLegion AI agent framework deploys it as a multi-agent fleet in minutes, with budgets, permissions, and vault-secured credentials locked down by default.",
     "ctaPrimary": "Get Started",
     "ctaSecondary": "Book a demo",
     "trustStrip": {
       "0": "Runs 24/7",
-      "1": "Per-agent budgets",
-      "2": "Vault-secured credentials",
-      "3": "Isolated containers",
-      "4": "100+ LLM providers",
-      "5": "Self-host or fully managed"
+      "1": "Vault-secured credentials",
+      "2": "100+ LLM providers"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "OpenLegion demo — deploying an AI agent fleet",
     "videoFallback": "Your browser does not support HTML5 video.",
     "videoCaptionBelow": "Your team is spending hours on work that AI agents could finish while they sleep."
   },
-  "capabilityBand": {
-    "ariaLabel": "What agents can automate",
-    "heading": "If a human can do it, an agent can too.",
-    "subheading": "Built-in stealth browser. Runs 24/7.",
-    "footer": "All agents run in isolated containers with vault-secured credentials and automatic spend caps.",
-    "pills": {
-      "0": {
-        "label": "Browse any website",
-        "tip": "Researches competitors, reads news, pulls product data"
-      },
-      "1": {
-        "label": "Fill out any form",
-        "tip": "Submits applications, updates CRMs, books appointments"
-      },
-      "2": {
-        "label": "Write and run code",
-        "tip": "Builds features, fixes bugs, runs tests, deploys changes"
-      },
-      "3": {
-        "label": "Send emails & messages",
-        "tip": "Runs outreach sequences, follows up, replies to enquiries"
-      },
-      "4": {
-        "label": "Manage files & folders",
-        "tip": "Organises docs, renames files, moves and archives content"
-      },
-      "5": {
-        "label": "Research & summarise",
-        "tip": "Reads articles, compiles reports, answers research questions"
-      },
-      "6": {
-        "label": "Scrape data from sites",
-        "tip": "Extracts pricing, contacts, listings — no API needed"
-      },
-      "7": {
-        "label": "Qualify sales leads",
-        "tip": "Scores prospects, enriches data, books discovery calls"
-      },
-      "8": {
-        "label": "Process spreadsheets",
-        "tip": "Cleans data, runs calculations, generates summaries"
-      },
-      "9": {
-        "label": "Post to social media",
-        "tip": "Drafts and schedules posts across multiple platforms"
-      },
-      "10": {
-        "label": "Monitor for changes",
-        "tip": "Alerts you when prices drop, pages update, or events fire"
-      },
-      "11": {
-        "label": "Trigger via Telegram, Discord, Slack, WhatsApp, Webhook",
-        "tip": "Five messaging channels plus a CLI REPL — trigger agents and get updates via the tools your team already uses"
-      }
-    }
-  },
-  "audienceSelector": {
-    "heading": "What do you need to ",
-    "headingHighlight": "automate",
-    "headingEnd": "?",
-    "cards": {
-      "0": {
-        "title": "I need to automate my team's workflows"
-      },
-      "1": {
-        "title": "I need to build AI-powered products"
-      },
-      "2": {
-        "title": "I need a custom AI workforce"
-      },
-      "3": {
-        "title": "Deploy for my enterprise"
-      }
-    }
-  },
   "useCases": {
     "sectionLabel": "Use Cases",
-    "heading": "What role does your ",
-    "headingHighlight": "team need",
+    "heading": "Which AI agent team do you need — ",
+    "headingHighlight": "sales, content, research, or engineering",
     "headingEnd": "?",
     "subtitle": "Pick a built-in multi-agent template or define your own autonomous agent fleet. Each agent gets its own container, budget, and tool permissions.",
     "items": {
@@ -142,7 +64,7 @@
           "1": "Engineer",
           "2": "Reviewer"
         },
-        "description": "OpenLegion's Dev Team template automates task planning, code generation, and PR review. Ship features while your agent fleet handles the boilerplate."
+        "description": "OpenLegion's Dev Team template automates task planning, code generation, and PR review — the triage and boilerplate that eat hours of every engineer's week."
       },
       "1": {
         "name": "Your sales team",
@@ -151,7 +73,7 @@
           "1": "Qualifier",
           "2": "Outreach"
         },
-        "description": "OpenLegion's Sales Pipeline template runs lead research, scoring, and personalized outreach — 24/7 without human babysitting."
+        "description": "OpenLegion's Sales Pipeline template runs lead research, scoring, and personalized outreach 24/7 — a full week of manual prospecting handled while you sleep."
       },
       "2": {
         "name": "Your content team",
@@ -159,7 +81,7 @@
           "0": "Researcher",
           "1": "Writer"
         },
-        "description": "OpenLegion's Content Studio template pairs a researcher and a writer to handle topic research and long-form drafts with consistent brand voice across every piece."
+        "description": "OpenLegion's Content Studio template pairs a researcher and a writer with consistent brand voice — research-to-draft cycles that take days land in hours."
       },
       "3": {
         "name": "Your treasury team",
@@ -272,7 +194,7 @@
   },
   "dashboardPreview": {
     "sectionLabel": "Fleet Dashboard",
-    "heading": "See your fleet in ",
+    "heading": "Monitor your AI agent fleet in ",
     "headingHighlight": "real time",
     "subtitle": "Every agent, every cost, every event — live. Chat with agents, monitor health, and track spend from one unified view.",
     "windowTitle": "Fleet Overview",
@@ -387,47 +309,6 @@
     },
     "allLayersLink": "All six layers explained in detail →"
   },
-  "architecture": {
-    "sectionLabel": "Under the hood",
-    "title": "Defense-in-depth — trust zones at every layer",
-    "summary": "Your multi-agent fleet runs across four trust tiers — untrusted external input, sandboxed agents, the trusted mesh, and a loopback-only internal tier — plus an operator-or-internal permission tier. Agents only message each other through the mesh, gated by per-agent ACLs; the mesh holds the keys.",
-    "zones": {
-      "0": {
-        "name": "User Zone",
-        "trust": "Untrusted Input",
-        "items": {
-          "0": "CLI / Telegram / Discord",
-          "1": "Slack / WhatsApp / Webhooks",
-          "2": "Sanitized via prompt-injection guards"
-        }
-      },
-      "1": {
-        "name": "Mesh Host",
-        "trust": "Trusted (Zone 2)",
-        "items": {
-          "0": "FastAPI on :8420",
-          "1": "Blackboard (SQLite + WAL)",
-          "2": "PubSub + Message Router",
-          "3": "Credential Vault (API Proxy)",
-          "4": "ACL Matrix + Lane Router",
-          "5": "Browser Service :8500 (per-agent Camoufox)"
-        }
-      },
-      "2": {
-        "name": "Agent Containers",
-        "trust": "Sandboxed (Zone 1)",
-        "items": {
-          "0": "FastAPI :8400 (per container)",
-          "1": "Own /data volume",
-          "2": "Own memory DB (SQLite + vec)",
-          "3": "384MB RAM / 0.15 CPU default",
-          "4": "UID 1000, cap_drop=ALL, no-new-privileges, read-only FS"
-        }
-      }
-    },
-    "agentLabel": "Agent {n}",
-    "learnMoreLink": "Learn more about AI agent orchestration →"
-  },
   "enterprise": {
     "heading": "Built for serious workloads.",
     "description": "Self-hosted on-premises deployment, defense-in-depth credential isolation, deterministic audit trails, per-agent cost governance, and a per-agent permission matrix — all enforced by default. The engine is ~77,000 lines of Python with 5,800+ tests and a minimal dependency surface.",
@@ -443,7 +324,7 @@
   },
   "comparison": {
     "sectionLabel": "Comparison",
-    "heading": "How OpenLegion is different",
+    "heading": "How is OpenLegion different from other AI agent frameworks?",
     "subtitle": "Most AI agent tools were built for demos — OpenLegion was built for production.",
     "detailParagraph": "OpenLegion ships vault-proxied credentials, container isolation, and per-agent budget enforcement as defaults — no CVEs reported as of v0.1.0.",
     "disclaimer": "Based on public security disclosures and community reports.",
@@ -763,7 +644,7 @@
   },
   "promptToTeam": {
     "sectionLabel": "How it works",
-    "heading": "From one prompt to a full team",
+    "heading": "From one prompt to a full AI agent team",
     "subtitle": "Describe the function you need. OpenLegion creates the agent stack, assigns roles, and gives each agent the controls it needs to work safely.",
     "examples": {
       "0": {
@@ -849,34 +730,8 @@
     "customNote": "Don't see your use case? Build any team with any combination of roles, tools, and budgets.",
     "customCta": "Start building →"
   },
-  "productionReady": {
-    "sectionLabel": "Why OpenLegion",
-    "heading": "Built for production, not just demos",
-    "subtitle": "Most agent tools stop at chat. OpenLegion is designed for real workflows with budgets, permissions, isolated runtimes, and credentials agents never touch."
-  },
-  "readyMadeTeams": {
-    "sectionLabel": "Templates",
-    "heading": "Start with a ready-made team",
-    "cta": "See how it works",
-    "teams": {
-      "0": {
-        "name": "Content Studio"
-      },
-      "1": {
-        "name": "Sales Pipeline"
-      },
-      "2": {
-        "name": "Deep Research"
-      },
-      "3": {
-        "name": "Custom Workforce"
-      }
-    }
-  },
   "common": {
     "skipToContent": "Skip to content",
-    "readyToStart": "Ready to put your first agent to work?",
-    "getStartedInline": "Get Started →",
     "fleetLivePrompt": "This is your fleet, live.",
     "getStartedInMinutes": "Get started in minutes →",
     "brandName": "OpenLegion",

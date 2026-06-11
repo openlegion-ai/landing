@@ -37,101 +37,23 @@
     "headingHighlight": "fuerza laboral de IA",
     "headingLine2": "describiendo el equipo que necesitas.",
     "tagline": "El runtime multi-agente con aislamiento por contenedor, creado para producción.",
-    "subtitle": "Solo di lo que necesitas — una agencia de marketing, un equipo de ventas, un equipo de investigación, lo que sea — y OpenLegion despliega los agentes adecuados en minutos, con presupuestos, permisos y credenciales protegidas por defecto.",
+    "subtitle": "Describe el equipo que necesitas — ventas, contenido, investigación, ingeniería — y el framework de agentes de IA de OpenLegion lo despliega como una flota multiagente en minutos, con presupuestos, permisos y credenciales protegidas en bóveda por defecto.",
     "ctaPrimary": "Empezar",
     "ctaSecondary": "Reservar una demo",
     "trustStrip": {
       "0": "Funciona 24/7",
-      "1": "Presupuesto por agente",
-      "2": "Credenciales en bóveda",
-      "3": "Contenedores aislados",
-      "4": "Más de 100 proveedores LLM",
-      "5": "Autoalojado o gestionado"
+      "1": "Credenciales en bóveda",
+      "2": "Más de 100 proveedores LLM"
     },
     "terminalTitle": "openlegion demo",
     "videoTitle": "Demo de OpenLegion — desplegando una flota de agentes de IA",
     "videoFallback": "Tu navegador no es compatible con video HTML5.",
     "videoCaptionBelow": "Tu equipo dedica horas a tareas que los agentes de IA podrían completar mientras duermen."
   },
-  "capabilityBand": {
-    "ariaLabel": "Lo que los agentes pueden automatizar",
-    "heading": "Si un humano puede hacerlo, un agente también.",
-    "subheading": "Navegador oculto integrado. Funciona 24/7.",
-    "footer": "Todos los agentes se ejecutan en contenedores aislados con credenciales protegidas en bóveda y límites de gasto automáticos.",
-    "pills": {
-      "0": {
-        "label": "Navegar cualquier sitio web",
-        "tip": "Investiga competidores, lee noticias, extrae datos de productos"
-      },
-      "1": {
-        "label": "Completar cualquier formulario",
-        "tip": "Envía solicitudes, actualiza CRMs, agenda citas"
-      },
-      "2": {
-        "label": "Escribir y ejecutar código",
-        "tip": "Desarrolla funciones, corrige errores, ejecuta pruebas, despliega cambios"
-      },
-      "3": {
-        "label": "Enviar correos y mensajes",
-        "tip": "Ejecuta secuencias de contacto, hace seguimiento, responde consultas"
-      },
-      "4": {
-        "label": "Gestionar archivos y carpetas",
-        "tip": "Organiza documentos, renombra archivos, mueve y archiva contenido"
-      },
-      "5": {
-        "label": "Investigar y resumir",
-        "tip": "Lee artículos, compila informes, responde preguntas de investigación"
-      },
-      "6": {
-        "label": "Extraer datos de sitios",
-        "tip": "Extrae precios, contactos, listados — sin necesidad de API"
-      },
-      "7": {
-        "label": "Calificar leads de ventas",
-        "tip": "Puntúa prospectos, enriquece datos, agenda llamadas de descubrimiento"
-      },
-      "8": {
-        "label": "Procesar hojas de cálculo",
-        "tip": "Limpia datos, realiza cálculos, genera resúmenes"
-      },
-      "9": {
-        "label": "Publicar en redes sociales",
-        "tip": "Redacta y programa publicaciones en múltiples plataformas"
-      },
-      "10": {
-        "label": "Monitorear cambios",
-        "tip": "Te alerta cuando bajan precios, se actualizan páginas o se disparan eventos"
-      },
-      "11": {
-        "label": "Disparar vía Telegram, Discord, Slack, WhatsApp, Webhook",
-        "tip": "Cinco canales de mensajería más una CLI REPL — dispara agentes y recibe actualizaciones a través de las herramientas que tu equipo ya usa"
-      }
-    }
-  },
-  "audienceSelector": {
-    "heading": "¿Qué necesitas ",
-    "headingHighlight": "automatizar",
-    "headingEnd": "?",
-    "cards": {
-      "0": {
-        "title": "Necesito automatizar los flujos de trabajo de mi equipo"
-      },
-      "1": {
-        "title": "Necesito crear productos impulsados por IA"
-      },
-      "2": {
-        "title": "Necesito una fuerza laboral de IA personalizada"
-      },
-      "3": {
-        "title": "Desplegar para mi empresa"
-      }
-    }
-  },
   "useCases": {
     "sectionLabel": "Casos de uso",
-    "heading": "¿Qué rol necesita tu ",
-    "headingHighlight": "equipo",
+    "heading": "¿Qué equipo de agentes de IA necesitas — ",
+    "headingHighlight": "ventas, contenido, investigación o ingeniería",
     "headingEnd": "?",
     "subtitle": "Elige una plantilla multiagente predefinida o define tu propia flota de agentes autónomos. Cada agente obtiene su propio contenedor, presupuesto y permisos de herramientas.",
     "items": {
@@ -142,7 +64,7 @@
           "1": "Ingeniero",
           "2": "Revisor"
         },
-        "description": "La plantilla Dev Team de OpenLegion automatiza la planificación de tareas, generación de código y revisión de PR. Lanza funciones mientras tu flota de agentes se encarga del código repetitivo."
+        "description": "La plantilla Dev Team de OpenLegion automatiza la planificación de tareas, la generación de código y la revisión de PR — el triaje y el código repetitivo que consumen horas de cada ingeniero cada semana."
       },
       "1": {
         "name": "Tu equipo de ventas",
@@ -151,7 +73,7 @@
           "1": "Calificador",
           "2": "Contacto"
         },
-        "description": "La plantilla Sales Pipeline de OpenLegion ejecuta investigación de leads, puntuación y contacto personalizado — 24/7 sin supervisión humana."
+        "description": "La plantilla Sales Pipeline de OpenLegion ejecuta investigación de leads, puntuación y contacto personalizado 24/7 — una semana entera de prospección manual resuelta mientras duermes."
       },
       "2": {
         "name": "Tu equipo de contenido",
@@ -159,7 +81,7 @@
           "0": "Investigador",
           "1": "Redactor"
         },
-        "description": "La plantilla Content Studio de OpenLegion combina un investigador y un redactor para gestionar investigación de temas y borradores extensos con voz de marca consistente en cada pieza."
+        "description": "La plantilla Content Studio de OpenLegion combina un investigador y un redactor con una voz de marca consistente — ciclos de investigación a borrador que tomaban días, listos en horas."
       },
       "3": {
         "name": "Tu equipo de tesorería",
@@ -272,7 +194,7 @@
   },
   "dashboardPreview": {
     "sectionLabel": "Panel de la flota",
-    "heading": "Ve tu flota en ",
+    "heading": "Supervisa tu flota de agentes de IA en ",
     "headingHighlight": "tiempo real",
     "subtitle": "Cada agente, cada costo, cada evento — en vivo. Chatea con agentes, monitorea la salud y rastrea el gasto desde una vista unificada.",
     "windowTitle": "Vista general de la flota",
@@ -387,47 +309,6 @@
     },
     "allLayersLink": "Las seis capas explicadas en detalle →"
   },
-  "architecture": {
-    "sectionLabel": "Bajo el capó",
-    "title": "Defensa en profundidad — zonas de confianza en cada capa",
-    "summary": "Tu flota multi-agente se ejecuta en cuatro niveles de confianza — entrada externa no confiable, agentes sandboxed, mesh confiable y un nivel interno solo loopback — más un nivel de permisos operador-o-interno. Los agentes solo se comunican entre sí a través del mesh, controlados por ACLs por agente; el mesh guarda las claves.",
-    "zones": {
-      "0": {
-        "name": "Zona de usuario",
-        "trust": "Entrada no confiable",
-        "items": {
-          "0": "CLI / Telegram / Discord",
-          "1": "Slack / WhatsApp / Webhooks",
-          "2": "Saneado vía guardas anti-inyección de prompts"
-        }
-      },
-      "1": {
-        "name": "Host de malla",
-        "trust": "Confiable (Zona 2)",
-        "items": {
-          "0": "FastAPI en :8420",
-          "1": "Blackboard (SQLite + WAL)",
-          "2": "PubSub + Enrutador de mensajes",
-          "3": "Bóveda de credenciales (API Proxy)",
-          "4": "Matriz ACL + enrutador de carriles",
-          "5": "Servicio de navegador :8500 (Camoufox por agente)"
-        }
-      },
-      "2": {
-        "name": "Contenedores de agentes",
-        "trust": "Sandboxed (Zona 1)",
-        "items": {
-          "0": "FastAPI :8400 (por contenedor)",
-          "1": "Volumen /data propio",
-          "2": "BD de memoria propia (SQLite + vec)",
-          "3": "384MB RAM / 0.15 CPU por defecto",
-          "4": "UID 1000, cap_drop=ALL, no-new-privileges, FS de solo lectura"
-        }
-      }
-    },
-    "agentLabel": "Agente {n}",
-    "learnMoreLink": "Más información sobre la orquestación de agentes de IA →"
-  },
   "enterprise": {
     "heading": "Diseñado para cargas de trabajo serias.",
     "description": "Despliegue autoalojado on-premises, aislamiento de credenciales con defensa en profundidad, registros de auditoría deterministas, gobernanza de costos por agente y una matriz de permisos por agente — todo aplicado por defecto. El engine son ~77.000 líneas de Python con más de 5.800 tests y una superficie mínima de dependencias.",
@@ -443,7 +324,7 @@
   },
   "comparison": {
     "sectionLabel": "Comparación",
-    "heading": "En qué se diferencia OpenLegion",
+    "heading": "¿En qué se diferencia OpenLegion de otros frameworks de agentes de IA?",
     "subtitle": "La mayoría de herramientas de agentes de IA se crearon para demos — OpenLegion se creó para producción.",
     "detailParagraph": "OpenLegion incluye credenciales por proxy de bóveda, aislamiento por contenedor y aplicación de presupuestos por agente como valores por defecto — sin CVEs reportadas desde v0.1.0.",
     "disclaimer": "Basado en divulgaciones de seguridad públicas e informes de la comunidad.",
@@ -763,7 +644,7 @@
   },
   "promptToTeam": {
     "sectionLabel": "Cómo funciona",
-    "heading": "De un prompt a un equipo completo",
+    "heading": "De un prompt a un equipo completo de agentes de IA",
     "subtitle": "Describe la función que necesitas. OpenLegion crea la estructura de agentes, asigna roles y otorga a cada agente los controles necesarios para operar de forma segura.",
     "examples": {
       "0": {
@@ -849,34 +730,8 @@
     "customNote": "¿No encuentras tu caso de uso? Crea cualquier equipo con cualquier combinación de roles, herramientas y presupuestos.",
     "customCta": "Empieza a construir →"
   },
-  "productionReady": {
-    "sectionLabel": "Por qué OpenLegion",
-    "heading": "Diseñado para producción, no solo para demos",
-    "subtitle": "La mayoría de las herramientas de agentes se quedan en el chat. OpenLegion está diseñado para flujos de trabajo reales con presupuestos, permisos, entornos aislados y credenciales que los agentes nunca tocan."
-  },
-  "readyMadeTeams": {
-    "sectionLabel": "Plantillas",
-    "heading": "Comienza con un equipo prediseñado",
-    "cta": "Descubre cómo funciona",
-    "teams": {
-      "0": {
-        "name": "Content Studio"
-      },
-      "1": {
-        "name": "Pipeline de ventas"
-      },
-      "2": {
-        "name": "Investigación profunda"
-      },
-      "3": {
-        "name": "Equipo personalizado"
-      }
-    }
-  },
   "common": {
     "skipToContent": "Ir al contenido",
-    "readyToStart": "¿Listo para poner a trabajar a tu primer agente?",
-    "getStartedInline": "Empezar →",
     "fleetLivePrompt": "Esta es tu flota, en vivo.",
     "getStartedInMinutes": "Empieza en minutos →",
     "brandName": "OpenLegion",

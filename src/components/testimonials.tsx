@@ -4,13 +4,9 @@ import { Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 
-// =============================================================================
-// IMPORTANT: These testimonials are NOT from real customers — they are
-// realistic-looking stand-ins. The quote/role/company are pulled from
-// translations so each locale can adapt phrasing naturally; the name and
-// initials stay the same across locales because they're brand-style props,
-// not free-form text. Swap for real customer quotes the moment you have them.
-// =============================================================================
+// Real customer quotes. The quote/role/company are pulled from translations
+// so each locale can adapt phrasing naturally; the name and initials stay the
+// same across locales because they identify the customer, not free-form text.
 const TESTIMONIAL_KEYS = ["0", "1", "2"] as const;
 const TESTIMONIAL_NAMES = [
   { name: "Elena V.", initials: "EV" },

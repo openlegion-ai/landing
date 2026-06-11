@@ -37,101 +37,23 @@
     "headingHighlight": "AI 團隊",
     "headingLine2": "只需描述您想要的團隊。",
     "tagline": "為生產環境打造的容器隔離式多智慧代理執行環境。",
-    "subtitle": "只需告訴我們你需要什麼 — 行銷團隊、業務團隊、研究團隊，任何團隊都行 — OpenLegion 幾分鐘內即可部署合適的智慧代理，預算、權限和憑證預設安全鎖定。",
+    "subtitle": "描述你需要的團隊 — 業務、內容、研究、工程 — OpenLegion AI 代理框架幾分鐘內即可將其部署為多代理艦隊，預算、權限與 Vault 託管的憑證預設安全鎖定。",
     "ctaPrimary": "立即開始",
     "ctaSecondary": "預約展示",
     "trustStrip": {
       "0": "全天候運行",
-      "1": "按代理設定預算",
-      "2": "Vault 安全託管憑證",
-      "3": "容器級隔離",
-      "4": "100+ LLM 供應商",
-      "5": "自架或全託管"
+      "1": "Vault 安全託管憑證",
+      "2": "100+ LLM 供應商"
     },
     "terminalTitle": "openlegion 示範",
     "videoTitle": "OpenLegion 示範 — 部署 AI 智慧代理艦隊",
     "videoFallback": "您的瀏覽器不支援 HTML5 影片。",
     "videoCaptionBelow": "您的團隊花費數小時完成的工作，AI 智慧代理可以在您入睡後完成。"
   },
-  "capabilityBand": {
-    "ariaLabel": "智慧代理可自動化的項目",
-    "heading": "人類能做的，智慧代理也能做到。",
-    "subheading": "內建隱匿瀏覽器。全天候 24/7 運作。",
-    "footer": "所有智慧代理皆在隔離容器中執行，配備 Vault 保護的憑證和自動支出上限。",
-    "pills": {
-      "0": {
-        "label": "瀏覽任何網站",
-        "tip": "競爭對手調查、新聞閱覽、產品資料蒐集"
-      },
-      "1": {
-        "label": "填寫任何表單",
-        "tip": "提交申請、更新 CRM、預約管理"
-      },
-      "2": {
-        "label": "撰寫與執行程式碼",
-        "tip": "功能開發、錯誤修正、測試執行、變更部署"
-      },
-      "3": {
-        "label": "發送電子郵件與訊息",
-        "tip": "執行外展序列、後續追蹤、回覆詢問"
-      },
-      "4": {
-        "label": "管理檔案與資料夾",
-        "tip": "整理文件、重新命名檔案、移動與封存內容"
-      },
-      "5": {
-        "label": "研究與摘要",
-        "tip": "閱讀文章、彙整報告、回答研究問題"
-      },
-      "6": {
-        "label": "從網站擷取資料",
-        "tip": "擷取價格、聯絡資訊、列表 — 無需 API"
-      },
-      "7": {
-        "label": "篩選銷售潛在客戶",
-        "tip": "潛在客戶評分、資料豐富化、預約探索會議"
-      },
-      "8": {
-        "label": "處理試算表",
-        "tip": "資料清理、執行計算、產生摘要"
-      },
-      "9": {
-        "label": "發佈社群媒體",
-        "tip": "跨平台撰寫與排程貼文"
-      },
-      "10": {
-        "label": "監控變更",
-        "tip": "價格下降、頁面更新、事件觸發時發出提醒"
-      },
-      "11": {
-        "label": "透過 Telegram、Discord、Slack、WhatsApp、Webhook 觸發",
-        "tip": "五個訊息通道加上 CLI REPL — 透過你團隊已在使用的工具來觸發智慧體並接收更新"
-      }
-    }
-  },
-  "audienceSelector": {
-    "heading": "您需要",
-    "headingHighlight": "自動化",
-    "headingEnd": "什麼？",
-    "cards": {
-      "0": {
-        "title": "我需要自動化團隊的工作流程"
-      },
-      "1": {
-        "title": "我需要打造 AI 驅動的產品"
-      },
-      "2": {
-        "title": "我需要客製化的 AI 工作團隊"
-      },
-      "3": {
-        "title": "為企業部署"
-      }
-    }
-  },
   "useCases": {
     "sectionLabel": "使用案例",
-    "heading": "您的團隊",
-    "headingHighlight": "需要什麼角色",
+    "heading": "你需要哪種 AI 代理團隊 — ",
+    "headingHighlight": "業務、內容、研究還是工程",
     "headingEnd": "？",
     "subtitle": "選擇內建的多智慧代理範本，或定義您自己的自主智慧代理艦隊。每個智慧代理都擁有專屬容器、預算和工具權限。",
     "items": {
@@ -142,7 +64,7 @@
           "1": "工程師",
           "2": "審查者"
         },
-        "description": "OpenLegion 的開發團隊範本可自動化任務規劃、程式碼生成和 PR 審查。讓智慧代理艦隊處理樣板程式碼，您專注於發佈功能。"
+        "description": "OpenLegion 的開發團隊範本可自動化任務規劃、程式碼生成和 PR 審查 — 正是這些瑣碎分派與樣板工作，每週吃掉每位工程師數小時。"
       },
       "1": {
         "name": "銷售團隊",
@@ -151,7 +73,7 @@
           "1": "篩選員",
           "2": "外展"
         },
-        "description": "OpenLegion 的銷售管線範本全天候 24/7 執行潛在客戶研究、評分和個人化外展，無需人工監管。"
+        "description": "OpenLegion 的銷售管線範本全天候執行潛在客戶研究、評分與個人化外展 — 一整週的手動開發客戶工作，在你睡覺時完成。"
       },
       "2": {
         "name": "內容團隊",
@@ -159,7 +81,7 @@
           "0": "研究員",
           "1": "撰寫者"
         },
-        "description": "OpenLegion 的 Content Studio 範本將研究員和作家配對，處理主題研究和長篇草稿，並在每篇內容中保持一致的品牌聲音。"
+        "description": "OpenLegion 的 Content Studio 範本讓研究員與寫手協作並保持一致的品牌聲音 — 原本需要數天的從研究到成稿流程，幾小時內交付。"
       },
       "3": {
         "name": "你的財庫團隊",
@@ -272,8 +194,8 @@
   },
   "dashboardPreview": {
     "sectionLabel": "艦隊儀表板",
-    "heading": "即時查看",
-    "headingHighlight": "您的艦隊",
+    "heading": "即時監控",
+    "headingHighlight": "您的 AI 代理艦隊",
     "subtitle": "每個智慧代理、每筆費用、每個事件 — 即時呈現。與智慧代理對話、監控健康狀態，並從統一視圖追蹤支出。",
     "windowTitle": "艦隊概覽",
     "liveIndicator": "即時",
@@ -387,47 +309,6 @@
     },
     "allLayersLink": "六層防護完整詳細說明 →"
   },
-  "architecture": {
-    "sectionLabel": "內部架構",
-    "title": "縱深防禦 — 每一層都有信任分區",
-    "summary": "你的多智慧體艦隊在四個信任層中執行 — 不可信的外部輸入、沙箱化的智慧體、可信的網格以及僅回環的內部層 — 外加一個操作員或內部權限層。智慧體只透過網格相互通訊，由每個智慧體的 ACL 控制；密鑰由網格持有。",
-    "zones": {
-      "0": {
-        "name": "使用者區域",
-        "trust": "不可信輸入",
-        "items": {
-          "0": "CLI / Telegram / Discord",
-          "1": "Slack / WhatsApp / Webhooks",
-          "2": "透過提示注入防護進行清理"
-        }
-      },
-      "1": {
-        "name": "Mesh 主機",
-        "trust": "可信（區域 2）",
-        "items": {
-          "0": "FastAPI（:8420）",
-          "1": "黑板（SQLite + WAL）",
-          "2": "PubSub + 訊息路由器",
-          "3": "憑證 Vault（API 代理）",
-          "4": "ACL 矩陣 + 車道路由器",
-          "5": "瀏覽器服務 :8500（每智慧體獨立 Camoufox）"
-        }
-      },
-      "2": {
-        "name": "智慧代理容器",
-        "trust": "沙箱（區域 1）",
-        "items": {
-          "0": "FastAPI :8400（每個容器）",
-          "1": "專屬 /data 磁碟區",
-          "2": "專屬記憶體資料庫（SQLite + vec）",
-          "3": "384MB RAM / 0.15 CPU 預設值",
-          "4": "UID 1000，cap_drop=ALL，no-new-privileges，唯讀檔案系統"
-        }
-      }
-    },
-    "agentLabel": "智慧代理 {n}",
-    "learnMoreLink": "深入了解 AI 智慧代理編排 →"
-  },
   "enterprise": {
     "heading": "為重型工作負載而生。",
     "description": "自架式本地部署、縱深防禦的憑證隔離、確定性稽核軌跡、按智慧代理的成本治理，以及按智慧代理的權限矩陣 — 全部預設強制執行。引擎約 77,000 行 Python，擁有 5,800 多項測試，依賴面極小。",
@@ -443,7 +324,7 @@
   },
   "comparison": {
     "sectionLabel": "比較",
-    "heading": "OpenLegion 的不同之處",
+    "heading": "OpenLegion 與其他 AI 代理框架有何不同？",
     "subtitle": "大多數 AI 智慧代理工具是為展示而打造 — OpenLegion 是為生產環境而打造。",
     "detailParagraph": "OpenLegion 預設提供透過密鑰庫代理的憑證、容器隔離與按智慧代理的預算強制 — 自 v0.1.0 起未回報任何 CVE。",
     "disclaimer": "根據公開安全揭露和社群報告。",
@@ -763,7 +644,7 @@
   },
   "promptToTeam": {
     "sectionLabel": "運作方式",
-    "heading": "一句指令，組建完整團隊",
+    "heading": "一句指令，組建完整的 AI 代理團隊",
     "subtitle": "描述你需要的功能，OpenLegion 會自動建立智能體架構、分配角色，並為每個智能體配置安全運作所需的權限。",
     "examples": {
       "0": {
@@ -849,34 +730,8 @@
     "customNote": "找不到您的使用情境？您可以自由組建任何團隊，自訂角色、工具和預算。",
     "customCta": "開始建立 →"
   },
-  "productionReady": {
-    "sectionLabel": "為什麼選擇 OpenLegion",
-    "heading": "為正式環境打造，不只是展示",
-    "subtitle": "多數智能體工具僅止於聊天。OpenLegion 專為真實工作流設計，支援預算管控、權限管理、隔離執行環境，憑證永遠不會被智能體直接存取。"
-  },
-  "readyMadeTeams": {
-    "sectionLabel": "範本",
-    "heading": "從現成團隊開始",
-    "cta": "了解運作方式",
-    "teams": {
-      "0": {
-        "name": "內容工作室"
-      },
-      "1": {
-        "name": "銷售流水線"
-      },
-      "2": {
-        "name": "深度研究"
-      },
-      "3": {
-        "name": "自訂團隊"
-      }
-    }
-  },
   "common": {
     "skipToContent": "跳至內容",
-    "readyToStart": "準備好讓您的第一個智慧代理開始工作了嗎？",
-    "getStartedInline": "立即開始 →",
     "fleetLivePrompt": "這是您的艦隊，即時呈現。",
     "getStartedInMinutes": "幾分鐘即可上手 →",
     "brandName": "OpenLegion",
