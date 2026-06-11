@@ -164,6 +164,10 @@ export function UseCases() {
                   </h3>
                 </div>
 
+                <p className="mb-4 text-[13px] leading-relaxed text-muted">
+                  {t(`items.${idx}.description`)}
+                </p>
+
                 {/* Agent pills */}
                 <div className="mb-4 flex flex-wrap gap-1.5">
                   {uc.agents.map((_, agentIdx) => (

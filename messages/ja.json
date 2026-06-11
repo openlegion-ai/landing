@@ -1,300 +1,81 @@
 {
-  "nav": {
-    "links": {
-      "features": {
-        "label": "機能"
-      },
-      "useCases": {
-        "label": "ユースケース"
-      },
-      "architecture": {
-        "label": "アーキテクチャ"
-      },
-      "security": {
-        "label": "セキュリティ"
-      },
-      "pricing": {
-        "label": "料金"
-      },
-      "docs": {
-        "label": "ドキュメント"
-      }
-    },
-    "ariaLabel": "メインナビゲーション",
-    "homeAriaLabel": "OpenLegion ホーム",
+  "common": {
+    "billingPeriod": "請求期間",
     "brandName": "OpenLegion",
-    "githubAriaLabel": "GitHub リポジトリ",
-    "getStarted": "今すぐ始める",
-    "signIn": "サインイン",
-    "toggleMenuAriaLabel": "メニューを切り替える",
-    "billingPeriodAriaLabel": "請求期間",
-    "bookDemo": "デモを予約"
+    "breadcrumb": "パンくずリスト",
+    "copiedLabel": "コピー済み",
+    "copyLabel": "コピー",
+    "copyToClipboard": "クリップボードにコピー",
+    "developersHeading": "開発者・技術評価者向け",
+    "fleetLivePrompt": "これがあなたのフリートです、ライブで。",
+    "getStartedInMinutes": "数分で始める →",
+    "selectLanguage": "言語を選択",
+    "skipToContent": "コンテンツにスキップ"
   },
-  "hero": {
-    "ariaLabel": "はじめに",
-    "badge": "AIワークフォースはここから",
-    "headingLine1": "",
-    "headingHighlight": "AIワークフォース",
-    "headingLine2": "欲しいチームを伝えるだけで構築。",
-    "tagline": "あなたのチームが眠っている間に、雑務を片付けてくれるAI社員。",
-    "subtitle": "必要なものを言葉で伝えるだけ — マーケティング代理店、営業チーム、リサーチデスク — OpenLegionが数分でAI社員のチームを稼働させます。各エージェントには専用の予算と権限が割り当てられ、パスワードやAPIキーはエージェントが決して見られないVaultに保管されます。",
-    "ctaPrimary": "AIチームを始める — 月額$19から",
-    "ctaSecondary": "デモを予約",
-    "trustStrip": {
-      "0": "24時間365日稼働",
-      "1": "エージェントごとの厳格な支出上限",
-      "2": "エージェントはパスワードを一切見られません",
-      "3": "コーディング不要",
-      "4": "100以上のLLMプロバイダー",
-      "5": "セルフホストまたはフルマネージド"
-    },
-    "terminalTitle": "openlegion デモ",
-    "videoTitle": "OpenLegion デモ — AIエージェントフリートのデプロイ",
-    "videoFallback": "お使いのブラウザはHTML5動画に対応していません。",
-    "videoCaptionBelow": "ひとつのプロンプトから動くAIチームへ — その様子をご覧ください。"
-  },
-  "capabilityBand": {
-    "ariaLabel": "エージェントが自動化できること",
-    "heading": "人間にできることなら、エージェントにもできます。",
-    "subheading": "AI社員は人間のようにWebを操作し、24時間休まず働きます。",
-    "footer": "すべてのエージェントは隔離されたコンテナ内で実行され、Vault保護された認証情報と自動支出上限が適用されます。",
-    "pills": {
+  "comparison": {
+    "columnAspect": "項目",
+    "columnOpenLegion": "OpenLegion",
+    "columnThem": "OpenClaw他",
+    "detailParagraph": "OpenLegionはvaultプロキシ経由のクレデンシャル、コンテナ分離、エージェントごとの予算管理をデフォルトで提供します — v0.1.0以降、報告されたCVEはありません。",
+    "disclaimer": "公開されたセキュリティ情報とコミュニティレポートに基づいています。",
+    "footnote": "OpenLegionは2026年2月にローンチしました。GitHubスター数はプロジェクトの歴史を反映しており、本番環境での実績ではありません。",
+    "heading": "OpenLegionは他のAIエージェントフレームワークと何が違うのか？",
+    "rows": {
       "0": {
-        "label": "あらゆるウェブサイトを閲覧",
-        "tip": "競合調査、ニュース閲覧、商品データの取得"
+        "aspect": "APIキー保管",
+        "openlegion": "Vaultプロキシ — エージェントはキーを見られない",
+        "them": "エージェント設定ファイル内"
       },
       "1": {
-        "label": "あらゆるフォームに入力",
-        "tip": "申請の提出、CRMの更新、予約の管理"
+        "aspect": "エージェント隔離",
+        "openlegion": "Dockerコンテナ / マイクロVM",
+        "them": "プロセスレベル"
       },
       "2": {
-        "label": "コードの作成と実行",
-        "tip": "機能開発、バグ修正、テスト実行、変更のデプロイ"
+        "aspect": "コスト管理",
+        "openlegion": "エージェントごとの日次・月次予算",
+        "them": "なし"
       },
       "3": {
-        "label": "メール＆メッセージの送信",
-        "tip": "アウトリーチシーケンスの実行、フォローアップ、問い合わせへの返信"
+        "aspect": "タスクルーティング",
+        "openlegion": "フリートモデル — blackboard + pub/sub + handoff (no CEO agent)",
+        "them": "LLM CEOエージェントが決定"
       },
       "4": {
-        "label": "ファイル＆フォルダの管理",
-        "tip": "ドキュメントの整理、ファイルのリネーム、コンテンツの移動・アーカイブ"
+        "aspect": "テストカバレッジ",
+        "openlegion": "5,800以上のテスト：ユニット + 統合 + E2E",
+        "them": "最小限"
       },
       "5": {
-        "label": "調査＆要約",
-        "tip": "記事の読み込み、レポートの作成、リサーチ質問への回答"
-      },
-      "6": {
-        "label": "サイトからデータをスクレイピング",
-        "tip": "価格、連絡先、リスティングの抽出 — API不要"
-      },
-      "7": {
-        "label": "営業リードの選別",
-        "tip": "見込み客のスコアリング、データ充実化、ディスカバリーコールの予約"
-      },
-      "8": {
-        "label": "スプレッドシートの処理",
-        "tip": "データのクリーニング、計算の実行、サマリーの生成"
-      },
-      "9": {
-        "label": "ソーシャルメディアへの投稿",
-        "tip": "複数プラットフォームでの投稿の作成とスケジュール"
-      },
-      "10": {
-        "label": "変更の監視",
-        "tip": "価格の下落、ページの更新、イベントの発火時にアラート"
-      },
-      "11": {
-        "label": "Telegram、Discord、Slack、WhatsApp、Webhook で起動",
-        "tip": "5つのメッセージングチャネル + CLI REPL — チームが既に使っているツール経由でエージェントを起動し、最新情報を受け取れます"
+        "aspect": "コードベースサイズ",
+        "openlegion": "約77,000行（エンジン、監査可能）",
+        "them": "肥大化"
       }
-    }
+    },
+    "sectionLabel": "比較",
+    "subtitle": "ほとんどのAIエージェントツールはデモ用に作られました — OpenLegionは本番環境用に作られました。",
+    "tableCaption": "一般的なAIエージェントフレームワークとOpenLegionの機能比較"
   },
-  "audienceSelector": {
-    "heading": "何を",
-    "headingHighlight": "自動化",
-    "headingEnd": "しますか？",
-    "cards": {
-      "0": {
-        "title": "チームのワークフローを自動化したい"
-      },
-      "1": {
-        "title": "AI搭載プロダクトを構築したい"
-      },
-      "2": {
-        "title": "カスタムAIワークフォースが必要"
-      },
-      "3": {
-        "title": "エンタープライズ向けにデプロイしたい"
-      }
-    }
+  "contentPage": {
+    "breadcrumbAriaLabel": "パンくずリスト",
+    "breadcrumbComparisons": "比較",
+    "breadcrumbHome": "ホーム",
+    "breadcrumbLearn": "学ぶ",
+    "publishedPrefix": "公開日 ",
+    "relatedContentAriaLabel": "関連コンテンツ",
+    "updatedPrefix": "更新日 "
   },
-  "useCases": {
-    "sectionLabel": "ユースケース",
-    "heading": "あなたのチームに",
-    "headingHighlight": "必要な役割",
-    "headingEnd": "は？",
-    "subtitle": "組み込みのマルチエージェントテンプレートを選択するか、独自の自律エージェントフリートを定義できます。各エージェントには専用のコンテナ、予算、ツール権限が付与されます。",
-    "items": {
-      "0": {
-        "name": "エンジニアリングチーム",
-        "agents": {
-          "0": "PM",
-          "1": "エンジニア",
-          "2": "レビュアー"
-        },
-        "description": "OpenLegionの開発チームテンプレートは、タスク計画、コード生成、PRレビューを自動化します。エージェントフリートがボイラープレートを処理する間に、機能をリリースしましょう。"
-      },
-      "1": {
-        "name": "営業チーム",
-        "agents": {
-          "0": "リサーチャー",
-          "1": "クオリファイアー",
-          "2": "アウトリーチ"
-        },
-        "description": "OpenLegionの営業パイプラインテンプレートは、リード調査、スコアリング、パーソナライズされたアウトリーチを24時間365日、人手を介さず実行します。"
-      },
-      "2": {
-        "name": "コンテンツチーム",
-        "agents": {
-          "0": "リサーチャー",
-          "1": "ライター"
-        },
-        "description": "OpenLegion の Content Studio テンプレートは、リサーチャーとライターを組み合わせて、トピック調査と長文ドラフトを一貫したブランドボイスで処理します。"
-      },
-      "3": {
-        "name": "あなたのトレジャリーチーム",
-        "agents": {
-          "0": "リサーチャー",
-          "1": "エグゼキューター",
-          "2": "モニター"
-        },
-        "description": "ウォレット対応エージェントがオンチェーンで実行します — スワップ、送金、DeFi ポジション — 秘密鍵はボルトにロックされ、サーバー側で署名されます。エージェントごとの支出制限、日次上限、EVM + Solana サポート。"
-      },
-      "4": {
-        "name": "カスタムチーム",
-        "agents": {
-          "0": "任意の役割",
-          "1": "任意のツール",
-          "2": "任意の予算"
-        },
-        "description": "お探しのユースケースがありませんか？役割、ツール、予算を自由に組み合わせて定義できます。エージェントには専用のコンテナ、認証情報、支出制限が付与されます — 仕事に必要なものは何でも。"
-      }
-    },
-    "devEvents": {
-      "0": "PMがタスク #42 を作成",
-      "1": "エンジニアがPR #18 を作成",
-      "2": "レビュアーがレビュー中…"
-    },
-    "funnelBars": {
-      "0": {
-        "label": "リード"
-      },
-      "1": {
-        "label": "適格"
-      },
-      "2": {
-        "label": "コンバージョン"
-      }
-    },
-    "contentItems": {
-      "0": {
-        "title": "ブログ記事",
-        "status": "公開済み"
-      },
-      "1": {
-        "title": "ケーススタディ",
-        "status": "レビュー中"
-      },
-      "2": {
-        "title": "ホワイトペーパー",
-        "status": "執筆中"
-      }
-    },
-    "customSteps": {
-      "0": "受付",
-      "1": "調査",
-      "2": "実行",
-      "3": "納品"
-    },
-    "treasuryEvents": {
-      "0": "Base で 0.5 ETH → USDC スワップ",
-      "1": "支出制限：本日 $48 / $500",
-      "2": "モニターがポジション確認中…"
-    }
-  },
-  "socialProof": {
-    "stats": {
-      "0": {
-        "fallback": "5分",
-        "label": "最初のエージェント稼働まで"
-      },
-      "1": {
-        "fallback": "100+",
-        "label": "対応LLMプロバイダー"
-      },
-      "2": {
-        "fallback": "24/7",
-        "label": "エージェントは年中無休で稼働"
-      },
-      "3": {
-        "fallback": "$0",
-        "label": "LLM使用料の上乗せ"
-      }
-    },
-    "discordLabel": "Discord",
-    "githubLabel": "GitHub",
-    "githubWithStars": "GitHub ★ {stars}"
-  },
-  "features": {
-    "sectionLabel": "機能",
-    "heading": "失敗が",
-    "headingHighlight": "許されない",
-    "headingEnd": "チームのために構築。",
-    "subtitle": "セキュリティ、コスト管理、エージェント自動化を初日から組み込んだAIエージェントフレームワーク。",
-    "outcomes": {
-      "0": {
-        "title": "AIエージェントセキュリティ：APIキーはエージェントが触れないVaultに保管。",
-        "description": "すべてのエージェントはクレデンシャルプロキシを介して呼び出しを行います。APIキーもウォレット秘密鍵もコンテナ内に存在しません。6つの独立したセキュリティレイヤーがデフォルトで有効です。",
-        "linkLabel": "セキュリティの仕組み →"
-      },
-      "1": {
-        "title": "エージェントごとに予算を設定。上限に達した瞬間に停止します。",
-        "description": "エージェントごとの日次・月次上限と自動ハードカットオフ。予期せぬ請求なし。深夜3時のAPI暴走ループなし。",
-        "linkLabel": "コスト管理の仕組み →"
-      },
-      "2": {
-        "title": "フリートモデル協調 — 誰が何をするかを自分で決められます。",
-        "description": "エージェントはあらゆるウェブサイトを操作し、あらゆるツールを扱い、オンチェーン実行も含めて、あらゆるタスクを実行します。MCP互換で、ブラウザ・ファイル・メモリ・ウォレットなどの組み込みスキルを備えています。Fleet model — blackboard + pub/sub + handoff (no CEO agent) — に基づき、実行範囲を制限しエージェントごとの権限マトリクスを適用します。",
-        "linkLabel": "協調の仕組み →"
-      }
-    },
-    "allFeaturesLink": "ブラウザ自動化、永続メモリ、MCP拡張性、マルチエージェント協調を含むAIエージェントフレームワークの全機能を見る →"
+  "cta": {
+    "heading": "あなたのAIチームは",
+    "headingEnd": "するだけ。",
+    "headingHighlight": "デプロイ",
+    "primaryButton": "AIチームを始める →",
+    "secondaryButton": "Discordに参加",
+    "subtitle": "7日間お試し — 合わなければ全額返金 · いつでも解約可能 · コーディング不要"
   },
   "dashboardPreview": {
-    "sectionLabel": "フリートダッシュボード",
-    "heading": "フリートを",
-    "headingHighlight": "リアルタイム",
-    "subtitle": "で確認。すべてのエージェント、コスト、イベントをライブで。エージェントとチャットし、ヘルスを監視し、支出を統合ビューから追跡できます。",
-    "windowTitle": "フリート概要",
-    "liveIndicator": "ライブ",
-    "agentsCount": "{count} エージェント",
-    "todaySuffix": "本日",
-    "tokensSuffix": "トークン",
-    "onlineCount": "{count} オンライン",
-    "degradedCount": "{count} 低下",
-    "agentLabel": "エージェント {n}",
-    "healthOnline": "オンライン",
-    "healthDegraded": "低下",
     "activityLabel": "アクティビティ",
-    "heartbeatLabel": "ハートビート",
-    "heartbeatEvery": "{minutes}分ごと",
-    "costTodayLabel": "本日のコスト",
-    "chatButton": "チャット",
-    "pauseButton": "一時停止",
-    "stateStreaming": "ストリーミング",
-    "stateThinking": "思考中",
-    "stateTool": "ツール",
-    "stateIdle": "アイドル",
+    "agentLabel": "エージェント {n}",
     "agents": {
       "0": {
         "id": "researcher",
@@ -320,117 +101,34 @@
         "id": "outreach",
         "role": "セールスアウトリーチ"
       }
-    }
-  },
-  "quickstart": {
-    "sectionLabel": "クイックスタート",
-    "heading": "最初の",
-    "headingHighlight": "AIエージェント",
-    "managedBadge": "最も簡単 — セットアップ不要",
-    "managedHeading": "ターミナルも設定ファイルも不要。",
-    "managedDescription": "コンテナ、認証情報、インフラはすべて私たちが管理します。 Operator と話しましょう — VPS がオンラインになると自動作成される、フリートの現場監督です。",
-    "managedCta": "今すぐ始める →",
-    "steps": {
-      "0": "アカウントを作成",
-      "1": "プランを選択",
-      "2": "エージェントを設定",
-      "3": "フリートを実行"
     },
-    "selfHostedBadge": "完全なコントロール — オンプレミス対応",
-    "selfHostedHeading": "3つのコマンド。1台のマシン。",
-    "requirementsLabel": "要件：",
-    "requirements": "Python 3.10+、Docker（実行中）、LLM APIキー（Anthropic / Moonshot / OpenAI）",
-    "selfHostedCta": "ドキュメントを読む →",
-    "tabs": {
-      "0": {
-        "label": "macOS / Linux"
-      },
-      "1": {
-        "label": "Windows (PowerShell)"
-      }
-    },
-    "tabGroupLabel": "オペレーティングシステム",
-    "copyLabel": "コピー",
-    "copiedLabel": "コピー済み"
-  },
-  "security": {
-    "sectionLabel": "セキュリティ",
-    "heading": "AIエージェントセキュリティ：エージェントが",
-    "headingHighlight": "暴走する前提",
-    "headingEnd": "で構築。",
-    "subtitle": "多層防御がデフォルトで有効。下記の6つのレイヤーで構成されます。",
-    "layers": {
-      "0": {
-        "title": "各エージェントは専用コンテナで実行",
-        "description": "エージェントごとのDockerコンテナまたはDocker SandboxマイクロVM — プロセス空間の共有なし。"
-      },
-      "1": {
-        "title": "エージェントは権限の昇格もリソースの消費もできません",
-        "description": "非rootユーザー（UID 1000）、no-new-privilegesフラグ、メモリとCPUのリソース制限を適用。"
-      },
-      "2": {
-        "title": "APIキーとウォレットキーはエージェントが触れないボールトに保管",
-        "description": "ボールトプロキシがAPIキーとウォレット秘密鍵を保持 — エージェントはプロキシ経由でアクセスし、秘密を直接見ることはありません。トランザクションはサーバーサイドで署名。"
-      },
-      "3": {
-        "title": "各エージェントは明示的に許可されたものだけにアクセス",
-        "description": "エージェントごとのACLマトリクスが、許可されるツール、ファイル、メッシュ操作を制御します。"
-      },
-      "4": {
-        "title": "悪意のある入力はLLMに届く前にブロック",
-        "description": "パストラバーサル防止、SSRF対策、安全な条件評価、トークン予算の強制適用。"
-      },
-      "5": {
-        "title": "不可視文字はプロンプトインジェクション到達前に除去",
-        "description": "56のチョークポイントで不可視文字を除去 — bidiオーバーライド、タグ文字、ゼロ幅文字をLLMコンテキストに到達する前にブロック。"
-      }
-    },
-    "allLayersLink": "6つのレイヤーすべてを詳しく解説 →"
-  },
-  "architecture": {
-    "sectionLabel": "内部構造",
-    "title": "多層防御 — すべての階層に信頼ゾーン",
-    "summary": "マルチエージェントフリートは、4つの信頼層 — 信頼されていない外部入力、サンドボックス化されたエージェント、信頼されたメッシュ、ループバック専用の内部層 — に加え、オペレーター-または-内部権限層で動作します。エージェント同士はメッシュ経由でのみ通信し、エージェント単位の ACL で制御されます。メッシュが鍵を保持します。",
-    "zones": {
-      "0": {
-        "name": "ユーザーゾーン",
-        "trust": "信頼されていない入力",
-        "items": {
-          "0": "CLI / Telegram / Discord",
-          "1": "Slack / WhatsApp / Webhooks",
-          "2": "プロンプトインジェクション保護でサニタイズ"
-        }
-      },
-      "1": {
-        "name": "メッシュホスト",
-        "trust": "信頼済み（ゾーン2）",
-        "items": {
-          "0": "FastAPI（:8420）",
-          "1": "ブラックボード（SQLite + WAL）",
-          "2": "PubSub + メッセージルーター",
-          "3": "クレデンシャルVault（APIプロキシ）",
-          "4": "ACL マトリクス + レーンルーター",
-          "5": "ブラウザサービス :8500（エージェントごとのCamoufox）"
-        }
-      },
-      "2": {
-        "name": "エージェントコンテナ",
-        "trust": "サンドボックス化（ゾーン1）",
-        "items": {
-          "0": "FastAPI :8400（コンテナごと）",
-          "1": "専用 /data ボリューム",
-          "2": "専用メモリDB（SQLite + vec）",
-          "3": "384MB RAM / 0.15 CPU（デフォルト）",
-          "4": "UID 1000、cap_drop=ALL、no-new-privileges、読み取り専用 FS"
-        }
-      }
-    },
-    "agentLabel": "エージェント {n}",
-    "learnMoreLink": "AIエージェントオーケストレーションについて詳しく →"
+    "agentsCount": "{count} エージェント",
+    "chatButton": "チャット",
+    "costTodayLabel": "本日のコスト",
+    "degradedCount": "{count} 低下",
+    "heading": "AIエージェントフリートを",
+    "headingHighlight": "リアルタイムで監視",
+    "healthDegraded": "低下",
+    "healthOnline": "オンライン",
+    "heartbeatEvery": "{minutes}分ごと",
+    "heartbeatLabel": "ハートビート",
+    "liveIndicator": "ライブ",
+    "onlineCount": "{count} オンライン",
+    "pauseButton": "一時停止",
+    "sectionLabel": "フリートダッシュボード",
+    "stateIdle": "アイドル",
+    "stateStreaming": "ストリーミング",
+    "stateThinking": "思考中",
+    "stateTool": "ツール",
+    "subtitle": "で確認。すべてのエージェント、コスト、イベントをライブで。エージェントとチャットし、ヘルスを監視し、支出を統合ビューから追跡できます。",
+    "todaySuffix": "本日",
+    "tokensSuffix": "トークン",
+    "windowTitle": "フリート概要"
   },
   "enterprise": {
-    "heading": "本格的なワークロードのために構築。",
+    "cta": "デモを予約",
     "description": "セルフホスト型のオンプレミス展開、多層防御によるクレデンシャル分離、決定論的な監査証跡、エージェントごとのコスト管理、エージェントごとの権限マトリクス — すべてデフォルトで適用されます。エンジンは約77,000行のPythonで、5,800以上のテストと最小限の依存関係で構成されています。",
+    "heading": "本格的なワークロードのために構築。",
     "signals": {
       "0": "セルフホスト型オンプレミス",
       "1": "多層防御",
@@ -438,138 +136,103 @@
       "3": "実行範囲の制限",
       "4": "エージェントごとのコスト管理",
       "5": "エージェントごとの権限マトリクス"
-    },
-    "cta": "デモを予約"
-  },
-  "comparison": {
-    "sectionLabel": "比較",
-    "heading": "OpenLegionの違い",
-    "subtitle": "ほとんどのAIエージェントツールはデモ用に作られました — OpenLegionは本番環境用に作られました。",
-    "detailParagraph": "OpenLegionはvaultプロキシ経由のクレデンシャル、コンテナ分離、エージェントごとの予算管理をデフォルトで提供します — v0.1.0以降、報告されたCVEはありません。",
-    "disclaimer": "公開されたセキュリティ情報とコミュニティレポートに基づいています。",
-    "tableCaption": "一般的なAIエージェントフレームワークとOpenLegionの機能比較",
-    "columnAspect": "項目",
-    "columnThem": "OpenClaw他",
-    "columnOpenLegion": "OpenLegion",
-    "rows": {
-      "0": {
-        "aspect": "APIキー保管",
-        "them": "エージェント設定ファイル内",
-        "openlegion": "Vaultプロキシ — エージェントはキーを見られない"
-      },
-      "1": {
-        "aspect": "エージェント隔離",
-        "them": "プロセスレベル",
-        "openlegion": "Dockerコンテナ / マイクロVM"
-      },
-      "2": {
-        "aspect": "コスト管理",
-        "them": "なし",
-        "openlegion": "エージェントごとの日次・月次予算"
-      },
-      "3": {
-        "aspect": "タスクルーティング",
-        "them": "LLM CEOエージェントが決定",
-        "openlegion": "フリートモデル — blackboard + pub/sub + handoff (no CEO agent)"
-      },
-      "4": {
-        "aspect": "テストカバレッジ",
-        "them": "最小限",
-        "openlegion": "5,800以上のテスト：ユニット + 統合 + E2E"
-      },
-      "5": {
-        "aspect": "コードベースサイズ",
-        "them": "肥大化",
-        "openlegion": "約77,000行（エンジン、監査可能）"
-      }
-    },
-    "footnote": "OpenLegionは2026年2月にローンチしました。GitHubスター数はプロジェクトの歴史を反映しており、本番環境での実績ではありません。"
+    }
   },
   "faq": {
-    "sectionLabel": "よくある質問",
+    "fullPageSubtitle": "OpenLegionでのAIエージェントフリートのデプロイ、セキュリティ、スケーリングについて知っておくべきすべてのこと。",
     "heading": "よくある",
     "headingHighlight": "ご質問",
-    "fullPageSubtitle": "OpenLegionでのAIエージェントフリートのデプロイ、セキュリティ、スケーリングについて知っておくべきすべてのこと。",
     "items": {
       "0": {
-        "question": "OpenLegionを使うのに開発者である必要がありますか？",
-        "answer": "いいえ。app.openlegion.aiのマネージドホスティングではコーディングは不要です — サインアップし、テンプレートを選択し、LLM APIキーを追加するだけで、数分でエージェントが稼働します。セルフホスト版にはPython 3.10+とDockerが必要です。いずれの場合も、組み込みのチームテンプレート（開発チーム、営業パイプライン、コンテンツスタジオ）は設定不要ですぐに使用できます。"
+        "answer": "いいえ。app.openlegion.aiのマネージドホスティングではコーディングは不要です — サインアップし、テンプレートを選択し、LLM APIキーを追加するだけで、数分でエージェントが稼働します。セルフホスト版にはPython 3.10+とDockerが必要です。いずれの場合も、組み込みのチームテンプレート（開発チーム、営業パイプライン、コンテンツスタジオ）は設定不要ですぐに使用できます。",
+        "question": "OpenLegionを使うのに開発者である必要がありますか？"
       },
       "1": {
-        "question": "サブスクリプションに加えてLLM使用料がかかりますか？",
-        "answer": "すべての有料サブスクリプションには、有効期限のないLLMクレジットのウェルカムバンドルが含まれており、APIキーなしで初日から使えます。Anthropic、OpenAI、Google など100以上の対応プロバイダーから独自のAPIキーを持ち込み、モデル利用料を上乗せなしで直接プロバイダーに支払うこともできます。"
-      },
-      "2": {
-        "question": "OpenLegionエージェントは実際にどのようなタスクを自動化できますか？",
-        "answer": "人間がブラウザやターミナルを使ってコンピューター上で行うあらゆるタスクです。エージェントはあらゆるウェブサイトを閲覧・操作し、ウェブアプリケーションにログインし、フォームに入力し、あらゆるページからデータを抽出し、メール・メッセージの送信、ファイル・フォルダの管理、コードの記述・実行、ドキュメントの処理、ソーシャルプラットフォームへの投稿、ページ変更の監視、カスタム自動化の実行が可能です — すべて24時間365日、監視なしで。一般的な導入例には、営業アウトリーチパイプライン、競合調査、リード選別、開発ワークフロー、請求書処理、コンテンツ制作、社内タスクの自動化があります。"
-      },
-      "3": {
-        "question": "OpenLegionとは何ですか？",
-        "answer": "OpenLegionは、自律エージェントのフリートを分離されたDockerコンテナにデプロイする、本番品質のコンテナ分離型マルチエージェントランタイムです。各エージェントは独自の予算、権限、クレデンシャル vault を持ち、コンテナ分離、vaultプロキシ、エージェントごとのACL、実行範囲の制限による多層防御を備えています。Python、Docker、APIキーのみで動作。Redisも、Kubernetesも、LangChainも不要です。PolyForm Perimeter License 1.0.1（source-available）でライセンスされています。"
-      },
-      "4": {
-        "question": "OpenLegionはCrewAIなどのエージェントフレームワークとどう違いますか？",
-        "answer": "OpenLegionはすべてのエージェントをコンテナで分離し、全クレデンシャルをvault経由でプロキシし、エージェントごとの予算を強制します — ほとんどのフレームワークはそうしません。CrewAI などの類似フレームワークは、エージェントを共有プロセスで実行し、分離もコスト管理もなく、APIキーは設定ファイルに保存されています。OpenLegionはフリートモデル（no CEO agent）を採用し、blackboard協調と構造化されたハンドオフを使用します — タスクルーティングを決定するLLMが制御プレーンに存在しません。"
-      },
-      "5": {
-        "question": "OpenLegionはどのLLMプロバイダーに対応していますか？",
-        "answer": "LiteLLMを通じて100以上のLLMプロバイダーに対応しています。Anthropic（Claude）、OpenAI（GPT）、Google（Gemini）、Mistral、Moonshot、およびOpenAI互換APIが含まれます。同じフリート内の異なるエージェントに異なるモデルを割り当てることができます — ベンダーロックインはありません。"
-      },
-      "6": {
-        "question": "OpenLegionはAPIキーのセキュリティをどのように処理しますか？",
-        "answer": "vaultプロキシ経由 — エージェントはAPIキーを見ることはありません。キーはmeshホストのmeshプロセス内に保持されます。エージェントがLLMを呼び出すと、リクエストはvaultプロキシを通過し、ネットワーク層でクレデンシャルが注入され、トークン使用量が追跡され、予算上限が適用されます。完全に侵害されたエージェントでも、あなたのAPIキーにはアクセスできません。"
-      },
-      "7": {
-        "question": "OpenLegionの実行にKubernetesやクラウドインフラは必要ですか？",
-        "answer": "いいえ。OpenLegionは外部サービスなしで1台のマシン上で動作します。必要なのはPython 3.10+、Docker、LLM APIキーだけです — Redis不要、Kubernetes不要、LangChain不要、外部データベース不要。"
-      },
-      "8": {
-        "question": "OpenLegionを本番環境で運用できますか？",
-        "answer": "はい — OpenLegionは本番運用のために設計されています。オンプレミス対応、blackboard + pub/sub + handoff 協調を備えたフリートモデル、エージェントごとのコスト管理、エージェントごとの権限マトリクス、vaultプロキシによるクレデンシャル分離、5,800以上のテストを備えた約77,000行の監査可能なコードベースを含みます。多層防御の制御はデフォルトで有効です。"
-      },
-      "9": {
-        "question": "OpenLegionはオンプレミスで動作しますか？",
-        "answer": "はい。エンジンはPython + Dockerだけで1台のマシン上で動作し、外部サービスは不要です。完全ローカル推論には、LLMプロバイダーをOllamaに向けてください。ホストされたモデル（Anthropic、OpenAI、Google など）の場合は、meshプロキシが設定したプロバイダーに接続します。meshホスト、エージェント、vault、ダッシュボードはすべて同じマシン上で動作します。"
+        "answer": "すべての有料サブスクリプションには、有効期限のないLLMクレジットのウェルカムバンドルが含まれており、APIキーなしで初日から使えます。Anthropic、OpenAI、Google など100以上の対応プロバイダーから独自のAPIキーを持ち込み、モデル利用料を上乗せなしで直接プロバイダーに支払うこともできます。",
+        "question": "サブスクリプションに加えてLLM使用料がかかりますか？"
       },
       "10": {
-        "question": "AIエージェントフレームワークとは何ですか？",
-        "answer": "AIエージェントフレームワークとは、自律的なAIエージェントを本番環境にデプロイ、協調、ガバナンスするためのランタイムとライブラリのレイヤーです。エージェントのロジックプリミティブだけを提供する単なるSDKライブラリとは異なり、OpenLegionのようなフレームワークは、コンテナ分離、クレデンシャルのvault化、エージェントごとのコスト管理、可観測性、デプロイメントを処理します — チームはDevOpsをゼロから構築せずにエージェントを出荷できます。"
+        "answer": "AIエージェントフレームワークとは、自律的なAIエージェントを本番環境にデプロイ、協調、ガバナンスするためのランタイムとライブラリのレイヤーです。エージェントのロジックプリミティブだけを提供する単なるSDKライブラリとは異なり、OpenLegionのようなフレームワークは、コンテナ分離、クレデンシャルのvault化、エージェントごとのコスト管理、可観測性、デプロイメントを処理します — チームはDevOpsをゼロから構築せずにエージェントを出荷できます。",
+        "question": "AIエージェントフレームワークとは何ですか？"
       },
       "11": {
-        "question": "AIエージェントフレームワークとマネージドホスティングの違いは？",
-        "answer": "フレームワークは、エージェントロジック（ツール、プロンプト、メモリ、協調）を構築・実行するためのコードライブラリとランタイムです。マネージドホスティングはその上に運用レイヤーを加えます — 専用VPSのプロビジョニング、ダッシュボード、課金、クレジットプロキシなど。OpenLegionはその両方です：エージェントを記述・実行するためのPythonフレームワーク（コンテナ分離型マルチエージェントランタイム）であり、インフラ管理を望まないチームのためのオプショナルなマネージドホスティングサービスです。"
+        "answer": "フレームワークは、エージェントロジック（ツール、プロンプト、メモリ、協調）を構築・実行するためのコードライブラリとランタイムです。マネージドホスティングはその上に運用レイヤーを加えます — 専用VPSのプロビジョニング、ダッシュボード、課金、クレジットプロキシなど。OpenLegionはその両方です：エージェントを記述・実行するためのPythonフレームワーク（コンテナ分離型マルチエージェントランタイム）であり、インフラ管理を望まないチームのためのオプショナルなマネージドホスティングサービスです。",
+        "question": "AIエージェントフレームワークとマネージドホスティングの違いは？"
       },
       "12": {
-        "question": "OpenLegionではエージェント協調はどのように行われますか？",
-        "answer": "OpenLegionはフリートモデル — blackboard + pub/sub + handoff (no CEO agent) — を採用しています。エージェントはアトミックなcompare-and-setを備えたSQLiteベースのblackboard、pub/subイベントバス、構造化されたハンドオフプロトコルを通じて協調します。各エージェントは独自の権限、予算、ツールセットを持ちます。ユーザーは直接エージェントと対話します — タスクルーティングを決定するLLMが制御プレーンに存在することはありません。"
+        "answer": "OpenLegionはフリートモデル — blackboard + pub/sub + handoff (no CEO agent) — を採用しています。エージェントはアトミックなcompare-and-setを備えたSQLiteベースのblackboard、pub/subイベントバス、構造化されたハンドオフプロトコルを通じて協調します。各エージェントは独自の権限、予算、ツールセットを持ちます。ユーザーは直接エージェントと対話します — タスクルーティングを決定するLLMが制御プレーンに存在することはありません。",
+        "question": "OpenLegionではエージェント協調はどのように行われますか？"
       },
       "13": {
-        "question": "自律エージェントにおけるAIエージェントセキュリティとは？",
-        "answer": "AIエージェントセキュリティは、自律エージェント特有の脅威 — クレデンシャル漏洩、プロンプトインジェクション、リソース乱用、データ漏洩 — に対応します。OpenLegionの多層防御 — コンテナ分離、クレデンシャルvaultプロキシ、エージェントごとの権限マトリクス、入力サニタイズ、SSRF防御、Unicode/パストラバーサルの強化 — は、各脅威を独立して緩和し、ある層が突破されても他の層の安全性は損なわれません。"
+        "answer": "AIエージェントセキュリティは、自律エージェント特有の脅威 — クレデンシャル漏洩、プロンプトインジェクション、リソース乱用、データ漏洩 — に対応します。OpenLegionの多層防御 — コンテナ分離、クレデンシャルvaultプロキシ、エージェントごとの権限マトリクス、入力サニタイズ、SSRF防御、Unicode/パストラバーサルの強化 — は、各脅威を独立して緩和し、ある層が突破されても他の層の安全性は損なわれません。",
+        "question": "自律エージェントにおけるAIエージェントセキュリティとは？"
+      },
+      "2": {
+        "answer": "人間がブラウザやターミナルを使ってコンピューター上で行うあらゆるタスクです。エージェントはあらゆるウェブサイトを閲覧・操作し、ウェブアプリケーションにログインし、フォームに入力し、あらゆるページからデータを抽出し、メール・メッセージの送信、ファイル・フォルダの管理、コードの記述・実行、ドキュメントの処理、ソーシャルプラットフォームへの投稿、ページ変更の監視、カスタム自動化の実行が可能です — すべて24時間365日、監視なしで。一般的な導入例には、営業アウトリーチパイプライン、競合調査、リード選別、開発ワークフロー、請求書処理、コンテンツ制作、社内タスクの自動化があります。",
+        "question": "OpenLegionエージェントは実際にどのようなタスクを自動化できますか？"
+      },
+      "3": {
+        "answer": "OpenLegionは、自律エージェントのフリートを分離されたDockerコンテナにデプロイする、本番品質のコンテナ分離型マルチエージェントランタイムです。各エージェントは独自の予算、権限、クレデンシャル vault を持ち、コンテナ分離、vaultプロキシ、エージェントごとのACL、実行範囲の制限による多層防御を備えています。Python、Docker、APIキーのみで動作。Redisも、Kubernetesも、LangChainも不要です。PolyForm Perimeter License 1.0.1（source-available）でライセンスされています。",
+        "question": "OpenLegionとは何ですか？"
+      },
+      "4": {
+        "answer": "OpenLegionはすべてのエージェントをコンテナで分離し、全クレデンシャルをvault経由でプロキシし、エージェントごとの予算を強制します — ほとんどのフレームワークはそうしません。CrewAI などの類似フレームワークは、エージェントを共有プロセスで実行し、分離もコスト管理もなく、APIキーは設定ファイルに保存されています。OpenLegionはフリートモデル（no CEO agent）を採用し、blackboard協調と構造化されたハンドオフを使用します — タスクルーティングを決定するLLMが制御プレーンに存在しません。",
+        "question": "OpenLegionはCrewAIなどのエージェントフレームワークとどう違いますか？"
+      },
+      "5": {
+        "answer": "LiteLLMを通じて100以上のLLMプロバイダーに対応しています。Anthropic（Claude）、OpenAI（GPT）、Google（Gemini）、Mistral、Moonshot、およびOpenAI互換APIが含まれます。同じフリート内の異なるエージェントに異なるモデルを割り当てることができます — ベンダーロックインはありません。",
+        "question": "OpenLegionはどのLLMプロバイダーに対応していますか？"
+      },
+      "6": {
+        "answer": "vaultプロキシ経由 — エージェントはAPIキーを見ることはありません。キーはmeshホストのmeshプロセス内に保持されます。エージェントがLLMを呼び出すと、リクエストはvaultプロキシを通過し、ネットワーク層でクレデンシャルが注入され、トークン使用量が追跡され、予算上限が適用されます。完全に侵害されたエージェントでも、あなたのAPIキーにはアクセスできません。",
+        "question": "OpenLegionはAPIキーのセキュリティをどのように処理しますか？"
+      },
+      "7": {
+        "answer": "いいえ。OpenLegionは外部サービスなしで1台のマシン上で動作します。必要なのはPython 3.10+、Docker、LLM APIキーだけです — Redis不要、Kubernetes不要、LangChain不要、外部データベース不要。",
+        "question": "OpenLegionの実行にKubernetesやクラウドインフラは必要ですか？"
+      },
+      "8": {
+        "answer": "はい — OpenLegionは本番運用のために設計されています。オンプレミス対応、blackboard + pub/sub + handoff 協調を備えたフリートモデル、エージェントごとのコスト管理、エージェントごとの権限マトリクス、vaultプロキシによるクレデンシャル分離、5,800以上のテストを備えた約77,000行の監査可能なコードベースを含みます。多層防御の制御はデフォルトで有効です。",
+        "question": "OpenLegionを本番環境で運用できますか？"
+      },
+      "9": {
+        "answer": "はい。エンジンはPython + Dockerだけで1台のマシン上で動作し、外部サービスは不要です。完全ローカル推論には、LLMプロバイダーをOllamaに向けてください。ホストされたモデル（Anthropic、OpenAI、Google など）の場合は、meshプロキシが設定したプロバイダーに接続します。meshホスト、エージェント、vault、ダッシュボードはすべて同じマシン上で動作します。",
+        "question": "OpenLegionはオンプレミスで動作しますか？"
       }
     },
-    "seeFullFaqPrefix": "アーキテクチャ、LLMプロバイダー、エージェント協調などについて、さらに多くの質問に回答しています。",
-    "seeFullFaqLink": "すべてのFAQを見る →"
+    "sectionLabel": "よくある質問",
+    "seeFullFaqLink": "すべてのFAQを見る →",
+    "seeFullFaqPrefix": "アーキテクチャ、LLMプロバイダー、エージェント協調などについて、さらに多くの質問に回答しています。"
   },
-  "technicalDefinition": {
-    "label": "技術定義",
-    "srOnlyPrefix": "OpenLegionとは？ ",
-    "text": "OpenLegionは、クレデンシャルvaultプロキシ、エージェントごとの予算、フリート協調モデル（blackboard + pub/sub + handoff, no CEO agent）を備えたコンテナ分離型マルチエージェントランタイムです — 本番環境で安全でコスト管理されたエージェントフリートを必要とするチームのために設計されています。"
-  },
-  "cta": {
-    "heading": "あなたのAIチームは",
-    "headingHighlight": "デプロイ",
-    "headingEnd": "するだけ。",
-    "subtitle": "7日間お試し — 合わなければ全額返金 · いつでも解約可能 · コーディング不要",
-    "primaryButton": "AIチームを始める →",
-    "secondaryButton": "Discordに参加"
+  "features": {
+    "allFeaturesLink": "ブラウザ自動化、永続メモリ、MCP拡張性、マルチエージェント協調を含むAIエージェントフレームワークの全機能を見る →",
+    "heading": "失敗が",
+    "headingEnd": "チームのために構築。",
+    "headingHighlight": "許されない",
+    "outcomes": {
+      "0": {
+        "description": "すべてのエージェントはクレデンシャルプロキシを介して呼び出しを行います。APIキーもウォレット秘密鍵もコンテナ内に存在しません。6つの独立したセキュリティレイヤーがデフォルトで有効です。",
+        "linkLabel": "セキュリティの仕組み →",
+        "title": "AIエージェントセキュリティ：APIキーはエージェントが触れないVaultに保管。"
+      },
+      "1": {
+        "description": "エージェントごとの日次・月次上限と自動ハードカットオフ。予期せぬ請求なし。深夜3時のAPI暴走ループなし。",
+        "linkLabel": "コスト管理の仕組み →",
+        "title": "エージェントごとに予算を設定。上限に達した瞬間に停止します。"
+      },
+      "2": {
+        "description": "エージェントはあらゆるウェブサイトを操作し、あらゆるツールを扱い、オンチェーン実行も含めて、あらゆるタスクを実行します。MCP互換で、ブラウザ・ファイル・メモリ・ウォレットなどの組み込みスキルを備えています。Fleet model — blackboard + pub/sub + handoff (no CEO agent) — に基づき、実行範囲を制限しエージェントごとの権限マトリクスを適用します。",
+        "linkLabel": "協調の仕組み →",
+        "title": "フリートモデル協調 — 誰が何をするかを自分で決められます。"
+      }
+    },
+    "sectionLabel": "機能",
+    "subtitle": "セキュリティ、コスト管理、エージェント自動化を初日から組み込んだAIエージェントフレームワーク。"
   },
   "footer": {
     "brandDescription": "本番環境向けに構築された、コンテナ分離型マルチエージェントランタイム。安全でコスト管理されたエージェントフリートで、あらゆるコンピュータ作業を自動化します。",
-    "license": "PolyForm Perimeter License 1.0.1 © {year} OpenLegion Contributors",
     "columns": {
       "0": {
-        "title": "製品",
         "links": {
           "0": "機能",
           "1": "ユースケース",
@@ -578,20 +241,20 @@
           "4": "料金",
           "5": "クイックスタート",
           "6": "よくある質問"
-        }
+        },
+        "title": "製品"
       },
       "1": {
-        "title": "学ぶ",
         "links": {
           "0": "AIエージェントプラットフォーム",
           "1": "AIエージェントオーケストレーション",
           "2": "AIエージェントフレームワーク",
           "3": "AIエージェントセキュリティ",
           "4": "DeepSeek V4 エージェント"
-        }
+        },
+        "title": "学ぶ"
       },
       "2": {
-        "title": "比較",
         "links": {
           "0": "すべての比較",
           "1": "OpenClaw代替",
@@ -599,84 +262,238 @@
           "3": "vs LangGraph",
           "4": "vs CrewAI",
           "5": "vs AutoGen"
-        }
+        },
+        "title": "比較"
       },
       "3": {
-        "title": "リソース",
         "links": {
           "0": "ドキュメント",
           "1": "GitHub",
           "2": "Issues",
           "3": "Discussions"
-        }
+        },
+        "title": "リソース"
       },
       "4": {
-        "title": "コミュニティ",
         "links": {
           "0": "Discord",
           "1": "Twitter / X"
-        }
+        },
+        "title": "コミュニティ"
       },
       "5": {
-        "title": "法的情報",
         "links": {
           "0": "利用規約",
           "1": "プライバシーポリシー",
           "2": "PolyForm Perimeter License 1.0.1"
-        }
-      }
-    }
-  },
-  "pricing": {
-    "sectionLabel": "料金",
-    "heading": "あなたの",
-    "headingHighlight": "AIワークフォース",
-    "headingEnd": "のためのプラン。",
-    "subtitle": "シンプルで予測可能な料金。いつでもキャンセル可能。",
-    "billingMonthly": "月払い",
-    "billingYearly": "年払い",
-    "billingSaveLabel": "約25%お得",
-    "plans": {
-      "0": {
-        "name": "Basic",
-        "monthlyPrice": "19",
-        "yearlyPrice": "170",
-        "yearlyMonthly": "14",
-        "tagline": "ソロビルダー向け"
-      },
-      "1": {
-        "name": "Growth",
-        "monthlyPrice": "62",
-        "yearlyPrice": "557",
-        "yearlyMonthly": "46",
-        "tagline": "成長中のチーム向け"
-      },
-      "2": {
-        "name": "Pro",
-        "monthlyPrice": "152",
-        "yearlyPrice": "1367",
-        "yearlyMonthly": "114",
-        "tagline": "エージェンシー・パワーユーザー向け"
-      },
-      "3": {
-        "name": "Pro Max",
-        "monthlyPrice": "296",
-        "yearlyPrice": "2663",
-        "yearlyMonthly": "222",
-        "tagline": "大規模運用向け"
+        },
+        "title": "法的情報"
       }
     },
-    "popularBadge": "人気",
-    "priceSuffixMonthly": "/月",
-    "priceSuffixYearly": "/年",
-    "yearlyBilledNote": "年払いで約${monthlyEquivalent}/月",
-    "monthlyNote": "7日間返金保証",
+    "license": "PolyForm Perimeter License 1.0.1 © {year} OpenLegion Contributors"
+  },
+  "hero": {
+    "ariaLabel": "はじめに",
+    "badge": "AIワークフォースはここから",
+    "ctaPrimary": "AIチームを始める — 月額$19から",
+    "ctaSecondary": "デモを予約",
+    "headingHighlight": "AIワークフォース",
+    "headingLine1": "",
+    "headingLine2": "欲しいチームを伝えるだけで構築。",
+    "subtitle": "必要なものを言葉で伝えるだけ — マーケティング代理店、営業チーム、リサーチデスク — OpenLegionが数分でAI社員のチームを稼働させます。各エージェントには専用の予算と権限が割り当てられ、パスワードやAPIキーはエージェントが決して見られないVaultに保管されます。",
+    "tagline": "あなたのチームが眠っている間に、雑務を片付けてくれるAI社員。",
+    "terminalTitle": "openlegion デモ",
+    "videoCaptionBelow": "ひとつのプロンプトから動くAIチームへ — その様子をご覧ください。",
+    "videoFallback": "お使いのブラウザはHTML5動画に対応していません。",
+    "videoTitle": "OpenLegion デモ — AIエージェントフリートのデプロイ",
+    "trustStrip": {
+      "0": "24時間365日稼働",
+      "1": "エージェントはパスワードを一切見られません",
+      "2": "コーディング不要"
+    }
+  },
+  "inlineCta": {
     "getStarted": "今すぐ始める",
+    "readTheDocs": "ドキュメントを読む"
+  },
+  "launchPricing": {
+    "cta": "今すぐ始める →",
+    "message": "ファウンダー価格 — 早期顧客向けに固定"
+  },
+  "metadata": {
+    "faqDescription": "本番環境向けに構築された、コンテナ分離型マルチエージェントランタイムOpenLegionに関するよくある質問への回答。セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメントなどをカバーします。",
+    "faqOgDescription": "OpenLegionに関するよくある質問への回答 — セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメント。",
+    "faqOgTitle": "よくある質問 — OpenLegion",
+    "faqTitle": "よくある質問",
+    "faqTwitterDescription": "OpenLegionに関するよくある質問への回答 — セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメント。",
+    "faqTwitterTitle": "よくある質問 — OpenLegion",
+    "homeDescription": "OpenLegionは本番運用のためのAIエージェントフレームワーク＆プラットフォーム。ブラウジング、フォーム入力、コード、アウトリーチ、データ処理など、あらゆるPC作業を自動化するAI社員を配備できます。コーディング不要、7日間返金保証。",
+    "homeTitle": "AIエージェントプラットフォーム＆フレームワーク - OpenLegion | あらゆる作業を自動化、コントロールを維持",
+    "learnDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
+    "learnOgDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
+    "learnOgTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
+    "learnTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
+    "learnTwitterDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
+    "learnTwitterTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
+    "moneyBackDescription": "OpenLegion がご期待に沿わない場合、初月分を全額返金。理由は問いません。",
+    "moneyBackTitle": "7日間返金保証",
+    "ogDescription": "人間がコンピュータでできることを何でも自動化するAIエージェントを配備。安全・予算管理付き・本番対応。7日間返金保証。",
+    "ogImageAlt": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
+    "ogTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
+    "pricingDescription": "月額$19からのプラン。コンテナ分離、Vaultセキュリティ、100以上のLLMプロバイダー対応。いつでも解約可能、7日間返金保証。",
+    "pricingOgDescription": "月額$19からのプラン。コンテナ分離、Vaultセキュリティ、100以上のLLMプロバイダー。7日間返金保証。",
+    "pricingOgTitle": "AIエージェントプラットフォーム料金 — 月額$19から | OpenLegion",
+    "pricingTitle": "AIエージェントプラットフォーム料金 — 月額$19から",
+    "pricingTwitterDescription": "月額$19からのプラン。7日間返金保証。",
+    "pricingTwitterTitle": "AIエージェントプラットフォーム料金 — 月額$19から | OpenLegion",
+    "privacyDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングのプライバシーポリシー。マネージドホスティングおよびopenlegion.aiウェブサイト全体で、データをどのように収集、利用、保護しているかをご覧ください。",
+    "privacyTitle": "プライバシーポリシー",
+    "termsDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングの利用規約。マネージドホスティング、PolyForm Perimeter License 1.0.1下でのセルフホスト型デプロイメント、openlegion.aiウェブサイトをカバーします。",
+    "termsTitle": "利用規約",
+    "titleTemplate": "{title} | OpenLegion",
+    "twitterDescription": "人間がコンピュータでできることを何でも自動化するAIエージェントを配備。7日間返金保証。",
+    "twitterTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム"
+  },
+  "moneyBackPage": {
+    "afterRefund": {
+      "heading": "返金後のアカウントの扱い",
+      "items": {
+        "0": "返金処理後まもなくサブスクリプションがキャンセルされ、ホスティングインスタンスがディプロビジョンされます。",
+        "1": "サブスクリプションに付与されたウェルカムクレジットは回収され、クレジット残高はゼロに戻ります（返金との整合性のため）。",
+        "2": "今後のサブスクリプションでの2回目の返金請求やウェルカムクレジット付与の対象にはなりません。今後のサブスクリプションは通常通り請求されます。"
+      }
+    },
+    "covered": {
+      "heading": "対象となるもの",
+      "items": {
+        "0": "初回サブスクリプション支払い（実際に請求された金額——例：Basic 月額の $19）。",
+        "1": "その金額の全額返金——理由は問わず、按分なしの完全返金です。"
+      }
+    },
+    "email": "support@openlegion.ai",
+    "howTo": {
+      "body": "アカウントのメールアドレスとサブスクリプションIDを記載して {email} までメールしてください。返金は Polar 経由で5営業日以内に処理されます（元のお支払い方法に返金されます）。",
+      "heading": "返金のリクエスト方法"
+    },
+    "intro": "OpenLegionに自信を持っています。理由を問わず初月が合わなかった場合は、初回サブスクリプション支払いから7日以内に {email} までメールしてください。実際にお支払いいただいた金額を全額返金します（Polar が請求したローンチ価格の金額——隣に表示されている高めのアンカー価格ではありません）。",
+    "notCovered": {
+      "heading": "対象外となるもの",
+      "items": {
+        "0": "クレジットの追加購入（消費済みクレジットは返金不可——未使用クレジットは返金処理が完了するまでアカウントに残ります）。",
+        "1": "最初の7日を過ぎた更新時の請求。",
+        "2": "不正に利用されたサブスクリプション（利用規約違反）。"
+      }
+    },
+    "tagline": "初月分を全額返金。理由は問いません。",
+    "title": "7日間返金保証"
+  },
+  "nav": {
+    "ariaLabel": "メインナビゲーション",
+    "billingPeriodAriaLabel": "請求期間",
+    "bookDemo": "デモを予約",
+    "brandName": "OpenLegion",
+    "getStarted": "今すぐ始める",
+    "githubAriaLabel": "GitHub リポジトリ",
+    "homeAriaLabel": "OpenLegion ホーム",
+    "links": {
+      "architecture": {
+        "label": "アーキテクチャ"
+      },
+      "docs": {
+        "label": "ドキュメント"
+      },
+      "features": {
+        "label": "機能"
+      },
+      "pricing": {
+        "label": "料金"
+      },
+      "security": {
+        "label": "セキュリティ"
+      },
+      "useCases": {
+        "label": "ユースケース"
+      }
+    },
+    "signIn": "サインイン",
+    "toggleMenuAriaLabel": "メニューを切り替える"
+  },
+  "notFound": {
+    "backToHome": "ホームに戻る",
+    "description": "このページは存在しません。フリートはまだここにデプロイされていません。",
+    "title": "404",
+    "titleHighlight": "0"
+  },
+  "pricing": {
+    "a11y": {
+      "ctaAria": "{plan}を始める",
+      "mostPopular": "最も人気のプラン",
+      "originalPriceAria": "通常価格 ${price}"
+    },
     "agentsLabel": "{count, plural, one {エージェント} other {エージェント}}",
-    "creditsLabel": "ウェルカムクレジット",
+    "basicTryFor": "{price}でOpenLegionを試す",
+    "billingMonthly": "月払い",
+    "billingPeriodAriaLabel": "請求期間",
+    "billingSaveLabel": "約25%お得",
+    "billingYearly": "年払い",
     "browsersLabel": "{count, plural, one {同時ブラウザ} other {同時ブラウザ}}",
-    "teamsLabel": "{count, plural, one {チーム} other {チーム}}",
+    "creditsLabel": "ウェルカムクレジット",
+    "enterprise": {
+      "agents": "エージェント",
+      "browsers": "同時ブラウザ",
+      "cta": "お問い合わせ",
+      "features": {
+        "0": "専用インフラ",
+        "1": "カスタムSLA",
+        "2": "優先サポート",
+        "3": "オンプレミスデプロイ"
+      },
+      "name": "Enterprise",
+      "price": "お問い合わせ",
+      "subtitle": "お客様のニーズに合わせて",
+      "teams": "チーム",
+      "unlimitedAgents": "無制限"
+    },
+    "faq": {
+      "0": {
+        "answer": "すべての有料プランには、ウェルカムクレジットバンドルと初日からの完全なアクセスが含まれます — VPS、システムプロキシ、オペレーターダッシュボード。ご満足いただけない場合は？7日以内にキャンセルいただければ、初月分を全額返金いたします — 理由は不要です。独自のAPIキーをお使いになりたい？もちろん可能で、ウェルカムクレジットはそのままお持ちいただけます。",
+        "question": "プランには初日から何が含まれますか？"
+      },
+      "1": {
+        "answer": "すべての新規サブスクリプションには、有効期限のないLLMクレジットのウェルカムボーナスが含まれています。APIキー不要で、すぐにエージェントを稼働できます。もっと必要ですか？$5からいつでもチャージ可能。または、Anthropic、OpenAI、Google、100以上のプロバイダーの独自APIキーを使って、クレジットをスキップすることもできます。",
+        "question": "プラン料金に加えてLLM使用料を支払う必要がありますか？"
+      },
+      "2": {
+        "answer": "はい — いつでもアップグレードでき、新しい上限は即時適用されます。ダウングレードは次の請求期間の開始時に反映されます。",
+        "question": "プランを変更できますか？"
+      },
+      "3": {
+        "answer": "解約後も、現在の請求期間が終了するまでアクセス可能です。その後、VPSはデプロビジョニングされ、インスタンスデータは削除されます。",
+        "question": "キャンセルした場合、エージェントはどうなりますか？"
+      },
+      "4": {
+        "answer": "はい。リポジトリをクローンし、3つのコマンドを実行するだけで、自社インフラ上にフルエージェントフリートが構築できます。エンジンはPolyForm Perimeter License 1.0.1のソースアベイラブルです。インフラ管理が不要なチーム向けのマネージドホスティングは月額$19からご利用いただけます。",
+        "question": "OpenLegionをセルフホストできますか？"
+      },
+      "5": {
+        "answer": "デプロイされた各エージェントコンテナが、プラン上限に対して1エージェントとしてカウントされます。開発チーム（PM + エンジニア + レビュアー）などのテンプレートは3エージェントとしてカウントされます。",
+        "question": "「エージェント」とは何をカウントしますか？"
+      },
+      "6": {
+        "answer": "クレジットは、当プラットフォームを通じてLLM呼び出し（Claude、GPT、Geminiなど）の支払いに使用されます。サブスクリプション登録時にウェルカムボーナスがもらえます — Basicは$5、Growthは$15、Proは$30。クレジットに有効期限はありません。使い切ったら、$5から$500まで任意の金額をチャージするか、独自のAPIキーを追加してプロバイダーを直接利用できます。",
+        "question": "LLMクレジットとは何ですか？有効期限はありますか？"
+      }
+    },
+    "faqHeading": "よくある質問",
+    "getStarted": "今すぐ始める",
+    "heading": "あなたの",
+    "headingEnd": "のためのプラン。",
+    "headingHighlight": "AIワークフォース",
+    "moneyBackDetail": "7日間返金保証 · 質問なし",
+    "monthlyNote": "7日間返金保証",
     "noTeams": "チームなし",
+    "perAgent": "{amount}/エージェント/月",
+    "perAgentYearlySuffix": " · 年額請求",
     "planFeatures": {
       "0": "各エージェントは専用のセキュアコンテナで実行",
       "1": "Claude、GPT、Gemini + 100以上に対応",
@@ -685,86 +502,193 @@
       "4": "専用コンピュート — 共有リソースなし",
       "5": "自分のAPIキーを使う — またはクレジットを利用"
     },
-    "enterprise": {
-      "name": "Enterprise",
-      "price": "お問い合わせ",
-      "subtitle": "お客様のニーズに合わせて",
-      "cta": "お問い合わせ",
-      "unlimitedAgents": "無制限",
-      "agents": "エージェント",
-      "browsers": "同時ブラウザ",
-      "teams": "チーム",
-      "features": {
-        "0": "専用インフラ",
-        "1": "カスタムSLA",
-        "2": "優先サポート",
-        "3": "オンプレミスデプロイ"
-      }
-    },
-    "faqHeading": "よくある質問",
-    "faq": {
+    "plans": {
       "0": {
-        "question": "プランには初日から何が含まれますか？",
-        "answer": "すべての有料プランには、ウェルカムクレジットバンドルと初日からの完全なアクセスが含まれます — VPS、システムプロキシ、オペレーターダッシュボード。ご満足いただけない場合は？7日以内にキャンセルいただければ、初月分を全額返金いたします — 理由は不要です。独自のAPIキーをお使いになりたい？もちろん可能で、ウェルカムクレジットはそのままお持ちいただけます。"
+        "monthlyPrice": "19",
+        "name": "Basic",
+        "tagline": "ソロビルダー向け",
+        "yearlyMonthly": "14",
+        "yearlyPrice": "170"
       },
       "1": {
-        "question": "プラン料金に加えてLLM使用料を支払う必要がありますか？",
-        "answer": "すべての新規サブスクリプションには、有効期限のないLLMクレジットのウェルカムボーナスが含まれています。APIキー不要で、すぐにエージェントを稼働できます。もっと必要ですか？$5からいつでもチャージ可能。または、Anthropic、OpenAI、Google、100以上のプロバイダーの独自APIキーを使って、クレジットをスキップすることもできます。"
+        "monthlyPrice": "62",
+        "name": "Growth",
+        "tagline": "成長中のチーム向け",
+        "yearlyMonthly": "46",
+        "yearlyPrice": "557"
       },
       "2": {
-        "question": "プランを変更できますか？",
-        "answer": "はい — いつでもアップグレードでき、新しい上限は即時適用されます。ダウングレードは次の請求期間の開始時に反映されます。"
+        "monthlyPrice": "152",
+        "name": "Pro",
+        "tagline": "エージェンシー・パワーユーザー向け",
+        "yearlyMonthly": "114",
+        "yearlyPrice": "1367"
       },
       "3": {
-        "question": "キャンセルした場合、エージェントはどうなりますか？",
-        "answer": "解約後も、現在の請求期間が終了するまでアクセス可能です。その後、VPSはデプロビジョニングされ、インスタンスデータは削除されます。"
-      },
-      "4": {
-        "question": "OpenLegionをセルフホストできますか？",
-        "answer": "はい。リポジトリをクローンし、3つのコマンドを実行するだけで、自社インフラ上にフルエージェントフリートが構築できます。エンジンはPolyForm Perimeter License 1.0.1のソースアベイラブルです。インフラ管理が不要なチーム向けのマネージドホスティングは月額$19からご利用いただけます。"
-      },
-      "5": {
-        "question": "「エージェント」とは何をカウントしますか？",
-        "answer": "デプロイされた各エージェントコンテナが、プラン上限に対して1エージェントとしてカウントされます。開発チーム（PM + エンジニア + レビュアー）などのテンプレートは3エージェントとしてカウントされます。"
-      },
-      "6": {
-        "question": "LLMクレジットとは何ですか？有効期限はありますか？",
-        "answer": "クレジットは、当プラットフォームを通じてLLM呼び出し（Claude、GPT、Geminiなど）の支払いに使用されます。サブスクリプション登録時にウェルカムボーナスがもらえます — Basicは$5、Growthは$15、Proは$30。クレジットに有効期限はありません。使い切ったら、$5から$500まで任意の金額をチャージするか、独自のAPIキーを追加してプロバイダーを直接利用できます。"
+        "monthlyPrice": "296",
+        "name": "Pro Max",
+        "tagline": "大規模運用向け",
+        "yearlyMonthly": "222",
+        "yearlyPrice": "2663"
       }
     },
-    "billingPeriodAriaLabel": "請求期間",
+    "popularBadge": "人気",
+    "priceSuffixMonthly": "/月",
+    "priceSuffixYearly": "/年",
+    "savingsAriaLabel": "{percent}パーセントお得",
     "savingsPill": "${amount}{suffix}節約（{percent}%）",
+    "sectionLabel": "料金",
+    "subtitle": "シンプルで予測可能な料金。いつでもキャンセル可能。",
+    "teamsLabel": "{count, plural, one {チーム} other {チーム}}",
     "trust": {
-      "moneyBack": "7日間返金保証",
       "cancel": "いつでもキャンセル可能",
+      "moneyBack": "7日間返金保証",
       "switch": "プランをいつでも変更可能"
     },
-    "a11y": {
-      "mostPopular": "最も人気のプラン",
-      "ctaAria": "{plan}を始める",
-      "originalPriceAria": "通常価格 ${price}"
-    },
     "trustTrio": {
-      "moneyBack": "7日間返金保証",
       "fastSetup": "5分で最初のエージェントが稼働",
+      "moneyBack": "7日間返金保証",
       "noCoding": "コーディング不要"
     },
-    "perAgent": "{amount}/エージェント/月",
-    "perAgentYearlySuffix": " · 年額請求",
-    "moneyBackDetail": "7日間返金保証 · 質問なし",
-    "basicTryFor": "{price}でOpenLegionを試す",
-    "savingsAriaLabel": "{percent}パーセントお得"
+    "yearlyBilledNote": "年払いで約${monthlyEquivalent}/月"
   },
-  "notFound": {
-    "title": "404",
-    "titleHighlight": "0",
-    "description": "このページは存在しません。フリートはまだここにデプロイされていません。",
-    "backToHome": "ホームに戻る"
+  "pricingAnchors": {
+    "anchorLabel": "ローンチ価格",
+    "basicMonthly": "29",
+    "basicYearly": "259",
+    "growthMonthly": "109",
+    "growthYearly": "989",
+    "proMaxMonthly": "899",
+    "proMaxYearly": "8990",
+    "proMonthly": "349",
+    "proYearly": "3099"
+  },
+  "privacy": {
+    "effectiveDate": "発効日：2026年3月7日 · 最終更新日：2026年3月7日",
+    "section1": {
+      "p1": "本プライバシーポリシー（以下「本ポリシー」）は、OpenLegion（以下「当社」）が、openlegion.ai（以下「ウェブサイト」）へのアクセス、またはマネージドホスティングサービス、API、およびその他の関連サービス（以下、総称して「本サービス」）のご利用に際して、情報をどのように収集、使用、開示するかを説明するものです。",
+      "p2": "本サービスをご利用いただくことで、本ポリシーに記載された慣行に同意したものとみなされます。同意いただけない場合は、本サービスをご利用にならないでください。",
+      "title": "1. はじめに"
+    },
+    "section10": {
+      "text": "カリフォルニア州にお住まいの場合、カリフォルニア消費者プライバシー法（CCPA）に基づき、当社が収集する個人情報を知る権利、削除を要求する権利、個人情報の販売をオプトアウトする権利を含む追加の権利を有します。当社は個人情報を販売しません。CCPAの権利を行使するには、support@openlegion.ai までご連絡ください。",
+      "title": "10. カリフォルニア州居住者（CCPA）"
+    },
+    "section11": {
+      "p1": "欧州経済領域にお住まいの場合、お客様の個人データを処理する法的根拠には、(a) お客様の同意、(b) 契約の履行、(c) 法的義務の遵守、(d) お客様のデータ保護権によって覆されない当社の正当な利益（本サービスの改善およびセキュリティ確保）が含まれます。",
+      "p2": "GDPRに基づくお客様の権利が侵害されたと考える場合は、管轄のデータ保護当局に苦情を申し立てることができます。",
+      "title": "11. 欧州経済領域（GDPR）"
+    },
+    "section12": {
+      "text": "お客様の情報は、当社のサービスプロバイダーが運営する米国またはその他の国に転送され、処理される場合があります。これらの国は、お客様の管轄地域とは異なるデータ保護法を有する場合があります。本サービスをご利用いただくことで、そのような移転に同意したものとみなされます。",
+      "title": "12. 国際データ移転"
+    },
+    "section13": {
+      "text": "本サービスは18歳未満の個人を対象としていません。当社は意図的に未成年者から個人情報を収集しません。未成年者からデータを収集したことが判明した場合、速やかに削除します。",
+      "title": "13. 未成年者のプライバシー"
+    },
+    "section14": {
+      "text": "当社は随時本プライバシーポリシーを更新する場合があります。変更はこのページの上部にある「最終更新日」を更新することで反映されます。変更後も本サービスを継続してご利用いただくことで、更新されたプライバシーポリシーに同意したものとみなされます。",
+      "title": "14. 本ポリシーの変更"
+    },
+    "section15": {
+      "email": "support@openlegion.ai",
+      "text": "本プライバシーポリシーに関するご質問、または権利の行使をご希望の場合は、以下までご連絡ください：",
+      "title": "15. お問い合わせ"
+    },
+    "section2": {
+      "1": {
+        "items": {
+          "0": "アカウント情報：アカウント作成時のメールアドレス、氏名、パスワード。",
+          "1": "支払い情報：第三者の決済プロセッサ（Polar）が処理する請求情報。クレジットカード番号全体を弊社サーバーには保存しません。",
+          "2": "コミュニケーション：メール、ライブチャット（Tawk.to）、またはDiscordを通じてお客様が提供する情報。",
+          "3": "お客様データ：本サービスに送信するエージェント設定、ワークフロー定義、その他のデータ。"
+        },
+        "title": "2.1 お客様が提供する情報"
+      },
+      "2": {
+        "items": {
+          "0": "利用データ：アクセスしたページ、使用した機能、タイムスタンプ、リファラーURL、一般的な操作パターン。",
+          "1": "デバイス情報：ブラウザの種類、オペレーティングシステム、画面解像度、デバイス識別子。",
+          "2": "IPアドレス：セキュリティ、分析、概算位置情報の目的で収集。",
+          "3": "Cookieおよび類似技術：以下の第6条をご参照ください。"
+        },
+        "title": "2.2 自動的に収集される情報"
+      },
+      "title": "2. 収集する情報"
+    },
+    "section3": {
+      "intro": "当社は収集した情報を以下の目的で使用します：",
+      "items": {
+        "0": "本サービスの提供、運営、維持；",
+        "1": "支払いの処理および請求関連の通信の送付；",
+        "2": "お問い合わせへの対応およびカスタマーサポートの提供；",
+        "3": "本サービス改善のための利用パターンの分析（Google AnalyticsおよびMicrosoft Clarity経由）；",
+        "4": "技術的問題、不正行為、または悪用の検出、防止、対処；",
+        "5": "トランザクションメール（アカウント確認、パスワードリセット、請求書の送付）；",
+        "6": "法的義務の遵守。"
+      },
+      "noSell": "当社はお客様の個人情報を販売しません。当社はお客様データをAIモデルの学習に使用しません。",
+      "title": "3. 情報の使用方法"
+    },
+    "section4": {
+      "intro": "当社は、それぞれのプライバシーポリシーに記載されているとおりに情報を収集する可能性のある以下の第三者サービスを使用しています：",
+      "items": {
+        "0": "Google Analytics — ウェブサイト分析およびトラフィック測定。",
+        "1": "Microsoft Clarity — UX分析のためのセッション記録およびヒートマップ。",
+        "2": "Tawk.to — カスタマーサポート用ライブチャットウィジェット。",
+        "3": "Polar — 決済処理。",
+        "4": "LLM APIプロバイダー（例：Anthropic、OpenAI、Google、Mistral） — AIモデル推論。これらのプロバイダーに送信されるプロンプトおよびエージェントデータは、各プロバイダーのプライバシーポリシーおよびデータ処理規約に準拠します。OpenLegionは、第三者LLMプロバイダーがデータをどのように取り扱うかについて責任を負いません。"
+      },
+      "review": "これらの第三者サービスのプライバシーポリシーをご確認いただくことをお勧めします。",
+      "title": "4. 第三者サービス"
+    },
+    "section5": {
+      "intro": "当社は、以下の状況においてのみお客様の情報を共有する場合があります：",
+      "items": {
+        "0": "サービスプロバイダー：本サービスの運営を支援する第三者ベンダー（ホスティング、決済処理、分析）で、お客様データの保護に関する契約上の義務を負うもの。",
+        "1": "法的要件：法律、召喚状、裁判所命令、または政府機関の要請により求められる場合。",
+        "2": "権利の保護：当社の利用規約の執行、権利もしくは安全の保護、または不正行為の調査のため。",
+        "3": "事業譲渡：合併、買収、または資産売却に関連して、お客様の情報がその取引の一部として移転される場合があります。"
+      },
+      "title": "5. データの共有と開示"
+    },
+    "section6": {
+      "control": "ブラウザの設定でCookieを管理できます。Cookieを無効にすると、本サービスの機能に影響を与える場合があります。",
+      "intro": "当社は、分析、機能、セキュリティの目的でCookieおよび類似技術（ピクセル、ローカルストレージ）を使用しています。本ウェブサイトでは以下を使用します：",
+      "items": {
+        "0": "必須Cookie：本サービスの機能に必要なもの（セッション管理、認証）。",
+        "1": "分析Cookie：訪問者がウェブサイトをどのように利用しているかを把握するためのGoogle AnalyticsおよびMicrosoft ClarityのCookie。",
+        "2": "第三者Cookie：ライブチャット機能のためにTawk.toが設定するもの。"
+      },
+      "title": "6. Cookieおよびトラッキング技術"
+    },
+    "section7": {
+      "text": "当社は、お客様のアカウントが有効な間、または本サービスの提供に必要な期間、お客様の情報を保持します。また、法的義務の遵守、紛争の解決、契約の執行に必要な場合にも情報を保持する場合があります。データが不要になった場合、合理的な期間内に削除または匿名化します。",
+      "title": "7. データの保持"
+    },
+    "section8": {
+      "text": "当社は、お客様の情報を保護するために商業的に合理的な技術的・組織的措置を講じています。ただし、インターネット経由の伝送方法または電子的保存方法は100%安全ではありません。当社は絶対的なセキュリティを保証することはできず、不正アクセス、データ侵害、またはデータの損失について責任を負いません。",
+      "title": "8. データセキュリティ"
+    },
+    "section9": {
+      "contact": "これらの権利を行使するには、support@openlegion.ai までご連絡ください。30日以内（または適用法で求められる期間内）に対応いたします。",
+      "intro": "管轄地域によっては、お客様の個人情報に関して以下の権利を有する場合があります：",
+      "items": {
+        "0": "アクセス：当社が保有するお客様の個人情報の写しを要求する権利。",
+        "1": "訂正：不正確または不完全なデータの訂正を要求する権利。",
+        "2": "削除：法的保持要件に従い、個人情報の削除を要求する権利。",
+        "3": "ポータビリティ：構造化された機械可読形式でデータを要求する権利。",
+        "4": "異議：特定の目的での個人情報の処理に異議を申し立てる権利。",
+        "5": "販売のオプトアウト：当社は個人情報を販売しません。この方針が変更される場合は、明確なオプトアウト機構を提供します。"
+      },
+      "title": "9. お客様の権利"
+    },
+    "title": "プライバシーポリシー"
   },
   "promptToTeam": {
-    "sectionLabel": "仕組み",
-    "heading": "プロンプトひとつでチームを構築",
-    "subtitle": "必要な機能を記述するだけで、OpenLegion がエージェント構成を作成し、役割を割り当て、各エージェントに安全に動作するための制御を付与します。",
+    "customCta": "構築を始める →",
+    "customNote": "お探しのユースケースが見つかりませんか？任意の役割、ツール、予算を組み合わせてチームを構築できます。",
     "examples": {
       "0": {
         "name": "コンテンツスタジオ",
@@ -810,169 +734,100 @@
         }
       }
     },
+    "heading": "プロンプトひとつで完全なAIエージェントチームを構築",
+    "sectionLabel": "仕組み",
+    "subtitle": "必要な機能を記述するだけで、OpenLegion がエージェント構成を作成し、役割を割り当て、各エージェントに安全に動作するための制御を付与します。",
     "visuals": {
+      "dev": {
+        "0": "PM がタスク #42 を作成",
+        "1": "エンジニアが PR #18 を提出",
+        "2": "レビュアーがレビュー中…"
+      },
       "marketing": {
         "0": {
-          "title": "ブログ記事",
-          "status": "公開済み"
+          "status": "公開済み",
+          "title": "ブログ記事"
         },
         "1": {
-          "title": "キャンペーン概要",
-          "status": "レビュー中"
+          "status": "レビュー中",
+          "title": "キャンペーン概要"
         },
         "2": {
-          "title": "週次レポート",
-          "status": "作成中"
+          "status": "作成中",
+          "title": "週次レポート"
         }
-      },
-      "sales": {
-        "0": "リード",
-        "1": "見込み確定",
-        "2": "成約"
       },
       "research": {
         "0": "12件のソースをスキャン",
         "1": "要約を納品",
         "2": "更新を監視中…"
       },
-      "dev": {
-        "0": "PM がタスク #42 を作成",
-        "1": "エンジニアが PR #18 を提出",
-        "2": "レビュアーがレビュー中…"
+      "sales": {
+        "0": "リード",
+        "1": "見込み確定",
+        "2": "成約"
       },
       "treasury": {
         "0": "0.5 ETH → USDC にスワップ",
         "1": "支出上限：$48 / $500",
         "2": "モニターがポジションを確認中…"
       }
-    },
-    "customNote": "お探しのユースケースが見つかりませんか？任意の役割、ツール、予算を組み合わせてチームを構築できます。",
-    "customCta": "構築を始める →"
-  },
-  "productionReady": {
-    "sectionLabel": "OpenLegion を選ぶ理由",
-    "heading": "デモではなく、本番環境のために設計",
-    "subtitle": "多くのエージェントツールはチャット止まりです。OpenLegion は予算管理、権限制御、隔離されたランタイム、エージェントが直接触れない認証情報など、実際のワークフローに対応するよう設計されています。"
-  },
-  "readyMadeTeams": {
-    "sectionLabel": "テンプレート",
-    "heading": "すぐ使えるチームで始める",
-    "cta": "仕組みを見る",
-    "teams": {
-      "0": {
-        "name": "コンテンツスタジオ"
-      },
-      "1": {
-        "name": "セールスパイプライン"
-      },
-      "2": {
-        "name": "ディープリサーチ"
-      },
-      "3": {
-        "name": "カスタムチーム"
-      }
     }
   },
-  "common": {
-    "skipToContent": "コンテンツにスキップ",
-    "readyToStart": "最初のエージェントを稼働させる準備はできましたか？",
-    "getStartedInline": "今すぐ始める →",
-    "developersHeading": "開発者・技術評価者向け",
-    "fleetLivePrompt": "これがあなたのフリートです、ライブで。",
-    "getStartedInMinutes": "数分で始める →",
-    "brandName": "OpenLegion",
-    "selectLanguage": "言語を選択",
-    "copyToClipboard": "クリップボードにコピー",
-    "billingPeriod": "請求期間",
-    "breadcrumb": "パンくずリスト",
+  "quickstart": {
+    "copiedLabel": "コピー済み",
     "copyLabel": "コピー",
-    "copiedLabel": "コピー済み"
-  },
-  "metadata": {
-    "homeTitle": "AIエージェントプラットフォーム＆フレームワーク - OpenLegion | あらゆる作業を自動化、コントロールを維持",
-    "homeDescription": "OpenLegionは本番運用のためのAIエージェントフレームワーク＆プラットフォーム。ブラウジング、フォーム入力、コード、アウトリーチ、データ処理など、あらゆるPC作業を自動化するAI社員を配備できます。コーディング不要、7日間返金保証。",
-    "titleTemplate": "{title} | OpenLegion",
-    "ogTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "ogDescription": "人間がコンピュータでできることを何でも自動化するAIエージェントを配備。安全・予算管理付き・本番対応。7日間返金保証。",
-    "ogImageAlt": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "twitterTitle": "OpenLegion — AIエージェントフレームワーク＆プラットフォーム",
-    "twitterDescription": "人間がコンピュータでできることを何でも自動化するAIエージェントを配備。7日間返金保証。",
-    "pricingTitle": "AIエージェントプラットフォーム料金 — 月額$19から",
-    "pricingDescription": "月額$19からのプラン。コンテナ分離、Vaultセキュリティ、100以上のLLMプロバイダー対応。いつでも解約可能、7日間返金保証。",
-    "pricingOgTitle": "AIエージェントプラットフォーム料金 — 月額$19から | OpenLegion",
-    "pricingOgDescription": "月額$19からのプラン。コンテナ分離、Vaultセキュリティ、100以上のLLMプロバイダー。7日間返金保証。",
-    "pricingTwitterTitle": "AIエージェントプラットフォーム料金 — 月額$19から | OpenLegion",
-    "pricingTwitterDescription": "月額$19からのプラン。7日間返金保証。",
-    "faqTitle": "よくある質問",
-    "faqDescription": "本番環境向けに構築された、コンテナ分離型マルチエージェントランタイムOpenLegionに関するよくある質問への回答。セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメントなどをカバーします。",
-    "faqOgTitle": "よくある質問 — OpenLegion",
-    "faqOgDescription": "OpenLegionに関するよくある質問への回答 — セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメント。",
-    "faqTwitterTitle": "よくある質問 — OpenLegion",
-    "faqTwitterDescription": "OpenLegionに関するよくある質問への回答 — セキュリティ、料金、LLMプロバイダー、協調、本番デプロイメント。",
-    "learnTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
-    "learnDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
-    "learnOgTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
-    "learnOgDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
-    "learnTwitterTitle": "学ぶ — AIエージェントフレームワーク、コーディネーション、セキュリティ",
-    "learnTwitterDescription": "本番運用のAIエージェントを動かすための実践ガイド:ランタイムアーキテクチャ、コーディネーションパターン、フレームワーク選定、エージェントの脅威モデル。",
-    "privacyTitle": "プライバシーポリシー",
-    "privacyDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングのプライバシーポリシー。マネージドホスティングおよびopenlegion.aiウェブサイト全体で、データをどのように収集、利用、保護しているかをご覧ください。",
-    "termsTitle": "利用規約",
-    "termsDescription": "OpenLegion AIエージェントフレームワークおよびマネージドホスティングの利用規約。マネージドホスティング、PolyForm Perimeter License 1.0.1下でのセルフホスト型デプロイメント、openlegion.aiウェブサイトをカバーします。",
-    "moneyBackTitle": "7日間返金保証",
-    "moneyBackDescription": "OpenLegion がご期待に沿わない場合、初月分を全額返金。理由は問いません。"
-  },
-  "contentPage": {
-    "breadcrumbHome": "ホーム",
-    "breadcrumbComparisons": "比較",
-    "breadcrumbLearn": "学ぶ",
-    "publishedPrefix": "公開日 ",
-    "updatedPrefix": "更新日 ",
-    "relatedContentAriaLabel": "関連コンテンツ",
-    "breadcrumbAriaLabel": "パンくずリスト"
-  },
-  "inlineCta": {
-    "getStarted": "今すぐ始める",
-    "readTheDocs": "ドキュメントを読む"
-  },
-  "seoLinks": {
-    "sectionLabel": "学ぶ",
-    "heading": "詳細ガイド＆",
-    "headingHighlight": "比較",
-    "subtitle": "AIエージェントプラットフォーム、オーケストレーション、セキュリティに関する詳細ガイドと、OpenLegionと主要フレームワークの比較。",
-    "cards": {
+    "heading": "最初の",
+    "headingHighlight": "AIエージェント",
+    "managedBadge": "最も簡単 — セットアップ不要",
+    "managedCta": "今すぐ始める →",
+    "managedDescription": "コンテナ、認証情報、インフラはすべて私たちが管理します。 Operator と話しましょう — VPS がオンラインになると自動作成される、フリートの現場監督です。",
+    "managedHeading": "ターミナルも設定ファイルも不要。",
+    "requirements": "Python 3.10+、Docker（実行中）、LLM APIキー（Anthropic / Moonshot / OpenAI）",
+    "requirementsLabel": "要件：",
+    "sectionLabel": "クイックスタート",
+    "selfHostedBadge": "完全なコントロール — オンプレミス対応",
+    "selfHostedCta": "ドキュメントを読む →",
+    "selfHostedHeading": "3つのコマンド。1台のマシン。",
+    "steps": {
+      "0": "アカウントを作成",
+      "1": "プランを選択",
+      "2": "エージェントを設定",
+      "3": "フリートを実行"
+    },
+    "tabGroupLabel": "オペレーティングシステム",
+    "tabs": {
       "0": {
-        "title": "ランタイム & インフラストラクチャ",
-        "description": "OpenLegionが本番エージェントフリート向けに、コンテナ分離、クレデンシャルvault化、コスト管理、フリート協調をどのように処理するか。",
-        "links": {
-          "0": "AIエージェントプラットフォーム",
-          "1": "AIエージェントオーケストレーション",
-          "2": "AIエージェントセキュリティ"
-        }
+        "label": "macOS / Linux"
       },
       "1": {
-        "title": "フレームワーク比較",
-        "description": "AIエージェントフレームワーク全体にわたるOpenLegionの位置づけ — セキュリティ、隔離、コスト管理、オーケストレーションを比較。",
-        "links": {
-          "0": "すべての比較",
-          "1": "OpenClaw代替",
-          "2": "AIエージェントフレームワーク"
-        }
-      },
-      "2": {
-        "title": "直接比較",
-        "description": "チームがOpenLegionと比較検討する最も人気のあるフレームワークの詳細なアーキテクチャ解説と移行パス。",
-        "links": {
-          "0": "vs OpenClaw",
-          "1": "vs LangGraph",
-          "2": "vs CrewAI"
-        }
+        "label": "Windows (PowerShell)"
       }
     }
   },
   "relatedPages": {
-    "heading": "関連ページ",
     "ariaLabel": "関連ページ",
+    "comparisonHub": "すべてのフレームワーク比較",
+    "comparisons": {
+      "autogen": "OpenLegion vs AutoGen",
+      "awsStrands": "OpenLegion vs AWS Strands",
+      "crewai": "OpenLegion vs CrewAI",
+      "dify": "OpenLegion vs Dify",
+      "googleAdk": "OpenLegion vs Google ADK",
+      "langgraph": "OpenLegion vs LangGraph",
+      "manusAi": "OpenLegion vs Manus AI",
+      "memu": "OpenLegion vs MemU",
+      "nanobot": "OpenLegion vs nanobot",
+      "nanoclaw": "OpenLegion vs NanoClaw",
+      "openaiAgentsSdk": "OpenLegion vs OpenAI Agents SDK",
+      "openclaw": "OpenLegion vs OpenClaw",
+      "openfang": "OpenLegion vs OpenFang",
+      "picoclaw": "OpenLegion vs PicoClaw",
+      "semanticKernel": "OpenLegion vs Semantic Kernel",
+      "zeroclaw": "OpenLegion vs ZeroClaw"
+    },
+    "heading": "関連ページ",
+    "learnHub": "学ぶ — ガイドとフレームワーク",
     "topicPages": {
       "0": "AIエージェントプラットフォーム",
       "1": "AIエージェントオーケストレーション",
@@ -980,173 +835,195 @@
       "3": "AIエージェントセキュリティ",
       "4": "OpenClaw代替",
       "5": "DeepSeek V4 エージェント"
-    },
-    "comparisonHub": "すべてのフレームワーク比較",
-    "learnHub": "学ぶ — ガイドとフレームワーク",
-    "comparisons": {
-      "openclaw": "OpenLegion vs OpenClaw",
-      "langgraph": "OpenLegion vs LangGraph",
-      "crewai": "OpenLegion vs CrewAI",
-      "autogen": "OpenLegion vs AutoGen",
-      "dify": "OpenLegion vs Dify",
-      "googleAdk": "OpenLegion vs Google ADK",
-      "awsStrands": "OpenLegion vs AWS Strands",
-      "openaiAgentsSdk": "OpenLegion vs OpenAI Agents SDK",
-      "manusAi": "OpenLegion vs Manus AI",
-      "semanticKernel": "OpenLegion vs Semantic Kernel",
-      "zeroclaw": "OpenLegion vs ZeroClaw",
-      "nanoclaw": "OpenLegion vs NanoClaw",
-      "nanobot": "OpenLegion vs nanobot",
-      "picoclaw": "OpenLegion vs PicoClaw",
-      "openfang": "OpenLegion vs OpenFang",
-      "memu": "OpenLegion vs MemU"
     }
   },
-  "privacy": {
-    "title": "プライバシーポリシー",
-    "effectiveDate": "発効日：2026年3月7日 · 最終更新日：2026年3月7日",
-    "section1": {
-      "title": "1. はじめに",
-      "p1": "本プライバシーポリシー（以下「本ポリシー」）は、OpenLegion（以下「当社」）が、openlegion.ai（以下「ウェブサイト」）へのアクセス、またはマネージドホスティングサービス、API、およびその他の関連サービス（以下、総称して「本サービス」）のご利用に際して、情報をどのように収集、使用、開示するかを説明するものです。",
-      "p2": "本サービスをご利用いただくことで、本ポリシーに記載された慣行に同意したものとみなされます。同意いただけない場合は、本サービスをご利用にならないでください。"
-    },
-    "section2": {
+  "schema": {
+    "applicationSubCategory": "AIエージェントフレームワーク",
+    "areaServed": "世界中",
+    "orgDescription": "マネージドホスティング対応のコンテナ分離マルチエージェントランタイム — Docker分離されたエージェント、ボルトプロキシ認証情報、エージェント単位の予算管理。",
+    "serviceDescription": "専用VPSインスタンス上で動作するOpenLegionエージェントフリートのマネージドホスティング — コンテナ分離、ボルトプロキシ認証情報、エージェント単位の予算管理を、自前のDevOps運用なしで提供。",
+    "serviceName": "OpenLegion マネージドホスティング",
+    "serviceType": "マネージドAIエージェントホスティング",
+    "softwareDescription": "ボルトプロキシ認証情報とエージェント単位の予算管理を備えたコンテナ分離マルチエージェントランタイム。セルフホスト(PolyForm Perimeter License 1.0.1)または専用VPSでのマネージドホスティングに対応。",
+    "softwareFeatureList": [
+      "エージェント単位のコンテナ分離(Docker または Docker Desktop Sandbox マイクロVM)",
+      "ボルトプロキシ認証情報 — エージェントはAPIキーに触れません",
+      "エージェント単位の日次・月次予算の強制適用",
+      "フリートモデル調整 — ブラックボード + Pub/Sub + ハンドオフ(CEOエージェント不要)",
+      "LiteLLM経由で100以上のLLMプロバイダーに対応",
+      "セルフホストまたは専用VPSでのマネージドホスティング"
+    ],
+    "sourceCodeName": "OpenLegion(ソース)",
+    "videoDescription": "OpenLegionが自律型AIエージェントフリートを展開する様子 — コンテナ分離、認証情報ボルト、リアルタイムのコスト追跡を含む。",
+    "videoName": "OpenLegion デモ — AIエージェントフリートの展開"
+  },
+  "security": {
+    "allLayersLink": "6つのレイヤーすべてを詳しく解説 →",
+    "heading": "AIエージェントセキュリティ：エージェントが",
+    "headingEnd": "で構築。",
+    "headingHighlight": "暴走する前提",
+    "layers": {
+      "0": {
+        "description": "エージェントごとのDockerコンテナまたはDocker SandboxマイクロVM — プロセス空間の共有なし。",
+        "title": "各エージェントは専用コンテナで実行"
+      },
       "1": {
-        "title": "2.1 お客様が提供する情報",
-        "items": {
-          "0": "アカウント情報：アカウント作成時のメールアドレス、氏名、パスワード。",
-          "1": "支払い情報：第三者の決済プロセッサ（Polar）が処理する請求情報。クレジットカード番号全体を弊社サーバーには保存しません。",
-          "2": "コミュニケーション：メール、ライブチャット（Tawk.to）、またはDiscordを通じてお客様が提供する情報。",
-          "3": "お客様データ：本サービスに送信するエージェント設定、ワークフロー定義、その他のデータ。"
-        }
+        "description": "非rootユーザー（UID 1000）、no-new-privilegesフラグ、メモリとCPUのリソース制限を適用。",
+        "title": "エージェントは権限の昇格もリソースの消費もできません"
       },
       "2": {
-        "title": "2.2 自動的に収集される情報",
-        "items": {
-          "0": "利用データ：アクセスしたページ、使用した機能、タイムスタンプ、リファラーURL、一般的な操作パターン。",
-          "1": "デバイス情報：ブラウザの種類、オペレーティングシステム、画面解像度、デバイス識別子。",
-          "2": "IPアドレス：セキュリティ、分析、概算位置情報の目的で収集。",
-          "3": "Cookieおよび類似技術：以下の第6条をご参照ください。"
-        }
+        "description": "ボールトプロキシがAPIキーとウォレット秘密鍵を保持 — エージェントはプロキシ経由でアクセスし、秘密を直接見ることはありません。トランザクションはサーバーサイドで署名。",
+        "title": "APIキーとウォレットキーはエージェントが触れないボールトに保管"
       },
-      "title": "2. 収集する情報"
-    },
-    "section3": {
-      "title": "3. 情報の使用方法",
-      "intro": "当社は収集した情報を以下の目的で使用します：",
-      "items": {
-        "0": "本サービスの提供、運営、維持；",
-        "1": "支払いの処理および請求関連の通信の送付；",
-        "2": "お問い合わせへの対応およびカスタマーサポートの提供；",
-        "3": "本サービス改善のための利用パターンの分析（Google AnalyticsおよびMicrosoft Clarity経由）；",
-        "4": "技術的問題、不正行為、または悪用の検出、防止、対処；",
-        "5": "トランザクションメール（アカウント確認、パスワードリセット、請求書の送付）；",
-        "6": "法的義務の遵守。"
+      "3": {
+        "description": "エージェントごとのACLマトリクスが、許可されるツール、ファイル、メッシュ操作を制御します。",
+        "title": "各エージェントは明示的に許可されたものだけにアクセス"
       },
-      "noSell": "当社はお客様の個人情報を販売しません。当社はお客様データをAIモデルの学習に使用しません。"
-    },
-    "section4": {
-      "title": "4. 第三者サービス",
-      "intro": "当社は、それぞれのプライバシーポリシーに記載されているとおりに情報を収集する可能性のある以下の第三者サービスを使用しています：",
-      "items": {
-        "0": "Google Analytics — ウェブサイト分析およびトラフィック測定。",
-        "1": "Microsoft Clarity — UX分析のためのセッション記録およびヒートマップ。",
-        "2": "Tawk.to — カスタマーサポート用ライブチャットウィジェット。",
-        "3": "Polar — 決済処理。",
-        "4": "LLM APIプロバイダー（例：Anthropic、OpenAI、Google、Mistral） — AIモデル推論。これらのプロバイダーに送信されるプロンプトおよびエージェントデータは、各プロバイダーのプライバシーポリシーおよびデータ処理規約に準拠します。OpenLegionは、第三者LLMプロバイダーがデータをどのように取り扱うかについて責任を負いません。"
+      "4": {
+        "description": "パストラバーサル防止、SSRF対策、安全な条件評価、トークン予算の強制適用。",
+        "title": "悪意のある入力はLLMに届く前にブロック"
       },
-      "review": "これらの第三者サービスのプライバシーポリシーをご確認いただくことをお勧めします。"
-    },
-    "section5": {
-      "title": "5. データの共有と開示",
-      "intro": "当社は、以下の状況においてのみお客様の情報を共有する場合があります：",
-      "items": {
-        "0": "サービスプロバイダー：本サービスの運営を支援する第三者ベンダー（ホスティング、決済処理、分析）で、お客様データの保護に関する契約上の義務を負うもの。",
-        "1": "法的要件：法律、召喚状、裁判所命令、または政府機関の要請により求められる場合。",
-        "2": "権利の保護：当社の利用規約の執行、権利もしくは安全の保護、または不正行為の調査のため。",
-        "3": "事業譲渡：合併、買収、または資産売却に関連して、お客様の情報がその取引の一部として移転される場合があります。"
+      "5": {
+        "description": "56のチョークポイントで不可視文字を除去 — bidiオーバーライド、タグ文字、ゼロ幅文字をLLMコンテキストに到達する前にブロック。",
+        "title": "不可視文字はプロンプトインジェクション到達前に除去"
       }
     },
-    "section6": {
-      "title": "6. Cookieおよびトラッキング技術",
-      "intro": "当社は、分析、機能、セキュリティの目的でCookieおよび類似技術（ピクセル、ローカルストレージ）を使用しています。本ウェブサイトでは以下を使用します：",
-      "items": {
-        "0": "必須Cookie：本サービスの機能に必要なもの（セッション管理、認証）。",
-        "1": "分析Cookie：訪問者がウェブサイトをどのように利用しているかを把握するためのGoogle AnalyticsおよびMicrosoft ClarityのCookie。",
-        "2": "第三者Cookie：ライブチャット機能のためにTawk.toが設定するもの。"
+    "sectionLabel": "セキュリティ",
+    "subtitle": "多層防御がデフォルトで有効。下記の6つのレイヤーで構成されます。"
+  },
+  "seoLinks": {
+    "cards": {
+      "0": {
+        "description": "OpenLegionが本番エージェントフリート向けに、コンテナ分離、クレデンシャルvault化、コスト管理、フリート協調をどのように処理するか。",
+        "links": {
+          "0": "AIエージェントプラットフォーム",
+          "1": "AIエージェントオーケストレーション",
+          "2": "AIエージェントセキュリティ"
+        },
+        "title": "ランタイム & インフラストラクチャ"
       },
-      "control": "ブラウザの設定でCookieを管理できます。Cookieを無効にすると、本サービスの機能に影響を与える場合があります。"
-    },
-    "section7": {
-      "title": "7. データの保持",
-      "text": "当社は、お客様のアカウントが有効な間、または本サービスの提供に必要な期間、お客様の情報を保持します。また、法的義務の遵守、紛争の解決、契約の執行に必要な場合にも情報を保持する場合があります。データが不要になった場合、合理的な期間内に削除または匿名化します。"
-    },
-    "section8": {
-      "title": "8. データセキュリティ",
-      "text": "当社は、お客様の情報を保護するために商業的に合理的な技術的・組織的措置を講じています。ただし、インターネット経由の伝送方法または電子的保存方法は100%安全ではありません。当社は絶対的なセキュリティを保証することはできず、不正アクセス、データ侵害、またはデータの損失について責任を負いません。"
-    },
-    "section9": {
-      "title": "9. お客様の権利",
-      "intro": "管轄地域によっては、お客様の個人情報に関して以下の権利を有する場合があります：",
-      "items": {
-        "0": "アクセス：当社が保有するお客様の個人情報の写しを要求する権利。",
-        "1": "訂正：不正確または不完全なデータの訂正を要求する権利。",
-        "2": "削除：法的保持要件に従い、個人情報の削除を要求する権利。",
-        "3": "ポータビリティ：構造化された機械可読形式でデータを要求する権利。",
-        "4": "異議：特定の目的での個人情報の処理に異議を申し立てる権利。",
-        "5": "販売のオプトアウト：当社は個人情報を販売しません。この方針が変更される場合は、明確なオプトアウト機構を提供します。"
+      "1": {
+        "description": "AIエージェントフレームワーク全体にわたるOpenLegionの位置づけ — セキュリティ、隔離、コスト管理、オーケストレーションを比較。",
+        "links": {
+          "0": "すべての比較",
+          "1": "OpenClaw代替",
+          "2": "AIエージェントフレームワーク"
+        },
+        "title": "フレームワーク比較"
       },
-      "contact": "これらの権利を行使するには、support@openlegion.ai までご連絡ください。30日以内（または適用法で求められる期間内）に対応いたします。"
+      "2": {
+        "description": "チームがOpenLegionと比較検討する最も人気のあるフレームワークの詳細なアーキテクチャ解説と移行パス。",
+        "links": {
+          "0": "vs OpenClaw",
+          "1": "vs LangGraph",
+          "2": "vs CrewAI"
+        },
+        "title": "直接比較"
+      }
     },
-    "section10": {
-      "title": "10. カリフォルニア州居住者（CCPA）",
-      "text": "カリフォルニア州にお住まいの場合、カリフォルニア消費者プライバシー法（CCPA）に基づき、当社が収集する個人情報を知る権利、削除を要求する権利、個人情報の販売をオプトアウトする権利を含む追加の権利を有します。当社は個人情報を販売しません。CCPAの権利を行使するには、support@openlegion.ai までご連絡ください。"
-    },
-    "section11": {
-      "title": "11. 欧州経済領域（GDPR）",
-      "p1": "欧州経済領域にお住まいの場合、お客様の個人データを処理する法的根拠には、(a) お客様の同意、(b) 契約の履行、(c) 法的義務の遵守、(d) お客様のデータ保護権によって覆されない当社の正当な利益（本サービスの改善およびセキュリティ確保）が含まれます。",
-      "p2": "GDPRに基づくお客様の権利が侵害されたと考える場合は、管轄のデータ保護当局に苦情を申し立てることができます。"
-    },
-    "section12": {
-      "title": "12. 国際データ移転",
-      "text": "お客様の情報は、当社のサービスプロバイダーが運営する米国またはその他の国に転送され、処理される場合があります。これらの国は、お客様の管轄地域とは異なるデータ保護法を有する場合があります。本サービスをご利用いただくことで、そのような移転に同意したものとみなされます。"
-    },
-    "section13": {
-      "title": "13. 未成年者のプライバシー",
-      "text": "本サービスは18歳未満の個人を対象としていません。当社は意図的に未成年者から個人情報を収集しません。未成年者からデータを収集したことが判明した場合、速やかに削除します。"
-    },
-    "section14": {
-      "title": "14. 本ポリシーの変更",
-      "text": "当社は随時本プライバシーポリシーを更新する場合があります。変更はこのページの上部にある「最終更新日」を更新することで反映されます。変更後も本サービスを継続してご利用いただくことで、更新されたプライバシーポリシーに同意したものとみなされます。"
-    },
-    "section15": {
-      "title": "15. お問い合わせ",
-      "text": "本プライバシーポリシーに関するご質問、または権利の行使をご希望の場合は、以下までご連絡ください：",
-      "email": "support@openlegion.ai"
+    "heading": "詳細ガイド＆",
+    "headingHighlight": "比較",
+    "sectionLabel": "学ぶ",
+    "subtitle": "AIエージェントプラットフォーム、オーケストレーション、セキュリティに関する詳細ガイドと、OpenLegionと主要フレームワークの比較。"
+  },
+  "socialProof": {
+    "discordLabel": "Discord",
+    "githubLabel": "GitHub",
+    "githubWithStars": "GitHub ★ {stars}",
+    "stats": {
+      "0": {
+        "fallback": "5分",
+        "label": "最初のエージェント稼働まで"
+      },
+      "1": {
+        "fallback": "100+",
+        "label": "対応LLMプロバイダー"
+      },
+      "2": {
+        "fallback": "24/7",
+        "label": "エージェントは年中無休で稼働"
+      },
+      "3": {
+        "fallback": "$0",
+        "label": "LLM使用料の上乗せ"
+      }
     }
   },
+  "technicalDefinition": {
+    "label": "技術定義",
+    "srOnlyPrefix": "OpenLegionとは？ ",
+    "text": "OpenLegionは、クレデンシャルvaultプロキシ、エージェントごとの予算、フリート協調モデル（blackboard + pub/sub + handoff, no CEO agent）を備えたコンテナ分離型マルチエージェントランタイムです — 本番環境で安全でコスト管理されたエージェントフリートを必要とするチームのために設計されています。"
+  },
   "terms": {
-    "title": "利用規約",
     "effectiveDate": "発効日：2026年3月7日 · 最終更新日：2026年3月7日",
     "section1": {
-      "title": "1. 規約への同意",
       "p1": "OpenLegionウェブサイト（openlegion.ai）、マネージドホスティングサービス、セルフホストソフトウェア、API、ドキュメント、またはその他の関連サービス（以下、総称して「本サービス」）にアクセスまたはご利用いただくことで、お客様（以下「お客様」）は本利用規約（以下「本規約」）に拘束されることに同意するものとします。同意いただけない場合は、本サービスをご利用にならないでください。",
-      "p2": "組織を代表して本サービスをご利用の場合、お客様は当該組織を拘束する権限を有することを表明するものとし、「お客様」は当該組織を指します。"
+      "p2": "組織を代表して本サービスをご利用の場合、お客様は当該組織を拘束する権限を有することを表明するものとし、「お客様」は当該組織を指します。",
+      "title": "1. 規約への同意"
+    },
+    "section10": {
+      "p1": "本サービスは、明示的、黙示的、または法定のいかなる種類の保証もなく、「現状のまま」かつ「提供可能な限り」で提供されます。これには、商品性、特定目的への適合性、権原、非侵害の黙示の保証が含まれますが、これに限定されません。OpenLegionは、本サービスが中断なく、エラーなく、安全に、またはウイルスその他の有害なコンポーネントなく動作することを保証しません。OpenLegionまたは本サービスを通じて取得されたいかなる助言または情報（口頭または書面を問わず）も、本規約に明示的に記載されていない保証を形成するものではありません。",
+      "p2": "OpenLegionは、AIエージェント、LLMプロバイダー、または本サービスのその他のコンポーネントによって生成された出力の正確性、完全性、または有用性を保証しません。お客様は、AI生成コンテンツが不正確、不完全、または有害である可能性があることを認識し、自己の責任において使用するものとします。",
+      "title": "10. 保証の免責"
+    },
+    "section11": {
+      "p1": "適用法で許容される最大限の範囲において、OpenLegion、そのオーナー、運営者、コントリビューター、関連会社、またはライセンサーは、本サービスの使用または使用不能に起因するか関連する、間接的、偶発的、特別、結果的、懲戒的、または懲罰的損害（利益、のれん、使用、データ、またはその他の無形損失の逸失を含むがこれに限定されない）について、責任の理論（契約、不法行為、厳格責任、またはその他）にかかわらず、またOpenLegionがそのような損害の可能性について通知されていた場合でも、一切の責任を負いません。",
+      "p2": "本規約または本サービスに起因するすべての請求に対するOpenLegionの総賠償責任は、いかなる場合においても、(A) 請求に先立つ12か月間にお客様がOpenLegionに支払った合計金額、または (B) 50米ドル（US $50.00）のいずれか大きい方を超えないものとします。",
+      "p3": "一部の法域では、特定の損害の免除または制限が認められていません。そのような法域では、OpenLegionの責任は法律で許容される最大限の範囲に制限されるものとします。",
+      "title": "11. 責任の制限"
+    },
+    "section12": {
+      "text": "お客様は、(a) 本サービスの利用、(b) 本規約の違反、(c) 知的財産権またはプライバシー権を含む第三者の権利の侵害、(d) 本サービスを使用してデプロイしたAIエージェントの行動、出力、または結果、(e) 本サービスに送信したお客様データ、に起因するまたは関連するあらゆる請求、損害、損失、責任、費用、経費（合理的な弁護士費用を含む）について、OpenLegion、そのオーナー、運営者、コントリビューター、および関連会社を補償、防御、免責することに同意するものとします。",
+      "title": "12. 補償"
+    },
+    "section13": {
+      "text": "当社は特定のアップタイムまたは可用性を保証しません。本サービスは、通知の有無にかかわらず、いつでも変更、中断、または終了される場合があります。本サービスの変更、中断、または終了について、当社はお客様またはいかなる第三者に対しても責任を負いません。",
+      "title": "13. サービスの可用性と変更"
+    },
+    "section14": {
+      "p1": "当社は、本規約の違反を含むいかなる理由においても、事前の通知または責任なく、お客様の本サービスへのアクセスを直ちに終了または停止する場合があります。終了時に、本サービスを使用する権利は直ちに消滅します。その性質上終了後も存続すべき条項（第10条、第11条、第12条、第16条、第17条を含むがこれに限定されない）は存続するものとします。",
+      "p2": "お客様は、本サービスの使用を中止することにより、いつでもアカウントを終了できます。当社は終了後にお客様のデータを保持する義務を負いません。",
+      "title": "14. 終了"
+    },
+    "section15": {
+      "text": "当社はいつでも本規約を変更する権利を留保します。重要な変更は、このページの上部にある「最終更新日」を更新することで通知されます。変更の掲載後も本サービスを継続してご利用いただくことで、改定された規約に同意したものとみなされます。本規約を定期的にご確認いただくのはお客様の責任です。",
+      "title": "15. 規約の変更"
+    },
+    "section16": {
+      "p1": "本規約は、法の抵触に関する規定にかかわらず、アメリカ合衆国デラウェア州の法律に準拠し、これに従って解釈されるものとします。本規約に基づくまたは関連するいかなる紛争も、米国仲裁協会（AAA）の商事仲裁規則に基づく拘束力のある仲裁を通じてのみ解決されるものとします。仲裁は、両当事者が別途合意しない限り、遠隔で（電話、ビデオ会議、または書面による提出を通じて）行われるものとします。仲裁人の裁定は最終的かつ拘束力を有し、管轄権を有するいかなる裁判所においても判決として登録することができます。",
+      "p2": "お客様は、いかなる紛争解決手続きも個人としてのみ行われ、集団訴訟、統合訴訟、または代表訴訟として行われないことに同意するものとします。この集団訴訟の権利放棄が執行不能と判断された場合、本仲裁条項の全体が無効となります。",
+      "title": "16. 準拠法と紛争解決"
+    },
+    "section17": {
+      "items": {
+        "0": "完全合意。本規約は、当社のプライバシーポリシーとともに、お客様とOpenLegion間の完全な合意を構成します。",
+        "1": "分離可能性。本規約のいずれかの条項が無効または執行不能と判断された場合、当該条項は許容される最大限の範囲で執行され、残りの条項は完全に効力を維持するものとします。",
+        "2": "権利放棄。いずれかの条件の権利放棄は、当該条件またはその他の条件のさらなるまたは継続的な権利放棄とみなされないものとします。",
+        "3": "譲渡。お客様は、当社の事前の書面による同意なく、本規約を譲渡または移転することはできません。当社は制限なく本規約を譲渡できます。",
+        "4": "不可抗力。OpenLegionは、自然災害、戦争、テロリズム、パンデミック、労働争議、政府の措置、停電、インターネットまたは電気通信の障害、または第三者サービスの停止を含む、合理的な制御を超えた事由による不履行または遅延について責任を負いません。",
+        "5": "代理関係の否定。本規約のいかなる内容も、お客様とOpenLegion間のパートナーシップ、合弁事業、雇用、または代理関係を形成するものではありません。"
+      },
+      "title": "17. 一般条項"
+    },
+    "section18": {
+      "email": "support@openlegion.ai",
+      "text": "本規約に関するご質問は、以下までご連絡ください",
+      "title": "18. お問い合わせ"
     },
     "section2": {
-      "title": "2. サービスの説明",
-      "text": "OpenLegionは、自律AIエージェントのデプロイ、オーケストレーション、監視のためのAIエージェントフレームワークおよびオプションのマネージドホスティングプラットフォームを提供します。本サービスには、ウェブダッシュボード、API、コンテナオーケストレーション、第三者LLMプロバイダー統合、および関連ツールが含まれる場合があります。"
+      "text": "OpenLegionは、自律AIエージェントのデプロイ、オーケストレーション、監視のためのAIエージェントフレームワークおよびオプションのマネージドホスティングプラットフォームを提供します。本サービスには、ウェブダッシュボード、API、コンテナオーケストレーション、第三者LLMプロバイダー統合、および関連ツールが含まれる場合があります。",
+      "title": "2. サービスの説明"
     },
     "section3": {
-      "title": "3. 利用資格",
-      "text": "お客様は18歳以上であり、拘束力のある契約を締結する法的能力を有している必要があります。本サービスは18歳未満の方の利用を目的としていません。"
+      "text": "お客様は18歳以上であり、拘束力のある契約を締結する法的能力を有している必要があります。本サービスは18歳未満の方の利用を目的としていません。",
+      "title": "3. 利用資格"
     },
     "section4": {
-      "title": "4. アカウントとセキュリティ",
-      "text": "お客様は、アカウント認証情報の秘密保持、およびアカウントにおけるすべての活動について責任を負います。不正アクセスが判明した場合は、直ちに当社に通知することに同意するものとします。当社は、本規約の違反を含むいかなる理由においても、独自の裁量で、通知の有無にかかわらず、アカウントを停止または終了する権利を留保します。"
+      "text": "お客様は、アカウント認証情報の秘密保持、およびアカウントにおけるすべての活動について責任を負います。不正アクセスが判明した場合は、直ちに当社に通知することに同意するものとします。当社は、本規約の違反を含むいかなる理由においても、独自の裁量で、通知の有無にかかわらず、アカウントを停止または終了する権利を留保します。",
+      "title": "4. アカウントとセキュリティ"
     },
     "section5": {
-      "title": "5. 禁止事項",
+      "enforcement": "当社は違反を調査し、独自の裁量で、通知や返金なしに、お客様のアクセスを直ちに終了または停止する場合があります。",
       "intro": "お客様は、本サービスを以下の目的で使用しないことに同意するものとします：",
       "items": {
         "0": "適用法令、規制、または第三者の権利に違反すること；",
@@ -1158,164 +1035,142 @@
         "6": "事前の書面による同意なく、マネージドホスティングサービスを再販、サブライセンス、または再配布すること；",
         "7": "本サービス上にデプロイされたAIエージェントを使用して、詐欺、なりすまし、嫌がらせ、またはその他の違法行為に従事すること。"
       },
-      "enforcement": "当社は違反を調査し、独自の裁量で、通知や返金なしに、お客様のアクセスを直ちに終了または停止する場合があります。"
+      "title": "5. 禁止事項"
     },
     "section6": {
-      "title": "6. 料金、請求、返金",
       "p1": "本サービスの特定の機能には料金が発生する場合があります。すべての料金は料金ページに記載されており、定期的に前払いで請求されます。適用法で求められる場合を除き、料金は返金不可です。当社は30日前の通知をもっていつでも料金を変更する権利を留保します。料金変更後の継続利用は、新料金への同意を構成します。",
-      "p2": "お客様は、本サービスの利用に伴って発生するすべての第三者コスト（LLM APIプロバイダーの料金、クラウドインフラ料金、ドメイン登録費用を含むがこれに限定されない）について、全責任を負います。OpenLegionは第三者の料金について一切責任を負いません。"
+      "p2": "お客様は、本サービスの利用に伴って発生するすべての第三者コスト（LLM APIプロバイダーの料金、クラウドインフラ料金、ドメイン登録費用を含むがこれに限定されない）について、全責任を負います。OpenLegionは第三者の料金について一切責任を負いません。",
+      "title": "6. 料金、請求、返金"
     },
     "section7": {
-      "title": "7. 知的財産権",
       "p1": "OpenLegionフレームワークのソースコードは、PolyForm Perimeter License 1.0.1に基づいてライセンスされています。本規約は、当該ライセンスが許可する範囲を超える権利を付与するものではありません。OpenLegionのすべての商標、ロゴ、ブランド要素はOpenLegionプロジェクトの財産であり、事前の書面による同意なく使用することはできません。",
-      "p2": "お客様は、本サービスに送信するすべてのデータ、コンテンツ、設定（以下「お客様データ」）の所有権を保持します。お客様は、本サービスを提供するためにのみ、お客様データをホストおよび処理するための限定的、非独占的なライセンスを当社に付与します。"
+      "p2": "お客様は、本サービスに送信するすべてのデータ、コンテンツ、設定（以下「お客様データ」）の所有権を保持します。お客様は、本サービスを提供するためにのみ、お客様データをホストおよび処理するための限定的、非独占的なライセンスを当社に付与します。",
+      "title": "7. 知的財産権"
     },
     "section8": {
-      "title": "8. 第三者サービスおよびLLMプロバイダー",
-      "text": "本サービスは、第三者LLMプロバイダー（例：Anthropic、OpenAI、Google、Mistral等）と統合しています。これらのプロバイダーのご利用は、各プロバイダーの利用規約およびプライバシーポリシーに準拠します。OpenLegionは、いかなる第三者サービスに関しても表明または保証を行わず、第三者LLMまたはAPIの出力、正確性、可用性、または動作について責任を負いません。"
+      "text": "本サービスは、第三者LLMプロバイダー（例：Anthropic、OpenAI、Google、Mistral等）と統合しています。これらのプロバイダーのご利用は、各プロバイダーの利用規約およびプライバシーポリシーに準拠します。OpenLegionは、いかなる第三者サービスに関しても表明または保証を行わず、第三者LLMまたはAPIの出力、正確性、可用性、または動作について責任を負いません。",
+      "title": "8. 第三者サービスおよびLLMプロバイダー"
     },
     "section9": {
-      "title": "9. AIエージェントの出力と自律的行動",
-      "text": "本サービスを通じてデプロイされたAIエージェントは、お客様の設定に基づいて自律的に動作します。お客様は、本サービスを使用してデプロイ、設定、または運用するAIエージェントの行動、出力、および結果について全責任を負います。OpenLegionはエージェントの出力を管理、レビュー、または推奨するものではなく、金銭的損失、データ破損、不正確な情報、またはエージェントによる意図しない行動を含むがこれに限定されない、エージェントの動作から生じる損害について一切の責任を負いません。"
+      "text": "本サービスを通じてデプロイされたAIエージェントは、お客様の設定に基づいて自律的に動作します。お客様は、本サービスを使用してデプロイ、設定、または運用するAIエージェントの行動、出力、および結果について全責任を負います。OpenLegionはエージェントの出力を管理、レビュー、または推奨するものではなく、金銭的損失、データ破損、不正確な情報、またはエージェントによる意図しない行動を含むがこれに限定されない、エージェントの動作から生じる損害について一切の責任を負いません。",
+      "title": "9. AIエージェントの出力と自律的行動"
     },
-    "section10": {
-      "title": "10. 保証の免責",
-      "p1": "本サービスは、明示的、黙示的、または法定のいかなる種類の保証もなく、「現状のまま」かつ「提供可能な限り」で提供されます。これには、商品性、特定目的への適合性、権原、非侵害の黙示の保証が含まれますが、これに限定されません。OpenLegionは、本サービスが中断なく、エラーなく、安全に、またはウイルスその他の有害なコンポーネントなく動作することを保証しません。OpenLegionまたは本サービスを通じて取得されたいかなる助言または情報（口頭または書面を問わず）も、本規約に明示的に記載されていない保証を形成するものではありません。",
-      "p2": "OpenLegionは、AIエージェント、LLMプロバイダー、または本サービスのその他のコンポーネントによって生成された出力の正確性、完全性、または有用性を保証しません。お客様は、AI生成コンテンツが不正確、不完全、または有害である可能性があることを認識し、自己の責任において使用するものとします。"
-    },
-    "section11": {
-      "title": "11. 責任の制限",
-      "p1": "適用法で許容される最大限の範囲において、OpenLegion、そのオーナー、運営者、コントリビューター、関連会社、またはライセンサーは、本サービスの使用または使用不能に起因するか関連する、間接的、偶発的、特別、結果的、懲戒的、または懲罰的損害（利益、のれん、使用、データ、またはその他の無形損失の逸失を含むがこれに限定されない）について、責任の理論（契約、不法行為、厳格責任、またはその他）にかかわらず、またOpenLegionがそのような損害の可能性について通知されていた場合でも、一切の責任を負いません。",
-      "p2": "本規約または本サービスに起因するすべての請求に対するOpenLegionの総賠償責任は、いかなる場合においても、(A) 請求に先立つ12か月間にお客様がOpenLegionに支払った合計金額、または (B) 50米ドル（US $50.00）のいずれか大きい方を超えないものとします。",
-      "p3": "一部の法域では、特定の損害の免除または制限が認められていません。そのような法域では、OpenLegionの責任は法律で許容される最大限の範囲に制限されるものとします。"
-    },
-    "section12": {
-      "title": "12. 補償",
-      "text": "お客様は、(a) 本サービスの利用、(b) 本規約の違反、(c) 知的財産権またはプライバシー権を含む第三者の権利の侵害、(d) 本サービスを使用してデプロイしたAIエージェントの行動、出力、または結果、(e) 本サービスに送信したお客様データ、に起因するまたは関連するあらゆる請求、損害、損失、責任、費用、経費（合理的な弁護士費用を含む）について、OpenLegion、そのオーナー、運営者、コントリビューター、および関連会社を補償、防御、免責することに同意するものとします。"
-    },
-    "section13": {
-      "title": "13. サービスの可用性と変更",
-      "text": "当社は特定のアップタイムまたは可用性を保証しません。本サービスは、通知の有無にかかわらず、いつでも変更、中断、または終了される場合があります。本サービスの変更、中断、または終了について、当社はお客様またはいかなる第三者に対しても責任を負いません。"
-    },
-    "section14": {
-      "title": "14. 終了",
-      "p1": "当社は、本規約の違反を含むいかなる理由においても、事前の通知または責任なく、お客様の本サービスへのアクセスを直ちに終了または停止する場合があります。終了時に、本サービスを使用する権利は直ちに消滅します。その性質上終了後も存続すべき条項（第10条、第11条、第12条、第16条、第17条を含むがこれに限定されない）は存続するものとします。",
-      "p2": "お客様は、本サービスの使用を中止することにより、いつでもアカウントを終了できます。当社は終了後にお客様のデータを保持する義務を負いません。"
-    },
-    "section15": {
-      "title": "15. 規約の変更",
-      "text": "当社はいつでも本規約を変更する権利を留保します。重要な変更は、このページの上部にある「最終更新日」を更新することで通知されます。変更の掲載後も本サービスを継続してご利用いただくことで、改定された規約に同意したものとみなされます。本規約を定期的にご確認いただくのはお客様の責任です。"
-    },
-    "section16": {
-      "title": "16. 準拠法と紛争解決",
-      "p1": "本規約は、法の抵触に関する規定にかかわらず、アメリカ合衆国デラウェア州の法律に準拠し、これに従って解釈されるものとします。本規約に基づくまたは関連するいかなる紛争も、米国仲裁協会（AAA）の商事仲裁規則に基づく拘束力のある仲裁を通じてのみ解決されるものとします。仲裁は、両当事者が別途合意しない限り、遠隔で（電話、ビデオ会議、または書面による提出を通じて）行われるものとします。仲裁人の裁定は最終的かつ拘束力を有し、管轄権を有するいかなる裁判所においても判決として登録することができます。",
-      "p2": "お客様は、いかなる紛争解決手続きも個人としてのみ行われ、集団訴訟、統合訴訟、または代表訴訟として行われないことに同意するものとします。この集団訴訟の権利放棄が執行不能と判断された場合、本仲裁条項の全体が無効となります。"
-    },
-    "section17": {
-      "title": "17. 一般条項",
-      "items": {
-        "0": "完全合意。本規約は、当社のプライバシーポリシーとともに、お客様とOpenLegion間の完全な合意を構成します。",
-        "1": "分離可能性。本規約のいずれかの条項が無効または執行不能と判断された場合、当該条項は許容される最大限の範囲で執行され、残りの条項は完全に効力を維持するものとします。",
-        "2": "権利放棄。いずれかの条件の権利放棄は、当該条件またはその他の条件のさらなるまたは継続的な権利放棄とみなされないものとします。",
-        "3": "譲渡。お客様は、当社の事前の書面による同意なく、本規約を譲渡または移転することはできません。当社は制限なく本規約を譲渡できます。",
-        "4": "不可抗力。OpenLegionは、自然災害、戦争、テロリズム、パンデミック、労働争議、政府の措置、停電、インターネットまたは電気通信の障害、または第三者サービスの停止を含む、合理的な制御を超えた事由による不履行または遅延について責任を負いません。",
-        "5": "代理関係の否定。本規約のいかなる内容も、お客様とOpenLegion間のパートナーシップ、合弁事業、雇用、または代理関係を形成するものではありません。"
-      }
-    },
-    "section18": {
-      "title": "18. お問い合わせ",
-      "text": "本規約に関するご質問は、以下までご連絡ください",
-      "email": "support@openlegion.ai"
-    }
-  },
-  "launchPricing": {
-    "message": "ファウンダー価格 — 早期顧客向けに固定",
-    "cta": "今すぐ始める →"
-  },
-  "pricingAnchors": {
-    "basicMonthly": "29",
-    "basicYearly": "259",
-    "growthMonthly": "109",
-    "growthYearly": "989",
-    "proMonthly": "349",
-    "proYearly": "3099",
-    "anchorLabel": "ローンチ価格",
-    "proMaxMonthly": "899",
-    "proMaxYearly": "8990"
+    "title": "利用規約"
   },
   "testimonials": {
     "eyebrow": "お客様の声",
     "heading": "実在のチームが自動化を実現",
-    "starsAriaLabel": "5つ星中5つ",
     "items": {
       "0": {
+        "company": "マーケティング会社",
         "quote": "リード調査のVAチームに月$2,800を費やしていました。それを3日でOpenLegionのエージェント5体に丸ごと置き換え。24/7で動き、病欠もせず、正直なところ人間より良い調査をしてくれます。",
-        "role": "創業者",
-        "company": "マーケティング会社"
+        "role": "創業者"
       },
       "1": {
+        "company": "個人事業",
         "quote": "私はまったく技術系ではありません。やってほしいことを普通の言葉で書きました——「5日返信のないリードにフォローアップ、押しつけがましくなく親しみやすく」——あとはエージェントが全部考えてくれた。この1つのワークフローだけで今四半期に3件成約しました。",
-        "role": "セールスコーチ",
-        "company": "個人事業"
+        "role": "セールスコーチ"
       },
       "2": {
+        "company": "クリエイティブスタジオ",
         "quote": "2か月経って、フリートが請求、コンテンツの下書き、顧客リサーチをエンドツーエンドで回しています。フリーランス費用を Pro Max 2か月分以上節約できました。一番難しかったのは「何を最初に自動化するか」を決めることでした。",
-        "role": "オペレーション責任者",
-        "company": "クリエイティブスタジオ"
+        "role": "オペレーション責任者"
       }
+    },
+    "starsAriaLabel": "5つ星中5つ"
+  },
+  "useCases": {
+    "contentItems": {
+      "0": {
+        "status": "公開済み",
+        "title": "ブログ記事"
+      },
+      "1": {
+        "status": "レビュー中",
+        "title": "ケーススタディ"
+      },
+      "2": {
+        "status": "執筆中",
+        "title": "ホワイトペーパー"
+      }
+    },
+    "customSteps": {
+      "0": "受付",
+      "1": "調査",
+      "2": "実行",
+      "3": "納品"
+    },
+    "devEvents": {
+      "0": "PMがタスク #42 を作成",
+      "1": "エンジニアがPR #18 を作成",
+      "2": "レビュアーがレビュー中…"
+    },
+    "funnelBars": {
+      "0": {
+        "label": "リード"
+      },
+      "1": {
+        "label": "適格"
+      },
+      "2": {
+        "label": "コンバージョン"
+      }
+    },
+    "heading": "どのAIエージェントチームが必要ですか — ",
+    "headingEnd": "？",
+    "headingHighlight": "営業、コンテンツ、リサーチ、開発",
+    "items": {
+      "0": {
+        "agents": {
+          "0": "PM",
+          "1": "エンジニア",
+          "2": "レビュアー"
+        },
+        "description": "OpenLegionの開発チームテンプレートは、タスク計画、コード生成、PRレビューを自動化 — エンジニアの毎週数時間を奪うトリアージや定型作業を肩代わりします。",
+        "name": "エンジニアリングチーム"
+      },
+      "1": {
+        "agents": {
+          "0": "リサーチャー",
+          "1": "クオリファイアー",
+          "2": "アウトリーチ"
+        },
+        "description": "OpenLegionの営業パイプラインテンプレートは、リード調査、スコアリング、パーソナライズされたアウトリーチを24時間365日実行 — 丸一週間分の手作業のリード開拓を、あなたが眠っている間に処理します。",
+        "name": "営業チーム"
+      },
+      "2": {
+        "agents": {
+          "0": "リサーチャー",
+          "1": "ライター"
+        },
+        "description": "OpenLegionのContent Studioテンプレートは、リサーチャーとライターを組み合わせて一貫したブランドボイスを維持 — 数日かかっていたリサーチから草稿までのサイクルを数時間で仕上げます。",
+        "name": "コンテンツチーム"
+      },
+      "3": {
+        "agents": {
+          "0": "リサーチャー",
+          "1": "エグゼキューター",
+          "2": "モニター"
+        },
+        "description": "ウォレット対応エージェントがオンチェーンで実行します — スワップ、送金、DeFi ポジション — 秘密鍵はボルトにロックされ、サーバー側で署名されます。エージェントごとの支出制限、日次上限、EVM + Solana サポート。",
+        "name": "あなたのトレジャリーチーム"
+      },
+      "4": {
+        "agents": {
+          "0": "任意の役割",
+          "1": "任意のツール",
+          "2": "任意の予算"
+        },
+        "description": "お探しのユースケースがありませんか？役割、ツール、予算を自由に組み合わせて定義できます。エージェントには専用のコンテナ、認証情報、支出制限が付与されます — 仕事に必要なものは何でも。",
+        "name": "カスタムチーム"
+      }
+    },
+    "sectionLabel": "ユースケース",
+    "subtitle": "組み込みのマルチエージェントテンプレートを選択するか、独自の自律エージェントフリートを定義できます。各エージェントには専用のコンテナ、予算、ツール権限が付与されます。",
+    "treasuryEvents": {
+      "0": "Base で 0.5 ETH → USDC スワップ",
+      "1": "支出制限：本日 $48 / $500",
+      "2": "モニターがポジション確認中…"
     }
-  },
-  "moneyBackPage": {
-    "title": "7日間返金保証",
-    "tagline": "初月分を全額返金。理由は問いません。",
-    "intro": "OpenLegionに自信を持っています。理由を問わず初月が合わなかった場合は、初回サブスクリプション支払いから7日以内に {email} までメールしてください。実際にお支払いいただいた金額を全額返金します（Polar が請求したローンチ価格の金額——隣に表示されている高めのアンカー価格ではありません）。",
-    "covered": {
-      "heading": "対象となるもの",
-      "items": {
-        "0": "初回サブスクリプション支払い（実際に請求された金額——例：Basic 月額の $19）。",
-        "1": "その金額の全額返金——理由は問わず、按分なしの完全返金です。"
-      }
-    },
-    "notCovered": {
-      "heading": "対象外となるもの",
-      "items": {
-        "0": "クレジットの追加購入（消費済みクレジットは返金不可——未使用クレジットは返金処理が完了するまでアカウントに残ります）。",
-        "1": "最初の7日を過ぎた更新時の請求。",
-        "2": "不正に利用されたサブスクリプション（利用規約違反）。"
-      }
-    },
-    "afterRefund": {
-      "heading": "返金後のアカウントの扱い",
-      "items": {
-        "0": "返金処理後まもなくサブスクリプションがキャンセルされ、ホスティングインスタンスがディプロビジョンされます。",
-        "1": "サブスクリプションに付与されたウェルカムクレジットは回収され、クレジット残高はゼロに戻ります（返金との整合性のため）。",
-        "2": "今後のサブスクリプションでの2回目の返金請求やウェルカムクレジット付与の対象にはなりません。今後のサブスクリプションは通常通り請求されます。"
-      }
-    },
-    "howTo": {
-      "heading": "返金のリクエスト方法",
-      "body": "アカウントのメールアドレスとサブスクリプションIDを記載して {email} までメールしてください。返金は Polar 経由で5営業日以内に処理されます（元のお支払い方法に返金されます）。"
-    },
-    "email": "support@openlegion.ai"
-  },
-  "schema": {
-    "orgDescription": "マネージドホスティング対応のコンテナ分離マルチエージェントランタイム — Docker分離されたエージェント、ボルトプロキシ認証情報、エージェント単位の予算管理。",
-    "softwareDescription": "ボルトプロキシ認証情報とエージェント単位の予算管理を備えたコンテナ分離マルチエージェントランタイム。セルフホスト(PolyForm Perimeter License 1.0.1)または専用VPSでのマネージドホスティングに対応。",
-    "softwareFeatureList": [
-      "エージェント単位のコンテナ分離(Docker または Docker Desktop Sandbox マイクロVM)",
-      "ボルトプロキシ認証情報 — エージェントはAPIキーに触れません",
-      "エージェント単位の日次・月次予算の強制適用",
-      "フリートモデル調整 — ブラックボード + Pub/Sub + ハンドオフ(CEOエージェント不要)",
-      "LiteLLM経由で100以上のLLMプロバイダーに対応",
-      "セルフホストまたは専用VPSでのマネージドホスティング"
-    ],
-    "sourceCodeName": "OpenLegion(ソース)",
-    "serviceName": "OpenLegion マネージドホスティング",
-    "serviceDescription": "専用VPSインスタンス上で動作するOpenLegionエージェントフリートのマネージドホスティング — コンテナ分離、ボルトプロキシ認証情報、エージェント単位の予算管理を、自前のDevOps運用なしで提供。",
-    "videoName": "OpenLegion デモ — AIエージェントフリートの展開",
-    "videoDescription": "OpenLegionが自律型AIエージェントフリートを展開する様子 — コンテナ分離、認証情報ボルト、リアルタイムのコスト追跡を含む。",
-    "applicationSubCategory": "AIエージェントフレームワーク",
-    "serviceType": "マネージドAIエージェントホスティング",
-    "areaServed": "世界中"
   }
 }

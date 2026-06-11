@@ -20,12 +20,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// CJK font for Chinese — other CJK locales fall back to system fonts
+// CJK font for Chinese — other CJK locales fall back to system fonts.
+// preload: false — only zh locales need it; the unicode-range @font-face
+// rules mean non-CJK pages never download these files.
 const notoSansSC = Noto_Sans_SC({
   variable: "--font-noto-sc",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   display: "swap",
+  preload: false,
 });
 
 export function generateStaticParams() {
