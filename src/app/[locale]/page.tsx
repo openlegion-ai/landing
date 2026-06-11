@@ -156,6 +156,10 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd).replace(/</g, "\\u003c") }}
       />
       <main id="main">
+        {/* Buyer path — outcome-first sections for entrepreneurs and
+            operators. Developer / technical-evaluation sections are grouped
+            below the FAQ so they stay on-page (SEO + nav anchors intact)
+            without interrupting the conversion path. */}
         <Hero />
         <SocialProof stars={stars} />
         <Testimonials />
@@ -171,11 +175,15 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           </Link>
           <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>
-        <Quickstart />
         <Security />
         <Enterprise />
-        <Comparison />
         <FAQ />
+        <div className="px-5 pt-16 text-center sm:px-6 md:px-8 md:pt-20" aria-hidden="false">
+          <div className="mx-auto mb-4 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
+          <p className="text-sm font-semibold uppercase tracking-widest text-muted">{t("developersHeading")}</p>
+        </div>
+        <Quickstart />
+        <Comparison />
         <TechnicalDefinition />
         <CTA />
       </main>

@@ -1,222 +1,81 @@
 {
-  "nav": {
-    "links": {
-      "features": {
-        "label": "功能"
-      },
-      "useCases": {
-        "label": "使用案例"
-      },
-      "architecture": {
-        "label": "架構"
-      },
-      "security": {
-        "label": "安全性"
-      },
-      "pricing": {
-        "label": "定價"
-      },
-      "docs": {
-        "label": "文件"
-      }
-    },
-    "ariaLabel": "主要導覽",
-    "homeAriaLabel": "OpenLegion 首頁",
+  "common": {
+    "billingPeriod": "計費週期",
     "brandName": "OpenLegion",
-    "githubAriaLabel": "GitHub 儲存庫",
-    "getStarted": "立即開始",
-    "signIn": "登入",
-    "toggleMenuAriaLabel": "切換選單",
-    "billingPeriodAriaLabel": "帳單週期",
-    "bookDemo": "預約展示"
+    "breadcrumb": "麵包屑導覽",
+    "copiedLabel": "已複製",
+    "copyLabel": "複製",
+    "copyToClipboard": "複製到剪貼簿",
+    "developersHeading": "面向開發者與技術評估者",
+    "fleetLivePrompt": "這是您的艦隊，即時呈現。",
+    "getStartedInMinutes": "幾分鐘即可上手 →",
+    "selectLanguage": "選擇語言",
+    "skipToContent": "跳至內容"
   },
-  "hero": {
-    "ariaLabel": "簡介",
-    "badge": "您的 AI 工作團隊從這裡開始",
-    "headingLine1": "打造您的",
-    "headingHighlight": "AI 團隊",
-    "headingLine2": "只需描述您想要的團隊。",
-    "tagline": "為生產環境打造的容器隔離式多智慧代理執行環境。",
-    "subtitle": "描述你需要的團隊 — 業務、內容、研究、工程 — OpenLegion AI 代理框架幾分鐘內即可將其部署為多代理艦隊，預算、權限與 Vault 託管的憑證預設安全鎖定。",
-    "ctaPrimary": "立即開始",
-    "ctaSecondary": "預約展示",
-    "trustStrip": {
-      "0": "全天候運行",
-      "1": "Vault 安全託管憑證",
-      "2": "100+ LLM 供應商"
-    },
-    "terminalTitle": "openlegion 示範",
-    "videoTitle": "OpenLegion 示範 — 部署 AI 智慧代理艦隊",
-    "videoFallback": "您的瀏覽器不支援 HTML5 影片。",
-    "videoCaptionBelow": "您的團隊花費數小時完成的工作，AI 智慧代理可以在您入睡後完成。"
-  },
-  "useCases": {
-    "sectionLabel": "使用案例",
-    "heading": "你需要哪種 AI 代理團隊 — ",
-    "headingHighlight": "業務、內容、研究還是工程",
-    "headingEnd": "？",
-    "subtitle": "選擇內建的多智慧代理範本，或定義您自己的自主智慧代理艦隊。每個智慧代理都擁有專屬容器、預算和工具權限。",
-    "items": {
+  "comparison": {
+    "columnAspect": "項目",
+    "columnOpenLegion": "OpenLegion",
+    "columnThem": "OpenClaw 及其他",
+    "detailParagraph": "OpenLegion 預設提供透過密鑰庫代理的憑證、容器隔離與按智慧代理的預算強制 — 自 v0.1.0 起未回報任何 CVE。",
+    "disclaimer": "根據公開安全揭露和社群報告。",
+    "footnote": "OpenLegion 於 2026 年 2 月推出。GitHub 星數反映專案歷史，而非生產就緒程度。",
+    "heading": "OpenLegion 與其他 AI 代理框架有何不同？",
+    "rows": {
       "0": {
-        "name": "工程團隊",
-        "agents": {
-          "0": "PM",
-          "1": "工程師",
-          "2": "審查者"
-        },
-        "description": "OpenLegion 的開發團隊範本可自動化任務規劃、程式碼生成和 PR 審查 — 正是這些瑣碎分派與樣板工作，每週吃掉每位工程師數小時。"
+        "aspect": "API 金鑰儲存",
+        "openlegion": "Vault 代理 — 智慧代理永遠無法看到金鑰",
+        "them": "在智慧代理設定檔中"
       },
       "1": {
-        "name": "銷售團隊",
-        "agents": {
-          "0": "研究員",
-          "1": "篩選員",
-          "2": "外展"
-        },
-        "description": "OpenLegion 的銷售管線範本全天候執行潛在客戶研究、評分與個人化外展 — 一整週的手動開發客戶工作，在你睡覺時完成。"
+        "aspect": "智慧代理隔離",
+        "openlegion": "Docker 容器 / 微型虛擬機",
+        "them": "程序層級"
       },
       "2": {
-        "name": "內容團隊",
-        "agents": {
-          "0": "研究員",
-          "1": "撰寫者"
-        },
-        "description": "OpenLegion 的 Content Studio 範本讓研究員與寫手協作並保持一致的品牌聲音 — 原本需要數天的從研究到成稿流程，幾小時內交付。"
+        "aspect": "費用控制",
+        "openlegion": "每個智慧代理的日度與月度預算",
+        "them": "無"
       },
       "3": {
-        "name": "你的財庫團隊",
-        "agents": {
-          "0": "研究員",
-          "1": "執行者",
-          "2": "監控器"
-        },
-        "description": "錢包感知的智慧體在鏈上執行 — 兌換、轉帳、DeFi 倉位 — 同時私鑰鎖定在保險庫中並在伺服器端簽名。提供每個智慧體的支出限額、每日上限以及 EVM + Solana 支援。"
+        "aspect": "任務路由",
+        "openlegion": "機隊模型 — blackboard + pub/sub + handoff (no CEO agent)",
+        "them": "LLM CEO 智慧代理決定"
       },
       "4": {
-        "name": "自訂團隊",
-        "agents": {
-          "0": "任意角色",
-          "1": "任意工具",
-          "2": "任意預算"
-        },
-        "description": "找不到您的使用案例？自由定義任何角色、工具和預算的組合。智慧代理擁有專屬容器、憑證和支出限制 — 滿足任何工作需求。"
+        "aspect": "測試涵蓋率",
+        "openlegion": "5,800+ 項測試：單元 + 整合 + E2E",
+        "them": "極少"
+      },
+      "5": {
+        "aspect": "程式碼庫規模",
+        "openlegion": "~77,000 行（引擎，可稽核）",
+        "them": "龐雜"
       }
     },
-    "devEvents": {
-      "0": "PM 建立了任務 #42",
-      "1": "工程師開啟了 PR #18",
-      "2": "審查者審查中…"
-    },
-    "funnelBars": {
-      "0": {
-        "label": "潛在客戶"
-      },
-      "1": {
-        "label": "已篩選"
-      },
-      "2": {
-        "label": "已轉換"
-      }
-    },
-    "contentItems": {
-      "0": {
-        "title": "部落格文章",
-        "status": "已發佈"
-      },
-      "1": {
-        "title": "案例研究",
-        "status": "審查中"
-      },
-      "2": {
-        "title": "白皮書",
-        "status": "撰寫中"
-      }
-    },
-    "customSteps": {
-      "0": "接收",
-      "1": "研究",
-      "2": "執行",
-      "3": "交付"
-    },
-    "treasuryEvents": {
-      "0": "在 Base 上將 0.5 ETH 兌換為 USDC",
-      "1": "消費限額：今日 $48 / $500",
-      "2": "監控員檢查倉位中…"
-    }
+    "sectionLabel": "比較",
+    "subtitle": "大多數 AI 智慧代理工具是為展示而打造 — OpenLegion 是為生產環境而打造。",
+    "tableCaption": "典型 AI 智慧代理框架與 OpenLegion 的功能比較"
   },
-  "socialProof": {
-    "stats": {
-      "0": {
-        "fallback": "5,800+",
-        "label": "測試通過數"
-      },
-      "1": {
-        "fallback": "100+",
-        "label": "支援的 LLM 供應商"
-      },
-      "2": {
-        "fallback": "0",
-        "label": "CVE 數（engine v0.1.0）"
-      },
-      "3": {
-        "fallback": "$0",
-        "label": "LLM 使用加價"
-      }
-    },
-    "discordLabel": "Discord",
-    "githubLabel": "GitHub",
-    "githubWithStars": "GitHub ★ {stars}"
+  "contentPage": {
+    "breadcrumbAriaLabel": "麵包屑導覽",
+    "breadcrumbComparisons": "比較",
+    "breadcrumbHome": "首頁",
+    "breadcrumbLearn": "學習",
+    "publishedPrefix": "發佈於 ",
+    "relatedContentAriaLabel": "相關內容",
+    "updatedPrefix": "更新於 "
   },
-  "features": {
-    "sectionLabel": "功能",
-    "heading": "為不能",
-    "headingHighlight": "出錯",
-    "headingEnd": "的團隊打造。",
-    "subtitle": "從第一天起內建安全、成本管控與智慧代理自動化的 AI 智慧代理框架。",
-    "outcomes": {
-      "0": {
-        "title": "AI 智慧代理安全性：您的金鑰存放在智慧代理永遠無法觸及的 Vault 中。",
-        "description": "每個智慧代理都透過憑證代理進行呼叫。API 金鑰和錢包私鑰永遠不存在於容器內。預設啟用六個獨立的安全層。",
-        "linkLabel": "安全機制運作方式 →"
-      },
-      "1": {
-        "title": "為每個智慧代理設定預算。達到上限的瞬間即停止。",
-        "description": "每個智慧代理的日度和月度上限，搭配自動硬性截止。不會有意外帳單。不會有凌晨 3 點的失控 API 迴圈。",
-        "linkLabel": "成本控制運作方式 →"
-      },
-      "2": {
-        "title": "機隊模型協同 — 由您決定誰做什麼。",
-        "description": "智慧代理可瀏覽任何網站、操作任何工具、執行鏈上操作、執行任何任務。MCP 相容，內建瀏覽器、檔案、記憶、錢包等技能。Fleet model — blackboard + pub/sub + handoff (no CEO agent) — 搭配受限執行與每個代理的權限矩陣。",
-        "linkLabel": "協同的運作方式 →"
-      }
-    },
-    "allFeaturesLink": "查看 AI 智慧代理框架的所有功能，包括瀏覽器自動化、持久記憶、MCP 擴充性與多代理協同 →"
+  "cta": {
+    "heading": "您的 AI 團隊只差",
+    "headingEnd": "。",
+    "headingHighlight": "一鍵部署",
+    "primaryButton": "組建你的AI團隊 →",
+    "secondaryButton": "加入我們的 Discord",
+    "subtitle": "試用7天 —— 不合適全額退款 · 隨時取消 · 無需編程"
   },
   "dashboardPreview": {
-    "sectionLabel": "艦隊儀表板",
-    "heading": "即時監控",
-    "headingHighlight": "您的 AI 代理艦隊",
-    "subtitle": "每個智慧代理、每筆費用、每個事件 — 即時呈現。與智慧代理對話、監控健康狀態，並從統一視圖追蹤支出。",
-    "windowTitle": "艦隊概覽",
-    "liveIndicator": "即時",
-    "agentsCount": "{count} 個智慧代理",
-    "todaySuffix": "今日",
-    "tokensSuffix": "Token",
-    "onlineCount": "{count} 個上線",
-    "degradedCount": "{count} 個降級",
-    "agentLabel": "智慧代理 {n}",
-    "healthOnline": "上線",
-    "healthDegraded": "降級",
     "activityLabel": "活動",
-    "heartbeatLabel": "心跳",
-    "heartbeatEvery": "每 {minutes} 分鐘",
-    "costTodayLabel": "今日費用",
-    "chatButton": "對話",
-    "pauseButton": "暫停",
-    "stateStreaming": "串流中",
-    "stateThinking": "思考中",
-    "stateTool": "工具",
-    "stateIdle": "閒置",
+    "agentLabel": "智慧代理 {n}",
     "agents": {
       "0": {
         "id": "researcher",
@@ -242,76 +101,34 @@
         "id": "outreach",
         "role": "銷售外展"
       }
-    }
-  },
-  "quickstart": {
-    "sectionLabel": "快速開始",
-    "heading": "通往您第一個",
-    "headingHighlight": "AI 智慧代理",
-    "managedBadge": "最簡單 — 無需設定",
-    "managedHeading": "無需終端機。無需設定檔。",
-    "managedDescription": "容器、憑證和基礎設施由我們管理。 與 Operator 對話 — 你艦隊的工頭，在 VPS 啟動後自動建立。",
-    "managedCta": "立即開始 →",
-    "steps": {
-      "0": "建立帳戶",
-      "1": "選擇方案",
-      "2": "配置智慧代理",
-      "3": "執行艦隊"
     },
-    "selfHostedBadge": "完全掌控 — 支援本地部署",
-    "selfHostedHeading": "三個指令。一台機器。",
-    "requirementsLabel": "需求條件：",
-    "requirements": "Python 3.10+、Docker（執行中）、LLM API 金鑰（Anthropic / Moonshot / OpenAI）",
-    "selfHostedCta": "閱讀文件 →",
-    "tabs": {
-      "0": {
-        "label": "macOS / Linux"
-      },
-      "1": {
-        "label": "Windows (PowerShell)"
-      }
-    },
-    "tabGroupLabel": "作業系統",
-    "copyLabel": "複製",
-    "copiedLabel": "已複製"
-  },
-  "security": {
-    "sectionLabel": "安全性",
-    "heading": "AI 智慧代理安全性：假設智慧代理會",
-    "headingHighlight": "行為異常",
-    "headingEnd": "而打造。",
-    "subtitle": "預設啟用縱深防禦。下方為六層架構。",
-    "layers": {
-      "0": {
-        "title": "每個智慧代理在專屬容器中執行",
-        "description": "每個智慧代理使用 Docker 容器或 Docker Sandbox 微型虛擬機 — 不共享程序空間。"
-      },
-      "1": {
-        "title": "智慧代理無法提升權限或消耗您的資源",
-        "description": "非 root 使用者（UID 1000）、no-new-privileges 旗標、記憶體和 CPU 資源限制強制執行。"
-      },
-      "2": {
-        "title": "API 金鑰和錢包金鑰存放在代理永遠無法觸及的保險庫中",
-        "description": "保險庫代理持有 API 金鑰和錢包私鑰 — 代理通過代理調用，永遠看不到秘密。交易在伺服器端簽名。"
-      },
-      "3": {
-        "title": "每個智慧代理只能存取您明確允許的內容",
-        "description": "每個智慧代理的 ACL 矩陣控制允許的工具、檔案和網狀操作。"
-      },
-      "4": {
-        "title": "惡意輸入在到達 LLM 之前即被攔截",
-        "description": "路徑穿越防護、SSRF 保護、安全條件評估、Token 預算強制執行。"
-      },
-      "5": {
-        "title": "隱藏字元在提示注入到達前即被清除",
-        "description": "在 56 個關卡清除不可見字元 — bidi 覆蓋、標籤字元、零寬字元在到達 LLM 上下文之前即被攔截。"
-      }
-    },
-    "allLayersLink": "六層防護完整詳細說明 →"
+    "agentsCount": "{count} 個智慧代理",
+    "chatButton": "對話",
+    "costTodayLabel": "今日費用",
+    "degradedCount": "{count} 個降級",
+    "heading": "即時監控",
+    "headingHighlight": "您的 AI 代理艦隊",
+    "healthDegraded": "降級",
+    "healthOnline": "上線",
+    "heartbeatEvery": "每 {minutes} 分鐘",
+    "heartbeatLabel": "心跳",
+    "liveIndicator": "即時",
+    "onlineCount": "{count} 個上線",
+    "pauseButton": "暫停",
+    "sectionLabel": "艦隊儀表板",
+    "stateIdle": "閒置",
+    "stateStreaming": "串流中",
+    "stateThinking": "思考中",
+    "stateTool": "工具",
+    "subtitle": "每個智慧代理、每筆費用、每個事件 — 即時呈現。與智慧代理對話、監控健康狀態，並從統一視圖追蹤支出。",
+    "todaySuffix": "今日",
+    "tokensSuffix": "Token",
+    "windowTitle": "艦隊概覽"
   },
   "enterprise": {
-    "heading": "為重型工作負載而生。",
+    "cta": "預約展示",
     "description": "自架式本地部署、縱深防禦的憑證隔離、確定性稽核軌跡、按智慧代理的成本治理，以及按智慧代理的權限矩陣 — 全部預設強制執行。引擎約 77,000 行 Python，擁有 5,800 多項測試，依賴面極小。",
+    "heading": "為重型工作負載而生。",
     "signals": {
       "0": "自架式本地部署",
       "1": "縱深防禦",
@@ -319,138 +136,103 @@
       "3": "受限執行",
       "4": "智慧代理級費用治理",
       "5": "按智慧代理的權限矩陣"
-    },
-    "cta": "預約展示"
-  },
-  "comparison": {
-    "sectionLabel": "比較",
-    "heading": "OpenLegion 與其他 AI 代理框架有何不同？",
-    "subtitle": "大多數 AI 智慧代理工具是為展示而打造 — OpenLegion 是為生產環境而打造。",
-    "detailParagraph": "OpenLegion 預設提供透過密鑰庫代理的憑證、容器隔離與按智慧代理的預算強制 — 自 v0.1.0 起未回報任何 CVE。",
-    "disclaimer": "根據公開安全揭露和社群報告。",
-    "tableCaption": "典型 AI 智慧代理框架與 OpenLegion 的功能比較",
-    "columnAspect": "項目",
-    "columnThem": "OpenClaw 及其他",
-    "columnOpenLegion": "OpenLegion",
-    "rows": {
-      "0": {
-        "aspect": "API 金鑰儲存",
-        "them": "在智慧代理設定檔中",
-        "openlegion": "Vault 代理 — 智慧代理永遠無法看到金鑰"
-      },
-      "1": {
-        "aspect": "智慧代理隔離",
-        "them": "程序層級",
-        "openlegion": "Docker 容器 / 微型虛擬機"
-      },
-      "2": {
-        "aspect": "費用控制",
-        "them": "無",
-        "openlegion": "每個智慧代理的日度與月度預算"
-      },
-      "3": {
-        "aspect": "任務路由",
-        "them": "LLM CEO 智慧代理決定",
-        "openlegion": "機隊模型 — blackboard + pub/sub + handoff (no CEO agent)"
-      },
-      "4": {
-        "aspect": "測試涵蓋率",
-        "them": "極少",
-        "openlegion": "5,800+ 項測試：單元 + 整合 + E2E"
-      },
-      "5": {
-        "aspect": "程式碼庫規模",
-        "them": "龐雜",
-        "openlegion": "~77,000 行（引擎，可稽核）"
-      }
-    },
-    "footnote": "OpenLegion 於 2026 年 2 月推出。GitHub 星數反映專案歷史，而非生產就緒程度。"
+    }
   },
   "faq": {
-    "sectionLabel": "常見問題",
+    "fullPageSubtitle": "關於使用 OpenLegion 部署、保護和擴展 AI 智慧代理艦隊的所有須知。",
     "heading": "常見",
     "headingHighlight": "問題",
-    "fullPageSubtitle": "關於使用 OpenLegion 部署、保護和擴展 AI 智慧代理艦隊的所有須知。",
     "items": {
       "0": {
-        "question": "使用 OpenLegion 需要是開發人員嗎？",
-        "answer": "不需要。app.openlegion.ai 的代管服務無需撰寫程式碼 — 註冊帳戶、選擇範本、新增 LLM API 金鑰，您的智慧代理就能在幾分鐘內上線。自架版本需要 Python 3.10+ 和 Docker。無論哪種方式，內建的團隊範本（開發團隊、銷售管線、內容工作室）都能開箱即用，無需任何設定。"
+        "answer": "不需要。app.openlegion.ai 的代管服務無需撰寫程式碼 — 註冊帳戶、選擇範本、新增 LLM API 金鑰，您的智慧代理就能在幾分鐘內上線。自架版本需要 Python 3.10+ 和 Docker。無論哪種方式，內建的團隊範本（開發團隊、銷售管線、內容工作室）都能開箱即用，無需任何設定。",
+        "question": "使用 OpenLegion 需要是開發人員嗎？"
       },
       "1": {
-        "question": "訂閱之外還需要支付 LLM 使用費用嗎？",
-        "answer": "每個付費訂閱都包含永不過期的 LLM 額度歡迎包 — 第一天即可使用，無需 API 金鑰。您也可以使用自己的 Anthropic、OpenAI、Google 或 100 多家支援廠商的 API 金鑰，依用量直接向這些廠商付款，模型使用量零加價。"
-      },
-      "2": {
-        "question": "OpenLegion 智慧代理實際上可以自動化哪些任務？",
-        "answer": "任何人類使用瀏覽器或終端機在電腦上執行的任務。智慧代理可以瀏覽和互動任何網站、登入網頁應用程式、填寫表單、從任何頁面擷取資料、發送電子郵件和訊息、管理檔案和資料夾、撰寫和執行程式碼、處理文件、發佈到社群平台、監控頁面變更，以及執行自訂自動化 — 全部 24/7 無需監管。常見部署包括銷售外展管線、競爭調查、潛在客戶篩選、開發工作流程、發票處理、內容生產和內部任務自動化。"
-      },
-      "3": {
-        "question": "什麼是 OpenLegion？",
-        "answer": "OpenLegion 是一款生產級、容器隔離式的多智慧代理執行環境，可將自治智慧代理機隊部署於隔離的 Docker 容器中。每個代理擁有獨立的預算、權限與憑證庫 — 透過容器隔離、密鑰庫代理、每個代理的 ACL 與受限執行達成縱深防禦。僅需 Python、Docker 與 API 金鑰。無需 Redis、Kubernetes 或 LangChain。採用 PolyForm Perimeter License 1.0.1 授權（source-available）。"
-      },
-      "4": {
-        "question": "OpenLegion 與 CrewAI 或其他智慧代理框架有什麼不同？",
-        "answer": "OpenLegion 將每個智慧代理進行容器隔離，所有憑證皆透過密鑰庫代理，並按代理強制預算 — 多數框架並不會這麼做。CrewAI 等類似框架在共享行程中執行代理，沒有隔離、沒有成本管控，API 金鑰存放於設定檔。OpenLegion 採用機隊模型（no CEO agent），透過 blackboard 協同與結構化 handoff 進行合作 — 控制平面沒有 LLM 決定任務路由。"
-      },
-      "5": {
-        "question": "OpenLegion 支援哪些 LLM 供應商？",
-        "answer": "透過 LiteLLM 支援 100 多個 LLM 供應商。包括 Anthropic（Claude）、OpenAI（GPT）、Google（Gemini）、Mistral、Moonshot 以及任何 OpenAI 相容 API。您可以在同一艦隊中為不同智慧代理指派不同模型 — 無廠商鎖定。"
-      },
-      "6": {
-        "question": "OpenLegion 如何處理 API 金鑰安全性？",
-        "answer": "透過密鑰庫代理 — 智慧代理永遠看不到 API 金鑰。金鑰保存在 mesh 主機上的 mesh 程序內。代理呼叫 LLM 時，請求會經過密鑰庫代理，在網路層注入憑證、追蹤 token 用量並強制預算上限。即便代理被完全攻陷，也無法存取您的 API 金鑰。"
-      },
-      "7": {
-        "question": "執行 OpenLegion 需要 Kubernetes 或雲端基礎設施嗎？",
-        "answer": "不需要。OpenLegion 在單一機器上執行，無需外部服務。您只需要 Python 3.10+、Docker 和 LLM API 金鑰 — 不需要 Redis、不需要 Kubernetes、不需要 LangChain、不需要外部資料庫。"
-      },
-      "8": {
-        "question": "我可以在生產環境執行 OpenLegion 嗎？",
-        "answer": "可以 — OpenLegion 專為生產部署而設計。包含本地部署支援、採用 blackboard + pub/sub + handoff 協同的機隊模型、按智慧代理的成本治理、按智慧代理的權限矩陣、透過密鑰庫代理的憑證隔離，以及約 77,000 行、5,800+ 項測試的可稽核程式碼庫。縱深防禦控制預設啟用。"
-      },
-      "9": {
-        "question": "OpenLegion 可以在本地部署嗎？",
-        "answer": "可以。引擎只需 Python + Docker 即可在單一機器上執行，不需任何外部服務。若需完全本地推論，可將 LLM 提供者指向 Ollama；若使用代管模型（Anthropic、OpenAI、Google 等），mesh 代理會連接您設定的提供者。mesh 主機、智慧代理、密鑰庫與儀表板全部執行於同一台機器。"
+        "answer": "每個付費訂閱都包含永不過期的 LLM 額度歡迎包 — 第一天即可使用，無需 API 金鑰。您也可以使用自己的 Anthropic、OpenAI、Google 或 100 多家支援廠商的 API 金鑰，依用量直接向這些廠商付款，模型使用量零加價。",
+        "question": "訂閱之外還需要支付 LLM 使用費用嗎？"
       },
       "10": {
-        "question": "什麼是 AI 智慧代理框架？",
-        "answer": "AI 智慧代理框架是用於在生產環境部署、協同與治理自治 AI 智慧代理的執行環境與函式庫層。與只提供代理邏輯原語的純 SDK 函式庫不同，像 OpenLegion 這類框架會處理容器隔離、憑證入庫、按代理的成本管控、可觀測性與部署 — 讓團隊無需從零打造 DevOps 即可推出代理。"
+        "answer": "AI 智慧代理框架是用於在生產環境部署、協同與治理自治 AI 智慧代理的執行環境與函式庫層。與只提供代理邏輯原語的純 SDK 函式庫不同，像 OpenLegion 這類框架會處理容器隔離、憑證入庫、按代理的成本管控、可觀測性與部署 — 讓團隊無需從零打造 DevOps 即可推出代理。",
+        "question": "什麼是 AI 智慧代理框架？"
       },
       "11": {
-        "question": "AI 智慧代理框架與代管服務有何不同？",
-        "answer": "框架是用於建構與執行代理邏輯（工具、提示、記憶、協同）的程式碼函式庫與執行環境。代管服務在其上加入維運層：專屬 VPS 配置、儀表板、計費、額度代理。OpenLegion 兩者兼具：用於撰寫與執行代理的 Python 框架（容器隔離式多智慧代理執行環境），以及供不想自行管理基礎設施的團隊選用的代管服務。"
+        "answer": "框架是用於建構與執行代理邏輯（工具、提示、記憶、協同）的程式碼函式庫與執行環境。代管服務在其上加入維運層：專屬 VPS 配置、儀表板、計費、額度代理。OpenLegion 兩者兼具：用於撰寫與執行代理的 Python 框架（容器隔離式多智慧代理執行環境），以及供不想自行管理基礎設施的團隊選用的代管服務。",
+        "question": "AI 智慧代理框架與代管服務有何不同？"
       },
       "12": {
-        "question": "OpenLegion 中智慧代理協同如何運作？",
-        "answer": "OpenLegion 採用機隊模型 — blackboard + pub/sub + handoff (no CEO agent)。智慧代理透過基於 SQLite、支援原子 compare-and-set 的 blackboard、pub/sub 事件匯流排，以及結構化的 handoff 協定進行協同。每個代理擁有獨立的權限、預算與工具集。使用者直接與代理對話；控制平面不存在決定任務路由的 LLM。"
+        "answer": "OpenLegion 採用機隊模型 — blackboard + pub/sub + handoff (no CEO agent)。智慧代理透過基於 SQLite、支援原子 compare-and-set 的 blackboard、pub/sub 事件匯流排，以及結構化的 handoff 協定進行協同。每個代理擁有獨立的權限、預算與工具集。使用者直接與代理對話；控制平面不存在決定任務路由的 LLM。",
+        "question": "OpenLegion 中智慧代理協同如何運作？"
       },
       "13": {
-        "question": "自主智慧代理的 AI 智慧代理安全性是什麼意思？",
-        "answer": "AI 智慧代理安全面對自治代理特有的威脅：憑證外洩、提示注入、資源濫用與資料外洩。OpenLegion 的縱深防禦 — 容器隔離、憑證密鑰庫代理、按代理的權限矩陣、輸入淨化、SSRF 防護、Unicode/路徑遍歷強化 — 獨立地緩解各類威脅，使得某一層被攻破不會危及其他層。"
+        "answer": "AI 智慧代理安全面對自治代理特有的威脅：憑證外洩、提示注入、資源濫用與資料外洩。OpenLegion 的縱深防禦 — 容器隔離、憑證密鑰庫代理、按代理的權限矩陣、輸入淨化、SSRF 防護、Unicode/路徑遍歷強化 — 獨立地緩解各類威脅，使得某一層被攻破不會危及其他層。",
+        "question": "自主智慧代理的 AI 智慧代理安全性是什麼意思？"
+      },
+      "2": {
+        "answer": "任何人類使用瀏覽器或終端機在電腦上執行的任務。智慧代理可以瀏覽和互動任何網站、登入網頁應用程式、填寫表單、從任何頁面擷取資料、發送電子郵件和訊息、管理檔案和資料夾、撰寫和執行程式碼、處理文件、發佈到社群平台、監控頁面變更，以及執行自訂自動化 — 全部 24/7 無需監管。常見部署包括銷售外展管線、競爭調查、潛在客戶篩選、開發工作流程、發票處理、內容生產和內部任務自動化。",
+        "question": "OpenLegion 智慧代理實際上可以自動化哪些任務？"
+      },
+      "3": {
+        "answer": "OpenLegion 是一款生產級、容器隔離式的多智慧代理執行環境，可將自治智慧代理機隊部署於隔離的 Docker 容器中。每個代理擁有獨立的預算、權限與憑證庫 — 透過容器隔離、密鑰庫代理、每個代理的 ACL 與受限執行達成縱深防禦。僅需 Python、Docker 與 API 金鑰。無需 Redis、Kubernetes 或 LangChain。採用 PolyForm Perimeter License 1.0.1 授權（source-available）。",
+        "question": "什麼是 OpenLegion？"
+      },
+      "4": {
+        "answer": "OpenLegion 將每個智慧代理進行容器隔離，所有憑證皆透過密鑰庫代理，並按代理強制預算 — 多數框架並不會這麼做。CrewAI 等類似框架在共享行程中執行代理，沒有隔離、沒有成本管控，API 金鑰存放於設定檔。OpenLegion 採用機隊模型（no CEO agent），透過 blackboard 協同與結構化 handoff 進行合作 — 控制平面沒有 LLM 決定任務路由。",
+        "question": "OpenLegion 與 CrewAI 或其他智慧代理框架有什麼不同？"
+      },
+      "5": {
+        "answer": "透過 LiteLLM 支援 100 多個 LLM 供應商。包括 Anthropic（Claude）、OpenAI（GPT）、Google（Gemini）、Mistral、Moonshot 以及任何 OpenAI 相容 API。您可以在同一艦隊中為不同智慧代理指派不同模型 — 無廠商鎖定。",
+        "question": "OpenLegion 支援哪些 LLM 供應商？"
+      },
+      "6": {
+        "answer": "透過密鑰庫代理 — 智慧代理永遠看不到 API 金鑰。金鑰保存在 mesh 主機上的 mesh 程序內。代理呼叫 LLM 時，請求會經過密鑰庫代理，在網路層注入憑證、追蹤 token 用量並強制預算上限。即便代理被完全攻陷，也無法存取您的 API 金鑰。",
+        "question": "OpenLegion 如何處理 API 金鑰安全性？"
+      },
+      "7": {
+        "answer": "不需要。OpenLegion 在單一機器上執行，無需外部服務。您只需要 Python 3.10+、Docker 和 LLM API 金鑰 — 不需要 Redis、不需要 Kubernetes、不需要 LangChain、不需要外部資料庫。",
+        "question": "執行 OpenLegion 需要 Kubernetes 或雲端基礎設施嗎？"
+      },
+      "8": {
+        "answer": "可以 — OpenLegion 專為生產部署而設計。包含本地部署支援、採用 blackboard + pub/sub + handoff 協同的機隊模型、按智慧代理的成本治理、按智慧代理的權限矩陣、透過密鑰庫代理的憑證隔離，以及約 77,000 行、5,800+ 項測試的可稽核程式碼庫。縱深防禦控制預設啟用。",
+        "question": "我可以在生產環境執行 OpenLegion 嗎？"
+      },
+      "9": {
+        "answer": "可以。引擎只需 Python + Docker 即可在單一機器上執行，不需任何外部服務。若需完全本地推論，可將 LLM 提供者指向 Ollama；若使用代管模型（Anthropic、OpenAI、Google 等），mesh 代理會連接您設定的提供者。mesh 主機、智慧代理、密鑰庫與儀表板全部執行於同一台機器。",
+        "question": "OpenLegion 可以在本地部署嗎？"
       }
     },
-    "seeFullFaqPrefix": "更多問題解答 — 包含架構、LLM 提供者與智慧代理協同。",
-    "seeFullFaqLink": "查看完整 FAQ →"
+    "sectionLabel": "常見問題",
+    "seeFullFaqLink": "查看完整 FAQ →",
+    "seeFullFaqPrefix": "更多問題解答 — 包含架構、LLM 提供者與智慧代理協同。"
   },
-  "technicalDefinition": {
-    "label": "技術定義",
-    "srOnlyPrefix": "什麼是 OpenLegion？ ",
-    "text": "OpenLegion 是一款容器隔離式的多智慧代理執行環境，具備憑證密鑰庫代理、按代理的預算，以及機隊協同模型（blackboard + pub/sub + handoff, no CEO agent）— 為需要在生產環境中安全、可控成本地執行智慧代理機隊的團隊而設計。"
-  },
-  "cta": {
-    "heading": "您的 AI 團隊只差",
-    "headingHighlight": "一鍵部署",
-    "headingEnd": "。",
-    "subtitle": "首日即付 · 100+ LLM 供應商 · 7 天退款保證",
-    "primaryButton": "立即開始 →",
-    "secondaryButton": "加入我們的 Discord"
+  "features": {
+    "allFeaturesLink": "查看 AI 智慧代理框架的所有功能，包括瀏覽器自動化、持久記憶、MCP 擴充性與多代理協同 →",
+    "heading": "為不能",
+    "headingEnd": "的團隊打造。",
+    "headingHighlight": "出錯",
+    "outcomes": {
+      "0": {
+        "description": "每個智慧代理都透過憑證代理進行呼叫。API 金鑰和錢包私鑰永遠不存在於容器內。預設啟用六個獨立的安全層。",
+        "linkLabel": "安全機制運作方式 →",
+        "title": "AI 智慧代理安全性：您的金鑰存放在智慧代理永遠無法觸及的 Vault 中。"
+      },
+      "1": {
+        "description": "每個智慧代理的日度和月度上限，搭配自動硬性截止。不會有意外帳單。不會有凌晨 3 點的失控 API 迴圈。",
+        "linkLabel": "成本控制運作方式 →",
+        "title": "為每個智慧代理設定預算。達到上限的瞬間即停止。"
+      },
+      "2": {
+        "description": "智慧代理可瀏覽任何網站、操作任何工具、執行鏈上操作、執行任何任務。MCP 相容，內建瀏覽器、檔案、記憶、錢包等技能。Fleet model — blackboard + pub/sub + handoff (no CEO agent) — 搭配受限執行與每個代理的權限矩陣。",
+        "linkLabel": "協同的運作方式 →",
+        "title": "機隊模型協同 — 由您決定誰做什麼。"
+      }
+    },
+    "sectionLabel": "功能",
+    "subtitle": "從第一天起內建安全、成本管控與智慧代理自動化的 AI 智慧代理框架。"
   },
   "footer": {
     "brandDescription": "為生產環境打造的容器隔離式多智慧代理執行環境。以安全、成本可控的智慧代理機隊自動化任何電腦任務。",
-    "license": "PolyForm Perimeter License 1.0.1 授權 © {year} OpenLegion Contributors",
     "columns": {
       "0": {
-        "title": "產品",
         "links": {
           "0": "功能",
           "1": "使用案例",
@@ -459,20 +241,20 @@
           "4": "定價",
           "5": "快速開始",
           "6": "常見問題"
-        }
+        },
+        "title": "產品"
       },
       "1": {
-        "title": "學習",
         "links": {
           "0": "AI 智慧代理平台",
           "1": "AI 智慧代理編排",
           "2": "AI 智慧代理框架",
           "3": "AI 智慧代理安全性",
           "4": "DeepSeek V4 智慧代理"
-        }
+        },
+        "title": "學習"
       },
       "2": {
-        "title": "比較",
         "links": {
           "0": "所有比較",
           "1": "OpenClaw 替代方案",
@@ -480,84 +262,238 @@
           "3": "vs LangGraph",
           "4": "vs CrewAI",
           "5": "vs AutoGen"
-        }
+        },
+        "title": "比較"
       },
       "3": {
-        "title": "資源",
         "links": {
           "0": "文件",
           "1": "GitHub",
           "2": "Issues",
           "3": "Discussions"
-        }
+        },
+        "title": "資源"
       },
       "4": {
-        "title": "社群",
         "links": {
           "0": "Discord",
           "1": "Twitter / X"
-        }
+        },
+        "title": "社群"
       },
       "5": {
-        "title": "法律",
         "links": {
           "0": "服務條款",
           "1": "隱私權政策",
           "2": "PolyForm Perimeter License 1.0.1 授權"
-        }
-      }
-    }
-  },
-  "pricing": {
-    "sectionLabel": "定價",
-    "heading": "為您的",
-    "headingHighlight": "AI 團隊",
-    "headingEnd": "量身打造的方案。",
-    "subtitle": "定價簡單透明，隨時可取消。",
-    "billingMonthly": "月付",
-    "billingYearly": "年付",
-    "billingSaveLabel": "省約 25%",
-    "plans": {
-      "0": {
-        "name": "Basic",
-        "monthlyPrice": "19",
-        "yearlyPrice": "170",
-        "yearlyMonthly": "14",
-        "tagline": "適合獨立開發者"
-      },
-      "1": {
-        "name": "Growth",
-        "monthlyPrice": "62",
-        "yearlyPrice": "557",
-        "yearlyMonthly": "46",
-        "tagline": "適合成長中的團隊"
-      },
-      "2": {
-        "name": "Pro",
-        "monthlyPrice": "152",
-        "yearlyPrice": "1367",
-        "yearlyMonthly": "114",
-        "tagline": "適合代理機構與進階使用者"
-      },
-      "3": {
-        "name": "Pro Max",
-        "monthlyPrice": "296",
-        "yearlyPrice": "2663",
-        "yearlyMonthly": "222",
-        "tagline": "適用於大規模營運"
+        },
+        "title": "法律"
       }
     },
-    "popularBadge": "熱門",
-    "priceSuffixMonthly": "/月",
-    "priceSuffixYearly": "/年",
-    "yearlyBilledNote": "年付約 ${monthlyEquivalent}/月",
-    "monthlyNote": "首日即付",
+    "license": "PolyForm Perimeter License 1.0.1 授權 © {year} OpenLegion Contributors"
+  },
+  "hero": {
+    "ariaLabel": "簡介",
+    "badge": "您的 AI 工作團隊從這裡開始",
+    "ctaPrimary": "組建你的AI團隊 — 每月$19起",
+    "ctaSecondary": "預約展示",
+    "headingHighlight": "AI 團隊",
+    "headingLine1": "打造您的",
+    "headingLine2": "只需描述您想要的團隊。",
+    "subtitle": "描述你的需求 —— 行銷公司、業務團隊、研究小組 —— OpenLegion 幾分鐘內就能讓一支AI員工團隊開始工作。每個代理都有獨立的預算與權限，你的密碼和 API 金鑰保存在代理永遠無法存取的保險庫中。",
+    "tagline": "AI員工在你的團隊休息時，把瑣碎工作全部完成。",
+    "terminalTitle": "openlegion 示範",
+    "videoCaptionBelow": "一句提示詞，就是一支真正運作的AI團隊 —— 親眼看看。",
+    "videoFallback": "您的瀏覽器不支援 HTML5 影片。",
+    "videoTitle": "OpenLegion 示範 — 部署 AI 智慧代理艦隊",
+    "trustStrip": {
+      "0": "全天候運行",
+      "1": "代理永遠看不到你的密碼",
+      "2": "無需編程"
+    }
+  },
+  "inlineCta": {
     "getStarted": "立即開始",
+    "readTheDocs": "閱讀文件"
+  },
+  "launchPricing": {
+    "cta": "立即開始 →",
+    "message": "創辦人價格 — 為早期客戶鎖定"
+  },
+  "metadata": {
+    "faqDescription": "關於 OpenLegion 的常見問題解答 — 為生產環境打造的容器隔離式多智慧代理執行環境。涵蓋安全、定價、LLM 提供者、協同、生產部署等。",
+    "faqOgDescription": "關於 OpenLegion 的常見問題解答 — 安全、定價、LLM 提供者、協同與生產部署。",
+    "faqOgTitle": "常見問題 — OpenLegion",
+    "faqTitle": "常見問題",
+    "faqTwitterDescription": "關於 OpenLegion 的常見問題解答 — 安全、定價、LLM 提供者、協同與生產部署。",
+    "faqTwitterTitle": "常見問題 — OpenLegion",
+    "homeDescription": "OpenLegion 是為生產環境打造的AI代理框架與平台。部署能自動完成任何電腦任務的AI員工 —— 瀏覽網頁、填寫表單、撰寫程式碼、客戶開發、資料處理。無需編程，7天退款保證。",
+    "homeTitle": "AI 智慧代理平台與框架 - OpenLegion | 自動化一切，掌握全局",
+    "learnDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
+    "learnOgDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
+    "learnOgTitle": "學習 — AI 智慧代理框架、協調與安全",
+    "learnTitle": "學習 — AI 智慧代理框架、協調與安全",
+    "learnTwitterDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
+    "learnTwitterTitle": "學習 — AI 智慧代理框架、協調與安全",
+    "moneyBackDescription": "如果 OpenLegion 不適合你，首月費用全額退款，無需任何理由。",
+    "moneyBackTitle": "7 天退款保證",
+    "ogDescription": "部署AI代理，自動完成人類在電腦上能做的一切。安全、預算可控、生產就緒。7天退款保證。",
+    "ogImageAlt": "OpenLegion — AI 智慧代理框架與平台",
+    "ogTitle": "OpenLegion — AI 智慧代理框架與平台",
+    "pricingDescription": "每月$19起，含容器隔離、保險庫安全與100+ LLM供應商。隨時取消，7天退款保證。",
+    "pricingOgDescription": "每月$19起。容器隔離、保險庫安全、100+ LLM供應商。7天退款保證。",
+    "pricingOgTitle": "AI代理平台定價 — 每月$19起 | OpenLegion",
+    "pricingTitle": "AI代理平台定價 — 每月$19起",
+    "pricingTwitterDescription": "方案從每月 $19 起。7 天退款保證。",
+    "pricingTwitterTitle": "AI代理平台定價 — 每月$19起 | OpenLegion",
+    "privacyDescription": "OpenLegion AI 智慧代理框架與代管服務的隱私政策。了解我們如何在代管服務及 openlegion.ai 網站上收集、使用與保護您的資料。",
+    "privacyTitle": "隱私權政策",
+    "termsDescription": "OpenLegion AI 智慧代理框架與代管服務的服務條款。涵蓋代管服務、PolyForm Perimeter License 1.0.1 授權下的自架部署，以及 openlegion.ai 網站。",
+    "termsTitle": "服務條款",
+    "titleTemplate": "{title} | OpenLegion",
+    "twitterDescription": "部署AI代理，自動完成人類在電腦上能做的一切。7天退款保證。",
+    "twitterTitle": "OpenLegion — AI 智慧代理框架與平台"
+  },
+  "moneyBackPage": {
+    "afterRefund": {
+      "heading": "退款後帳戶的處理",
+      "items": {
+        "0": "退款處理完成後不久，你的訂閱會被取消，代管實例也會被取消佈建。",
+        "1": "與訂閱一同發放的歡迎點數會被收回，點數餘額歸零（與退款保持一致）。",
+        "2": "在後續訂閱中你將不再有資格領取第二次退款或第二次歡迎點數。後續訂閱依正常方式計費。"
+      }
+    },
+    "covered": {
+      "heading": "退款涵蓋範圍",
+      "items": {
+        "0": "你的首次訂閱付款（實際扣款金額——例如 Basic 月付 $19）。",
+        "1": "全額退還該金額——無需說明理由，不按比例計算。"
+      }
+    },
+    "email": "support@openlegion.ai",
+    "howTo": {
+      "body": "寄信至 {email}，附上你的帳戶 email 與訂閱 ID。退款將於 5 個工作日內透過 Polar 處理（款項原路退回你的付款方式）。",
+      "heading": "如何申請退款"
+    },
+    "intro": "我們對 OpenLegion 充滿信心。如果首月因任何原因不合適，請在首次訂閱付款後 7 天內寄信至 {email}，我們會依你實際支付的金額全額退款（Polar 實際收取的開賣價金額——不是旁邊顯示的較高錨定價格）。",
+    "notCovered": {
+      "heading": "不在退款範圍內",
+      "items": {
+        "0": "點數加值（已消耗的點數不可退款——未消耗點數會保留在帳戶中直到退款完成）。",
+        "1": "首 7 天之後的續訂扣款。",
+        "2": "存在濫用的訂閱（違反可接受使用政策）。"
+      }
+    },
+    "tagline": "首月費用全額退款，無需任何理由。",
+    "title": "7 天退款保證"
+  },
+  "nav": {
+    "ariaLabel": "主要導覽",
+    "billingPeriodAriaLabel": "帳單週期",
+    "bookDemo": "預約展示",
+    "brandName": "OpenLegion",
+    "getStarted": "立即開始",
+    "githubAriaLabel": "GitHub 儲存庫",
+    "homeAriaLabel": "OpenLegion 首頁",
+    "links": {
+      "architecture": {
+        "label": "架構"
+      },
+      "docs": {
+        "label": "文件"
+      },
+      "features": {
+        "label": "功能"
+      },
+      "pricing": {
+        "label": "定價"
+      },
+      "security": {
+        "label": "安全性"
+      },
+      "useCases": {
+        "label": "使用案例"
+      }
+    },
+    "signIn": "登入",
+    "toggleMenuAriaLabel": "切換選單"
+  },
+  "notFound": {
+    "backToHome": "返回首頁",
+    "description": "此頁面不存在。艦隊尚未部署到此處。",
+    "title": "404",
+    "titleHighlight": "0"
+  },
+  "pricing": {
+    "a11y": {
+      "ctaAria": "開始使用 — {plan}",
+      "mostPopular": "最受歡迎的方案",
+      "originalPriceAria": "原價 ${price}"
+    },
     "agentsLabel": "{count, plural, one {個智慧代理} other {個智慧代理}}",
-    "creditsLabel": "歡迎贈送額度",
+    "basicTryFor": "用 {price} 試用 OpenLegion",
+    "billingMonthly": "月付",
+    "billingPeriodAriaLabel": "計費週期",
+    "billingSaveLabel": "省約 25%",
+    "billingYearly": "年付",
     "browsersLabel": "{count, plural, one {個同時瀏覽器} other {個同時瀏覽器}}",
-    "teamsLabel": "{count, plural, one {個團隊} other {個團隊}}",
+    "creditsLabel": "歡迎贈送額度",
+    "enterprise": {
+      "agents": "智慧代理",
+      "browsers": "同時瀏覽器",
+      "cta": "聯絡我們",
+      "features": {
+        "0": "專屬基礎設施",
+        "1": "客製 SLA",
+        "2": "優先支援",
+        "3": "本地部署"
+      },
+      "name": "Enterprise",
+      "price": "洽詢",
+      "subtitle": "為您量身打造",
+      "teams": "團隊",
+      "unlimitedAgents": "無限制"
+    },
+    "faq": {
+      "0": {
+        "answer": "每個付費方案首日即包含歡迎額度禮包及完整功能存取權限 — VPS、系統代理和營運商儀表板。不合適？7 天內取消，我們將退還首月費用，無需任何理由。希望使用自己的 API 金鑰？完全可以，歡迎額度依然歸您所有。",
+        "question": "方案首日包含哪些內容？"
+      },
+      "1": {
+        "answer": "每個新訂閱都包含永不過期的 LLM 額度歡迎獎勵。立即使用它們驅動您的智慧代理 — 無需 API 金鑰。需要更多？隨時從 $5 起加值，或自備 Anthropic、OpenAI、Google 及 100 多個供應商的 API 金鑰，完全跳過額度。",
+        "question": "除了方案費用，還需要支付 LLM 使用費嗎？"
+      },
+      "2": {
+        "answer": "可以 — 任何時候皆可升級，新限額立即生效。降級會在下一個計費週期開始時生效。",
+        "question": "可以更換方案嗎？"
+      },
+      "3": {
+        "answer": "取消後，您將保有存取權限至目前計費週期結束。之後 VPS 會被取消配置，實例資料會被移除。",
+        "question": "取消後我的智慧代理會怎樣？"
+      },
+      "4": {
+        "answer": "可以。複製儲存庫，執行三個指令，即可在自己的基礎設施上建立完整的智慧代理艦隊。引擎依 PolyForm Perimeter License 1.0.1 原始碼可取得。不想管理基礎設施的團隊可選擇代管服務，月費 $19 起。",
+        "question": "可以自架 OpenLegion 嗎？"
+      },
+      "5": {
+        "answer": "每個已部署的智慧代理容器計為方案限額中的一個智慧代理。開發團隊（PM + 工程師 + 審查者）等範本計為 3 個智慧代理。",
+        "question": "什麼算是一個「智慧代理」？"
+      },
+      "6": {
+        "answer": "額度用於通過我們平台支付 LLM 呼叫費用（Claude、GPT、Gemini 等）。訂閱時您會獲得歡迎獎勵 — Basic 獲得 $5、Growth 獲得 $15、Pro 獲得 $30。額度永不過期。用完後，從 $5 到 $500 隨時加值任意金額，或新增您自己的 API 金鑰直接使用供應商。",
+        "question": "什麼是 LLM 額度？會過期嗎？"
+      }
+    },
+    "faqHeading": "常見問題",
+    "getStarted": "立即開始",
+    "heading": "為您的",
+    "headingEnd": "量身打造的方案。",
+    "headingHighlight": "AI 團隊",
+    "moneyBackDetail": "7天退款 · 無需理由",
+    "monthlyNote": "7天退款保證",
     "noTeams": "無團隊",
+    "perAgent": "{amount}/代理人/月",
+    "perAgentYearlySuffix": " · 按年計費",
     "planFeatures": {
       "0": "每個智慧代理在專屬安全容器中執行",
       "1": "支援 Claude、GPT、Gemini + 100 多種模型",
@@ -566,86 +502,193 @@
       "4": "專屬運算資源 — 無共享資源",
       "5": "使用自己的 API 金鑰 — 或使用額度"
     },
-    "enterprise": {
-      "name": "Enterprise",
-      "price": "洽詢",
-      "subtitle": "為您量身打造",
-      "cta": "聯絡我們",
-      "unlimitedAgents": "無限制",
-      "agents": "智慧代理",
-      "browsers": "同時瀏覽器",
-      "teams": "團隊",
-      "features": {
-        "0": "專屬基礎設施",
-        "1": "客製 SLA",
-        "2": "優先支援",
-        "3": "本地部署"
-      }
-    },
-    "faqHeading": "常見問題",
-    "faq": {
+    "plans": {
       "0": {
-        "question": "方案首日包含哪些內容？",
-        "answer": "每個付費方案首日即包含歡迎額度禮包及完整功能存取權限 — VPS、系統代理和營運商儀表板。不合適？7 天內取消，我們將退還首月費用，無需任何理由。希望使用自己的 API 金鑰？完全可以，歡迎額度依然歸您所有。"
+        "monthlyPrice": "19",
+        "name": "Basic",
+        "tagline": "適合獨立開發者",
+        "yearlyMonthly": "14",
+        "yearlyPrice": "170"
       },
       "1": {
-        "question": "除了方案費用，還需要支付 LLM 使用費嗎？",
-        "answer": "每個新訂閱都包含永不過期的 LLM 額度歡迎獎勵。立即使用它們驅動您的智慧代理 — 無需 API 金鑰。需要更多？隨時從 $5 起加值，或自備 Anthropic、OpenAI、Google 及 100 多個供應商的 API 金鑰，完全跳過額度。"
+        "monthlyPrice": "62",
+        "name": "Growth",
+        "tagline": "適合成長中的團隊",
+        "yearlyMonthly": "46",
+        "yearlyPrice": "557"
       },
       "2": {
-        "question": "可以更換方案嗎？",
-        "answer": "可以 — 任何時候皆可升級，新限額立即生效。降級會在下一個計費週期開始時生效。"
+        "monthlyPrice": "152",
+        "name": "Pro",
+        "tagline": "適合代理機構與進階使用者",
+        "yearlyMonthly": "114",
+        "yearlyPrice": "1367"
       },
       "3": {
-        "question": "取消後我的智慧代理會怎樣？",
-        "answer": "取消後，您將保有存取權限至目前計費週期結束。之後 VPS 會被取消配置，實例資料會被移除。"
-      },
-      "4": {
-        "question": "可以自架 OpenLegion 嗎？",
-        "answer": "可以。複製儲存庫，執行三個指令，即可在自己的基礎設施上建立完整的智慧代理艦隊。引擎依 PolyForm Perimeter License 1.0.1 原始碼可取得。不想管理基礎設施的團隊可選擇代管服務，月費 $19 起。"
-      },
-      "5": {
-        "question": "什麼算是一個「智慧代理」？",
-        "answer": "每個已部署的智慧代理容器計為方案限額中的一個智慧代理。開發團隊（PM + 工程師 + 審查者）等範本計為 3 個智慧代理。"
-      },
-      "6": {
-        "question": "什麼是 LLM 額度？會過期嗎？",
-        "answer": "額度用於通過我們平台支付 LLM 呼叫費用（Claude、GPT、Gemini 等）。訂閱時您會獲得歡迎獎勵 — Basic 獲得 $5、Growth 獲得 $15、Pro 獲得 $30。額度永不過期。用完後，從 $5 到 $500 隨時加值任意金額，或新增您自己的 API 金鑰直接使用供應商。"
+        "monthlyPrice": "296",
+        "name": "Pro Max",
+        "tagline": "適用於大規模營運",
+        "yearlyMonthly": "222",
+        "yearlyPrice": "2663"
       }
     },
-    "billingPeriodAriaLabel": "計費週期",
+    "popularBadge": "熱門",
+    "priceSuffixMonthly": "/月",
+    "priceSuffixYearly": "/年",
+    "savingsAriaLabel": "節省 {percent}%",
     "savingsPill": "節省 ${amount}{suffix}（{percent}%）",
+    "sectionLabel": "定價",
+    "subtitle": "定價簡單透明，隨時可取消。",
+    "teamsLabel": "{count, plural, one {個團隊} other {個團隊}}",
     "trust": {
-      "moneyBack": "7 天退款保證",
       "cancel": "隨時取消",
+      "moneyBack": "7 天退款保證",
       "switch": "隨時切換方案"
     },
-    "a11y": {
-      "mostPopular": "最受歡迎的方案",
-      "ctaAria": "開始使用 — {plan}",
-      "originalPriceAria": "原價 ${price}"
-    },
     "trustTrio": {
-      "moneyBack": "7天退款保證",
       "fastSetup": "5分鐘內啟動第一個代理人",
+      "moneyBack": "7天退款保證",
       "noCoding": "無需編程"
     },
-    "perAgent": "{amount}/代理人/月",
-    "perAgentYearlySuffix": " · 按年計費",
-    "moneyBackDetail": "7天退款 · 無需理由",
-    "basicTryFor": "用 {price} 試用 OpenLegion",
-    "savingsAriaLabel": "節省 {percent}%"
+    "yearlyBilledNote": "年付約 ${monthlyEquivalent}/月"
   },
-  "notFound": {
-    "title": "404",
-    "titleHighlight": "0",
-    "description": "此頁面不存在。艦隊尚未部署到此處。",
-    "backToHome": "返回首頁"
+  "pricingAnchors": {
+    "anchorLabel": "上線優惠價",
+    "basicMonthly": "29",
+    "basicYearly": "259",
+    "growthMonthly": "109",
+    "growthYearly": "989",
+    "proMaxMonthly": "899",
+    "proMaxYearly": "8990",
+    "proMonthly": "349",
+    "proYearly": "3099"
+  },
+  "privacy": {
+    "effectiveDate": "生效日期：2026 年 3 月 7 日 · 最後更新：2026 年 3 月 7 日",
+    "section1": {
+      "p1": "本隱私權政策（以下簡稱「本政策」）說明 OpenLegion（以下簡稱「我們」、「本公司」）在您造訪 openlegion.ai（以下簡稱「網站」）或使用我們的代管服務、API 及相關服務（以下統稱「服務」）時，如何收集、使用和揭露資訊。",
+      "p2": "使用本服務即表示您同意本政策所述之做法。若您不同意，請勿使用本服務。",
+      "title": "1. 簡介"
+    },
+    "section10": {
+      "text": "若您為加州居民，根據《加州消費者隱私法》（CCPA），您享有額外權利，包括了解我們收集哪些個人資訊的權利、要求刪除的權利，以及退出個人資訊販售的權利。我們不出售個人資訊。如欲行使 CCPA 權利，請聯繫 support@openlegion.ai。",
+      "title": "10. 加州居民（CCPA）"
+    },
+    "section11": {
+      "p1": "若您位於歐洲經濟區，我們處理您個人資料的法律依據包括：(a) 您的同意；(b) 履行契約；(c) 遵守法律義務；(d) 我們的正當利益（改善和保護服務），且該等利益不會凌駕於您的資料保護權利之上。",
+      "p2": "若您認為我們違反了 GDPR 規定的權利，您可以向當地資料保護主管機關提出投訴。",
+      "title": "11. 歐洲經濟區（GDPR）"
+    },
+    "section12": {
+      "text": "您的資訊可能被傳輸至並處理於我們的服務供應商營運所在的美國或其他國家。這些國家的資料保護法可能與您所在管轄區域不同。使用本服務即表示您同意此類傳輸。",
+      "title": "12. 國際資料傳輸"
+    },
+    "section13": {
+      "text": "本服務不針對 18 歲以下的個人。我們不會故意收集兒童的個人資訊。若我們得知已收集兒童的資料，將會立即刪除。",
+      "title": "13. 兒童隱私"
+    },
+    "section14": {
+      "text": "我們可能隨時更新本隱私權政策。變更將透過更新本頁頂部的「最後更新」日期來反映。在任何變更之後繼續使用本服務，即表示您接受更新後的隱私權政策。",
+      "title": "14. 本政策的變更"
+    },
+    "section15": {
+      "email": "support@openlegion.ai",
+      "text": "若您對本隱私權政策有任何疑問或希望行使您的權利，請聯繫：",
+      "title": "15. 聯繫我們"
+    },
+    "section2": {
+      "1": {
+        "items": {
+          "0": "帳戶資訊：建立帳戶時的電子郵件地址、姓名和密碼。",
+          "1": "付款資訊：由我們的第三方支付處理商（Polar）處理的帳單詳情。我們不會在自己的伺服器上保存完整的信用卡號。",
+          "2": "通訊內容：您透過電子郵件、即時聊天（Tawk.to）或 Discord 聯繫我們時提供的資訊。",
+          "3": "客戶資料：您提交至服務的智慧代理設定、工作流程定義及其他資料。"
+        },
+        "title": "2.1 您提供的資訊"
+      },
+      "2": {
+        "items": {
+          "0": "使用資料：造訪的頁面、使用的功能、時間戳記、推薦來源 URL 和一般互動模式。",
+          "1": "裝置資訊：瀏覽器類型、作業系統、螢幕解析度和裝置識別碼。",
+          "2": "IP 位址：為安全、分析和概略地理位置目的而收集。",
+          "3": "Cookie 及類似技術：請參閱下方第 6 條。"
+        },
+        "title": "2.2 自動收集的資訊"
+      },
+      "title": "2. 我們收集的資訊"
+    },
+    "section3": {
+      "intro": "我們將收集的資訊用於以下目的：",
+      "items": {
+        "0": "提供、營運和維護服務；",
+        "1": "處理付款和發送帳單相關通訊；",
+        "2": "回覆您的詢問並提供客戶支援；",
+        "3": "分析使用模式以改善服務（透過 Google Analytics 和 Microsoft Clarity）；",
+        "4": "偵測、防止和處理技術問題、詐欺或濫用行為；",
+        "5": "發送交易電子郵件（帳戶確認、密碼重設、帳單收據）；",
+        "6": "遵守法律義務。"
+      },
+      "noSell": "我們不出售您的個人資訊。我們不使用客戶資料來訓練 AI 模型。",
+      "title": "3. 我們如何使用您的資訊"
+    },
+    "section4": {
+      "intro": "我們使用以下第三方服務，這些服務可能按照其各自的隱私權政策收集資訊：",
+      "items": {
+        "0": "Google Analytics — 網站分析和流量測量。",
+        "1": "Microsoft Clarity — 用於使用者體驗分析的工作階段錄製和熱圖。",
+        "2": "Tawk.to — 客戶支援即時聊天工具。",
+        "3": "Polar — 付款處理。",
+        "4": "LLM API 供應商（如 Anthropic、OpenAI、Google、Mistral） — AI 模型推論。傳送給這些供應商的提示和智慧代理資料受其各自的隱私權政策和資料處理條款約束。OpenLegion 對第三方 LLM 供應商處理資料的方式不承擔責任。"
+      },
+      "review": "我們建議您審閱這些第三方服務的隱私權政策。",
+      "title": "4. 第三方服務"
+    },
+    "section5": {
+      "intro": "我們僅在以下情況下共享您的資訊：",
+      "items": {
+        "0": "服務供應商：協助營運服務的第三方廠商（代管、支付處理、分析），依契約義務保護您的資料。",
+        "1": "法律要求：法律、傳票、法院命令或政府機關要求時。",
+        "2": "權利保護：為執行我們的服務條款、保護我們的權利或安全，或調查詐欺行為。",
+        "3": "企業轉讓：與合併、收購或資產出售相關時，您的資訊可能作為該交易的一部分被轉讓。"
+      },
+      "title": "5. 資料共享與揭露"
+    },
+    "section6": {
+      "control": "您可以透過瀏覽器設定控制 Cookie。停用 Cookie 可能影響服務的功能。",
+      "intro": "我們使用 Cookie 及類似技術（像素、本機儲存體）進行分析、功能和安全性目的。本網站使用：",
+      "items": {
+        "0": "必要 Cookie：服務運作所需的 Cookie（工作階段管理、身分驗證）。",
+        "1": "分析 Cookie：Google Analytics 和 Microsoft Clarity Cookie，用以了解訪客如何與網站互動。",
+        "2": "第三方 Cookie：由 Tawk.to 設定，用於即時聊天功能。"
+      },
+      "title": "6. Cookie 與追蹤技術"
+    },
+    "section7": {
+      "text": "我們在您的帳戶處於啟用狀態期間或提供服務所需的期間內保留您的資訊。我們也可能在遵守法律義務、解決爭議和執行協議所需時保留資訊。當資料不再需要時，我們將在合理的時間範圍內刪除或匿名化。",
+      "title": "7. 資料保留"
+    },
+    "section8": {
+      "text": "我們實施商業上合理的技術和組織措施來保護您的資訊。然而，透過網際網路傳輸或電子儲存的方法無法做到 100% 安全。我們無法保證絕對安全，亦不對任何未經授權的存取、資料外洩或資料遺失承擔責任。",
+      "title": "8. 資料安全"
+    },
+    "section9": {
+      "contact": "如欲行使這些權利，請聯繫 support@openlegion.ai。我們將在 30 天內（或適用法律要求的期限內）回覆。",
+      "intro": "視您所在的管轄區域，您可能對個人資訊享有以下權利：",
+      "items": {
+        "0": "存取：要求我們提供所持有之個人資訊的副本。",
+        "1": "更正：要求更正不準確或不完整的資料。",
+        "2": "刪除：在法律保留要求的前提下，要求刪除您的個人資訊。",
+        "3": "可攜性：以結構化、機器可讀的格式要求您的資料。",
+        "4": "異議：反對為某些目的處理您的個人資訊。",
+        "5": "退出販售：我們不出售個人資訊。若此政策變更，我們將提供明確的退出機制。"
+      },
+      "title": "9. 您的權利"
+    },
+    "title": "隱私權政策"
   },
   "promptToTeam": {
-    "sectionLabel": "運作方式",
-    "heading": "一句指令，組建完整的 AI 代理團隊",
-    "subtitle": "描述你需要的功能，OpenLegion 會自動建立智能體架構、分配角色，並為每個智能體配置安全運作所需的權限。",
+    "customCta": "開始建立 →",
+    "customNote": "找不到您的使用情境？您可以自由組建任何團隊，自訂角色、工具和預算。",
     "examples": {
       "0": {
         "name": "內容工作室",
@@ -691,142 +734,100 @@
         }
       }
     },
+    "heading": "一句指令，組建完整的 AI 代理團隊",
+    "sectionLabel": "運作方式",
+    "subtitle": "描述你需要的功能，OpenLegion 會自動建立智能體架構、分配角色，並為每個智能體配置安全運作所需的權限。",
     "visuals": {
+      "dev": {
+        "0": "PM 建立了任務 #42",
+        "1": "工程師提交了 PR #18",
+        "2": "審查員審查中…"
+      },
       "marketing": {
         "0": {
-          "title": "部落格文章",
-          "status": "已發佈"
+          "status": "已發佈",
+          "title": "部落格文章"
         },
         "1": {
-          "title": "行銷企劃",
-          "status": "審核中"
+          "status": "審核中",
+          "title": "行銷企劃"
         },
         "2": {
-          "title": "週報",
-          "status": "撰寫中"
+          "status": "撰寫中",
+          "title": "週報"
         }
-      },
-      "sales": {
-        "0": "潛在客戶",
-        "1": "已篩選",
-        "2": "已轉換"
       },
       "research": {
         "0": "已掃描 12 個來源",
         "1": "摘要已交付",
         "2": "持續監控更新中…"
       },
-      "dev": {
-        "0": "PM 建立了任務 #42",
-        "1": "工程師提交了 PR #18",
-        "2": "審查員審查中…"
+      "sales": {
+        "0": "潛在客戶",
+        "1": "已篩選",
+        "2": "已轉換"
       },
       "treasury": {
         "0": "兌換 0.5 ETH → USDC",
         "1": "消費限額：$48 / $500",
         "2": "監控員檢查持倉中…"
       }
-    },
-    "customNote": "找不到您的使用情境？您可以自由組建任何團隊，自訂角色、工具和預算。",
-    "customCta": "開始建立 →"
+    }
   },
-  "common": {
-    "skipToContent": "跳至內容",
-    "fleetLivePrompt": "這是您的艦隊，即時呈現。",
-    "getStartedInMinutes": "幾分鐘即可上手 →",
-    "brandName": "OpenLegion",
-    "selectLanguage": "選擇語言",
-    "copyToClipboard": "複製到剪貼簿",
-    "billingPeriod": "計費週期",
-    "breadcrumb": "麵包屑導覽",
+  "quickstart": {
+    "copiedLabel": "已複製",
     "copyLabel": "複製",
-    "copiedLabel": "已複製"
-  },
-  "metadata": {
-    "homeTitle": "AI 智慧代理平台與框架 - OpenLegion | 自動化一切，掌握全局",
-    "homeDescription": "OpenLegion 是專為生產環境打造的 AI 智慧代理框架與平台。部署自主智慧代理，自動化任何電腦任務 — 瀏覽、表單、程式碼、外展、資料。首日即付，7 天退款保證。",
-    "titleTemplate": "{title} | OpenLegion",
-    "ogTitle": "OpenLegion — AI 智慧代理框架與平台",
-    "ogDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。安全、預算可控、生產就緒。首日即付，7 天退款保證。",
-    "ogImageAlt": "OpenLegion — AI 智慧代理框架與平台",
-    "twitterTitle": "OpenLegion — AI 智慧代理框架與平台",
-    "twitterDescription": "部署能自動化人類在電腦上所做一切的 AI 智慧代理。首日即付，7 天退款保證。",
-    "pricingTitle": "AI 智慧代理平台定價 — 首日即付",
-    "pricingDescription": "方案從每月 $19 起，含容器隔離、Vault 安全性和 100+ LLM 供應商。首日即付，7 天退款保證。",
-    "pricingOgTitle": "AI 智慧代理平台定價 — 首日即付 | OpenLegion",
-    "pricingOgDescription": "方案從每月 $19 起。容器隔離、Vault 安全性和 100+ LLM 供應商。7 天退款保證。",
-    "pricingTwitterTitle": "AI 智慧代理平台定價 — 首日即付 | OpenLegion",
-    "pricingTwitterDescription": "方案從每月 $19 起。7 天退款保證。",
-    "faqTitle": "常見問題",
-    "faqDescription": "關於 OpenLegion 的常見問題解答 — 為生產環境打造的容器隔離式多智慧代理執行環境。涵蓋安全、定價、LLM 提供者、協同、生產部署等。",
-    "faqOgTitle": "常見問題 — OpenLegion",
-    "faqOgDescription": "關於 OpenLegion 的常見問題解答 — 安全、定價、LLM 提供者、協同與生產部署。",
-    "faqTwitterTitle": "常見問題 — OpenLegion",
-    "faqTwitterDescription": "關於 OpenLegion 的常見問題解答 — 安全、定價、LLM 提供者、協同與生產部署。",
-    "learnTitle": "學習 — AI 智慧代理框架、協調與安全",
-    "learnDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
-    "learnOgTitle": "學習 — AI 智慧代理框架、協調與安全",
-    "learnOgDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
-    "learnTwitterTitle": "學習 — AI 智慧代理框架、協調與安全",
-    "learnTwitterDescription": "運行生產級 AI 智慧代理的實用指南:執行階段架構、協調模式、框架選擇與代理威脅模型。",
-    "privacyTitle": "隱私權政策",
-    "privacyDescription": "OpenLegion AI 智慧代理框架與代管服務的隱私政策。了解我們如何在代管服務及 openlegion.ai 網站上收集、使用與保護您的資料。",
-    "termsTitle": "服務條款",
-    "termsDescription": "OpenLegion AI 智慧代理框架與代管服務的服務條款。涵蓋代管服務、PolyForm Perimeter License 1.0.1 授權下的自架部署，以及 openlegion.ai 網站。",
-    "moneyBackTitle": "7 天退款保證",
-    "moneyBackDescription": "如果 OpenLegion 不適合你，首月費用全額退款，無需任何理由。"
-  },
-  "contentPage": {
-    "breadcrumbHome": "首頁",
-    "breadcrumbComparisons": "比較",
-    "breadcrumbLearn": "學習",
-    "publishedPrefix": "發佈於 ",
-    "updatedPrefix": "更新於 ",
-    "relatedContentAriaLabel": "相關內容",
-    "breadcrumbAriaLabel": "麵包屑導覽"
-  },
-  "inlineCta": {
-    "getStarted": "立即開始",
-    "readTheDocs": "閱讀文件"
-  },
-  "seoLinks": {
-    "sectionLabel": "學習",
-    "heading": "深入指南與",
-    "headingHighlight": "比較",
-    "subtitle": "AI 智慧代理平台、編排、安全性的詳細指南，以及 OpenLegion 與各主要框架的比較。",
-    "cards": {
+    "heading": "通往您第一個",
+    "headingHighlight": "AI 智慧代理",
+    "managedBadge": "最簡單 — 無需設定",
+    "managedCta": "立即開始 →",
+    "managedDescription": "容器、憑證和基礎設施由我們管理。 與 Operator 對話 — 你艦隊的工頭，在 VPS 啟動後自動建立。",
+    "managedHeading": "無需終端機。無需設定檔。",
+    "requirements": "Python 3.10+、Docker（執行中）、LLM API 金鑰（Anthropic / Moonshot / OpenAI）",
+    "requirementsLabel": "需求條件：",
+    "sectionLabel": "快速開始",
+    "selfHostedBadge": "完全掌控 — 支援本地部署",
+    "selfHostedCta": "閱讀文件 →",
+    "selfHostedHeading": "三個指令。一台機器。",
+    "steps": {
+      "0": "建立帳戶",
+      "1": "選擇方案",
+      "2": "配置智慧代理",
+      "3": "執行艦隊"
+    },
+    "tabGroupLabel": "作業系統",
+    "tabs": {
       "0": {
-        "title": "執行環境與基礎設施",
-        "description": "OpenLegion 如何為生產智慧代理機隊處理容器隔離、憑證入庫、成本管控與機隊協同。",
-        "links": {
-          "0": "AI 智慧代理平台",
-          "1": "AI 智慧代理編排",
-          "2": "AI 智慧代理安全性"
-        }
+        "label": "macOS / Linux"
       },
       "1": {
-        "title": "框架比較",
-        "description": "了解 OpenLegion 在 AI 智慧代理框架版圖中的定位 — 比較安全性、隔離、費用控制和編排。",
-        "links": {
-          "0": "所有比較",
-          "1": "OpenClaw 替代方案",
-          "2": "AI 智慧代理框架"
-        }
-      },
-      "2": {
-        "title": "一對一比較",
-        "description": "團隊與 OpenLegion 比較評估的最熱門框架的詳細架構剖析與遷移路徑。",
-        "links": {
-          "0": "vs OpenClaw",
-          "1": "vs LangGraph",
-          "2": "vs CrewAI"
-        }
+        "label": "Windows (PowerShell)"
       }
     }
   },
   "relatedPages": {
-    "heading": "相關頁面",
     "ariaLabel": "相關頁面",
+    "comparisonHub": "所有框架比較",
+    "comparisons": {
+      "autogen": "OpenLegion vs AutoGen",
+      "awsStrands": "OpenLegion vs AWS Strands",
+      "crewai": "OpenLegion vs CrewAI",
+      "dify": "OpenLegion vs Dify",
+      "googleAdk": "OpenLegion vs Google ADK",
+      "langgraph": "OpenLegion vs LangGraph",
+      "manusAi": "OpenLegion vs Manus AI",
+      "memu": "OpenLegion vs MemU",
+      "nanobot": "OpenLegion vs nanobot",
+      "nanoclaw": "OpenLegion vs NanoClaw",
+      "openaiAgentsSdk": "OpenLegion vs OpenAI Agents SDK",
+      "openclaw": "OpenLegion vs OpenClaw",
+      "openfang": "OpenLegion vs OpenFang",
+      "picoclaw": "OpenLegion vs PicoClaw",
+      "semanticKernel": "OpenLegion vs Semantic Kernel",
+      "zeroclaw": "OpenLegion vs ZeroClaw"
+    },
+    "heading": "相關頁面",
+    "learnHub": "學習 — 指南與框架",
     "topicPages": {
       "0": "AI 智慧代理平台",
       "1": "AI 智慧代理編排",
@@ -834,173 +835,195 @@
       "3": "AI 智慧代理安全性",
       "4": "OpenClaw 替代方案",
       "5": "DeepSeek V4 智慧代理"
-    },
-    "comparisonHub": "所有框架比較",
-    "learnHub": "學習 — 指南與框架",
-    "comparisons": {
-      "openclaw": "OpenLegion vs OpenClaw",
-      "langgraph": "OpenLegion vs LangGraph",
-      "crewai": "OpenLegion vs CrewAI",
-      "autogen": "OpenLegion vs AutoGen",
-      "dify": "OpenLegion vs Dify",
-      "googleAdk": "OpenLegion vs Google ADK",
-      "awsStrands": "OpenLegion vs AWS Strands",
-      "openaiAgentsSdk": "OpenLegion vs OpenAI Agents SDK",
-      "manusAi": "OpenLegion vs Manus AI",
-      "semanticKernel": "OpenLegion vs Semantic Kernel",
-      "zeroclaw": "OpenLegion vs ZeroClaw",
-      "nanoclaw": "OpenLegion vs NanoClaw",
-      "nanobot": "OpenLegion vs nanobot",
-      "picoclaw": "OpenLegion vs PicoClaw",
-      "openfang": "OpenLegion vs OpenFang",
-      "memu": "OpenLegion vs MemU"
     }
   },
-  "privacy": {
-    "title": "隱私權政策",
-    "effectiveDate": "生效日期：2026 年 3 月 7 日 · 最後更新：2026 年 3 月 7 日",
-    "section1": {
-      "title": "1. 簡介",
-      "p1": "本隱私權政策（以下簡稱「本政策」）說明 OpenLegion（以下簡稱「我們」、「本公司」）在您造訪 openlegion.ai（以下簡稱「網站」）或使用我們的代管服務、API 及相關服務（以下統稱「服務」）時，如何收集、使用和揭露資訊。",
-      "p2": "使用本服務即表示您同意本政策所述之做法。若您不同意，請勿使用本服務。"
-    },
-    "section2": {
+  "schema": {
+    "applicationSubCategory": "AI 智慧代理框架",
+    "areaServed": "全球",
+    "orgDescription": "容器隔離的多代理執行階段,提供託管服務 — Docker 隔離的代理、金庫代理憑證、單代理預算。",
+    "serviceDescription": "在專用 VPS 實例上為 OpenLegion 代理艦隊提供託管服務 — 容器隔離、金庫代理憑證和單代理預算,無需自行管理 DevOps。",
+    "serviceName": "OpenLegion 託管服務",
+    "serviceType": "託管 AI 智慧代理服務",
+    "softwareDescription": "容器隔離的多代理執行階段,具備金庫代理憑證和單代理預算控制。可自我託管(PolyForm Perimeter License 1.0.1)或在專用 VPS 上使用託管服務。",
+    "softwareFeatureList": [
+      "單代理容器隔離(Docker 或 Docker Desktop Sandbox 微虛擬機)",
+      "金庫代理憑證 — 代理永遠看不到 API 金鑰",
+      "單代理每日和每月預算強制執行",
+      "艦隊模型協調 — 黑板 + 發布/訂閱 + 交接(無 CEO 代理)",
+      "透過 LiteLLM 接入 100+ LLM 供應商",
+      "可自我託管或在專用 VPS 上使用託管服務"
+    ],
+    "sourceCodeName": "OpenLegion(原始碼)",
+    "videoDescription": "觀看 OpenLegion 部署具備容器隔離、憑證金庫和即時成本追蹤的自主 AI 代理艦隊。",
+    "videoName": "OpenLegion 展示 — AI 代理艦隊部署"
+  },
+  "security": {
+    "allLayersLink": "六層防護完整詳細說明 →",
+    "heading": "AI 智慧代理安全性：假設智慧代理會",
+    "headingEnd": "而打造。",
+    "headingHighlight": "行為異常",
+    "layers": {
+      "0": {
+        "description": "每個智慧代理使用 Docker 容器或 Docker Sandbox 微型虛擬機 — 不共享程序空間。",
+        "title": "每個智慧代理在專屬容器中執行"
+      },
       "1": {
-        "title": "2.1 您提供的資訊",
-        "items": {
-          "0": "帳戶資訊：建立帳戶時的電子郵件地址、姓名和密碼。",
-          "1": "付款資訊：由我們的第三方支付處理商（Polar）處理的帳單詳情。我們不會在自己的伺服器上保存完整的信用卡號。",
-          "2": "通訊內容：您透過電子郵件、即時聊天（Tawk.to）或 Discord 聯繫我們時提供的資訊。",
-          "3": "客戶資料：您提交至服務的智慧代理設定、工作流程定義及其他資料。"
-        }
+        "description": "非 root 使用者（UID 1000）、no-new-privileges 旗標、記憶體和 CPU 資源限制強制執行。",
+        "title": "智慧代理無法提升權限或消耗您的資源"
       },
       "2": {
-        "title": "2.2 自動收集的資訊",
-        "items": {
-          "0": "使用資料：造訪的頁面、使用的功能、時間戳記、推薦來源 URL 和一般互動模式。",
-          "1": "裝置資訊：瀏覽器類型、作業系統、螢幕解析度和裝置識別碼。",
-          "2": "IP 位址：為安全、分析和概略地理位置目的而收集。",
-          "3": "Cookie 及類似技術：請參閱下方第 6 條。"
-        }
+        "description": "保險庫代理持有 API 金鑰和錢包私鑰 — 代理通過代理調用，永遠看不到秘密。交易在伺服器端簽名。",
+        "title": "API 金鑰和錢包金鑰存放在代理永遠無法觸及的保險庫中"
       },
-      "title": "2. 我們收集的資訊"
-    },
-    "section3": {
-      "title": "3. 我們如何使用您的資訊",
-      "intro": "我們將收集的資訊用於以下目的：",
-      "items": {
-        "0": "提供、營運和維護服務；",
-        "1": "處理付款和發送帳單相關通訊；",
-        "2": "回覆您的詢問並提供客戶支援；",
-        "3": "分析使用模式以改善服務（透過 Google Analytics 和 Microsoft Clarity）；",
-        "4": "偵測、防止和處理技術問題、詐欺或濫用行為；",
-        "5": "發送交易電子郵件（帳戶確認、密碼重設、帳單收據）；",
-        "6": "遵守法律義務。"
+      "3": {
+        "description": "每個智慧代理的 ACL 矩陣控制允許的工具、檔案和網狀操作。",
+        "title": "每個智慧代理只能存取您明確允許的內容"
       },
-      "noSell": "我們不出售您的個人資訊。我們不使用客戶資料來訓練 AI 模型。"
-    },
-    "section4": {
-      "title": "4. 第三方服務",
-      "intro": "我們使用以下第三方服務，這些服務可能按照其各自的隱私權政策收集資訊：",
-      "items": {
-        "0": "Google Analytics — 網站分析和流量測量。",
-        "1": "Microsoft Clarity — 用於使用者體驗分析的工作階段錄製和熱圖。",
-        "2": "Tawk.to — 客戶支援即時聊天工具。",
-        "3": "Polar — 付款處理。",
-        "4": "LLM API 供應商（如 Anthropic、OpenAI、Google、Mistral） — AI 模型推論。傳送給這些供應商的提示和智慧代理資料受其各自的隱私權政策和資料處理條款約束。OpenLegion 對第三方 LLM 供應商處理資料的方式不承擔責任。"
+      "4": {
+        "description": "路徑穿越防護、SSRF 保護、安全條件評估、Token 預算強制執行。",
+        "title": "惡意輸入在到達 LLM 之前即被攔截"
       },
-      "review": "我們建議您審閱這些第三方服務的隱私權政策。"
-    },
-    "section5": {
-      "title": "5. 資料共享與揭露",
-      "intro": "我們僅在以下情況下共享您的資訊：",
-      "items": {
-        "0": "服務供應商：協助營運服務的第三方廠商（代管、支付處理、分析），依契約義務保護您的資料。",
-        "1": "法律要求：法律、傳票、法院命令或政府機關要求時。",
-        "2": "權利保護：為執行我們的服務條款、保護我們的權利或安全，或調查詐欺行為。",
-        "3": "企業轉讓：與合併、收購或資產出售相關時，您的資訊可能作為該交易的一部分被轉讓。"
+      "5": {
+        "description": "在 56 個關卡清除不可見字元 — bidi 覆蓋、標籤字元、零寬字元在到達 LLM 上下文之前即被攔截。",
+        "title": "隱藏字元在提示注入到達前即被清除"
       }
     },
-    "section6": {
-      "title": "6. Cookie 與追蹤技術",
-      "intro": "我們使用 Cookie 及類似技術（像素、本機儲存體）進行分析、功能和安全性目的。本網站使用：",
-      "items": {
-        "0": "必要 Cookie：服務運作所需的 Cookie（工作階段管理、身分驗證）。",
-        "1": "分析 Cookie：Google Analytics 和 Microsoft Clarity Cookie，用以了解訪客如何與網站互動。",
-        "2": "第三方 Cookie：由 Tawk.to 設定，用於即時聊天功能。"
+    "sectionLabel": "安全性",
+    "subtitle": "預設啟用縱深防禦。下方為六層架構。"
+  },
+  "seoLinks": {
+    "cards": {
+      "0": {
+        "description": "OpenLegion 如何為生產智慧代理機隊處理容器隔離、憑證入庫、成本管控與機隊協同。",
+        "links": {
+          "0": "AI 智慧代理平台",
+          "1": "AI 智慧代理編排",
+          "2": "AI 智慧代理安全性"
+        },
+        "title": "執行環境與基礎設施"
       },
-      "control": "您可以透過瀏覽器設定控制 Cookie。停用 Cookie 可能影響服務的功能。"
-    },
-    "section7": {
-      "title": "7. 資料保留",
-      "text": "我們在您的帳戶處於啟用狀態期間或提供服務所需的期間內保留您的資訊。我們也可能在遵守法律義務、解決爭議和執行協議所需時保留資訊。當資料不再需要時，我們將在合理的時間範圍內刪除或匿名化。"
-    },
-    "section8": {
-      "title": "8. 資料安全",
-      "text": "我們實施商業上合理的技術和組織措施來保護您的資訊。然而，透過網際網路傳輸或電子儲存的方法無法做到 100% 安全。我們無法保證絕對安全，亦不對任何未經授權的存取、資料外洩或資料遺失承擔責任。"
-    },
-    "section9": {
-      "title": "9. 您的權利",
-      "intro": "視您所在的管轄區域，您可能對個人資訊享有以下權利：",
-      "items": {
-        "0": "存取：要求我們提供所持有之個人資訊的副本。",
-        "1": "更正：要求更正不準確或不完整的資料。",
-        "2": "刪除：在法律保留要求的前提下，要求刪除您的個人資訊。",
-        "3": "可攜性：以結構化、機器可讀的格式要求您的資料。",
-        "4": "異議：反對為某些目的處理您的個人資訊。",
-        "5": "退出販售：我們不出售個人資訊。若此政策變更，我們將提供明確的退出機制。"
+      "1": {
+        "description": "了解 OpenLegion 在 AI 智慧代理框架版圖中的定位 — 比較安全性、隔離、費用控制和編排。",
+        "links": {
+          "0": "所有比較",
+          "1": "OpenClaw 替代方案",
+          "2": "AI 智慧代理框架"
+        },
+        "title": "框架比較"
       },
-      "contact": "如欲行使這些權利，請聯繫 support@openlegion.ai。我們將在 30 天內（或適用法律要求的期限內）回覆。"
+      "2": {
+        "description": "團隊與 OpenLegion 比較評估的最熱門框架的詳細架構剖析與遷移路徑。",
+        "links": {
+          "0": "vs OpenClaw",
+          "1": "vs LangGraph",
+          "2": "vs CrewAI"
+        },
+        "title": "一對一比較"
+      }
     },
-    "section10": {
-      "title": "10. 加州居民（CCPA）",
-      "text": "若您為加州居民，根據《加州消費者隱私法》（CCPA），您享有額外權利，包括了解我們收集哪些個人資訊的權利、要求刪除的權利，以及退出個人資訊販售的權利。我們不出售個人資訊。如欲行使 CCPA 權利，請聯繫 support@openlegion.ai。"
-    },
-    "section11": {
-      "title": "11. 歐洲經濟區（GDPR）",
-      "p1": "若您位於歐洲經濟區，我們處理您個人資料的法律依據包括：(a) 您的同意；(b) 履行契約；(c) 遵守法律義務；(d) 我們的正當利益（改善和保護服務），且該等利益不會凌駕於您的資料保護權利之上。",
-      "p2": "若您認為我們違反了 GDPR 規定的權利，您可以向當地資料保護主管機關提出投訴。"
-    },
-    "section12": {
-      "title": "12. 國際資料傳輸",
-      "text": "您的資訊可能被傳輸至並處理於我們的服務供應商營運所在的美國或其他國家。這些國家的資料保護法可能與您所在管轄區域不同。使用本服務即表示您同意此類傳輸。"
-    },
-    "section13": {
-      "title": "13. 兒童隱私",
-      "text": "本服務不針對 18 歲以下的個人。我們不會故意收集兒童的個人資訊。若我們得知已收集兒童的資料，將會立即刪除。"
-    },
-    "section14": {
-      "title": "14. 本政策的變更",
-      "text": "我們可能隨時更新本隱私權政策。變更將透過更新本頁頂部的「最後更新」日期來反映。在任何變更之後繼續使用本服務，即表示您接受更新後的隱私權政策。"
-    },
-    "section15": {
-      "title": "15. 聯繫我們",
-      "text": "若您對本隱私權政策有任何疑問或希望行使您的權利，請聯繫：",
-      "email": "support@openlegion.ai"
+    "heading": "深入指南與",
+    "headingHighlight": "比較",
+    "sectionLabel": "學習",
+    "subtitle": "AI 智慧代理平台、編排、安全性的詳細指南，以及 OpenLegion 與各主要框架的比較。"
+  },
+  "socialProof": {
+    "discordLabel": "Discord",
+    "githubLabel": "GitHub",
+    "githubWithStars": "GitHub ★ {stars}",
+    "stats": {
+      "0": {
+        "fallback": "5分鐘",
+        "label": "首個代理即可上線"
+      },
+      "1": {
+        "fallback": "100+",
+        "label": "支援的 LLM 供應商"
+      },
+      "2": {
+        "fallback": "24/7",
+        "label": "代理全天候工作"
+      },
+      "3": {
+        "fallback": "$0",
+        "label": "LLM 使用加價"
+      }
     }
   },
+  "technicalDefinition": {
+    "label": "技術定義",
+    "srOnlyPrefix": "什麼是 OpenLegion？ ",
+    "text": "OpenLegion 是一款容器隔離式的多智慧代理執行環境，具備憑證密鑰庫代理、按代理的預算，以及機隊協同模型（blackboard + pub/sub + handoff, no CEO agent）— 為需要在生產環境中安全、可控成本地執行智慧代理機隊的團隊而設計。"
+  },
   "terms": {
-    "title": "服務條款",
     "effectiveDate": "生效日期：2026 年 3 月 7 日 · 最後更新：2026 年 3 月 7 日",
     "section1": {
-      "title": "1. 條款同意",
       "p1": "存取或使用 OpenLegion 網站（openlegion.ai）、代管服務、自架軟體、API、文件或任何相關服務（以下統稱「服務」）即表示您（以下簡稱「客戶」或「您」）同意受本服務條款（以下簡稱「條款」）約束。若您不同意，請勿使用本服務。",
-      "p2": "若您代表組織使用本服務，您聲明您有權約束該組織，且「您」係指該組織。"
+      "p2": "若您代表組織使用本服務，您聲明您有權約束該組織，且「您」係指該組織。",
+      "title": "1. 條款同意"
+    },
+    "section10": {
+      "p1": "服務以「現狀」和「可用」的基礎提供，不附帶任何明示、暗示或法定的保證，包括但不限於對適銷性、特定目的適用性、權利和不侵權的暗示保證。OpenLegion 不保證服務將不中斷、無錯誤、安全或無病毒或其他有害元件。從 OpenLegion 或透過服務取得的任何建議或資訊（無論口頭或書面）均不構成本條款未明示載明的任何保證。",
+      "p2": "OpenLegion 不保證 AI 智慧代理、LLM 供應商或服務的任何其他元件所生成之輸出的準確性、完整性或實用性。您承認 AI 生成的內容可能不準確、不完整或有害，且您自行承擔使用此類內容的風險。",
+      "title": "10. 保證免責聲明"
+    },
+    "section11": {
+      "p1": "在適用法律允許的最大範圍內，OpenLegion、其所有人、營運者、貢獻者、關係企業或授權者在任何情況下均不對因您使用或無法使用服務所引起或相關的間接、附帶、特殊、衍生、懲戒性或懲罰性損害負責，包括但不限於利潤、商譽、使用、資料或其他無形損失的損失，無論責任理論為何（契約、侵權、嚴格責任或其他），即使 OpenLegion 已被告知此類損害的可能性。",
+      "p2": "在任何情況下，OpenLegion 對因本條款或服務引起的所有索賠之總累計責任，不得超過 (A) 您在索賠前 12 個月內向 OpenLegion 支付的總金額或 (B) 50 美元（US $50.00）中較高者。",
+      "p3": "某些管轄區域不允許排除或限制某些損害。在此類管轄區域中，OpenLegion 的責任將限於法律允許的最大範圍。",
+      "title": "11. 責任限制"
+    },
+    "section12": {
+      "text": "您同意就以下事項所引起或相關的所有索賠、損害、損失、責任、費用和開支（包括合理的律師費）對 OpenLegion、其所有人、營運者、貢獻者和關係企業進行賠償、辯護和免責：(a) 您對服務的使用；(b) 您違反本條款；(c) 您侵犯任何第三方權利（包括任何智慧財產權或隱私權）；(d) 您使用服務部署的任何 AI 智慧代理的行為、輸出或後果；(e) 您提交至服務的任何客戶資料。",
+      "title": "12. 賠償"
+    },
+    "section13": {
+      "text": "我們不保證任何特定的正常運行時間或可用性。服務可能隨時變更、暫停或中止，無論是否事先通知。我們不對服務的任何變更、暫停或中止向您或任何第三方承擔責任。",
+      "title": "13. 服務可用性與變更"
+    },
+    "section14": {
+      "p1": "我們可能因任何原因（包括違反本條款）立即終止或暫停您對服務的存取，無需事先通知或承擔責任。終止後，您使用服務的權利立即終止。依其性質應於終止後存續的條款（包括但不限於第 10 條、第 11 條、第 12 條、第 16 條和第 17 條）將繼續有效。",
+      "p2": "您可以隨時透過停止使用服務來終止帳戶。我們沒有義務在終止後保留您的資料。",
+      "title": "14. 終止"
+    },
+    "section15": {
+      "text": "我們保留隨時修改本條款的權利。重大變更將透過更新本頁頂部的「最後更新」日期來通知。在變更發佈後繼續使用服務即構成對修訂條款的接受。定期審閱本條款是您的責任。",
+      "title": "15. 條款變更"
+    },
+    "section16": {
+      "p1": "本條款應受美利堅合眾國德拉瓦州法律管轄並據此解釋，不適用其法律衝突規定。因本條款引起或相關的任何爭議應專門透過美國仲裁協會（AAA）商事仲裁規則管理的具約束力仲裁解決。除非雙方另有約定，仲裁應遠端進行（透過電話、視訊會議或書面提交）。仲裁人的裁決為最終且具約束力，可在任何有管轄權的法院登記為判決。",
+      "p2": "您同意任何爭議解決程序僅以個人身分進行，不以集體、合併或代表訴訟形式進行。若此集體訴訟棄權被認定為不可執行，則本仲裁條款之全部應為無效。",
+      "title": "16. 準據法與爭議解決"
+    },
+    "section17": {
+      "items": {
+        "0": "完整協議。本條款連同我們的隱私權政策構成您與 OpenLegion 之間的完整協議。",
+        "1": "可分割性。若本條款的任何條款被認定為無效或不可執行，該條款應在最大可許範圍內執行，其餘條款仍然完全有效。",
+        "2": "棄權。對任何條款的棄權不應被視為對該條款或任何其他條款的進一步或持續棄權。",
+        "3": "轉讓。未經我們事先書面同意，您不得轉讓或移轉本條款。我們可不受限制地轉讓本條款。",
+        "4": "不可抗力。OpenLegion 不對超出合理控制範圍的事件所導致的任何未履行或延遲負責，包括自然災害、戰爭、恐怖主義、流行病、勞資糾紛、政府行為、電力故障、網際網路或電信故障，或第三方服務中斷。",
+        "5": "無代理關係。本條款不在您與 OpenLegion 之間建立合夥、合資、僱傭或代理關係。"
+      },
+      "title": "17. 一般條款"
+    },
+    "section18": {
+      "email": "support@openlegion.ai",
+      "text": "對本條款有任何疑問？請聯繫：",
+      "title": "18. 聯繫我們"
     },
     "section2": {
-      "title": "2. 服務說明",
-      "text": "OpenLegion 提供 AI 智慧代理框架及選擇性的代管平台，用於部署、編排和監控自主 AI 智慧代理。服務可能包括網頁儀表板、API、容器編排、第三方 LLM 供應商整合及相關工具。"
+      "text": "OpenLegion 提供 AI 智慧代理框架及選擇性的代管平台，用於部署、編排和監控自主 AI 智慧代理。服務可能包括網頁儀表板、API、容器編排、第三方 LLM 供應商整合及相關工具。",
+      "title": "2. 服務說明"
     },
     "section3": {
-      "title": "3. 使用資格",
-      "text": "您必須年滿 18 歲且具有締結具約束力契約的法律能力。本服務不適用於 18 歲以下的人士。"
+      "text": "您必須年滿 18 歲且具有締結具約束力契約的法律能力。本服務不適用於 18 歲以下的人士。",
+      "title": "3. 使用資格"
     },
     "section4": {
-      "title": "4. 帳戶與安全",
-      "text": "您有責任維護帳戶憑證的機密性，並對帳戶下的所有活動負責。您同意在發現任何未經授權的存取時立即通知我們。我們保留因任何理由（包括違反本條款）自行決定暫停或終止帳戶的權利，無論是否事先通知。"
+      "text": "您有責任維護帳戶憑證的機密性，並對帳戶下的所有活動負責。您同意在發現任何未經授權的存取時立即通知我們。我們保留因任何理由（包括違反本條款）自行決定暫停或終止帳戶的權利，無論是否事先通知。",
+      "title": "4. 帳戶與安全"
     },
     "section5": {
-      "title": "5. 可接受的使用",
+      "enforcement": "我們可能調查違規行為，並自行決定不經通知或退款即刻終止或暫停您的存取權限。",
       "intro": "您同意不將服務用於以下目的：",
       "items": {
         "0": "違反任何適用法律、法規或第三方權利；",
@@ -1012,164 +1035,142 @@
         "6": "未經事先書面同意，轉售、再授權或重新散佈代管服務；",
         "7": "使用在服務上部署的 AI 智慧代理進行詐欺、冒充、騷擾或任何非法活動。"
       },
-      "enforcement": "我們可能調查違規行為，並自行決定不經通知或退款即刻終止或暫停您的存取權限。"
+      "title": "5. 可接受的使用"
     },
     "section6": {
-      "title": "6. 費用、帳單與退款",
       "p1": "服務的某些功能可能需要付費。所有費用均列於定價頁面，並以定期預付方式計費。除適用法律要求外，費用不可退還。我們保留提前 30 天通知後隨時變更定價的權利。在價格變更後繼續使用即構成對新定價的接受。",
-      "p2": "您對透過使用服務產生的所有第三方費用負全部責任，包括但不限於 LLM API 供應商費用、雲端基礎設施費用和網域註冊費用。OpenLegion 不對任何第三方費用負責。"
+      "p2": "您對透過使用服務產生的所有第三方費用負全部責任，包括但不限於 LLM API 供應商費用、雲端基礎設施費用和網域註冊費用。OpenLegion 不對任何第三方費用負責。",
+      "title": "6. 費用、帳單與退款"
     },
     "section7": {
-      "title": "7. 智慧財產權",
       "p1": "OpenLegion 框架原始碼依據 PolyForm Perimeter License 1.0.1授權。本條款不授予您超出該授權許可範圍的任何權利。OpenLegion 的所有商標、標誌和品牌元素均為 OpenLegion 專案的財產，未經事先書面同意不得使用。",
-      "p2": "您保留提交至服務的所有資料、內容和設定（以下簡稱「客戶資料」）的所有權。您授予我們有限的、非獨占的授權，僅為提供服務之目的而代管和處理客戶資料。"
+      "p2": "您保留提交至服務的所有資料、內容和設定（以下簡稱「客戶資料」）的所有權。您授予我們有限的、非獨占的授權，僅為提供服務之目的而代管和處理客戶資料。",
+      "title": "7. 智慧財產權"
     },
     "section8": {
-      "title": "8. 第三方服務與 LLM 供應商",
-      "text": "本服務與第三方 LLM 供應商（如 Anthropic、OpenAI、Google、Mistral 等）整合。您使用這些供應商受其各自的服務條款和隱私權政策約束。OpenLegion 不對任何第三方服務作出任何聲明或保證，亦不對任何第三方 LLM 或 API 的輸出、準確性、可用性或行為負責。"
+      "text": "本服務與第三方 LLM 供應商（如 Anthropic、OpenAI、Google、Mistral 等）整合。您使用這些供應商受其各自的服務條款和隱私權政策約束。OpenLegion 不對任何第三方服務作出任何聲明或保證，亦不對任何第三方 LLM 或 API 的輸出、準確性、可用性或行為負責。",
+      "title": "8. 第三方服務與 LLM 供應商"
     },
     "section9": {
-      "title": "9. AI 智慧代理輸出與自主行為",
-      "text": "透過服務部署的 AI 智慧代理根據您的設定自主運作。您對使用服務部署、設定或操作的任何 AI 智慧代理的行為、輸出和後果負全部責任。OpenLegion 不控制、審查或認可智慧代理輸出，且不對智慧代理行為所導致的損害承擔任何責任，包括但不限於財務損失、資料毀損、不正確資訊或智慧代理採取的非預期行動。"
+      "text": "透過服務部署的 AI 智慧代理根據您的設定自主運作。您對使用服務部署、設定或操作的任何 AI 智慧代理的行為、輸出和後果負全部責任。OpenLegion 不控制、審查或認可智慧代理輸出，且不對智慧代理行為所導致的損害承擔任何責任，包括但不限於財務損失、資料毀損、不正確資訊或智慧代理採取的非預期行動。",
+      "title": "9. AI 智慧代理輸出與自主行為"
     },
-    "section10": {
-      "title": "10. 保證免責聲明",
-      "p1": "服務以「現狀」和「可用」的基礎提供，不附帶任何明示、暗示或法定的保證，包括但不限於對適銷性、特定目的適用性、權利和不侵權的暗示保證。OpenLegion 不保證服務將不中斷、無錯誤、安全或無病毒或其他有害元件。從 OpenLegion 或透過服務取得的任何建議或資訊（無論口頭或書面）均不構成本條款未明示載明的任何保證。",
-      "p2": "OpenLegion 不保證 AI 智慧代理、LLM 供應商或服務的任何其他元件所生成之輸出的準確性、完整性或實用性。您承認 AI 生成的內容可能不準確、不完整或有害，且您自行承擔使用此類內容的風險。"
-    },
-    "section11": {
-      "title": "11. 責任限制",
-      "p1": "在適用法律允許的最大範圍內，OpenLegion、其所有人、營運者、貢獻者、關係企業或授權者在任何情況下均不對因您使用或無法使用服務所引起或相關的間接、附帶、特殊、衍生、懲戒性或懲罰性損害負責，包括但不限於利潤、商譽、使用、資料或其他無形損失的損失，無論責任理論為何（契約、侵權、嚴格責任或其他），即使 OpenLegion 已被告知此類損害的可能性。",
-      "p2": "在任何情況下，OpenLegion 對因本條款或服務引起的所有索賠之總累計責任，不得超過 (A) 您在索賠前 12 個月內向 OpenLegion 支付的總金額或 (B) 50 美元（US $50.00）中較高者。",
-      "p3": "某些管轄區域不允許排除或限制某些損害。在此類管轄區域中，OpenLegion 的責任將限於法律允許的最大範圍。"
-    },
-    "section12": {
-      "title": "12. 賠償",
-      "text": "您同意就以下事項所引起或相關的所有索賠、損害、損失、責任、費用和開支（包括合理的律師費）對 OpenLegion、其所有人、營運者、貢獻者和關係企業進行賠償、辯護和免責：(a) 您對服務的使用；(b) 您違反本條款；(c) 您侵犯任何第三方權利（包括任何智慧財產權或隱私權）；(d) 您使用服務部署的任何 AI 智慧代理的行為、輸出或後果；(e) 您提交至服務的任何客戶資料。"
-    },
-    "section13": {
-      "title": "13. 服務可用性與變更",
-      "text": "我們不保證任何特定的正常運行時間或可用性。服務可能隨時變更、暫停或中止，無論是否事先通知。我們不對服務的任何變更、暫停或中止向您或任何第三方承擔責任。"
-    },
-    "section14": {
-      "title": "14. 終止",
-      "p1": "我們可能因任何原因（包括違反本條款）立即終止或暫停您對服務的存取，無需事先通知或承擔責任。終止後，您使用服務的權利立即終止。依其性質應於終止後存續的條款（包括但不限於第 10 條、第 11 條、第 12 條、第 16 條和第 17 條）將繼續有效。",
-      "p2": "您可以隨時透過停止使用服務來終止帳戶。我們沒有義務在終止後保留您的資料。"
-    },
-    "section15": {
-      "title": "15. 條款變更",
-      "text": "我們保留隨時修改本條款的權利。重大變更將透過更新本頁頂部的「最後更新」日期來通知。在變更發佈後繼續使用服務即構成對修訂條款的接受。定期審閱本條款是您的責任。"
-    },
-    "section16": {
-      "title": "16. 準據法與爭議解決",
-      "p1": "本條款應受美利堅合眾國德拉瓦州法律管轄並據此解釋，不適用其法律衝突規定。因本條款引起或相關的任何爭議應專門透過美國仲裁協會（AAA）商事仲裁規則管理的具約束力仲裁解決。除非雙方另有約定，仲裁應遠端進行（透過電話、視訊會議或書面提交）。仲裁人的裁決為最終且具約束力，可在任何有管轄權的法院登記為判決。",
-      "p2": "您同意任何爭議解決程序僅以個人身分進行，不以集體、合併或代表訴訟形式進行。若此集體訴訟棄權被認定為不可執行，則本仲裁條款之全部應為無效。"
-    },
-    "section17": {
-      "title": "17. 一般條款",
-      "items": {
-        "0": "完整協議。本條款連同我們的隱私權政策構成您與 OpenLegion 之間的完整協議。",
-        "1": "可分割性。若本條款的任何條款被認定為無效或不可執行，該條款應在最大可許範圍內執行，其餘條款仍然完全有效。",
-        "2": "棄權。對任何條款的棄權不應被視為對該條款或任何其他條款的進一步或持續棄權。",
-        "3": "轉讓。未經我們事先書面同意，您不得轉讓或移轉本條款。我們可不受限制地轉讓本條款。",
-        "4": "不可抗力。OpenLegion 不對超出合理控制範圍的事件所導致的任何未履行或延遲負責，包括自然災害、戰爭、恐怖主義、流行病、勞資糾紛、政府行為、電力故障、網際網路或電信故障，或第三方服務中斷。",
-        "5": "無代理關係。本條款不在您與 OpenLegion 之間建立合夥、合資、僱傭或代理關係。"
-      }
-    },
-    "section18": {
-      "title": "18. 聯繫我們",
-      "text": "對本條款有任何疑問？請聯繫：",
-      "email": "support@openlegion.ai"
-    }
-  },
-  "launchPricing": {
-    "message": "創辦人價格 — 為早期客戶鎖定",
-    "cta": "立即開始 →"
-  },
-  "pricingAnchors": {
-    "basicMonthly": "29",
-    "basicYearly": "259",
-    "growthMonthly": "109",
-    "growthYearly": "989",
-    "proMonthly": "349",
-    "proYearly": "3099",
-    "anchorLabel": "上線優惠價",
-    "proMaxMonthly": "899",
-    "proMaxYearly": "8990"
+    "title": "服務條款"
   },
   "testimonials": {
     "eyebrow": "客戶評價",
     "heading": "真實團隊,自動化營運",
-    "starsAriaLabel": "5星好評",
     "items": {
       "0": {
+        "company": "行銷代理公司",
         "quote": "我們之前每月花 $2,800 雇虛擬助理團隊做名單研究。三天之內全部換成五個 OpenLegion 智慧代理。它們 24/7 不停工、不請病假，老實說做得比真人還好。",
-        "role": "創辦人",
-        "company": "行銷代理公司"
+        "role": "創辦人"
       },
       "1": {
+        "company": "獨立顧問",
         "quote": "我完全不懂技術。我就用日常的話寫下想做的事——「五天沒回的名單去跟進，語氣親切別太硬推」——剩下的代理自己搞定。光是這一個流程，本季就成交了三筆。",
-        "role": "業務教練",
-        "company": "獨立顧問"
+        "role": "業務教練"
       },
       "2": {
+        "company": "創意工作室",
         "quote": "兩個月下來，整支機隊把開發票、內容草稿到客戶研究全部端到端跑起來了。省下的外包費夠付 Pro Max 兩次還有剩。最難的反而是決定先自動化哪一塊。",
-        "role": "營運主管",
-        "company": "創意工作室"
+        "role": "營運主管"
       }
+    },
+    "starsAriaLabel": "5星好評"
+  },
+  "useCases": {
+    "contentItems": {
+      "0": {
+        "status": "已發佈",
+        "title": "部落格文章"
+      },
+      "1": {
+        "status": "審查中",
+        "title": "案例研究"
+      },
+      "2": {
+        "status": "撰寫中",
+        "title": "白皮書"
+      }
+    },
+    "customSteps": {
+      "0": "接收",
+      "1": "研究",
+      "2": "執行",
+      "3": "交付"
+    },
+    "devEvents": {
+      "0": "PM 建立了任務 #42",
+      "1": "工程師開啟了 PR #18",
+      "2": "審查者審查中…"
+    },
+    "funnelBars": {
+      "0": {
+        "label": "潛在客戶"
+      },
+      "1": {
+        "label": "已篩選"
+      },
+      "2": {
+        "label": "已轉換"
+      }
+    },
+    "heading": "你需要哪種 AI 代理團隊 — ",
+    "headingEnd": "？",
+    "headingHighlight": "業務、內容、研究還是工程",
+    "items": {
+      "0": {
+        "agents": {
+          "0": "PM",
+          "1": "工程師",
+          "2": "審查者"
+        },
+        "description": "OpenLegion 的開發團隊範本可自動化任務規劃、程式碼生成和 PR 審查 — 正是這些瑣碎分派與樣板工作，每週吃掉每位工程師數小時。",
+        "name": "工程團隊"
+      },
+      "1": {
+        "agents": {
+          "0": "研究員",
+          "1": "篩選員",
+          "2": "外展"
+        },
+        "description": "OpenLegion 的銷售管線範本全天候執行潛在客戶研究、評分與個人化外展 — 一整週的手動開發客戶工作，在你睡覺時完成。",
+        "name": "銷售團隊"
+      },
+      "2": {
+        "agents": {
+          "0": "研究員",
+          "1": "撰寫者"
+        },
+        "description": "OpenLegion 的 Content Studio 範本讓研究員與寫手協作並保持一致的品牌聲音 — 原本需要數天的從研究到成稿流程，幾小時內交付。",
+        "name": "內容團隊"
+      },
+      "3": {
+        "agents": {
+          "0": "研究員",
+          "1": "執行者",
+          "2": "監控器"
+        },
+        "description": "錢包感知的智慧體在鏈上執行 — 兌換、轉帳、DeFi 倉位 — 同時私鑰鎖定在保險庫中並在伺服器端簽名。提供每個智慧體的支出限額、每日上限以及 EVM + Solana 支援。",
+        "name": "你的財庫團隊"
+      },
+      "4": {
+        "agents": {
+          "0": "任意角色",
+          "1": "任意工具",
+          "2": "任意預算"
+        },
+        "description": "找不到您的使用案例？自由定義任何角色、工具和預算的組合。智慧代理擁有專屬容器、憑證和支出限制 — 滿足任何工作需求。",
+        "name": "自訂團隊"
+      }
+    },
+    "sectionLabel": "使用案例",
+    "subtitle": "選擇內建的多智慧代理範本，或定義您自己的自主智慧代理艦隊。每個智慧代理都擁有專屬容器、預算和工具權限。",
+    "treasuryEvents": {
+      "0": "在 Base 上將 0.5 ETH 兌換為 USDC",
+      "1": "消費限額：今日 $48 / $500",
+      "2": "監控員檢查倉位中…"
     }
-  },
-  "moneyBackPage": {
-    "title": "7 天退款保證",
-    "tagline": "首月費用全額退款，無需任何理由。",
-    "intro": "我們對 OpenLegion 充滿信心。如果首月因任何原因不合適，請在首次訂閱付款後 7 天內寄信至 {email}，我們會依你實際支付的金額全額退款（Polar 實際收取的開賣價金額——不是旁邊顯示的較高錨定價格）。",
-    "covered": {
-      "heading": "退款涵蓋範圍",
-      "items": {
-        "0": "你的首次訂閱付款（實際扣款金額——例如 Basic 月付 $19）。",
-        "1": "全額退還該金額——無需說明理由，不按比例計算。"
-      }
-    },
-    "notCovered": {
-      "heading": "不在退款範圍內",
-      "items": {
-        "0": "點數加值（已消耗的點數不可退款——未消耗點數會保留在帳戶中直到退款完成）。",
-        "1": "首 7 天之後的續訂扣款。",
-        "2": "存在濫用的訂閱（違反可接受使用政策）。"
-      }
-    },
-    "afterRefund": {
-      "heading": "退款後帳戶的處理",
-      "items": {
-        "0": "退款處理完成後不久，你的訂閱會被取消，代管實例也會被取消佈建。",
-        "1": "與訂閱一同發放的歡迎點數會被收回，點數餘額歸零（與退款保持一致）。",
-        "2": "在後續訂閱中你將不再有資格領取第二次退款或第二次歡迎點數。後續訂閱依正常方式計費。"
-      }
-    },
-    "howTo": {
-      "heading": "如何申請退款",
-      "body": "寄信至 {email}，附上你的帳戶 email 與訂閱 ID。退款將於 5 個工作日內透過 Polar 處理（款項原路退回你的付款方式）。"
-    },
-    "email": "support@openlegion.ai"
-  },
-  "schema": {
-    "orgDescription": "容器隔離的多代理執行階段,提供託管服務 — Docker 隔離的代理、金庫代理憑證、單代理預算。",
-    "softwareDescription": "容器隔離的多代理執行階段,具備金庫代理憑證和單代理預算控制。可自我託管(PolyForm Perimeter License 1.0.1)或在專用 VPS 上使用託管服務。",
-    "softwareFeatureList": [
-      "單代理容器隔離(Docker 或 Docker Desktop Sandbox 微虛擬機)",
-      "金庫代理憑證 — 代理永遠看不到 API 金鑰",
-      "單代理每日和每月預算強制執行",
-      "艦隊模型協調 — 黑板 + 發布/訂閱 + 交接(無 CEO 代理)",
-      "透過 LiteLLM 接入 100+ LLM 供應商",
-      "可自我託管或在專用 VPS 上使用託管服務"
-    ],
-    "sourceCodeName": "OpenLegion(原始碼)",
-    "serviceName": "OpenLegion 託管服務",
-    "serviceDescription": "在專用 VPS 實例上為 OpenLegion 代理艦隊提供託管服務 — 容器隔離、金庫代理憑證和單代理預算,無需自行管理 DevOps。",
-    "videoName": "OpenLegion 展示 — AI 代理艦隊部署",
-    "videoDescription": "觀看 OpenLegion 部署具備容器隔離、憑證金庫和即時成本追蹤的自主 AI 代理艦隊。",
-    "applicationSubCategory": "AI 智慧代理框架",
-    "serviceType": "託管 AI 智慧代理服務",
-    "areaServed": "全球"
   }
 }

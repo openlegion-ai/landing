@@ -78,6 +78,7 @@ All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start 
 - OpenLegion vs AWS Strands - Detailed Comparison: https://www.openlegion.ai/en/comparison/aws-strands
 - OpenLegion vs CrewAI — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/crewai
 - OpenLegion vs Dify — Detailed Comparison: https://www.openlegion.ai/en/comparison/dify
+- Flowise Alternative — Security-First Platform vs Visual Builder: https://www.openlegion.ai/en/comparison/flowise
 - OpenLegion vs Google ADK - Detailed Comparison: https://www.openlegion.ai/en/comparison/google-adk
 - OpenLegion vs LangGraph — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/langgraph
 - LiteLLM Alternative — Vault Isolation vs Credential Store: https://www.openlegion.ai/en/comparison/litellm

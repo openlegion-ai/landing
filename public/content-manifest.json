@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://www.openlegion.ai",
-  "pageCount": 41,
+  "pageCount": 42,
   "pages": [
     {
       "slug": "/ai-social-media-management",
@@ -270,6 +270,48 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/comparison/dify"
+    },
+    {
+      "slug": "/comparison/flowise",
+      "title": "Flowise Alternative — Security-First Platform vs Visual Builder",
+      "description": "OpenLegion vs Flowise: vault isolation vs 7 HIGH-severity CVEs, multi-agent mesh vs visual flow builder, OSI licensing vs commercial restrictions compared.",
+      "primaryKeyword": "flowise alternative",
+      "secondaryKeywords": [
+        "openlegion vs flowise",
+        "flowise security",
+        "flowise cve",
+        "visual agent builder alternative",
+        "flowise licensing"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-22",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/litellm",
+        "/comparison/langgraph",
+        "/comparison/dify",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-orchestration"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/comparison/flowise"
     },
     {
       "slug": "/comparison/google-adk",
