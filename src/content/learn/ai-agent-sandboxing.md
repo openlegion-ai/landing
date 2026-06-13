@@ -17,7 +17,7 @@ related:
 
 # AI Agent Sandboxing: Container Isolation, Escape CVEs, and Hardening
 
-AI agent sandboxing is the practice of isolating agent processes in containers, microVMs, or WebAssembly runtimes so a compromised, injected, or misbehaving agent cannot access the host system, peer agents' data, or credentials outside its defined scope. Traditional software sandboxing assumes bounded, predictable behavior. Agents execute LLM-generated code, browse arbitrary web pages, call external APIs, and spawn subprocesses — each action an unbounded blast radius without isolation. Anthropic's Computer Use documentation (September 2024) explicitly requires Docker container isolation for any agent operating OS-level bash, text\_editor, or computer tools.
+AI agent sandboxing is the practice of isolating agent processes in containers, microVMs, or WebAssembly runtimes so a compromised, injected, or misbehaving agent cannot access the host system, peer agents' data, or credentials outside its defined scope. Traditional software sandboxing assumes bounded, predictable behavior. Agents execute LLM-generated code, browse arbitrary web pages, call external APIs, and spawn subprocesses — each action an unbounded blast radius without isolation. Anthropic's Computer Use documentation (September 2024) requires Docker container isolation for any agent operating OS-level bash, text\_editor, or computer tools.
 
 <!-- SCHEMA: DefinitionBlock -->
 AI agent sandboxing is the practice of running AI agent processes in isolated execution environments — containers, microVMs, or language runtimes — so that a compromised, injected, or misbehaving agent cannot access the host system, other agents' data, credential stores, or network resources outside its defined scope.
@@ -98,7 +98,7 @@ user: "1000:1000"
 
 Standard containers share the host kernel. A kernel-level exploit inside a container affects the host. Two technologies address this:
 
-**gVisor** interposes a user-space kernel (written in Go) between the container process and the real host kernel. Syscalls from the container are intercepted by the Sentry (gVisor's kernel surrogate) rather than passed to the host kernel directly. This eliminates most kernel exploit paths at the cost of approximately 10–15% throughput overhead for I/O-heavy workloads. Google Cloud Run uses gVisor as its container runtime. Run with `--runtime=runsc` in Docker.
+**gVisor** interposes a user-space kernel (written in Go) between the container process and the real host kernel. Syscalls from the container are intercepted by the Sentry (gVisor's kernel surrogate) rather than passed to the host kernel directly. This eliminates most kernel exploit paths at the cost of approximately 10-15% throughput overhead for I/O-heavy workloads. Google Cloud Run uses gVisor as its container runtime. Run with `--runtime=runsc` in Docker.
 
 **Firecracker microVMs** provide full VM isolation — each agent gets its own kernel — with startup times of approximately 125ms and memory overhead under 5MB per VM. This is the technology behind E2B and AWS Lambda. microVMs are the correct choice when untrusted code execution is the primary threat; the isolation boundary is a full VM rather than a container.
 
@@ -108,7 +108,7 @@ For AI agents that only need process isolation (no arbitrary code execution), gV
 
 WebAssembly (WASM) provides a language-level sandbox for untrusted code execution. WASM modules run in a memory-safe, capability-based sandbox — no direct filesystem or network access unless explicitly granted via WASI capabilities. Three production runtimes:
 
-- **Wasmtime** (Bytecode Alliance, Rust): 2–10ms startup, capability-based WASI, suitable for short-lived code execution tasks
+- **Wasmtime** (Bytecode Alliance, Rust): 2-10ms startup, capability-based WASI, suitable for short-lived code execution tasks
 - **Wasmer** (MIT): supports multiple compilation backends, embeddable in Python/Go/Rust host processes
 - **WasmEdge**: focused on cloud-native and edge use cases, AOT compilation for near-native throughput
 
@@ -130,7 +130,7 @@ Several AI agent frameworks mount the Docker socket by default to support "agent
 
 ### Overlay Filesystem Attacks
 
-Container overlay filesystems (overlayfs) have had a pattern of vulnerabilities — CVE-2023-0778 is one example — where race conditions or improper privilege checks allow container processes to write to upper-layer directories with elevated permissions. The primary mitigation is a read-only root filesystem (`read_only: true`): the agent container filesystem is mounted read-only, with only explicitly declared tmpfs mounts writable. This eliminates the write surface for overlay attacks and limits the persistence of any injected code.
+Container overlay filesystems (overlayfs) have had a pattern of vulnerabilities where race conditions or improper privilege checks allow container processes to write to upper-layer directories with elevated permissions. CVE-2023-0778 is a related example in Podman: a TOCTOU flaw during volume export allowed a malicious user to replace a file with a symlink, gaining access to arbitrary host filesystem paths. The primary mitigation is a read-only root filesystem (`read_only: true`): the agent container filesystem is mounted read-only, with only explicitly declared tmpfs mounts writable. This eliminates the write surface for overlay attacks and limits the persistence of any injected code.
 
 ## Code Execution Sandboxes for AI Agents
 
@@ -144,13 +144,13 @@ Appropriate for: agents that execute LLM-generated Python or shell commands as p
 
 ### Modal: Ephemeral Container Functions
 
-Modal runs code as ephemeral container functions on a managed compute platform. Pricing: $0.000037–$0.00048 per GB-second of memory, with GPU support. Container cold starts are approximately 50–200ms. Modal functions are stateless by design; no local filesystem persistence between calls. Network egress can be restricted via Modal's network policy layer.
+Modal runs code as ephemeral container functions on a managed compute platform. Pricing: $0.000037-$0.00048 per GB-second of memory, with GPU support. Container cold starts are approximately 50-200ms. Modal functions are stateless by design; no local filesystem persistence between calls. Network egress can be restricted via Modal's network policy layer.
 
 Appropriate for: compute-heavy code execution (ML inference, numerical computation) and GPU workloads that need sandboxed execution with resource billing per call.
 
 ### In-Process WASM: Wasmtime for Untrusted Code
 
-For agents that need to execute short-lived, untrusted functions in-process without the latency of a microVM or container call, Wasmtime embedded in the host language provides 2–10ms startup with WASI capability-based isolation. The WASM module cannot spawn subprocesses, cannot access the filesystem outside granted paths, and has bounded execution time via Wasmtime's fuel metering (CPU instruction budget per execution).
+For agents that need to execute short-lived, untrusted functions in-process without the latency of a microVM or container call, Wasmtime embedded in the host language provides 2-10ms startup with WASI capability-based isolation. The WASM module cannot spawn subprocesses, cannot access the filesystem outside granted paths, and has bounded execution time via Wasmtime's fuel metering (CPU instruction budget per execution).
 
 ```rust
 // Wasmtime with fuel metering and restricted WASI
@@ -192,11 +192,11 @@ OpenLegion's Zone 2 container manager enforces hardening defaults at the infrast
 
 | **Dimension** | **OpenLegion** | **LangGraph** | **CrewAI** | **OpenAI Agents SDK** | **AutoGen** |
 |---|---|---|---|---|---|
-| **Non-root execution (UID≠0)** | UID 1000, enforced | Not enforced | Not enforced | Not enforced | Not enforced |
-| **cap\_drop=ALL enforced** | Yes — Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
-| **no-new-privileges** | Yes — Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
-| **Read-only root filesystem** | Yes — Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
-| **Per-agent credential isolation** | Vault proxy — no plaintext secrets | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **Non-root execution (UID!=0)** | UID 1000, enforced | Not enforced | Not enforced | Not enforced | Not enforced |
+| **cap_drop=ALL enforced** | Yes -- Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
+| **no-new-privileges** | Yes -- Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Read-only root filesystem** | Yes -- Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Per-agent credential isolation** | Vault proxy -- no plaintext secrets | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
 | **Network egress restriction** | Configurable allowlist, mesh-enforced | Not built-in | Not built-in | Not built-in | Not built-in |
 | **Configurable resource limits (RAM/CPU)** | 384MB / 0.15 CPU default, adjustable | Not built-in | Not built-in | Not built-in | Not built-in |
 
@@ -226,11 +226,11 @@ CVE-2024-21626 is a container escape vulnerability in runc (CVSS 8.6, disclosed 
 
 ### What is the difference between Docker containers and microVMs for agent sandboxing?
 
-Docker containers share the host kernel — a kernel-level exploit inside a container affects the host. microVMs (Firecracker, QEMU) give each agent its own kernel instance, providing full VM-level isolation at approximately 125ms startup overhead and under 5MB memory per VM. For agents that only need process isolation, hardened Docker containers with cap\_drop=ALL, no-new-privileges, and gVisor are adequate. For agents that execute LLM-generated code, microVM isolation is preferable because the isolation boundary is a full kernel rather than a container.
+Docker containers share the host kernel — a kernel-level exploit inside a container affects the host. microVMs (Firecracker, QEMU) give each agent its own kernel instance, providing full VM-level isolation at approximately 125ms startup overhead and under 5MB memory per VM. For agents that only need process isolation, hardened Docker containers with cap_drop=ALL, no-new-privileges, and gVisor are adequate. For agents that execute LLM-generated code, microVM isolation is preferable because the isolation boundary is a full kernel rather than a container.
 
 ### What is gVisor and when should it be used for AI agents?
 
-gVisor is a user-space kernel implementation that intercepts syscalls from container processes and routes them through the Sentry (gVisor's kernel surrogate) rather than passing them to the host kernel directly. This eliminates most kernel exploit paths at approximately 10–15% throughput overhead for I/O-heavy workloads. Google Cloud Run uses gVisor as its container runtime. For AI agents, gVisor is the right choice when kernel-level isolation is needed but microVM startup latency is unacceptable.
+gVisor is a user-space kernel implementation that intercepts syscalls from container processes and routes them through the Sentry (gVisor's kernel surrogate) rather than passing them to the host kernel directly. This eliminates most kernel exploit paths at approximately 10-15% throughput overhead for I/O-heavy workloads. Google Cloud Run uses gVisor as its container runtime. For AI agents, gVisor is the right choice when kernel-level isolation is needed but microVM startup latency is unacceptable.
 
 ### How should browser agent sessions be isolated?
 
@@ -254,4 +254,4 @@ Sandbox hardening left to developers produces inconsistent results. Some contain
 
 For a full picture of the agent threat model that sandboxing addresses, see [AI agent security and threat model](/learn/ai-agent-security). For tool access controls that work alongside sandboxing, see [AI agent tool use and least-privilege assignment](/learn/ai-agent-tool-use).
 
-[Deploy agents with UID 1000, cap\_drop=ALL, read-only root, and per-agent credential vault isolation enforced by default — get started on OpenLegion →](https://app.openlegion.ai)
+[Deploy agents with UID 1000, cap_drop=ALL, read-only root, and per-agent credential vault isolation enforced by default -- get started on OpenLegion](https://app.openlegion.ai)
