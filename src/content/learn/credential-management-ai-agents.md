@@ -17,7 +17,7 @@ related:
 
 # Credential Management for AI Agents: Vault-Proxy Architecture
 
-Credential management for AI agents is the set of infrastructure practices that govern how autonomous agents obtain, use, rotate, and relinquish API keys and secrets without those credentials ever appearing in agent memory, logs, or context windows. Agents break standard credential patterns: they run autonomously, can be compromised via prompt injection, produce verbose logs, and operate in multi-instance fleets where a single shared secret multiplies the exfiltration surface across every running agent. CVE-2024-34359 (llama-cpp-python, CVSS 9.6) and CVE-2025-29927 (Next.js, CVSS 9.1) both demonstrated how AI application deployments expose secrets when security boundaries fail.
+Credential management for AI agents is the set of infrastructure practices that govern how autonomous agents obtain, use, rotate, and relinquish API keys and secrets without credentials appearing in agent memory, logs, or context windows. Agents break standard credential patterns: they run autonomously, can be compromised via prompt injection, and operate in fleets where a shared secret multiplies the exfiltration surface. CVE-2024-34359 (llama-cpp-python, CVSS 9.6) and CVE-2025-29927 (Next.js, CVSS 9.1) demonstrated how AI deployments expose secrets when security boundaries fail.
 
 <!-- SCHEMA: DefinitionBlock -->
 Credential management for AI agents is the set of practices and infrastructure patterns that govern how autonomous agents obtain, use, rotate, and relinquish API keys, tokens, and secrets without those credentials ever appearing in agent memory, logs, or context windows.
