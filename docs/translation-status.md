@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 43
-- **Fully translated (all 12 locales):** 42
+- **Fully translated (all 12 locales):** 43
 - **Partially translated:** 0
-- **English-only (0 translations):** 1
+- **English-only (0 translations):** 0
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 42 / 43 | 98% |
-| zh-TW | 42 / 43 | 98% |
-| ja | 42 / 43 | 98% |
-| ko | 42 / 43 | 98% |
-| es | 42 / 43 | 98% |
-| fr | 42 / 43 | 98% |
-| de | 42 / 43 | 98% |
-| pt | 42 / 43 | 98% |
-| ar | 42 / 43 | 98% |
-| hi | 42 / 43 | 98% |
-| ru | 42 / 43 | 98% |
-| th | 42 / 43 | 98% |
+| zh | 43 / 43 | 100% |
+| zh-TW | 43 / 43 | 100% |
+| ja | 43 / 43 | 100% |
+| ko | 43 / 43 | 100% |
+| es | 43 / 43 | 100% |
+| fr | 43 / 43 | 100% |
+| de | 43 / 43 | 100% |
+| pt | 43 / 43 | 100% |
+| ar | 43 / 43 | 100% |
+| hi | 43 / 43 | 100% |
+| ru | 43 / 43 | 100% |
+| th | 43 / 43 | 100% |
 
 ## Coverage matrix
 
@@ -66,7 +66,7 @@ locales; they are not tracked here.
 | `/comparison/semantic-kernel` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/agent2agent-protocol` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/agent2agent-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agentic-workflows` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-evaluation` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-frameworks` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -88,5 +88,5 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/learn/agent2agent-protocol` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+All pages are fully translated. 🎉
 
