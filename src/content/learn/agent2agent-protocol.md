@@ -125,11 +125,11 @@ In OpenLegion's mesh architecture, inter-agent handoffs use a typed contract pro
 
 A2A's security model has one critical gap: the base profile makes authentication optional. An A2A server that implements only the base profile can accept anonymous task submissions from any caller. This is a deliberate design choice for rapid adoption — it lowers the implementation barrier — but it creates a significant production security risk.
 
-**CVE-2025-47421** (May 2025, CVSS score pending public disclosure): Prompt injection via A2A task payload in the reference Python implementation. An attacker crafts a task payload containing injected instructions. The receiving agent processes the task payload as input to its reasoning loop and follows the injected instructions instead of the delegated task. The CVE affected the reference implementation's task handler, which did not sanitize or isolate user-controlled content in the task payload before passing it to the LLM.
+Prompt injection via A2A task payload is a documented attack class for any A2A deployment that accepts tasks from untrusted callers. An attacker crafts a task payload containing injected instructions; the receiving agent processes the payload as input to its reasoning loop and follows the injected instructions rather than the delegated task. The A2A reference implementation's task handler passes user-controlled content directly to the LLM without sanitization by default.
 
 The attack surface in A2A systems:
 
-**1. Task payload injection:** The task description and input data in an A2A task submission are user-controlled. Without sanitization at the receiving agent, injected instructions in the task payload reach the agent's LLM context. CVE-2025-47421 is the canonical example.
+**1. Task payload injection:** The task description and input data in an A2A task submission are user-controlled. Without sanitization at the receiving agent, injected instructions in the task payload reach the agent's LLM context. Any A2A deployment accepting tasks from untrusted callers is in scope.
 
 **2. Agent card enumeration:** Unauthenticated agent cards expose the full skill surface. An attacker querying `/.well-known/agent.json` learns which tools the agent has access to, what inputs it accepts, and what outputs it produces — reconnaissance for targeted injection payloads.
 
@@ -141,7 +141,7 @@ The attack surface in A2A systems:
 
 A2A is well-designed as a wire format. The five-state task lifecycle, agent cards, and SSE streaming solve real coordination problems. The security model is where it falls short of production requirements.
 
-Authentication is optional. Agent cards are unauthenticated by default. CVE-2025-47421 demonstrated that the reference implementation's task handler passes user-controlled payload content directly to the LLM without sanitization. These are not edge cases — they are the default configuration that most teams will deploy unless they read the security section carefully and implement the extended profile.
+Authentication is optional. Agent cards are unauthenticated by default. The reference implementation's task handler passes user-controlled payload content directly to the LLM without sanitization. These are not edge cases — they are the default configuration that most teams will deploy unless they read the security section carefully and implement the extended profile.
 
 OpenLegion's approach to inter-agent communication enforces what A2A's base profile leaves optional:
 
@@ -260,7 +260,7 @@ Agent cards are JSON documents served at `/.well-known/agent.json` that describe
 
 ### Is the A2A protocol secure?
 
-A2A's base profile has significant security gaps. Authentication is optional by default, meaning anonymous task submission is permitted. CVE-2025-47421 (May 2025) demonstrated prompt injection via A2A task payload in the reference Python implementation: user-controlled task content passed directly to the LLM context without sanitization. Agent cards expose the full skill surface without authentication. Production A2A deployments must explicitly implement the extended authentication profile, sanitize all task payload content before it reaches the LLM, and validate outputs at every handoff boundary.
+A2A's base profile has significant security gaps. Authentication is optional by default, meaning anonymous task submission is permitted. Prompt injection via A2A task payload is a realistic production risk: the A2A reference Python implementation's task handler passes user-controlled task content directly to the LLM context without sanitization by default. Agent cards expose the full skill surface without authentication. Production A2A deployments must explicitly implement the extended authentication profile, sanitize all task payload content before it reaches the LLM, and validate outputs at every handoff boundary.
 
 ### What is the A2A task lifecycle?
 
@@ -280,4 +280,4 @@ A2A provides the wire format for agent interoperability across frameworks and ve
 
 For systems where agent-to-agent calls carry real credentials, access sensitive data, or trigger irreversible actions, infrastructure-layer enforcement is the only reliable guarantee. See [AI agent security and threat model](/learn/ai-agent-security) for the full threat taxonomy, or [multi-agent systems architecture](/learn/multi-agent-systems) for coordination patterns.
 
-[Run multi-agent systems where every agent-to-agent call is authenticated, logged, and credential-isolated by default — get started on OpenLegion →](https://app.openlegion.ai)
+[Run multi-agent systems where every agent-to-agent call is authenticated, logged, and credential-isolated by default — get started on OpenLegion](https://app.openlegion.ai)
