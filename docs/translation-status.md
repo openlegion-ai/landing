@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-13
 
-Tracks per-page translation coverage for the 43 canonical English pages
+Tracks per-page translation coverage for the 44 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 43
+- **Canonical pages:** 44
 - **Fully translated (all 12 locales):** 43
 - **Partially translated:** 0
-- **English-only (0 translations):** 0
+- **English-only (0 translations):** 1
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 43 / 43 | 100% |
-| zh-TW | 43 / 43 | 100% |
-| ja | 43 / 43 | 100% |
-| ko | 43 / 43 | 100% |
-| es | 43 / 43 | 100% |
-| fr | 43 / 43 | 100% |
-| de | 43 / 43 | 100% |
-| pt | 43 / 43 | 100% |
-| ar | 43 / 43 | 100% |
-| hi | 43 / 43 | 100% |
-| ru | 43 / 43 | 100% |
-| th | 43 / 43 | 100% |
+| zh | 43 / 44 | 98% |
+| zh-TW | 43 / 44 | 98% |
+| ja | 43 / 44 | 98% |
+| ko | 43 / 44 | 98% |
+| es | 43 / 44 | 98% |
+| fr | 43 / 44 | 98% |
+| de | 43 / 44 | 98% |
+| pt | 43 / 44 | 98% |
+| ar | 43 / 44 | 98% |
+| hi | 43 / 44 | 98% |
+| ru | 43 / 44 | 98% |
+| th | 43 / 44 | 98% |
 
 ## Coverage matrix
 
@@ -79,6 +79,7 @@ locales; they are not tracked here.
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/claude-opus-4-8` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/credential-management-ai-agents` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/llm-cost-optimization` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -88,5 +89,5 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-All pages are fully translated. 🎉
+- `/learn/credential-management-ai-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
