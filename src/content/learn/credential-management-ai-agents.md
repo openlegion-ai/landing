@@ -11,13 +11,13 @@ related:
   - /learn/model-context-protocol
   - /learn/ai-agent-orchestration
   - /learn/multi-agent-systems
-  - /learn/ai-agent-platform
+  - /learn/managed-ai-agent-hosting
   - /learn/agentic-workflows
 ---
 
 # Credential Management for AI Agents: Vault-Proxy Architecture
 
-Credential management for AI agents is the set of infrastructure practices that govern how autonomous agents obtain, use, rotate, and relinquish API keys and secrets without those credentials ever appearing in agent memory, logs, or context windows. Agents break standard credential patterns: they run autonomously, can be compromised via prompt injection, produce verbose logs, and operate in multi-instance fleets where a single shared secret multiplies the exfiltration surface across every running agent. CVE-2024-34359 and CVE-2025-29927 both demonstrated plaintext secret exposure through env-var patterns in deployed AI applications.
+Credential management for AI agents is the set of infrastructure practices that govern how autonomous agents obtain, use, rotate, and relinquish API keys and secrets — without those credentials appearing in agent memory, logs, or context windows. Agents break standard credential patterns: they run autonomously, can be compromised via prompt injection, generate verbose logs, and operate as fleets where shared secrets multiply the exfiltration surface. CVE-2024-34359 and CVE-2025-29927 both documented plaintext secret exposure through the env-var pattern in production.
 
 <!-- SCHEMA: DefinitionBlock -->
 Credential management for AI agents is the set of practices and infrastructure patterns that govern how autonomous agents obtain, use, rotate, and relinquish API keys, tokens, and secrets without those credentials ever appearing in agent memory, logs, or context windows.
@@ -70,7 +70,7 @@ This pattern reduces the credential's lifetime in memory but does not eliminate 
 
 The vault proxy pattern keeps credentials entirely out of agent containers. The agent holds an opaque handle — a reference string like `$CRED{stripe_key}` — that identifies a credential without resolving it. When the agent makes an API call that includes the handle, the vault proxy intercepts the request, resolves the handle to the actual credential, injects it at the network layer, and forwards the authenticated request. The agent never sees the plaintext credential.
 
-This is the same principle as HashiCorp Vault's (35,736 stars, MPL-2.0, v2.0.2 released June 5, 2026) agent-side injection, embedded directly in the agent orchestration layer. With 700+ MCP servers in the ecosystem (June 2026), the `$CRED{}` handle pattern eliminates per-server `.env` sprawl: one handle reference in the agent configuration covers any MCP server's credential requirements.
+This is the same principle as HashiCorp Vault's (35,736 ⭐, MPL-2.0, v2.0.2 released June 5, 2026) agent-side injection, embedded directly in the agent orchestration layer. With 700+ MCP servers in the ecosystem (June 2026), the `$CRED{}` handle pattern eliminates per-server `.env` sprawl: one handle reference in the agent configuration covers any MCP server's credential requirements.
 
 A fully compromised agent container — one executing arbitrary attacker instructions — has zero credential access because no credential exists within the container's reach.
 
@@ -86,13 +86,13 @@ Every major AI agent framework treats credential management as the host applicat
 
 OpenLegion's vault proxy is built into the agent orchestration layer. Agents reference credentials as opaque `$CRED{name}` handles. The mesh host resolves handles server-side and injects credentials at the network boundary. No agent container ever receives a plaintext credential. Prompt injection cannot exfiltrate what is not present.
 
-Infisical (27,236 stars, open-source TypeScript secrets platform) raised $2.8M seed in 2023, signalling market demand for developer-native secret management. OpenLegion embeds the same capability directly in the agent runtime — no separate secret management deployment required.
+Infisical (27,236 ⭐, open-source TypeScript secrets platform) raised $2.8M seed in 2023, signalling market demand for developer-native secret management. OpenLegion embeds the same capability directly in the agent runtime — no separate secret management deployment required.
 
 | **Dimension** | **OpenLegion** | **LangChain/LangGraph** | **CrewAI** | **OpenAI Agents SDK** | **AutoGen** |
 |---|---|---|---|---|---|
 | **Credential storage** | Vault (opaque handles) | Environment / .env | Environment / .env | Environment / .env | Environment / .env |
-| **Agent access pattern** | $CRED{} handle -- never resolved in container | os.environ direct read | os.environ direct read | os.environ direct read | os.environ direct read |
-| **Plaintext in agent context?** | Never | Yes -- at os.environ read | Yes -- at os.environ read | Yes -- at os.environ read | Yes -- at os.environ read |
+| **Agent access pattern** | $CRED{} handle — never resolved in container | os.environ direct read | os.environ direct read | os.environ direct read | os.environ direct read |
+| **Plaintext in agent context?** | Never | Yes — at os.environ read | Yes — at os.environ read | Yes — at os.environ read | Yes — at os.environ read |
 | **Rotation support** | Vault-native; hot rotation without restart | Manual; requires restart | Manual; requires restart | Manual; requires restart | Manual; requires restart |
 | **Per-agent scoping** | Enforced at mesh level per allowlist | Not enforced | Not enforced | Not enforced | Not enforced |
 | **Audit trail** | Every handle resolution logged with agent ID | None native | None native | None native | None native |
@@ -159,19 +159,19 @@ OpenLegion's orchestrator logs tool calls and credential resolutions in a unifie
 
 ### Audit Requirements for Regulated Environments
 
-For financial services, healthcare, and other regulated sectors, agent credential audit logs must meet specific requirements: immutability (logs cannot be altered after creation), tamper-evidence (log integrity is verifiable), retention period compliance (logs retained for the required duration), and access controls (only authorised personnel can read audit logs). These requirements map directly to the vault proxy architecture: the mesh host generates audit log entries as credentials are resolved, writes them to an append-only store, and signs entries for tamper-evidence. Agent containers never have access to the audit log store. For [AI agent platform](/learn/ai-agent-platform) decisions, audit log architecture is a key compliance consideration alongside the secrets backend choice.
+For financial services, healthcare, and other regulated sectors, agent credential audit logs must meet specific requirements: immutability (logs cannot be altered after creation), tamper-evidence (log integrity is verifiable), retention period compliance (logs retained for the required duration), and access controls (only authorised personnel can read audit logs). These requirements map directly to the vault proxy architecture: the mesh host generates audit log entries as credentials are resolved, writes them to an append-only store, and signs entries for tamper-evidence. Agent containers never have access to the audit log store. For [managed AI agent hosting](/learn/managed-ai-agent-hosting) decisions, audit log architecture is a key compliance consideration alongside the secrets backend choice.
 
 ## Choosing a Secrets Backend for Your Agent Platform
 
 ### HashiCorp Vault
 
-HashiCorp Vault (35,736 stars, MPL-2.0, v2.0.2 released June 5, 2026) is the reference open-source secrets management system. It provides dynamic secret generation, TTL-bound leases, fine-grained access policies, comprehensive audit logging, and a plugin architecture for custom secrets engines. Note: HashiCorp moved from the OSI-approved Apache 2.0 license to BSL (Business Source License) in August 2023 — BSL is not an OSI-approved open-source license and restricts commercial use by Vault's competitors.
+HashiCorp Vault (35,736 ⭐, MPL-2.0, v2.0.2 released June 5, 2026) is the reference open-source secrets management system. It provides dynamic secret generation, TTL-bound leases, fine-grained access policies, comprehensive audit logging, and a plugin architecture for custom secrets engines. Note: HashiCorp moved from the OSI-approved Apache 2.0 license to BSL (Business Source License) in August 2023 — BSL is not an OSI-approved open-source license and restricts commercial use by Vault's competitors.
 
 Vault is the right choice when you need a standalone secrets management system that multiple services share. The operational overhead is non-trivial: Vault requires its own deployment, high-availability setup, and unsealing procedures. For agent fleets where Vault is already deployed as infrastructure, integrating agent credential management into Vault's policy engine is straightforward.
 
 ### Infisical
 
-Infisical (27,236 stars, MIT license, open-source TypeScript) provides a developer-native secrets platform with a web UI, CLI, and SDK for secret management, rotation, and audit trails. It raised $2.8M seed in 2023 and positions itself as a lighter-weight alternative to HashiCorp Vault for teams that want secret management without Vault's operational complexity or BSL licensing constraints.
+Infisical (27,236 ⭐, MIT license, open-source TypeScript) provides a developer-native secrets platform with a web UI, CLI, and SDK for secret management, rotation, and audit trails. It raised $2.8M seed in 2023 and positions itself as a lighter-weight alternative to HashiCorp Vault for teams that want secret management without Vault's operational complexity or BSL licensing constraints.
 
 For agent fleets that do not already run Vault, Infisical is worth evaluating as a secrets backend. Its SDK-first design integrates cleanly with Python agent runtimes, and its per-environment scoping maps naturally to per-agent scoping requirements.
 
@@ -194,7 +194,7 @@ CVE-2024-34359 (LangChain, CVSS 9.8) documented credential leakage via prompt in
 
 ### How does the vault-proxy pattern prevent credential leakage?
 
-The vault proxy intercepts agent API calls, resolves opaque credential handles to actual secrets at the network layer, and returns the authenticated response without the credential ever entering the agent's container or context window. The agent holds a handle like `$CRED{stripe_key}` that identifies the secret without resolving it. A fully compromised agent container executing arbitrary attacker instructions still has zero access to raw credentials, because no credential exists within the container's reach.
+The vault proxy intercepts agent API calls, resolves opaque credential handles to actual secrets at the network layer, and returns the authenticated response — without the credential ever entering the agent's container or context window. The agent holds a handle like `$CRED{stripe_key}` that identifies the secret without resolving it. A fully compromised agent container executing arbitrary attacker instructions still has zero access to raw credentials, because no credential exists within the container's reach.
 
 ### Why is per-agent credential isolation important in multi-agent systems?
 
@@ -202,7 +202,7 @@ In a multi-agent system, each agent's blast radius if compromised is bounded by 
 
 ### What does OWASP say about credential management for AI agents?
 
-OWASP Top 10 for LLM Applications v1.1 (published October 2025) lists Sensitive Information Disclosure as LLM06, identifying credential exfiltration as a primary attack vector for LLM applications. The guidance recommends avoiding plaintext credential storage in agent context, implementing least-privilege credential scoping, and using infrastructure-layer controls rather than relying on agent code to protect secrets. Prompt injection — OWASP LLM01, the top risk — is the most common attack vector for triggering credential disclosure in deployed agents.
+OWASP Top 10 for LLM Applications v1.1 (published October 2025) lists Sensitive Information Disclosure as LLM06, identifying credential exfiltration as a primary attack vector for LLM applications. The guidance recommends avoiding plaintext credential storage in agent context, implementing least-privilege credential scoping, and using infrastructure-layer controls rather than relying on agent code to protect secrets. Prompt injection — OWASP LLM01, the #1 risk — is the most common attack vector for triggering credential disclosure in deployed agents.
 
 ### How does OpenLegion handle credentials for agents running MCP servers?
 
@@ -218,4 +218,4 @@ The credential management problem in AI agent fleets is architectural: if creden
 
 OpenLegion's vault proxy is built into the agent mesh. Configure a credential once with `$CRED{name}`, assign it to the agents that need it, and the mesh handles injection, TTL refresh, per-agent scoping, and audit logging. No separate vault deployment, no `.env` file coordination, no manual rotation procedures.
 
-[Secure your agent fleet with vault-proxy credential isolation on OpenLegion](https://openlegion.ai)
+[Secure your agent fleet with vault-proxy credential isolation on OpenLegion →](https://openlegion.ai)
