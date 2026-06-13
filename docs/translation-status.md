@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 44
-- **Fully translated (all 12 locales):** 43
+- **Fully translated (all 12 locales):** 44
 - **Partially translated:** 0
-- **English-only (0 translations):** 1
+- **English-only (0 translations):** 0
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 43 / 44 | 98% |
-| zh-TW | 43 / 44 | 98% |
-| ja | 43 / 44 | 98% |
-| ko | 43 / 44 | 98% |
-| es | 43 / 44 | 98% |
-| fr | 43 / 44 | 98% |
-| de | 43 / 44 | 98% |
-| pt | 43 / 44 | 98% |
-| ar | 43 / 44 | 98% |
-| hi | 43 / 44 | 98% |
-| ru | 43 / 44 | 98% |
-| th | 43 / 44 | 98% |
+| zh | 44 / 44 | 100% |
+| zh-TW | 44 / 44 | 100% |
+| ja | 44 / 44 | 100% |
+| ko | 44 / 44 | 100% |
+| es | 44 / 44 | 100% |
+| fr | 44 / 44 | 100% |
+| de | 44 / 44 | 100% |
+| pt | 44 / 44 | 100% |
+| ar | 44 / 44 | 100% |
+| hi | 44 / 44 | 100% |
+| ru | 44 / 44 | 100% |
+| th | 44 / 44 | 100% |
 
 ## Coverage matrix
 
@@ -79,7 +79,7 @@ locales; they are not tracked here.
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/claude-opus-4-8` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/credential-management-ai-agents` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/credential-management-ai-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/llm-cost-optimization` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -89,5 +89,5 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/learn/credential-management-ai-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+All pages are fully translated. 🎉
 
