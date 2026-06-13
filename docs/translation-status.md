@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-13
 
-Tracks per-page translation coverage for the 44 canonical English pages
+Tracks per-page translation coverage for the 45 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 44
+- **Canonical pages:** 45
 - **Fully translated (all 12 locales):** 44
 - **Partially translated:** 0
-- **English-only (0 translations):** 0
+- **English-only (0 translations):** 1
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 44 / 44 | 100% |
-| zh-TW | 44 / 44 | 100% |
-| ja | 44 / 44 | 100% |
-| ko | 44 / 44 | 100% |
-| es | 44 / 44 | 100% |
-| fr | 44 / 44 | 100% |
-| de | 44 / 44 | 100% |
-| pt | 44 / 44 | 100% |
-| ar | 44 / 44 | 100% |
-| hi | 44 / 44 | 100% |
-| ru | 44 / 44 | 100% |
-| th | 44 / 44 | 100% |
+| zh | 44 / 45 | 98% |
+| zh-TW | 44 / 45 | 98% |
+| ja | 44 / 45 | 98% |
+| ko | 44 / 45 | 98% |
+| es | 44 / 45 | 98% |
+| fr | 44 / 45 | 98% |
+| de | 44 / 45 | 98% |
+| pt | 44 / 45 | 98% |
+| ar | 44 / 45 | 98% |
+| hi | 44 / 45 | 98% |
+| ru | 44 / 45 | 98% |
+| th | 44 / 45 | 98% |
 
 ## Coverage matrix
 
@@ -74,6 +74,7 @@ locales; they are not tracked here.
 | `/learn/ai-agent-observability` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-orchestration` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/ai-agent-sandboxing` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-tool-use` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -89,5 +90,5 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-All pages are fully translated. 🎉
+- `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
