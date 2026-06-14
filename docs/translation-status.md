@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-14
 
-Tracks per-page translation coverage for the 46 canonical English pages
+Tracks per-page translation coverage for the 47 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 46
+- **Canonical pages:** 47
 - **Fully translated (all 12 locales):** 45
 - **Partially translated:** 0
-- **English-only (0 translations):** 1
+- **English-only (0 translations):** 2
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 45 / 46 | 98% |
-| zh-TW | 45 / 46 | 98% |
-| ja | 45 / 46 | 98% |
-| ko | 45 / 46 | 98% |
-| es | 45 / 46 | 98% |
-| fr | 45 / 46 | 98% |
-| de | 45 / 46 | 98% |
-| pt | 45 / 46 | 98% |
-| ar | 45 / 46 | 98% |
-| hi | 45 / 46 | 98% |
-| ru | 45 / 46 | 98% |
-| th | 45 / 46 | 98% |
+| zh | 45 / 47 | 96% |
+| zh-TW | 45 / 47 | 96% |
+| ja | 45 / 47 | 96% |
+| ko | 45 / 47 | 96% |
+| es | 45 / 47 | 96% |
+| fr | 45 / 47 | 96% |
+| de | 45 / 47 | 96% |
+| pt | 45 / 47 | 96% |
+| ar | 45 / 47 | 96% |
+| hi | 45 / 47 | 96% |
+| ru | 45 / 47 | 96% |
+| th | 45 / 47 | 96% |
 
 ## Coverage matrix
 
@@ -68,6 +68,7 @@ locales; they are not tracked here.
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agent-handoff-patterns` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agent2agent-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/agentic-rag` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/agentic-workflows` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-evaluation` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-frameworks` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -91,5 +92,6 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
+- `/learn/agentic-rag` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
