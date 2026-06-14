@@ -1,6 +1,6 @@
 ---
 title: Agno Alternative - Security-First Multi-Agent Platform
-description: Agno (formerly Phidata) has 40,370 GitHub stars but shipped three security fixes in May 2026 alone. Compare CVE-2025-64168 (CVSS 7.1) and IDOR patches with OpenLegion vault-first architecture.
+description: Agno (formerly Phidata) has 40,678 GitHub stars but shipped three security fixes in May 2026 alone. Compare CVE-2025-64168 (CVSS 7.1) and IDOR patches with OpenLegion vault-first architecture.
 slug: /comparison/agno
 primary_keyword: agno alternative
 secondary_keywords:
@@ -10,7 +10,7 @@ secondary_keywords:
   - agno alternative python
   - multi-agent framework comparison
 date_published: 2026-05
-last_updated: 2026-05-27
+last_updated: 2026-06-14
 schema_types:
   - FAQPage
 related:
@@ -24,7 +24,7 @@ related:
 
 # Agno Alternative: Security-First Multi-Agent Platform
 
-Agno (formerly Phidata, rebranded 2025) is an open-source Python framework for building multi-modal agents with 40,370 GitHub stars, 5,426 forks, and 932 open issues as of May 2026. It ships a batteries-included approach with built-in storage, memory, knowledge retrieval, and a web UI (Agno Playground). Three security patches in 13 days (May 6-19 2026) - covering IDOR in MCP tools, WebSocket JWT binding, and path traversal - signal a reactive patching pattern that OpenLegion's vault-first, container-isolated architecture avoids by design.
+Agno (formerly Phidata, rebranded 2025) is an open-source Python framework for building multi-modal agents with 40,678 GitHub stars, 5,520 forks, and 917 open issues as of June 2026. It ships a batteries-included approach with built-in storage, memory, knowledge retrieval, and a web UI (Agno Playground). Three security patches in 13 days (May 6-19 2026) - covering IDOR in MCP tools, WebSocket JWT binding, and path traversal - signal a reactive patching pattern that OpenLegion's vault-first, container-isolated architecture avoids by design.
 
 OpenLegion is a security-first AI agent platform with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
 
@@ -46,9 +46,9 @@ OpenLegion is a security-first AI agent platform with mandatory Docker container
 | **Multi-modal** | Text + tool calls | Text, image, audio, video inputs |
 | **Known CVEs** | 0 | CVE-2025-64168 (CVSS 7.1); 3 patches May 2026 |
 | **Security patch cadence** | N/A | 3 fixes in 13 days (May 6-19 2026) |
-| **License** | BSL 1.1 | Mozilla Public License 2.0 |
-| **GitHub stars** | ~59 | ~40,370 |
-| **Formerly known as** | - | Phidata (artifact renamed v2.6.6, May 14 2026) |
+| **License** | BSL 1.1 | Apache License 2.0 |
+| **GitHub stars** | ~59 | ~40,678 |
+| **Formerly known as** | - | Phidata (rebranded to Agno in 2025) |
 
 ## Choose Agno if...
 
@@ -60,7 +60,7 @@ OpenLegion is a security-first AI agent platform with mandatory Docker container
 
 **Multi-modal agent teams matter.** Agno's Team abstraction supports Coordinate mode (router delegates to specialists), Route mode (LLM-driven routing), and Collaborate mode (agents respond in sequence). This flexibility maps well to pipelines where different agents handle different content types.
 
-**The Mozilla Public License 2.0 fits your project.** MPL 2.0 allows proprietary products to use Agno as a dependency as long as modifications to Agno itself are shared - more permissive than OpenLegion's BSL 1.1 for embedding in commercial products.
+**The Apache License 2.0 fits your project.** Apache 2.0 allows proprietary products to use Agno as a dependency without sharing modifications, and includes an express patent grant. This is more permissive than OpenLegion's BSL 1.1 for embedding in commercial products.
 
 ## Choose OpenLegion if...
 
@@ -82,7 +82,7 @@ Agno is a well-engineered framework for teams that want maximum feature breadth 
 
 The security track record warrants scrutiny before production deployment. CVE-2025-64168 (CVSS 7.1, CWE-362 race condition + CWE-668 exposure of resources to wrong sphere) exposed session state cross-user under async concurrency - a class of vulnerability that only surfaces under production load. The three May 2026 patches each touched authentication and authorization boundaries inside a two-week window: IDOR in MCP tool routing (v2.6.5, May 6), IDOR in WebSocket JWT binding (v2.6.6, May 14), path traversal hardening in FileGenerationTools/SlackTools/FileTools (v2.6.8, May 19). Fast patching is better than slow patching, but it reflects reactive fixes to issues OpenLegion's architecture prevents by design.
 
-Container isolation means there is no shared mutable state for a race condition to expose across users. Vault proxy means credentials have no presence in the agent process for an IDOR to reach. Framework-level path safety added from the start - not post-incident - means path traversal cannot occur regardless of which tool a developer uses. The tradeoff is real: Agno has 40,370 stars, a richer feature surface, and a larger community. For teams where security is a compliance requirement rather than a nice-to-have, OpenLegion provides the architectural guarantees; Agno provides the ecosystem.
+Container isolation means there is no shared mutable state for a race condition to expose across users. Vault proxy means credentials have no presence in the agent process for an IDOR to reach. Framework-level path safety added from the start - not post-incident - means path traversal cannot occur regardless of which tool a developer uses. The tradeoff is real: Agno has 40,678 stars, a richer feature surface, and a larger community. For teams where security is a compliance requirement rather than a nice-to-have, OpenLegion provides the architectural guarantees; Agno provides the ecosystem.
 
 ## Security Model Comparison
 
@@ -160,7 +160,7 @@ Agno's Team abstraction supports three coordination modes. Coordinate mode uses 
 
 ## The Honest Trade-off
 
-Agno has 40,370 GitHub stars, multi-modal inputs, a rich storage layer, and a batteries-included developer experience. For teams prototyping fast or building products where the deployment environment handles security concerns separately, Agno's feature breadth is compelling.
+Agno has 40,678 GitHub stars, multi-modal inputs, a rich storage layer, and a batteries-included developer experience. For teams prototyping fast or building products where the deployment environment handles security concerns separately, Agno's feature breadth is compelling.
 
 OpenLegion has 59 GitHub stars, mandatory Docker container isolation, vault proxy credentials, per-agent budget enforcement, and zero telemetry. These security properties are architectural - they cannot be toggled off or bypassed by a misconfigured environment variable. For teams that need to prove to a compliance auditor or security team that agents cannot leak credentials, cross user boundaries, or run up unlimited costs, OpenLegion provides guarantees that Agno does not.
 
@@ -181,7 +181,7 @@ For the full security threat model for AI agents, see the [AI agent security gui
 
 ### What is Agno and how does it differ from OpenLegion?
 
-Agno (formerly Phidata, rebranded 2025) is an open-source Python framework for building multi-modal AI agents with built-in storage backends, knowledge retrieval, and a web-based Playground UI. It has 40,370 GitHub stars and supports text, image, audio, and video inputs. OpenLegion is a security-first AI agent platform with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination. Agno prioritizes feature breadth and developer speed; OpenLegion prioritizes production security and compliance.
+Agno (formerly Phidata, rebranded 2025) is an open-source Python framework for building multi-modal AI agents with built-in storage backends, knowledge retrieval, and a web-based Playground UI. It has 40,678 GitHub stars and supports text, image, audio, and video inputs. OpenLegion is a security-first AI agent platform with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination. Agno prioritizes feature breadth and developer speed; OpenLegion prioritizes production security and compliance.
 
 ### What security vulnerabilities has Agno had?
 
@@ -201,11 +201,11 @@ No. Agno has no built-in per-agent or per-team budget enforcement. Agent teams t
 
 ### What was Phidata and how does it relate to Agno?
 
-Phidata was an open-source Python framework for building AI agents and assistants. The project rebranded to Agno in 2025, with the final Phidata-named artifact (pypi package) renamed in the v2.6.6 release on May 14 2026. The codebase, architecture, and community are continuous - Agno is Phidata under a new name, with ongoing active development. The CVE history (including CVE-2025-64168) applies to the Agno/Phidata codebase.
+Phidata was an open-source Python framework for building AI agents and assistants. The project rebranded to Agno in 2025. The codebase, architecture, and community are continuous - Agno is Phidata under a new name, with ongoing active development. The CVE history (including CVE-2025-64168) applies to the Agno/Phidata codebase throughout its history.
 
 ### When should I choose Agno over OpenLegion?
 
-Choose Agno when your primary requirements are multi-modal agent inputs (text, image, audio, video), batteries-included storage and knowledge retrieval (PostgreSQL, Qdrant, Pinecone, pgvector), a visual Playground UI for development, and flexible agent team coordination (Coordinate, Route, Collaborate modes). Agno's MPL 2.0 license is also more permissive for embedding in commercial products. Choose OpenLegion when credential security, multi-tenant isolation, cost enforcement, or auditability are compliance requirements from day one.
+Choose Agno when your primary requirements are multi-modal agent inputs (text, image, audio, video), batteries-included storage and knowledge retrieval (PostgreSQL, Qdrant, Pinecone, pgvector), a visual Playground UI for development, and flexible agent team coordination (Coordinate, Route, Collaborate modes). Agno's Apache 2.0 license is also more permissive for embedding in commercial products. Choose OpenLegion when credential security, multi-tenant isolation, cost enforcement, or auditability are compliance requirements from day one.
 
 ### Can I migrate from Agno to OpenLegion?
 
