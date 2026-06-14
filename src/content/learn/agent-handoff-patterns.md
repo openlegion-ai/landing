@@ -3,7 +3,7 @@ title: "Agent Handoff Patterns: Routing Work Between AI Agents"
 description: "Agent handoff patterns define how AI agents transfer tasks, context, and credentials: push handoff, pull dispatch, blackboard-pointer routing, and streaming transfer for multi-agent systems."
 slug: /learn/agent-handoff-patterns
 primary_keyword: "agent handoff patterns"
-last_updated: "2026-06-05"
+last_updated: "2026-06-14"
 schema_types:
   - FAQPage
 related:
@@ -28,7 +28,7 @@ An agent handoff pattern is a software design pattern that governs how an autono
 
 In push handoff, the calling agent constructs a payload containing task context and directly notifies the receiving agent — typically by calling a function, sending a message, or invoking an API that wakes the callee. The caller controls exactly what data the callee receives, when it receives it, and which agent handles the task.
 
-Push handoff is the pattern used by OpenAI Agents SDK's `handoff()` primitive (26,937 GitHub stars, MIT). The caller can optionally pass an `input_filter` function that strips or transforms context fields before transfer — but this requires explicit opt-in. Without `input_filter`, the full context window passes to the callee, including any sensitive content the caller has accumulated.
+Push handoff is the pattern used by OpenAI Agents SDK's `handoff()` primitive (27,133 GitHub stars, MIT). The caller can optionally pass an `input_filter` function that strips or transforms context fields before transfer — but this requires explicit opt-in. Without `input_filter`, the full context window passes to the callee, including any sensitive content the caller has accumulated.
 
 **Strengths**: low latency, direct control over task routing, simple to trace in observability tools.  
 **Risks**: caller must explicitly strip credentials and sensitive context; tight coupling between caller and callee means routing logic must change when specialist agents are added or removed.
@@ -64,7 +64,7 @@ Streaming handoff carries the highest credential exposure risk: the stream may i
 
 Most multi-agent handoff failures fall into two categories: context-loss bugs and credential-leakage bugs. Both are preventable by design.
 
-**Context-loss numbers**: A 2024 study on LLM context compression found that naive truncation at the handoff boundary — cutting the context window to fit token limits — caused a 34% drop in task-completion rate on multi-hop reasoning tasks compared to structured summarization. When a researcher agent hands a 4,000-token analysis to a writer agent with only a 200-token task description, the writer agent starts from scratch on context that the researcher already established. The solution is not a larger context window — it is a structured handoff payload with explicit fields for completed work, remaining work, and key findings.
+**Context-loss numbers**: Evaluations of LLM context compression consistently find that naive truncation at the handoff boundary — cutting the context window to fit token limits — degrades task-completion rates on multi-hop reasoning tasks compared to structured summarization. When a researcher agent hands a 4,000-token analysis to a writer agent with only a 200-token task description, the writer agent starts from scratch on context that the researcher already established. The solution is not a larger context window — it is a structured handoff payload with explicit fields for completed work, remaining work, and key findings.
 
 **Credential leakage**: OWASP LLM06:2025 (Sensitive Information Disclosure) explicitly covers credential exfiltration via agent-to-agent message passing as a top-10 LLM vulnerability. Frameworks that pass the full Session or context object during handoff — including environment variables, bearer tokens, or vault-injected API keys — create an exfiltration path that a compromised downstream agent can exploit.
 
@@ -88,9 +88,9 @@ For teams adopting OpenLegion: `hand_off(to="agent_id", summary="...", data="...
 
 ## How Major Frameworks Implement Handoff
 
-### OpenAI Agents SDK: handoff() with input_filter (26,937 Stars)
+### OpenAI Agents SDK: handoff() with input_filter (27,133 Stars)
 
-openai/openai-agents-python (26,937 GitHub stars, MIT license) is the most widely cited agent handoff implementation in the current ecosystem. Released March 2025, it implements push handoff via a `handoff()` function that takes a target agent and an optional `input_filter` parameter.
+openai/openai-agents-python (27,133 GitHub stars, MIT license) is the most widely cited agent handoff implementation in the current ecosystem. Released March 2025, it implements push handoff via a `handoff()` function that takes a target agent and an optional `input_filter` parameter.
 
 ```python
 from agents import Agent, handoff, RunContextWrapper
@@ -107,9 +107,9 @@ researcher = Agent(
 
 Without `input_filter`, the entire context including tool call history passes to the callee. The `input_filter` API is the correct approach but requires teams to implement the stripping logic explicitly.
 
-### Google ADK: transfer_to_agent() and Session Object Transfer (19,995 Stars)
+### Google ADK: transfer_to_agent() and Session Object Transfer (20,100 Stars)
 
-google/adk-python (19,995 GitHub stars, Apache-2.0) implements handoff via `transfer_to_agent()`, which passes the full `Session` object to the receiving agent. The Session includes the complete conversation history, which can reach 32k tokens in long-running pipelines. The callee receives everything — including context it does not need — and must explicitly discard irrelevant history.
+google/adk-python (20,100 GitHub stars, Apache-2.0) implements handoff via `transfer_to_agent()`, which passes the full `Session` object to the receiving agent. The Session includes the complete conversation history, which can reach 32k tokens in long-running pipelines. The callee receives everything — including context it does not need — and must explicitly discard irrelevant history.
 
 ADK's approach prioritizes continuity (the callee has complete context) over isolation (the callee receives only what it needs). This is the right trade-off for tightly integrated agent pairs but creates unnecessary exposure in pipelines where callees should operate with limited context.
 
@@ -222,11 +222,11 @@ An agent handoff pattern is a protocol for transferring a task from one AI agent
 
 ### How does OpenAI Agents SDK implement handoff?
 
-OpenAI Agents SDK (26,937 GitHub stars, MIT) implements handoff() as a push pattern — the calling agent invokes handoff() with a target agent and an optional input_filter function that strips fields from the context before transfer. The input_filter parameter was added in v0.0.5 (March 2025) and requires explicit opt-in; without it, the full context window passes to the callee, including any accumulated sensitive content.
+OpenAI Agents SDK (27,133 GitHub stars, MIT) implements handoff() as a push pattern — the calling agent invokes handoff() with a target agent and an optional input_filter function that strips fields from the context before transfer. The input_filter parameter was added in v0.0.5 (March 2025) and requires explicit opt-in; without it, the full context window passes to the callee, including any accumulated sensitive content.
 
 ### How does Google ADK implement agent handoff?
 
-Google ADK (19,995 GitHub stars, Apache-2.0) uses transfer_to_agent(), which passes the full Session object — including conversation history — to the receiving agent. This creates a context transfer of up to 32k tokens by default. The receiving agent receives the complete history and must explicitly discard irrelevant prior context rather than receiving only the fields it needs.
+Google ADK (20,100 GitHub stars, Apache-2.0) uses transfer_to_agent(), which passes the full Session object — including conversation history — to the receiving agent. This creates a context transfer of up to 32k tokens by default. The receiving agent receives the complete history and must explicitly discard irrelevant prior context rather than receiving only the fields it needs.
 
 ### What is the blackboard-pointer handoff pattern and why is it more secure?
 
