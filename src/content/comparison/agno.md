@@ -171,7 +171,7 @@ For the full security threat model for AI agents, see the [AI agent security gui
 ## CTA
 
 **Security built in from day one.**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
+[Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 
@@ -215,9 +215,11 @@ Both frameworks use LiteLLM under the hood, so LLM provider configurations trans
 
 ## Related Comparisons
 
-- [OpenLegion vs CrewAI](/comparison/crewai)
-- [OpenLegion vs LangGraph](/comparison/langgraph)
-- [OpenLegion vs AutoGen](/comparison/autogen)
-- [AI agent security guide](/learn/ai-agent-security)
-- [AI agent frameworks comparison](/learn/ai-agent-frameworks)
-- [AI agent platform overview](/learn/ai-agent-platform)
+| Anchor Text | Destination |
+|---|---|
+| OpenLegion vs CrewAI | /comparison/crewai |
+| OpenLegion vs LangGraph | /comparison/langgraph |
+| OpenLegion vs AutoGen | /comparison/autogen |
+| AI agent security guide | /learn/ai-agent-security |
+| AI agent frameworks comparison | /learn/ai-agent-frameworks |
+| AI agent platform overview | /learn/ai-agent-platform |
