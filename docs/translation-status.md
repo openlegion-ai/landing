@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-14
 
-Tracks per-page translation coverage for the 47 canonical English pages
+Tracks per-page translation coverage for the 48 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 47
+- **Canonical pages:** 48
 - **Fully translated (all 12 locales):** 45
 - **Partially translated:** 0
-- **English-only (0 translations):** 2
+- **English-only (0 translations):** 3
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 45 / 47 | 96% |
-| zh-TW | 45 / 47 | 96% |
-| ja | 45 / 47 | 96% |
-| ko | 45 / 47 | 96% |
-| es | 45 / 47 | 96% |
-| fr | 45 / 47 | 96% |
-| de | 45 / 47 | 96% |
-| pt | 45 / 47 | 96% |
-| ar | 45 / 47 | 96% |
-| hi | 45 / 47 | 96% |
-| ru | 45 / 47 | 96% |
-| th | 45 / 47 | 96% |
+| zh | 45 / 48 | 94% |
+| zh-TW | 45 / 48 | 94% |
+| ja | 45 / 48 | 94% |
+| ko | 45 / 48 | 94% |
+| es | 45 / 48 | 94% |
+| fr | 45 / 48 | 94% |
+| de | 45 / 48 | 94% |
+| pt | 45 / 48 | 94% |
+| ar | 45 / 48 | 94% |
+| hi | 45 / 48 | 94% |
+| ru | 45 / 48 | 94% |
+| th | 45 / 48 | 94% |
 
 ## Coverage matrix
 
@@ -45,6 +45,7 @@ locales; they are not tracked here.
 | `/ai-social-media-management` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/agentops` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/comparison/agno` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/comparison/autogen` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/aws-strands` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/crewai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -92,6 +93,7 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
+- `/comparison/agno` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-rag` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
