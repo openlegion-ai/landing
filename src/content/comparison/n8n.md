@@ -9,7 +9,7 @@ secondary_keywords:
   - workflow automation alternative
   - n8n licensing issues
 date_published: "2026-05"
-last_updated: "2026-06-09"
+last_updated: "2026-06-14"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -24,7 +24,7 @@ related:
 
 # n8n Alternative: OpenLegion Agent Platform vs Workflow Automation
 
-n8n is a visual workflow automation platform with 189,040 GitHub stars, a fair-code Sustainable Use License that prohibits commercial hosting by third parties, and credential storage in a database any workflow with DB access can read. OpenLegion is a security-first multi-agent platform with vault proxy credential isolation, Docker-container isolation per agent, and native blackboard + pub/sub + handoff coordination. The two products diverge on licensing freedom, credential security architecture, and whether multi-agent coordination is a built-in primitive or a workaround.
+n8n is a visual workflow automation platform with 192,443 GitHub stars, a fair-code Sustainable Use License that prohibits commercial hosting by third parties, and credential storage in a database any workflow with DB access can read. OpenLegion is a security-first multi-agent platform with vault proxy credential isolation, Docker-container isolation per agent, and native blackboard + pub/sub + handoff coordination. The two products diverge on licensing freedom, credential security architecture, and whether multi-agent coordination is a built-in primitive or a workaround.
 
 <!-- SCHEMA: DefinitionBlock -->
 **n8n** is a fair-code-licensed visual workflow automation platform that connects APIs, services, and AI models through a drag-and-drop node editor; it stores workflow credentials in a central database and uses a single-workflow execution model that requires custom workarounds to coordinate multiple independent agents.
@@ -34,25 +34,25 @@ n8n is a visual workflow automation platform with 189,040 GitHub stars, a fair-c
 | **Dimension** | **OpenLegion** | **n8n** |
 |---|---|---|
 | **Primary purpose** | Multi-agent platform with security-first architecture | Visual workflow automation for API integration |
-| **GitHub stars** | ~59 | 189,040 |
+| **GitHub stars** | ~59 | 192,443 |
 | **License** | BSL 1.1 → Apache 2.0 after 4 years | Fair-code Sustainable Use License (non-OSI) |
 | **Commercial hosting** | Unrestricted | Prohibited for third parties under fair-code terms |
 | **Credential model** | Vault proxy — agents never hold plaintext keys | Database-stored credentials, accessible to any workflow with DB access |
 | **Agent isolation** | Docker container per agent, non-root, no Docker socket | Not enforced — workflows share process environment |
 | **Multi-agent coordination** | Native: blackboard + pub/sub + handoff protocol | Single-workflow model — multi-agent requires workarounds |
 | **Budget controls** | Per-agent daily/monthly hard cutoffs | None built-in |
-| **Open issues** | N/A | 76 open vulnerability advisories as of 2026-05 |
-| **Deployment** | Docker, hosted at $19/month | Self-hosted or n8n Cloud ($24–$60/month) |
+| **Open issues** | N/A | 196 security advisories (127 affecting v1.x) as of June 2026 |
+| **Deployment** | Docker, hosted at $19/month | Self-hosted or n8n Cloud (from €20/month on annual billing) |
 
 ## OpenLegion's Take
 
-n8n raised $180M Series C at a $2.5B valuation in October 2025 — NVIDIA's NVentures participated. That scale of capital confirms n8n solves a real problem: connecting APIs through visual flows without writing boilerplate code. For teams wiring together Slack, Postgres, Stripe, and a handful of LLM calls, n8n delivers fast.
+n8n has raised substantial Series C funding and is backed by major institutional investors. That scale of capital confirms n8n solves a real problem: connecting APIs through visual flows without writing boilerplate code. For teams wiring together Slack, Postgres, Stripe, and a handful of LLM calls, n8n delivers fast.
 
 Three things matter when you move past that use case:
 
 **Licensing.** n8n's fair-code Sustainable Use License is not OSI-approved open source. Section 3 explicitly prohibits "Licensor Competing Use" — providing n8n as a hosted automation service to third parties. If your product *is* an automation platform, or you run agents-as-a-service for clients, the fair-code restriction lands directly on your business model. OpenLegion ships under BSL 1.1, which converts to Apache 2.0 four years after each release. No call-home provisions, no usage-based restrictions on what you build.
 
-**Credential security.** n8n stores workflow credentials in its internal database. Any n8n workflow that has database access — including every workflow on a self-hosted instance — can potentially read other workflows' stored credentials through misconfiguration or privilege escalation. n8n lists 76 open security vulnerability advisories on its GitHub repository as of May 2026. OpenLegion's vault proxy routes every authenticated API call through a trusted zone at the network layer; agent containers never hold an API key, a database URL, or a cloud credential in any form. A compromised agent process gains nothing useful.
+**Credential security.** n8n stores workflow credentials in its internal database. Any n8n workflow that has database access — including every workflow on a self-hosted instance — can potentially read other workflows' stored credentials through misconfiguration or privilege escalation. n8n has 196 security advisories on its GitHub repository as of June 2026, with 127 affecting the v1.x branch including CVE-2025-68613 (Arbitrary Code Execution in the Code node, CISA KEV, fixed in 1.89.2) and CVE-2025-27406 (RCE via math expression nodes, Critical, fixed in 1.82.2). OpenLegion's vault proxy routes every authenticated API call through a trusted zone at the network layer; agent containers never hold an API key, a database URL, or a cloud credential in any form. A compromised agent process gains nothing useful.
 
 **Multi-agent coordination.** n8n's single-workflow execution model was designed for linear integrations, not fleet-scale agent systems. Building a pipeline where Agent A publishes a research result that Agent B picks up and routes to Agent C for validation requires either chaining HTTP calls between workflows, using n8n's sub-workflow feature with manual correlation, or external state management that you build and operate yourself. OpenLegion ships blackboard (persistent cross-agent key-value store), pub/sub events, and `hand_off()` as core primitives. You describe coordination intent, not coordination infrastructure.
 
@@ -133,7 +133,7 @@ See [AI agent frameworks landscape](/learn/ai-agent-frameworks) for a broader co
 
 ## Deployment and Hosting
 
-**n8n**: self-hosted (Docker, npm, or Kubernetes) or n8n Cloud at $24/month (starter) to $60/month (pro) with a 5-workflow or 15-workflow limit respectively. Enterprise pricing requires negotiation. n8n Cloud is managed by n8n GmbH under the fair-code terms.
+**n8n**: self-hosted (Docker, npm, or Kubernetes) or n8n Cloud starting at €20/month (Starter) and €50/month (Pro) on annual billing, with 5-workflow or 15-workflow limits respectively. Enterprise pricing requires negotiation. n8n Cloud is managed by n8n GmbH under the fair-code terms.
 
 **OpenLegion**: Docker-based self-hosted deployment or hosted at $19/month with no workflow count limits. Agent budget controls are enforced at the platform level — overspending agents are cut off automatically.
 
@@ -144,7 +144,7 @@ For teams evaluating hosting models and security posture, n8n Cloud gives the ve
 
 ### What is n8n and how does it compare to OpenLegion?
 
-n8n is a visual workflow automation platform with 189,040 GitHub stars that connects APIs, databases, and AI models through a drag-and-drop node editor. OpenLegion is a multi-agent platform with a security-first architecture: credential vault proxy, Docker-container isolation per agent, and native blackboard + pub/sub + handoff coordination. n8n targets API integration pipelines; OpenLegion targets production multi-agent systems where security and fleet coordination are first-class requirements.
+n8n is a visual workflow automation platform with 192,443 GitHub stars that connects APIs, databases, and AI models through a drag-and-drop node editor. OpenLegion is a multi-agent platform with a security-first architecture: credential vault proxy, Docker-container isolation per agent, and native blackboard + pub/sub + handoff coordination. n8n targets API integration pipelines; OpenLegion targets production multi-agent systems where security and fleet coordination are first-class requirements.
 
 ### What are n8n's licensing restrictions?
 
@@ -160,7 +160,7 @@ n8n's single-workflow execution model works well for linear API integration pipe
 
 ### What are n8n's known security vulnerabilities?
 
-n8n has 76 open security vulnerability advisories on its GitHub repository as of May 2026. The credential database model means encryption key management, database access controls, and environment secret handling all become operator security responsibilities. n8n Cloud shifts this responsibility to the vendor. OpenLegion's vault proxy architecture means agent-level credential exposure is architecturally prevented, not operationally managed.
+n8n has 196 security advisories on its GitHub repository as of June 2026, with 127 affecting the v1.x branch. Notable critical issues include CVE-2025-68613 (Arbitrary Code Execution in the Code node, added to CISA KEV on 2025-06-09, fixed in 1.89.2) and CVE-2025-27406 (RCE via math expression nodes, fixed in 1.82.2). The credential database model means encryption key management, database access controls, and environment secret handling all become operator security responsibilities. n8n Cloud shifts this responsibility to the vendor. OpenLegion's vault proxy architecture means agent-level credential exposure is architecturally prevented, not operationally managed.
 
 ### Can I migrate from n8n to OpenLegion?
 
@@ -168,7 +168,7 @@ Yes. n8n workflows map onto OpenLegion agent patterns: trigger nodes become hear
 
 ### How does n8n pricing compare to OpenLegion?
 
-n8n Cloud starts at $24/month (starter, 5-workflow limit) and $60/month (pro, 15-workflow limit). Enterprise pricing requires a sales conversation. Self-hosted n8n is free under the fair-code terms for internal use. OpenLegion hosted starts at $19/month with no workflow count limits and per-agent budget controls enforced at the platform level — agents that exceed their daily or monthly spending cap are cut off automatically, which n8n has no equivalent for.
+n8n Cloud starts at €20/month (Starter, 5-workflow limit) and €50/month (Pro, 15-workflow limit) on annual billing. Enterprise pricing requires a sales conversation. Self-hosted n8n is free under the fair-code terms for internal use. OpenLegion hosted starts at $19/month with no workflow count limits and per-agent budget controls enforced at the platform level — agents that exceed their daily or monthly spending cap are cut off automatically, which n8n has no equivalent for.
 
 ## Get Started with OpenLegion
 
