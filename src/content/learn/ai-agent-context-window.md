@@ -2,6 +2,7 @@
 title: "AI Agent Context Window — Management, Limits, and Security"
 description: "AI agent context window management: token budgets, context poisoning via OWASP LLM02:2025, compression strategies, and how OpenLegion enforces per-agent context isolation."
 primary_keyword: ai agent context window
+slug: /learn/ai-agent-context-window
 last_updated: "2026-06-08"
 schema_types:
   - FAQPage
