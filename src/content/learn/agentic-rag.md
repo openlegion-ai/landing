@@ -17,7 +17,7 @@ related:
 
 # Agentic RAG: Iterative Retrieval, Multi-Agent Pipelines, and Corpus Security
 
-Agentic RAG is an architecture in which an AI agent autonomously controls the retrieval loop — formulating queries, evaluating whether retrieved context is sufficient, and issuing follow-up retrievals when it is not. Single-pass RAG misses 34% of answers on multi-hop questions (IRCoT, arXiv:2210.10720) because evidence chains span multiple documents that one retrieval cannot surface. Every additional retrieval step is also a potential injection surface: OWASP LLM01 (2025) identifies corpus injection via malicious documents as a primary AI application threat.
+Agentic RAG is an architecture in which an AI agent autonomously controls the retrieval loop — formulating queries, evaluating whether retrieved context is sufficient, and issuing follow-up retrievals when it is not. Single-pass RAG misses 34% of answers on multi-hop questions (IRCoT, arXiv:2212.10560) because evidence chains span multiple documents that one retrieval cannot surface. Every additional retrieval step is also a potential injection surface: OWASP LLM01 (2025) identifies corpus injection via malicious documents as a primary AI application threat.
 
 <!-- SCHEMA: DefinitionBlock -->
 Agentic RAG is an architecture in which an AI agent autonomously controls the retrieval-augmented generation loop — formulating retrieval queries, deciding whether retrieved context is sufficient to answer the question, issuing follow-up queries when it is not, and synthesizing a final response only when the evidence base is complete — replacing the static single-pass retrieve-then-generate pattern with an iterative, reasoning-driven retrieval process.
@@ -30,7 +30,7 @@ Naive RAG follows a fixed pipeline: embed the user query, retrieve top-K chunks,
 
 Multi-hop questions require combining information from multiple documents — "Which CEO founded both Company A and Company B?" requires finding founding information for A, founding information for B, and then identifying the intersection. Single-pass RAG retrieves chunks that match the query embedding, but the query embedding for a multi-hop question is a blurry average of all sub-questions. The most relevant individual chunks for sub-question 1 and sub-question 2 may not share vocabulary with the combined query and therefore may not be the top-K results.
 
-IRCoT (Interleaved Retrieval with Chain-of-Thought, arXiv:2210.10720) measured this failure mode precisely: single-pass RAG achieved 34% miss rate on multi-hop question answering benchmarks, while interleaved retrieval — where a reasoning step follows each retrieval and informs the next query — reduced the miss rate substantially. The key insight: each reasoning step produces a more specific sub-query than the original, yielding higher-precision retrieval for the next hop.
+IRCoT (Interleaved Retrieval with Chain-of-Thought, arXiv:2212.10560) measured this failure mode precisely: single-pass RAG achieved 34% miss rate on multi-hop question answering benchmarks, while interleaved retrieval — where a reasoning step follows each retrieval and informs the next query — reduced the miss rate substantially. The key insight: each reasoning step produces a more specific sub-query than the original, yielding higher-precision retrieval for the next hop.
 
 ### The Ambiguous Query Problem: No Course-Correction in Single-Pass
 
@@ -38,7 +38,7 @@ User queries are often ambiguous or underspecified. "What are the pricing change
 
 An agentic retrieval loop can detect retrieval failure: if the synthesizer step cannot form a confident answer from retrieved context, it signals insufficiency and the agent reformulates the query — adding temporal constraints, product scope, or entity disambiguation — and retrieves again. This course-correction is architecturally impossible in single-pass RAG.
 
-### IRCoT: How Iterative Retrieval Closes the Gap (arXiv:2210.10720)
+### IRCoT: How Iterative Retrieval Closes the Gap (arXiv:2212.10560)
 
 IRCoT's mechanism is straightforward: after each retrieval step, the model generates a chain-of-thought reasoning sentence. That sentence is appended to the query context for the next retrieval step. The reasoning sentence contains specific entities, facts, and constraints extracted from the retrieved documents — making the next retrieval query much more precise than the original.
 
@@ -64,11 +64,11 @@ This pattern is appropriate when the corpus is partitioned into distinct domains
 
 HyDE (Hypothetical Document Embeddings) inverts the retrieval problem: instead of embedding the query and searching for similar documents, it generates a hypothetical answer to the query, embeds the hypothetical answer, and retrieves documents similar to the hypothetical answer embedding.
 
-Why this works: the hypothetical answer is in the same vocabulary and structure space as the corpus documents, so the similarity search finds better matches than a user query (which is often terse, incomplete, or uses different vocabulary than the corpus). BGE-M3 (FlagOpen/FlagEmbedding, 7,600+ ⭐, MIT license, November 2023, 8,192 token context) works well for HyDE because its multi-granularity encoding supports both short query-style and long document-style inputs in the same embedding space.
+Why this works: the hypothetical answer is in the same vocabulary and structure space as the corpus documents, so the similarity search finds better matches than a user query (which is often terse, incomplete, or uses different vocabulary than the corpus). BGE-M3 (FlagOpen/FlagEmbedding, 11,820+ ⭐, MIT license, November 2023, 8,192 token context) works well for HyDE because its multi-granularity encoding supports both short query-style and long document-style inputs in the same embedding space.
 
 ### Pattern 4: FLARE — Forward-Looking Active Retrieval
 
-FLARE (Forward-Looking Active REtrieval, ACL 2023) detects uncertainty during generation and triggers retrieval mid-sequence. During token generation, FLARE monitors token probability. When the model generates a low-confidence span — a specific claim, a named entity, a statistic — it pauses generation, formulates a retrieval query from the low-confidence span, retrieves, and continues generation with the retrieved context appended.
+FLARE (Forward-Looking Active REtrieval, EMNLP 2023) detects uncertainty during generation and triggers retrieval mid-sequence. During token generation, FLARE monitors token probability. When the model generates a low-confidence span — a specific claim, a named entity, a statistic — it pauses generation, formulates a retrieval query from the low-confidence span, retrieves, and continues generation with the retrieved context appended.
 
 FLARE is appropriate for long-form generation tasks where different parts of the output require evidence from different corpus sections — research summaries, legal analysis, technical reports. The retrieval triggers are tied to generation uncertainty rather than a pre-decomposed query plan, so FLARE handles unforeseeable evidence requirements better than sub-question decomposition.
 
@@ -89,7 +89,7 @@ Production agentic RAG systems use multiple retrieval techniques in combination.
 Dense retrieval embeds both the query and corpus documents into a shared vector space and finds nearest neighbors. Performance depends heavily on embedding model quality and corpus size.
 
 **Embedding model selection:**
-- **BGE-M3** (FlagOpen/FlagEmbedding, 7,600+ ⭐, MIT): multi-lingual, multi-granularity, 8,192 token context window. Strong performance on MTEB (Massive Text Embedding Benchmark) across 56 datasets. Best open-source choice for multilingual or long-document corpora.
+- **BGE-M3** (FlagOpen/FlagEmbedding, 11,820+ ⭐, MIT): multi-lingual, multi-granularity, 8,192 token context window. Strong performance on MTEB (Massive Text Embedding Benchmark) across 56 datasets. Best open-source choice for multilingual or long-document corpora.
 - **text-embedding-3-large** (OpenAI): $0.00013 per 1,000 tokens. 3,072 dimensions, matryoshka representation learning allows dimension reduction with minimal quality loss. Best managed-API choice for English corpora.
 - **Cohere embed-v3**: supports compression to binary/int8 vectors for 4x storage reduction with ~2% quality cost.
 
@@ -224,7 +224,7 @@ Agentic RAG is a retrieval-augmented generation architecture where an AI agent a
 
 ### Why does single-pass RAG fail on multi-hop questions?
 
-Single-pass RAG embeds the user query and retrieves the top-K semantically similar chunks in one step. For multi-hop questions, the relevant evidence is spread across documents that are individually not highly similar to the combined query embedding — each sub-question has its own relevant documents, but the merged query embedding is a blurry average that may not surface any of them in top-K. IRCoT (arXiv:2210.10720) measured a 34% miss rate for single-pass RAG on multi-hop benchmarks. Iterative retrieval, where each retrieved document informs a more precise follow-up query, closes most of this gap.
+Single-pass RAG embeds the user query and retrieves the top-K semantically similar chunks in one step. For multi-hop questions, the relevant evidence is spread across documents that are individually not highly similar to the combined query embedding — each sub-question has its own relevant documents, but the merged query embedding is a blurry average that may not surface any of them in top-K. IRCoT (arXiv:2212.10560) measured a 34% miss rate for single-pass RAG on multi-hop benchmarks. Iterative retrieval, where each retrieved document informs a more precise follow-up query, closes most of this gap.
 
 ### What is the difference between HyDE and FLARE in agentic RAG?
 
@@ -240,7 +240,7 @@ Hybrid search combines dense (vector) retrieval with sparse (BM25/keyword) retri
 
 ### What embedding model should I use for agentic RAG?
 
-For open-source deployments, BGE-M3 (FlagOpen/FlagEmbedding, 7,600+ ⭐, MIT license) is the strongest general-purpose choice: multi-lingual, 8,192 token context, high MTEB scores across 56 evaluation datasets, supports hybrid dense/sparse/multi-vector retrieval in a single model. For managed-API deployments, OpenAI's text-embedding-3-large at $0.00013 per 1,000 tokens offers strong English performance with matryoshka dimension reduction. The choice matters more than most RAG practitioners expect — switching from a weak to a strong embedding model can improve Recall@10 by 15-25 percentage points on specialized corpora.
+For open-source deployments, BGE-M3 (FlagOpen/FlagEmbedding, 11,820+ ⭐, MIT license) is the strongest general-purpose choice: multi-lingual, 8,192 token context, high MTEB scores across 56 evaluation datasets, supports hybrid dense/sparse/multi-vector retrieval in a single model. For managed-API deployments, OpenAI's text-embedding-3-large at $0.00013 per 1,000 tokens offers strong English performance with matryoshka dimension reduction. The choice matters more than most RAG practitioners expect — switching from a weak to a strong embedding model can improve Recall@10 by 15-25 percentage points on specialized corpora.
 
 ### How does the retriever/synthesizer split protect against corpus injection?
 
