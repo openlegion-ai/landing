@@ -1,6 +1,7 @@
 ---
 title: "LangChain vs OpenLegion — Ecosystem Library vs Integrated Platform"
 description: "LangChain vs OpenLegion: modular LLM library ecosystem vs integrated agent platform, production deployment, security architecture, and enterprise requirements compared."
+slug: /comparison/langchain-vs-openlegion
 primary_keyword: "langchain vs openlegion"
 secondary_keywords:
   - "langchain alternative"
@@ -10,12 +11,12 @@ secondary_keywords:
 schema_types:
   - FAQPage
 related:
-  - langgraph
-  - crewai
-  - autogen
-  - ai-agent-frameworks
-  - ai-agent-platform
-last_updated: "2026-06-04"
+  - /comparison/langgraph
+  - /comparison/crewai
+  - /comparison/autogen
+  - /learn/ai-agent-frameworks
+  - /learn/ai-agent-platform
+last_updated: "2026-06-14"
 ---
 
 # LangChain vs OpenLegion — Ecosystem Library vs Integrated Platform
@@ -23,7 +24,7 @@ last_updated: "2026-06-04"
 LangChain is a modular Python (and JavaScript) library ecosystem for building LLM-powered applications, spanning 700+ integrations across vector stores, retrievers, callbacks, and agent tools. OpenLegion is an integrated agent platform with built-in orchestration, a credential vault, container isolation, and multi-agent mesh coordination. The two solve overlapping problems with fundamentally different philosophies: LangChain gives you composable primitives; OpenLegion gives you a production-ready system.
 
 <!-- SCHEMA: DefinitionBlock -->
-**LangChain** is an open-source Python and JavaScript library ecosystem (MIT/Apache 2.0 licensed, 87,400 GitHub stars as of June 2026) that provides modular abstractions for chaining LLM calls, managing memory, and integrating external tools, requiring developers to compose and operate the surrounding infrastructure themselves.
+**LangChain** is an open-source Python and JavaScript library ecosystem (MIT/Apache 2.0 licensed, 139,271 GitHub stars as of June 2026) that provides modular abstractions for chaining LLM calls, managing memory, and integrating external tools, requiring developers to compose and operate the surrounding infrastructure themselves.
 
 ## TL;DR Comparison
 
@@ -69,23 +70,22 @@ For teams already on LangGraph, the [LangGraph vs OpenLegion orchestration compa
 
 ## Security Architecture Comparison
 
-LangChain's ecosystem scale creates a measurable attack surface. The project accumulated 4 critical CVEs in an 18-month window, including a CVSS 9.3 serialization injection vulnerability in the community package that allowed arbitrary code execution via crafted retriever responses. Community integrations — contributed by hundreds of external developers — are reviewed less rigorously than core packages.
+LangChain's ecosystem scale creates a measurable attack surface. The project accumulated multiple critical CVEs in an 18-month window, including CVSS 9.8 arbitrary code execution issues via the PALChain Python exec method and via langchain_experimental's insufficient attribute filtering. Community integrations — contributed by hundreds of external developers — are reviewed less rigorously than core packages.
 
 Specific security issues in LangChain's history:
-- **CVE-2023-36188** — arbitrary code execution via Python REPL tool without sandboxing (CVSS 9.8)
-- **CVE-2023-46229** — arbitrary file read via crafted LLM output parsed by SQLDatabaseChain (CVSS 7.5)
-- **CVE-2024-27444** — prompt injection via malformed tool input with insufficient sanitization (CVSS 6.8)
-- **GHSA-3q7m-jh3c-vhwf** — code execution via unsafe deserialization in community loader (CVSS 9.3)
+- **CVE-2023-36188** — arbitrary code execution via PALChain parameter in Python exec method (CVSS 9.8)
+- **CVE-2023-46229** — server-side request forgery (SSRF) via recursive URL loader, allowing pivot from external to internal server (CVSS 8.8)
+- **CVE-2024-27444** — code execution bypassing the CVE-2023-44467 fix via Python attribute access in langchain_experimental (CVSS 9.8)
 
 These aren't indictments of LangChain's quality; they reflect the inherent risk of a 700+ integration ecosystem where supply chain exposure is proportional to integration count.
 
-OpenLegion's security surface is smaller by design. All agent processes run in containers with `non-root` user, `no-new-privileges`, and explicit resource limits. Credential access uses a proxy pattern — the agent sends a handle like `$CRED{openai_api_key}`, and the mesh resolves it server-side, returning only the API response. The raw key never enters the agent process.
+OpenLegion's security surface is smaller by design. All agent processes run in containers with `non-root` user, `no-new-privileges`, and explicit resource limits. Credential access uses a proxy pattern — the agent sends a handle like `$CRED{openai_api_key}`, and the mesh resolver returns only the API response. The raw key never enters the agent process.
 
 See the [agent framework security comparison guide](/learn/ai-agent-frameworks) for CVE timelines across major frameworks.
 
 ## OpenLegion's Take
 
-LangChain is the right choice when you need maximum integration flexibility or are building on top of existing LangGraph pipelines. Its 87,400 GitHub stars and 15.2 million downloads represent a community that has solved almost every LLM integration problem at least once, and Stack Overflow coverage is deep.
+LangChain is the right choice when you need maximum integration flexibility or are building on top of existing LangGraph pipelines. Its 139,271 GitHub stars and 15.2 million downloads represent a community that has solved almost every LLM integration problem at least once, and Stack Overflow coverage is deep.
 
 Three concrete situations where OpenLegion is the better fit:
 
@@ -132,7 +132,7 @@ LangChain requires composing 12+ packages and building your own credential manag
 
 ### How does LangChain handle security compared to OpenLegion?
 
-LangChain stores credentials in developer-managed environment variables and relies on community integrations that have accumulated 4 critical CVEs in 18 months. OpenLegion uses a vault proxy where agent processes never hold raw API keys, and each agent runs in a container with non-root execution and no-new-privileges enforcement. The security model difference is architectural, not configuration-level.
+LangChain stores credentials in developer-managed environment variables and relies on community integrations that have accumulated multiple critical CVEs in 18 months. OpenLegion uses a vault proxy where agent processes never hold raw API keys, and each agent runs in a container with non-root execution and no-new-privileges enforcement. The security model difference is architectural, not configuration-level.
 
 ### Can I use LangChain integrations with OpenLegion?
 
