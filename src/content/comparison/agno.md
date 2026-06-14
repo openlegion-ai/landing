@@ -10,7 +10,7 @@ secondary_keywords:
   - agno alternative python
   - multi-agent framework comparison
 date_published: 2026-05
-last_updated: 2026-06-14
+last_updated: "2026-06-14"
 schema_types:
   - FAQPage
 related:
