@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 46
-- **Fully translated (all 12 locales):** 44
+- **Fully translated (all 12 locales):** 45
 - **Partially translated:** 0
-- **English-only (0 translations):** 2
+- **English-only (0 translations):** 1
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 44 / 46 | 96% |
-| zh-TW | 44 / 46 | 96% |
-| ja | 44 / 46 | 96% |
-| ko | 44 / 46 | 96% |
-| es | 44 / 46 | 96% |
-| fr | 44 / 46 | 96% |
-| de | 44 / 46 | 96% |
-| pt | 44 / 46 | 96% |
-| ar | 44 / 46 | 96% |
-| hi | 44 / 46 | 96% |
-| ru | 44 / 46 | 96% |
-| th | 44 / 46 | 96% |
+| zh | 45 / 46 | 98% |
+| zh-TW | 45 / 46 | 98% |
+| ja | 45 / 46 | 98% |
+| ko | 45 / 46 | 98% |
+| es | 45 / 46 | 98% |
+| fr | 45 / 46 | 98% |
+| de | 45 / 46 | 98% |
+| pt | 45 / 46 | 98% |
+| ar | 45 / 46 | 98% |
+| hi | 45 / 46 | 98% |
+| ru | 45 / 46 | 98% |
+| th | 45 / 46 | 98% |
 
 ## Coverage matrix
 
@@ -66,7 +66,7 @@ locales; they are not tracked here.
 | `/comparison/semantic-kernel` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/agent-handoff-patterns` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/agent-handoff-patterns` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agent2agent-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agentic-workflows` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-evaluation` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -91,6 +91,5 @@ locales; they are not tracked here.
 
 ## Pages needing translation
 
-- `/learn/agent-handoff-patterns` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
