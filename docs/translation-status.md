@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-15
 
-Tracks per-page translation coverage for the 52 canonical English pages
+Tracks per-page translation coverage for the 53 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 52
+- **Canonical pages:** 53
 - **Fully translated (all 12 locales):** 45
 - **Partially translated:** 0
-- **English-only (0 translations):** 7
+- **English-only (0 translations):** 8
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 45 / 52 | 87% |
-| zh-TW | 45 / 52 | 87% |
-| ja | 45 / 52 | 87% |
-| ko | 45 / 52 | 87% |
-| es | 45 / 52 | 87% |
-| fr | 45 / 52 | 87% |
-| de | 45 / 52 | 87% |
-| pt | 45 / 52 | 87% |
-| ar | 45 / 52 | 87% |
-| hi | 45 / 52 | 87% |
-| ru | 45 / 52 | 87% |
-| th | 45 / 52 | 87% |
+| zh | 45 / 53 | 85% |
+| zh-TW | 45 / 53 | 85% |
+| ja | 45 / 53 | 85% |
+| ko | 45 / 53 | 85% |
+| es | 45 / 53 | 85% |
+| fr | 45 / 53 | 85% |
+| de | 45 / 53 | 85% |
+| pt | 45 / 53 | 85% |
+| ar | 45 / 53 | 85% |
+| hi | 45 / 53 | 85% |
+| ru | 45 / 53 | 85% |
+| th | 45 / 53 | 85% |
 
 ## Coverage matrix
 
@@ -83,6 +83,7 @@ locales; they are not tracked here.
 | `/learn/ai-agent-platform` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-sandboxing` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/ai-agent-state-management` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-tool-use` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -104,4 +105,5 @@ locales; they are not tracked here.
 - `/learn/ai-agent-architecture` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-context-window` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/ai-agent-state-management` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
