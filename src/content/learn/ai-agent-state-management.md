@@ -3,7 +3,7 @@ title: "AI Agent State Management — Checkpointing, Shared State, and Crash Rec
 description: "Checkpointing, shared state, and crash recovery for AI agents. Covers LangGraph checkpointers, transactional blackboard writes, reducer patterns, snapshot isolation, and cross-agent synchronization."
 slug: /learn/ai-agent-state-management
 primary_keyword: ai agent state management
-last_updated: "2026-06-11"
+last_updated: "2026-06-15"
 schema_types:
   - FAQPage
 related:
@@ -44,7 +44,7 @@ Production pipelines need both. A multi-day research task needs agent memory to 
 
 Without checkpointing, any process crash forces a full restart from step zero. Every LLM call, every tool invocation, every API round-trip must be repeated. In a 20-step research pipeline that crashes at step 14, steps 1-13 are wasted: their LLM tokens, tool costs, and wall-clock time are all spent again.
 
-With a checkpoint after each step, recovery is targeted: the agent loads the latest checkpoint for its `thread_id`, sees that steps 1-13 completed successfully, and resumes at step 14. LangGraph (langchain-ai/langgraph, 34,428 ⭐, MIT, June 2026) implements this exactly: every graph execution is identified by a `thread_id`, every step produces a `checkpoint_id`, and any backend that implements `BaseCheckpointSaver` can serve as the durability layer.
+With a checkpoint after each step, recovery is targeted: the agent loads the latest checkpoint for its `thread_id`, sees that steps 1-13 completed successfully, and resumes at step 14. LangGraph (langchain-ai/langgraph, 34,815 ⭐, MIT, June 2026) implements this exactly: every graph execution is identified by a `thread_id`, every step produces a `checkpoint_id`, and any backend that implements `BaseCheckpointSaver` can serve as the durability layer.
 
 ### Problem 2: Cross-Agent Coordination Without Message Passing
 
@@ -62,7 +62,7 @@ When multiple agents write to shared state simultaneously without coordination, 
 
 ## Checkpointing Architecture: How LangGraph Does It
 
-LangGraph is the reference implementation of agent checkpointing. At 34,428 stars and MIT-licensed, it is the most widely adopted framework with a formal checkpoint persistence API.
+LangGraph is the reference implementation of agent checkpointing. At 34,815 stars and MIT-licensed, it is the most widely adopted framework with a formal checkpoint persistence API.
 
 ### BaseCheckpointSaver: The Interface Every Backend Implements
 
@@ -158,7 +158,7 @@ State stored inside an agent process is unreliable by design. A process crash, O
 
 OpenLegion's blackboard is external to every agent process. A crash in Agent A doesn't corrupt Agent B's view of shared state. State versions survive crashes because they live outside any individual container. Every write is versioned; rollback to any prior state version is O(1) via the version index.
 
-The OpenAI Agents SDK (openai/openai-agents-python, 27,075 ⭐, MIT, June 2026) ships no built-in persistent checkpointing: state lives in the `Runner.run()` return value. A process crash loses the entire execution context. Developers must implement their own persistence layer, which in practice means wrapping every `Runner.run()` call with a SQLite write — exactly the code that a purpose-built state layer should eliminate.
+The OpenAI Agents SDK (openai/openai-agents-python, 27,169 ⭐, MIT, June 2026) ships no built-in persistent checkpointing: state lives in the `Runner.run()` return value. A process crash loses the entire execution context. Developers must implement their own persistence layer, which in practice means wrapping every `Runner.run()` call with a SQLite write — exactly the code that a purpose-built state layer should eliminate.
 
 | **Dimension** | **OpenLegion** | **LangGraph** | **OpenAI Agents SDK** | **AutoGen** | **CrewAI** |
 |---|---|---|---|---|---|
