@@ -44,11 +44,11 @@ Grok 4 is the first publicly verifiable proof that reinforcement learning can sc
 
 Three claims worth anchoring on:
 
-**xAI valuation and trajectory**: xAI raised $10 billion in Series D in May 2025 at a $75 billion valuation (following a $6 billion Series C in December 2024 at $40 billion). This is not a research lab with uncertain runway — it is a well-capitalized production AI company with a specific incentive to make Grok 4 the best model for agentic use cases.
+**xAI valuation and trajectory**: xAI raised $6 billion in Series C in December 2024 at a $40 billion valuation, followed by $10 billion in combined debt and equity financing in July 2025 (confirmed by Morgan Stanley). This is not a research lab with uncertain runway — it is a well-capitalized production AI company with a specific incentive to make Grok 4 the best model for agentic use cases.
 
 **Native tool use is a security variable, not just a capability variable**: Grok 4's native X/social data access creates an exfiltration surface that bolt-on tool calling does not. When a model is trained to trust tool outputs as part of its reasoning chain, adversarial content in retrieved X posts has higher injection weight than a tool output parsed by an external safety layer. Builders must design explicitly for this.
 
-**Open-source baseline**: xAI's Grok 1 (xai-org/grok-1) has 51,689 GitHub stars and 8,479 forks under Apache-2.0 license — the largest open-model release from xAI. Grok 4 is not open-source, but the Grok 1 release establishes that xAI has the organizational capacity to ship open models when it serves their interests.
+**Open-source baseline**: xAI's Grok 1 (xai-org/grok-1) has 51,690 GitHub stars and 8,477 forks under Apache-2.0 license — the largest open-model release from xAI. Grok 4 is not open-source, but the Grok 1 release establishes that xAI has the organizational capacity to ship open models when it serves their interests.
 
 ### Native Tool Use vs. Bolt-On Tool Calling
 
