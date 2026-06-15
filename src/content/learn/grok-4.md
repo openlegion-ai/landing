@@ -1,11 +1,11 @@
 ---
 title: "Grok 4: xAI's Frontier Model with Native Tool Use"
 description: "Grok 4 is xAI's most capable reasoning model, released July 9 2025, trained on a 200,000-GPU cluster with RL at pretraining scale, native tool use, and API access via grok-4 model string."
+slug: /learn/grok-4
 primary_keyword: "grok 4"
-last_updated: "2026-05-30"
+last_updated: "2026-06-15"
 schema_types:
   - FAQPage
-  - TechArticle
 related:
   - /learn/claude-opus-4-8
   - /learn/ai-agent-frameworks
@@ -62,7 +62,7 @@ Grok 4 can search X posts by keyword and semantic similarity, view media attache
 
 The security implication: any agent pipeline that uses Grok 4 to process X content should treat X posts as untrusted input. Adversarial accounts can craft posts designed to manipulate Grok 4's reasoning when retrieved via tool call. Mitigations include structured output constraints that prevent the model from executing instructions found in retrieved content, and audit logging of all tool-use traces for post-hoc analysis.
 
-For reference on [prompt injection and credential isolation in AI agent deployments](/learn/ai-agent-security), see the dedicated security guide.
+For reference on prompt injection and credential isolation in AI agent deployments, see the [dedicated security guide](/learn/ai-agent-security).
 
 ### Grok 4 Heavy vs. Standard: When to Pay the Premium
 
@@ -114,20 +114,20 @@ The OpenAI-compatible interface means existing agent frameworks that support Ope
 
 ### SuperGrok vs. SuperGrok Heavy Tiers
 
-| Tier | Model Access | Price | Target Use |
-|------|-------------|-------|-----------|
-| SuperGrok | Grok 4 standard | $30/month | Production agents, general reasoning |
-| SuperGrok Heavy | Grok 4 Heavy | Higher tier | Demanding multi-step reasoning chains |
-| xAI API | Grok 4 standard | Per-token | Developer and production API access |
-| Premium+ | Grok 4 standard | X subscription | Consumer access via X platform |
+| **Tier** | **Model Access** | **Price** | **Target Use** |
+|---|---|---|---|
+| **SuperGrok** | Grok 4 standard | $30/month | Production agents, general reasoning |
+| **SuperGrok Heavy** | Grok 4 Heavy | Higher tier | Demanding multi-step reasoning chains |
+| **xAI API** | Grok 4 standard | Per-token | Developer and production API access |
+| **Premium+** | Grok 4 standard | X subscription | Consumer access via X platform |
 
 For teams building agents, the xAI API is the relevant access path — subscription tiers are consumer-oriented and lack the programmatic access controls needed for production agent pipelines.
 
 ### Comparing Grok 4 API Costs to Alternatives
 
-Grok 4's API pricing is per-token via console.x.ai. For [AI agent orchestration and tool-use pipeline design](/learn/ai-agent-orchestration), the relevant factor is that Grok 4's training efficiency (6x compute improvement) should allow competitive pricing relative to models with higher training costs. However, token pricing can change; always pull current rates from the provider's pricing page rather than cached values in agent configurations.
+Grok 4's API pricing is per-token via console.x.ai. For agent orchestration and tool-use pipeline design, the relevant factor is that Grok 4's training efficiency (6x compute improvement) should allow competitive pricing relative to models with higher training costs. However, token pricing can change; always pull current rates from the provider's pricing page rather than cached values in agent configurations.
 
-The broader point for multi-provider agent architectures: OpenLegion's credential vault allows you to configure multiple provider API keys and route by task type, so Grok 4 can handle coding-heavy tasks while other models handle tasks where Grok 4's cost-per-token isn't justified.
+The broader point for multi-provider agent architectures: OpenLegion's credential vault allows you to configure multiple provider API keys and route by task type, so Grok 4 can handle coding-heavy tasks while other models handle tasks where Grok 4's cost-per-token isn't justified. See [AI agent orchestration and tool-use pipeline design](/learn/ai-agent-orchestration) for routing patterns.
 
 ## Security Considerations for Multi-Agent Deployments
 
@@ -150,9 +150,7 @@ Compare this to pipelines where a single API key is injected via environment var
 
 Grok 4's native tool use generates tool call traces as part of the model's reasoning output. These traces should be logged with full fidelity — not just the final response — because the tool call sequence reveals the model's reasoning path and any anomalies in how it handled retrieved content.
 
-For teams using OpenLegion's mesh: the platform logs agent tool interactions at the orchestrator level, so Grok 4 tool traces flow into the same audit log as other agent actions. This is the correct architecture for [AI agent orchestration and tool-use pipeline design](/learn/ai-agent-orchestration) — the audit log is a first-class security control, not an afterthought.
-
-See the guide on [multi-agent system architecture and coordination patterns](/learn/multi-agent-systems) for how to structure agent isolation when one agent in a pipeline uses external data retrieval.
+For teams using OpenLegion's mesh: the platform logs agent tool interactions at the orchestrator level, so Grok 4 tool traces flow into the same audit log as other agent actions. See the guide on [multi-agent system architecture and coordination patterns](/learn/multi-agent-systems) for how to structure agent isolation when one agent in a pipeline uses external data retrieval.
 
 ## Grok 4 vs. Claude Opus 4.8 vs. GPT-4o: Builder's Decision Matrix
 
@@ -163,7 +161,7 @@ See the guide on [multi-agent system architecture and coordination patterns](/le
 | **Context window** | Check api.x.ai/docs | 200K tokens | 128K tokens |
 | **Real-time data access** | Web search + X social search | No (as of June 2025) | Web search (ChatGPT tier) |
 | **Open-source availability** | No (Grok 1 is Apache-2.0) | No | No |
-| **Security/isolation model** | Per-token API key; no tenant isolation info public | Anthropic safety layers; trust hierarchy | OpenAI system prompt layers |
+| **Security/isolation model** | Per-token API key; no public tenant isolation info | Anthropic safety layers; trust hierarchy | OpenAI system prompt layers |
 | **Best for** | Social signal agents, coding tasks, real-time search | Extended reasoning, safety-critical tasks | General-purpose, broad ecosystem |
 
 For teams choosing between these models, the decision criterion is not benchmark score — it is which training paradigm aligns with your task class. [Claude Opus 4.8 extended thinking and agentic capabilities](/learn/claude-opus-4-8) covers the Anthropic approach in depth. [Choosing an AI agent framework for production workloads](/learn/ai-agent-frameworks) covers the framework layer that sits above model selection.
