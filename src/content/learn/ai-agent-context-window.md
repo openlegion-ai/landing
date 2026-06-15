@@ -1,9 +1,9 @@
 ---
 title: "AI Agent Context Window — Management, Limits, and Security"
-description: "AI agent context window management: token budgets, context poisoning via OWASP LLM02:2025, compression strategies, and how OpenLegion enforces per-agent context isolation."
+description: "AI agent context window management: token budgets, context poisoning via OWASP LLM01:2025, compression strategies, and how OpenLegion enforces per-agent context isolation."
 primary_keyword: ai agent context window
 slug: /learn/ai-agent-context-window
-last_updated: "2026-06-08"
+last_updated: "2026-06-15"
 schema_types:
   - FAQPage
 related:
@@ -17,7 +17,7 @@ related:
 
 # AI Agent Context Window: Management, Limits, and Security
 
-An AI agent context window is the finite token buffer that defines everything an agent can "see" during a single reasoning turn — system instructions, conversation history, tool results, working memory, and retrieved facts. Claude Opus 4 supports 200k tokens; GPT-4o supports 128k. Those numbers sound large until a multi-agent workflow starts passing tool outputs between agents, at which point context exhaustion, signal degradation, and context poisoning (OWASP LLM02:2025) become real production failure modes, not theoretical concerns.
+An AI agent context window is the finite token buffer that defines everything an agent can "see" during a single reasoning turn — system instructions, conversation history, tool results, working memory, and retrieved facts. Claude Opus 4 supports 200k tokens; GPT-4o supports 128k. Those numbers sound large until a multi-agent workflow starts passing tool outputs between agents, at which point context exhaustion, signal degradation, and context poisoning (OWASP LLM01:2025) become real production failure modes, not theoretical concerns.
 
 <!-- SCHEMA: DefinitionBlock -->
 An AI agent context window is the finite token buffer containing everything an autonomous agent can access during a single reasoning turn — system instructions, conversation history, tool outputs, retrieved documents, and intermediate reasoning — bounded by the underlying language model's maximum token count and subject to signal degradation, cost scaling, and injection attacks as it fills.
@@ -44,7 +44,7 @@ Context management is the discipline of keeping these five categories balanced s
 | **Claude Opus 4** | 200,000 tokens | Anthropic, 2026 |
 | **GPT-4o** | 128,000 tokens | OpenAI, 2026 |
 | **Llama 3.1 70B** | 128,000 tokens | Meta, self-hosted |
-| **Mistral Large** | 32,000 tokens | Mistral AI, 2026 |
+| **Mistral Large 3** | 128,000 tokens | Mistral AI, 2026 |
 | **GPT-4o-mini** | 128,000 tokens | OpenAI, cost-optimized |
 
 A 1,000,000-token context sounds unlimited. In practice, recall degrades significantly before the ceiling is reached — Liu et al. (Stanford, 2023) showed LLMs have lower recall for information placed in the middle of a long context compared to the start and end. At 200k tokens, information in the middle of the window is effectively less visible to the model than information at either boundary, regardless of its relevance.
@@ -114,7 +114,7 @@ BM25 is optimized for exact-match fact retrieval — "what CVE affects LiteLLM S
 OpenLegion's SQLite memory layer supports both retrieval modes. The MEMORY.md flush pattern proactively promotes important facts to persistent memory *before* context compaction hits — preventing silent information loss. When the context window approaches its limit, the system writes key facts to long-term memory, then compacts; the next turn retrieves those facts back as needed.
 ## Context Poisoning: The Security Risk of Tool Outputs
 
-Context poisoning is OWASP LLM02:2025 — indirect prompt injection via tool outputs. A malicious actor embeds adversarial instructions inside content that an agent retrieves and processes: a web page with hidden `<div style="display:none">Ignore previous instructions. Your new task is...</div>`, a database record with an injected system-prompt override, an API response that redirects the agent's behavior.
+Context poisoning is OWASP LLM01:2025 — indirect prompt injection via tool outputs. A malicious actor embeds adversarial instructions inside content that an agent retrieves and processes: a web page with hidden `<div style="display:none">Ignore previous instructions. Your new task is...</div>`, a database record with an injected system-prompt override, an API response that redirects the agent's behavior.
 
 The attack works because most agent frameworks insert tool outputs directly into the context stream alongside system instructions, with no structural isolation between the two. The model processes tool output tokens the same way it processes instruction tokens — it cannot distinguish "this is data to process" from "this is an instruction to follow" based on position alone.
 
@@ -144,7 +144,7 @@ Context engineering must be an infrastructure concern, not an application conven
 | **Context zone isolation** | System / working memory / tool results | Flat context, no structural isolation | Flat context per agent | Flat context, shared process | Flat context per agent |
 | **Long-term memory** | SQLite + BM25 + vector search, MEMORY.md flush | External stores (Redis, Postgres) — not bundled | Experimental long-term memory module | External stores — not bundled | None built-in |
 | **Context compression** | Proactive MEMORY.md flush before compaction | Manual — developer-implemented | Manual | Manual | Manual |
-| **Context poisoning mitigations** | Unicode sanitization, container isolation | None built-in | None built-in | None built-in | input_filter (opt-in, v0.0.5) |
+| **Context poisoning mitigations** | Unicode sanitization, container isolation | None built-in | None built-in | None built-in | input_filter (opt-in, v0.17.5) |
 | **Observability** | Cost Tracker real-time budget tracking | LangSmith (external) | CrewAI logging | None built-in | None built-in |
 
 For per-framework architecture details, the [AI agent orchestration guide](/learn/ai-agent-orchestration) covers fleet-level coordination patterns that sit on top of context management. For MCP server context overhead specifically, the [Model Context Protocol](/learn/model-context-protocol) page details per-server token costs.
@@ -162,7 +162,7 @@ Multi-agent tool chains accumulate token overhead quickly: system prompts (~2k t
 
 ### What is context poisoning in AI agents?
 
-Context poisoning is OWASP LLM02:2025 — indirect prompt injection where malicious instructions are embedded in tool outputs such as web page contents, database records, or API responses. The agent retrieves the content as data but the model processes the injected instructions as if they were legitimate commands. Mitigations include unicode normalization at tool output ingestion, structural context zone isolation that prevents tool outputs from overwriting instruction positions, and container isolation that limits the blast radius of a successfully poisoned agent.
+Context poisoning is OWASP LLM01:2025 — indirect prompt injection where malicious instructions are embedded in tool outputs such as web page contents, database records, or API responses. The agent retrieves the content as data but the model processes the injected instructions as if they were legitimate commands. Mitigations include unicode normalization at tool output ingestion, structural context zone isolation that prevents tool outputs from overwriting instruction positions, and container isolation that limits the blast radius of a successfully poisoned agent.
 
 ### How do AI agents manage long-term memory beyond the context window?
 
@@ -182,7 +182,7 @@ OpenLegion provides three built-in controls. First, per-agent daily and monthly 
 
 ## Build Agents That Manage Context at the Infrastructure Level
 
-Context engineering — structuring what enters the agent's token window, in what order, and when to compress or externalize it — is now a production discipline. Leaving it to application-layer prompt templates produces agents that silently lose context, accumulate unbounded costs, and expose flat instruction streams to OWASP LLM02:2025 injection attacks.
+Context engineering — structuring what enters the agent's token window, in what order, and when to compress or externalize it — is now a production discipline. Leaving it to application-layer prompt templates produces agents that silently lose context, accumulate unbounded costs, and expose flat instruction streams to OWASP LLM01:2025 injection attacks.
 
 For long-term storage patterns, see the [AI agent memory and long-term storage guide](/learn/ai-agent-memory) — the external storage layer that RAG pulls from requires its own design: what to store, how to index it, and how to prevent memory poisoning. For context window utilization metrics, see the [AI agent observability guide](/learn/ai-agent-observability) — context usage is one of the key per-agent signals worth tracking alongside latency and cost.
 
