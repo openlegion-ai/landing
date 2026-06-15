@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-15
 
-Tracks per-page translation coverage for the 51 canonical English pages
+Tracks per-page translation coverage for the 52 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 51
+- **Canonical pages:** 52
 - **Fully translated (all 12 locales):** 45
 - **Partially translated:** 0
-- **English-only (0 translations):** 6
+- **English-only (0 translations):** 7
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 45 / 51 | 88% |
-| zh-TW | 45 / 51 | 88% |
-| ja | 45 / 51 | 88% |
-| ko | 45 / 51 | 88% |
-| es | 45 / 51 | 88% |
-| fr | 45 / 51 | 88% |
-| de | 45 / 51 | 88% |
-| pt | 45 / 51 | 88% |
-| ar | 45 / 51 | 88% |
-| hi | 45 / 51 | 88% |
-| ru | 45 / 51 | 88% |
-| th | 45 / 51 | 88% |
+| zh | 45 / 52 | 87% |
+| zh-TW | 45 / 52 | 87% |
+| ja | 45 / 52 | 87% |
+| ko | 45 / 52 | 87% |
+| es | 45 / 52 | 87% |
+| fr | 45 / 52 | 87% |
+| de | 45 / 52 | 87% |
+| pt | 45 / 52 | 87% |
+| ar | 45 / 52 | 87% |
+| hi | 45 / 52 | 87% |
+| ru | 45 / 52 | 87% |
+| th | 45 / 52 | 87% |
 
 ## Coverage matrix
 
@@ -73,6 +73,7 @@ locales; they are not tracked here.
 | `/learn/agent2agent-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agentic-rag` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/agentic-workflows` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/ai-agent-architecture` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-context-window` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-evaluation` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-frameworks` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -100,6 +101,7 @@ locales; they are not tracked here.
 - `/comparison/langchain-vs-openlegion` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/comparison/n8n` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-rag` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/ai-agent-architecture` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-context-window` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
