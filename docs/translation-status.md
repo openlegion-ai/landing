@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-15
 
-Tracks per-page translation coverage for the 53 canonical English pages
+Tracks per-page translation coverage for the 54 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 53
+- **Canonical pages:** 54
 - **Fully translated (all 12 locales):** 45
 - **Partially translated:** 0
-- **English-only (0 translations):** 8
+- **English-only (0 translations):** 9
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 45 / 53 | 85% |
-| zh-TW | 45 / 53 | 85% |
-| ja | 45 / 53 | 85% |
-| ko | 45 / 53 | 85% |
-| es | 45 / 53 | 85% |
-| fr | 45 / 53 | 85% |
-| de | 45 / 53 | 85% |
-| pt | 45 / 53 | 85% |
-| ar | 45 / 53 | 85% |
-| hi | 45 / 53 | 85% |
-| ru | 45 / 53 | 85% |
-| th | 45 / 53 | 85% |
+| zh | 45 / 54 | 83% |
+| zh-TW | 45 / 54 | 83% |
+| ja | 45 / 54 | 83% |
+| ko | 45 / 54 | 83% |
+| es | 45 / 54 | 83% |
+| fr | 45 / 54 | 83% |
+| de | 45 / 54 | 83% |
+| pt | 45 / 54 | 83% |
+| ar | 45 / 54 | 83% |
+| hi | 45 / 54 | 83% |
+| ru | 45 / 54 | 83% |
+| th | 45 / 54 | 83% |
 
 ## Coverage matrix
 
@@ -89,6 +89,7 @@ locales; they are not tracked here.
 | `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/claude-opus-4-8` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/credential-management-ai-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/grok-4` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/llm-cost-optimization` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -106,4 +107,5 @@ locales; they are not tracked here.
 - `/learn/ai-agent-context-window` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-state-management` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/grok-4` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
