@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-15
 
-Tracks per-page translation coverage for the 50 canonical English pages
+Tracks per-page translation coverage for the 51 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 50
+- **Canonical pages:** 51
 - **Fully translated (all 12 locales):** 45
 - **Partially translated:** 0
-- **English-only (0 translations):** 5
+- **English-only (0 translations):** 6
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 45 / 50 | 90% |
-| zh-TW | 45 / 50 | 90% |
-| ja | 45 / 50 | 90% |
-| ko | 45 / 50 | 90% |
-| es | 45 / 50 | 90% |
-| fr | 45 / 50 | 90% |
-| de | 45 / 50 | 90% |
-| pt | 45 / 50 | 90% |
-| ar | 45 / 50 | 90% |
-| hi | 45 / 50 | 90% |
-| ru | 45 / 50 | 90% |
-| th | 45 / 50 | 90% |
+| zh | 45 / 51 | 88% |
+| zh-TW | 45 / 51 | 88% |
+| ja | 45 / 51 | 88% |
+| ko | 45 / 51 | 88% |
+| es | 45 / 51 | 88% |
+| fr | 45 / 51 | 88% |
+| de | 45 / 51 | 88% |
+| pt | 45 / 51 | 88% |
+| ar | 45 / 51 | 88% |
+| hi | 45 / 51 | 88% |
+| ru | 45 / 51 | 88% |
+| th | 45 / 51 | 88% |
 
 ## Coverage matrix
 
@@ -58,6 +58,7 @@ locales; they are not tracked here.
 | `/comparison/manus-ai` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/mastra` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/memu` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/comparison/n8n` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/comparison/nanobot` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/nanoclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/comparison/openai-agents-sdk` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -97,6 +98,7 @@ locales; they are not tracked here.
 
 - `/comparison/agno` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/comparison/langchain-vs-openlegion` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/comparison/n8n` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-rag` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-context-window` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
