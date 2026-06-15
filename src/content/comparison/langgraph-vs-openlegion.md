@@ -3,7 +3,7 @@ title: "LangGraph vs OpenLegion — Security and Deployment Decision Guide"
 description: "LangGraph vs OpenLegion: how to choose based on enterprise security requirements, compliance posture, deployment topology, credential governance, and production risk tolerance."
 slug: /comparison/langgraph-vs-openlegion
 primary_keyword: langgraph vs openlegion
-last_updated: "2026-06-15"
+last_updated: "2026-06-16"
 schema_types:
   - FAQPage
 related:
@@ -117,7 +117,7 @@ OpenLegion's core requires Python, SQLite, and Docker. Agent containers add only
 | **Hard per-agent spending limits** | Not available | Built-in with daily/monthly caps |
 | **Static pre-deployment permission audit** | Not available | Built-in via fleet template ACLs |
 | **Enterprise production track record** | Uber, LinkedIn, Klarna | Early adopters |
-| **Open-source license** | MIT | BSL 1.1 → Apache 2.0 after 4 years |
+| **Open-source license** | MIT | PolyForm Perimeter 1.0.1 (source-available) |
 
 ## OpenLegion's Take
 
