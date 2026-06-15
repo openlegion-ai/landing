@@ -1,6 +1,6 @@
 ---
 title: "AI Agent Architecture — Layers, Topologies, and Security-First Design"
-description: "AI agent architecture: four structural layers (perception, reasoning, memory, action), single vs multi-agent topologies, ReAct loop, and 2026 cross-agent standards (Google A2A, OpenAI handoffs)."
+description: "AI agent architecture: four structural layers (perception, reasoning, memory, action), single vs multi-agent topologies, ReAct loop, and 2025 cross-agent standards (Google A2A, OpenAI handoffs)."
 slug: /learn/ai-agent-architecture
 primary_keyword: ai agent architecture
 last_updated: "2026-06-15"
@@ -17,7 +17,7 @@ related:
 
 # AI Agent Architecture: Layers, Topologies, and Security-First Design
 
-AI agent architecture is the structural design of how an autonomous AI agent perceives inputs, reasons via a language model, accesses memory, and executes actions through tools. Architecture decisions made at week one determine whether agents are secure by default at week 52: credentials, network access, and inter-agent trust encoded structurally cannot be bypassed by injection. Google A2A (April 2026) and OpenAI Agents SDK handoffs (March 2026) are the first cross-vendor standards for these structural contracts.
+AI agent architecture is the structural design of how an autonomous AI agent perceives inputs, reasons via a language model, accesses memory, and executes actions through tools. Architecture decisions made at week one determine whether agents are secure by default at week 52: credentials, network access, and inter-agent trust encoded structurally cannot be bypassed by injection. Google A2A (April 2025) and OpenAI Agents SDK handoffs (March 2025) are the first cross-vendor standards for these structural contracts.
 
 <!-- SCHEMA: DefinitionBlock -->
 AI agent architecture is the structural design of how an autonomous AI agent perceives its environment, reasons about inputs using a language model, accesses and updates memory, executes actions via tools, and — in multi-agent systems — communicates with peer agents through defined coordination primitives, with security constraints encoded at the structural level rather than as runtime configuration.
@@ -94,7 +94,7 @@ Topology is the arrangement of agents and the communication channels between the
 
 One agent, one context window, a list of tools. The ReAct loop drives all behavior. Simple to build, simple to debug, bounded in capability by the context window and the tool list.
 
-Implementations: OpenAI Assistants API, LangChain `AgentExecutor`, LlamaIndex `ReActAgent`, AWS Strands Agents (Apache 2.0, April 2026). AWS Strands uses a model-driven loop where the LLM decides tool invocation order without a fixed pipeline, compatible with any Bedrock-hosted model.
+Implementations: OpenAI Assistants API, LangChain `AgentExecutor`, LlamaIndex `ReActAgent`, AWS Strands Agents (Apache 2.0, April 2025). AWS Strands uses a model-driven loop where the LLM decides tool invocation order without a fixed pipeline, compatible with any Bedrock-hosted model.
 
 The attack surface is the tool list. Every tool in the single agent's schema is a potential target for injection-driven misuse. A single-agent architecture with 30 tools has a large action surface; a single-agent architecture with 5 tools is structurally safer. When tool requirements grow, the architectural question is: should this agent have more tools, or should this be split into specialized agents?
 
@@ -106,13 +106,13 @@ An orchestrator agent decomposes the task and dispatches sub-tasks to specialize
 
 This is the recommended topology for production multi-agent systems. The security advantage: worker agents have narrow tool lists (minimum action surface per agent). A research worker with only `web_search` and `read_file` cannot, even if injected, call `send_email` or `write_database`. The blast radius of any single agent compromise is bounded by that agent's tool list.
 
-LangGraph implements hierarchical multi-agent as a DAG state machine (34,428 ⭐, MIT): orchestrator nodes dispatch to worker subgraphs, with conditional edges routing based on worker output. OpenAI Agents SDK (27,075 ⭐, MIT, March 2026) implements this via `handoff_targets` — the orchestrator's schema lists which agent IDs it can hand off to, and the SDK validates the typed handoff payload before transfer. CrewAI implements this as Crew → Task → Agent hierarchy, where the crew manager routes tasks to agents defined in the crew configuration.
+LangGraph implements hierarchical multi-agent as a DAG state machine (34,815 ⭐, MIT): orchestrator nodes dispatch to worker subgraphs, with conditional edges routing based on worker output. OpenAI Agents SDK (27,169 ⭐, MIT, March 2025) implements this via `handoff_targets` — the orchestrator's schema lists which agent IDs it can hand off to, and the SDK validates the typed handoff payload before transfer. CrewAI implements this as Crew → Task → Agent hierarchy, where the crew manager routes tasks to agents defined in the crew configuration.
 
 The OWASP LLM08 mitigation is structural: a compromised worker agent has only its own tool list, not the orchestrator's. The orchestrator never exposes its full context to workers; it sends typed task objects and receives typed result objects.
 
 ### Topology 3: Peer-to-Peer (Lateral Handoffs)
 
-Agents communicate directly with each other — Agent A hands off to Agent B, which may hand off to Agent C. No central orchestrator. OpenAI Agents SDK supports this via `handoff()` primitives between registered agents. Google A2A (April 2026) is designed specifically for this topology: any A2A-compliant agent can call any other, with agent cards advertising capability and task schemas enforcing typed exchange.
+Agents communicate directly with each other — Agent A hands off to Agent B, which may hand off to Agent C. No central orchestrator. OpenAI Agents SDK supports this via `handoff()` primitives between registered agents. Google A2A (April 2025) is designed specifically for this topology: any A2A-compliant agent can call any other, with agent cards advertising capability and task schemas enforcing typed exchange.
 
 The security risk is relay injection (OWASP Agentic Top 10 #1, December 2025): Agent A is injected via a malicious input and passes an adversarial payload to Agent B, which passes it to Agent C. Each hop can amplify the injection. In a peer-to-peer topology with no central trust validator, the injection travels the full agent chain.
 
@@ -157,7 +157,7 @@ The model's tool call must be validated before execution. The three enforcement 
 
 **OpenAI function calling**: the model is constrained to select from a defined function list and must provide arguments conforming to the JSON schema. The API rejects malformed function calls before they reach the application.
 
-**Pydantic validation**: the model's output is parsed against a Pydantic model. Fields not in the schema are rejected; required fields must be present; types are enforced. The Instructor library (10,000+ ⭐) wraps OpenAI and Anthropic APIs to enforce Pydantic-validated structured output with automatic retry on validation failure.
+**Pydantic validation**: the model's output is parsed against a Pydantic model. Fields not in the schema are rejected; required fields must be present; types are enforced. The Instructor library (13,000+ ⭐) wraps OpenAI and Anthropic APIs to enforce Pydantic-validated structured output with automatic retry on validation failure.
 
 **LangGraph state validation**: LangGraph's typed state objects — TypedDict or Pydantic models — define what can flow between graph nodes. A node can only produce outputs that match the next node's input type. Invalid transitions are rejected at the state machine level.
 
@@ -187,7 +187,7 @@ The four-zone trust model separates agent execution from credential access:
 
 The security property: a successfully injected agent cannot exfiltrate credentials it never held. The agent has an opaque handle; the handle is useless outside Zone 2. An attacker who compromises the agent container gets the handle, not the credential.
 
-This is structurally different from the common pattern where credentials are environment variables in the agent container. With env-var credentials, a successful injection can read `os.environ['OPENAI_API_KEY']` and exfiltrate it. With Zone 2 credential isolation, there is nothing in the agent's environment to read. CVE-2024-34359 (LangChain, CVSS 9.8) and CVE-2025-29927 (Next.js header bypass) both demonstrated that plaintext credential patterns in application environments are routinely exploited.
+This is structurally different from the common pattern where credentials are environment variables in the agent container. With env-var credentials, a successful injection can read `os.environ['OPENAI_API_KEY']` and exfiltrate it. With Zone 2 credential isolation, there is nothing in the agent's environment to read. CVE-2024-34359 (llama-cpp-python, CVSS 9.6) and CVE-2025-29927 (Next.js header bypass) both demonstrated that plaintext credential patterns in application environments are routinely exploited.
 
 ### Minimum Action Surface: Encoding Least-Privilege at Design Time
 
@@ -218,11 +218,11 @@ The schema enforcement happens at Zone 2, not in agent code. Agent code can atte
 
 ## Cross-Agent Architecture Standards: A2A and OpenAI Handoffs
 
-Until 2026, multi-agent architectures were framework-specific. LangGraph agents could not natively call CrewAI agents. AutoGen agents were isolated within their Python process. Two 2026 standards are changing this.
+Until 2025, multi-agent architectures were framework-specific. LangGraph agents could not natively call CrewAI agents. AutoGen agents were isolated within their Python process. Two 2025 standards are changing this.
 
-### Google Agent2Agent (A2A) Protocol, April 2026
+### Google Agent2Agent (A2A) Protocol, April 2025
 
-Google published the A2A specification in April 2026 with 50+ companies participating at launch (Atlassian, Salesforce, SAP, MongoDB, Vertex AI). A2A defines two primitives:
+Google published the A2A specification in April 2025 with 50+ companies participating at launch (Atlassian, Salesforce, SAP, MongoDB, Vertex AI). A2A defines two primitives:
 
 **Agent card**: a JSON-LD document (served at `/.well-known/agent.json`) that advertises an agent's capabilities, supported task schemas, authentication requirements, and endpoint URL. Any A2A client can discover an A2A server's capabilities by fetching its agent card.
 
@@ -232,7 +232,7 @@ A2A enables heterogeneous multi-agent architectures: a LangGraph orchestrator ca
 
 ### OpenAI Agents SDK: Handoffs as First-Class Primitives
 
-OpenAI Agents SDK (27,075 ⭐, MIT, March 2026) introduced typed handoffs as a first-class architectural primitive. An agent's schema declares `handoff_targets` — a list of agent IDs it can delegate to — and the SDK validates the handoff payload against the target agent's input schema before transfer.
+OpenAI Agents SDK (27,169 ⭐, MIT, March 2025) introduced typed handoffs as a first-class architectural primitive. An agent's schema declares `handoff_targets` — a list of agent IDs it can delegate to — and the SDK validates the handoff payload against the target agent's input schema before transfer.
 
 ```python
 from agents import Agent, handoff
@@ -254,7 +254,7 @@ The SDK-level validation is the relay injection mitigation: the handoff payload 
 
 ### LangGraph: DAG State Machine as Architecture
 
-LangGraph (34,428 ⭐, MIT) implements multi-agent coordination as a directed acyclic graph (DAG) state machine. Nodes are agent functions; edges are typed state transitions; state is a typed object (TypedDict or Pydantic model) shared across the graph.
+LangGraph (34,815 ⭐, MIT) implements multi-agent coordination as a directed acyclic graph (DAG) state machine. Nodes are agent functions; edges are typed state transitions; state is a typed object (TypedDict or Pydantic model) shared across the graph.
 
 The architectural property: impossible transitions are unrepresentable. If there is no edge from node A to node B in the graph definition, node A cannot cause node B to execute — regardless of what the model in node A generates. The graph topology is the execution constraint; it is defined at build time and cannot be modified by model output at runtime.
 
@@ -331,11 +331,11 @@ Minimum action surface means each agent's tool list contains only the tools requ
 
 ### What is the trust zone model for AI agent credential security?
 
-The trust zone model separates agent execution (Zone 1 containers) from credential access (Zone 2 vault). Agent code holds opaque handles — `$CRED{api_key}` — not actual credentials. When a tool call executes, the mesh host in Zone 2 resolves the handle to the credential, makes the external call, and returns the result. Agent code never sees the plaintext credential. A successfully injected agent that reads its own environment finds only an opaque handle that is useless outside Zone 2 — CVE-2024-34359 and CVE-2025-29927 both demonstrated that env-var credential patterns are routinely exploited.
+The trust zone model separates agent execution (Zone 1 containers) from credential access (Zone 2 vault). Agent code holds opaque handles — `$CRED{api_key}` — not actual credentials. When a tool call executes, the mesh host in Zone 2 resolves the handle to the credential, makes the external call, and returns the result. Agent code never sees the plaintext credential. A successfully injected agent that reads its own environment finds only an opaque handle that is useless outside Zone 2 — CVE-2024-34359 (llama-cpp-python, CVSS 9.6) and CVE-2025-29927 both demonstrated that env-var credential patterns are routinely exploited.
 
 ### What is Google A2A and how does it affect multi-agent architecture?
 
-Google Agent2Agent (A2A) protocol, published April 2026 with 50+ companies participating, defines two cross-framework primitives: an agent card (JSON-LD document at `/.well-known/agent.json` advertising capabilities and task schemas) and a task schema (typed JSON defining what tasks the agent accepts and what results it returns). A2A enables heterogeneous multi-agent architectures — a LangGraph orchestrator can call a CrewAI worker without framework-specific adapters. The task schema is the inter-agent trust boundary: calling agents must construct conforming task objects, and receiving agents validate before processing.
+Google Agent2Agent (A2A) protocol, published April 2025 with 50+ companies participating, defines two cross-framework primitives: an agent card (JSON-LD document at `/.well-known/agent.json` advertising capabilities and task schemas) and a task schema (typed JSON defining what tasks the agent accepts and what results it returns). A2A enables heterogeneous multi-agent architectures — a LangGraph orchestrator can call a CrewAI worker without framework-specific adapters. The task schema is the inter-agent trust boundary: calling agents must construct conforming task objects, and receiving agents validate before processing.
 
 ### How does LangGraph implement multi-agent architecture security?
 
