@@ -139,7 +139,7 @@ An SLO (Service Level Objective) is an internal engineering target. An SLA (Serv
 
 **SLO**: P95 completion time < 45s, tool error rate < 2%, session token budget < 50,000 tokens/session. Engineering teams alert on SLO breach but users are not automatically notified.
 
-**SLA**: For user-facing agents, define maximum acceptable failure rate and completion time across a measurement window (e.g., "95% of user sessions complete without error within 60 seconds over any rolling 1-hour window"). SLA breach triggers user communication and post-incident review.
+**SLA**: For user-facing agents, define maximum acceptable failure rate and completion time across a measurement window (e.g., "95% of user sessions complete without error within 60 seconds over any rolling 1-hour period"). SLA breach triggers user communication and post-incident review.
 
 Autonomous agents running background tasks (scheduled workflows, fleet-wide jobs) should have SLOs, not SLAs — they are infrastructure, and their output feeds into user-facing services that carry their own SLAs.
 
