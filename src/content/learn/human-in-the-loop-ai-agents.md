@@ -1,5 +1,5 @@
 ---
-title: "Human in the Loop AI Agents — Approval Gates, Interrupts, and Escalation"
+title: "Human in the Loop AI Agents: Approval Gates, Interrupts, and Escalation"
 description: "Human in the loop AI agents gate irreversible actions on human approval via interrupt patterns, confidence thresholds, and escalation policies. Covers LangGraph, OpenAI Agents SDK, and audit design."
 slug: /learn/human-in-the-loop-ai-agents
 primary_keyword: human in the loop ai agents
@@ -83,7 +83,7 @@ Confidence-gated escalation is a useful supplement to structural gates — but i
 
 **NIST AI RMF GOVERN 1.7** addresses organizational accountability for AI decision-making. Teams operating production AI agents must establish policies identifying which categories of decisions require human authorization, who holds authorization authority, and how that authority is documented and audited.
 
-**Log retention.** EU AI Act compliance requires audit logs for high-risk systems to be retained for a minimum of 10 years. Logs must include the agent's proposed action, the human's decision, the identity of the reviewer, and a timestamp. Immutable append-only storage (write-once S3, WORM-configured object storage, or a blockchain-anchored hash chain) prevents after-the-fact modification.
+**Log retention.** EU AI Act Article 18 requires providers of high-risk systems to keep technical documentation and quality management records for 10 years after a system is placed on the market. While the Act specifies "over the lifetime of the system" for audit logs (Article 12), retaining approval logs for the same 10-year period aligns with Article 18's documentation retention standard and is the recommended minimum. Logs must include the agent's proposed action, the human's decision, the identity of the reviewer, and a timestamp. Immutable append-only storage (write-once S3, WORM-configured object storage, or a blockchain-anchored hash chain) prevents after-the-fact modification.
 
 **Interpretable explanations.** The reviewer must understand what the agent is proposing and why. An approval gate that presents only a JSON payload is insufficient for compliance. The approval notification must include a human-readable explanation of the action, the agent's stated reason, and the consequence of approval versus rejection.
 
@@ -119,7 +119,7 @@ The graph pauses at `execute_irreversible`, persists state to the checkpointer, 
 
 ### Pattern 2: Post-Execution Review (Audit-First)
 
-The audit-first pattern executes the action and then enters a review window during which a compensating transaction can reverse the effect. This requires two conditions: a compensating transaction must exist (email → recall; database write → rollback within retention window; payment → reversal within cancellation period), and the review window must be shorter than the compensation deadline.
+The audit-first pattern executes the action and then enters a review window during which a compensating transaction can reverse the effect. This requires two conditions: a compensating transaction must exist (email => recall; database write => rollback within retention window; payment => reversal within cancellation period), and the review window must be shorter than the compensation deadline.
 
 **LangGraph implementation** using `interrupt_after`:
 
@@ -220,7 +220,7 @@ State is checkpointed by `BaseCheckpointSaver` before the interrupt. If the proc
 
 ### OpenAI Agents SDK: Approval as a Tool Call
 
-The OpenAI Agents SDK (27,075 ⭐, MIT license, March 2026) implements human approval as a first-class tool. The agent is given a `request_approval` tool in its tool registry; calling this tool with `severity='high'` constitutes a hard gate (execution halts until approval is received), while `severity='low'` is an inform-only notification that does not block continuation.
+The OpenAI Agents SDK (27,175 ⭐, MIT license, March 2025) implements human approval as a first-class tool. The agent is given a `request_approval` tool in its tool registry; calling this tool with `severity='high'` constitutes a hard gate (execution halts until approval is received), while `severity='low'` is an inform-only notification that does not block continuation.
 
 ```python
 from openai_agents import Agent, Tool
@@ -307,7 +307,7 @@ await notify_user(
             f"Action: {action_summary}\n"
             f"Reason: {agent_reasoning}\n"
             f"Severity: HIGH — irreversible\n"
-            f"Timeout: 30 minutes → AUTO-REJECT"
+            f"Timeout: 30 minutes => AUTO-REJECT"
 )
 
 # Suspend execution until steer message received
@@ -351,7 +351,7 @@ EU AI Act Article 14 compliance requires a complete audit record for every human
 | **latency_seconds** | float | Time from gate trigger to decision |
 | **compliance_flags** | array | EU_AI_ACT_ART14, NIST_GOVERN_1.7, etc. |
 
-**Storage requirements:** Immutable append-only storage. Write-once S3 with Object Lock, WORM-configured object storage, or a hash-chain structure where each log entry includes the SHA-256 of the previous entry. 10-year retention minimum for EU AI Act high-risk systems.
+**Storage requirements:** Immutable append-only storage. Write-once S3 with Object Lock, WORM-configured object storage, or a hash-chain structure where each log entry includes the SHA-256 of the previous entry. 10-year retention minimum for EU AI Act high-risk systems (aligned with Article 18 documentation retention requirements).
 
 **Access controls:** Read access for auditors and compliance teams. Write access exclusively for the logging pipeline. No update or delete permissions — if a log entry contains an error, append a correction entry; never modify the original.
 
@@ -410,13 +410,13 @@ An agent that self-determines whether to request approval based on its system pr
 An interrupt hard-coded at the orchestration layer before the email-send node does not read the agent's context window. It fires unconditionally. The agent's reasoning about whether approval is needed is irrelevant, because the interrupt is not contingent on the agent's conclusion.
 
 Three concrete numbers from OpenLegion's default HITL configuration:
-- Default approval timeout: 30 minutes → auto-reject for irreversible actions
+- Default approval timeout: 30 minutes => auto-reject for irreversible actions
 - Dual-approval threshold: any financial transaction above $500 or bulk action above 100 recipients
 - Audit log retention: 10 years, append-only blackboard entries with SHA-256 chain integrity
 
 For the security layer that prevents prompt injection from reaching the approval gate's logic, see [AI agent security](/learn/ai-agent-security). For the evaluation framework that measures whether approval gates are triggering at the right rate, see [AI agent evaluation](/learn/ai-agent-evaluation).
 
-[Build agents with structural approval gates enforced at the orchestration layer on OpenLegion →](https://app.openlegion.ai)
+[Build agents with structural approval gates enforced at the orchestration layer on OpenLegion =>](https://app.openlegion.ai)
 
 <!-- SCHEMA: FAQPage -->
 ## Frequently Asked Questions
