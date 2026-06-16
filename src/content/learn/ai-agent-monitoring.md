@@ -10,7 +10,6 @@ related:
   - /learn/ai-agent-observability
   - /learn/ai-agent-evaluation
   - /learn/ai-agent-security
-  - /learn/ai-agent-testing
   - /learn/credential-management-ai-agents
   - /learn/llm-cost-optimization
 ---
