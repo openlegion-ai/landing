@@ -52,7 +52,7 @@ export const LOCALE_LABELS: Record<string, string> = {
 export const NAV_LINKS = [
   { key: "features", label: "Features", href: "/#features" },
   { key: "useCases", label: "Use Cases", href: "/#use-cases" },
-  { key: "architecture", label: "Architecture", href: "/#architecture" },
+  { key: "architecture", label: "Architecture", href: "/learn/ai-agent-orchestration" },
   { key: "security", label: "Security", href: "/#security" },
   { key: "pricing", label: "Pricing", href: "/pricing" },
   { key: "docs", label: "Docs", href: "https://docs.openlegion.ai" },
@@ -66,15 +66,6 @@ export const DOCS_URL = "https://docs.openlegion.ai";
 export const DISCORD_URL = "https://discord.gg/mXNkjpDvvr";
 export const TWITTER_URL = "https://x.com/openlegion";
 export const DEMO_URL = "https://calendly.com/admin-openlegion/30min";
-
-// ── Hero ─────────────────────────────────────────────────────────────────────
-
-export const HERO = {
-  subtitle:
-    "Pick a fleet template — Content Studio, Sales Pipeline, Dev Team, Research Desk — or compose your own. OpenLegion deploys the stack with budgets, permissions, and vault-proxied credentials built in. From signup to running fleet in ~10 minutes on a dedicated VPS.",
-  ctaPrimary: "Get Started",
-  ctaSecondary: "Read the docs",
-} as const;
 
 // ── Use Cases (team templates) ───────────────────────────────────────────────
 
@@ -169,51 +160,6 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     openlegion: "~77,000 lines in src/ (engine, auditable)",
   },
 ];
-
-// ── Architecture ─────────────────────────────────────────────────────────────
-
-export const ARCHITECTURE = {
-  title: "Defense-in-depth — trust zones at every layer",
-  summary:
-    "Your multi-agent fleet runs across four trust tiers — untrusted input, sandboxed agents, the trusted mesh, and a loopback-only internal tier. Agents only message each other through the mesh, gated by per-agent ACLs; the mesh holds the keys.",
-  zones: [
-    {
-      name: "User Zone",
-      trust: "Untrusted Input",
-      color: "accent" as const,
-      items: [
-        "CLI / Telegram / Discord",
-        "Slack / WhatsApp / Webhooks",
-        "Sanitized via prompt-injection guards",
-      ],
-    },
-    {
-      name: "Mesh Host",
-      trust: "Trusted (Zone 2)",
-      color: "success" as const,
-      items: [
-        "FastAPI on :8420",
-        "Blackboard (SQLite + WAL)",
-        "PubSub + Message Router",
-        "Credential Vault (API Proxy)",
-        "ACL Matrix + Lane Router",
-        "Browser Service :8500 (per-agent Camoufox)",
-      ],
-    },
-    {
-      name: "Agent Containers",
-      trust: "Sandboxed (Zone 1)",
-      color: "danger" as const,
-      items: [
-        "FastAPI :8400 (per container)",
-        "Own /data volume",
-        "Own memory DB (SQLite + vec)",
-        "384MB RAM / 0.15 CPU default",
-        "UID 1000, cap_drop=ALL, no-new-privileges, read-only FS",
-      ],
-    },
-  ],
-} as const;
 
 // ── Quick Start ──────────────────────────────────────────────────────────────
 

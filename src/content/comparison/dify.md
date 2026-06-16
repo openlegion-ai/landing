@@ -1,112 +1,135 @@
 ---
-title: OpenLegion vs Dify — Detailed Comparison
-description: >-
- OpenLegion vs Dify: comparison of security, agent isolation, credential
- management, visual workflow building, and production deployment for AI agents.
+title: "Dify Alternative: Security-First Platform vs Visual LLMOps"
+description: "OpenLegion vs Dify: air-gapped credentials vs GHSA-8235-vv5j-mmvg SSRF (CVSS 8.3), agent mesh vs visual LLMOps, single-process vs 12-container Postgres/Redis/MinIO stack."
 slug: /comparison/dify
-primary_keyword: openlegion vs dify
-date_published: 2025-12
-last_updated: 2026-03
+primary_keyword: dify alternative
+last_updated: "2026-06-16"
 schema_types:
- - FAQPage
+  - FAQPage
 related:
- - /comparison/langgraph
- - /comparison/crewai
- - /comparison/manus-ai
- - /comparison/google-adk
+  - /comparison/langgraph
+  - /comparison/crewai
+  - /comparison/autogen
+  - /learn/ai-agent-frameworks
+  - /learn/ai-agent-security
+  - /learn/ai-agent-orchestration
 ---
 
-# OpenLegion vs Dify: Which AI Agent Platform for Production?
+# Dify Alternative: OpenLegion vs Visual LLMOps Builder
 
-Dify is the most-starred AI application platform on GitHub (~131,000 stars), offering a visual drag-and-drop workflow builder, built-in RAG pipeline, and a plugin marketplace with 120+ extensions. Founded by the LangGenius team (former Tencent Cloud), Dify has been downloaded 2.4 million times across 120+ countries and was recognized as AWS Social Impact Partner of the Year in December 2025.
-
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over visual workflow building.
-
-This is a direct **OpenLegion vs Dify** comparison based on public documentation at the time of writing.
+Dify is a visual LLMOps platform with 145,388 GitHub stars built for drag-and-drop workflow composition, embedded RAG pipelines, and a plugin marketplace. It received GHSA-8235-vv5j-mmvg (CVSS 8.3 HIGH, published May 19 2026): an unauthenticated SSRF on the `/console/api/remote-files/upload` endpoint that lets any HTTP client exfiltrate cloud IAM tokens from AWS and GCP metadata services without a login. OpenLegion is a code-first agent mesh that eliminates this class of exposure by keeping API keys in an air-gapped zone unreachable from any application endpoint.
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> **What is the difference between OpenLegion and Dify?**
-> Dify is a visual AI application platform with drag-and-drop workflow building, built-in RAG, and a plugin marketplace. OpenLegion is a code-first, security-first AI agent framework with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). Dify optimizes for low-code accessibility; OpenLegion optimizes for production security.
+> **What is Dify?**
+> Dify is an open-source LLMOps platform (modified Apache 2.0, prohibiting multi-tenant SaaS without a commercial agreement with LangGenius) with 145,388 GitHub stars that enables visual construction of AI workflows, RAG pipelines, and agent applications through a web-based drag-and-drop editor, with a self-hosted deployment footprint of approximately 12 Docker containers including PostgreSQL, Redis, MinIO, and Weaviate.
 
 ## TL;DR
 
-- **Dify** is the right choice when you need a visual workflow builder, built-in RAG pipeline, and the fastest path from idea to deployed AI application without deep coding.
-- **OpenLegion** is the right choice when credential isolation, mandatory agent sandboxing, per-agent cost controls, and code-first governance are hard requirements.
-- **Critical vulnerability**: CVE-2025-3466 (CVSS 9.8) allowed sandbox escape in Dify v1.1.0-1.1.2 — arbitrary code execution with root permissions, access to secret keys and internal network. Fixed in v1.1.3.
-- **Credential model**: Dify stores API keys at the workspace level, shared across team members and applications. OpenLegion uses a vault proxy — agents never see raw keys.
-- **Architecture complexity**: Dify self-hosted deployment requires ~12 Docker containers. OpenLegion requires Python + SQLite + Docker with zero external services.
-- **License difference**: Dify uses a modified Apache 2.0 (no multi-tenant SaaS without written agreement). OpenLegion uses PolyForm Perimeter License 1.0.1.
-
-## Side-by-Side Comparison
-
-| Dimension | OpenLegion | Dify |
+| **Dimension** | **OpenLegion** | **Dify** |
 |---|---|---|
-| **Primary focus** | Secure multi-agent orchestration | Visual AI application platform |
-| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Visual workflow builder + agent runtime + plugin system |
-| **Agent isolation** | Mandatory Docker container per agent, non-root, no-new-privileges | Plugin sandbox; applications share workspace context |
-| **Credential management** | Vault proxy — blind injection, agents never see keys | Workspace-level API key storage shared across team |
-| **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in |
-| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Visual Chatflow and Workflow with drag-and-drop nodes |
-| **RAG / Knowledge** | External RAG via tools | Built-in: ingestion, retrieval, reranking, multimodal knowledge bases |
-| **Plugin ecosystem** | MCP tool server support | 120+ plugins |
-| **LLM support** | 100+ via LiteLLM | 100+ via model plugins |
-| **Self-hosted complexity** | Python + SQLite + Docker (zero external) | ~12 Docker containers |
-| **Cloud option** | Hosted platform (coming) | Dify Cloud: free to $159/mo |
-| **GitHub stars** | ~59 | ~131,000 |
-| **License** | PolyForm Perimeter License 1.0.1 | Modified Apache 2.0 |
-| **Best for** | Production fleets requiring security-first governance | Low-code AI app building with visual workflows and RAG |
+| **Primary purpose** | Code-first multi-agent execution mesh | Visual LLMOps workflow and RAG builder |
+| **Interface** | Python configuration, CLI | Drag-and-drop web editor, no-code |
+| **Key vulnerability** | None published | GHSA-8235-vv5j-mmvg SSRF (CVSS 8.3, May 2026) + CVE-2025-67732 (CVSS 8.4) |
+| **API key storage** | Air-gapped zone, injected at network layer | Workspace-level storage, exposed via model-provider endpoint |
+| **Deployment footprint** | Python + SQLite + Docker | PostgreSQL + Redis + MinIO + Weaviate + Nginx + 7 Dify services |
+| **RAG approach** | Memory search + blackboard; no embedded vector store | Built-in Weaviate-backed RAG with chunking strategy UI |
+| **Multi-agent model** | Native mesh: blackboard, pub/sub, typed handoffs | Agent nodes inside visual workflows; no native mesh |
+| **Infrastructure ops** | Zero managed services, single-process | 12-container cluster: separate backup, upgrade, and hardening per service |
+| **License** | BSL 1.1 → Apache 2.0 after 4 years | Modified Apache 2.0 (SaaS restriction) |
+| **Target user** | Developers deploying production agent systems | Non-technical teams prototyping LLM applications |
 
-## Architecture Differences
+## Visual LLMOps vs Code-First Agent Mesh
 
-### Dify's architecture
+Dify is built around the idea that shipping an LLM application should not require writing framework code. Its web editor lets teams wire together prompt nodes, RAG retrieval steps, tool calls, and API endpoints through a point-and-click canvas. The 145,388-star count reflects genuine traction: enterprise adoption at Kakaku.com and Volvo Cars, recognition as an AWS Social Impact Partner, and a plugin ecosystem covering hundreds of third-party integrations.
 
-Dify combines a visual workflow builder with an agent runtime. Two workflow types exist: Chatflow (conversational with memory) and Workflow (automation/batch). The Agent Node provides autonomous reasoning. The plugin architecture (v1.0, February 2025) created a marketplace of 120+ extensions.
+The visual editor's breadth comes with a substantial self-hosted infrastructure requirement. A production Dify deployment runs PostgreSQL for application data, Redis for the task queue and caching layer, MinIO for object and file storage, Weaviate for vector embeddings in the RAG pipeline, and Nginx as the reverse proxy, plus the Dify API server, worker process, Next.js frontend, code sandbox container, and an SSRF proxy that became a required component after the May 2026 SSRF finding. That is approximately 12 Docker containers, each requiring its own configuration, upgrade cadence, backup procedure, and hardening review.
 
-The built-in RAG pipeline is a genuine differentiator — document ingestion, hybrid retrieval, reranking, and multimodal knowledge bases included out of the box. Two-way MCP support (v1.6.0) enables using any MCP server as a tool or exposing Dify workflows as MCP servers.
+OpenLegion's self-hosted deployment requires Python 3.10+, Docker, and SQLite. The shared-state layer runs on SQLite with WAL-mode concurrency. Scheduling, pub/sub, and the cron engine are in-process. No external databases or object stores. For teams building [agentic workflows](/learn/agentic-workflows), the single-process model removes a full tier of operational complexity.
 
-Self-hosted deployment requires ~12 Docker containers with hardcoded PostgreSQL credentials by default.
+## The May 2026 SSRF Finding: IAM Token Exfiltration
 
-**CVE-2025-3466** (CVSS 9.8) allowed sandbox escape with root permissions and access to secret keys. Additional findings include RBAC bypass for API key theft and CORS misconfigurations.
+### GHSA-8235-vv5j-mmvg: zero-authentication SSRF
 
-### OpenLegion's architecture
+Published May 19 2026, CVSS 8.3 HIGH. Dify's `/console/api/remote-files/upload` endpoint accepted a user-supplied URL and made a server-side HTTP request to that URL, without checking whether the caller was authenticated. An unauthenticated HTTP client with network reach to the Dify console API could supply the AWS EC2 instance metadata URL (`http://169.254.169.254/latest/meta-data/iam/security-credentials/`) or the GCP equivalent.
 
-OpenLegion uses a four-zone trust model (plus an operator-or-internal tier). Each agent runs in its own Docker container — non-root, no Docker socket, resource-capped. The vault proxy handles all authenticated calls. fleet-model coordination define exact tool access and budgets per agent.
+The metadata service responds with the IAM role credentials attached to the cloud instance running Dify: access key ID, secret access key, and session token. With those tokens, an attacker can call any AWS or GCP API that the Dify host's IAM role is permitted to access: S3 read/write, RDS snapshots, secrets in Parameter Store, or whatever the deployment grants.
 
-## When to Choose Dify
+The SSRF is pre-authentication. There is no login, no cookie, no token needed. Any network path to port 80 or 443 on the Dify host is sufficient to extract IAM credentials.
 
-**You need a visual workflow builder.** Dify's drag-and-drop interface gets you from idea to working application in 45 minutes.
+### CVE-2025-67732: plaintext model API keys to any workspace user
 
-**You need built-in RAG.** Document Q&A, knowledge bases, and retrieval-augmented generation are included out of the box.
+CVSS 8.4 HIGH. Dify's `/console/api/workspaces/current/model-providers` endpoint returned the raw API keys for every configured model provider — OpenAI, Anthropic, Cohere, and others — to any authenticated workspace member, regardless of that user's role or permission tier. The endpoint was designed to display which model providers were configured; its implementation included plaintext key values rather than masked representations.
 
-**You want a low-code platform for non-developer teams.** Visual interface and plugin marketplace enable non-engineers to build agents.
+In a shared Dify workspace, every person with a login account could query this endpoint and retrieve all model provider keys. Multi-user deployments where employees or contractors have accounts effectively gave every user implicit read access to the organization's complete set of LLM billing credentials.
 
-**Community and ecosystem breadth matter.** 131,000 stars, adoption at Kakaku.com and Volvo Cars.
+### How OpenLegion's design eliminates this class of exposure
 
-## When to Choose OpenLegion
+OpenLegion stores API keys in a dedicated zone that has no exposed HTTP endpoints. When an agent needs to call an LLM, the request goes through a proxy layer that injects the key at the network level: the agent container never sees the plaintext value. Because no application-layer endpoint has access to the key store, no endpoint can accidentally return those keys. The SSRF vector does not exist: agent containers run with egress network policies that prevent direct calls to cloud metadata services.
 
-**Credential security is a hard requirement.** Dify shares workspace-level API keys. The CVSS 9.8 sandbox escape exposed these keys. OpenLegion's vault proxy prevents credential access.
+The [AI agent security guide](/learn/ai-agent-security) covers the zoned architecture pattern and why separating the key store from the application tier eliminates this class of exfiltration.
 
-**You need per-agent isolation and budget controls.** Dify has no per-agent limits. OpenLegion enforces hard cutoffs.
+## Self-Hosted Complexity: Single Process vs 12-Container Cluster
 
-**You need minimal infrastructure complexity.** OpenLegion: Python + SQLite + Docker. Dify: ~12 containers.
+### What a production Dify deployment requires
 
-**You need code-first, auditable orchestration.** fleet-model coordination are version-controllable and compliance-auditable.
+- **PostgreSQL** — application database: users, workspaces, workflows, conversation history
+- **Redis** — task queue (Celery), caching, rate limiting
+- **MinIO** — S3-compatible object storage for uploaded documents and workflow artifacts
+- **Weaviate** — vector database backing the RAG retrieval pipeline
+- **Nginx** — reverse proxy, SSL termination, routing between services
+- **Dify API Server** — main backend application
+- **Dify Worker** — async task processor running against Redis queue
+- **Dify Web** — Next.js frontend server
+- **Dify Sandbox** — isolated code execution environment for Python/JavaScript nodes
+- **SSRF Proxy** — network-level proxy required post-GHSA-8235-vv5j-mmvg to block server-side request forgery
 
-Bring your own LLM API keys. No markup on model usage.
+Each of these services has its own version dependencies, upgrade timing, backup requirements, log aggregation, and monitoring needs. A PostgreSQL major version upgrade has a different procedure and risk profile than a MinIO release. Weaviate schema migrations can break RAG retrieval if not coordinated with the Dify API version. Redis persistence configuration affects recovery guarantees after a crash.
 
-## The Honest Trade-off
+For engineering teams with a platform function this is manageable overhead. For a solo developer or two-person startup running agents in production, it is a significant ongoing commitment.
 
-Dify has the community (131K stars), the visual builder, the built-in RAG, and the plugin ecosystem. OpenLegion has the security architecture, credential isolation, operational simplicity, and code-first governance.
+### What OpenLegion requires
 
-If you need a visual AI application platform with minimal coding, the answer is Dify. If you need secure, code-first agent orchestration with credential protection and cost controls, the answer is OpenLegion.
+Python 3.10+, Docker, and a filesystem for SQLite. No external database. No object store. No message broker configuration. The blackboard (shared agent state) is a SQLite file with WAL mode enabled for concurrent reads. The pub/sub layer is in-process. Container scheduling uses Docker directly.
 
-For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent-frameworks).
+This is a deliberate product decision, not a features gap. The absence of a built-in visual RAG pipeline or drag-and-drop editor means teams build in code, which produces auditable, version-controlled agent logic rather than visual workflow definitions stored as database blobs.
 
-## CTA
+## OpenLegion's Take
 
-**Need production-grade security for your agent fleet?**
-[Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai)
+Dify is a well-built visual LLMOps platform that solves a real problem: getting non-technical teams from an LLM idea to a deployed application without framework code. The 145,388-star count, the Kakaku.com and Volvo Cars deployments, and the plugin ecosystem are credible evidence of product-market fit in the prototyping and internal tooling segment.
+
+The two 2026 vulnerabilities are difficult to overlook in a production decision. GHSA-8235-vv5j-mmvg, an unauthenticated SSRF on a file upload endpoint enabling IAM token theft, is a fundamental design oversight. The endpoint made server-side HTTP requests to attacker-supplied URLs and required no authentication. That is not a subtle edge case; it is a textbook SSRF in a 2026-era production platform. CVE-2025-67732 compounds the issue: any workspace member could read every model provider key in plaintext, which means IAM token theft is not the only exfiltration vector.
+
+Both findings trace to the same root: API keys stored at the application layer become reachable from any endpoint that leaks more than intended. The SSRF is one such leak. The model-provider endpoint is another. As long as keys live in the application database, the exposure is an architectural fixture, not an exception.
+
+For prototyping and internal demos on non-cloud or tightly IAM-scoped infrastructure, Dify's visual builder and RAG comprehensiveness are hard to match at this price point. For production agent systems operating in cloud environments with meaningful IAM permissions, the May 2026 finding reframes the choice from features to risk posture.
+
+## Choose Dify if…
+
+**You need rapid visual LLMOps with no framework code.** Dify's canvas editor, built-in RAG with chunking strategy selection, plugin marketplace, and API server deliver the fastest path from concept to deployed LLM application. For internal tools and demos where non-technical stakeholders need to iterate without engineering support, it is the benchmark no-code platform.
+
+**You need RAG infrastructure without integration work.** Dify ships a complete document-to-answer pipeline: file upload, configurable chunking, embedding model selection, Weaviate-backed retrieval, and a chat interface. Building equivalent RAG requires selecting and integrating each component independently.
+
+**Your team is non-technical or mixed-technical.** The visual editor, chatbot builder, and workflow canvas are accessible to product managers and analysts without requiring Python or YAML configuration.
+
+**You're deploying on air-gapped or on-premise hardware** without cloud IAM credentials at risk. The SSRF impact is highest in cloud environments where the host instance carries IAM roles with broad permissions.
+
+## Choose OpenLegion if…
+
+**Your cloud host carries IAM permissions.** GHSA-8235-vv5j-mmvg (CVSS 8.3, May 19 2026) allows pre-authentication SSRF to extract IAM tokens from the instance metadata service. OpenLegion's air-gapped key storage eliminates the retrieval path: no application endpoint can return key material.
+
+**You need autonomous multi-agent coordination.** OpenLegion's mesh model, with blackboard shared state, pub/sub signals, typed handoffs, and per-agent role definitions, is purpose-built for agents that reason, delegate, and run in parallel. Dify supports agent nodes in visual workflows but does not have a native mesh runtime.
+
+**Operational simplicity is a business constraint.** Running a 12-container cluster is a sustainable commitment with a platform team. For a startup or solo developer deploying agents in production, the single-process model removes an entire category of operational risk.
+
+**License clarity matters.** Dify's modified Apache 2.0 prohibits multi-tenant SaaS without a LangGenius commercial agreement. OpenLegion's BSL 1.1 has no multi-tenant restriction and converts to Apache 2.0 after 4 years on a published schedule.
+
+See [OpenLegion vs CrewAI role-based coordination](/comparison/crewai) for how the mesh model compares to role-based frameworks. For the zoned key-storage architecture that prevents the SSRF class of exposure, see the [AI agent security guide](/learn/ai-agent-security). The [AI agent orchestration patterns](/learn/ai-agent-orchestration) page covers how mesh handoffs and blackboard state differ from visual workflow nodes.
+
+## Get Started
+
+**Air-gapped key storage, native multi-agent mesh, zero managed-service dependencies.**
+[Start Building](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 
@@ -114,41 +137,30 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ## Frequently Asked Questions
 
-### What is the difference between OpenLegion and Dify?
+### What is Dify vs OpenLegion?
 
-Dify (~131,000 stars) is a visual AI application platform with drag-and-drop workflows, built-in RAG, and a plugin marketplace. OpenLegion is a code-first, security-first [AI agent framework](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement.
+Dify is an open-source visual LLMOps platform with 145,388 GitHub stars offering drag-and-drop workflow composition, built-in RAG pipelines, and a plugin marketplace for deploying LLM applications without framework code. OpenLegion is a code-first agent mesh with air-gapped key storage, Docker-isolated agent containers, and native multi-agent coordination via blackboard and pub/sub. Dify targets non-technical teams prototyping LLM applications; OpenLegion targets developers building production agent systems.
 
-### How does Dify security compare to OpenLegion?
+### What are Dify's recent security vulnerabilities?
 
-Dify has had a critical CVSS 9.8 sandbox escape vulnerability (CVE-2025-3466), RBAC bypass issues, and ships with hardcoded default database credentials. OpenLegion isolates every agent in a Docker container with vault proxy credential management. See our [AI agent security](/learn/ai-agent-security) page for details.
+GHSA-8235-vv5j-mmvg (CVSS 8.3 HIGH, May 19 2026): a pre-authentication SSRF on the `/console/api/remote-files/upload` endpoint allows any HTTP client to exfiltrate cloud IAM tokens from AWS and GCP instance metadata services, no login required. CVE-2025-67732 (CVSS 8.4 HIGH): Dify's model-provider API endpoint returned plaintext API keys for every configured LLM provider to any authenticated workspace member, regardless of role. Both findings trace to API keys stored in the application database tier.
 
-### Can I self-host Dify?
+### How does OpenLegion prevent the SSRF that affected Dify?
 
-Yes, but self-hosted Dify requires ~12 Docker containers including PostgreSQL, Redis, MinIO, Weaviate, and Nginx. OpenLegion requires only Python, SQLite, and Docker.
+OpenLegion keeps API keys in an air-gapped zone with no HTTP-accessible endpoints. Agent containers do not hold plaintext keys and cannot reach cloud metadata services due to egress network policies. LLM calls route through a proxy layer that injects key material at the network level before the request leaves the platform. There is no equivalent of Dify's upload endpoint making server-side requests in OpenLegion's architecture, so the pre-authentication SSRF path does not exist.
 
-### Does Dify have per-agent cost controls?
+### How complex is Dify to self-host compared to OpenLegion?
 
-No. Dify tracks token usage per conversation but has no mechanism to enforce spending limits per agent. OpenLegion enforces per-agent budget limits with automatic hard cutoff.
+A production Dify self-hosted deployment requires approximately 12 Docker containers: PostgreSQL, Redis, MinIO, Weaviate, Nginx, plus the Dify API server, worker, web frontend, code sandbox, and an SSRF proxy container. Each service has its own upgrade cadence and backup procedure. OpenLegion requires Python 3.10+, Docker, and SQLite with no external managed services, running the entire platform in a single process on one server.
 
-### Is Dify open source?
+### What are Dify's licensing restrictions for SaaS products?
 
-Dify uses a modified Apache 2.0 license that prohibits multi-tenant SaaS usage without written agreement from LangGenius.
+Dify uses a modified Apache 2.0 license that explicitly prohibits multi-tenant SaaS deployment, offering Dify as a hosted service to multiple external customers, without a written commercial agreement with LangGenius, Inc. OpenLegion uses BSL 1.1, which places no restriction on multi-tenant SaaS usage and converts automatically to Apache 2.0 after 4 years, with no commercial negotiation required.
 
-### Can I migrate from Dify to OpenLegion?
+### Can I migrate an existing Dify workflow to OpenLegion?
 
-Dify visual workflows need restructuring as fleet-model coordination. LLM configurations transfer directly. Dify RAG pipelines need external replacement. See our [AI agent orchestration](/learn/ai-agent-orchestration) page for workflow patterns.
+Yes. Visual Dify workflow nodes map to OpenLegion agent configurations: LLM nodes become model settings, tool integrations become agent tool permissions, and prompt templates become system instructions. The migration moves workflow logic from visual canvas definitions stored in PostgreSQL to version-controlled Python configuration files. RAG pipelines require connecting a separate vector store rather than using Dify's embedded Weaviate. The tradeoff is framework code for structural auditability and the single-process deployment model.
 
----
+### Does OpenLegion support no-code or visual workflow editing?
 
-## Internal Links
-
-| Anchor Text | Destination |
-|---|---|
-| AI agent platform | /learn/ai-agent-platform |
-| AI agent orchestration | /learn/ai-agent-orchestration |
-| AI agent frameworks comparison | /learn/ai-agent-frameworks |
-| AI agent security | /learn/ai-agent-security |
-| OpenLegion vs LangGraph | /comparison/langgraph |
-| OpenLegion vs CrewAI | /comparison/crewai |
-| Documentation | /docs |
-| GitHub | https://github.com/openlegion-ai/openlegion |
+No. OpenLegion is code-first: agents, tools, and orchestration logic are defined in Python configuration. There is no drag-and-drop canvas or no-code editor. This is a deliberate design choice: code-defined agent logic is version-controlled, diffable, and auditable in ways that visual workflow definitions stored as database records are not. Teams that need a no-code editor for non-technical stakeholders should use Dify for that use case.

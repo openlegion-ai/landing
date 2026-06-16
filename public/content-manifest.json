@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://www.openlegion.ai",
-  "pageCount": 31,
+  "pageCount": 42,
   "pages": [
     {
       "slug": "/ai-social-media-management",
@@ -81,6 +81,47 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/comparison"
+    },
+    {
+      "slug": "/comparison/agentops",
+      "title": "AgentOps Alternative — Execution Platform vs Monitoring Dashboard",
+      "description": "OpenLegion vs AgentOps: secure agent execution platform vs monitoring-only dashboard, credential isolation vs API key exposure, and active orchestration vs passive observation compared.",
+      "primaryKeyword": "agentops alternative",
+      "secondaryKeywords": [
+        "openlegion vs agentops",
+        "agent monitoring platform",
+        "ai agent observability",
+        "agentops competitors"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-26",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/crewai",
+        "/comparison/autogen",
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-platform"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/comparison/agentops"
     },
     {
       "slug": "/comparison/autogen",
@@ -231,6 +272,48 @@
       "url": "https://www.openlegion.ai/en/comparison/dify"
     },
     {
+      "slug": "/comparison/flowise",
+      "title": "Flowise Alternative — Security-First Platform vs Visual Builder",
+      "description": "OpenLegion vs Flowise: vault isolation vs 7 HIGH-severity CVEs, multi-agent mesh vs visual flow builder, OSI licensing vs commercial restrictions compared.",
+      "primaryKeyword": "flowise alternative",
+      "secondaryKeywords": [
+        "openlegion vs flowise",
+        "flowise security",
+        "flowise cve",
+        "visual agent builder alternative",
+        "flowise licensing"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-22",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/litellm",
+        "/comparison/langgraph",
+        "/comparison/dify",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-orchestration"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/comparison/flowise"
+    },
+    {
       "slug": "/comparison/google-adk",
       "title": "OpenLegion vs Google ADK - Detailed Comparison",
       "description": "OpenLegion vs Google Agent Development Kit: comparison of security, agent isolation, credential management, A2A protocol, and multi-agent orchestration.",
@@ -305,6 +388,48 @@
       "url": "https://www.openlegion.ai/en/comparison/langgraph"
     },
     {
+      "slug": "/comparison/litellm",
+      "title": "LiteLLM Alternative — Vault Isolation vs Credential Store",
+      "description": "OpenLegion vs LiteLLM: vault proxy vs centralized credential store. CVE-2026-42208 (CVSS 9.3) SQL injection exposed LiteLLM credential DB. Distributed isolation vs gateway aggregation.",
+      "primaryKeyword": "litellm alternative",
+      "secondaryKeywords": [
+        "openlegion vs litellm",
+        "litellm security",
+        "litellm cve",
+        "llm proxy alternative",
+        "litellm gateway"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-09",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/langgraph",
+        "/comparison/crewai",
+        "/comparison/autogen",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-orchestration"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/comparison/litellm"
+    },
+    {
       "slug": "/comparison/manus-ai",
       "title": "OpenLegion vs Manus AI — Detailed Comparison",
       "description": "OpenLegion vs Manus AI: comparison of security, agent isolation, credential management, cost controls, and deployment models for AI agent platforms.",
@@ -363,7 +488,19 @@
         "/learn/ai-agent-platform"
       ],
       "availableLocales": [
-        "en"
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/comparison/mastra"
     },
@@ -664,7 +801,19 @@
         "/learn/ai-agent-platform"
       ],
       "availableLocales": [
-        "en"
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/comparison/pydantic-ai"
     },
@@ -788,6 +937,84 @@
       "url": "https://www.openlegion.ai/en/deepseek-v4-agents"
     },
     {
+      "slug": "/learn/agentic-workflows",
+      "title": "Agentic Workflow - Patterns, Security, and Production Design",
+      "description": "An agentic workflow is a multi-step AI process where agents autonomously choose tools, delegate subtasks, and adapt based on intermediate results. Core patterns, failure modes, and security design.",
+      "primaryKeyword": "agentic workflow",
+      "secondaryKeywords": [
+        "agentic workflow patterns",
+        "agentic workflow security",
+        "react loop ai agent",
+        "plan and execute ai",
+        "ai agent workflow design"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-27",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-platform",
+        "/comparison/langgraph",
+        "/comparison/crewai"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/agentic-workflows"
+    },
+    {
+      "slug": "/learn/ai-agent-evaluation",
+      "title": "AI Agent Evaluation: Benchmarks, Metrics, and Testing",
+      "description": "AI agent evaluation is the discipline of measuring whether agents reliably complete tasks, use tools safely, and stay within cost bounds — covering benchmarks, LLM-as-judge, and trace analysis.",
+      "primaryKeyword": "ai agent evaluation",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-04",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-security",
+        "/learn/agentic-workflows",
+        "/learn/multi-agent-systems",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-orchestration"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-evaluation"
+    },
+    {
       "slug": "/learn/ai-agent-frameworks",
       "title": "Best AI Agent Frameworks (2026 Comparison)",
       "description": "Compare the best AI agent frameworks: OpenLegion, OpenClaw, LangGraph, CrewAI, AutoGen, Semantic Kernel. Side-by-side features, security, and pricing.",
@@ -826,6 +1053,48 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-frameworks"
+    },
+    {
+      "slug": "/learn/ai-agent-memory",
+      "title": "AI Agent Memory: Four Types, Security Risks, and Implementation",
+      "description": "AI agent memory: in-context, vector store, structured K-V, and episodic types. Security risks from memory poisoning and credential exposure. OpenLegion vault-protected architecture.",
+      "primaryKeyword": "ai agent memory",
+      "secondaryKeywords": [
+        "agent memory management",
+        "ai memory types",
+        "agent persistent memory",
+        "memory poisoning attack",
+        "agent context window"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-22",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-security",
+        "/comparison/langgraph",
+        "/comparison/crewai"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-memory"
     },
     {
       "slug": "/learn/ai-agent-observability",
@@ -992,6 +1261,42 @@
       "url": "https://www.openlegion.ai/en/learn/ai-agent-security"
     },
     {
+      "slug": "/learn/ai-agent-tool-use",
+      "title": "AI Agent Tool Use — Function Calling, Schemas, and Safe Execution",
+      "description": "How AI agents use tools: defining tool schemas, function calling across providers, parallel and chained calls, output parsing, error recovery, and permission scoping for safe production execution.",
+      "primaryKeyword": "ai agent tool use",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-08",
+      "pageType": "learn",
+      "related": [
+        "/learn/agentic-workflows",
+        "/learn/model-context-protocol",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-evaluation",
+        "/learn/ai-agent-frameworks"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-tool-use"
+    },
+    {
       "slug": "/learn/ai-coding-agents",
       "title": "AI Coding Agents - Deploy Secure Dev Agent Teams",
       "description": "AI coding agents that plan, write, test, and review code autonomously. OpenLegion runs them in isolated containers with vaulted credentials and per-agent budgets - a self-hostable dev agent team.",
@@ -1033,6 +1338,130 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-coding-agents"
+    },
+    {
+      "slug": "/learn/browser-use-agents",
+      "title": "Browser Use Agents — How AI Agents Control the Web",
+      "description": "Browser use agents let AI autonomously navigate websites, fill forms, and extract data. Learn how they work, their security risks, and how to run them safely in isolated containers.",
+      "primaryKeyword": "browser use agents",
+      "secondaryKeywords": [
+        "ai browser automation",
+        "browser agent python",
+        "web agent llm",
+        "headless browser ai agent",
+        "browser use security"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-30",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-platform",
+        "/learn/agentic-workflows",
+        "/learn/multi-agent-systems",
+        "/learn/ai-agent-orchestration",
+        "/learn/model-context-protocol"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/browser-use-agents"
+    },
+    {
+      "slug": "/learn/claude-opus-4-8",
+      "title": "Claude Opus 4.8 - Capabilities, Cost, and Agentic Performance",
+      "description": "Claude Opus 4.8 launched May 28 2026: 84% on Online-Mind2Web, fast mode 3x cheaper, dynamic workflows in Claude Code, first Opus to complete every Super-Agent benchmark case at GPT-5.5 cost parity.",
+      "primaryKeyword": "claude opus 4.8",
+      "secondaryKeywords": [
+        "claude opus 4.8 api",
+        "claude opus 4.8 benchmarks",
+        "claude opus 4.8 vs gpt-5.5",
+        "claude opus 4.8 fast mode",
+        "claude opus 4.7 vs opus 4.8"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-28",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-orchestration",
+        "/comparison/langgraph",
+        "/comparison/autogen"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/claude-opus-4-8"
+    },
+    {
+      "slug": "/learn/llm-cost-optimization",
+      "title": "LLM Cost Optimization — Six Levers for Production Agent Fleets",
+      "description": "Six levers for LLM cost optimization: model routing, prompt caching, batch inference, context compression, per-agent budget caps, and output token control — with real cost numbers.",
+      "primaryKeyword": "llm cost optimization",
+      "secondaryKeywords": [
+        "reduce openai api costs",
+        "llm token cost reduction",
+        "ai agent cost control",
+        "prompt caching savings",
+        "model routing ai agents"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-05",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-frameworks",
+        "/learn/what-is-an-ai-agent"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/llm-cost-optimization"
     },
     {
       "slug": "/learn/managed-ai-agent-hosting",
@@ -1120,6 +1549,48 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/learn/model-context-protocol"
+    },
+    {
+      "slug": "/learn/multi-agent-systems",
+      "title": "Multi-Agent Systems Architecture - Design, Topology, and Security",
+      "description": "Multi-agent systems architecture defines how autonomous agents communicate, coordinate, and maintain trust boundaries. Covers topologies, inter-agent protocols, and production security design.",
+      "primaryKeyword": "multi-agent systems architecture",
+      "secondaryKeywords": [
+        "multi-agent system design",
+        "agent communication protocols",
+        "agent topology patterns",
+        "a2a protocol",
+        "multi-agent security"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-05-28",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-frameworks",
+        "/comparison/langgraph",
+        "/comparison/autogen"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/multi-agent-systems"
     },
     {
       "slug": "/learn/what-is-an-ai-agent",
