@@ -3,17 +3,9 @@ title: Dify Alternative — Security-First Platform vs Visual LLMOps
 description: "OpenLegion vs Dify: credential vault vs GHSA-8235-vv5j-mmvg SSRF, multi-agent mesh vs visual LLMOps, minimal stack vs 12-container deployment compared."
 slug: /comparison/dify
 primary_keyword: dify alternative
-secondary_keywords:
-  - openlegion vs dify
-  - dify security
-  - dify cve
-  - visual llmops alternative
-  - dify hosting
-date_published: 2026-05
 last_updated: 2026-05-22
 schema_types:
   - FAQPage
-page_type: comparison
 related:
   - /comparison/langgraph
   - /comparison/crewai
