@@ -1,6 +1,6 @@
 ---
-title: "AI Agent Deployment — Container TTLs, Budget Caps, and Circuit Breakers"
-description: "Deploy AI agents to production: container TTLs, per-agent budget caps, LLM circuit breakers, credential vault proxy, graceful shutdown, and Kubernetes HPA. Covers Docker hardening and OpenLegion mesh deployment."
+title: "AI Agent Deployment: Container TTLs, Budget Caps, and Circuit Breakers"
+description: "Deploy AI agents to production: container TTLs, per-agent budget caps, LLM circuit breakers, credential vault proxy, graceful shutdown, and Kubernetes HPA for agent fleets."
 slug: /learn/ai-agent-deployment
 primary_keyword: ai agent deployment
 last_updated: "2026-06-17"
@@ -183,7 +183,7 @@ OpenLegion's vault proxy keeps API keys in Zone 2, separated from agent containe
 
 The agent container never holds the plaintext key. No memory dump, no environment print, no prompt injection exfiltrates the actual credential — there is nothing to exfiltrate from within the agent's address space. The vault proxy also enforces per-agent credential scope: agent roles define which credential handles they can resolve. An agent configured for read-only research tasks cannot resolve write-scope credentials even if instructed by a compromised prompt.
 
-For deployments not using OpenLegion's mesh, the equivalent pattern is HashiCorp Vault Agent (35,736 GitHub stars, BSL 1.1 license) sidecar injection: Vault Agent runs as a sidecar, authenticates to Vault using the pod's Kubernetes service account, and writes short-lived credentials to a shared in-memory volume rather than environment variables. The credentials rotate automatically, and the agent process reads them from the in-memory volume — never from env vars.
+For deployments not using OpenLegion's mesh, the equivalent pattern is HashiCorp Vault Agent (35,797 GitHub stars, BSL 1.1 license) sidecar injection: Vault Agent runs as a sidecar, authenticates to Vault using the pod's Kubernetes service account, and writes short-lived credentials to a shared in-memory volume rather than environment variables. The credentials rotate automatically, and the agent process reads them from the in-memory volume — never from env vars.
 
 ### Kubernetes Secrets: Better Than Env Vars, Still Not Vault-Grade
 
