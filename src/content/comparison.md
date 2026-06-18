@@ -116,7 +116,7 @@ For technical details, see the [AI agent orchestration](/learn/ai-agent-orchestr
 ## CTA
 
 **Ready to see the difference?**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+[Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 

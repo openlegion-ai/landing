@@ -131,7 +131,7 @@ For teams building agents that handle production credentials, multi-tenant data,
 ## CTA
 
 **Secure execution, built-in observability.**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
+[Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 

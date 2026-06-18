@@ -129,7 +129,7 @@ See [OpenLegion vs CrewAI role-based coordination](/comparison/crewai) for how t
 ## Get Started
 
 **Air-gapped key storage, native multi-agent mesh, zero managed-service dependencies.**
-[Start Building](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
+[Start Building](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 
