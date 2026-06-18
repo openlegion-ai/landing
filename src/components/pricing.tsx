@@ -24,6 +24,8 @@ type Billing = "monthly" | "yearly";
 
 interface Plan {
   name: string;
+  /** Index into the locale `plans.*` catalog (Basic stays at 0 there). */
+  localeIndex: number;
   popular?: boolean;
   monthlyPrice: number;
   yearlyPrice: number;
@@ -37,18 +39,8 @@ interface Plan {
 
 const PLANS: Plan[] = [
   {
-    name: "basic",
-    monthlyPrice: 19,
-    yearlyPrice: 170,
-    yearlyMonthly: 14,
-    agents: 1,
-    credits: 1500,
-    teams: 0,
-    browsers: 1,
-    featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
-  },
-  {
     name: "growth",
+    localeIndex: 1,
     monthlyPrice: 62,
     yearlyPrice: 557,
     yearlyMonthly: 46,
@@ -60,6 +52,7 @@ const PLANS: Plan[] = [
   },
   {
     name: "pro",
+    localeIndex: 2,
     popular: true,
     monthlyPrice: 152,
     yearlyPrice: 1367,
@@ -72,6 +65,7 @@ const PLANS: Plan[] = [
   },
   {
     name: "pro_max",
+    localeIndex: 3,
     monthlyPrice: 296,
     yearlyPrice: 2663,
     yearlyMonthly: 222,
@@ -83,12 +77,11 @@ const PLANS: Plan[] = [
   },
 ];
 
-// Hero tiers — Growth / Pro / Pro Max anchor the pricing narrative.
-// Basic renders as a slim band below so it stays discoverable for
-// solo experimenters without anchoring new visitors' price expectations
-// at $19/1-agent (which makes the real plans feel expensive by comparison).
-const HERO_PLAN_INDICES = [1, 2, 3]; // Growth, Pro, Pro Max
-const BASIC_PLAN_INDEX = 0;
+// Self-serve tiers — Growth / Pro / Pro Max anchor the pricing narrative.
+// Basic ($19/1-agent) is intentionally hidden from the landing display so
+// it doesn't anchor new visitors' price expectations and make the real
+// plans feel expensive by comparison. (Basic still exists in billing.)
+const HERO_PLAN_INDICES = [0, 1, 2]; // Growth, Pro, Pro Max
 
 const ENTERPRISE_FEATURE_KEYS = [
   "enterprise.features.0",
@@ -208,7 +201,7 @@ export function Pricing() {
         <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {HERO_PLAN_INDICES.map((planIdx) => {
             const plan = PLANS[planIdx];
-            const planName = t(`plans.${planIdx}.name`);
+            const planName = t(`plans.${plan.localeIndex}.name`);
             const price =
               billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
             const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
@@ -276,7 +269,7 @@ export function Pricing() {
                     {planName}
                   </h2>
                   <p className="mt-1 text-sm text-muted">
-                    {t(`plans.${planIdx}.tagline`)}
+                    {t(`plans.${plan.localeIndex}.tagline`)}
                   </p>
 
                   <div className="mt-4">
@@ -405,73 +398,6 @@ export function Pricing() {
       <Testimonials />
 
       <div className="mx-auto max-w-6xl">
-        {/* Basic — slim band for solo experimenters. Discoverable but
-            secondary, so the hero tiers above set the price-expectation anchor. */}
-        <AnimateIn delay={0.07}>
-          {(() => {
-            const plan = PLANS[BASIC_PLAN_INDEX];
-            const planName = t(`plans.${BASIC_PLAN_INDEX}.name`);
-            const price = billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
-            const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
-            return (
-              <div className="mt-6 rounded-2xl border border-border/50 glass-card p-5 md:p-6">
-                <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center md:gap-8">
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                      <h2 className="text-base font-semibold text-foreground">{planName}</h2>
-                      <span className="text-sm text-muted">
-                        {t("basicTryFor", { price: `$${plan.monthlyPrice}` })}
-                      </span>
-                    </div>
-                    <p className="mt-1.5 text-sm text-muted">
-                      <span className="font-medium text-foreground">{plan.agents}</span>{" "}
-                      {t("agentsLabel", { count: plan.agents })}{" · "}
-                      <span className="font-medium text-foreground">{plan.browsers}</span>{" "}
-                      {t("browsersLabel", { count: plan.browsers })}{" · "}
-                      <span className="font-medium text-foreground">
-                        {plan.credits.toLocaleString()}
-                      </span>{" "}
-                      {t("creditsLabel")}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-4 md:gap-5">
-                    <div className="text-right">
-                      <span className="text-xl font-bold tracking-tight text-foreground">
-                        ${price.toLocaleString()}
-                      </span>
-                      <span className="ml-1 text-sm text-muted">{suffix}</span>
-                    </div>
-                    <a
-                      href={`${APP_URL}/signin?plan=${plan.name}&billing=${billing}&callbackUrl=${encodeURIComponent(`/?plan=${plan.name}&billing=${billing}`)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => {
-                        trackCtaClick({ location: "pricing_card", plan: plan.name, billing });
-                        trackEvent("select_item", {
-                          item_list_id: "landing_pricing_tiers",
-                          item_list_name: "Landing /pricing — Tier List",
-                          items: [{
-                            item_id: `${plan.name}_${billing}`,
-                            item_name: `${plan.name} (${billing})`,
-                            item_category: "subscription",
-                            price: billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice,
-                            quantity: 1,
-                          }],
-                        });
-                      }}
-                      aria-label={t("a11y.ctaAria", { plan: planName })}
-                      className="flex items-center justify-center gap-2 rounded-xl border border-border px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-                    >
-                      {t("getStarted")}
-                      <ChevronRight className="h-4 w-4" aria-hidden="true" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            );
-          })()}
-        </AnimateIn>
-
         {/* Trust strip — anchors trust signals to the self-serve plans */}
         <AnimateIn delay={0.08}>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted">

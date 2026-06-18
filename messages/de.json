@@ -295,7 +295,7 @@
   "hero": {
     "ariaLabel": "Einführung",
     "badge": "Deine KI-Belegschaft beginnt hier",
-    "ctaPrimary": "Starte dein KI-Team — ab $19/Monat",
+    "ctaPrimary": "Starte dein KI-Team",
     "ctaSecondary": "Demo buchen",
     "headingHighlight": "KI-Belegschaft",
     "headingLine1": "Baue eine ",
@@ -340,12 +340,12 @@
     "ogDescription": "Setzen Sie KI-Agenten ein, die alles automatisieren, was ein Mensch am Computer tun kann. Sicher, budgetiert, produktionsreif. 7-Tage-Geld-zurück-Garantie.",
     "ogImageAlt": "OpenLegion — KI-Agenten-Framework & Plattform",
     "ogTitle": "OpenLegion — KI-Agenten-Framework & Plattform",
-    "pricingDescription": "Pläne ab $19/Monat mit Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbietern. Jederzeit kündbar, 7-Tage-Geld-zurück-Garantie.",
-    "pricingOgDescription": "Pläne ab $19/Monat. Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbieter. 7-Tage-Geld-zurück-Garantie.",
-    "pricingOgTitle": "AI-Agent-Plattform Preise — Pläne ab $19/Monat | OpenLegion",
-    "pricingTitle": "AI-Agent-Plattform Preise — Pläne ab $19/Monat",
-    "pricingTwitterDescription": "Pläne ab 19 $/Monat. 7 Tage Geld-zurück-Garantie.",
-    "pricingTwitterTitle": "AI-Agent-Plattform Preise — Pläne ab $19/Monat | OpenLegion",
+    "pricingDescription": "Pläne ab $62/Monat mit Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbietern. Jederzeit kündbar, 7-Tage-Geld-zurück-Garantie.",
+    "pricingOgDescription": "Pläne ab $62/Monat. Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbieter. 7-Tage-Geld-zurück-Garantie.",
+    "pricingOgTitle": "AI-Agent-Plattform Preise — Pläne ab $62/Monat | OpenLegion",
+    "pricingTitle": "AI-Agent-Plattform Preise — Pläne ab $62/Monat",
+    "pricingTwitterDescription": "Pläne ab 59 $/Monat. 7 Tage Geld-zurück-Garantie.",
+    "pricingTwitterTitle": "AI-Agent-Plattform Preise — Pläne ab $62/Monat | OpenLegion",
     "privacyDescription": "Datenschutzrichtlinie des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Erfahre, wie wir deine Daten im Managed Hosting und auf der Website openlegion.ai erfassen, verwenden und schützen.",
     "privacyTitle": "Datenschutzrichtlinie",
     "termsDescription": "Nutzungsbedingungen des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Umfasst Managed Hosting, selbstgehostetes Deployment unter PolyForm Perimeter License 1.0.1 und die Website openlegion.ai.",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "Was abgedeckt ist",
       "items": {
-        "0": "Deine erste Abo-Zahlung (der tatsächlich abgerechnete Betrag — z.B. $19 für Basic monatlich).",
+        "0": "Deine erste Abo-Zahlung (der tatsächlich abgerechnete Betrag — z.B. $62 für Growth monatlich).",
         "1": "Volle Rückerstattung dieses Betrags — ohne Wenn und Aber, ohne anteilige Verrechnung."
       }
     },
@@ -472,7 +472,7 @@
         "question": "Was passiert mit meinen Agenten, wenn ich kündige?"
       },
       "4": {
-        "answer": "Ja. Klone das Repository, führe drei Befehle aus und du hast eine vollständige Agenten-Flotte auf deiner eigenen Infrastruktur. Die Engine ist quelloffen unter PolyForm Perimeter License 1.0.1. Managed Hosting beginnt bei 19 $/Monat für Teams, die keine Infrastruktur verwalten wollen.",
+        "answer": "Ja. Klone das Repository, führe drei Befehle aus und du hast eine vollständige Agenten-Flotte auf deiner eigenen Infrastruktur. Die Engine ist quelloffen unter PolyForm Perimeter License 1.0.1. Managed Hosting beginnt bei 59 $/Monat für Teams, die keine Infrastruktur verwalten wollen.",
         "question": "Kann ich OpenLegion selbst hosten?"
       },
       "5": {
@@ -480,7 +480,7 @@
         "question": "Was zählt als 'Agent'?"
       },
       "6": {
-        "answer": "Credits werden verwendet, um LLM-Aufrufe (Claude, GPT, Gemini usw.) über unsere Plattform zu bezahlen. Du erhältst einen Willkommensbonus bei der Anmeldung — Basic bekommt 5 $, Growth bekommt 15 $, Pro bekommt 30 $. Credits verfallen nie. Wenn sie aufgebraucht sind, lade jeden Betrag von 5 $ bis 500 $ auf, oder füge deine eigenen API-Keys hinzu, um Anbieter direkt zu nutzen.",
+        "answer": "Credits werden verwendet, um LLM-Aufrufe (Claude, GPT, Gemini usw.) über unsere Plattform zu bezahlen. Du erhältst einen Willkommensbonus bei der Anmeldung — Growth bekommt 15 $, Pro bekommt 30 $. Credits verfallen nie. Wenn sie aufgebraucht sind, lade jeden Betrag von 5 $ bis 500 $ auf, oder füge deine eigenen API-Keys hinzu, um Anbieter direkt zu nutzen.",
         "question": "Was sind LLM-Credits und verfallen sie?"
       }
     },

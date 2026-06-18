@@ -1,11 +1,10 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { Calendar } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { DEMO_URL, ONBOARDING_URL } from "@/lib/constants";
+import { ONBOARDING_URL } from "@/lib/constants";
 import { trackCtaClick } from "@/lib/analytics";
 
 const PARTICLES = [
@@ -101,7 +100,7 @@ export function Hero() {
             </AnimateIn>
 
             <AnimateIn delay={0.14}>
-              <div id="hero-cta" className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+              <div id="hero-cta" className="flex flex-col items-center sm:flex-row sm:justify-center lg:justify-start">
                 <Link
                   href={ONBOARDING_URL}
                   onClick={() => trackCtaClick({ location: "hero_primary" })}
@@ -109,16 +108,6 @@ export function Hero() {
                 >
                   {t("ctaPrimary")}
                 </Link>
-                <a
-                  href={DEMO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackCtaClick({ location: "hero_demo" })}
-                  className="group/secondary flex w-full items-center justify-center gap-2 rounded-xl border border-border px-7 py-3.5 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5 sm:w-auto"
-                >
-                  <Calendar className="h-4 w-4 transition-transform group-hover/secondary:scale-110" aria-hidden="true" />
-                  {t("ctaSecondary")}
-                </a>
               </div>
               <p className="mt-4 text-center text-[13px] text-muted lg:text-left">
                 {TRUST_KEYS.map((key, i) => (
