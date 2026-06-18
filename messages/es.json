@@ -891,6 +891,47 @@
     "sectionLabel": "Seguridad",
     "subtitle": "Defensa en profundidad activada por defecto. Seis capas mostradas a continuación."
   },
+  "architecture": {
+    "sectionLabel": "Bajo el capó",
+    "title": "Defensa en profundidad — zonas de confianza en cada capa",
+    "summary": "Tu flota multi-agente se ejecuta en cuatro niveles de confianza — entrada externa no confiable, agentes sandboxed, mesh confiable y un nivel interno solo loopback — más un nivel de permisos operador-o-interno. Los agentes solo se comunican entre sí a través del mesh, controlados por ACLs por agente; el mesh guarda las claves.",
+    "zones": {
+      "0": {
+        "name": "Zona de usuario",
+        "trust": "Entrada no confiable",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "Saneado vía guardas anti-inyección de prompts"
+        }
+      },
+      "1": {
+        "name": "Host de malla",
+        "trust": "Confiable (Zona 2)",
+        "items": {
+          "0": "FastAPI en :8420",
+          "1": "Blackboard (SQLite + WAL)",
+          "2": "PubSub + Enrutador de mensajes",
+          "3": "Bóveda de credenciales (API Proxy)",
+          "4": "Matriz ACL + enrutador de carriles",
+          "5": "Servicio de navegador :8500 (Camoufox por agente)"
+        }
+      },
+      "2": {
+        "name": "Contenedores de agentes",
+        "trust": "Sandboxed (Zona 1)",
+        "items": {
+          "0": "FastAPI :8400 (por contenedor)",
+          "1": "Volumen /data propio",
+          "2": "BD de memoria propia (SQLite + vec)",
+          "3": "384MB RAM / 0.15 CPU por defecto",
+          "4": "UID 1000, cap_drop=ALL, no-new-privileges, FS de solo lectura"
+        }
+      }
+    },
+    "agentLabel": "Agente {n}",
+    "learnMoreLink": "Más información sobre la orquestación de agentes de IA →"
+  },
   "seoLinks": {
     "cards": {
       "0": {

@@ -891,6 +891,47 @@
     "sectionLabel": "ความปลอดภัย",
     "subtitle": "Defense-in-depth เปิดใช้งานเป็นค่าเริ่มต้น แสดง 6 ชั้นด้านล่าง"
   },
+  "architecture": {
+    "sectionLabel": "เบื้องหลังการทำงาน",
+    "title": "Defense-in-depth — โซนความน่าเชื่อถือในทุกชั้น",
+    "summary": "ฟลีตมัลติเอเจนต์ของคุณรันข้ามสี่ระดับความน่าเชื่อถือ — อินพุตภายนอกที่ไม่เชื่อถือ, เอเจนต์ใน sandbox, mesh ที่เชื่อถือ และระดับภายในที่ loopback เท่านั้น — บวกกับระดับสิทธิ์ operator-หรือ-internal เอเจนต์สื่อสารกันผ่าน mesh เท่านั้น ภายใต้การควบคุมของ ACL ต่อเอเจนต์ mesh เป็นผู้ถือคีย์",
+    "zones": {
+      "0": {
+        "name": "User Zone",
+        "trust": "อินพุตที่ไม่เชื่อถือ",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "ทำความสะอาดผ่าน prompt-injection guards"
+        }
+      },
+      "1": {
+        "name": "Mesh Host",
+        "trust": "เชื่อถือได้ (Zone 2)",
+        "items": {
+          "0": "FastAPI บนพอร์ต :8420",
+          "1": "Blackboard (SQLite + WAL)",
+          "2": "PubSub + Message Router",
+          "3": "Credential Vault (API Proxy)",
+          "4": "ACL Matrix + Lane Router",
+          "5": "Browser Service :8500 (Camoufox ต่อเอเจนต์)"
+        }
+      },
+      "2": {
+        "name": "Agent Containers",
+        "trust": "Sandbox (Zone 1)",
+        "items": {
+          "0": "FastAPI :8400 (ต่อคอนเทนเนอร์)",
+          "1": "Volume /data ของตัวเอง",
+          "2": "Memory DB ของตัวเอง (SQLite + vec)",
+          "3": "RAM 384MB / CPU 0.15 เป็นค่าเริ่มต้น",
+          "4": "UID 1000, cap_drop=ALL, no-new-privileges, FS อ่านอย่างเดียว"
+        }
+      }
+    },
+    "agentLabel": "เอเจนต์ {n}",
+    "learnMoreLink": "เรียนรู้เพิ่มเติมเกี่ยวกับการประสานงานเอเจนต์ AI →"
+  },
   "seoLinks": {
     "cards": {
       "0": {

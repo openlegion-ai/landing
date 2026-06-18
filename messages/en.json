@@ -891,6 +891,47 @@
     "sectionLabel": "Security",
     "subtitle": "Defense-in-depth enabled by default. Six layers shown below."
   },
+  "architecture": {
+    "sectionLabel": "Under the hood",
+    "title": "Defense-in-depth — trust zones at every layer",
+    "summary": "Your multi-agent fleet runs across four trust tiers — untrusted external input, sandboxed agents, the trusted mesh, and a loopback-only internal tier — plus an operator-or-internal permission tier. Agents only message each other through the mesh, gated by per-agent ACLs; the mesh holds the keys.",
+    "zones": {
+      "0": {
+        "name": "User Zone",
+        "trust": "Untrusted Input",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "Sanitized via prompt-injection guards"
+        }
+      },
+      "1": {
+        "name": "Mesh Host",
+        "trust": "Trusted (Zone 2)",
+        "items": {
+          "0": "FastAPI on :8420",
+          "1": "Blackboard (SQLite + WAL)",
+          "2": "PubSub + Message Router",
+          "3": "Credential Vault (API Proxy)",
+          "4": "ACL Matrix + Lane Router",
+          "5": "Browser Service :8500 (per-agent Camoufox)"
+        }
+      },
+      "2": {
+        "name": "Agent Containers",
+        "trust": "Sandboxed (Zone 1)",
+        "items": {
+          "0": "FastAPI :8400 (per container)",
+          "1": "Own /data volume",
+          "2": "Own memory DB (SQLite + vec)",
+          "3": "384MB RAM / 0.15 CPU default",
+          "4": "UID 1000, cap_drop=ALL, no-new-privileges, read-only FS"
+        }
+      }
+    },
+    "agentLabel": "Agent {n}",
+    "learnMoreLink": "Learn more about AI agent orchestration →"
+  },
   "seoLinks": {
     "cards": {
       "0": {

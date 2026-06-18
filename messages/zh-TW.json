@@ -891,6 +891,47 @@
     "sectionLabel": "安全性",
     "subtitle": "預設啟用縱深防禦。下方為六層架構。"
   },
+  "architecture": {
+    "sectionLabel": "內部架構",
+    "title": "縱深防禦 — 每一層都有信任分區",
+    "summary": "你的多智慧體艦隊在四個信任層中執行 — 不可信的外部輸入、沙箱化的智慧體、可信的網格以及僅回環的內部層 — 外加一個操作員或內部權限層。智慧體只透過網格相互通訊，由每個智慧體的 ACL 控制；密鑰由網格持有。",
+    "zones": {
+      "0": {
+        "name": "使用者區域",
+        "trust": "不可信輸入",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "透過提示注入防護進行清理"
+        }
+      },
+      "1": {
+        "name": "Mesh 主機",
+        "trust": "可信（區域 2）",
+        "items": {
+          "0": "FastAPI（:8420）",
+          "1": "黑板（SQLite + WAL）",
+          "2": "PubSub + 訊息路由器",
+          "3": "憑證 Vault（API 代理）",
+          "4": "ACL 矩陣 + 車道路由器",
+          "5": "瀏覽器服務 :8500（每智慧體獨立 Camoufox）"
+        }
+      },
+      "2": {
+        "name": "智慧代理容器",
+        "trust": "沙箱（區域 1）",
+        "items": {
+          "0": "FastAPI :8400（每個容器）",
+          "1": "專屬 /data 磁碟區",
+          "2": "專屬記憶體資料庫（SQLite + vec）",
+          "3": "384MB RAM / 0.15 CPU 預設值",
+          "4": "UID 1000，cap_drop=ALL，no-new-privileges，唯讀檔案系統"
+        }
+      }
+    },
+    "agentLabel": "智慧代理 {n}",
+    "learnMoreLink": "深入了解 AI 智慧代理編排 →"
+  },
   "seoLinks": {
     "cards": {
       "0": {

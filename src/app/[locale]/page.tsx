@@ -9,6 +9,7 @@ import { Features } from "@/components/features";
 import { DashboardPreview } from "@/components/dashboard-preview";
 import { Quickstart } from "@/components/quickstart";
 import { Security } from "@/components/security";
+import { Architecture } from "@/components/architecture";
 import { Enterprise } from "@/components/enterprise";
 import { Comparison } from "@/components/comparison";
 import { FAQ } from "@/components/faq";
@@ -176,6 +177,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
         </div>
         <Security />
+        <Architecture />
         <Enterprise />
         <FAQ />
         <div className="px-5 pt-16 text-center sm:px-6 md:px-8 md:pt-20" aria-hidden="false">
