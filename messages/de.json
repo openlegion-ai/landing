@@ -340,12 +340,12 @@
     "ogDescription": "Setzen Sie KI-Agenten ein, die alles automatisieren, was ein Mensch am Computer tun kann. Sicher, budgetiert, produktionsreif. 7-Tage-Geld-zurück-Garantie.",
     "ogImageAlt": "OpenLegion — KI-Agenten-Framework & Plattform",
     "ogTitle": "OpenLegion — KI-Agenten-Framework & Plattform",
-    "pricingDescription": "Pläne ab $59/Monat mit Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbietern. Jederzeit kündbar, 7-Tage-Geld-zurück-Garantie.",
-    "pricingOgDescription": "Pläne ab $59/Monat. Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbieter. 7-Tage-Geld-zurück-Garantie.",
-    "pricingOgTitle": "AI-Agent-Plattform Preise — Pläne ab $59/Monat | OpenLegion",
-    "pricingTitle": "AI-Agent-Plattform Preise — Pläne ab $59/Monat",
+    "pricingDescription": "Pläne ab $62/Monat mit Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbietern. Jederzeit kündbar, 7-Tage-Geld-zurück-Garantie.",
+    "pricingOgDescription": "Pläne ab $62/Monat. Container-Isolation, Tresor-Sicherheit und 100+ LLM-Anbieter. 7-Tage-Geld-zurück-Garantie.",
+    "pricingOgTitle": "AI-Agent-Plattform Preise — Pläne ab $62/Monat | OpenLegion",
+    "pricingTitle": "AI-Agent-Plattform Preise — Pläne ab $62/Monat",
     "pricingTwitterDescription": "Pläne ab 59 $/Monat. 7 Tage Geld-zurück-Garantie.",
-    "pricingTwitterTitle": "AI-Agent-Plattform Preise — Pläne ab $59/Monat | OpenLegion",
+    "pricingTwitterTitle": "AI-Agent-Plattform Preise — Pläne ab $62/Monat | OpenLegion",
     "privacyDescription": "Datenschutzrichtlinie des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Erfahre, wie wir deine Daten im Managed Hosting und auf der Website openlegion.ai erfassen, verwenden und schützen.",
     "privacyTitle": "Datenschutzrichtlinie",
     "termsDescription": "Nutzungsbedingungen des OpenLegion KI-Agenten-Frameworks und Managed Hostings. Umfasst Managed Hosting, selbstgehostetes Deployment unter PolyForm Perimeter License 1.0.1 und die Website openlegion.ai.",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "Was abgedeckt ist",
       "items": {
-        "0": "Deine erste Abo-Zahlung (der tatsächlich abgerechnete Betrag — z.B. $59 für Growth monatlich).",
+        "0": "Deine erste Abo-Zahlung (der tatsächlich abgerechnete Betrag — z.B. $62 für Growth monatlich).",
         "1": "Volle Rückerstattung dieses Betrags — ohne Wenn und Aber, ohne anteilige Verrechnung."
       }
     },

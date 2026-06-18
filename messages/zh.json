@@ -340,12 +340,12 @@
     "ogDescription": "部署AI智能体，自动完成人类在电脑上能做的一切。安全、可控预算、生产就绪。7天退款保证。",
     "ogImageAlt": "OpenLegion — AI 智能体框架与平台",
     "ogTitle": "OpenLegion — AI 智能体框架与平台",
-    "pricingDescription": "每月$59起，含容器隔离、保险库安全与100+大模型供应商。随时取消，7天退款保证。",
-    "pricingOgDescription": "每月$59起。容器隔离、保险库安全、100+大模型供应商。7天退款保证。",
-    "pricingOgTitle": "AI智能体平台定价 — 每月$59起 | OpenLegion",
-    "pricingTitle": "AI智能体平台定价 — 每月$59起",
-    "pricingTwitterDescription": "方案起价 $59/月。7 天退款保证。",
-    "pricingTwitterTitle": "AI智能体平台定价 — 每月$59起 | OpenLegion",
+    "pricingDescription": "每月$62起，含容器隔离、保险库安全与100+大模型供应商。随时取消，7天退款保证。",
+    "pricingOgDescription": "每月$62起。容器隔离、保险库安全、100+大模型供应商。7天退款保证。",
+    "pricingOgTitle": "AI智能体平台定价 — 每月$62起 | OpenLegion",
+    "pricingTitle": "AI智能体平台定价 — 每月$62起",
+    "pricingTwitterDescription": "方案起价 $62/月。7 天退款保证。",
+    "pricingTwitterTitle": "AI智能体平台定价 — 每月$62起 | OpenLegion",
     "privacyDescription": "OpenLegion AI 智能体框架与托管服务的隐私政策。了解我们如何在托管服务及 openlegion.ai 网站上收集、使用和保护你的数据。",
     "privacyTitle": "隐私政策",
     "termsDescription": "OpenLegion AI 智能体框架与托管服务的服务条款。涵盖托管服务、PolyForm Perimeter License 1.0.1 许可下的自托管部署以及 openlegion.ai 网站。",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "退款覆盖范围",
       "items": {
-        "0": "你的首次订阅付款（实际扣款金额——例如 Growth 月付 $59）。",
+        "0": "你的首次订阅付款（实际扣款金额——例如 Growth 月付 $62）。",
         "1": "全额退还该金额——无需说明理由，不按比例计算。"
       }
     },
@@ -472,7 +472,7 @@
         "question": "取消后我的智能体会怎样？"
       },
       "4": {
-        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 PolyForm Perimeter License 1.0.1 源码可见许可协议。托管服务起价 $59/月，适合不想管理基础设施的团队。",
+        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 PolyForm Perimeter License 1.0.1 源码可见许可协议。托管服务起价 $62/月，适合不想管理基础设施的团队。",
         "question": "可以自托管 OpenLegion 吗？"
       },
       "5": {

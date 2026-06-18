@@ -340,12 +340,12 @@
     "ogDescription": "Implante agentes de IA que automatizam tudo o que uma pessoa faz no computador. Seguro, com orçamento controlado, pronto para produção. Garantia de reembolso de 7 dias.",
     "ogImageAlt": "OpenLegion — Framework de agentes de IA",
     "ogTitle": "OpenLegion — Framework de agentes de IA",
-    "pricingDescription": "Planos a partir de $59/mês com isolamento por contêiner, segurança de cofre e mais de 100 provedores de LLM. Cancele quando quiser, garantia de reembolso de 7 dias.",
-    "pricingOgDescription": "Planos a partir de $59/mês. Isolamento por contêiner, segurança de cofre e mais de 100 provedores de LLM. Garantia de reembolso de 7 dias.",
-    "pricingOgTitle": "Preços da plataforma de agentes de IA — Planos a partir de $59/mês | OpenLegion",
-    "pricingTitle": "Preços da plataforma de agentes de IA — Planos a partir de $59/mês",
+    "pricingDescription": "Planos a partir de $62/mês com isolamento por contêiner, segurança de cofre e mais de 100 provedores de LLM. Cancele quando quiser, garantia de reembolso de 7 dias.",
+    "pricingOgDescription": "Planos a partir de $62/mês. Isolamento por contêiner, segurança de cofre e mais de 100 provedores de LLM. Garantia de reembolso de 7 dias.",
+    "pricingOgTitle": "Preços da plataforma de agentes de IA — Planos a partir de $62/mês | OpenLegion",
+    "pricingTitle": "Preços da plataforma de agentes de IA — Planos a partir de $62/mês",
     "pricingTwitterDescription": "Planos a partir de US$ 59/mês. Garantia de reembolso em 7 dias.",
-    "pricingTwitterTitle": "Preços da plataforma de agentes de IA — Planos a partir de $59/mês | OpenLegion",
+    "pricingTwitterTitle": "Preços da plataforma de agentes de IA — Planos a partir de $62/mês | OpenLegion",
     "privacyDescription": "Política de Privacidade do framework de agentes de IA OpenLegion e da hospedagem gerenciada. Saiba como coletamos, usamos e protegemos seus dados na hospedagem gerenciada e no site openlegion.ai.",
     "privacyTitle": "Política de privacidade",
     "termsDescription": "Termos de Serviço do framework de agentes de IA OpenLegion e da hospedagem gerenciada. Cobre hospedagem gerenciada, implantação auto-hospedada sob licença PolyForm Perimeter License 1.0.1 e o site openlegion.ai.",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "O que está coberto",
       "items": {
-        "0": "Seu primeiro pagamento de assinatura (o valor realmente cobrado — por exemplo, $59 para o Growth mensal).",
+        "0": "Seu primeiro pagamento de assinatura (o valor realmente cobrado — por exemplo, $62 para o Growth mensal).",
         "1": "Reembolso total desse valor — sem perguntas, sem proporcionalidade."
       }
     },
