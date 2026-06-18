@@ -295,7 +295,7 @@
   "hero": {
     "ariaLabel": "Introduction",
     "badge": "Your AI workforce starts here",
-    "ctaPrimary": "Start your AI team — from $19/mo",
+    "ctaPrimary": "Start your AI team",
     "ctaSecondary": "Book a demo",
     "headingHighlight": "AI agent workforce",
     "headingLine1": "Build your ",
@@ -340,12 +340,12 @@
     "ogDescription": "Deploy AI agents that automate anything a human can do on a computer. Secure, on budget, production-ready. 7-day money-back guarantee.",
     "ogImageAlt": "OpenLegion — AI Agent Framework & Platform",
     "ogTitle": "OpenLegion — AI Agent Framework & Platform",
-    "pricingDescription": "Plans from $19/month with container isolation, vault security, and 100+ LLM providers. Cancel anytime, 7-day money-back guarantee.",
-    "pricingOgDescription": "Plans from $19/month. Container isolation, vault security, and 100+ LLM providers. 7-day money-back guarantee.",
-    "pricingOgTitle": "AI Agent Platform Pricing — Plans From $19/Month | OpenLegion",
-    "pricingTitle": "AI Agent Platform Pricing — Plans From $19/Month",
-    "pricingTwitterDescription": "Plans from $19/month. 7-day money-back guarantee.",
-    "pricingTwitterTitle": "AI Agent Platform Pricing — Plans From $19/Month | OpenLegion",
+    "pricingDescription": "Plans from $62/month with container isolation, vault security, and 100+ LLM providers. Cancel anytime, 7-day money-back guarantee.",
+    "pricingOgDescription": "Plans from $62/month. Container isolation, vault security, and 100+ LLM providers. 7-day money-back guarantee.",
+    "pricingOgTitle": "AI Agent Platform Pricing — Plans From $62/Month | OpenLegion",
+    "pricingTitle": "AI Agent Platform Pricing — Plans From $62/Month",
+    "pricingTwitterDescription": "Plans from $62/month. 7-day money-back guarantee.",
+    "pricingTwitterTitle": "AI Agent Platform Pricing — Plans From $62/Month | OpenLegion",
     "privacyDescription": "Privacy Policy for the OpenLegion AI agent framework and managed hosting. Learn how we collect, use, and protect your data across managed hosting and the openlegion.ai website.",
     "privacyTitle": "Privacy Policy",
     "termsDescription": "Terms of Service for the OpenLegion AI agent framework and managed hosting. Covers managed hosting, self-hosted deployment under PolyForm Perimeter License 1.0.1, and the openlegion.ai website.",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "What's covered",
       "items": {
-        "0": "Your first subscription payment (the actual amount charged — e.g. $19 for Basic monthly).",
+        "0": "Your first subscription payment (the actual amount charged — e.g. $62 for Growth monthly).",
         "1": "Full refund of that amount — no questions asked, no partial pro-ration."
       }
     },
@@ -472,7 +472,7 @@
         "question": "What happens to my agents if I cancel?"
       },
       "4": {
-        "answer": "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under PolyForm Perimeter License 1.0.1. Managed hosting starts at $19/month for teams that don't want to manage infrastructure.",
+        "answer": "Yes. Clone the repo, run three commands, and you have a full agent fleet on your own infrastructure. The engine is source-available under PolyForm Perimeter License 1.0.1. Managed hosting starts at $62/month for teams that don't want to manage infrastructure.",
         "question": "Can I self-host OpenLegion?"
       },
       "5": {
@@ -480,7 +480,7 @@
         "question": "What counts as an \"agent\"?"
       },
       "6": {
-        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when your first payment processes — Basic gets $15, Growth gets $50, Pro gets $100, Pro Max gets $200. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly.",
+        "answer": "Credits are used to pay for LLM calls (Claude, GPT, Gemini, etc.) through our platform. You get a welcome bonus when your first payment processes — Growth gets $50, Pro gets $100, Pro Max gets $200. Credits never expire. When they run out, top up any amount from $5 to $500, or add your own API keys to use providers directly.",
         "question": "What are LLM credits and do they expire?"
       }
     },

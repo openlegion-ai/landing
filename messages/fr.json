@@ -295,7 +295,7 @@
   "hero": {
     "ariaLabel": "Introduction",
     "badge": "Votre équipe IA commence ici",
-    "ctaPrimary": "Lancez votre équipe IA — dès $19/mois",
+    "ctaPrimary": "Lancez votre équipe IA",
     "ctaSecondary": "Réserver une démo",
     "headingHighlight": "équipe IA",
     "headingLine1": "Créez une ",
@@ -340,12 +340,12 @@
     "ogDescription": "Déployez des agents IA qui automatisent tout ce qu'un humain peut faire sur un ordinateur. Sécurisé, budgétisé, prêt pour la production. Garantie satisfait ou remboursé de 7 jours.",
     "ogImageAlt": "OpenLegion — Framework et plateforme d'agents IA",
     "ogTitle": "OpenLegion — Framework et plateforme d'agents IA",
-    "pricingDescription": "Forfaits à partir de $19/mois avec isolation par conteneur, sécurité par coffre et plus de 100 fournisseurs LLM. Annulable à tout moment, garantie satisfait ou remboursé de 7 jours.",
-    "pricingOgDescription": "Forfaits à partir de $19/mois. Isolation par conteneur, sécurité par coffre, plus de 100 fournisseurs LLM. Garantie satisfait ou remboursé de 7 jours.",
-    "pricingOgTitle": "Tarifs de la plateforme d'agents IA — À partir de $19/mois | OpenLegion",
-    "pricingTitle": "Tarifs de la plateforme d'agents IA — À partir de $19/mois",
-    "pricingTwitterDescription": "Plans à partir de 19 $/mois. Garantie de remboursement sous 7 jours.",
-    "pricingTwitterTitle": "Tarifs de la plateforme d'agents IA — À partir de $19/mois | OpenLegion",
+    "pricingDescription": "Forfaits à partir de $59/mois avec isolation par conteneur, sécurité par coffre et plus de 100 fournisseurs LLM. Annulable à tout moment, garantie satisfait ou remboursé de 7 jours.",
+    "pricingOgDescription": "Forfaits à partir de $59/mois. Isolation par conteneur, sécurité par coffre, plus de 100 fournisseurs LLM. Garantie satisfait ou remboursé de 7 jours.",
+    "pricingOgTitle": "Tarifs de la plateforme d'agents IA — À partir de $59/mois | OpenLegion",
+    "pricingTitle": "Tarifs de la plateforme d'agents IA — À partir de $59/mois",
+    "pricingTwitterDescription": "Plans à partir de 59 $/mois. Garantie de remboursement sous 7 jours.",
+    "pricingTwitterTitle": "Tarifs de la plateforme d'agents IA — À partir de $59/mois | OpenLegion",
     "privacyDescription": "Politique de confidentialité du framework d'agents IA OpenLegion et de l'hébergement managé. Découvrez comment nous collectons, utilisons et protégeons vos données sur l'hébergement managé et le site openlegion.ai.",
     "privacyTitle": "Politique de confidentialité",
     "termsDescription": "Conditions d'utilisation du framework d'agents IA OpenLegion et de l'hébergement managé. Couvre l'hébergement managé, le déploiement auto-hébergé sous licence PolyForm Perimeter License 1.0.1 et le site openlegion.ai.",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "Ce qui est couvert",
       "items": {
-        "0": "Ton premier paiement d'abonnement (le montant réellement débité — p. ex. 19 $ pour Basic mensuel).",
+        "0": "Ton premier paiement d'abonnement (le montant réellement débité — p. ex. 59 $ pour Growth mensuel).",
         "1": "Remboursement intégral de ce montant — sans condition, sans prorata."
       }
     },
@@ -472,7 +472,7 @@
         "question": "Qu'arrive-t-il à mes agents si j'annule ?"
       },
       "4": {
-        "answer": "Oui. Clonez le dépôt, exécutez trois commandes et vous avez une flotte d'agents complète sur votre propre infrastructure. Le moteur est disponible en code source sous PolyForm Perimeter License 1.0.1. L'hébergement géré commence à 19 $/mois pour les équipes qui ne veulent pas gérer l'infrastructure.",
+        "answer": "Oui. Clonez le dépôt, exécutez trois commandes et vous avez une flotte d'agents complète sur votre propre infrastructure. Le moteur est disponible en code source sous PolyForm Perimeter License 1.0.1. L'hébergement géré commence à 59 $/mois pour les équipes qui ne veulent pas gérer l'infrastructure.",
         "question": "Puis-je auto-héberger OpenLegion ?"
       },
       "5": {
@@ -480,7 +480,7 @@
         "question": "Qu'est-ce qui compte comme un « agent » ?"
       },
       "6": {
-        "answer": "Les crédits servent à payer les appels LLM (Claude, GPT, Gemini, etc.) via notre plateforme. Vous recevez un bonus de bienvenue à l'abonnement — Basic reçoit 5 $, Growth reçoit 15 $, Pro reçoit 30 $. Les crédits n'expirent jamais. Quand ils sont épuisés, rechargez n'importe quel montant de 5 $ à 500 $, ou ajoutez vos propres clés API pour utiliser les fournisseurs directement.",
+        "answer": "Les crédits servent à payer les appels LLM (Claude, GPT, Gemini, etc.) via notre plateforme. Vous recevez un bonus de bienvenue à l'abonnement — Growth reçoit 15 $, Pro reçoit 30 $. Les crédits n'expirent jamais. Quand ils sont épuisés, rechargez n'importe quel montant de 5 $ à 500 $, ou ajoutez vos propres clés API pour utiliser les fournisseurs directement.",
         "question": "Que sont les crédits LLM et expirent-ils ?"
       }
     },

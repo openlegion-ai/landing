@@ -295,7 +295,7 @@
   "hero": {
     "ariaLabel": "产品介绍",
     "badge": "从这里开始构建你的 AI 团队",
-    "ctaPrimary": "组建你的AI团队 — 每月$19起",
+    "ctaPrimary": "组建你的AI团队",
     "ctaSecondary": "预约演示",
     "headingHighlight": "AI 团队",
     "headingLine1": "构建你的",
@@ -340,12 +340,12 @@
     "ogDescription": "部署AI智能体，自动完成人类在电脑上能做的一切。安全、可控预算、生产就绪。7天退款保证。",
     "ogImageAlt": "OpenLegion — AI 智能体框架与平台",
     "ogTitle": "OpenLegion — AI 智能体框架与平台",
-    "pricingDescription": "每月$19起，含容器隔离、保险库安全与100+大模型供应商。随时取消，7天退款保证。",
-    "pricingOgDescription": "每月$19起。容器隔离、保险库安全、100+大模型供应商。7天退款保证。",
-    "pricingOgTitle": "AI智能体平台定价 — 每月$19起 | OpenLegion",
-    "pricingTitle": "AI智能体平台定价 — 每月$19起",
-    "pricingTwitterDescription": "方案起价 $19/月。7 天退款保证。",
-    "pricingTwitterTitle": "AI智能体平台定价 — 每月$19起 | OpenLegion",
+    "pricingDescription": "每月$59起，含容器隔离、保险库安全与100+大模型供应商。随时取消，7天退款保证。",
+    "pricingOgDescription": "每月$59起。容器隔离、保险库安全、100+大模型供应商。7天退款保证。",
+    "pricingOgTitle": "AI智能体平台定价 — 每月$59起 | OpenLegion",
+    "pricingTitle": "AI智能体平台定价 — 每月$59起",
+    "pricingTwitterDescription": "方案起价 $59/月。7 天退款保证。",
+    "pricingTwitterTitle": "AI智能体平台定价 — 每月$59起 | OpenLegion",
     "privacyDescription": "OpenLegion AI 智能体框架与托管服务的隐私政策。了解我们如何在托管服务及 openlegion.ai 网站上收集、使用和保护你的数据。",
     "privacyTitle": "隐私政策",
     "termsDescription": "OpenLegion AI 智能体框架与托管服务的服务条款。涵盖托管服务、PolyForm Perimeter License 1.0.1 许可下的自托管部署以及 openlegion.ai 网站。",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "退款覆盖范围",
       "items": {
-        "0": "你的首次订阅付款（实际扣款金额——例如 Basic 月付 $19）。",
+        "0": "你的首次订阅付款（实际扣款金额——例如 Growth 月付 $59）。",
         "1": "全额退还该金额——无需说明理由，不按比例计算。"
       }
     },
@@ -472,7 +472,7 @@
         "question": "取消后我的智能体会怎样？"
       },
       "4": {
-        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 PolyForm Perimeter License 1.0.1 源码可见许可协议。托管服务起价 $19/月，适合不想管理基础设施的团队。",
+        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 PolyForm Perimeter License 1.0.1 源码可见许可协议。托管服务起价 $59/月，适合不想管理基础设施的团队。",
         "question": "可以自托管 OpenLegion 吗？"
       },
       "5": {
@@ -480,7 +480,7 @@
         "question": "什么算作一个「智能体」？"
       },
       "6": {
-        "answer": "额度用于通过我们平台支付 LLM 调用费用（Claude、GPT、Gemini 等）。订阅时您会获得欢迎奖励——Basic 获得 $5、Growth 获得 $15、Pro 获得 $30。额度永不过期。用完后，从 $5 到 $500 随时充值任意金额，或添加您自己的 API 密钥直接使用提供商。",
+        "answer": "额度用于通过我们平台支付 LLM 调用费用（Claude、GPT、Gemini 等）。订阅时您会获得欢迎奖励——Growth 获得 $15、Pro 获得 $30。额度永不过期。用完后，从 $5 到 $500 随时充值任意金额，或添加您自己的 API 密钥直接使用提供商。",
         "question": "什么是 LLM 额度？会过期吗？"
       }
     },
