@@ -891,6 +891,47 @@
     "sectionLabel": "安全防护",
     "subtitle": "默认启用纵深防御。下面展示六层架构。"
   },
+  "architecture": {
+    "sectionLabel": "技术架构",
+    "title": "纵深防御 — 每一层都有信任分区",
+    "summary": "你的多智能体舰队在四个信任层中运行 — 不可信的外部输入、沙箱化的智能体、可信的网格以及仅回环的内部层 — 外加一个操作员或内部权限层。智能体只通过网格相互通信，由每个智能体的 ACL 控制；密钥由网格持有。",
+    "zones": {
+      "0": {
+        "name": "用户区",
+        "trust": "不可信输入",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "通过提示注入防护进行清理"
+        }
+      },
+      "1": {
+        "name": "网格主机",
+        "trust": "可信（区域 2）",
+        "items": {
+          "0": "FastAPI :8420",
+          "1": "黑板（SQLite + WAL）",
+          "2": "发布/订阅 + 消息路由",
+          "3": "凭证密钥库 (API 代理)",
+          "4": "ACL 矩阵 + 车道路由器",
+          "5": "浏览器服务 :8500（每智能体独立 Camoufox）"
+        }
+      },
+      "2": {
+        "name": "智能体容器",
+        "trust": "沙箱（区域 1）",
+        "items": {
+          "0": "FastAPI :8400（每个容器）",
+          "1": "独立 /data 数据卷",
+          "2": "独立内存数据库 (SQLite + vec)",
+          "3": "默认 384MB RAM / 0.15 CPU",
+          "4": "UID 1000，cap_drop=ALL，no-new-privileges，只读文件系统"
+        }
+      }
+    },
+    "agentLabel": "智能体 {n}",
+    "learnMoreLink": "了解更多关于 AI 智能体编排 →"
+  },
   "seoLinks": {
     "cards": {
       "0": {

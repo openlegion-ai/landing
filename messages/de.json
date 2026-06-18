@@ -891,6 +891,47 @@
     "sectionLabel": "Sicherheit",
     "subtitle": "Defense-in-Depth standardmäßig aktiviert. Sechs Schichten unten dargestellt."
   },
+  "architecture": {
+    "sectionLabel": "Unter der Haube",
+    "title": "Defense-in-Depth — Trust-Zonen auf jeder Ebene",
+    "summary": "Deine Multi-Agenten-Flotte läuft über vier Vertrauensebenen — nicht vertrauenswürdige Eingaben, sandboxed Agenten, der vertrauenswürdige Mesh und eine reine Loopback-Internal-Ebene — plus eine Operator-oder-Internal-Berechtigungsebene. Agenten kommunizieren nur über den Mesh miteinander, abgesichert durch per-Agent-ACLs; der Mesh hält die Schlüssel.",
+    "zones": {
+      "0": {
+        "name": "Benutzerzone",
+        "trust": "Nicht vertrauenswürdige Eingabe",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "Über Prompt-Injection-Guards bereinigt"
+        }
+      },
+      "1": {
+        "name": "Mesh-Host",
+        "trust": "Vertrauenswürdig (Zone 2)",
+        "items": {
+          "0": "FastAPI auf :8420",
+          "1": "Blackboard (SQLite + WAL)",
+          "2": "PubSub + Nachrichten-Router",
+          "3": "Credential-Tresor (API Proxy)",
+          "4": "ACL-Matrix + Lane-Router",
+          "5": "Browser-Service :8500 (Camoufox pro Agent)"
+        }
+      },
+      "2": {
+        "name": "Agenten-Container",
+        "trust": "Sandbox (Zone 1)",
+        "items": {
+          "0": "FastAPI :8400 (pro Container)",
+          "1": "Eigenes /data-Volume",
+          "2": "Eigene Speicher-DB (SQLite + vec)",
+          "3": "384 MB RAM / 0,15 CPU Standard",
+          "4": "UID 1000, cap_drop=ALL, no-new-privileges, schreibgeschütztes FS"
+        }
+      }
+    },
+    "agentLabel": "Agent {n}",
+    "learnMoreLink": "Mehr über KI-Agenten-Orchestrierung erfahren →"
+  },
   "seoLinks": {
     "cards": {
       "0": {
