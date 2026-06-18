@@ -1,6 +1,6 @@
 ---
-title: "AI Agent Governance — RBAC, Audit Trails, and Regulatory Compliance"
-description: "AI agent governance: RBAC, immutable audit trails, budget caps, and compliance for production agents. Covers EU AI Act Article 9, NIST AI RMF, SOC 2 CC6.1/CC7.2, and OWASP LLM08."
+title: "AI Agent Governance: RBAC, Audit Trails, and Regulatory Compliance"
+description: "AI agent governance: RBAC, immutable audit trails, budget caps, and compliance for production agents. Covers EU AI Act Article 9, NIST AI RMF, SOC 2 CC6.1/CC7.2, and OWASP LLM06."
 slug: /learn/ai-agent-governance
 primary_keyword: ai agent governance
 last_updated: "2026-06-18"
@@ -16,7 +16,7 @@ related:
 
 # AI Agent Governance: RBAC, Audit Trails, and Regulatory Compliance
 
-AI agent governance is the institutional control layer over autonomous agent systems — defining who can authorize agent actions, what permissions each agent holds, how every action is recorded, and how agents can be stopped. Unlike security (which defends against external threats), governance answers to regulators, auditors, and internal risk committees. EU AI Act Article 9, enforced August 2024, mandates risk management systems for high-risk AI. NIST AI RMF (January 2023) lists Govern as the prerequisite function. Neither requirement is satisfied by technical controls alone.
+AI agent governance is the institutional control layer over autonomous agent systems — defining who can authorize agent actions, what permissions each agent holds, how every action is recorded, and how agents can be stopped. Unlike security (which defends against external threats), governance answers to regulators, auditors, and internal risk committees. EU AI Act Article 9, applying from August 2026, mandates risk management systems for high-risk AI. NIST AI RMF (January 2023) lists Govern as the prerequisite function. Neither requirement is satisfied by technical controls alone.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -26,7 +26,7 @@ AI agent governance is the institutional control layer over autonomous agent sys
 
 | **Control** | **What it enforces** | **Regulatory mapping** |
 |---|---|---|
-| **RBAC + role definition** | Permission boundaries per agent role | SOC 2 CC6.1, OWASP LLM08, EU AI Act Art. 9 |
+| **RBAC + role definition** | Permission boundaries per agent role | SOC 2 CC6.1, OWASP LLM06, EU AI Act Art. 9 |
 | **Quarterly access certification** | Least-privilege review, documented outcomes | SOC 2 CC6.1, NIST AI RMF GOVERN 1.1 |
 | **Immutable audit trail** | Attributability, tamper-evident log | SOC 2 CC7.2, EU AI Act Art. 9 |
 | **Budget cap (infrastructure layer)** | Cost boundary enforcement, chargeback | OWASP LLM10, internal finance governance |
@@ -48,7 +48,7 @@ Attributability breaks down when multiple agents share an identity (common in na
 
 An agent's permission boundary defines which tools it can call, which blackboard namespaces it can read or write, which other agents it can message, and which external network endpoints it can reach. These boundaries must be enforced by the infrastructure layer — not by agent instructions.
 
-Self-policed boundaries fail for two reasons. First, a sufficiently crafted prompt injection overrides any instruction-based restriction. Second, a hallucinating model may interpret its own permission instructions incorrectly. OWASP LLM08 (Excessive Agency, LLM Top 10 2025) identifies the governance fix as a formal least-privilege access review checklist: enumerate every tool and permission the agent holds, document the task requirement that justifies each, remove any permission without documented justification, and record the outcome with reviewer identity and date.
+Self-policed boundaries fail for two reasons. First, a sufficiently crafted prompt injection overrides any instruction-based restriction. Second, a hallucinating model may interpret its own permission instructions incorrectly. OWASP LLM06 (Excessive Agency, LLM Top 10 2025) identifies the governance fix as a formal least-privilege access review checklist: enumerate every tool and permission the agent holds, document the task requirement that justifies each, remove any permission without documented justification, and record the outcome with reviewer identity and date.
 
 In OpenLegion, permission boundaries are encoded as ACL configuration in Zone 2 — the credential and access control tier. Agent containers in Zone 1 cannot escalate their own permissions. The role definition document (name, task scope, tool allowlist, blackboard namespace ACL, communication ACL, external network allowlist) is the governance artifact that auditors review.
 
@@ -70,7 +70,7 @@ In OpenLegion, the steer mechanism sends an immediate halt signal to any fleet a
 
 ### EU AI Act Article 9: Risk Management Systems for Autonomous Agents
 
-Article 9 of the EU AI Act, enforced from August 2024, requires high-risk AI systems to implement a risk management system that runs throughout the system's lifecycle. High-risk classifications relevant to agent deployments include systems used in employment and HR management, access to essential services and benefits, critical infrastructure, education, and law enforcement. If your agent system touches any of these domains, Article 9 applies.
+Article 9 of the EU AI Act, applying from August 2026, requires high-risk AI systems to implement a risk management system that runs throughout the system's lifecycle. High-risk classifications relevant to agent deployments include systems used in employment and HR management, access to essential services and benefits, critical infrastructure, education, and law enforcement. If your agent system touches any of these domains, Article 9 applies.
 
 The Article 9 requirements translate to governance deliverables: a risk register documenting identified risks and their mitigations, documented controls with evidence of implementation, and periodic review at least annually (more frequently for systems with rapid capability changes). The RBAC structure, audit trail, budget enforcement, and kill switch procedures described in this page are the technical implementation — Article 9 requires they also be documented, reviewed, and kept current.
 
@@ -92,16 +92,16 @@ SOC 2 Type II audits are the standard enterprise procurement requirement for Saa
 
 SOC 2 auditors require 12 months of log retention as evidence. Design your audit trail retention with this in mind — 90-day minimum for operational review, 12-month minimum for SOC 2 evidence, and operational-lifetime retention for systems under EU AI Act high-risk classification.
 
-### OWASP LLM08 Excessive Agency: The Governance Failure Mode
+### OWASP LLM06 Excessive Agency: The Governance Failure Mode
 
-OWASP LLM Top 10 2025 item LLM08 (Excessive Agency) is not a technical vulnerability in the traditional sense — it is a governance failure mode. An agent with excessive agency has permissions beyond what its tasks require, and those excess permissions amplify the impact of any other failure (prompt injection, model error, misuse). The OWASP mitigation is a formal governance process:
+OWASP LLM Top 10 2025 item LLM06 (Excessive Agency) is not a technical vulnerability in the traditional sense — it is a governance failure mode. An agent with excessive agency has permissions beyond what its tasks require, and those excess permissions amplify the impact of any other failure (prompt injection, model error, misuse). The OWASP mitigation is a formal governance process:
 
 1. Enumerate every tool and permission the agent holds
 2. For each permission, document the specific task that requires it
 3. Remove any permission that lacks documented justification
 4. Record the review outcome with reviewer identity, date, and list of permissions removed or retained with rationale
 
-This is a quarterly access certification process applied to agent systems. It produces the documentation that satisfies OWASP LLM08, EU AI Act Article 9 periodic review, and SOC 2 CC6.1 access review requirements simultaneously.
+This is a quarterly access certification process applied to agent systems. It produces the documentation that satisfies OWASP LLM06, EU AI Act Article 9 periodic review, and SOC 2 CC6.1 access review requirements simultaneously.
 
 ## Role-Based Access Control for Agent Systems
 
@@ -200,7 +200,7 @@ Governance requires not just recording agent actions but detecting when recorded
 
 **Permission boundary anomalies**: an agent attempting a tool call that its role's ACL does not permit. Each denied call should generate an alert. A pattern of denied calls from the same agent role signals either an insufficient permission boundary (the role needs more permissions for legitimate tasks) or a compromise attempt (the agent is being directed to exceed its permissions). The [AI agent observability guide](/learn/ai-agent-observability) covers threshold and frequency-based anomaly detection implementation.
 
-**Cost anomalies**: an agent exceeding its expected cost-per-task baseline by more than 2× standard deviation. Single-instance spikes may be legitimate (a complex task); sustained elevation indicates a runaway pattern or a change in task distribution that has not been reviewed and approved.
+**Cost anomalies**: an agent exceeding its expected cost-per-task baseline by more than 2x standard deviation. Single-instance spikes may be legitimate (a complex task); sustained elevation indicates a runaway pattern or a change in task distribution that has not been reviewed and approved.
 
 **Off-hours or off-pattern activity**: agent actions occurring outside the expected operational window (for scheduled agents) or using tool categories the agent has not historically used. Both require human review before being classified as legitimate.
 
@@ -247,7 +247,7 @@ The incident response plan is required by NIST AI RMF MANAGE 1.3 and is the oper
 
 ## OpenLegion's Take
 
-Enterprise adoption of AI agents in 2026 is running ahead of governance program development. The EU AI Act Article 9 deadline passed in August 2024 — organizations deploying high-risk agent systems without a documented risk management system are already out of compliance. NIST AI RMF Govern function requirements have been published since January 2023 and are increasingly referenced in enterprise procurement questionnaires alongside SOC 2 CC6.1 and CC7.2.
+Enterprise adoption of AI agents in 2026 is running ahead of governance program development. EU AI Act Article 9 applies from August 2026 — organizations deploying high-risk agent systems need documented risk management systems in place before that date. NIST AI RMF Govern function requirements have been published since January 2023 and are increasingly referenced in enterprise procurement questionnaires alongside SOC 2 CC6.1 and CC7.2.
 
 The technical controls — RBAC, immutable logs, budget caps, kill switches — are implementable in weeks. The governance program — committee structure, quarterly access certification, acceptable use policy, incident response plan — takes longer because it requires organizational decisions about accountability, not just technical configuration. The bottleneck is not tooling; it is the organizational will to assign named owners and run quarterly reviews.
 
@@ -272,7 +272,7 @@ AI agent governance is the institutional control layer: defining authorized perm
 
 ### Does the EU AI Act apply to AI agent deployments?
 
-EU AI Act Article 9, enforced from August 2024, requires high-risk AI systems to implement a risk management system throughout the system's lifecycle. High-risk categories include systems used in employment, access to essential services, critical infrastructure, education, and law enforcement. Organizations deploying agent systems in these domains must maintain a risk register, documented controls, and periodic review evidence. The technical controls covered in this guide are the implementation; Article 9 also requires they be documented, reviewed at least annually, and kept current.
+EU AI Act Article 9, applying from August 2026, requires high-risk AI systems to implement a risk management system throughout the system's lifecycle. High-risk categories include systems used in employment, access to essential services, critical infrastructure, education, and law enforcement. Organizations deploying agent systems in these domains must maintain a risk register, documented controls, and periodic review evidence. The technical controls covered in this guide are the implementation; Article 9 also requires they be documented, reviewed at least annually, and kept current.
 
 ### What SOC 2 criteria cover AI agent systems?
 
@@ -280,7 +280,7 @@ SOC 2 Trust Service Criteria CC6.1 (Logical Access Controls) and CC7.2 (System M
 
 ### What is a quarterly access certification for agent systems?
 
-A quarterly access certification is a formal review of every agent role's permissions. An independent reviewer (not the agent owner) examines each permission the agent holds, confirms it is justified by a current task requirement, and documents the outcome. Permissions without documented justification are removed from the enforcement configuration. The record — reviewer identity, date, permissions removed or retained with rationale — is the SOC 2 CC6.1 access review evidence and satisfies the OWASP LLM08 least-privilege governance requirement.
+A quarterly access certification is a formal review of every agent role's permissions. An independent reviewer (not the agent owner) examines each permission the agent holds, confirms it is justified by a current task requirement, and documents the outcome. Permissions without documented justification are removed from the enforcement configuration. The record — reviewer identity, date, permissions removed or retained with rationale — is the SOC 2 CC6.1 access review evidence and satisfies the OWASP LLM06 least-privilege governance requirement.
 
 ### What fields must an agent audit log include for governance purposes?
 
@@ -294,6 +294,6 @@ Minimum 90 days for operational incident review. SOC 2 Type II audits require 12
 
 Every governed agent system requires a documented procedure to halt any running agent within 60 seconds, tested at least monthly. EU AI Act Article 14 requires human oversight mechanisms including the ability to intervene and stop AI systems. A kill switch that exists in documentation but has not been tested does not satisfy this requirement. The halt event must be logged to the immutable audit trail with the operator identity, timestamp, and the agent's last recorded state.
 
-### What is OWASP LLM08 Excessive Agency and how does governance address it?
+### What is OWASP LLM06 Excessive Agency and how does governance address it?
 
-OWASP LLM08 (Excessive Agency, LLM Top 10 2025) identifies agents with permissions beyond what their tasks require as a primary failure mode — excess permissions amplify the impact of any other failure including prompt injection or model error. The governance mitigation is a formal quarterly access review: enumerate every tool and permission the agent holds, document the task requirement for each, remove unjustified permissions, and record the outcome. This process simultaneously satisfies LLM08, EU AI Act Article 9 periodic review, and SOC 2 CC6.1 access certification requirements.
+OWASP LLM06 (Excessive Agency, LLM Top 10 2025) identifies agents with permissions beyond what their tasks require as a primary failure mode — excess permissions amplify the impact of any other failure including prompt injection or model error. The governance mitigation is a formal quarterly access review: enumerate every tool and permission the agent holds, document the task requirement for each, remove unjustified permissions, and record the outcome. This process simultaneously satisfies LLM06, EU AI Act Article 9 periodic review, and SOC 2 CC6.1 access certification requirements.
