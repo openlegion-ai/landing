@@ -2,7 +2,7 @@ import { UserPlus, CreditCard, Wrench, Rocket } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { QUICKSTART, APP_URL, DOCS_URL } from "@/lib/constants";
+import { QUICKSTART, ONBOARDING_URL, DOCS_URL } from "@/lib/constants";
 
 const STEP_ICONS = [UserPlus, CreditCard, Wrench, Rocket];
 
@@ -67,7 +67,7 @@ export async function Quickstart() {
                 {t("managedDescription")}
               </p>
               <a
-                href={APP_URL}
+                href={ONBOARDING_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white"
