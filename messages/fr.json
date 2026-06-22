@@ -533,8 +533,8 @@
       }
     },
     "popularBadge": "Populaire",
-    "priceSuffixMonthly": "/mois",
-    "priceSuffixYearly": "/an",
+    "priceSuffixMonthly": "mois",
+    "priceSuffixYearly": "an",
     "savingsAriaLabel": "Économisez {percent} pour cent",
     "savingsPill": "Économisez ${amount}{suffix} ({percent}%)",
     "sectionLabel": "Tarifs",
@@ -687,92 +687,28 @@
     "title": "Politique de confidentialité"
   },
   "promptToTeam": {
-    "customCta": "Commencez à construire →",
-    "customNote": "Vous ne trouvez pas votre cas d'usage ? Créez n'importe quelle équipe avec n'importe quelle combinaison de rôles, outils et budgets.",
-    "examples": {
+    "ctaLabel": "Voir les offres et tarifs →",
+    "ctaNote": "Prêt à mettre votre équipe d'IA au travail ?",
+    "heading": "D'un simple prompt à une équipe d'IA opérationnelle",
+    "sectionLabel": "Comment ça marche",
+    "steps": {
       "0": {
-        "name": "Content Studio",
-        "roles": {
-          "0": "Recherche",
-          "1": "Rédaction",
-          "2": "Briefs",
-          "3": "Livraison"
-        }
+        "description": "Dites à OpenLegion ce qu'il vous faut en langage courant : « une équipe commerciale », « un studio de contenu », « une équipe de recherche ». Pas de logigrammes, pas de YAML, aucun code de liaison à écrire.",
+        "number": "01",
+        "title": "Décrivez l'équipe dont vous avez besoin"
       },
       "1": {
-        "name": "Pipeline commerciale",
-        "roles": {
-          "0": "Recherche de leads",
-          "1": "Qualification",
-          "2": "Prise de contact",
-          "3": "Suivi"
-        }
+        "description": "OpenLegion lance chaque agent dans son propre conteneur Docker avec le rôle, les outils et le LLM que vous choisissez, coordonnés par un modèle de flotte, sans fragile « agent CEO » au milieu.",
+        "number": "02",
+        "title": "Les agents se déploient en quelques minutes"
       },
       "2": {
-        "name": "Recherche approfondie",
-        "roles": {
-          "0": "Éclaireur",
-          "1": "Analyste",
-          "2": "Synthèse",
-          "3": "Citations"
-        }
-      },
-      "3": {
-        "name": "Équipe de développement",
-        "roles": {
-          "0": "PM",
-          "1": "Ingénieur",
-          "2": "Réviseur"
-        }
-      },
-      "4": {
-        "name": "Équipe trésorerie",
-        "roles": {
-          "0": "Chercheur",
-          "1": "Exécuteur",
-          "2": "Moniteur"
-        }
+        "description": "Chaque agent fonctionne selon le budget que vous fixez, et les clés d'API restent scellées dans un coffre-fort qu'il ne voit jamais. Suivez toute la flotte 24/7 depuis un tableau de bord unique.",
+        "number": "03",
+        "title": "Vous gardez le contrôle"
       }
     },
-    "heading": "D'un prompt à une équipe complète d'agents IA",
-    "sectionLabel": "Comment ça marche",
-    "subtitle": "Décrivez la fonction dont vous avez besoin. OpenLegion crée l'architecture d'agents, attribue les rôles et donne à chaque agent les contrôles nécessaires pour fonctionner en toute sécurité.",
-    "visuals": {
-      "dev": {
-        "0": "PM a créé la tâche #42",
-        "1": "Ingénieur a ouvert la PR #18",
-        "2": "Réviseur en cours de revue…"
-      },
-      "marketing": {
-        "0": {
-          "status": "publié",
-          "title": "Article de blog"
-        },
-        "1": {
-          "status": "en révision",
-          "title": "Brief de campagne"
-        },
-        "2": {
-          "status": "en rédaction",
-          "title": "Rapport hebdomadaire"
-        }
-      },
-      "research": {
-        "0": "12 sources analysées",
-        "1": "Synthèse livrée",
-        "2": "Suivi des mises à jour…"
-      },
-      "sales": {
-        "0": "prospects",
-        "1": "qualifiés",
-        "2": "convertis"
-      },
-      "treasury": {
-        "0": "Échange 0.5 ETH → USDC",
-        "1": "Limite de dépense : $48 / $500",
-        "2": "Moniteur vérifie les positions…"
-      }
-    }
+    "subtitle": "Pas de logigrammes, pas de fichiers de configuration. Décrivez l'équipe que vous voulez et OpenLegion provisionne, isole et gouverne chaque agent pour vous."
   },
   "quickstart": {
     "copiedLabel": "Copié",

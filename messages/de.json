@@ -533,8 +533,8 @@
       }
     },
     "popularBadge": "Beliebt",
-    "priceSuffixMonthly": "/Monat",
-    "priceSuffixYearly": "/Jahr",
+    "priceSuffixMonthly": "Monat",
+    "priceSuffixYearly": "Jahr",
     "savingsAriaLabel": "{percent} Prozent sparen",
     "savingsPill": "Spare ${amount}{suffix} ({percent}%)",
     "sectionLabel": "Preise",
@@ -687,92 +687,28 @@
     "title": "Datenschutzrichtlinie"
   },
   "promptToTeam": {
-    "customCta": "Jetzt bauen →",
-    "customNote": "Ihr Anwendungsfall ist nicht dabei? Erstellen Sie jedes Team mit beliebigen Rollen, Tools und Budgets.",
-    "examples": {
+    "ctaLabel": "Pläne & Preise ansehen →",
+    "ctaNote": "Bereit, dein KI-Team an die Arbeit zu schicken?",
+    "heading": "Von einem Prompt zu einem einsatzbereiten KI-Team",
+    "sectionLabel": "So funktioniert's",
+    "steps": {
       "0": {
-        "name": "Content Studio",
-        "roles": {
-          "0": "Recherche",
-          "1": "Schreiben",
-          "2": "Briefings",
-          "3": "Lieferung"
-        }
+        "description": "Sag OpenLegion in normaler Sprache, was zu tun ist – „ein Vertriebsteam“, „ein Content-Studio“, „ein Research-Team“. Keine Flussdiagramme, kein YAML, kein Glue-Code zu schreiben.",
+        "number": "01",
+        "title": "Beschreibe das Team, das du brauchst"
       },
       "1": {
-        "name": "Sales Pipeline",
-        "roles": {
-          "0": "Lead-Recherche",
-          "1": "Qualifizierung",
-          "2": "Kontaktaufnahme",
-          "3": "Nachverfolgung"
-        }
+        "description": "OpenLegion startet jeden Agenten in seinem eigenen Docker-Container mit der Rolle, den Tools und dem LLM deiner Wahl – koordiniert über ein Flotten-Modell, ohne fragilen „CEO-Agenten“ dazwischen.",
+        "number": "02",
+        "title": "Agenten sind in Minuten startklar"
       },
       "2": {
-        "name": "Deep Research",
-        "roles": {
-          "0": "Scout",
-          "1": "Analyst",
-          "2": "Synthese",
-          "3": "Zitationen"
-        }
-      },
-      "3": {
-        "name": "Dev-Team",
-        "roles": {
-          "0": "PM",
-          "1": "Engineer",
-          "2": "Reviewer"
-        }
-      },
-      "4": {
-        "name": "Treasury-Team",
-        "roles": {
-          "0": "Researcher",
-          "1": "Ausführer",
-          "2": "Monitor"
-        }
+        "description": "Jeder Agent arbeitet mit dem Budget, das du festlegst, und API-Schlüssel bleiben in einem Tresor versiegelt, den er nie zu sehen bekommt. Beobachte die gesamte Flotte rund um die Uhr über ein einziges Dashboard.",
+        "number": "03",
+        "title": "Du behältst die Kontrolle"
       }
     },
-    "heading": "Von einem Prompt zum kompletten KI-Agenten-Team",
-    "sectionLabel": "So funktioniert's",
-    "subtitle": "Beschreiben Sie die Funktion, die Sie brauchen. OpenLegion erstellt den Agenten-Stack, weist Rollen zu und gibt jedem Agenten die Kontrollen, die er für sicheres Arbeiten benötigt.",
-    "visuals": {
-      "dev": {
-        "0": "PM hat Aufgabe #42 erstellt",
-        "1": "Engineer hat PR #18 geöffnet",
-        "2": "Reviewer prüft…"
-      },
-      "marketing": {
-        "0": {
-          "status": "veröffentlicht",
-          "title": "Blogbeitrag"
-        },
-        "1": {
-          "status": "in Prüfung",
-          "title": "Kampagnen-Briefing"
-        },
-        "2": {
-          "status": "Entwurf",
-          "title": "Wochenbericht"
-        }
-      },
-      "research": {
-        "0": "12 Quellen gescannt",
-        "1": "Zusammenfassung geliefert",
-        "2": "Updates werden überwacht …"
-      },
-      "sales": {
-        "0": "Leads",
-        "1": "qualifiziert",
-        "2": "konvertiert"
-      },
-      "treasury": {
-        "0": "0,5 ETH → USDC getauscht",
-        "1": "Ausgabenlimit: 48 $ / 500 $",
-        "2": "Monitor prüft Positionen…"
-      }
-    }
+    "subtitle": "Keine Flussdiagramme, keine Konfigurationsdateien. Beschreibe das Team, das du brauchst, und OpenLegion stellt jeden Agenten bereit, isoliert ihn und steuert ihn für dich."
   },
   "quickstart": {
     "copiedLabel": "Kopiert",

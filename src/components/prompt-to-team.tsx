@@ -1,151 +1,27 @@
 "use client";
 
-import { Megaphone, TrendingUp, Search, Code, Wallet } from "lucide-react";
-import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { MessageSquareText, Boxes, SlidersHorizontal, type LucideIcon } from "lucide-react";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
-import { APP_URL } from "@/lib/constants";
+import { PRICING_URL } from "@/lib/constants";
 
-const vContainer = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.3 } },
-};
-
-const vItem = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" as const } },
-};
-
-/* ── Mini visuals for each card ────────────────────────────────────────────── */
-
-const CONTENT_ITEM_META = [
-  { color: "bg-green-400" },
-  { color: "bg-amber-400" },
-  { color: "bg-muted" },
-];
-
-function MarketingVisual({ t }: { t: (key: string) => string }) {
-  return (
-    <motion.div variants={vContainer} className="flex flex-col gap-1.5" aria-hidden="true">
-      {CONTENT_ITEM_META.map((c, i) => (
-        <motion.div key={i} variants={vItem} className="flex items-center gap-2">
-          <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${c.color}`} />
-          <span className="flex-1 font-mono text-[10px] text-muted">{t(`visuals.marketing.${i}.title`)}</span>
-          <span className="font-mono text-[10px] text-muted/60">{t(`visuals.marketing.${i}.status`)}</span>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
-const FUNNEL_BAR_META = [
-  { count: 240, w: "w-full" },
-  { count: 82, w: "w-[58%]" },
-  { count: 34, w: "w-[36%]" },
-];
-
-function SalesVisual({ t }: { t: (key: string) => string }) {
-  return (
-    <motion.div variants={vContainer} className="flex flex-col gap-1.5" aria-hidden="true">
-      {FUNNEL_BAR_META.map((b, i) => (
-        <motion.div
-          key={i}
-          variants={vItem}
-          className={`${b.w} flex items-center gap-2.5 rounded-md border border-accent/15 bg-accent/[0.06] px-3 py-1`}
-        >
-          <span className="font-mono text-[10px] text-muted">{b.count}</span>
-          <span className="font-mono text-[10px] text-muted/60">{t(`visuals.sales.${i}`)}</span>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
-const RESEARCH_EVENT_META = [
-  { icon: "✓", done: true },
-  { icon: "✓", done: true },
-  { icon: "→", done: false },
-];
-
-function ResearchVisual({ t }: { t: (key: string) => string }) {
-  return (
-    <motion.div variants={vContainer} className="flex flex-col gap-1.5" aria-hidden="true">
-      {RESEARCH_EVENT_META.map((e, i) => (
-        <motion.div key={i} variants={vItem} className="flex items-center gap-2">
-          <span className={`shrink-0 font-mono text-[10px] ${e.done ? "text-green-400" : "text-accent"}`}>
-            {e.icon}
-          </span>
-          <span className="font-mono text-[10px] text-muted">{t(`visuals.research.${i}`)}</span>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
-const DEV_EVENT_META = [
-  { icon: "✓", done: true },
-  { icon: "✓", done: true },
-  { icon: "→", done: false },
-];
-
-function DevVisual({ t }: { t: (key: string) => string }) {
-  return (
-    <motion.div variants={vContainer} className="flex flex-col gap-1.5" aria-hidden="true">
-      {DEV_EVENT_META.map((e, i) => (
-        <motion.div key={i} variants={vItem} className="flex items-center gap-2">
-          <span className={`shrink-0 font-mono text-[10px] ${e.done ? "text-green-400" : "text-accent"}`}>
-            {e.icon}
-          </span>
-          <span className="font-mono text-[10px] text-muted">{t(`visuals.dev.${i}`)}</span>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
-const TREASURY_EVENT_META = [
-  { icon: "↑", color: "text-green-400" },
-  { icon: "↓", color: "text-amber-400" },
-  { icon: "◆", color: "text-accent" },
-];
-
-function TreasuryVisual({ t }: { t: (key: string) => string }) {
-  return (
-    <motion.div variants={vContainer} className="flex flex-col gap-1.5" aria-hidden="true">
-      {TREASURY_EVENT_META.map((e, i) => (
-        <motion.div key={i} variants={vItem} className="flex items-center gap-2">
-          <span className={`shrink-0 font-mono text-[10px] ${e.color}`}>
-            {e.icon}
-          </span>
-          <span className="font-mono text-[10px] text-muted">{t(`visuals.treasury.${i}`)}</span>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}
-
-const VISUALS = [
-  (t: (key: string) => string) => <MarketingVisual t={t} />,
-  (t: (key: string) => string) => <SalesVisual t={t} />,
-  (t: (key: string) => string) => <ResearchVisual t={t} />,
-  (t: (key: string) => string) => <DevVisual t={t} />,
-  (t: (key: string) => string) => <TreasuryVisual t={t} />,
-];
-
-const ICONS = [Megaphone, TrendingUp, Search, Code, Wallet] as const;
-const EXAMPLES = [0, 1, 2, 3, 4] as const;
-const ROLE_COUNTS = [4, 4, 4, 3, 3] as const;
-
-/* ── Component ─────────────────────────────────────────────────────────────── */
+// Three-step process — deliberately a linear, numbered narrative rather than a
+// card grid, so it reads as "how it works" and stays visually distinct from
+// the Use Cases template grid that follows it. The step-by-step structure is
+// also what AI answer engines (AI Overviews, ChatGPT, Perplexity) extract and
+// cite — recovering the GEO signal lost when HowTo rich results were deprecated.
+const STEP_ICONS: LucideIcon[] = [MessageSquareText, Boxes, SlidersHorizontal];
+const STEPS = [0, 1, 2] as const;
 
 export function PromptToTeam() {
   const t = useTranslations("promptToTeam");
 
   return (
-    <SectionWrapper id="prompt-to-team" glow>
+    <SectionWrapper id="how-it-works" glow>
       <AnimateIn>
-        <div className="mb-10 text-center">
+        <div className="mb-14 text-center">
           <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
             {t("sectionLabel")}
           </p>
@@ -158,57 +34,49 @@ export function PromptToTeam() {
         </div>
       </AnimateIn>
 
-      <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-        {EXAMPLES.map((i) => {
-          const Icon = ICONS[i];
-          return (
-            <StaggerItem key={i}>
-              <div className="card-hover gradient-border glass-shine group flex h-full flex-col rounded-xl border border-border/50 glass-card p-5">
-                {/* Icon + Title */}
-                <div className="mb-3 flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07] transition group-hover:border-accent/30 group-hover:scale-110 group-hover:bg-accent/10">
-                    <Icon className="h-4 w-4 text-accent-light" />
-                  </div>
-                  <h3 className="text-[15px] font-semibold leading-snug text-foreground">
-                    {t(`examples.${i}.name`)}
-                  </h3>
-                </div>
+      <div className="relative mx-auto max-w-5xl">
+        {/* Connecting rail behind the steps (desktop only) */}
+        <div
+          className="absolute left-0 right-0 top-7 hidden h-px bg-gradient-to-r from-transparent via-accent/25 to-transparent md:block"
+          aria-hidden="true"
+        />
 
-                {/* Role pills */}
-                <div className="mb-4 flex flex-wrap gap-1.5">
-                  {Array.from({ length: ROLE_COUNTS[i] }, (_, r) => (
-                    <span
-                      key={r}
-                      className="flex items-center gap-1.5 rounded-md border border-border/40 bg-background/50 px-2 py-0.5 font-mono text-[11px] text-muted"
-                    >
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-green-400" />
-                      {t(`examples.${i}.roles.${r}`)}
+        <StaggerContainer className="grid gap-10 md:grid-cols-3 md:gap-8">
+          {STEPS.map((i) => {
+            const Icon = STEP_ICONS[i];
+            return (
+              <StaggerItem key={i}>
+                <div className="relative flex flex-col items-center text-center md:items-start md:text-left">
+                  {/* Numbered node */}
+                  <div className="relative z-10 mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-accent/25 bg-background shadow-[0_0_0_6px_var(--color-background)]">
+                    <Icon className="h-6 w-6 text-accent-light" aria-hidden="true" />
+                    <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-accent text-[11px] font-bold text-white">
+                      {t(`steps.${i}.number`)}
                     </span>
-                  ))}
+                  </div>
+                  <h3 className="mb-2 text-lg font-semibold leading-snug text-foreground">
+                    {t(`steps.${i}.title`)}
+                  </h3>
+                  <p className="text-[14px] leading-relaxed text-muted">
+                    {t(`steps.${i}.description`)}
+                  </p>
                 </div>
-
-                {/* Activity visual — pushed to bottom */}
-                <div className="mt-auto border-t border-border/20 pt-3">
-                  {VISUALS[i](t)}
-                </div>
-              </div>
-            </StaggerItem>
-          );
-        })}
-      </StaggerContainer>
+              </StaggerItem>
+            );
+          })}
+        </StaggerContainer>
+      </div>
 
       <AnimateIn delay={0.15}>
-        <p className="mt-8 text-center text-sm text-muted">
-          {t("customNote")}{" "}
-          <a
-            href={APP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-accent-light underline underline-offset-2 transition-colors hover:text-accent"
+        <div className="mt-14 text-center">
+          <p className="mb-4 text-sm text-muted">{t("ctaNote")}</p>
+          <Link
+            href={PRICING_URL}
+            className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10"
           >
-            {t("customCta")}
-          </a>
-        </p>
+            {t("ctaLabel")}
+          </Link>
+        </div>
       </AnimateIn>
     </SectionWrapper>
   );

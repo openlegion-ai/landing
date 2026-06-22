@@ -533,8 +533,8 @@
       }
     },
     "popularBadge": "Popular",
-    "priceSuffixMonthly": "/mês",
-    "priceSuffixYearly": "/ano",
+    "priceSuffixMonthly": "mês",
+    "priceSuffixYearly": "ano",
     "savingsAriaLabel": "Economize {percent} por cento",
     "savingsPill": "Economize ${amount}{suffix} ({percent}%)",
     "sectionLabel": "Preços",
@@ -687,92 +687,28 @@
     "title": "Política de privacidade"
   },
   "promptToTeam": {
-    "customCta": "Comece a criar →",
-    "customNote": "Não encontrou seu caso de uso? Crie qualquer equipe com qualquer combinação de papéis, ferramentas e orçamentos.",
-    "examples": {
+    "ctaLabel": "Ver planos e preços →",
+    "ctaNote": "Pronto para colocar seu time de IA para trabalhar?",
+    "heading": "De um único prompt a um time de IA em operação",
+    "sectionLabel": "Como funciona",
+    "steps": {
       "0": {
-        "name": "Content Studio",
-        "roles": {
-          "0": "Pesquisa",
-          "1": "Redação",
-          "2": "Briefs",
-          "3": "Entrega"
-        }
+        "description": "Diga à OpenLegion o que fazer em linguagem natural: “um time de vendas”, “um estúdio de conteúdo”, “um time de pesquisa”. Sem fluxogramas, sem YAML e sem código de cola para escrever.",
+        "number": "01",
+        "title": "Descreva o time que você precisa"
       },
       "1": {
-        "name": "Pipeline de vendas",
-        "roles": {
-          "0": "Pesquisa de leads",
-          "1": "Qualificação",
-          "2": "Abordagem",
-          "3": "Acompanhamento"
-        }
+        "description": "A OpenLegion sobe cada agente em seu próprio contêiner Docker com o papel, as ferramentas e o LLM que você escolher — coordenados por um modelo de frota, sem um frágil “agente CEO” no meio.",
+        "number": "02",
+        "title": "Os agentes entram no ar em minutos"
       },
       "2": {
-        "name": "Pesquisa Profunda",
-        "roles": {
-          "0": "Batedor",
-          "1": "Analista",
-          "2": "Síntese",
-          "3": "Citações"
-        }
-      },
-      "3": {
-        "name": "Equipe de desenvolvimento",
-        "roles": {
-          "0": "PM",
-          "1": "Engenheiro",
-          "2": "Revisor"
-        }
-      },
-      "4": {
-        "name": "Equipe de tesouraria",
-        "roles": {
-          "0": "Pesquisador",
-          "1": "Executor",
-          "2": "Monitor"
-        }
+        "description": "Cada agente opera dentro do orçamento que você define, e as chaves de API ficam seladas em um cofre que ele nunca vê. Acompanhe toda a frota 24/7 a partir de um único painel.",
+        "number": "03",
+        "title": "Você continua no controle"
       }
     },
-    "heading": "De um prompt a uma equipe completa de agentes de IA",
-    "sectionLabel": "Como funciona",
-    "subtitle": "Descreva a função que você precisa. O OpenLegion cria a estrutura de agentes, atribui papéis e dá a cada agente os controles necessários para trabalhar com segurança.",
-    "visuals": {
-      "dev": {
-        "0": "PM criou tarefa #42",
-        "1": "Engineer abriu PR #18",
-        "2": "Reviewer revisando…"
-      },
-      "marketing": {
-        "0": {
-          "status": "publicado",
-          "title": "Artigo do blog"
-        },
-        "1": {
-          "status": "em revisão",
-          "title": "Briefing de campanha"
-        },
-        "2": {
-          "status": "rascunho",
-          "title": "Relatório semanal"
-        }
-      },
-      "research": {
-        "0": "12 fontes analisadas",
-        "1": "Resumo entregue",
-        "2": "Monitorando atualizações…"
-      },
-      "sales": {
-        "0": "leads",
-        "1": "qualificados",
-        "2": "convertidos"
-      },
-      "treasury": {
-        "0": "Trocou 0,5 ETH → USDC",
-        "1": "Limite de gasto: $48 / $500",
-        "2": "Monitor verificando posições…"
-      }
-    }
+    "subtitle": "Sem fluxogramas, sem arquivos de configuração. Descreva o time que você quer e a OpenLegion provisiona, isola e governa cada agente para você."
   },
   "quickstart": {
     "copiedLabel": "Copiado",

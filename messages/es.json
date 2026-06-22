@@ -533,8 +533,8 @@
       }
     },
     "popularBadge": "Popular",
-    "priceSuffixMonthly": "/mes",
-    "priceSuffixYearly": "/año",
+    "priceSuffixMonthly": "mes",
+    "priceSuffixYearly": "año",
     "savingsAriaLabel": "Ahorra {percent} por ciento",
     "savingsPill": "Ahorra ${amount}{suffix} ({percent}%)",
     "sectionLabel": "Precios",
@@ -687,92 +687,28 @@
     "title": "Política de privacidad"
   },
   "promptToTeam": {
-    "customCta": "Empieza a construir →",
-    "customNote": "¿No encuentras tu caso de uso? Crea cualquier equipo con cualquier combinación de roles, herramientas y presupuestos.",
-    "examples": {
+    "ctaLabel": "Ver planes y precios →",
+    "ctaNote": "¿Listo para poner a trabajar a tu equipo de IA?",
+    "heading": "De un solo prompt a un equipo de IA en marcha",
+    "sectionLabel": "Cómo funciona",
+    "steps": {
       "0": {
-        "name": "Content Studio",
-        "roles": {
-          "0": "Investigación",
-          "1": "Redacción",
-          "2": "Resumen",
-          "3": "Entrega"
-        }
+        "description": "Dile a OpenLegion qué necesitas en lenguaje natural: «un equipo de ventas», «un estudio de contenidos», «un equipo de investigación». Sin diagramas de flujo, sin YAML y sin código de pegamento que escribir.",
+        "number": "01",
+        "title": "Describe el equipo que necesitas"
       },
       "1": {
-        "name": "Pipeline de ventas",
-        "roles": {
-          "0": "Investigación de leads",
-          "1": "Cualificación",
-          "2": "Contacto",
-          "3": "Seguimiento"
-        }
+        "description": "OpenLegion levanta cada agente en su propio contenedor Docker con el rol, las herramientas y el LLM que elijas, coordinados por un modelo de flota, sin un frágil «agente CEO» en medio.",
+        "number": "02",
+        "title": "Los agentes se despliegan en minutos"
       },
       "2": {
-        "name": "Investigación profunda",
-        "roles": {
-          "0": "Explorador",
-          "1": "Analista",
-          "2": "Síntesis",
-          "3": "Citas"
-        }
-      },
-      "3": {
-        "name": "Equipo de desarrollo",
-        "roles": {
-          "0": "PM",
-          "1": "Ingeniero",
-          "2": "Revisor"
-        }
-      },
-      "4": {
-        "name": "Equipo de tesorería",
-        "roles": {
-          "0": "Investigador",
-          "1": "Ejecutor",
-          "2": "Monitor"
-        }
+        "description": "Cada agente funciona con el presupuesto que tú fijas, y las claves de API quedan selladas en una bóveda que nunca ve. Supervisa toda la flota 24/7 desde un único panel.",
+        "number": "03",
+        "title": "Tú mantienes el control"
       }
     },
-    "heading": "De un prompt a un equipo completo de agentes de IA",
-    "sectionLabel": "Cómo funciona",
-    "subtitle": "Describe la función que necesitas. OpenLegion crea la estructura de agentes, asigna roles y otorga a cada agente los controles necesarios para operar de forma segura.",
-    "visuals": {
-      "dev": {
-        "0": "PM creó la tarea #42",
-        "1": "Ingeniero abrió PR #18",
-        "2": "Revisor revisando…"
-      },
-      "marketing": {
-        "0": {
-          "status": "publicado",
-          "title": "Artículo de blog"
-        },
-        "1": {
-          "status": "en revisión",
-          "title": "Brief de campaña"
-        },
-        "2": {
-          "status": "redactando",
-          "title": "Informe semanal"
-        }
-      },
-      "research": {
-        "0": "12 fuentes analizadas",
-        "1": "Resumen entregado",
-        "2": "Monitorizando actualizaciones…"
-      },
-      "sales": {
-        "0": "prospectos",
-        "1": "cualificados",
-        "2": "convertidos"
-      },
-      "treasury": {
-        "0": "Intercambio 0.5 ETH → USDC",
-        "1": "Límite de gasto: $48 / $500",
-        "2": "Monitor verificando posiciones…"
-      }
-    }
+    "subtitle": "Sin diagramas de flujo ni archivos de configuración. Describe el equipo que quieres y OpenLegion aprovisiona, aísla y gobierna cada agente por ti."
   },
   "quickstart": {
     "copiedLabel": "Copiado",

@@ -185,6 +185,30 @@ export function getContentEntry(slug: string): ContentEntry | undefined {
   return CONTENT_MAP.get(slug);
 }
 
+/**
+ * Resolve the locale a next-intl `<Link>` should use for an internal href.
+ *
+ * A markdown content page (one in CONTENT_MAP) that lacks a translation in the
+ * current locale renders English-fallback content under a `noindex` canonical
+ * pointing at `/en/<slug>`. Linking to the locale-prefixed URL for such a page
+ * would aim users and crawlers at that noindex variant, so we link straight to
+ * the canonical `/en` URL instead. Translated content pages, message-driven
+ * nav pages (/pricing, /faq…), anchors, and external links keep the active
+ * locale.
+ *
+ * NOTE: under the current full translation parity this returns `locale` for
+ * every footer link, so it is defensive — it only diverges during the window
+ * after a new content page ships in English but before its translations land.
+ */
+export function linkLocaleFor(href: string, locale: string): string {
+  if (locale === "en") return "en";
+  if (!href.startsWith("/") || href.startsWith("/#")) return locale;
+  const path = href.split(/[?#]/)[0].replace(/\/+$/, "");
+  const entry = CONTENT_MAP.get(path);
+  if (!entry) return locale; // nav page / anchor / non-content route
+  return entry.availableLocales.includes(locale) ? locale : "en";
+}
+
 export function hasContent(slug: string): boolean {
   return CONTENT_MAP.has(slug);
 }

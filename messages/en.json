@@ -533,8 +533,8 @@
       }
     },
     "popularBadge": "Popular",
-    "priceSuffixMonthly": "/mo",
-    "priceSuffixYearly": "/yr",
+    "priceSuffixMonthly": "mo",
+    "priceSuffixYearly": "yr",
     "savingsAriaLabel": "Save {percent} percent",
     "savingsPill": "Save ${amount}{suffix} ({percent}%)",
     "sectionLabel": "Pricing",
@@ -687,92 +687,28 @@
     "title": "Privacy Policy"
   },
   "promptToTeam": {
-    "customCta": "Start building →",
-    "customNote": "Don't see your use case? Build any team with any combination of roles, tools, and budgets.",
-    "examples": {
+    "sectionLabel": "How it works",
+    "heading": "From one prompt to a working AI team",
+    "subtitle": "No flowcharts, no config files. Describe the team you want — OpenLegion provisions, isolates, and governs every agent for you.",
+    "steps": {
       "0": {
-        "name": "Content Studio",
-        "roles": {
-          "0": "Research",
-          "1": "Writing",
-          "2": "Briefs",
-          "3": "Delivery"
-        }
+        "number": "01",
+        "title": "Describe the team you need",
+        "description": "Tell OpenLegion the job in plain language — \"a sales desk,\" \"a content studio,\" \"a research team.\" No flowcharts, no YAML, no glue code to write."
       },
       "1": {
-        "name": "Sales Pipeline",
-        "roles": {
-          "0": "Lead research",
-          "1": "Qualification",
-          "2": "Outreach",
-          "3": "Follow-up"
-        }
+        "number": "02",
+        "title": "Agents deploy in minutes",
+        "description": "OpenLegion spins up each agent in its own Docker container with the role, tools, and LLM you choose — coordinated by a fleet model, with no fragile CEO agent in the middle."
       },
       "2": {
-        "name": "Deep Research",
-        "roles": {
-          "0": "Scout",
-          "1": "Analyst",
-          "2": "Synthesis",
-          "3": "Citations"
-        }
-      },
-      "3": {
-        "name": "Dev team",
-        "roles": {
-          "0": "PM",
-          "1": "Engineer",
-          "2": "Reviewer"
-        }
-      },
-      "4": {
-        "name": "Treasury team",
-        "roles": {
-          "0": "Researcher",
-          "1": "Executor",
-          "2": "Monitor"
-        }
+        "number": "03",
+        "title": "You stay in control",
+        "description": "Every agent runs on a budget you set, with API keys sealed in a vault it never sees. Watch the whole fleet work 24/7 from a single dashboard."
       }
     },
-    "heading": "From one prompt to a full AI agent team",
-    "sectionLabel": "How it works",
-    "subtitle": "Describe the function you need. OpenLegion creates the agent stack, assigns roles, and gives each agent the controls it needs to work safely.",
-    "visuals": {
-      "dev": {
-        "0": "PM created task #42",
-        "1": "Engineer opened PR #18",
-        "2": "Reviewer reviewing…"
-      },
-      "marketing": {
-        "0": {
-          "status": "published",
-          "title": "Blog post"
-        },
-        "1": {
-          "status": "in review",
-          "title": "Campaign brief"
-        },
-        "2": {
-          "status": "drafting",
-          "title": "Weekly report"
-        }
-      },
-      "research": {
-        "0": "Scanned 12 sources",
-        "1": "Summary delivered",
-        "2": "Monitoring updates…"
-      },
-      "sales": {
-        "0": "leads",
-        "1": "qualified",
-        "2": "converted"
-      },
-      "treasury": {
-        "0": "Swapped 0.5 ETH → USDC",
-        "1": "Spend limit: $48 / $500",
-        "2": "Monitor checking positions…"
-      }
-    }
+    "ctaNote": "Ready to put your AI team to work?",
+    "ctaLabel": "See plans & pricing →"
   },
   "quickstart": {
     "copiedLabel": "Copied",

@@ -54,18 +54,34 @@ All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start 
 - OpenLegion vs Every AI Agent Framework — 2026 Comparison Hub: https://www.openlegion.ai/en/comparison
 
 ### Learn
+- Agent Handoff Patterns: Routing Work Between AI Agents: https://www.openlegion.ai/en/learn/agent-handoff-patterns
+- Agent2Agent Protocol — A2A Security, Architecture, and MCP Comparison: https://www.openlegion.ai/en/learn/agent2agent-protocol
+- Agentic RAG: Sub-Question Decomposition, HyDE, and Corpus Security: https://www.openlegion.ai/en/learn/agentic-rag
 - Agentic Workflow - Patterns, Security, and Production Design: https://www.openlegion.ai/en/learn/agentic-workflows
+- AI Agent Architecture — Layers, Topologies, and Security-First Design: https://www.openlegion.ai/en/learn/ai-agent-architecture
+- AI Agent Benchmarks: SWE-bench, GAIA, WebArena, and Private Evals: https://www.openlegion.ai/en/learn/ai-agent-benchmarks
+- AI Agent Context Window — Management, Limits, and Security: https://www.openlegion.ai/en/learn/ai-agent-context-window
+- AI Agent Deployment: Container TTLs, Budget Caps, and Circuit Breakers: https://www.openlegion.ai/en/learn/ai-agent-deployment
 - AI Agent Evaluation: Benchmarks, Metrics, and Testing: https://www.openlegion.ai/en/learn/ai-agent-evaluation
 - Best AI Agent Frameworks (2026 Comparison): https://www.openlegion.ai/en/learn/ai-agent-frameworks
+- AI Agent Governance: RBAC, Audit Trails, and Regulatory Compliance: https://www.openlegion.ai/en/learn/ai-agent-governance
+- AI Agent MCP Security: Red-Team Guide to Exploit Prevention: https://www.openlegion.ai/en/learn/ai-agent-mcp-security
 - AI Agent Memory: Four Types, Security Risks, and Implementation: https://www.openlegion.ai/en/learn/ai-agent-memory
+- AI Agent Monitoring — Thresholds, Liveness, and Escalation: https://www.openlegion.ai/en/learn/ai-agent-monitoring
 - AI Agent Observability — Tracing, Costs & Failure Modes: https://www.openlegion.ai/en/learn/ai-agent-observability
 - AI Agent Orchestration — Coordinate Agents: https://www.openlegion.ai/en/learn/ai-agent-orchestration
 - AI Agent Platform — Deploy Secure Agents: https://www.openlegion.ai/en/learn/ai-agent-platform
+- AI Agent Prompt Injection: Attack Types, Defences, and Red-Teaming: https://www.openlegion.ai/en/learn/ai-agent-prompt-injection
+- AI Agent Sandboxing — Container Isolation, Escape CVEs, and Hardening: https://www.openlegion.ai/en/learn/ai-agent-sandboxing
 - AI Agent Security — Threats, Isolation, Vaults: https://www.openlegion.ai/en/learn/ai-agent-security
+- AI Agent State Management — Checkpointing, Shared State, and Crash Recovery: https://www.openlegion.ai/en/learn/ai-agent-state-management
 - AI Agent Tool Use — Function Calling, Schemas, and Safe Execution: https://www.openlegion.ai/en/learn/ai-agent-tool-use
 - AI Coding Agents - Deploy Secure Dev Agent Teams: https://www.openlegion.ai/en/learn/ai-coding-agents
 - Browser Use Agents — How AI Agents Control the Web: https://www.openlegion.ai/en/learn/browser-use-agents
 - Claude Opus 4.8 - Capabilities, Cost, and Agentic Performance: https://www.openlegion.ai/en/learn/claude-opus-4-8
+- Credential Management for AI Agents: Vault-Proxy Architecture: https://www.openlegion.ai/en/learn/credential-management-ai-agents
+- Grok 4: xAI's Frontier Model with Native Tool Use: https://www.openlegion.ai/en/learn/grok-4
+- Human in the Loop AI Agents: Approval Gates, Interrupts, and Escalation: https://www.openlegion.ai/en/learn/human-in-the-loop-ai-agents
 - LLM Cost Optimization — Six Levers for Production Agent Fleets: https://www.openlegion.ai/en/learn/llm-cost-optimization
 - Managed AI Agent Hosting - Deploy Secure Agent Fleets: https://www.openlegion.ai/en/learn/managed-ai-agent-hosting
 - Model Context Protocol (MCP) — How AI Agents Use Tools: https://www.openlegion.ai/en/learn/model-context-protocol
@@ -74,17 +90,21 @@ All plans bill monthly or yearly with a 7-day money-back guarantee. Plans start 
 
 ### Comparisons
 - AgentOps Alternative — Execution Platform vs Monitoring Dashboard: https://www.openlegion.ai/en/comparison/agentops
+- Agno Alternative - Security-First Multi-Agent Platform: https://www.openlegion.ai/en/comparison/agno
 - OpenLegion vs AutoGen — Security, Migration & 2026 Verdict: https://www.openlegion.ai/en/comparison/autogen
 - OpenLegion vs AWS Strands - Detailed Comparison: https://www.openlegion.ai/en/comparison/aws-strands
 - OpenLegion vs CrewAI — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/crewai
-- OpenLegion vs Dify — Detailed Comparison: https://www.openlegion.ai/en/comparison/dify
+- Dify Alternative: Security-First Platform vs Visual LLMOps: https://www.openlegion.ai/en/comparison/dify
 - Flowise Alternative — Security-First Platform vs Visual Builder: https://www.openlegion.ai/en/comparison/flowise
 - OpenLegion vs Google ADK - Detailed Comparison: https://www.openlegion.ai/en/comparison/google-adk
+- LangChain vs OpenLegion — Ecosystem Library vs Integrated Platform: https://www.openlegion.ai/en/comparison/langchain-vs-openlegion
 - OpenLegion vs LangGraph — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/langgraph
+- LangGraph vs OpenLegion — Security and Deployment Decision Guide: https://www.openlegion.ai/en/comparison/langgraph-vs-openlegion
 - LiteLLM Alternative — Vault Isolation vs Credential Store: https://www.openlegion.ai/en/comparison/litellm
 - OpenLegion vs Manus AI — Detailed Comparison: https://www.openlegion.ai/en/comparison/manus-ai
 - Mastra Alternative — Security-First AI Agent Platform: https://www.openlegion.ai/en/comparison/mastra
 - OpenLegion vs MemU — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/memu
+- n8n Alternative — OpenLegion Agent Platform vs Workflow Automation: https://www.openlegion.ai/en/comparison/n8n
 - OpenLegion vs nanobot — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/nanobot
 - OpenLegion vs NanoClaw — Detailed Comparison (2026): https://www.openlegion.ai/en/comparison/nanoclaw
 - OpenLegion vs OpenAI Agents SDK — Detailed Comparison: https://www.openlegion.ai/en/comparison/openai-agents-sdk
