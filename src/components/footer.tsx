@@ -1,11 +1,13 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { FOOTER_COLUMNS } from "@/lib/constants";
+import { linkLocaleFor } from "@/lib/markdown";
 
 export function Footer() {
   const t = useTranslations("footer");
+  const locale = useLocale();
   return (
     <footer className="footer-gradient relative px-6 md:px-8">
       {/* Gradient top border */}
@@ -63,7 +65,7 @@ export function Footer() {
                             {t(`columns.${colIdx}.links.${linkIdx}`)}
                           </a>
                         ) : (
-                          <Link href={link.href} className={className}>
+                          <Link href={link.href} locale={linkLocaleFor(link.href, locale)} className={className}>
                             {t(`columns.${colIdx}.links.${linkIdx}`)}
                           </Link>
                         )}

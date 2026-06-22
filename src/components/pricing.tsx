@@ -285,7 +285,7 @@ export function Pricing() {
                       <span className="text-4xl font-bold tracking-tight text-foreground">
                         ${price.toLocaleString()}
                       </span>
-                      <span className="text-muted">{suffix}</span>
+                      <span className="text-muted">/{suffix}</span>
                       {anchor && (
                         <s
                           className="text-sm text-muted/60 line-through"
@@ -439,7 +439,7 @@ export function Pricing() {
                       <span className="text-xl font-bold tracking-tight text-foreground">
                         ${price.toLocaleString()}
                       </span>
-                      <span className="ml-1 text-sm text-muted">{suffix}</span>
+                      <span className="ml-1 text-sm text-muted">/{suffix}</span>
                     </div>
                     <a
                       href={`${APP_URL}/signin?plan=${plan.name}&billing=${billing}&callbackUrl=${encodeURIComponent(`/?plan=${plan.name}&billing=${billing}`)}`}

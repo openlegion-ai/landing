@@ -42,7 +42,14 @@ const AI_BOTS = [
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/_next/", "/api/"] },
+      // Note: `/_next/` is intentionally NOT disallowed. Google needs to fetch
+      // the JS/CSS/font assets under /_next/static to render pages the way
+      // users see them (Google's own guidance: never block CSS/JS). Blocking
+      // it only produced a permanent stream of "Blocked by robots.txt"
+      // warnings in Search Console — every Vercel deploy mints new
+      // `?dpl=…`-suffixed asset URLs, so the count never cleared — with no
+      // upside. Only genuine non-page routes stay disallowed.
+      { userAgent: "*", allow: "/", disallow: ["/api/"] },
       ...AI_BOTS.map((userAgent) => ({ userAgent, allow: "/" })),
     ],
     sitemap: "https://www.openlegion.ai/sitemap.xml",
