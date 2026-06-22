@@ -60,6 +60,7 @@ export const NAV_LINKS = [
 
 export const APP_URL = "https://app.openlegion.ai";
 export const PRICING_URL = "/pricing";
+export const ONBOARDING_URL = `${APP_URL}/onboarding`;
 export const GITHUB_URL = "https://github.com/openlegion-ai/openlegion";
 export const DOCS_URL = "https://docs.openlegion.ai";
 export const DISCORD_URL = "https://discord.gg/mXNkjpDvvr";
@@ -159,6 +160,51 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     openlegion: "~77,000 lines in src/ (engine, auditable)",
   },
 ];
+
+// ── Architecture ─────────────────────────────────────────────────────────────
+
+export const ARCHITECTURE = {
+  title: "Defense-in-depth — trust zones at every layer",
+  summary:
+    "Your multi-agent fleet runs across four trust tiers — untrusted input, sandboxed agents, the trusted mesh, and a loopback-only internal tier. Agents only message each other through the mesh, gated by per-agent ACLs; the mesh holds the keys.",
+  zones: [
+    {
+      name: "User Zone",
+      trust: "Untrusted Input",
+      color: "accent" as const,
+      items: [
+        "CLI / Telegram / Discord",
+        "Slack / WhatsApp / Webhooks",
+        "Sanitized via prompt-injection guards",
+      ],
+    },
+    {
+      name: "Mesh Host",
+      trust: "Trusted (Zone 2)",
+      color: "success" as const,
+      items: [
+        "FastAPI on :8420",
+        "Blackboard (SQLite + WAL)",
+        "PubSub + Message Router",
+        "Credential Vault (API Proxy)",
+        "ACL Matrix + Lane Router",
+        "Browser Service :8500 (per-agent Camoufox)",
+      ],
+    },
+    {
+      name: "Agent Containers",
+      trust: "Sandboxed (Zone 1)",
+      color: "danger" as const,
+      items: [
+        "FastAPI :8400 (per container)",
+        "Own /data volume",
+        "Own memory DB (SQLite + vec)",
+        "384MB RAM / 0.15 CPU default",
+        "UID 1000, cap_drop=ALL, no-new-privileges, read-only FS",
+      ],
+    },
+  ],
+} as const;
 
 // ── Quick Start ──────────────────────────────────────────────────────────────
 

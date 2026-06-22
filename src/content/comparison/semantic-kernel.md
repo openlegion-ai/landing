@@ -88,7 +88,7 @@ A dotnet build / NuGet restore for a Semantic Kernel C# project pulls a large tr
 For broader context see [AI agent frameworks](/learn/ai-agent-frameworks) and [AI agent security](/learn/ai-agent-security).
 
 **Security built in, not bolted on.**
-[Get Started with OpenLegion](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+[Get Started with OpenLegion](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
 

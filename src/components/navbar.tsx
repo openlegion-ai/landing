@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Github, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { NAV_LINKS, APP_URL, GITHUB_URL, DEMO_URL, PRICING_URL } from "@/lib/constants";
+import { NAV_LINKS, APP_URL, GITHUB_URL, ONBOARDING_URL } from "@/lib/constants";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { trackCtaClick } from "@/lib/analytics";
 
@@ -96,14 +96,6 @@ export function Navbar() {
           </a>
           <LanguageSwitcher className="ml-1" />
           <a
-            href={DEMO_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-link ml-2 rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground whitespace-nowrap"
-          >
-            {t("bookDemo")}
-          </a>
-          <a
             href={`${APP_URL}/signin`}
             onClick={() => trackCtaClick({ location: "nav_signin" })}
             className="nav-link ml-1 rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground whitespace-nowrap"
@@ -111,7 +103,7 @@ export function Navbar() {
             {t("signIn")}
           </a>
           <Link
-            href={PRICING_URL}
+            href={ONBOARDING_URL}
             onClick={() => trackCtaClick({ location: "nav_primary_desktop" })}
             className="btn-shine ml-1 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
           >
@@ -129,7 +121,7 @@ export function Navbar() {
             {t("signIn")}
           </a>
           <Link
-            href={PRICING_URL}
+            href={ONBOARDING_URL}
             onClick={() => trackCtaClick({ location: "nav_primary_mobile" })}
             className="btn-shine inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-accent px-4 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
           >

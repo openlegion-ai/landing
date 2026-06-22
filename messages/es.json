@@ -295,7 +295,7 @@
   "hero": {
     "ariaLabel": "Introducción",
     "badge": "Tu fuerza laboral de IA empieza aquí",
-    "ctaPrimary": "Crea tu equipo de IA — desde $19/mes",
+    "ctaPrimary": "Crea tu equipo de IA",
     "ctaSecondary": "Reservar una demo",
     "headingHighlight": "fuerza laboral de IA",
     "headingLine1": "Crea una ",
@@ -340,12 +340,12 @@
     "ogDescription": "Despliega agentes de IA que automatizan todo lo que una persona puede hacer en un ordenador. Seguro, con presupuesto controlado, listo para producción. Garantía de devolución de 7 días.",
     "ogImageAlt": "OpenLegion — Framework de agentes de IA",
     "ogTitle": "OpenLegion — Framework de agentes de IA",
-    "pricingDescription": "Planes desde $19/mes con aislamiento por contenedor, seguridad de bóveda y más de 100 proveedores LLM. Cancela cuando quieras, garantía de devolución de 7 días.",
-    "pricingOgDescription": "Planes desde $19/mes. Aislamiento por contenedor, seguridad de bóveda y más de 100 proveedores LLM. Garantía de devolución de 7 días.",
-    "pricingOgTitle": "Precios de la plataforma de agentes de IA — Planes desde $19/mes | OpenLegion",
-    "pricingTitle": "Precios de la plataforma de agentes de IA — Planes desde $19/mes",
-    "pricingTwitterDescription": "Planes desde $19/mes. Garantía de devolución en 7 días.",
-    "pricingTwitterTitle": "Precios de la plataforma de agentes de IA — Planes desde $19/mes | OpenLegion",
+    "pricingDescription": "Planes desde $62/mes con aislamiento por contenedor, seguridad de bóveda y más de 100 proveedores LLM. Cancela cuando quieras, garantía de devolución de 7 días.",
+    "pricingOgDescription": "Planes desde $62/mes. Aislamiento por contenedor, seguridad de bóveda y más de 100 proveedores LLM. Garantía de devolución de 7 días.",
+    "pricingOgTitle": "Precios de la plataforma de agentes de IA — Planes desde $62/mes | OpenLegion",
+    "pricingTitle": "Precios de la plataforma de agentes de IA — Planes desde $62/mes",
+    "pricingTwitterDescription": "Planes desde $62/mes. Garantía de devolución en 7 días.",
+    "pricingTwitterTitle": "Precios de la plataforma de agentes de IA — Planes desde $62/mes | OpenLegion",
     "privacyDescription": "Política de privacidad del framework de agentes de IA OpenLegion y del alojamiento gestionado. Aprende cómo recopilamos, usamos y protegemos tus datos en el alojamiento gestionado y en el sitio openlegion.ai.",
     "privacyTitle": "Política de privacidad",
     "termsDescription": "Términos de servicio del framework de agentes de IA OpenLegion y del alojamiento gestionado. Cubre alojamiento gestionado, despliegue autoalojado bajo licencia PolyForm Perimeter License 1.0.1 y el sitio openlegion.ai.",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "Qué cubre",
       "items": {
-        "0": "Tu primer pago de suscripción (el monto realmente cobrado — p. ej. $19 para Basic mensual).",
+        "0": "Tu primer pago de suscripción (el monto realmente cobrado — p. ej. $62 para Growth mensual).",
         "1": "Reembolso total de ese monto — sin preguntas, sin prorrateo."
       }
     },
@@ -472,7 +472,7 @@
         "question": "¿Qué pasa con mis agentes si cancelo?"
       },
       "4": {
-        "answer": "Sí. Clona el repositorio, ejecuta tres comandos y tendrás una flota de agentes completa en tu propia infraestructura. El motor es código fuente disponible bajo PolyForm Perimeter License 1.0.1. El hosting gestionado comienza en $19/mes para equipos que no quieren gestionar infraestructura.",
+        "answer": "Sí. Clona el repositorio, ejecuta tres comandos y tendrás una flota de agentes completa en tu propia infraestructura. El motor es código fuente disponible bajo PolyForm Perimeter License 1.0.1. El hosting gestionado comienza en $62/mes para equipos que no quieren gestionar infraestructura.",
         "question": "¿Puedo autoalojar OpenLegion?"
       },
       "5": {
@@ -480,7 +480,7 @@
         "question": "¿Qué cuenta como un \"agente\"?"
       },
       "6": {
-        "answer": "Los créditos se usan para pagar llamadas a LLM (Claude, GPT, Gemini, etc.) a través de nuestra plataforma. Recibes un bono de bienvenida al suscribirte — Basic recibe $5, Growth recibe $15, Pro recibe $30. Los créditos nunca expiran. Cuando se agoten, recarga cualquier monto de $5 a $500, o añade tus propias claves API para usar proveedores directamente.",
+        "answer": "Los créditos se usan para pagar llamadas a LLM (Claude, GPT, Gemini, etc.) a través de nuestra plataforma. Recibes un bono de bienvenida al suscribirte — Growth recibe $15, Pro recibe $30. Los créditos nunca expiran. Cuando se agoten, recarga cualquier monto de $5 a $500, o añade tus propias claves API para usar proveedores directamente.",
         "question": "¿Qué son los créditos LLM y expiran?"
       }
     },
@@ -826,6 +826,47 @@
     },
     "sectionLabel": "Seguridad",
     "subtitle": "Defensa en profundidad activada por defecto. Seis capas mostradas a continuación."
+  },
+  "architecture": {
+    "sectionLabel": "Bajo el capó",
+    "title": "Defensa en profundidad — zonas de confianza en cada capa",
+    "summary": "Tu flota multi-agente se ejecuta en cuatro niveles de confianza — entrada externa no confiable, agentes sandboxed, mesh confiable y un nivel interno solo loopback — más un nivel de permisos operador-o-interno. Los agentes solo se comunican entre sí a través del mesh, controlados por ACLs por agente; el mesh guarda las claves.",
+    "zones": {
+      "0": {
+        "name": "Zona de usuario",
+        "trust": "Entrada no confiable",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "Saneado vía guardas anti-inyección de prompts"
+        }
+      },
+      "1": {
+        "name": "Host de malla",
+        "trust": "Confiable (Zona 2)",
+        "items": {
+          "0": "FastAPI en :8420",
+          "1": "Blackboard (SQLite + WAL)",
+          "2": "PubSub + Enrutador de mensajes",
+          "3": "Bóveda de credenciales (API Proxy)",
+          "4": "Matriz ACL + enrutador de carriles",
+          "5": "Servicio de navegador :8500 (Camoufox por agente)"
+        }
+      },
+      "2": {
+        "name": "Contenedores de agentes",
+        "trust": "Sandboxed (Zona 1)",
+        "items": {
+          "0": "FastAPI :8400 (por contenedor)",
+          "1": "Volumen /data propio",
+          "2": "BD de memoria propia (SQLite + vec)",
+          "3": "384MB RAM / 0.15 CPU por defecto",
+          "4": "UID 1000, cap_drop=ALL, no-new-privileges, FS de solo lectura"
+        }
+      }
+    },
+    "agentLabel": "Agente {n}",
+    "learnMoreLink": "Más información sobre la orquestación de agentes de IA →"
   },
   "seoLinks": {
     "cards": {

@@ -151,7 +151,7 @@ For the full landscape of agent framework tradeoffs, see the [AI agent framework
 ## CTA
 
 **Production security built in - not wired in after.**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
+[Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
 

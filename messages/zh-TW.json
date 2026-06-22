@@ -295,7 +295,7 @@
   "hero": {
     "ariaLabel": "簡介",
     "badge": "您的 AI 工作團隊從這裡開始",
-    "ctaPrimary": "組建你的AI團隊 — 每月$19起",
+    "ctaPrimary": "組建你的AI團隊",
     "ctaSecondary": "預約展示",
     "headingHighlight": "AI 團隊",
     "headingLine1": "打造您的",
@@ -340,12 +340,12 @@
     "ogDescription": "部署AI代理，自動完成人類在電腦上能做的一切。安全、預算可控、生產就緒。7天退款保證。",
     "ogImageAlt": "OpenLegion — AI 智慧代理框架與平台",
     "ogTitle": "OpenLegion — AI 智慧代理框架與平台",
-    "pricingDescription": "每月$19起，含容器隔離、保險庫安全與100+ LLM供應商。隨時取消，7天退款保證。",
-    "pricingOgDescription": "每月$19起。容器隔離、保險庫安全、100+ LLM供應商。7天退款保證。",
-    "pricingOgTitle": "AI代理平台定價 — 每月$19起 | OpenLegion",
-    "pricingTitle": "AI代理平台定價 — 每月$19起",
-    "pricingTwitterDescription": "方案從每月 $19 起。7 天退款保證。",
-    "pricingTwitterTitle": "AI代理平台定價 — 每月$19起 | OpenLegion",
+    "pricingDescription": "每月$62起，含容器隔離、保險庫安全與100+ LLM供應商。隨時取消，7天退款保證。",
+    "pricingOgDescription": "每月$62起。容器隔離、保險庫安全、100+ LLM供應商。7天退款保證。",
+    "pricingOgTitle": "AI代理平台定價 — 每月$62起 | OpenLegion",
+    "pricingTitle": "AI代理平台定價 — 每月$62起",
+    "pricingTwitterDescription": "方案從每月 $62 起。7 天退款保證。",
+    "pricingTwitterTitle": "AI代理平台定價 — 每月$62起 | OpenLegion",
     "privacyDescription": "OpenLegion AI 智慧代理框架與代管服務的隱私政策。了解我們如何在代管服務及 openlegion.ai 網站上收集、使用與保護您的資料。",
     "privacyTitle": "隱私權政策",
     "termsDescription": "OpenLegion AI 智慧代理框架與代管服務的服務條款。涵蓋代管服務、PolyForm Perimeter License 1.0.1 授權下的自架部署，以及 openlegion.ai 網站。",
@@ -366,7 +366,7 @@
     "covered": {
       "heading": "退款涵蓋範圍",
       "items": {
-        "0": "你的首次訂閱付款（實際扣款金額——例如 Basic 月付 $19）。",
+        "0": "你的首次訂閱付款（實際扣款金額——例如 Growth 月付 $62）。",
         "1": "全額退還該金額——無需說明理由，不按比例計算。"
       }
     },
@@ -472,7 +472,7 @@
         "question": "取消後我的智慧代理會怎樣？"
       },
       "4": {
-        "answer": "可以。複製儲存庫，執行三個指令，即可在自己的基礎設施上建立完整的智慧代理艦隊。引擎依 PolyForm Perimeter License 1.0.1 原始碼可取得。不想管理基礎設施的團隊可選擇代管服務，月費 $19 起。",
+        "answer": "可以。複製儲存庫，執行三個指令，即可在自己的基礎設施上建立完整的智慧代理艦隊。引擎依 PolyForm Perimeter License 1.0.1 原始碼可取得。不想管理基礎設施的團隊可選擇代管服務，月費 $62 起。",
         "question": "可以自架 OpenLegion 嗎？"
       },
       "5": {
@@ -480,7 +480,7 @@
         "question": "什麼算是一個「智慧代理」？"
       },
       "6": {
-        "answer": "額度用於通過我們平台支付 LLM 呼叫費用（Claude、GPT、Gemini 等）。訂閱時您會獲得歡迎獎勵 — Basic 獲得 $5、Growth 獲得 $15、Pro 獲得 $30。額度永不過期。用完後，從 $5 到 $500 隨時加值任意金額，或新增您自己的 API 金鑰直接使用供應商。",
+        "answer": "額度用於通過我們平台支付 LLM 呼叫費用（Claude、GPT、Gemini 等）。訂閱時您會獲得歡迎獎勵 — Growth 獲得 $15、Pro 獲得 $30。額度永不過期。用完後，從 $5 到 $500 隨時加值任意金額，或新增您自己的 API 金鑰直接使用供應商。",
         "question": "什麼是 LLM 額度？會過期嗎？"
       }
     },
@@ -826,6 +826,47 @@
     },
     "sectionLabel": "安全性",
     "subtitle": "預設啟用縱深防禦。下方為六層架構。"
+  },
+  "architecture": {
+    "sectionLabel": "內部架構",
+    "title": "縱深防禦 — 每一層都有信任分區",
+    "summary": "你的多智慧體艦隊在四個信任層中執行 — 不可信的外部輸入、沙箱化的智慧體、可信的網格以及僅回環的內部層 — 外加一個操作員或內部權限層。智慧體只透過網格相互通訊，由每個智慧體的 ACL 控制；密鑰由網格持有。",
+    "zones": {
+      "0": {
+        "name": "使用者區域",
+        "trust": "不可信輸入",
+        "items": {
+          "0": "CLI / Telegram / Discord",
+          "1": "Slack / WhatsApp / Webhooks",
+          "2": "透過提示注入防護進行清理"
+        }
+      },
+      "1": {
+        "name": "Mesh 主機",
+        "trust": "可信（區域 2）",
+        "items": {
+          "0": "FastAPI（:8420）",
+          "1": "黑板（SQLite + WAL）",
+          "2": "PubSub + 訊息路由器",
+          "3": "憑證 Vault（API 代理）",
+          "4": "ACL 矩陣 + 車道路由器",
+          "5": "瀏覽器服務 :8500（每智慧體獨立 Camoufox）"
+        }
+      },
+      "2": {
+        "name": "智慧代理容器",
+        "trust": "沙箱（區域 1）",
+        "items": {
+          "0": "FastAPI :8400（每個容器）",
+          "1": "專屬 /data 磁碟區",
+          "2": "專屬記憶體資料庫（SQLite + vec）",
+          "3": "384MB RAM / 0.15 CPU 預設值",
+          "4": "UID 1000，cap_drop=ALL，no-new-privileges，唯讀檔案系統"
+        }
+      }
+    },
+    "agentLabel": "智慧代理 {n}",
+    "learnMoreLink": "深入了解 AI 智慧代理編排 →"
   },
   "seoLinks": {
     "cards": {
