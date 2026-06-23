@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-23
 
-Tracks per-page translation coverage for the 63 canonical English pages
+Tracks per-page translation coverage for the 64 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 63
+- **Canonical pages:** 64
 - **Fully translated (all 12 locales):** 46
 - **Partially translated:** 0
-- **English-only (0 translations):** 17
+- **English-only (0 translations):** 18
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 46 / 63 | 73% |
-| zh-TW | 46 / 63 | 73% |
-| ja | 46 / 63 | 73% |
-| ko | 46 / 63 | 73% |
-| es | 46 / 63 | 73% |
-| fr | 46 / 63 | 73% |
-| de | 46 / 63 | 73% |
-| pt | 46 / 63 | 73% |
-| ar | 46 / 63 | 73% |
-| hi | 46 / 63 | 73% |
-| ru | 46 / 63 | 73% |
-| th | 46 / 63 | 73% |
+| zh | 46 / 64 | 72% |
+| zh-TW | 46 / 64 | 72% |
+| ja | 46 / 64 | 72% |
+| ko | 46 / 64 | 72% |
+| es | 46 / 64 | 72% |
+| fr | 46 / 64 | 72% |
+| de | 46 / 64 | 72% |
+| pt | 46 / 64 | 72% |
+| ar | 46 / 64 | 72% |
+| hi | 46 / 64 | 72% |
+| ru | 46 / 64 | 72% |
+| th | 46 / 64 | 72% |
 
 ## Coverage matrix
 
@@ -75,6 +75,7 @@ locales; they are not tracked here.
 | `/learn/agentic-rag` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/agentic-workflows` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-architecture` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/ai-agent-audit-log` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-benchmarks` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-context-window` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-deployment` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
@@ -114,6 +115,7 @@ locales; they are not tracked here.
 - `/comparison/n8n` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-rag` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-architecture` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/ai-agent-audit-log` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-benchmarks` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-context-window` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-deployment` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
