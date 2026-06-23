@@ -1,9 +1,9 @@
 ---
-title: "How to Build an AI Agent — Tools, Credentials, Deployment, and Scheduling"
+title: "How to Build an AI Agent: Tools, Credentials, Deployment, and Scheduling"
 description: "Build an AI agent step by step: define the agent loop, register tools, configure vault credential injection, set budget caps, deploy to production, schedule with heartbeat cron, and add observability."
 slug: /learn/build-ai-agent
 primary_keyword: build ai agent
-last_updated: "2026-06-20"
+last_updated: "2026-06-23"
 schema_types: ["FAQPage"]
 related:
   - /learn/what-is-an-ai-agent
@@ -72,7 +72,7 @@ The most common cause of runaway agent loops is a missing or uncomputable stoppi
 
 ### The Tool Allowlist: Only What the Task Requires
 
-Every tool the agent can call is a potential misuse vector. OWASP LLM08 (Excessive Agency, LLM Top 10 2025) identifies over-permissioned agents as the primary governance failure mode. Before registering any tool, write a one-sentence justification for why this specific agent role requires it.
+Every tool the agent can call is a potential misuse vector. OWASP LLM06 (Excessive Agency, LLM Top 10 2025) identifies over-permissioned agents as the primary governance failure mode. Before registering any tool, write a one-sentence justification for why this specific agent role requires it.
 
 Tool risk categories, in ascending order:
 
@@ -85,7 +85,7 @@ Tool risk categories, in ascending order:
 
 Any tool in the side-effect or spawn category should require a HITL gate before execution in production. The cost of a confirmation step is low; the cost of an unintended mass-email or erroneous repository commit is high.
 
-Remove any tool from the allowlist that does not have a one-sentence justification written in the role definition document. That document is your OWASP LLM08 compliance artifact.
+Remove any tool from the allowlist that does not have a one-sentence justification written in the role definition document. That document is your OWASP LLM06 compliance artifact.
 
 ### Tool Schemas: Precise Descriptions Reduce Hallucination
 
@@ -365,7 +365,7 @@ The seven steps above are sequential because the security properties are sequent
 
 The prototype-to-production gap is smaller than it looks. Installing `openlegion>=0.4.0`, configuring `$CRED{}` handles, and setting a daily budget cap takes under an hour for an existing agent. The SOUL.md/INSTRUCTIONS.md refactor of an existing system prompt takes another hour. Health check configuration and kill switch documentation add a third. A prototype that's been running for a week can be production-grade in a day.
 
-The TypeScript SDK entered public beta in Q1 2026 for teams building agents in Node environments. The configuration model is identical — SOUL.md, INSTRUCTIONS.md, `$CRED{}` handles, same scheduling primitives — with TypeScript types for all tool call signatures.
+A TypeScript SDK is available for teams building agents in Node environments. The configuration model is identical — SOUL.md, INSTRUCTIONS.md, `$CRED{}` handles, same scheduling primitives — with TypeScript types for all tool call signatures.
 
 For the framework selection decision that precedes this guide, see [AI agent frameworks](/learn/ai-agent-frameworks). For the tool use patterns that inform Step 2's allowlist design, see [AI agent tool use](/learn/ai-agent-tool-use). For the credential management patterns that back Step 3 in detail, see [credential management for AI agents](/learn/credential-management-ai-agents).
 
@@ -402,7 +402,7 @@ Start with ReAct (Yao et al. 2022, arXiv:2210.03629): it interleaves Thought/Act
 
 ### What tools should I register for a new agent?
 
-Register the minimum set that enables the task — nothing more. Write a one-sentence justification for each tool before registering it; this is your OWASP LLM08 compliance artifact and prevents permission creep over time. Categorize tools by risk: read tools carry low risk; write tools are reversible; side-effect tools (HTTP POST, email, repository commit) require a HITL gate before execution; spawn tools require HITL in all cases. Remove any tool that cannot be justified by the specific task requirements.
+Register the minimum set that enables the task — nothing more. Write a one-sentence justification for each tool before registering it; this is your OWASP LLM06 compliance artifact and prevents permission creep over time. Categorize tools by risk: read tools carry low risk; write tools are reversible; side-effect tools (HTTP POST, email, repository commit) require a HITL gate before execution; spawn tools require HITL in all cases. Remove any tool that cannot be justified by the specific task requirements.
 
 ### How do I test a kill switch for my production agent?
 
