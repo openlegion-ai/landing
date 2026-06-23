@@ -3,7 +3,7 @@ title: "AI Agent Reliability — Circuit Breakers, Backoff, and Dead-Letter Queu
 description: "Reliable AI agents: exponential backoff with jitter for LLM 429s, circuit breakers for cascading failures, dead-letter queues, idempotency keys for safe retries, and budget caps as guardrails."
 slug: /learn/ai-agent-reliability
 primary_keyword: ai agent reliability
-last_updated: "2026-06-22"
+last_updated: "2026-06-23"
 schema_types: ["FAQPage"]
 related:
   - /learn/ai-agent-deployment
@@ -209,7 +209,7 @@ A DLQ is a blackboard namespace: `dlq/{timestamp}/{task_id}`. Every entry must i
   "error_type": "overloaded_error | RateLimitError | context_length_exceeded | ...",
   "error_message": "...",
   "retry_count": 3,
-  "last_attempt_at": "2026-06-22T14:23:11Z",
+  "last_attempt_at": "2026-06-23T14:23:11Z",
   "recommended_action": "operator_review | context_reduction | quota_check | credential_rotation",
   "budget_consumed_usd": 0.42
 }
@@ -266,7 +266,7 @@ For APIs without server-side idempotency, store the key and result in the blackb
 
 ### Error Messages as Information Leakage Vectors
 
-OWASP ML Security Top 10 v1.0 (2023) item ML05:2023 identifies error side-channel attacks on AI systems. Three specific leakage patterns in agent error handling:
+Three specific leakage patterns in agent error handling expose security-sensitive information:
 
 **System prompt exposure**: some LLM error responses include the request context in the error detail. If the system prompt is in the request and the error detail is logged verbatim, the system prompt appears in the log. Mitigation: sanitize error messages before logging — log only the error type, status code, and a sanitized message.
 
@@ -274,7 +274,7 @@ OWASP ML Security Top 10 v1.0 (2023) item ML05:2023 identifies error side-channe
 
 **Credential usage pattern exposure via retry timing**: an adversary with visibility into retry timing can infer which credentials are used and at what rate. Mitigation: add random jitter (0–5s) to every retry interval independently of the exponential backoff calculation.
 
-OWASP ML08:2023 (Improper Error Handling) covers the complement: error handlers that silently swallow exceptions, preventing operators from detecting failures. Log detailed errors internally to the append-only audit trail; return sanitized errors to external consumers and to the agent context window.
+The complementary failure mode: error handlers that silently swallow exceptions, preventing operators from detecting failures. Log detailed errors internally to the append-only audit trail; return sanitized errors to external consumers and to the agent context window.
 
 ### Retry Storms as Self-Inflicted DoS
 
@@ -321,7 +321,7 @@ The [AI agent observability guide](/learn/ai-agent-observability) covers how to 
 
 Reliability engineering for agent systems requires treating the agent as a network client, not as an application. The patterns — backoff, circuit breakers, DLQs, idempotency — are from distributed systems engineering (AWS 2015 jitter paper, Martin Fowler's 2014 circuit breaker, Google SRE 2016). What changes for agents is the failure surface: retry loops that consume unbounded token budget, error messages that expose system prompt fragments, and retry storms that get credentials suspended.
 
-The security dimension of reliability is under-specified in most agent framework documentation. OWASP ML05:2023 (error side-channels) and ML08:2023 (improper error handling) apply directly to agent error handling — but neither framework implements these mitigations by default. Teams building production agents need to add them explicitly: sanitize error messages before logging, implement circuit breakers per-dependency, and treat retry storm risk as a credential security issue.
+The security dimension of reliability is under-specified in most agent framework documentation. Error side-channel leakage (system prompt fragments in logged error details) and silent exception swallowing both apply directly to agent error handling — but neither is addressed by default in common agent frameworks. Teams building production agents need to add them explicitly: sanitize error messages before logging, implement circuit breakers per-dependency, and treat retry storm risk as a credential security issue.
 
 OpenLegion's blackboard-based circuit breaker pattern writes circuit state to `circuit/{tool_name}` keys that persist across agent restarts — a key requirement for heartbeat-scheduled agents. In-process circuit breaker objects lose state on restart; blackboard-based state persists. For the credential management patterns that harden the credential side-channel risk, see [credential management for AI agents](/learn/credential-management-ai-agents). For the deployment configuration that sets container resource limits, see [AI agent deployment](/learn/ai-agent-deployment).
 
@@ -362,7 +362,7 @@ An idempotency key guarantees that retrying a failed side-effect operation does 
 
 ### How can agent error messages leak security-sensitive information?
 
-Three leakage patterns: LLM error responses that include request context can expose system prompt fragments if logged verbatim. Exception stack traces from failed tool calls reveal the internal tool registry if returned to the context window or logs. Retry timing patterns expose credential usage rates to adversaries with timing visibility. OWASP ML05:2023 covers error side-channel attacks. Mitigations: sanitize error messages before logging, catch exceptions at the tool call boundary and return sanitized error objects, and add random jitter (0–5s) to retry intervals independently of the backoff calculation.
+Three leakage patterns: LLM error responses that include request context can expose system prompt fragments if logged verbatim. Exception stack traces from failed tool calls reveal the internal tool registry if returned to the context window or logs. Retry timing patterns expose credential usage rates to adversaries with timing visibility. Mitigations: sanitize error messages before logging, catch exceptions at the tool call boundary and return sanitized error objects, and add random jitter (0–5s) to retry intervals independently of the backoff calculation.
 
 ### How do budget caps function as reliability guardrails?
 
