@@ -18,8 +18,8 @@ locales; they are not tracked here.
 
 - **Canonical pages:** 63
 - **Fully translated (all 12 locales):** 45
-- **Partially translated:** 0
-- **English-only (0 translations):** 18
+- **Partially translated:** 1
+- **English-only (0 translations):** 17
 
 ### Coverage by locale
 
@@ -27,12 +27,12 @@ locales; they are not tracked here.
 |---|---|---|
 | zh | 45 / 63 | 71% |
 | zh-TW | 45 / 63 | 71% |
-| ja | 45 / 63 | 71% |
+| ja | 46 / 63 | 73% |
 | ko | 45 / 63 | 71% |
-| es | 45 / 63 | 71% |
-| fr | 45 / 63 | 71% |
-| de | 45 / 63 | 71% |
-| pt | 45 / 63 | 71% |
+| es | 46 / 63 | 73% |
+| fr | 46 / 63 | 73% |
+| de | 46 / 63 | 73% |
+| pt | 46 / 63 | 73% |
 | ar | 45 / 63 | 71% |
 | hi | 45 / 63 | 71% |
 | ru | 45 / 63 | 71% |
@@ -93,7 +93,7 @@ locales; they are not tracked here.
 | `/learn/ai-agent-state-management` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-tool-use` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/autonomous-ai-agents` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/autonomous-ai-agents` | ❌ | ❌ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | 5/12 |
 | `/learn/browser-use-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/claude-opus-4-8` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/credential-management-ai-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -123,7 +123,7 @@ locales; they are not tracked here.
 - `/learn/ai-agent-prompt-injection` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-state-management` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/autonomous-ai-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/autonomous-ai-agents` — missing: zh, zh-TW, ko, ar, hi, ru, th
 - `/learn/grok-4` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/human-in-the-loop-ai-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
