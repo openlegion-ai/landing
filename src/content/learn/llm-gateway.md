@@ -1,5 +1,5 @@
 ---
-title: "LLM Gateway — Routing, Auth, and Cost Control for AI Agents"
+title: "LLM Gateway: Routing, Auth, and Cost Control for AI Agents"
 description: "An LLM gateway routes AI agent requests across model providers, enforces rate limits, injects credentials without exposing them to agent code, and attributes token costs per agent."
 slug: /learn/llm-gateway
 primary_keyword: llm gateway
@@ -14,7 +14,7 @@ related:
   - /learn/ai-agent-security
 ---
 
-# LLM Gateway — Routing, Auth, and Cost Control for AI Agents
+# LLM Gateway: Routing, Auth, and Cost Control for AI Agents
 
 An LLM gateway is an HTTP proxy layer that sits between AI agent code and model provider APIs, handling credential injection, request routing across providers, per-agent rate limiting, and token cost attribution without any secrets touching agent memory. Unlike a bare API call, a gateway can enforce fallback chains (GPT-4o → Claude → Gemini), circuit-break a provider on latency spikes, and emit per-request cost records — all before a single token reaches the model. Teams running more than three concurrent agents almost always need one.
 
@@ -32,7 +32,7 @@ The most security-critical gateway function: API keys for model providers are st
 
 Without a gateway, each agent process holds the provider API key in its environment. A prompt injection attack that causes the agent to call `env` or inspect its execution context can exfiltrate the key. A container vulnerability that exposes the agent's memory exposes the key. An agent that writes its environment to a log file exposes the key to anyone with log access. The gateway eliminates this entire attack surface.
 
-OpenLegion's credential vault proxy operates on this principle: every `$CRED{provider_key}` handle in agent code resolves at the mesh layer, not in the agent container. The raw key is never decrypted into agent memory. CVE-2024-34359 (LangChain, CVSS 9.8) demonstrated what happens when tool-calling agents can access their own credential stores directly — the gateway pattern is the architectural response.
+OpenLegion's credential vault proxy operates on this principle: every `$CRED{provider_key}` handle in agent code resolves at the mesh layer, not in the agent container. The raw key is never decrypted into agent memory. Prompt injection attacks that cause agents to enumerate their environment cannot exfiltrate a key that was never placed there — the gateway pattern is the architectural response to this class of credential theft.
 
 ### Request Routing and Provider Failover
 
@@ -84,7 +84,7 @@ A stateful gateway stores credentials, routing configuration, usage metrics, and
 
 Database-backed gateways offer richer management UIs and simpler configuration APIs. The operational tradeoff: the database is a high-value attack target.
 
-The April 2024 LiteLLM CVE (GHSA-jh55-5rfg-8p3j) exploited this architecture. The vulnerability allowed remote config poisoning via a crafted request to the gateway's management API, enabling an attacker with network access to the management endpoint to modify provider routing configuration. In a database-backed gateway, compromising the configuration store can affect every tenant and every provider key stored simultaneously.
+LiteLLM GHSA-53mr-6c8q-9789 (CVE-2026-35029, patched in v1.83.0) demonstrated this risk: the `/config/update` endpoint lacked admin-role enforcement, allowing any authenticated user to modify proxy configuration — including registering arbitrary pass-through endpoint handlers and reading server files. In a database-backed gateway, a misconfigured access control on the management layer can affect every tenant simultaneously.
 
 For teams evaluating self-hosted LiteLLM or equivalent database-backed gateways: restrict management API access to a private network segment, enable authentication on the management API (disabled by default in some versions), and rotate database credentials on a schedule that matches your threat model.
 
@@ -104,11 +104,11 @@ The LLM gateway market has converged on similar routing and rate-limiting featur
 
 Four concrete data points that should drive this decision:
 
-**LiteLLM GHSA-jh55-5rfg-8p3j (April 2024)**: a database-backed gateway with an exposed management API allowed remote config poisoning. The attack surface was the Postgres credential store + management API combination. A vault-native gateway has neither.
+**LiteLLM GHSA-53mr-6c8q-9789 (CVE-2026-35029, April 2026)**: a database-backed gateway with insufficient management API authorization allowed any authenticated user to modify proxy routing configuration and register arbitrary code handlers. The attack surface was the Postgres credential store combined with an unprotected config endpoint. A vault-native gateway with no persistent credential database has neither.
 
-**OpenAI trust team, March 2025 System Card**: credential leakage in gateway middleware accounted for approximately 23% of AI security incidents reported to OpenAI's trust team. The pattern: debug logging captures the full request including the Authorization header with the resolved API key; the log ships to an observability platform; the key is extractable from the platform. A vault-native gateway that never resolves credentials into agent memory eliminates this log-leakage path.
+**Credential leakage via debug logging**: a common gateway misconfiguration captures the full outbound request — including the resolved Authorization header — in debug logs. Those logs ship to an observability platform; the key is extractable from the platform by anyone with log access. A vault-native gateway that never resolves credentials into agent memory eliminates this log-leakage path entirely.
 
-**OWASP LLM Top 10 2025**: gateway-layer validation failures are cited in 4 of the 10 threat categories — LLM01 (prompt injection routed through gateway), LLM06 (excessive agency enabled by misconfigured rate limits), LLM08 (unbounded actions from missing per-agent quotas), and LLM09 (misinformation from provider failover routing to unverified models). A properly configured gateway with allowlisted providers addresses all four.
+**OWASP LLM Top 10 2025**: gateway-layer validation failures are cited in 4 of the 10 threat categories — LLM01 (prompt injection routed through gateway), LLM06 (excessive agency enabled by misconfigured rate limits), LLM07 (insecure plugin design from unrestricted gateway pass-through), and LLM09 (overreliance on unverified provider responses from failover routing to unvetted models). A properly configured gateway with allowlisted providers addresses all four.
 
 **P99 tail latency improvement**: OpenLegion's June 2026 benchmark measured P99 tail latency at 12 seconds for GPT-4o-only deployments during peak congestion. Adding Claude 3.5 Sonnet as a circuit-breaker fallback reduced P99 to 3.1 seconds — a 3.9× improvement — without any change to agent code.
 
@@ -123,7 +123,7 @@ The conclusion: gateway selection should be driven by credential storage model f
 | **Per-agent rate limits** | Config-based | Limited | Per-agent + budget alerts |
 | **Token cost attribution** | Aggregate | Per-request | Per-agent, per-request |
 | **Audit log** | Basic | Basic | Immutable, tamper-evident |
-| **CVE history** | GHSA-jh55-5rfg-8p3j (2024) | None public | None |
+| **CVE history** | GHSA-53mr-6c8q-9789 (2026) | None public | None |
 | **Open-source** | Yes (MIT) | No | No (managed platform) |
 
 ## How to Choose an LLM Gateway for Multi-Agent Systems
@@ -203,7 +203,7 @@ When a provider returns a 5xx error, a timeout, or a 429 rate-limit response, th
 
 ### What are the security risks of a database-backed LLM gateway?
 
-A database-backed gateway stores provider API keys in a central database — typically Postgres — creating a single high-value attack target. SQL injection, misconfigured IAM, or supply-chain compromise can expose every provider key across every tenant simultaneously. The April 2024 LiteLLM CVE (GHSA-jh55-5rfg-8p3j) exploited this architecture through remote config poisoning via the management API. Vault-native gateways resolve credentials per-request from an external credential store without holding keys in a database, eliminating this attack surface.
+A database-backed gateway stores provider API keys in a central database — typically Postgres — creating a single high-value attack target. SQL injection, misconfigured IAM, or supply-chain compromise can expose every provider key across every tenant simultaneously. LiteLLM GHSA-53mr-6c8q-9789 (CVE-2026-35029) demonstrated this risk through insufficient authorization on the management API, which allowed any authenticated user to modify proxy configuration. Vault-native gateways resolve credentials per-request from an external credential store without holding keys in a database, eliminating this attack surface.
 
 ### What is the difference between per-agent rate limiting and provider-level rate limiting?
 
