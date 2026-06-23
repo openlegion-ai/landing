@@ -16,7 +16,7 @@ related:
 
 # AI Agent Planning: ReAct, Tree of Thoughts, and Plan-and-Execute
 
-AI agent planning is the process by which an agent generates, evaluates, and revises intended actions before or during execution, distinct from simply reacting to the last observation. OpenAI o3's 71.7% SWE-bench score (February 2026) versus GPT-4o's 48.9% is a planning improvement: extended thinking tokens allow longer inference-time reasoning before any tool call fires. Planning also creates a security-critical interception point where generated plans can be inspected and blocked before irreversible actions reach the real world.
+AI agent planning is the process by which an agent generates, evaluates, and revises intended actions before or during execution, distinct from simply reacting to the last observation. OpenAI o3's 71.7% SWE-bench score (January 2025) versus GPT-4o's 48.9% is a planning improvement: extended thinking tokens allow longer inference-time reasoning before any tool call fires. Planning also creates a security-critical interception point where generated plans can be inspected and blocked before irreversible actions reach the real world.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -176,7 +176,7 @@ Reflexion does not help when the failure is caused by an incorrect tool schema o
 
 ### How Extended Thinking Works
 
-OpenAI's o3 model (February 2026) achieves 71.7% on SWE-bench Verified versus GPT-4o's 48.9%, a 22.8-point improvement with extended thinking enabled. The model generates thinking tokens, an internal chain of reasoning not shown in the final response, before committing to an answer or tool call. Extended thinking is inference-time planning: more reasoning within a single LLM call, rather than multi-call planning (ToT) or multi-step interleaved planning (ReAct).
+OpenAI's o3 model (January 2025) achieves 71.7% on SWE-bench Verified versus GPT-4o's 48.9%, a 22.8-point improvement with extended thinking enabled. The model generates thinking tokens, an internal chain of reasoning not shown in the final response, before committing to an answer or tool call. Extended thinking is inference-time planning: more reasoning within a single LLM call, rather than multi-call planning (ToT) or multi-step interleaved planning (ReAct).
 
 The thinking budget is configurable: higher budgets improve performance on complex reasoning tasks and increase cost. On tasks where planning complexity is low (simple retrieval, single-step tool calls), a high thinking budget wastes tokens. On tasks requiring multi-step code generation or complex constraint satisfaction, the budget pays for itself in reduced failure rate.
 
@@ -229,7 +229,7 @@ Reflexion (Shinn et al. 2023, arXiv:2303.11366) adds a self-evaluation loop to a
 
 ### How did OpenAI o3 achieve 71.7% on SWE-bench?
 
-o3 achieves 71.7% on SWE-bench Verified (February 2026) versus GPT-4o's 48.9%, a 22.8-point improvement, through extended thinking: additional inference-time compute allocated to reasoning before the model commits to any output. The model generates internal thinking tokens that explore more plan branches and catch more reasoning errors before producing a final answer or tool call. This is inference-time planning (more reasoning within a single LLM call) rather than multi-call planning like Tree of Thoughts.
+o3 achieves 71.7% on SWE-bench Verified (January 2025) versus GPT-4o's 48.9%, a 22.8-point improvement, through extended thinking: additional inference-time compute allocated to reasoning before the model commits to any output. The model generates internal thinking tokens that explore more plan branches and catch more reasoning errors before producing a final answer or tool call. This is inference-time planning (more reasoning within a single LLM call) rather than multi-call planning like Tree of Thoughts.
 
 ### How do I add a pre-execution inspection gate to my agent?
 
