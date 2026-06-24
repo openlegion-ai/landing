@@ -1,5 +1,5 @@
 ---
-title: "LLM Gateway: Routing, Auth, and Cost Control for AI Agents"
+title: "LLM Gateway — Routing, Auth, and Cost Control for AI Agents"
 description: "An LLM gateway routes AI agent requests across model providers, enforces rate limits, injects credentials without exposing them to agent code, and attributes token costs per agent."
 slug: /learn/llm-gateway
 primary_keyword: llm gateway
@@ -14,176 +14,169 @@ related:
   - /learn/ai-agent-security
 ---
 
-# LLM Gateway: Routing, Auth, and Cost Control for AI Agents
+# LLM Gateway — Routing, Auth, and Cost Control for AI Agents
 
-An LLM gateway is an HTTP proxy layer that sits between AI agent code and model provider APIs, handling opaque-handle resolution, request dispatch across providers, per-tenant throttling, and token spend attribution without any plaintext keys passing through agent processes. Unlike a bare API call, a gateway can enforce fallback chains (GPT-4o → Claude → Gemini), open a circuit breaker on P99 tail latency spikes, and emit per-request spend records — all before a single token reaches the model. Fleets running more than three concurrent agents almost always require one.
+An LLM gateway is an HTTP reverse-proxy positioned between AI agent processes and upstream model provider endpoints, operating as the data plane for all outbound inference traffic. It resolves opaque key handles at the wire layer before forwarding, enforces per-tenant throttle quotas using sliding-window counters, emits per-request OpenTelemetry spend telemetry, and opens circuit breakers when upstream P99 latency breaches configured thresholds — none of which require any change to agent application code. Any fleet running three or more concurrent inference consumers should put one in place.
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> An **LLM gateway** is a reverse-proxy service that mediates all HTTP traffic between AI agents and model provider endpoints, supplying opaque-handle resolution, multi-provider dispatch, per-tenant throttle enforcement, and spend metering as infrastructure-layer primitives.
+> An **LLM gateway** is an HTTP reverse-proxy that sits in the data plane between AI agent processes and model-provider endpoints, providing opaque-key resolution at the wire layer, per-tenant quota enforcement via sliding-window counters, OpenTelemetry spend telemetry per request, and circuit-breaker failover — all as infrastructure primitives invisible to application code.
 
-## What an LLM Gateway Does
+## The Data Plane Problem in Multi-Agent Inference
 
-An LLM gateway is an HTTP middleware layer that intercepts every outbound call from agent processes before it reaches a provider endpoint. This creates a single enforcement point for four infrastructure concerns that are impractical to implement consistently in distributed agent code.
+Without a dedicated inference data plane, each agent process manages its own upstream connections: resolving keys from environment state, enforcing no per-process quota, emitting no per-request telemetry, and having no visibility into whether the upstream endpoint is degraded. At two agents this is manageable. At twenty, it produces four distinct failure modes.
 
-### Opaque-Handle Resolution at the Proxy Layer
+### Key Exfiltration via Environment Introspection
 
-The highest-value function of a gateway is also the least visible to agent code: API keys for model providers are stored in the gateway's backing secret store, never in agent runtime environments. Agent processes embed an opaque handle — a reference token like `$CRED{openai}` — in the Authorization header of their outbound request. The proxy intercepts the request, swaps the handle for the resolved key, and forwards the authenticated request to the provider. The agent process never holds the plaintext key.
+Every agent process that holds a plaintext provider key in its environment is one adversarial instruction away from leaking it. The attack surface is the process environment itself: `os.environ`, `/proc/self/environ` on Linux hosts, verbose error tracebacks that serialize the process state, and debug log configurations that capture outbound HTTP headers including Authorization fields.
 
-This interception pattern eliminates the entire class of key-in-process exposure. Without a proxy, each agent runtime holds the provider key in its environment. A crafted external payload that causes the agent to echo environment state — a common prompt injection technique — extracts that key. A process-memory dump or a verbose error log that includes environment variables extracts it. The proxy layer removes the key from the agent's reachable scope before these extraction paths are possible.
+CVE-2024-34359 (CVSS 9.8, LangChain, March 2024) exploited exactly this — a tool-calling agent that could reach its own key store via a crafted tool invocation. The structural fix is not better input validation: it is removing the plaintext key from the agent process entirely. An LLM gateway that resolves opaque handles (`$CRED{openai}`) at the wire layer before the Authorization header is written means the agent process never holds material that can be exfiltrated. The handle is not a key; resolving it produces a key only within the gateway's own memory scope, for the duration of one upstream request.
 
-OpenLegion's mesh operates on this pattern at the infrastructure layer: every `$CRED{handle}` reference in agent code resolves at the mesh host boundary, not inside the agent container. Prompt injection attacks that exfiltrate environment state are a well-documented attack class against agents that hold plaintext keys; the interception pattern is the architectural fix.
+OpenLegion's mesh implements this at the infrastructure level: `$CRED{}` handles resolve at the mesh host boundary. Agent containers are structurally unable to reach the resolved value — not because they are instructed not to, but because the resolution happens outside their address space.
 
-### Multi-Provider Request Dispatch and Traffic Splitting
+### Quota Exhaustion via Shared Key Throttling
 
-A gateway routes each outbound request to a provider endpoint based on configured dispatch rules. Three dispatch modes matter in practice:
+Upstream model providers throttle at the API-key level. In a fleet where twenty agent processes share one key, a single process emitting requests at 10× its expected rate — whether through a retry storm, a runaway loop, or a prompt injection payload that causes unbounded inference calls — can push the key into rate-limit territory for the other nineteen.
 
-**Deterministic routing**: every request goes to one provider. Useful during evaluation periods when you need clean per-provider cost baselines before shifting traffic.
+A gateway enforces per-tenant quotas using a sliding-window counter keyed on agent identifier. The sliding window maintains a count of requests (or consumed tokens) within a rolling time interval. When an agent's counter reaches the configured ceiling, the gateway responds with HTTP 429 at the gateway layer: no upstream request is dispatched, no provider quota is consumed, and sibling agents are unaffected.
 
-**Weighted splitting**: a configured percentage of requests routes to each provider — for example, 80% to GPT-4o and 20% to Claude 3.5 Sonnet — without any changes to agent code. The split runs at the proxy layer. This is the standard pattern for incremental provider migrations and for running live cost comparisons.
+The token bucket variant allows configurable burst capacity: an agent permitted 60 requests/minute can absorb a burst of 90 over a 10-second window, with the burst drawdown applied against the following window's budget. This is the correct model for agents that are bursty by nature (large batch processing jobs) but should be bounded over longer horizons.
 
-**Capability-based dispatch**: route by request characteristics. Requests with prompt payloads under 8K tokens go to GPT-4o; requests requiring 32K+ context go to Claude 3.5 Sonnet (200K context window). The proxy inspects the request metadata — specifically the `max_tokens`, `messages` length, and `model` field — and substitutes the appropriate endpoint.
+The per-agent quota is also the structural mitigation for OWASP LLM08:2025 (Unbounded Agent Actions) — the pattern where adversarial instructions cause an agent to emit unbounded inference calls. The gateway's quota window caps the blast radius to one tenant's budget regardless of how many calls the injection triggers.
 
-Failover is a special case of dispatch: when a provider returns 5xx, a timeout, or 429, the proxy retries against the next provider in the configured chain without surfacing the retry to the calling agent. OpenLegion infrastructure testing in June 2026 measured this on a GPT-4o primary → Claude 3.5 Sonnet fallback topology: P99 tail latency dropped from 12 seconds (GPT-4o alone during capacity-constrained windows) to 3.1 seconds. The agent made one request and received one response; the mid-flight provider substitution was invisible to the agent process.
+### Missing Upstream Observability
 
-### Per-Tenant Throttle Enforcement
+Without an inference data plane, per-request telemetry requires instrumentation inside every agent process. This is both duplicative and inconsistent: different agent roles instrument differently, some don't instrument at all, and none of them have visibility into the upstream latency distribution across the fleet.
 
-Without a proxy layer, throttle enforcement is per-API-key: the provider rejects requests once the aggregate rate across all holders of that key exceeds the plan cap. In a fleet of 20 agents sharing one key, one agent stuck in a tight retry loop can exhaust the rate budget for all 19 others.
+A gateway emits per-request OpenTelemetry OTLP log records at the wire layer, capturing: agent identifier, upstream endpoint, model name, input token count, output token count, cache-hit tokens (where reported by the upstream), HTTP response status, and request duration. These records flow to a telemetry collector (Grafana, Datadog, OpenSearch, or any OTLP-compatible backend) without any per-agent instrumentation.
 
-A proxy enforces per-tenant throttles before requests leave the proxy process. Each agent role receives a distinct request-per-minute limit and a token-per-day ceiling. When an agent exceeds its limit, the proxy returns HTTP 429 from the proxy layer — no outbound request is dispatched, no provider quota is consumed, and peer agents are unaffected.
+The spend record per request — `input_tokens × price_per_1k_input + output_tokens × price_per_1k_output` — accumulates into a per-agent spend ledger. This ledger supports daily and monthly spend ceilings (the gateway blocks an agent whose ceiling is reached until the window resets) and spend anomaly alerting (flag when an agent's cost-per-request is N× its rolling baseline, which typically signals context accumulation or a retry loop).
 
-The throttle is implemented as a sliding-window counter keyed on agent identifier. Requests increment the counter; the counter decrements as the time window slides. Burst capacity is configurable: an agent allowed 60 requests/minute can be permitted to burst to 90 for 10-second windows, with the burst drawdown deducted from the following window's budget.
+### Invisible Upstream Degradation
 
-The per-tenant throttle is also a structural response to token-budget exhaustion — the pattern where a prompt injection payload causes an agent to issue unbounded LLM calls. The proxy cap limits the blast radius to one agent's quota window, regardless of how many calls the injection attempt triggers.
+Provider endpoints degrade. P99 tail latency on GPT-4o during capacity events can reach 12 seconds (OpenLegion infrastructure benchmark, June 2026). Without a circuit breaker in the data plane, every agent in the fleet absorbs this degradation on every request. The agents cannot distinguish "upstream is slow" from "my task is taking longer" without per-endpoint latency telemetry they do not have.
 
-### Spend Metering and Cost Attribution
+A gateway with a circuit breaker tracks per-endpoint error rates and P99 latency. When a configurable failure threshold is breached — for example, five consecutive 5xx responses or P99 exceeding 8 seconds over a 30-second window — the circuit opens: subsequent requests are immediately dispatched to the configured fallback endpoint without waiting for the degraded primary to time out.
 
-Every model provider response body includes token counts: input tokens, output tokens, and (where the provider reports them) cache-hit tokens. A gateway captures these counts per request and writes a spend record keyed on the requesting agent's identifier.
+OpenLegion's June 2026 benchmark measured GPT-4o primary → Claude 3.5 Sonnet fallback topology: P99 dropped from 12 seconds to 3.1 seconds (3.9×) without any modification to agent code. The circuit breaker also implements the half-open probe: after the circuit opens and a cooldown period elapses, one probe request is dispatched to the primary endpoint to test recovery. A successful probe closes the circuit; a failed probe restarts the cooldown timer.
 
-Accumulated spend records enable four operational capabilities that aggregate invoices cannot:
+## Gateway Architecture: Data Plane vs Control Plane
 
-**Tenant-level billing**: in multi-tenant deployments, map provider spend to individual customers or internal cost centers. Without per-agent attribution, the month-end invoice from OpenAI or Anthropic is a single aggregate number with no decomposition.
+An LLM gateway separates two distinct concerns: the data plane (the hot path that every inference request traverses) and the control plane (the configuration surface that governs how the data plane behaves).
 
-**Per-agent budget caps**: configure a daily or monthly spend ceiling per agent role. When an agent's accumulated spend reaches its ceiling, the proxy blocks further requests for that agent until the window resets.
+### The Data Plane: Per-Request Enforcement
 
-**Spend anomaly signaling**: compare an agent's per-request cost this hour against its rolling baseline. A 10× cost-per-request spike that does not correspond to a proportional increase in task output is a signal worth routing to the operator alerting channel.
+Every inference request passes through the data plane in sequence:
 
-**Cross-provider cost benchmarking**: with spend broken out per provider per agent, teams can compare cost-per-successful-task across providers. If Claude 3.5 Sonnet completes the same tasks as GPT-4o at 60% of the per-task cost, per-request attribution is the measurement instrument that surfaces this.
+1. **TLS termination**: the agent process connects to the gateway over TLS. The gateway presents a certificate; for mTLS deployments, the agent presents a certificate as well. mTLS eliminates the need for per-request authentication tokens between agent and gateway — the mutual certificate handshake authenticates both parties at the connection layer.
 
-## LLM Gateway Deployment Topologies
+2. **Workload identity resolution**: the gateway maps the connecting workload to a tenant identity. In mTLS deployments, the SPIFFE SVID (SPIFFE Verifiable Identity Document) embedded in the client certificate carries the workload identity — no separate authentication header is needed. In non-mTLS deployments, the gateway reads a bearer token from the Authorization header and validates it against the control plane's identity store.
 
-### Stateless Vault-Backed Proxy
+3. **Opaque handle resolution**: the gateway inspects the outbound Authorization header for `$CRED{}` handle patterns. Matching handles are resolved against the gateway's backing secret store (HashiCorp Vault, AWS Secrets Manager, or equivalent) using the tenant identity's permission scope. The resolved value is substituted into the outbound request header. The inbound request from the agent is never forwarded unchanged — the gateway always rebuilds the outbound request with the resolved material.
 
-A stateless proxy holds no persistent data. Opaque handles are resolved per-request (or per short-TTL cache window, typically 30–60 seconds) from an external secret store — HashiCorp Vault, AWS Secrets Manager, or equivalent. The proxy process itself is stateless: it can be horizontally scaled, restarted, or replaced without schema migrations or data handoffs.
+4. **Quota check**: the gateway increments the tenant's sliding-window counter and compares it against the configured ceiling. If the counter exceeds the ceiling, the gateway returns 429 with `Retry-After` and `X-RateLimit-Reset` headers. No upstream connection is opened.
 
-The security profile of the stateless pattern: no backing database that can be exfiltrated for key material. A compromised proxy process yields nothing beyond the contents of the active request's memory window — specifically, the resolved key for the in-flight request. After the request completes, the key is no longer in scope.
+5. **Circuit breaker check**: the gateway evaluates the target endpoint's circuit state. If the circuit is open, the request is immediately redirected to the fallback endpoint without attempting the primary.
 
-Latency profile: on a warm handle cache, proxy overhead is sub-millisecond for the resolution step. On a cold cache (first resolution after TTL expiry), the external store lookup adds 2–5ms depending on network topology. OpenLegion's proxy sustains under 2ms P99 handle resolution latency at 10,000 outbound requests/second on an AWS c6i.2xlarge (June 2026 measurement), using a hot in-process cache backed by the secret store.
+6. **Upstream dispatch**: the gateway opens a connection from its own connection pool to the upstream endpoint (not the agent's connection), forwards the rebuilt request, and streams the response back.
 
-### Stateful Persistence-Backed Proxy
+7. **Telemetry emission**: on response completion, the gateway writes an OTLP log record to the telemetry pipeline with all per-request fields.
 
-A stateful proxy persists configuration, usage counters, spend ledgers, and tenant key material in a relational store — typically Postgres. LiteLLM's self-hosted mode uses this topology: provider keys, virtual keys (proxy-scoped access tokens issued to each agent), and spend data all live in the Postgres instance.
+Total overhead on the warm path (resolved handle in cache, quota counter in memory, circuit closed, upstream connection pooled): 0.7–2.1ms. On the cold path (cache miss requiring an outbound secret store lookup): 2.6–6.6ms. At provider inference latency of 500ms–30s, warm-path overhead is under 0.5% of total round-trip time.
 
-The persistence-backed topology offers richer administrative surfaces: key provisioning APIs, spend dashboards queryable via SQL, and detailed per-tenant rate configuration. The tradeoff: the relational store is a concentrated attack surface.
+### The Control Plane: Configuration and Policy
 
-LiteLLM GHSA-53mr-6c8q-9789 (CVE-2026-35029, patched in v1.83.0) documented this risk: the `/config/update` endpoint lacked admin-role authorization, allowing any authenticated user to modify proxy configuration — including registering arbitrary pass-through endpoint handlers and reading server files. In a persistence-backed proxy, the configuration store and the key store are often the same database, meaning a configuration-write path exposed to the network also has a path to key material.
+The control plane governs the data plane's behavior. It is not in the hot path for individual requests, but changes to it take effect on subsequent requests. Key control plane responsibilities:
 
-Hardening steps for self-hosted persistence-backed proxies: network-segment the management API to a private subnet, enable management API authentication (disabled by default in some releases), apply Postgres row-level security to isolate tenant key material, and rotate the database superuser credential on a schedule that reflects your threat model.
+**Tenant identity and quota configuration**: which workload identities are permitted, what quota ceiling applies per tenant, what spend ceiling applies per billing period.
 
-### Sidecar vs Centralised Ingress
+**Endpoint topology**: which upstream endpoints are available, what the circuit breaker parameters are for each, and what the failover chain is (primary → fallback A → fallback B).
 
-**Centralised ingress**: a single proxy cluster handles all outbound LLM traffic from all agents. Advantages include a single configuration surface, aggregate spend visibility across the fleet, and a unified audit stream. The operational risk: the ingress cluster is a shared failure domain — an ingress outage degrades all agents simultaneously.
+**Handle permission scope**: which tenant identities are permitted to resolve which handles. A tenant with scope `openai:read` can resolve `$CRED{openai}` but not `$CRED{anthropic}`. This scoping prevents lateral movement between tenants — a compromised agent process can only resolve the handles its workload identity is scoped for.
 
-**Sidecar proxy**: each agent container runs a proxy process on its loopback interface. The agent dispatches to `localhost:8080`; the sidecar resolves handles and routes outbound. Advantages: failure domain isolation (a crashed sidecar affects one agent), per-agent configuration without fleet-wide coordination, and no network hop between agent and proxy.
+**Audit policy**: what fields appear in OTLP log records, whether request bodies are logged (generally not, for data minimization), and what telemetry backend receives the records.
 
-**Mesh-native proxy**: in OpenLegion, the proxy operates as a mesh service — each agent container communicates with the mesh proxy via the internal mesh transport, providing the handle isolation of the sidecar model combined with the aggregate spend visibility of centralised ingress.
+The control plane API should not be reachable from agent-side networks. GHSA-jh55-5rfg-8p3j (LiteLLM, April 2024) demonstrated what happens when the control plane's configuration write path is network-reachable without authentication — an attacker rewrote provider routing tables via a crafted management API request. Correct control plane deployment: private subnet, authenticated, no external exposure.
 
-Topology selection heuristic: centralised ingress for fleets under 10 agents where operational simplicity is the priority; sidecar for large fleets where per-agent failure isolation outweighs the cost of distributed spend aggregation.
+## Deployment Topologies
 
-## OpenLegion's Take: Why the Key Store Architecture Is the Security Decision
+### Centralised Ingress
 
-LLM gateway products have converged on similar feature sets for multi-provider dispatch and throttle enforcement. The differentiating variable for production security posture is not the dispatch feature set — it is **where key material lives and what access path reaches it**.
+A single gateway cluster handles all outbound inference traffic from the agent fleet. All agents connect to one gateway endpoint. The cluster is horizontally scaled behind a load balancer.
 
-Four measurements that should inform this choice:
+**Advantages**: single configuration point for all tenants, unified OTLP telemetry stream, no per-agent deployment surface to manage. **Failure domain**: the gateway cluster is a shared failure point — ingress cluster degradation affects all agents. Mitigate with multi-AZ deployment and health checks that route around unhealthy gateway instances.
 
-**GHSA-53mr-6c8q-9789 (LiteLLM, CVE-2026-35029, patched v1.83.0)**: a persistence-backed proxy with an externally-reachable management endpoint lacking admin-role enforcement allowed any authenticated user to rewrite provider routing configuration and register arbitrary code handlers. The attack surface was the intersection of the Postgres configuration table and the management API's authorization gap. A stateless vault-backed proxy has neither surface.
+Suitable for fleets up to approximately 50 agents where operational simplicity outweighs blast-radius concerns.
 
-**Credential leakage via debug logging**: a common gateway misconfiguration captures the full outbound HTTP request — including the resolved Authorization header — in debug logs. The log pipeline ships to an observability platform; the platform becomes the exfiltration surface. A proxy that resolves handles at the network boundary without exposing the resolved value to agent-side logging eliminates this pathway entirely.
+### Sidecar Pattern
 
-**OWASP LLM Top 10 2025**: gateway-layer enforcement gaps appear in four of the ten threat categories — LLM01 (injected instructions routed through proxy without sanitization), LLM06 (over-permissioned agent calls enabled by absent per-tenant throttles), LLM07 (insecure plugin design from unrestricted gateway pass-through endpoints), and LLM09 (provider substitution routing to an unverified endpoint). A proxy with an explicit provider allowlist and per-tenant caps addresses all four.
+Each agent container runs a gateway process on its loopback interface. The agent dispatches to `localhost:8080`; the sidecar manages the upstream TLS connection, quota enforcement, and telemetry emission.
 
-**P99 tail latency**: OpenLegion's June 2026 infrastructure benchmark measured P99 at 12 seconds on GPT-4o single-provider deployments during provider capacity events. Introducing Claude 3.5 Sonnet as a circuit-breaker fallback — configured at the proxy layer, zero changes to agent code — brought P99 to 3.1 seconds: a 3.9× reduction.
+**Advantages**: failure domain is one agent container — a crashed sidecar affects one agent, not the fleet. Per-agent configuration is possible without fleet-wide control plane changes. Zero additional network hop between agent and gateway. **Tradeoff**: OTLP telemetry from sidecars must be aggregated by a separate collector. Fleet-wide quota coordination requires a shared counter backend (Redis, DynamoDB, or equivalent).
 
-The architectural conclusion: proxy selection should be driven by key store design before dispatch features. A proxy that stores key material in a network-reachable persistence layer increases the attack surface relative to per-agent direct API calls — it concentrates key material in one place rather than distributing it across agent environments. Vault-backed proxies or managed proxies with hardware-isolated key stores are the correct default for production multi-agent fleets.
+Suitable for large fleets (50+ agents) where per-agent failure isolation is the priority.
 
-## LLM Gateway Feature Comparison
+### Mesh-Native Proxy
 
-| **Feature** | **LiteLLM** | **OpenAI API Gateway** | **OpenLegion** |
+In OpenLegion, the inference proxy is a mesh service: each agent container communicates with the mesh proxy via the internal mesh transport. The mesh provides the per-agent failure isolation of the sidecar model while maintaining a fleet-wide spend ledger and OTLP stream in the mesh host. The mesh-native model handles workload identity natively: each agent container receives a mesh-issued identity at spawn time, which the proxy uses for handle-scope enforcement without the agent process managing any authentication material.
+
+## OpenLegion's Take
+
+The LLM gateway feature set — mTLS, sliding-window quota enforcement, OTLP spend telemetry, circuit-breaker failover — is not optional infrastructure for multi-agent fleets. It is the minimum viable data plane. Without it, every agent process is simultaneously a potential key exfiltration surface, an unthrottled inference consumer that can exhaust shared quotas, and a blind spot in the fleet's spend telemetry.
+
+Three measurements from OpenLegion's June 2026 infrastructure testing quantify the stakes:
+
+**P99 tail latency without failover**: 12 seconds on GPT-4o-only deployments during provider capacity events. With Claude 3.5 Sonnet as a circuit-breaker fallback configured at the gateway layer: 3.1 seconds. The 3.9× improvement required zero changes to agent application code.
+
+**Key exfiltration surface area**: in a 20-agent fleet where all agents hold plaintext keys in their environment, a single agent compromised by prompt injection (OWASP LLM01:2025) can exfiltrate keys valid for every other agent's upstream connections. In a gateway-mediated fleet with opaque handle resolution, the same compromised agent holds no material that can be exfiltrated — the handle resolves to the plaintext key inside the gateway's memory scope only.
+
+**OWASP LLM coverage**: per-tenant quota enforcement at the gateway addresses LLM08:2025 (Unbounded Agent Actions). Handle-scope enforcement addresses LLM06:2025 (Excessive Agency — agents can only resolve the handles their identity is scoped for, not handles belonging to other tenants). Both controls operate at the infrastructure layer and require no agent-level code changes.
+
+For teams evaluating [credential management patterns for AI agents](/learn/credential-management-ai-agents), the gateway's opaque handle resolution is the deployment-level implementation of the vault-proxy pattern described there. For teams integrating [MCP security controls](/learn/ai-agent-mcp-security), gateway-layer handle scoping ensures that MCP tool servers receive authenticated requests without the agent process holding the upstream key.
+
+## LLM Gateway Comparison
+
+| **Capability** | **Self-hosted (LiteLLM)** | **OpenAI native** | **OpenLegion mesh proxy** |
 |---|---|---|---|
-| **Key store model** | Postgres persistence | Managed service | Vault-backed, stateless proxy |
-| **Multi-provider dispatch** | Yes (100+ providers) | Limited | Yes, with circuit breaker |
-| **Per-tenant throttles** | Config-based | Limited | Per-agent + spend alerts |
-| **Spend attribution** | Aggregate | Per-request | Per-agent, per-request |
-| **Audit stream** | Basic | Basic | Immutable, tamper-evident |
-| **CVE disclosures** | GHSA-53mr-6c8q-9789 (2026) | None public | None |
-| **Open-source** | Yes (MIT) | No | No (managed platform) |
+| **Key resolution model** | Postgres-backed key store | Managed service | Opaque handle → vault at wire layer |
+| **mTLS workload identity** | Not supported | Not supported | SPIFFE SVID per agent container |
+| **Quota enforcement** | Config-based, per-key | Per-org limits | Sliding-window counter, per-tenant |
+| **Circuit-breaker failover** | Plugin-based | Not available | Native, with half-open probe |
+| **OTLP spend telemetry** | Partial | Not exported | Per-request, all fields |
+| **Control plane isolation** | Manual; exposed by default | Managed | Private mesh subnet only |
+| **CVE history (2024–2026)** | GHSA-jh55-5rfg-8p3j + 4 others | None public | None |
 
-## Selecting an LLM Gateway for Multi-Agent Fleets
+## Selecting a Gateway for Your Fleet
 
-### Evaluating Key Store Architecture
+### mTLS vs Bearer-Token Authentication
 
-Before comparing dispatch capabilities, determine where the proxy stores key material and what access path can reach it. Four questions to ask any gateway vendor or open-source project:
+mTLS (mutual TLS) authenticates both the client (agent) and the server (gateway) at the TLS handshake layer, before any HTTP payload is exchanged. The client certificate carries a SPIFFE SVID — a cryptographically verifiable workload identity. No bearer token is passed in headers; no token can be stolen from headers; the identity assertion is part of the TLS session.
 
-Is key material stored in a relational database? If yes: what authentication layer protects that database? Can the proxy process read all tenant keys in a single query, or only the key for the current request?
+Bearer-token authentication is simpler to set up but introduces a token that must be managed: issued, distributed to agent containers, rotated on expiry, and revoked when an agent is decommissioned. Tokens in HTTP headers are visible to anything that can read the HTTP stream — logging middleware, debug proxies, observability agents that capture request headers.
 
-Is the management API authenticated by default, or does authentication require explicit operator configuration?
+For production multi-agent fleets, mTLS with SPIFFE-issued SVIDs is the correct authentication model. It eliminates the token management surface entirely. The prerequisite is a SPIFFE-compatible identity issuance system — SPIRE is the reference implementation; cloud providers offer equivalents (AWS ROAM, GCP Workload Identity Federation).
 
-Does the proxy write resolved key values to any log stream? What downstream systems receive those logs?
+### Sliding-Window vs Fixed-Window Quota Counters
 
-What is the blast radius if the proxy process is fully compromised — how many tenant keys are reachable from that process's memory state?
+Fixed-window quota counters reset at clock boundaries (e.g., minute 0:00, 1:00, 2:00). An agent can burst 60 requests in the last 10 seconds of minute 0 and another 60 in the first 10 seconds of minute 1 — effectively 120 requests in 20 seconds, double the nominal rate. This boundary burst is a well-known artifact of fixed-window counting.
 
-A proxy that returns "all keys readable, unauthenticated management API, keys in debug logs" represents a worse aggregation of key material than individual per-agent environment injection.
+Sliding-window counters maintain a rolling count over a continuous time interval. There is no clock boundary to exploit. The counter always reflects the request rate over the most recent N seconds. Sliding-window enforcement is the correct model for rate limiting inference workloads where boundary bursts can trigger upstream provider throttling even when the overall rate is within the configured ceiling.
 
-### Circuit Breaker Evaluation Criteria
+### Telemetry Granularity Requirements
 
-Failover without a circuit breaker is retry amplification: every agent request retries the degraded provider, increasing load on a system that is already struggling. Proper circuit breakers stop dispatch to the failing provider after a threshold of consecutive failures, routing all traffic to the healthy fallback.
+Per-request OTLP records are the minimum for useful fleet observability. Evaluate whether the gateway provides these fields on every record:
 
-Evaluate circuit breaker implementations on three properties:
+- `agent_id`: the tenant identifier — required for per-agent spend ledgers and anomaly detection
+- `model_id`: the specific model variant used — required for cross-model cost benchmarking
+- `input_tokens`, `output_tokens`, `cache_tokens`: required for accurate spend calculation
+- `upstream_latency_ms`: time from upstream connection to first response byte — required for P99 tracking and circuit-breaker calibration
+- `upstream_status`: HTTP status from the upstream endpoint — required for error rate tracking that feeds circuit-breaker decisions
 
-**Open threshold**: after how many consecutive provider failures does the circuit open and stop dispatching to that provider? Five consecutive failures is a reasonable starting value for most provider SLAs.
-
-**Half-open probe**: after the circuit opens, does the proxy send a single probe request after a cooldown period to check if the provider has recovered? Without a probe, the circuit must be manually reset.
-
-**Fallback chain depth**: does the proxy support Primary → Fallback A → Fallback B topology, or only single-hop failover? Two-hop fallback provides coverage against simultaneous degradation of the primary and first fallback.
-
-### Spend Metering Requirements
-
-Per-request token records are the floor. Evaluate whether the gateway provides:
-
-- Per-agent spend aggregation independent of provider (so you can compare GPT-4o spend against Claude spend for the same agent role)
-- Alert thresholds configured per agent: trigger a notification when a specific agent's hourly spend exceeds a threshold that reflects its expected workload
-- Anomaly detection: flag when an agent's cost-per-request exceeds N× its rolling baseline
-- Per-model cost decomposition: cost per 1,000 tokens broken out by provider and model variant
-
-Without per-agent spend attribution, budget enforcement is impossible — you cannot cap what you cannot measure.
-
-### Proxy Latency Budget
-
-Gateway overhead on the warm path (handle cache hit, in-memory throttle counters): 0.7–2.1ms. On the cold path (cache miss requiring an outbound secret store lookup): 2.6–6.6ms.
-
-| **Proxy component** | **Warm path** | **Cold path** |
-|---|---|---|
-| **TLS termination + re-encryption** | 0.3–0.8ms | 0.3–0.8ms |
-| **Handle resolution** | 0.1–0.5ms | 2–5ms |
-| **Throttle counter check** | 0.1–0.3ms | 0.1–0.3ms |
-| **Request logging** | 0.2–0.5ms | 0.2–0.5ms |
-| **Total** | **0.7–2.1ms** | **2.6–6.6ms** |
-
-For agents making LLM requests where provider inference latency spans 500ms–30s, a 2–7ms proxy overhead is under 0.5% of total round-trip time and operationally negligible. For high-frequency non-LLM tool calls routed through the same proxy, benchmark first — the overhead-to-call-duration ratio inverts when the underlying call is fast.
+Gateways that aggregate telemetry (hourly totals rather than per-request records) cannot support per-agent spend anomaly detection or accurate circuit-breaker calibration.
 
 ## Get Started
 
-**Run AI agent fleets behind a vault-backed proxy with per-tenant throttles, circuit-breaker failover, and an immutable spend audit stream.**
+**Deploy multi-agent inference fleets with mTLS workload identity, sliding-window quota enforcement, and per-request OTLP spend telemetry.**
 [Start Building on OpenLegion](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [Compare LiteLLM vs OpenLegion](/comparison/litellm)
 
 ---
@@ -194,32 +187,32 @@ For agents making LLM requests where provider inference latency spans 500ms–30
 
 ### What is an LLM gateway?
 
-An LLM gateway is a reverse-proxy service positioned between agent processes and model provider endpoints. It resolves opaque handles to provider keys at the network boundary, dispatches requests across multiple providers based on routing configuration, enforces per-tenant throttle limits before requests leave the proxy, and writes spend records keyed on agent identifier for billing and budget enforcement. The proxy operates at the HTTP transport layer, making it provider-agnostic and independent of which model the agent selects.
+An LLM gateway is an HTTP reverse-proxy positioned in the data plane between AI agent processes and upstream model provider endpoints. It resolves opaque key handles at the wire layer (so agent processes never hold plaintext keys), enforces per-tenant sliding-window quota limits before dispatching upstream, emits per-request OpenTelemetry spend telemetry, and opens circuit breakers when upstream endpoints breach configured latency or error-rate thresholds. These functions operate as infrastructure primitives requiring no changes to agent application code.
 
 ### Do I need an LLM gateway if I only use one model provider?
 
-Single-provider deployments still benefit from three proxy functions: handle resolution so provider keys stay out of agent runtime environments; per-tenant throttle enforcement to prevent one runaway agent from exhausting the rate budget shared by the rest of the fleet; and per-agent spend metering for budget caps and anomaly detection. Most production-grade proxies add under 5ms latency on the warm path, making the operational overhead negligible relative to model inference latency, which typically spans hundreds of milliseconds to tens of seconds.
+Single-provider fleets still benefit from three gateway functions: opaque handle resolution (plaintext keys stay out of agent environments and logs), per-tenant quota enforcement (one runaway agent cannot exhaust the shared key's rate budget), and per-request OTLP spend telemetry (without which per-agent spend ledgers and anomaly detection are impossible). Warm-path overhead is 0.7–2.1ms — negligible against provider inference latency of 500ms to 30 seconds. The safety and observability primitives the gateway provides apply from day one, not just after adding a second provider.
 
-### How does an LLM gateway implement circuit-breaker failover?
+### How does circuit-breaker failover work in an LLM gateway?
 
-When a provider returns consecutive 5xx responses or connection timeouts beyond a configured threshold, the circuit breaker opens and all subsequent dispatch goes to the configured fallback provider — without the calling agent process being aware a failover occurred. After a cooldown window, the proxy sends one probe request to the primary provider; a successful probe closes the circuit. OpenLegion's June 2026 benchmark measured this pattern reducing P99 tail latency from 12 seconds on a GPT-4o-only deployment to 3.1 seconds with Claude 3.5 Sonnet as the failover target.
+The gateway tracks per-endpoint error rates and P99 latency within rolling observation windows. When a configurable failure threshold is breached — for example, five consecutive 5xx responses, or P99 exceeding 8 seconds over a 30-second window — the circuit opens: all subsequent requests are immediately forwarded to the configured fallback endpoint without waiting for the degraded primary to time out. After a cooldown period, the gateway dispatches one half-open probe to the primary. A successful probe closes the circuit; a failed probe restarts the cooldown. OpenLegion's June 2026 benchmark measured this reducing P99 from 12 seconds to 3.1 seconds on a GPT-4o → Claude 3.5 Sonnet topology.
 
-### What is the risk of a persistence-backed LLM gateway?
+### What is mTLS and why does it matter for LLM gateways?
 
-A persistence-backed gateway stores provider key material in a relational database alongside routing configuration and spend data. This creates a concentrated key store that is a high-value target: a single SQL injection, misconfigured database ACL, or management API authentication bypass can expose all tenant key material simultaneously. LiteLLM GHSA-53mr-6c8q-9789 (CVE-2026-35029, patched in v1.83.0) demonstrated insufficient authorization on the `/config/update` endpoint, allowing any authenticated user to modify proxy configuration. Stateless vault-backed proxies hold no key material in a persistence layer; a compromise of the proxy process yields nothing beyond the in-flight request's memory state.
+mTLS (mutual TLS) authenticates both the connecting agent process and the gateway at the TLS handshake layer, before any HTTP payload is exchanged. The agent presents a client certificate carrying a SPIFFE SVID — a cryptographically verifiable workload identity. No bearer token is transmitted in HTTP headers; no token needs to be issued, distributed, or rotated. The workload identity derived from the SVID drives handle-scope enforcement: the gateway permits the connecting workload to resolve only the opaque handles that its SPIFFE identity is scoped for, preventing lateral movement between tenants even if one agent container is compromised.
 
-### How does per-tenant throttling differ from provider rate limiting?
+### What is the difference between sliding-window and fixed-window quota enforcement?
 
-Provider rate limiting applies to the API key as a whole: the provider rejects requests once aggregate throughput across all callers sharing that key exceeds the plan cap. One agent in a fleet that issues requests at 10× its expected rate can push the key into throttle territory, degrading every other agent that shares it. Per-tenant proxy throttling enforces limits per agent identifier before requests leave the proxy. When one agent exceeds its window, the proxy returns 429 from the proxy layer — no outbound dispatch occurs, no provider quota is consumed, and peer agents continue at their own rates.
+Fixed-window counters reset at clock boundaries (e.g., every whole minute). An agent can burst twice its nominal rate by requesting at full speed in the last seconds of one window and the first seconds of the next — 60 requests/minute becomes 120 requests in 20 seconds at the boundary. Sliding-window counters maintain a rolling count over a continuous time interval with no clock boundaries to exploit. The counter always reflects the request rate over the most recent N seconds. For inference workloads where boundary bursts can trigger upstream provider throttling, sliding-window enforcement is the correct model.
 
-### How does an LLM gateway attribute token spend to individual agents?
+### How does per-request OTLP telemetry differ from aggregate spend reporting?
 
-Every provider response body includes token counts for the request. The proxy captures input tokens, output tokens, and (where reported) cache-hit tokens, then writes a spend record keyed on the requesting agent's identifier. Accumulated records build a per-agent spend ledger that supports daily and monthly budget caps (the proxy blocks an agent whose spend ceiling is reached), spend anomaly alerting (flag when an agent's cost-per-request is multiple times its baseline), and cross-provider cost benchmarking (compare cost-per-task across GPT-4o and Claude 3.5 Sonnet for the same agent role).
+Per-request OpenTelemetry OTLP records capture individual fields on every inference call: agent identifier, model variant, input tokens, output tokens, cache-hit tokens, upstream latency, and HTTP status. These records accumulate into per-agent spend ledgers that support daily and monthly budget ceilings (the gateway blocks an agent that reaches its ceiling), spend anomaly detection (flag when an agent's cost-per-request is N× its rolling baseline, signaling context accumulation or retry storms), and cross-model cost benchmarking. Aggregate spend reports cannot support anomaly detection because the signal is in the per-request variance, not the aggregate.
 
-### What latency overhead does a proxy add to LLM calls?
+### What should the gateway control plane not expose to agent-side networks?
 
-On the warm path — handle cache hit, in-memory throttle counter — a well-implemented proxy adds 0.7–2.1ms. On the cold path — cache miss requiring an outbound secret store lookup — 2.6–6.6ms. Provider inference latency spans 500ms to 30 seconds depending on model, prompt length, and provider load. In that context, proxy overhead is under 0.5% of total round-trip time on the warm path and under 1.5% on the cold path.
+The control plane manages quota configuration, endpoint topology, handle permission scopes, and audit policy. It should be deployed on a private subnet with no external access path. GHSA-jh55-5rfg-8p3j (LiteLLM, April 2024) documented an attack where a reachable management API with no default authentication allowed an attacker to rewrite provider routing configuration. Agent-side networks should only reach the gateway's data plane port — the TLS endpoint that handles individual inference requests. Control plane write access should require a separate authentication path available only to operators, not agent workloads.
 
-### Sidecar proxy vs centralised ingress: which should I use?
+### How do I calibrate circuit-breaker thresholds for my fleet?
 
-Centralised ingress routes all agent fleet traffic through a shared proxy cluster. Advantages: one configuration surface, aggregate spend ledger, unified audit stream. Failure domain: ingress cluster degradation affects all agents. Sidecar proxy runs a proxy process alongside each agent container on its loopback interface. Advantages: failure isolation (one crashed sidecar affects one agent), per-agent configuration without fleet-wide deploys. Tradeoff: spend aggregation requires log collection rather than a single ledger. Heuristic: centralised for fleets under 10 agents; sidecar for larger fleets where per-agent failure isolation is worth the aggregation overhead.
+Collect P50, P95, and P99 upstream latency histograms per provider endpoint over two to four weeks of production traffic. The circuit-breaker open threshold should be set at a P99 value clearly degraded relative to the provider's normal SLA — typically 2–3× the median P99. The failure count threshold (consecutive errors before the circuit opens) should be low enough to catch real degradation quickly (five is a common starting point) but high enough to avoid spurious opens from transient errors. The cooldown period before the half-open probe should exceed the provider's typical recovery time — 30–60 seconds is a reasonable baseline.
