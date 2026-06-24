@@ -1,5 +1,5 @@
 ---
-title: "LLM Gateway — Routing, Auth, and Cost Control for AI Agents"
+title: "LLM Gateway: Routing, Auth, and Cost Control for AI Agents"
 description: "An LLM gateway routes AI agent requests across model providers, enforces rate limits, injects credentials without exposing them to agent code, and attributes token costs per agent."
 slug: /learn/llm-gateway
 primary_keyword: llm gateway
@@ -14,7 +14,7 @@ related:
   - /learn/ai-agent-security
 ---
 
-# LLM Gateway — Routing, Auth, and Cost Control for AI Agents
+# LLM Gateway: Routing, Auth, and Cost Control for AI Agents
 
 An LLM gateway is an HTTP reverse-proxy positioned between AI agent processes and upstream model provider endpoints, operating as the data plane for all outbound inference traffic. It resolves opaque key handles at the wire layer before forwarding, enforces per-tenant throttle quotas using sliding-window counters, emits per-request OpenTelemetry spend telemetry, and opens circuit breakers when upstream P99 latency breaches configured thresholds — none of which require any change to agent application code. Any fleet running three or more concurrent inference consumers should put one in place.
 
@@ -30,7 +30,7 @@ Without a dedicated inference data plane, each agent process manages its own ups
 
 Every agent process that holds a plaintext provider key in its environment is one adversarial instruction away from leaking it. The attack surface is the process environment itself: `os.environ`, `/proc/self/environ` on Linux hosts, verbose error tracebacks that serialize the process state, and debug log configurations that capture outbound HTTP headers including Authorization fields.
 
-CVE-2024-34359 (CVSS 9.8, LangChain, March 2024) exploited exactly this — a tool-calling agent that could reach its own key store via a crafted tool invocation. The structural fix is not better input validation: it is removing the plaintext key from the agent process entirely. An LLM gateway that resolves opaque handles (`$CRED{openai}`) at the wire layer before the Authorization header is written means the agent process never holds material that can be exfiltrated. The handle is not a key; resolving it produces a key only within the gateway's own memory scope, for the duration of one upstream request.
+Prompt injection attacks that cause agents to echo environment state are a documented attack class against agents holding plaintext keys (OWASP LLM01:2025). The structural fix is not better input validation: it is removing the plaintext key from the agent process entirely. An LLM gateway that resolves opaque handles (`$CRED{openai}`) at the wire layer before the Authorization header is written means the agent process never holds material that can be exfiltrated. The handle is not a key; resolving it produces a key only within the gateway's own memory scope, for the duration of one upstream request.
 
 OpenLegion's mesh implements this at the infrastructure level: `$CRED{}` handles resolve at the mesh host boundary. Agent containers are structurally unable to reach the resolved value — not because they are instructed not to, but because the resolution happens outside their address space.
 
@@ -42,7 +42,7 @@ A gateway enforces per-tenant quotas using a sliding-window counter keyed on age
 
 The token bucket variant allows configurable burst capacity: an agent permitted 60 requests/minute can absorb a burst of 90 over a 10-second window, with the burst drawdown applied against the following window's budget. This is the correct model for agents that are bursty by nature (large batch processing jobs) but should be bounded over longer horizons.
 
-The per-agent quota is also the structural mitigation for OWASP LLM08:2025 (Unbounded Agent Actions) — the pattern where adversarial instructions cause an agent to emit unbounded inference calls. The gateway's quota window caps the blast radius to one tenant's budget regardless of how many calls the injection triggers.
+The per-agent quota is also the structural mitigation for OWASP LLM10:2025 (Unbounded Consumption) — the pattern where adversarial instructions cause an agent to emit unbounded inference calls. The gateway's quota window caps the blast radius to one tenant's budget regardless of how many calls the injection triggers.
 
 ### Missing Upstream Observability
 
@@ -96,7 +96,7 @@ The control plane governs the data plane's behavior. It is not in the hot path f
 
 **Audit policy**: what fields appear in OTLP log records, whether request bodies are logged (generally not, for data minimization), and what telemetry backend receives the records.
 
-The control plane API should not be reachable from agent-side networks. GHSA-jh55-5rfg-8p3j (LiteLLM, April 2024) demonstrated what happens when the control plane's configuration write path is network-reachable without authentication — an attacker rewrote provider routing tables via a crafted management API request. Correct control plane deployment: private subnet, authenticated, no external exposure.
+The control plane API should not be reachable from agent-side networks. GHSA-53mr-6c8q-9789 (LiteLLM, CVE-2026-35029, patched in v1.83.0) demonstrated what happens when the control plane's configuration write path is network-reachable without sufficient authorization — any authenticated user could modify proxy configuration and register arbitrary endpoint handlers. Correct control plane deployment: private subnet, authenticated, no external exposure.
 
 ## Deployment Topologies
 
@@ -130,7 +130,7 @@ Three measurements from OpenLegion's June 2026 infrastructure testing quantify t
 
 **Key exfiltration surface area**: in a 20-agent fleet where all agents hold plaintext keys in their environment, a single agent compromised by prompt injection (OWASP LLM01:2025) can exfiltrate keys valid for every other agent's upstream connections. In a gateway-mediated fleet with opaque handle resolution, the same compromised agent holds no material that can be exfiltrated — the handle resolves to the plaintext key inside the gateway's memory scope only.
 
-**OWASP LLM coverage**: per-tenant quota enforcement at the gateway addresses LLM08:2025 (Unbounded Agent Actions). Handle-scope enforcement addresses LLM06:2025 (Excessive Agency — agents can only resolve the handles their identity is scoped for, not handles belonging to other tenants). Both controls operate at the infrastructure layer and require no agent-level code changes.
+**OWASP LLM coverage**: per-tenant quota enforcement at the gateway addresses LLM10:2025 (Unbounded Consumption). Handle-scope enforcement addresses LLM06:2025 (Excessive Agency — agents can only resolve the handles their identity is scoped for, not handles belonging to other tenants). Both controls operate at the infrastructure layer and require no agent-level code changes.
 
 For teams evaluating [credential management patterns for AI agents](/learn/credential-management-ai-agents), the gateway's opaque handle resolution is the deployment-level implementation of the vault-proxy pattern described there. For teams integrating [MCP security controls](/learn/ai-agent-mcp-security), gateway-layer handle scoping ensures that MCP tool servers receive authenticated requests without the agent process holding the upstream key.
 
@@ -144,7 +144,7 @@ For teams evaluating [credential management patterns for AI agents](/learn/crede
 | **Circuit-breaker failover** | Plugin-based | Not available | Native, with half-open probe |
 | **OTLP spend telemetry** | Partial | Not exported | Per-request, all fields |
 | **Control plane isolation** | Manual; exposed by default | Managed | Private mesh subnet only |
-| **CVE history (2024–2026)** | GHSA-jh55-5rfg-8p3j + 4 others | None public | None |
+| **CVE history (2024–2026)** | GHSA-53mr-6c8q-9789 + others (see advisories) | None public | None |
 
 ## Selecting a Gateway for Your Fleet
 
@@ -154,7 +154,7 @@ mTLS (mutual TLS) authenticates both the client (agent) and the server (gateway)
 
 Bearer-token authentication is simpler to set up but introduces a token that must be managed: issued, distributed to agent containers, rotated on expiry, and revoked when an agent is decommissioned. Tokens in HTTP headers are visible to anything that can read the HTTP stream — logging middleware, debug proxies, observability agents that capture request headers.
 
-For production multi-agent fleets, mTLS with SPIFFE-issued SVIDs is the correct authentication model. It eliminates the token management surface entirely. The prerequisite is a SPIFFE-compatible identity issuance system — SPIRE is the reference implementation; cloud providers offer equivalents (AWS ROAM, GCP Workload Identity Federation).
+For production multi-agent fleets, mTLS with SPIFFE-issued SVIDs is the correct authentication model. It eliminates the token management surface entirely. The prerequisite is a SPIFFE-compatible identity issuance system — SPIRE is the reference implementation; cloud providers offer equivalents (AWS IAM Roles Anywhere, GCP Workload Identity Federation).
 
 ### Sliding-Window vs Fixed-Window Quota Counters
 
@@ -211,7 +211,7 @@ Per-request OpenTelemetry OTLP records capture individual fields on every infere
 
 ### What should the gateway control plane not expose to agent-side networks?
 
-The control plane manages quota configuration, endpoint topology, handle permission scopes, and audit policy. It should be deployed on a private subnet with no external access path. GHSA-jh55-5rfg-8p3j (LiteLLM, April 2024) documented an attack where a reachable management API with no default authentication allowed an attacker to rewrite provider routing configuration. Agent-side networks should only reach the gateway's data plane port — the TLS endpoint that handles individual inference requests. Control plane write access should require a separate authentication path available only to operators, not agent workloads.
+The control plane manages quota configuration, endpoint topology, handle permission scopes, and audit policy. It should be deployed on a private subnet with no external access path. GHSA-53mr-6c8q-9789 (LiteLLM, CVE-2026-35029, patched in v1.83.0) documented insufficient authorization on the management API, allowing any authenticated user to modify proxy configuration. Agent-side networks should only reach the gateway's data plane port — the TLS endpoint that handles individual inference requests. Control plane write access should require a separate authentication path available only to operators, not agent workloads.
 
 ### How do I calibrate circuit-breaker thresholds for my fleet?
 
