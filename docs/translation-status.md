@@ -18,8 +18,8 @@ locales; they are not tracked here.
 
 - **Canonical pages:** 69
 - **Fully translated (all 12 locales):** 47
-- **Partially translated:** 0
-- **English-only (0 translations):** 22
+- **Partially translated:** 1
+- **English-only (0 translations):** 21
 
 ### Coverage by locale
 
@@ -34,9 +34,9 @@ locales; they are not tracked here.
 | de | 47 / 69 | 68% |
 | pt | 47 / 69 | 68% |
 | ar | 47 / 69 | 68% |
-| hi | 47 / 69 | 68% |
-| ru | 47 / 69 | 68% |
-| th | 47 / 69 | 68% |
+| hi | 48 / 69 | 70% |
+| ru | 48 / 69 | 70% |
+| th | 48 / 69 | 70% |
 
 ## Coverage matrix
 
@@ -75,7 +75,7 @@ locales; they are not tracked here.
 | `/learn/agentic-rag` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/agentic-workflows` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-architecture` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
-| `/learn/ai-agent-audit-log` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/ai-agent-audit-log` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | 3/12 |
 | `/learn/ai-agent-benchmarks` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-context-window` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-deployment` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
@@ -120,7 +120,7 @@ locales; they are not tracked here.
 - `/comparison/n8n` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-rag` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-architecture` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/ai-agent-audit-log` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/ai-agent-audit-log` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar
 - `/learn/ai-agent-benchmarks` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-context-window` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-deployment` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
