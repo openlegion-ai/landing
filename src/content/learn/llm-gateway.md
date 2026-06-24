@@ -1,9 +1,9 @@
 ---
-title: "LLM Gateway — Routing, Auth, and Cost Control for AI Agents"
+title: "LLM Gateway: Routing, Auth, and Cost Control for AI Agents"
 description: "An LLM gateway routes AI agent requests across model providers, enforces rate limits, injects credentials without exposing them to agent code, and attributes token costs per agent."
 slug: /learn/llm-gateway
 primary_keyword: llm gateway
-last_updated: "2026-06-23"
+last_updated: "2026-06-24"
 schema_types: ["FAQPage"]
 related:
   - /comparison/litellm
@@ -14,7 +14,7 @@ related:
   - /learn/ai-agent-security
 ---
 
-# LLM Gateway — Routing, Auth, and Cost Control for AI Agents
+# LLM Gateway: Routing, Auth, and Cost Control for AI Agents
 
 An LLM gateway is an HTTP proxy layer that sits between AI agent code and model provider APIs, handling opaque-handle resolution, request dispatch across providers, per-tenant throttling, and token spend attribution without any plaintext keys passing through agent processes. Unlike a bare API call, a gateway can enforce fallback chains (GPT-4o → Claude → Gemini), open a circuit breaker on P99 tail latency spikes, and emit per-request spend records — all before a single token reaches the model. Fleets running more than three concurrent agents almost always require one.
 
@@ -32,7 +32,7 @@ The highest-value function of a gateway is also the least visible to agent code:
 
 This interception pattern eliminates the entire class of key-in-process exposure. Without a proxy, each agent runtime holds the provider key in its environment. A crafted external payload that causes the agent to echo environment state — a common prompt injection technique — extracts that key. A process-memory dump or a verbose error log that includes environment variables extracts it. The proxy layer removes the key from the agent's reachable scope before these extraction paths are possible.
 
-OpenLegion's mesh operates on this pattern at the infrastructure layer: every `$CRED{handle}` reference in agent code resolves at the mesh host boundary, not inside the agent container. CVE-2024-34359 (LangChain, CVSS 9.8) illustrated what happens when tool-calling agents can reach their own key stores directly. The interception pattern is the architectural fix.
+OpenLegion's mesh operates on this pattern at the infrastructure layer: every `$CRED{handle}` reference in agent code resolves at the mesh host boundary, not inside the agent container. Prompt injection attacks that exfiltrate environment state are a well-documented attack class against agents that hold plaintext keys; the interception pattern is the architectural fix.
 
 ### Multi-Provider Request Dispatch and Traffic Splitting
 
@@ -86,7 +86,7 @@ A stateful proxy persists configuration, usage counters, spend ledgers, and tena
 
 The persistence-backed topology offers richer administrative surfaces: key provisioning APIs, spend dashboards queryable via SQL, and detailed per-tenant rate configuration. The tradeoff: the relational store is a concentrated attack surface.
 
-The April 2024 LiteLLM advisory (GHSA-jh55-5rfg-8p3j) documented remote configuration poisoning through the proxy's management API — an attacker with network access to the management endpoint could rewrite provider routing tables. In a persistence-backed proxy, the configuration store and the key store are often the same database, meaning a configuration-write path that is exposed to the network also has a path to key material.
+LiteLLM GHSA-53mr-6c8q-9789 (CVE-2026-35029, patched in v1.83.0) documented this risk: the `/config/update` endpoint lacked admin-role authorization, allowing any authenticated user to modify proxy configuration — including registering arbitrary pass-through endpoint handlers and reading server files. In a persistence-backed proxy, the configuration store and the key store are often the same database, meaning a configuration-write path exposed to the network also has a path to key material.
 
 Hardening steps for self-hosted persistence-backed proxies: network-segment the management API to a private subnet, enable management API authentication (disabled by default in some releases), apply Postgres row-level security to isolate tenant key material, and rotate the database superuser credential on a schedule that reflects your threat model.
 
@@ -106,11 +106,11 @@ LLM gateway products have converged on similar feature sets for multi-provider d
 
 Four measurements that should inform this choice:
 
-**GHSA-jh55-5rfg-8p3j (LiteLLM, April 2024)**: a persistence-backed proxy with an externally-reachable management API allowed remote rewrite of provider routing configuration. The attack surface was the intersection of the Postgres configuration table and the management API's authentication gap. A stateless vault-backed proxy has neither surface.
+**GHSA-53mr-6c8q-9789 (LiteLLM, CVE-2026-35029, patched v1.83.0)**: a persistence-backed proxy with an externally-reachable management endpoint lacking admin-role enforcement allowed any authenticated user to rewrite provider routing configuration and register arbitrary code handlers. The attack surface was the intersection of the Postgres configuration table and the management API's authorization gap. A stateless vault-backed proxy has neither surface.
 
-**OpenAI trust team, March 2025 System Card**: approximately 23% of AI security incidents reported to OpenAI's trust and safety team involved key material leaking through gateway middleware. The dominant pattern: a debug logging configuration captures the full outbound HTTP request including the resolved Authorization header; the log pipeline ships to an observability platform; the platform becomes the exfiltration surface. A proxy that resolves handles at the network boundary without exposing the resolved value to agent-side logging eliminates this pathway.
+**Credential leakage via debug logging**: a common gateway misconfiguration captures the full outbound HTTP request — including the resolved Authorization header — in debug logs. The log pipeline ships to an observability platform; the platform becomes the exfiltration surface. A proxy that resolves handles at the network boundary without exposing the resolved value to agent-side logging eliminates this pathway entirely.
 
-**OWASP LLM Top 10 2025**: gateway-layer enforcement gaps appear in four of the ten threat categories — LLM01 (injected instructions routed through proxy without sanitization), LLM06 (over-permissioned agent calls enabled by absent per-tenant throttles), LLM08 (unbounded dispatch loops from missing per-agent spend caps), and LLM09 (provider substitution routing to an unverified endpoint). A proxy with an explicit provider allowlist and per-tenant caps addresses all four.
+**OWASP LLM Top 10 2025**: gateway-layer enforcement gaps appear in four of the ten threat categories — LLM01 (injected instructions routed through proxy without sanitization), LLM06 (over-permissioned agent calls enabled by absent per-tenant throttles), LLM07 (insecure plugin design from unrestricted gateway pass-through endpoints), and LLM09 (provider substitution routing to an unverified endpoint). A proxy with an explicit provider allowlist and per-tenant caps addresses all four.
 
 **P99 tail latency**: OpenLegion's June 2026 infrastructure benchmark measured P99 at 12 seconds on GPT-4o single-provider deployments during provider capacity events. Introducing Claude 3.5 Sonnet as a circuit-breaker fallback — configured at the proxy layer, zero changes to agent code — brought P99 to 3.1 seconds: a 3.9× reduction.
 
@@ -125,7 +125,7 @@ The architectural conclusion: proxy selection should be driven by key store desi
 | **Per-tenant throttles** | Config-based | Limited | Per-agent + spend alerts |
 | **Spend attribution** | Aggregate | Per-request | Per-agent, per-request |
 | **Audit stream** | Basic | Basic | Immutable, tamper-evident |
-| **CVE disclosures** | GHSA-jh55-5rfg-8p3j (2024) | None public | None |
+| **CVE disclosures** | GHSA-53mr-6c8q-9789 (2026) | None public | None |
 | **Open-source** | Yes (MIT) | No | No (managed platform) |
 
 ## Selecting an LLM Gateway for Multi-Agent Fleets
@@ -206,7 +206,7 @@ When a provider returns consecutive 5xx responses or connection timeouts beyond 
 
 ### What is the risk of a persistence-backed LLM gateway?
 
-A persistence-backed gateway stores provider key material in a relational database alongside routing configuration and spend data. This creates a concentrated key store that is a high-value target: a single SQL injection, misconfigured database ACL, or management API authentication bypass can expose all tenant key material simultaneously. The April 2024 LiteLLM advisory (GHSA-jh55-5rfg-8p3j) demonstrated config-table poisoning through an exposed management API. Stateless vault-backed proxies hold no key material in a persistence layer; a compromise of the proxy process yields nothing beyond the in-flight request's memory state.
+A persistence-backed gateway stores provider key material in a relational database alongside routing configuration and spend data. This creates a concentrated key store that is a high-value target: a single SQL injection, misconfigured database ACL, or management API authentication bypass can expose all tenant key material simultaneously. LiteLLM GHSA-53mr-6c8q-9789 (CVE-2026-35029, patched in v1.83.0) demonstrated insufficient authorization on the `/config/update` endpoint, allowing any authenticated user to modify proxy configuration. Stateless vault-backed proxies hold no key material in a persistence layer; a compromise of the proxy process yields nothing beyond the in-flight request's memory state.
 
 ### How does per-tenant throttling differ from provider rate limiting?
 
