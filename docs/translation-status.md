@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-06-24
 
-Tracks per-page translation coverage for the 68 canonical English pages
+Tracks per-page translation coverage for the 69 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 68
+- **Canonical pages:** 69
 - **Fully translated (all 12 locales):** 47
 - **Partially translated:** 0
-- **English-only (0 translations):** 21
+- **English-only (0 translations):** 22
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 47 / 68 | 69% |
-| zh-TW | 47 / 68 | 69% |
-| ja | 47 / 68 | 69% |
-| ko | 47 / 68 | 69% |
-| es | 47 / 68 | 69% |
-| fr | 47 / 68 | 69% |
-| de | 47 / 68 | 69% |
-| pt | 47 / 68 | 69% |
-| ar | 47 / 68 | 69% |
-| hi | 47 / 68 | 69% |
-| ru | 47 / 68 | 69% |
-| th | 47 / 68 | 69% |
+| zh | 47 / 69 | 68% |
+| zh-TW | 47 / 69 | 68% |
+| ja | 47 / 69 | 68% |
+| ko | 47 / 69 | 68% |
+| es | 47 / 69 | 68% |
+| fr | 47 / 69 | 68% |
+| de | 47 / 69 | 68% |
+| pt | 47 / 69 | 68% |
+| ar | 47 / 69 | 68% |
+| hi | 47 / 69 | 68% |
+| ru | 47 / 69 | 68% |
+| th | 47 / 69 | 68% |
 
 ## Coverage matrix
 
@@ -85,6 +85,7 @@ locales; they are not tracked here.
 | `/learn/ai-agent-mcp-security` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-memory` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-monitoring` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/ai-agent-multi-tenancy` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-observability` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-orchestration` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-planning` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
@@ -126,6 +127,7 @@ locales; they are not tracked here.
 - `/learn/ai-agent-governance` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-mcp-security` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-monitoring` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/ai-agent-multi-tenancy` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-planning` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-prompt-injection` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-reliability` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
