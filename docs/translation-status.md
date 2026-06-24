@@ -18,8 +18,8 @@ locales; they are not tracked here.
 
 - **Canonical pages:** 68
 - **Fully translated (all 12 locales):** 46
-- **Partially translated:** 0
-- **English-only (0 translations):** 22
+- **Partially translated:** 1
+- **English-only (0 translations):** 21
 
 ### Coverage by locale
 
@@ -27,11 +27,11 @@ locales; they are not tracked here.
 |---|---|---|
 | zh | 46 / 68 | 68% |
 | zh-TW | 46 / 68 | 68% |
-| ja | 46 / 68 | 68% |
-| ko | 46 / 68 | 68% |
-| es | 46 / 68 | 68% |
-| fr | 46 / 68 | 68% |
-| de | 46 / 68 | 68% |
+| ja | 47 / 68 | 69% |
+| ko | 47 / 68 | 69% |
+| es | 47 / 68 | 69% |
+| fr | 47 / 68 | 69% |
+| de | 47 / 68 | 69% |
 | pt | 46 / 68 | 68% |
 | ar | 46 / 68 | 68% |
 | hi | 46 / 68 | 68% |
@@ -104,7 +104,7 @@ locales; they are not tracked here.
 | `/learn/grok-4` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/human-in-the-loop-ai-agents` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/llm-cost-optimization` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/llm-gateway` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/llm-gateway` | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | 5/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/multi-agent-systems` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -134,5 +134,5 @@ locales; they are not tracked here.
 - `/learn/build-ai-agent` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/grok-4` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/human-in-the-loop-ai-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/llm-gateway` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/llm-gateway` — missing: zh, zh-TW, pt, ar, hi, ru, th
 
