@@ -1,5 +1,5 @@
 ---
-title: "Agentic AI Design Patterns — ReAct, Plan-and-Execute, Reflexion, and More"
+title: "Agentic AI Design Patterns: ReAct, Plan-and-Execute, Reflexion, and More"
 description: "ReAct, Plan-and-Execute, Reflexion, Critic-Actor, Supervisor-Worker, Mixture-of-Agents: agentic AI design patterns with trade-offs, failure modes, security gates, and production selection guidance."
 slug: /learn/agentic-ai-design-patterns
 primary_keyword: agentic AI design patterns
@@ -54,7 +54,7 @@ The selection principle: start with the simplest pattern that handles the task d
 
 ### Structure: Thought → Action → Observation Loop
 
-ReAct (Reasoning + Acting), Yao et al. from Google Brain and Princeton, published on arXiv in March 2022 and presented at ICLR 2023, interleaves chain-of-thought reasoning with tool calls in a single context window scratchpad. The loop:
+ReAct (Reasoning + Acting), Yao et al. from Google Brain and Princeton, published on arXiv in October 2022 and presented at ICLR 2023, interleaves chain-of-thought reasoning with tool calls in a single context window scratchpad. The loop:
 
 ```
 Thought: [chain-of-thought reasoning grounded in the previous Observation]
@@ -135,7 +135,7 @@ This policy check is infeasible with ReAct (Actions are generated one at a time,
 
 ### Structure: Reflect → Store → Condition Next Attempt
 
-Reflexion, Shinn et al. from Northeastern, MIT, and Princeton, published on arXiv in October 2022 and presented at NeurIPS 2023, is a verbal reinforcement learning pattern: after a task attempt fails or produces a suboptimal result, the agent generates a natural language reflection — a summary of what went wrong and what it should do differently — stores it in an episodic memory buffer, and conditions the next attempt on the retrieved reflection.
+Reflexion, Shinn et al. from Northeastern, MIT, and Princeton, published on arXiv in March 2023 and presented at NeurIPS 2023, is a verbal reinforcement learning pattern: after a task attempt fails or produces a suboptimal result, the agent generates a natural language reflection — a summary of what went wrong and what it should do differently — stores it in an episodic memory buffer, and conditions the next attempt on the retrieved reflection.
 
 The loop across attempts:
 
@@ -313,7 +313,7 @@ Agentic AI design patterns are named, reusable architectural solutions to recurr
 
 ### What is the ReAct pattern for AI agents?
 
-ReAct (Reasoning + Acting), Yao et al. from Google Brain and Princeton (arXiv March 2022, ICLR 2023), interleaves chain-of-thought reasoning (Thought) with tool calls (Action) and tool results (Observation) in a single context window scratchpad, grounding each reasoning step in actual tool results rather than hallucinated assumptions. On benchmarks, ReAct outperformed chain-of-thought-only by 14 points on HotpotQA (57.1% vs 43.2% EM) and 9 points on FEVER fact-checking (75.4% vs 66.4%). The primary production trade-off is context window growth: the accumulated Thought-Action-Observation scratchpad consumes an increasing fraction of the context window on long-horizon tasks, increasing per-token cost and degrading attention quality on early context. The primary security risk is scratchpad injection — adversarial content in tool Observations can inject Thought steps that redirect action selection — requiring Observation sanitization before scratchpad appending and pre-execution Action logging at Zone 2.
+ReAct (Reasoning + Acting), Yao et al. from Google Brain and Princeton (arXiv October 2022, ICLR 2023), interleaves chain-of-thought reasoning (Thought) with tool calls (Action) and tool results (Observation) in a single context window scratchpad, grounding each reasoning step in actual tool results rather than hallucinated assumptions. On benchmarks, ReAct outperformed chain-of-thought-only by 14 points on HotpotQA (57.1% vs 43.2% EM) and 9 points on FEVER fact-checking (75.4% vs 66.4%). The primary production trade-off is context window growth: the accumulated Thought-Action-Observation scratchpad consumes an increasing fraction of the context window on long-horizon tasks, increasing per-token cost and degrading attention quality on early context. The primary security risk is scratchpad injection — adversarial content in tool Observations can inject Thought steps that redirect action selection — requiring Observation sanitization before scratchpad appending and pre-execution Action logging at Zone 2.
 
 ### What is the Plan-and-Execute pattern for AI agents?
 
@@ -321,7 +321,7 @@ Plan-and-Execute separates a Planner agent (which generates a complete task deco
 
 ### What is the Reflexion pattern for AI agents?
 
-Reflexion (Shinn et al., Northeastern/MIT/Princeton, arXiv October 2022, NeurIPS 2023) has agents generate verbal summaries of task failures, store them in an episodic memory buffer, and condition future attempts on retrieved reflections — achieving verbal reinforcement learning without gradient updates. HumanEval coding improved from 80% to 91% pass@1 (+11 points) and ALFWorld task success from 73% to 97% (+24 points) through accumulated failure reflections. The security risk is episodic memory poisoning: adversarial content in a task Observation can cause a poisoned reflection to be stored in the memory buffer, affecting all future task attempts that retrieve it across sessions — a persistent attack unlike prompt injection, which affects only the current session. Mitigations include reflection sanitization before storage, versioned blackboard attribution of reflections to the generating agent and task, TTL expiry on stored reflections, and HITL review gates for reflections proposing categorical behavior changes.
+Reflexion (Shinn et al., Northeastern/MIT/Princeton, arXiv March 2023, NeurIPS 2023) has agents generate verbal summaries of task failures, store them in an episodic memory buffer, and condition future attempts on retrieved reflections — achieving verbal reinforcement learning without gradient updates. HumanEval coding improved from 80% to 91% pass@1 (+11 points) and ALFWorld task success from 73% to 97% (+24 points) through accumulated failure reflections. The security risk is episodic memory poisoning: adversarial content in a task Observation can cause a poisoned reflection to be stored in the memory buffer, affecting all future task attempts that retrieve it across sessions — a persistent attack unlike prompt injection, which affects only the current session. Mitigations include reflection sanitization before storage, versioned blackboard attribution of reflections to the generating agent and task, TTL expiry on stored reflections, and HITL review gates for reflections proposing categorical behavior changes.
 
 ### What is the Critic-Actor pattern for AI agents?
 
