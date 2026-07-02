@@ -17,26 +17,26 @@ locales; they are not tracked here.
 ## Summary
 
 - **Canonical pages:** 72
-- **Fully translated (all 12 locales):** 49
+- **Fully translated (all 12 locales):** 50
 - **Partially translated:** 1
-- **English-only (0 translations):** 22
+- **English-only (0 translations):** 21
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 49 / 72 | 68% |
-| zh-TW | 49 / 72 | 68% |
-| ja | 49 / 72 | 68% |
-| ko | 49 / 72 | 68% |
-| es | 49 / 72 | 68% |
-| fr | 49 / 72 | 68% |
-| de | 49 / 72 | 68% |
-| pt | 49 / 72 | 68% |
-| ar | 49 / 72 | 68% |
-| hi | 50 / 72 | 69% |
-| ru | 50 / 72 | 69% |
-| th | 50 / 72 | 69% |
+| zh | 50 / 72 | 69% |
+| zh-TW | 50 / 72 | 69% |
+| ja | 50 / 72 | 69% |
+| ko | 50 / 72 | 69% |
+| es | 50 / 72 | 69% |
+| fr | 50 / 72 | 69% |
+| de | 50 / 72 | 69% |
+| pt | 50 / 72 | 69% |
+| ar | 50 / 72 | 69% |
+| hi | 51 / 72 | 71% |
+| ru | 51 / 72 | 71% |
+| th | 51 / 72 | 71% |
 
 ## Coverage matrix
 
@@ -71,7 +71,7 @@ locales; they are not tracked here.
 | `/comparison/zapier` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
-| `/learn/agent-as-a-service` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/agent-as-a-service` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agent-handoff-patterns` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agent2agent-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agentic-ai-design-patterns` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -122,7 +122,6 @@ locales; they are not tracked here.
 - `/comparison/langgraph-vs-openlegion` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/comparison/n8n` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/comparison/zapier` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/agent-as-a-service` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-rag` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-architecture` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-audit-log` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar
