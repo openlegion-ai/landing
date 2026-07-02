@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-07-02
 
-Tracks per-page translation coverage for the 71 canonical English pages
+Tracks per-page translation coverage for the 72 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 71
+- **Canonical pages:** 72
 - **Fully translated (all 12 locales):** 49
 - **Partially translated:** 1
-- **English-only (0 translations):** 21
+- **English-only (0 translations):** 22
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 49 / 71 | 69% |
-| zh-TW | 49 / 71 | 69% |
-| ja | 49 / 71 | 69% |
-| ko | 49 / 71 | 69% |
-| es | 49 / 71 | 69% |
-| fr | 49 / 71 | 69% |
-| de | 49 / 71 | 69% |
-| pt | 49 / 71 | 69% |
-| ar | 49 / 71 | 69% |
-| hi | 50 / 71 | 70% |
-| ru | 50 / 71 | 70% |
-| th | 50 / 71 | 70% |
+| zh | 49 / 72 | 68% |
+| zh-TW | 49 / 72 | 68% |
+| ja | 49 / 72 | 68% |
+| ko | 49 / 72 | 68% |
+| es | 49 / 72 | 68% |
+| fr | 49 / 72 | 68% |
+| de | 49 / 72 | 68% |
+| pt | 49 / 72 | 68% |
+| ar | 49 / 72 | 68% |
+| hi | 50 / 72 | 69% |
+| ru | 50 / 72 | 69% |
+| th | 50 / 72 | 69% |
 
 ## Coverage matrix
 
@@ -71,6 +71,7 @@ locales; they are not tracked here.
 | `/comparison/zapier` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/comparison/zeroclaw` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/deepseek-v4-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/agent-as-a-service` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/agent-handoff-patterns` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agent2agent-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/agentic-ai-design-patterns` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -121,6 +122,7 @@ locales; they are not tracked here.
 - `/comparison/langgraph-vs-openlegion` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/comparison/n8n` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/comparison/zapier` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/agent-as-a-service` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/agentic-rag` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-architecture` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-audit-log` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar
