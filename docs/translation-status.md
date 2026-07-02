@@ -18,25 +18,25 @@ locales; they are not tracked here.
 
 - **Canonical pages:** 73
 - **Fully translated (all 12 locales):** 50
-- **Partially translated:** 1
-- **English-only (0 translations):** 22
+- **Partially translated:** 2
+- **English-only (0 translations):** 21
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 50 / 73 | 68% |
-| zh-TW | 50 / 73 | 68% |
+| zh | 51 / 73 | 70% |
+| zh-TW | 51 / 73 | 70% |
 | ja | 50 / 73 | 68% |
 | ko | 50 / 73 | 68% |
-| es | 50 / 73 | 68% |
+| es | 51 / 73 | 70% |
 | fr | 50 / 73 | 68% |
-| de | 50 / 73 | 68% |
+| de | 51 / 73 | 70% |
 | pt | 50 / 73 | 68% |
 | ar | 50 / 73 | 68% |
-| hi | 51 / 73 | 70% |
-| ru | 51 / 73 | 70% |
-| th | 51 / 73 | 70% |
+| hi | 52 / 73 | 71% |
+| ru | 52 / 73 | 71% |
+| th | 52 / 73 | 71% |
 
 ## Coverage matrix
 
@@ -98,7 +98,7 @@ locales; they are not tracked here.
 | `/learn/ai-agent-sandboxing` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/ai-agent-security` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-agent-state-management` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
-| `/learn/ai-agent-testing` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
+| `/learn/ai-agent-testing` | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ | 7/12 |
 | `/learn/ai-agent-tool-use` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/ai-coding-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/autonomous-ai-agents` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -137,7 +137,7 @@ locales; they are not tracked here.
 - `/learn/ai-agent-reliability` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-sandboxing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/ai-agent-state-management` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
-- `/learn/ai-agent-testing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/ai-agent-testing` — missing: ja, ko, fr, pt, ar
 - `/learn/build-ai-agent` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/grok-4` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/human-in-the-loop-ai-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
