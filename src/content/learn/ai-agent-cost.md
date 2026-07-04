@@ -234,7 +234,7 @@ Fleet budgeting approach for a 20-agent fleet with $2/day average per-agent cost
 
 The fleet-level alert fires before any individual agent hits its cap, providing early warning of fleet-wide cost pressure — a situation where many agents are legitimately busy but the aggregate is approaching the fleet budget limit.
 
-## OpenLegion's Take: Cost Control Is an Infrastructure Problem
+## OpenLegion’s Take: Cost Control Is an Infrastructure Problem
 
 The common mental model is that AI agent cost is an application concern — add `max_turns`, wrap the loop in try/except, maintain a cost counter. This model breaks under production conditions.
 
