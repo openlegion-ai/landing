@@ -1,17 +1,17 @@
 ---
-title: "AI Agent Cost — Budget Caps, Token Attribution, and Runaway Loop Control"
+title: "AI Agent Cost: Budget Caps, Token Attribution, and Runaway Loop Control"
 description: "AI agent cost at runtime: token pricing, tool call overhead, loop amplification, and budget caps. GPT-4o pricing, Batch API 50% discount, Anthropic prompt caching, and runaway loop cost analysis."
 slug: /learn/ai-agent-cost
 primary_keyword: ai agent cost
-last_updated: "2026-07-04"
+last_updated: "2026-07-05"
 schema_types: ["FAQPage"]
 related:
   - /learn/llm-cost-optimization
   - /learn/ai-agent-observability
   - /learn/llm-gateway
-  - /learn/agentic-loop
+  - /learn/agentic-workflows
   - /learn/ai-agent-reliability
-  - /learn/llm-prompt-caching
+  - /learn/agentic-rag
 ---
 
 # AI Agent Cost: Budget Caps, Token Attribution, and Runaway Loop Control
@@ -48,7 +48,7 @@ Claude 3.7 Sonnet extended thinking mode: the reasoning trace output (not return
 
 Tool calls add cost through two mechanisms:
 
-**Orchestration fees**: managed agent platforms charge separately from model costs. AWS Bedrock Agents: $0.000025 per input token for orchestration, plus $0.0004 per knowledge base query. Self-hosted frameworks (LangChain, CrewAI) have no per-tool orchestration fee but incur compute cost for tool execution.
+**Orchestration fees**: managed agent platforms charge separately from model costs. AWS Bedrock Agents charges $0.000025 per input token for orchestration. Self-hosted frameworks (LangChain, CrewAI) have no per-tool orchestration fee but incur compute cost for tool execution.
 
 **Tool response token cost**: every tool response is appended to the context window as an Observation and billed as input tokens on the next LLM call. A 1,000-token tool response costs $0.0025 at GPT-4o input rates. For 5 tool calls per iteration × 10 iterations = 50 tool responses × $0.0025 = **$0.125 in tool response tokens alone per task**, before context accumulation. Tools that return large payloads — web scrapers returning full HTML, database queries returning large result sets, file readers returning full documents — are silent cost drivers. Capping tool responses at 2,000 tokens before context append reduces this cost by 50–80% for over-sized responses.
 
@@ -107,7 +107,7 @@ For a 2,000-token system prompt at 1,000 calls/day with Claude 3.7 Sonnet ($3/M 
 
 Cache hit rate depends on prefix stability — the system prompt and tool schemas must appear in the same order on every call. Dynamic timestamps in the system prompt, or varying tool schema injection order, invalidate the cache on every call and eliminate the discount entirely.
 
-For full caching mechanics including TTL management, prefix ordering requirements, and per-tenant cache isolation, see [LLM prompt caching and 50-90% token cost reduction](/learn/llm-prompt-caching).
+For full caching mechanics including TTL management, prefix ordering requirements, and per-tenant cache isolation, see [LLM prompt caching strategies and token cost reduction](/learn/agentic-rag).
 
 **OpenAI Batch API**: 50% cost reduction vs synchronous API for identical requests submitted as batch jobs. Batch jobs complete within 24 hours (no real-time latency guarantee). Appropriate for: nightly document processing, bulk data extraction, offline evaluation pipelines, report generation scheduled for the following morning. Not appropriate for: user-facing agent responses requiring under 5-second latency, real-time tool call sequences, or any workflow where an agent must act on results immediately. A nightly agent pipeline spending $100/night at synchronous rates saves $18,250/year by switching to Batch API.
 
@@ -134,7 +134,7 @@ Total for 20 iterations: approximately $0.60 in input tokens + output costs.
 
 Adding 5 tool calls per iteration at 1,000-token average response: 5,000 additional input tokens per iteration, pushing iteration 20 to 52,000 input tokens ≈ $0.130/iteration. A 20-iteration total with tool calls: ≈**$1.30/agent**. At 100 concurrent agents in the same storm: **$130 in minutes**.
 
-The loop mechanics that drive this cost compounding — context accumulation, Observation re-entry, iteration termination — are covered in [the agentic loop, iteration mechanics, and runaway loop termination](/learn/agentic-loop).
+The loop mechanics that drive this cost compounding — context accumulation, Observation re-entry, iteration termination — are covered in [agentic workflows, iteration patterns, and runaway loop termination](/learn/agentic-workflows).
 
 ### Runaway Loop Cost: The $50-in-60-Seconds Scenario
 
@@ -234,7 +234,7 @@ Fleet budgeting approach for a 20-agent fleet with $2/day average per-agent cost
 
 The fleet-level alert fires before any individual agent hits its cap, providing early warning of fleet-wide cost pressure — a situation where many agents are legitimately busy but the aggregate is approaching the fleet budget limit.
 
-## OpenLegion’s Take: Cost Control Is an Infrastructure Problem
+## OpenLegion's Take: Cost Control Is an Infrastructure Problem
 
 The common mental model is that AI agent cost is an application concern — add `max_turns`, wrap the loop in try/except, maintain a cost counter. This model breaks under production conditions.
 
