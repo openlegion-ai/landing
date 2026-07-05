@@ -3,7 +3,7 @@ title: "AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safe
 description: "AI guardrails: input, output, behavioral, and budget validation layers for LLM agents. OWASP LLM01 and LLM06, NeMo, AWS Bedrock, Guardrails AI, CVE-2024-5184, structural vs prompt-level enforcement."
 slug: /learn/ai-agent-guardrails
 primary_keyword: ai guardrails
-last_updated: "2026-07-03"
+last_updated: "2026-07-05"
 schema_types: ["FAQPage"]
 related:
   - /learn/ai-agent-security
@@ -11,12 +11,12 @@ related:
   - /learn/ai-agent-prompt-injection
   - /learn/credential-management-ai-agents
   - /learn/ai-agent-reliability
-  - /learn/agentic-loop
+  - /learn/agentic-workflows
 ---
 
 # AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety Layers
 
-AI guardrails are validation and constraint layers applied to LLM inputs and agent outputs that enforce behavioral boundaries on what models can receive, generate, and act on. Two enforcement tiers: structural guardrails enforced by code running outside the LLM's context window — not bypassable by adversarial prompts — and prompt-level guardrails expressed as system instructions, which work under normal conditions but fail under injection, jailbreak, or context manipulation. OWASP LLM01 and LLM06 both require platform-layer enforcement because they attack the instruction-following behavior that prompt-level guardrails depend on.
+AI guardrails are validation and constraint layers applied to LLM inputs and agent outputs that enforce behavioral boundaries on what models can receive, generate, and act on. Two enforcement tiers: structural guardrails enforced by code running outside the LLM's context window — not bypassable by adversarial prompts — and prompt-level guardrails expressed as system instructions, which work under normal conditions but fail under injection, jailbreak, or context manipulation. OWASP LLM01 and LLM06 require platform-layer enforcement because they attack the instruction-following behavior that prompt-level guardrails depend on.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -222,7 +222,7 @@ This bypasses three common guardrail configurations:
 - **System-prompt instructions to "ignore external instructions"**: the injection is presented as tool data, not as an explicit instruction override — the model's classification of "what counts as an instruction to ignore" often fails on data-framed injections
 - **Output guardrails**: the injection redirects behavior; it does not appear in the final output as detectable harmful content until the damage is done
 
-Understanding why tool responses re-enter the agent's reasoning loop — and how the loop processes Observations — is covered in [the agentic loop and tool response observation re-entry](/learn/agentic-loop).
+Understanding why tool responses re-enter the agent's reasoning loop — and how the loop processes Observations — is covered in [agentic workflows and how context accumulates across iterations](/learn/agentic-workflows).
 
 ### Tool Response Guardrail: What to Validate
 
@@ -245,7 +245,7 @@ Apply as regex substitution, not LLM classification — the check must be determ
   "result": "[sanitized content]",
   "status": "success",
   "source": "https://example.com",
-  "retrieved_at": "2026-07-03T10:00:00Z"
+  "retrieved_at": "2026-07-05T10:00:00Z"
 }
 ```
 This schema separation makes it harder for injected content to blend with structural elements that the model might treat as system-level signals.
