@@ -1,5 +1,5 @@
 ---
-title: "Prompt Caching — Anthropic, OpenAI, and Gemini Cache Architecture Guide"
+title: "Prompt Caching: Anthropic, OpenAI, and Gemini Cache Architecture Guide"
 description: "How prompt caching works: Anthropic 90% discount, OpenAI 50%, Gemini ~75%. Minimum thresholds, TTL windows, prefix stability requirements, and savings math for agent fleets."
 slug: /learn/llm-prompt-caching
 primary_keyword: prompt caching
@@ -8,7 +8,7 @@ schema_types: ["FAQPage"]
 related:
   - /learn/llm-cost-optimization
   - /learn/ai-agent-cost
-  - /learn/agentic-loop
+  - /learn/agentic-workflows
   - /learn/ai-agent-security
   - /learn/llm-gateway
   - /learn/ai-agent-observability
@@ -30,7 +30,7 @@ LLM inference has two phases for every input token: compute the key (K) and valu
 
 The cost saving reflects compute skipped: KV recomputation is the expensive phase of input token processing. Providers pass the compute savings to the customer as a token discount. The key constraint: the cached prefix must be **byte-for-byte identical** on every call for the provider to recognize a cache hit. Any change — whitespace, punctuation, token ordering, even a single character — is a cache miss. On Anthropic, a cache miss while using `cache_control` also triggers a 25% write surcharge, making broken caching actively more expensive than no caching.
 
-Understanding why the input token count matters so much requires understanding how context accumulates across loop iterations — see [the agentic loop and how context accumulates across iterations](/learn/agentic-loop).
+Understanding why the input token count matters so much requires understanding how context accumulates across loop iterations — see [agentic workflows and how context accumulates across iterations](/learn/agentic-workflows).
 
 ### Cache TTL: How Long the KV State Is Stored
 
