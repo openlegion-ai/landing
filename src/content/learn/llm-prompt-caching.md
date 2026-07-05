@@ -1,296 +1,400 @@
 ---
-title: "AI Agent Cost — Budget Caps, Token Attribution, and Runaway Loop Control"
-description: "AI agent cost at runtime: token pricing, tool call overhead, loop amplification, and budget caps. GPT-4o pricing, Batch API 50% discount, Anthropic prompt caching, and runaway loop cost analysis."
-slug: /learn/ai-agent-cost
-primary_keyword: ai agent cost
-last_updated: "2026-07-04"
+title: "Prompt Caching — Anthropic, OpenAI, and Gemini Cache Architecture Guide"
+description: "How prompt caching works: Anthropic 90% discount, OpenAI 50%, Gemini ~75%. Minimum thresholds, TTL windows, prefix stability requirements, and savings math for agent fleets."
+slug: /learn/llm-prompt-caching
+primary_keyword: prompt caching
+last_updated: "2026-07-05"
 schema_types: ["FAQPage"]
 related:
   - /learn/llm-cost-optimization
-  - /learn/ai-agent-observability
+  - /learn/ai-agent-cost
+  - /learn/agentic-workflows
+  - /learn/ai-agent-security
   - /learn/llm-gateway
-  - /learn/agentic-loop
-  - /learn/ai-agent-reliability
-  - /learn/llm-prompt-caching
+  - /learn/ai-agent-observability
 ---
 
-# AI Agent Cost: Budget Caps, Token Attribution, and Runaway Loop Control
+# Prompt Caching: Cache Hit Architecture for Anthropic, OpenAI, and Gemini
 
-AI agent cost is the runtime expense of running an agent across its task lifecycle — not just the model's price per token, but that price multiplied by every LLM call in the agentic loop, where each call is billed on the full accumulated context window. Tool call responses re-enter the context as input tokens on the next iteration; loops compound cost with each step. Production cost incidents trace to agent architecture choices — missing iteration limits, unbounded tool call storms, absent budget caps — not model pricing.
+Prompt caching is an LLM inference optimization that stores the computed key-value attention state of a repeated token prefix on the provider's servers, so subsequent calls skip recomputation and receive a discounted price — Anthropic at 90% off (cache reads $0.30/MTok vs $3.00/MTok for Claude 3.5 Sonnet), OpenAI at 50% off (auto-applied ≥1,024 tokens), Gemini at approximately 75% off. The single constraint: the cached prefix must be byte-for-byte identical at the start of every prompt within the TTL window.
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> **AI agent cost** is the total runtime expense of operating an AI agent across its task lifecycle — the sum of model API costs (input tokens × price + output tokens × price for every LLM call in the agentic loop), tool execution costs (orchestration fees, per-action charges, and external API fees), and infrastructure costs (compute, memory, observability) — where the agentic loop's iteration multiplier makes agent cost structurally higher than single-call LLM cost at the same token count.
+> **Prompt caching** is an LLM inference optimization that stores the computed key-value (KV) attention state of a repeated token prefix on the provider's servers, so that subsequent requests containing the same prefix skip recomputation and are billed at a discounted rate — Anthropic at 90% off (cache reads: $0.30/MTok vs $3.00/MTok for Claude 3.5 Sonnet), OpenAI at 50% off (auto-applied for prefixes ≥1,024 tokens), and Google Gemini at approximately 75% off for context-cached content — with savings conditional on prefix stability across calls within the cache TTL window.
 
-## AI Agent Cost Anatomy: The Three Cost Drivers
+## How Prompt Caching Works: KV Cache Mechanics
 
-### Model Cost: The Per-Iteration LLM Call
+### The KV Cache: What Is Being Stored and Why It Saves Money
 
-Every iteration of the agentic loop is a full LLM API call billed on the full context window token count — not just the new tokens added this turn. The input token count grows with each iteration because the context accumulates: system prompt + tool schemas + all previous Thought-Action-Observation triples + the current Observation. This is the **loop amplification effect**: a 5-iteration task doesn't cost 5× the cost of 1 iteration — it costs more, because each iteration's input includes all previous iterations' content.
+LLM inference has two phases for every input token: compute the key (K) and value (V) attention vectors for that token, then use those KV vectors in the attention mechanism to generate output. For a 10,000-token system prompt, the provider computes 10,000 KV sets on every API call — even when the content is identical to the previous call. Prompt caching stores those computed KV vectors on the provider's servers after the first call; subsequent calls with the same prefix retrieve the stored state instead of recomputing.
 
-Reference pricing (2026, published rates):
+The cost saving reflects compute skipped: KV recomputation is the expensive phase of input token processing. Providers pass the compute savings to the customer as a token discount. The key constraint: the cached prefix must be **byte-for-byte identical** on every call for the provider to recognize a cache hit. Any change — whitespace, punctuation, token ordering, even a single character — is a cache miss. On Anthropic, a cache miss while using `cache_control` also triggers a 25% write surcharge, making broken caching actively more expensive than no caching.
 
-| **Model** | **Input ($/M tokens)** | **Output ($/M tokens)** |
-|---|---|---|
-| **GPT-4o** | $2.50 | $10.00 |
-| **GPT-4o-mini** | $0.15 | $0.60 |
-| **GPT-4.1** | $2.00 | $8.00 |
-| **GPT-4.1-mini** | $0.40 | $1.60 |
-| **o4-mini** | $1.10 | $4.40 |
-| **Claude 3.7 Sonnet** | $3.00 | $15.00 |
-| **Claude 3.5 Haiku** | $0.80 | $4.00 |
+Understanding why the input token count matters so much requires understanding how context accumulates across loop iterations — see [agentic workflows and how context accumulates across iterations](/learn/agentic-workflows).
 
-GPT-4o-mini is 16.7× cheaper than GPT-4o on both input and output at the same token count. Model selection is the single largest lever on per-task cost: routing routine subtasks (classification, extraction, summarization) to GPT-4o-mini reduces those subtask costs by approximately 94% vs GPT-4o.
+### Cache TTL: How Long the KV State Is Stored
 
-Claude 3.7 Sonnet extended thinking mode: the reasoning trace output (not returned to the user, but billed as output tokens) is typically 2–5× the length of the final response. Budget extended thinking tasks at 3–6× standard output cost per call.
+Cache TTL is the duration the provider stores the KV state before eviction. After TTL expiry, the next call is a cache miss.
 
-### Tool Call Cost: Orchestration and Response Re-Entry
+| **Provider** | **Default TTL** | **Max TTL** | **TTL reset on hit?** |
+|---|---|---|---|
+| **Anthropic** | 5 minutes | 1 hour | Yes — resets on every read |
+| **OpenAI** | ~5–10 minutes | Not configurable | Not documented |
+| **Gemini** | 4.5 hours | 24 hours | Configurable on creation |
 
-Tool calls add cost through two mechanisms:
+TTL design implication for agent systems: agent calls must arrive within the TTL window to benefit from caching. A batch agent running 100 tasks with 2-second spacing covers 200 seconds per batch — within Anthropic's 5-minute TTL on every call. A nightly report agent running 100 tasks at 30-second intervals (50 minutes total) misses Anthropic's 5-minute TTL on all calls after the first few. For infrequent agents: extend TTL to 1 hour or disable caching entirely — the write surcharge on every miss makes low-frequency Anthropic caching more expensive than uncached.
 
-**Orchestration fees**: managed agent platforms charge separately from model costs. AWS Bedrock Agents: $0.000025 per input token for orchestration, plus $0.0004 per knowledge base query. Self-hosted frameworks (LangChain, CrewAI) have no per-tool orchestration fee but incur compute cost for tool execution.
+Anthropic TTL extension requires explicit configuration; OpenAI TTL is load-dependent and not configurable; Gemini TTL is set when creating the CachedContent object.
 
-**Tool response token cost**: every tool response is appended to the context window as an Observation and billed as input tokens on the next LLM call. A 1,000-token tool response costs $0.0025 at GPT-4o input rates. For 5 tool calls per iteration × 10 iterations = 50 tool responses × $0.0025 = **$0.125 in tool response tokens alone per task**, before context accumulation. Tools that return large payloads — web scrapers returning full HTML, database queries returning large result sets, file readers returning full documents — are silent cost drivers. Capping tool responses at 2,000 tokens before context append reduces this cost by 50–80% for over-sized responses.
+## Provider Implementations: Anthropic, OpenAI, and Gemini
 
-### Infrastructure Cost: Compute, Memory, Observability
+### Anthropic Prompt Caching: Explicit cache_control with 90% Discount
 
-For self-hosted agent runtimes:
-- **Compute**: a Python LangChain agent process uses approximately 150–300 MB RAM during active execution; at 100 concurrent agents, 15–30 GB RAM required
-- **Embeddings**: OpenAI text-embedding-3-small at $0.02/M tokens; at 1,000 memory queries/day × 500 tokens each = 500k tokens/day = $0.01/day in embedding costs
-- **Observability**: LangSmith at $39/month for 100k traces; self-hosted Jaeger at approximately $50/month S3 storage for the same volume
+**GA: August 2024.** Supported models: Claude 3.5 Sonnet, Claude 3.5 Haiku, Claude 3 Opus, Claude 3 Sonnet, Claude 3 Haiku.
 
-Infrastructure cost is typically **5–15% of total agent cost** at moderate scale — model API cost dominates. For AaaS deployments (AWS Bedrock Agents, OpenLegion), infrastructure cost is included in the platform fee; no separate compute billing. The ratio shifts at high scale (>1M agent actions/day) where compute becomes significant relative to model costs.
+**Pricing (Claude 3.5 Sonnet):**
+- Normal input: $3.00/MTok
+- Cache write: **$3.75/MTok** (25% surcharge — paid on first call or after TTL expiry)
+- Cache read: **$0.30/MTok** (90% discount)
 
-## Model Pricing Reference: GPT-4o, Claude, and Routing Economics
+**Minimum cacheable block:** 1,024 tokens  
+**Default TTL:** 5 minutes (extendable to 1 hour)  
+**Activation:** Explicit — add `{cache_control: {type: 'ephemeral'}}` to the last content block that should be included in the cache
 
-### Current Model Pricing (2026) and Cost-Per-Task Benchmarks
+Anthropic caches all content at or before the `cache_control` breakpoint. Up to 4 breakpoints per request are supported — useful for caching the system prompt separately from a large document injected as context.
 
-For a typical 5-iteration agent task with a 2,000-token system prompt, 500 tokens per Thought step, 200 tokens per Action, and 700 tokens per Observation:
+**Response usage reporting:**
+- `usage.cache_creation_input_tokens` — tokens written to cache this call
+- `usage.cache_read_input_tokens` — tokens read from cache this call
+- `usage.input_tokens` — uncached tokens processed normally
 
-**Cost-per-task breakdown** (5 iterations, accumulating context):
+**Real-world savings calculation** (10,000-token system prompt × 100 agent calls):
+- 1 cache write: `10,000 tokens × $3.75/MTok` = **$0.0375**
+- 99 cache reads: `99 × 10,000 tokens × $0.30/MTok` = **$0.297**
+- Total cached cost: **$0.3345**
+- Uncached equivalent: **$3.00**
+- Net savings: **$2.666 per 100-call batch (88.9% reduction)**
 
-| **Model** | **Cost per task** | **At 1,000 tasks/day** |
-|---|---|---|
-| **GPT-4o** | ≈$0.052 | $52/day |
-| **GPT-4o-mini** | ≈$0.003 | $3/day |
-| **Claude 3.7 Sonnet** | ≈$0.071 | $71/day |
-| **Claude 3.5 Haiku** | ≈$0.019 | $19/day |
+Break-even: additional write cost = `$0.0375 − $0.030 = $0.0075`; savings per read = `$0.030 − $0.003 = $0.027`; break-even = `0.0075 / 0.027 = 0.28 reads` — less than one subsequent call within the TTL window recoups the write surcharge. Any agent that calls the same system prompt twice within 5 minutes benefits from Anthropic caching.
 
-The 17× cost difference between GPT-4o and GPT-4o-mini at the same task structure means the model selection decision — not prompt engineering — determines whether a 1,000-task/day fleet costs $3/day or $52/day.
+### OpenAI Prompt Caching: Implicit 50% Discount, No Configuration Required
 
-For per-model token pricing details, cost reduction techniques, and model capability benchmarks, see [LLM cost optimization at the model and infrastructure layer](/learn/llm-cost-optimization).
+**GA: October 2024.** Supported models: gpt-4o, gpt-4o-mini, o1, o1-mini, gpt-4o-realtime-preview, gpt-4o-audio-preview.
 
-### Model Routing: Matching Task Complexity to Model Cost
+**Pricing:**
+- Cached input tokens: **50% of normal input price** (auto-applied)
+- No write surcharge — cache misses billed at the normal rate with no penalty
 
-Model routing directs each agent subtask to the cheapest model capable of completing it. Routing tiers for agent systems:
+**Minimum eligible prefix:** ≥1,024 tokens  
+**TTL:** ~5–10 minutes (load-dependent, disk-based LRU; not documented precisely)  
+**Activation:** None required — caching is implicit for all supported models
 
-1. **Routing/classification** (deciding which agent handles which task): GPT-4o-mini or Claude 3.5 Haiku — classification tasks are simple, cheapest model is sufficient
-2. **Tool call generation** (selecting tools and parameters from structured schemas): GPT-4o-mini for well-defined tool schemas with clear selection criteria; GPT-4o or Claude 3.7 Sonnet for complex multi-step tool sequences or ambiguous input
-3. **Complex reasoning** (multi-hop analysis, code generation, audit with many constraints): GPT-4o or Claude 3.7 Sonnet; o4-mini for tasks that benefit from extended thinking
-4. **Summarization and formatting** (final output formatting, report generation): GPT-4o-mini for structured outputs; GPT-4o only for high-quality prose where quality degradation is unacceptable
+OpenAI caching identifies the longest matching prefix from a recent call with the same API key and applies the 50% discount automatically. Developers do not restructure API calls to benefit — any existing application with a repeated system prompt ≥1,024 tokens gains caching without code changes.
 
-Routing 70% of tasks to GPT-4o-mini and 30% to GPT-4o reduces overall model cost by approximately **60–70% vs all-GPT-4o**, at the cost of routing logic complexity and potential quality degradation on edge cases routed to the cheaper model that required GPT-4o's capability.
+**Verification:** Check `usage.prompt_tokens_details.cached_tokens` in the API response. A value > 0 confirms a cache hit. If `cached_tokens` is consistently 0 for calls that should be caching:
 
-LLM gateways provide a centralized proxy layer for implementing routing rules across the agent fleet. For gateway architecture and routing logic, see [LLM gateway routing and cost control at the proxy layer](/learn/llm-gateway).
+1. Verify the system prompt + tool schemas total ≥1,024 tokens
+2. Check call frequency — gaps >10 minutes may exceed the TTL
+3. Check for prefix variability — dynamic content before the 1,024-token mark prevents caching
+4. Verify model support — older gpt-3.5-turbo models do not support implicit caching
 
-### Cost Reduction Techniques: Caching, Batching, and Compression
+The trade-off of implicit caching: no control over which content is cached, no TTL extension option, no explicit cache invalidation.
 
-**Prompt caching** stores the computed attention state for a repeated token prefix (system prompt + tool schemas) on the provider's servers. Subsequent requests with the same prefix skip recomputation and receive a discount:
+### Google Gemini Context Caching: Explicit Object API, 4.5h TTL, High Minimum
 
-- **Anthropic**: 90% discount on cached tokens (billed at 10% of normal input price); 25% write surcharge on first cache write; minimum cacheable block 1,024 tokens; 5-minute TTL refreshed on hit; break-even after 2 cache hits
-- **OpenAI prefix caching**: 50% discount, auto-applied to prompts ≥1,024 tokens; no explicit write surcharge
+**GA: November 2024.** Supported models: Gemini 1.5 Pro, Gemini 1.5 Flash.
 
-For a 2,000-token system prompt at 1,000 calls/day with Claude 3.7 Sonnet ($3/M input):
-- Uncached system prompt cost: $6.00/day
-- Cached cost: ≈$0.60/day
-- Annual savings: ≈**$1,971/year per agent type** from system prompt tokens alone
+**Pricing (Gemini 1.5 Pro):**
+- Storage: **$1.00/hour per 1M cached tokens**
+- Per-query cost reduction: **~75%** for the cached prefix
 
-Cache hit rate depends on prefix stability — the system prompt and tool schemas must appear in the same order on every call. Dynamic timestamps in the system prompt, or varying tool schema injection order, invalidate the cache on every call and eliminate the discount entirely.
+**Minimum cacheable content:** **32,768 tokens** (far higher than Anthropic's 1,024 or OpenAI's 1,024)  
+**Default TTL:** 4.5 hours (configurable up to 24 hours)  
+**Activation:** Explicit object API — create a `CachedContent` resource via the Gemini API before use
 
-For full caching mechanics including TTL management, prefix ordering requirements, and per-tenant cache isolation, see [LLM prompt caching and 50-90% token cost reduction](/learn/llm-prompt-caching).
+Gemini's 32,768-token minimum targets large document corpora, not system prompts. The use case is RAG applications that load a 100-page PDF (~50,000 tokens) once and query it repeatedly within the TTL window. The 4.5-hour TTL and $1.00/hr storage cost are optimized for this access pattern.
 
-**OpenAI Batch API**: 50% cost reduction vs synchronous API for identical requests submitted as batch jobs. Batch jobs complete within 24 hours (no real-time latency guarantee). Appropriate for: nightly document processing, bulk data extraction, offline evaluation pipelines, report generation scheduled for the following morning. Not appropriate for: user-facing agent responses requiring under 5-second latency, real-time tool call sequences, or any workflow where an agent must act on results immediately. A nightly agent pipeline spending $100/night at synchronous rates saves $18,250/year by switching to Batch API.
+**What can be cached:** system instructions, large documents, tool definitions, and conversation history.
 
-**Response length control**: output tokens cost 4–5× more per token than input tokens on most models. Instructions that constrain output format and length ("Respond in ≤200 words," "Return only a JSON object with fields X, Y, Z") directly reduce output token cost. For GPT-4o ($10/M output), reducing average output from 500 to 200 tokens per call saves $3/M output tokens — a 30% reduction in output cost per call.
+**CachedContent workflow:**
+1. POST to caches endpoint with content, TTL, and optional expiration time
+2. Receive a `CachedContent` object with a resource name
+3. Reference the cached content by name in subsequent `GenerateContent` calls
 
-## Runaway Loop Cost: The Agent-Specific Risk
+For multi-agent systems with high-frequency calls and 2,000-token system prompts, Anthropic and OpenAI are the better fit. Gemini context caching becomes cost-effective when the cached payload exceeds 32,768 tokens and is reused many times across the 4.5-hour TTL.
 
-### Loop Amplification: Why Agent Cost Compounds
+## Prefix Stability: The Architecture That Determines Cache Hit Rate
 
-The loop amplification effect makes agent cost grow faster than linearly with iteration count. In a single LLM call, cost = input_tokens × price + output_tokens × price. In an agentic loop, each iteration's input_tokens includes ALL previous iterations' content. The marginal cost of each additional iteration is **higher** than the previous iteration — cost accelerates, not compounds linearly.
+### What Breaks Cache Hits: Common Prefix Instability Patterns
 
-Compounding cost formula: `total_input_cost = Σ(i=1 to N) [system_prompt + tool_schemas + (i × avg_iteration_tokens)] × input_price`
+A cache hit requires byte-for-byte identical prefix matching. Five patterns that commonly destroy cache hit rate in production:
 
-For a 3,000-token system prompt + 1,200 tokens added per iteration at GPT-4o $2.50/M input:
+**1. Timestamps in system prompts.** A system prompt containing `Current time: 2026-07-05T14:23:11Z` generates a different byte sequence every second. Every call is a cache miss. Fix: remove timestamps from system prompts; inject time only when the task requires it, in a user message after the cacheable prefix.
 
-| **Iteration** | **Input tokens** | **Cost at that iteration** |
-|---|---|---|
-| **1** | 4,200 | ≈$0.011 |
-| **5** | 9,000 | ≈$0.023 |
-| **10** | 15,000 | ≈$0.038 |
-| **20** | 27,000 | ≈$0.068 |
+**2. User-specific content at prompt position 1.** A system prompt starting with `You are serving user {user_id}: {user_name}.` changes on every call. Fix: move user-specific context to the end of the system prompt or to the first user message, after the cacheable static prefix.
 
-Total for 20 iterations: approximately $0.60 in input tokens + output costs.
+**3. Dynamic tool schemas.** Tool descriptions that include live state — current stock counts, user permissions, active features — change on every call. Fix: tool descriptions must be static; dynamic state belongs in tool results returned by the tool call, not in tool definitions.
 
-Adding 5 tool calls per iteration at 1,000-token average response: 5,000 additional input tokens per iteration, pushing iteration 20 to 52,000 input tokens ≈ $0.130/iteration. A 20-iteration total with tool calls: ≈**$1.30/agent**. At 100 concurrent agents in the same storm: **$130 in minutes**.
+**4. Non-deterministic serialization.** Python dicts and JSON objects with non-deterministic key ordering produce different byte sequences on each call even when the content is logically identical. Fix: use `json.dumps(schema, sort_keys=True)` for all tool schema content; use raw string literals for system prompt templates.
 
-The loop mechanics that drive this cost compounding — context accumulation, Observation re-entry, iteration termination — are covered in [the agentic loop, iteration mechanics, and runaway loop termination](/learn/agentic-loop).
+**5. Conversation history injected before the system prompt.** Some frameworks prepend conversation history to the messages array before the system prompt, pushing the system prompt out of the cacheable prefix position (position 0). Fix: system prompt must always be at position 0 in the messages array; conversation history follows after.
 
-### Runaway Loop Cost: The $50-in-60-Seconds Scenario
+On Anthropic, every cache miss while `cache_control` is configured triggers the 25% write surcharge with no corresponding read discount. An agent with broken prefix stability paying $3.75/MTok instead of $3.00/MTok on every call is 25% more expensive than uncached. Monitor `cache_creation_input_tokens` vs `cache_read_input_tokens` — if the ratio is consistently > 1.0, prefix instability is the cause.
 
-An uncontrolled agentic loop running at GPT-4o rates with aggressive tool use can exhaust a $50/day budget in under 60 seconds. The scenario:
+### Designing for Maximum Cache Hit Rate
 
-1. An agent is tasked with a research question requiring external API calls
-2. A tool returns a malformed or error response
-3. The agent interprets the error as "retry" — a tool call storm begins
-4. Each retry appends the error response (500–1,000 tokens) to the context
-5. No max_turns configured; no per-agent budget cap enforced; the loop runs at full speed
+Structure agent prompts so that stable content appears before dynamic content, with the Anthropic `cache_control` breakpoint at the stable/dynamic boundary:
 
-Rate analysis: GPT-4o processes approximately 20–30 iterations per minute for a context-heavy agent (model latency + tool call latency). At 30 iterations/minute with the compounding cost structure above:
+```
+[STATIC — cache this]
+1. System prompt: role definition, behavioral instructions, security rules, output format requirements
+   Typically 500–3,000 tokens. Identical across all calls for this agent type.
+2. Tool schemas: tool names, descriptions, parameter schemas
+   Typically 500–2,000 tokens. Changes only on deployment.
 
-- By iteration 10 (≈20 seconds): accumulated context ≈ 15,000 tokens; cost at this iteration ≈$0.038
-- By iteration 30 (60 seconds): accumulated context ≈ 189,000 tokens (3,000 + 30 × 6,200); cost at iteration 30 alone ≈$0.473
-- **Total cost for 30 iterations per agent ≈ $3.50 in 60 seconds**
-- At 10 concurrent agents: $35 in 60 seconds
-- At 20 agents: $70 — exceeding the fleet's $50/day cap in 60 seconds without infrastructure-level enforcement
+[SEMI-STATIC — cache with second breakpoint if reused across multiple calls]
+3. Large document context: RAG results reused across multiple queries in the same session
 
-LangChain's `max_iterations` and CrewAI's `max_rpm` provide application-layer limits, but these have three failure modes in production:
+[DYNAMIC — do not cache]
+4. Conversation history: previous messages in this session. Grows with each turn.
+5. Current user message: the user's actual query.
+```
 
-1. **Framework bypass**: any code path that calls the LLM API directly — debugging code, custom tool implementations, third-party library integrations — skips the application-layer limit
-2. **Exception swallowing**: in production, agent frameworks often catch and log exceptions broadly; a `MaxIterationsExceeded` exception caught by a broad `except` clause results in the agent silently continuing without the limit
-3. **Per-restart reset**: process-memory cost counters reset on crash-restart; a crash-restart loop resets the counter each time, allowing multi-lifetime cost accumulation while appearing within budget in each individual lifetime
+**Anthropic cache_control placement:** pass `system` as an array of content blocks; add `{cache_control: {type: 'ephemeral'}}` to the last block:
 
-Stopping a runaway loop at iteration 5 instead of iteration 20 saves approximately **85% of the total storm cost** — the per-iteration cost is lowest in the early iterations. Infrastructure-level caps that alert at 80% utilization (not at cap exhaustion) catch cost storms before the budget is depleted.
+```json
+{
+  "system": [
+    {
+      "type": "text",
+      "text": "<full system prompt + tool schemas>",
+      "cache_control": {"type": "ephemeral"}
+    }
+  ],
+  "messages": [
+    {"role": "user", "content": "<current user message>"}
+  ]
+}
+```
 
-For retry logic, circuit breakers, and dead-letter queues that prevent tool call storms from within the loop, see [AI agent reliability and circuit breaker patterns](/learn/ai-agent-reliability).
+For a 2,000-token system prompt + 1,500-token tool schemas = 3,500 cacheable tokens. The cache hit discount applies to those 3,500 tokens on every call after the first, regardless of how different the conversation history and user messages are. Dynamic content (positions 4–5) is processed at the full uncached rate.
 
-## Per-Agent Budget Enforcement: The Production Cost Control
+**OpenAI optimization:** ensure the static prefix is ≥1,024 tokens before any per-call dynamic content. No breakpoints required — just validate via `cached_tokens` in the response after the first few calls.
 
-### Why Application-Layer Cost Controls Are Insufficient
+### Cache Hit Rate Math: When Caching Saves vs Costs Money
 
-Application-layer cost controls — max_iterations in LangChain, max_rpm in CrewAI, try/except with cost counters — have three failure modes that make them insufficient as production cost guardrails:
+**Anthropic break-even analysis** (Claude 3.5 Sonnet, 10,000-token system prompt):
 
-**Framework bypass**: any direct LLM API call skips the application-layer control. Debugging code added during an incident, a custom tool that calls the LLM for validation, a third-party library integration that makes its own LLM calls — all bypass application-level limits without error.
+- Normal input: `10,000/1M × $3.00` = $0.030 per call
+- Cache write: `10,000/1M × $3.75` = $0.0375 per call (+$0.0075 vs normal)
+- Cache read: `10,000/1M × $0.30` = $0.003 per call (−$0.027 vs normal)
+- Break-even reads: `$0.0075 / $0.027 = 0.28` — less than 1 read recoups the write surcharge
 
-**Exception swallowing**: production systems use broad exception handlers (`except Exception as e: logger.error(e); continue`) to prevent crashes from surfacing to users. A `MaxIterationsExceeded` exception that is caught and logged does not stop the loop — it may restart it or be silently swallowed by the outer retry handler.
+**Caching saves money** when the same prefix is called more than once per TTL window. Any agent called twice in 5 minutes benefits.
 
-**Per-restart reset**: application-layer daily budget counters live in process memory. A crash-restart loop resets the counter on each restart. An agent that crashes every 50 iterations and is auto-restarted by a process manager can accumulate costs across unlimited process lifetimes, each appearing within budget individually.
+**Caching costs money** when prefix instability causes misses: every miss at $3.75/MTok vs the $3.00/MTok uncached rate is a 25% penalty. The threshold for whether broken caching helps or hurts: if hit rate < 20%, broken caching costs more than uncached at Claude 3.5 Sonnet rates.
 
-Infrastructure-layer enforcement addresses all three failure modes: the control applies at the network layer before the LLM API call reaches the provider (all calls pass through the router regardless of code path), cannot be intercepted by exception handling in agent code, and persists across agent process restarts (tracked at session context level, not process level).
+**Monthly savings estimate** (2,000-token system prompt, 50 calls/day, Anthropic Claude 3.5 Sonnet, 20 working days, 95% cache hit rate):
+- Uncached: `50 × 20 × 2,000 tokens × $3.00/MTok` = $6.00/month on system prompt tokens
+- Cached: 1 write/day × 20 days = 20 writes; 49 reads/day × 20 days = 980 reads
+  - Write cost: `20 × 2,000 × $3.75/MTok` = $0.15
+  - Read cost: `980 × 2,000 × $0.30/MTok` = $0.588
+  - Total: **$0.738/month** vs $6.00 uncached = **$5.26/month savings per agent type**
 
-### Configuring Per-Agent Budget Caps
+For cost control at the fleet level — loop amplification, per-agent budget caps, and runaway loop prevention — see [AI agent cost and per-agent budget enforcement](/learn/ai-agent-cost).
 
-Per-agent budget cap configuration in OpenLegion: $0–$50/day per agent, set in INSTRUCTIONS.md committed to git; enforced by Zone 2 (the mesh router) before each LLM call. When the cap is exhausted, Zone 2 rejects the call with `budget_exceeded` and the agent loop hard-stops. No application code change required.
+## Multi-Agent Fleet Caching: Shared Prefixes and Parallel Amplification
 
-Cap calibration guidelines:
+### Fleet Caching Multiplier: N Agents Sharing One Cache Write
 
-1. **Measure first**: run the agent in staging with cost tracking enabled; record typical daily cost over 5–7 representative days including high-traffic days
-2. **Set at 3× typical**: set the production cap at `typical_daily_cost × 3`; provides headroom for legitimate traffic spikes while stopping runaway loops before the full fleet budget is impacted
-3. **Alert at 80%**: configure a budget alert at 80% utilization — not at cap exhaustion; catching cost pressure before the cap is hit allows investigation without service interruption
-4. **Scheduled agents**: for agents running on a known schedule (daily reports, nightly processing), set the cap at `expected_per_run_cost × number_of_runs × 2`; a daily report agent costing $0.50/run should have a $5/day cap (10× single-task cost, covering retry attempts and variance)
-5. **Interactive agents**: for user-facing agents with unpredictable task complexity, combine a per-task iteration limit (`max_turns`) with the daily cap — the iteration limit stops individual runaway tasks; the daily cap stops cumulative drift across many tasks
+In a multi-agent fleet where N agents of the same type run concurrently with identical system prompts and tool schemas, the cache write cost is paid once by the first agent and amortized across N−1 subsequent reads in the TTL window.
 
-The cap is committed to git in INSTRUCTIONS.md — every cap change has a full audit trail with author, timestamp, and diff. The cap cannot be raised by agent code at runtime; changes require a git commit and deployment.
+**Fleet multiplier calculation** (Anthropic, 10,000-token shared system prompt, 100 concurrent agents):
 
-### Cost Attribution: Knowing What Each Agent Spent
+| **Scenario** | **Total cost** | **Per-agent cost** | **vs uncached** |
+|---|---|---|---|
+| **Uncached (100 calls)** | $3.00 | $0.030 | baseline |
+| **Cached (1 write + 99 reads)** | $0.3345 | $0.003345 | ≈−88.9% |
+| **1,000 agents (1 write + 999 reads)** | $3.0375 → per agent $0.003 | $0.003 | ≈−90% |
 
-Per-agent cost attribution tracks LLM call cost to the individual agent, task, and iteration that incurred it. Without attribution, the billing dashboard shows total spend but cannot answer: "Which agent type is driving cost growth?" or "Which task variant costs 10× the average?"
+The fleet multiplier: as N approaches infinity, per-agent cost approaches the pure read price ($0.003 for 10,000 tokens at Claude 3.5 Sonnet rates). A fleet of 1,000 agents running the same task simultaneously pays one write and 999 reads — 99.9% of the write cost is amortized.
 
-Cost attribution requirements:
+**Why multi-agent systems naturally benefit:** in a well-architected fleet, all instances of the same agent type use identical system prompts and tool schemas defined in a shared configuration file. The first agent to call within a TTL window pays the write; every subsequent agent reads from cache. No additional configuration is required — fleet cache amplification is an automatic property of shared agent definitions.
 
-1. **Agent-level**: total input + output tokens per agent type per day; identifies which agent types are expensive relative to their value
-2. **Task-level**: total cost per individual task run (task_id → sum of all LLM call costs across all iterations); identifies expensive task variants
-3. **Iteration-level**: cost breakdown by loop iteration; if cost per iteration is growing, the loop is not converging — a precursor to a runaway event
-4. **Model-level**: cost split by model; validates that routing logic is correctly directing tasks to the intended model tier
+For LLM gateway-level orchestration that routes calls to maximize fleet cache hit rates, see [LLM gateway routing and centralized cache management](/learn/llm-gateway).
 
-Implementation: every LLM call must carry metadata tags (`agent_id`, `task_id`, `iteration_number`, `model_name`) propagated to the billing event. The observability pipeline aggregates cost by tag. OpenLegion's Zone 2 tags every LLM call with agent_id and session context before dispatch; the audit log is exportable for cost analysis.
+### Per-Tenant Cache Isolation: Security and Cost Attribution
 
-For the full telemetry stack — trace ingestion, span tagging, cost metric aggregation, and alert configuration — see [AI agent observability and cost monitoring pipelines](/learn/ai-agent-observability).
+Cache isolation ensures that one tenant's cached prompt prefix cannot be read by another tenant's agent call. This is a security requirement — cross-tenant prefix sharing could allow one tenant to observe cache hit timing and infer another tenant's system prompt structure — and a cost attribution requirement.
 
-## Cost Architecture for Multi-Agent Meshes
+**Provider isolation mechanism:** both Anthropic and OpenAI isolate caches by API key. A cache entry created by one API key can only be hit by subsequent calls using the same API key. Different tenants using different API keys never share cache entries, regardless of identical prompt content.
 
-### Inter-Agent Communication Cost
+Within a single API key, all agents that share the same system prompt prefix share cache entries — this is the intended fleet sharing behavior, not a security concern. The cache is content-addressed within the API key namespace.
 
-In a multi-agent mesh, handoff briefs add tokens to the receiving agent's context window. A 2,000-token handoff brief becomes part of the receiving agent's context for the duration of the task — paid as input tokens on every iteration of the receiving agent's loop.
+**Multi-tenant architecture requirement:** each tenant must use a separate API key to ensure cache isolation. Using a single shared API key across tenants with different system prompts still provides isolation (cache hits only occur on matching prefixes), but provides no isolation against timing-based inference attacks.
 
-Cost impact: a 5,000-token handoff brief sent to an agent that runs 10 iterations at Claude 3.7 Sonnet $3/M:
-`5,000 tokens × 10 iterations = 50,000 tokens × $3/M = $0.15 in additional input cost per task`
+For the full OWASP LLM security implications — including prompt injection at cache re-entry boundaries — see [AI agent security and prompt injection at the cache re-entry point](/learn/ai-agent-security).
 
-This cost is avoidable. Handoff briefs should contain task specification (what to do, constraints, success criteria) — not data payloads (the actual data the agent will process). Data should be written to the blackboard and referenced by key. The receiving agent reads the data from the blackboard at the start of the task — one read operation, one context load — rather than carrying the full payload in context across all iterations.
+For cache hit rate monitoring and fleet-level observability dashboards, see [AI agent observability and cache hit rate monitoring](/learn/ai-agent-observability).
 
-Rule of thumb: every 1,000 tokens added to a handoff brief costs approximately `$0.003 × (model_input_price / $3) × iterations` across all iterations of the receiving agent's task. For a 10-iteration agent on GPT-4o: $0.025 per extra 1,000 brief tokens.
+## Implementation Patterns: cache_control, Response Monitoring, and Pitfalls
 
-### Fleet Cost Budgeting: Daily and Monthly Fleet Caps
+### Anthropic cache_control Implementation
 
-Per-agent caps prevent individual agent runaway. Fleet-level caps prevent collective cost incidents where many agents each stay within their individual cap but together exhaust the budget.
+Pass `system` as an array of content blocks rather than a plain string; add the `cache_control` field to the last block:
 
-Fleet budgeting approach for a 20-agent fleet with $2/day average per-agent cost:
+```json
+{
+  "model": "claude-3-5-sonnet-20241022",
+  "system": [
+    {
+      "type": "text",
+      "text": "You are a research agent. [full system prompt content]",
+      "cache_control": {"type": "ephemeral"}
+    }
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": "Research question: [task-specific content]"
+    }
+  ]
+}
+```
 
-- **Per-agent daily cap**: $6/day (3× typical average)
-- **Fleet daily budget alert**: $32/day (80% of fleet potential ceiling: 20 agents × $2 average)
-- **Fleet hard cap**: $40/day (total allocated budget)
-- **Monthly budget**: $880 ($40 × 22 working days; weekends and off-hours cost ≈$0 for task-triggered agents)
-- **End-of-month buffer**: 10% reserve for batch tasks and report generation scheduled at month-end
+For caching both system prompt and a large document context, use two breakpoints:
 
-The fleet-level alert fires before any individual agent hits its cap, providing early warning of fleet-wide cost pressure — a situation where many agents are legitimately busy but the aggregate is approaching the fleet budget limit.
+```json
+{
+  "system": [
+    {
+      "type": "text",
+      "text": "[system prompt + tool schemas]",
+      "cache_control": {"type": "ephemeral"}
+    }
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "[large document context for this session]",
+          "cache_control": {"type": "ephemeral"}
+        },
+        {
+          "type": "text",
+          "text": "[actual user question]"
+        }
+      ]
+    }
+  ]
+}
+```
 
-## OpenLegion's Take: Cost Control Is an Infrastructure Problem
+**Monitoring in production:** log `usage.cache_creation_input_tokens`, `usage.cache_read_input_tokens`, and `usage.input_tokens` on every API response. Compute hit rate as `cache_read_input_tokens / (cache_read_input_tokens + cache_creation_input_tokens)`. Alert when hit rate drops below 80% — this indicates prefix instability and means the write surcharge is being paid without proportional read savings.
 
-The common mental model is that AI agent cost is an application concern — add `max_turns`, wrap the loop in try/except, maintain a cost counter. This model breaks under production conditions.
+### OpenAI Implicit Caching: Verification and Optimization
 
-Three numbers that define why:
+No configuration required. Verify by checking `usage.prompt_tokens_details.cached_tokens` in the response:
 
-**$25/day from one agent's system prompt alone.** A developer reads GPT-4o at $2.50/M input tokens and builds a mental model of "this will be cheap." Then the agent fleet deploys: a 2,000-token system prompt sent on every LLM call, across 1,000 daily tasks, across an average of 5 loop iterations = 10 million input tokens/day from the system prompt alone = $25/day before any task-specific content, output tokens, or tool calls. The model pricing table is the per-unit cost. The agent architecture is the multiplier.
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[system_message, user_message]
+)
+cached = response.usage.prompt_tokens_details.cached_tokens
+total_prompt = response.usage.prompt_tokens
+hit_rate = cached / total_prompt if total_prompt > 0 else 0
+```
 
-**$130 in minutes from a 100-agent storm.** A 20-iteration runaway loop at GPT-4o with 5 tool calls per iteration costs ≈$1.30/agent. At 100 concurrent agents in the same storm: $130 in minutes. Application-layer `max_iterations` may fire on each agent individually, but if the exception is swallowed by a broad handler or the agents are auto-restarted by a process manager, the storm continues. Infrastructure-layer enforcement — Zone 2 rejecting the call with `budget_exceeded` before the LLM API is reached — is not subject to exception handling in agent code.
+If `cached_tokens` is consistently 0 for calls that should be caching, check in order:
+1. Total prompt length ≥1,024 tokens
+2. System prompt + tool schemas appear before any per-call dynamic content
+3. Call frequency — gaps >10 minutes may exceed the TTL
+4. Model version — older gpt-3.5-turbo models do not support implicit caching
 
-**$0 infrastructure-layer cost control in LangChain, CrewAI, or AutoGen.** None of these frameworks have native per-agent budget enforcement at the infrastructure layer. The only cost controls available are application conventions that break under load, edge cases, and framework updates.
+Optimization: ensure the static prefix (system prompt + tool schemas) is ≥1,024 tokens. If the system prompt alone is only 600 tokens, adding a comprehensive set of tool schemas typically pushes the stable prefix past 1,024 tokens and enables caching.
 
-OpenLegion's per-agent budget cap: $0–$50/day configurable, enforced at Zone 2 before each LLM call. When the cap is exhausted, Zone 2 rejects with `budget_exceeded`. The loop hard-stops. No application code change required. The cap is set in INSTRUCTIONS.md committed to git — a full audit trail of every cap change. The cap cannot be raised by agent code at runtime.
+### Common Caching Pitfalls and How to Avoid Them
 
-| **Cost control** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
+**1. Timestamp injection before cache breakpoint.**
+Agent frameworks that automatically inject `Current date/time: X` into system prompts break every cache call. Fix: move time injection to a user message or to a position after the `cache_control` breakpoint. If the task genuinely needs the current time, inject it only in the user message, not the system prompt.
+
+**2. Stale cache content after system prompt update.**
+If the system prompt is updated (new tool added, behavioral change) but the TTL has not expired, calls within the TTL window retrieve the old cached version. Fix: after deploying a system prompt change, wait for TTL expiry (5 minutes for Anthropic's default) before relying on the updated version. To force immediate cache busting: change a single non-semantic character (e.g., add a trailing space) to invalidate the existing cache entry.
+
+**3. Write surcharge on low-frequency agents (Anthropic).**
+An agent called once per hour with the default 5-minute TTL incurs a cache write on every call (TTL expired between calls) with zero reads to amortize it — 25% more expensive than uncached. Fix: extend TTL to 1 hour for infrequent agents, or remove `cache_control` breakpoints entirely for agents called less than twice per 5-minute window.
+
+**4. Non-deterministic tool schema serialization.**
+Tool schemas generated by serializing Python dicts or TypeScript objects with non-deterministic key ordering produce different byte sequences on each call. Fix: use sorted-key JSON serialization for all tool schema content:
+
+```python
+import json
+tool_schema_str = json.dumps(tool_schemas, sort_keys=True, separators=(',', ':'))
+```
+
+**5. Template-based system prompt whitespace variability.**
+f-string or Jinja template-based system prompts that produce slightly different indentation or newline sequences on each instantiation generate different byte sequences. Fix: use raw string literals for system prompt templates; test for byte-for-byte stability by generating the prompt 10 times and asserting all outputs are identical.
+
+## OpenLegion's Take: Design Agent Systems for Cache-First Architecture
+
+Prompt caching is one of the few LLM cost optimizations with zero quality tradeoff — you pay less for the same output, with no model behavior change. It is also one of the easiest to accidentally break.
+
+Three concrete failure modes that turn a cost-saving feature into a cost-increasing one:
+
+**The broken Anthropic cache costs more than no cache.** A 10,000-token system prompt with `cache_control` configured but broken prefix stability (timestamp in the system prompt, user ID at position 1) pays $3.75/MTok on every call instead of $3.00/MTok — a 25% cost increase vs uncached. With 1,000 calls/day at this rate: $37.50/day vs $30.00/day uncached = **$7.50/day in cost from broken caching**. Caching is not opt-in-and-forget; it requires monitoring `cache_creation_input_tokens` vs `cache_read_input_tokens` in production.
+
+**Fleet cache hit rate is a property of shared agent definitions, not cache configuration.** In a 100-agent fleet where each agent has a slightly different system prompt (user ID injected, per-session state, different tool schema ordering) — even with `cache_control` correctly configured — no cache sharing occurs between agents and each incurs the write surcharge. In a 100-agent fleet with identical INSTRUCTIONS.md-defined system prompts across all instances of the same agent type, one cache write amortizes across 99 reads automatically. The amplification comes from the agent architecture, not from cache settings.
+
+**The break-even on Anthropic is 0.28 reads.** Any agent called more than once per 5-minute window benefits — which covers virtually every production agent system. The write surcharge concern is real but only applies to agents called at intervals longer than the TTL with no TTL extension configured.
+
+| **Cache architecture property** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Per-agent daily budget cap (infrastructure layer — Zone 2)** | $0–$50/day, hard stop | Not available | Not available | Not available | Not available |
-| **Hard stop on budget exhaustion (no application code required)** | Zone 2 reject | Not available | Not available | Not available | Not available |
-| **Cost attribution metadata (agent_id, task_id, iteration on every call)** | Native, Zone 2 tagged | Manual (LangSmith) | Manual | Manual | Manual |
-| **Budget alert at 80% utilization (before cap exhaustion)** | Native | Not available | Not available | Not available | Not available |
-| **Per-agent cap in git (INSTRUCTIONS.md — audit trail of cap changes)** | Native | Not available | Not available | Not available | Not available |
-| **Fleet-level daily cap (prevents collective cost incidents)** | Configurable | Not available | Not available | Not available | Not available |
+| **System prompt defined in git (byte-for-byte stable across all instances of same agent type)** | INSTRUCTIONS.md, committed | Developer convention | Developer convention | Developer convention | Developer convention |
+| **Tool schemas static per agent role (no dynamic content in tool descriptions)** | Enforced by Zone 2 | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **Dynamic content injected after cache breakpoint (not in system prompt)** | Zone 2 architecture | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **Fleet cache sharing — N parallel agents share one cache write** | Natural consequence of shared INSTRUCTIONS.md | Possible if manually designed | Not built-in | Not built-in | Not built-in |
+| **Per-project API key isolation (per-tenant cache entries — no cross-tenant bleed)** | $CRED{} per project | Manual | Manual | Manual | Manual |
+| **Cache hit rate monitoring (cache_read_input_tokens in observability pipeline)** | Zone 2 tagged, observable | Manual (LangSmith) | Manual | Manual | Manual |
 
-[Start building on OpenLegion](https://app.openlegion.ai) — per-agent budget caps enforced at Zone 2, not in application code.
+[Start building on OpenLegion](https://app.openlegion.ai) — agent definitions in git, cache-first architecture by default.
+
+For broader LLM cost controls beyond caching — model selection, prompt compression, quantized models, and batch inference — see [LLM cost optimization at the model and infrastructure layer](/learn/llm-cost-optimization).
 
 <!-- SCHEMA: FAQPage -->
 
 ## Frequently Asked Questions
 
-### How much does it cost to run an AI agent?
+### What is prompt caching?
 
-AI agent cost depends on three variables: the model's price per token (GPT-4o: $2.50/M input, $10/M output; GPT-4o-mini: $0.15/M input, $0.60/M output; Claude 3.7 Sonnet: $3/M input, $15/M output), the number of loop iterations per task (each iteration is a full LLM call on the full accumulated context), and the number and size of tool call responses (each re-enters the context as input tokens). For a typical 5-iteration agent task with a 2,000-token system prompt: GPT-4o ≈$0.052/task; GPT-4o-mini ≈$0.003/task; Claude 3.7 Sonnet ≈$0.071/task. At 1,000 tasks/day: GPT-4o = $52/day; GPT-4o-mini = $3/day. The agentic loop multiplier — the fact that each iteration's input includes all previous iterations' content — means agent cost grows faster than linearly with iteration count and is the primary driver of unexpected production cost incidents.
+Prompt caching is an LLM inference optimization that stores the computed key-value (KV) attention state of a repeated prompt prefix on the provider's servers, so subsequent requests with the same prefix skip recomputation and receive a discounted rate. Anthropic's cache read price is $0.30/MTok for Claude 3.5 Sonnet (90% discount vs $3.00/MTok uncached); OpenAI applies a 50% discount automatically to cached prefixes ≥1,024 tokens; Google Gemini reduces per-query cost approximately 75% for context-cached content (minimum 32,768 tokens, $1.00/hr storage cost at Gemini 1.5 Pro rates). The core requirement for caching to produce savings is prefix stability — the cached token sequence must be byte-for-byte identical at the start of every prompt within the cache TTL window; dynamic content (timestamps, user IDs, live state) injected before the cacheable content breaks every cache call and, on Anthropic, triggers a 25% write surcharge with no corresponding read discount.
 
-### What causes AI agent costs to spike unexpectedly?
+### How does Anthropic prompt caching work?
 
-The most common cause of unexpected AI agent cost spikes is the tool call storm pattern: an agent calls a tool that returns an error, interprets the error as "retry," and calls the same tool repeatedly without escalation logic — each retry adds the error response (500–1,000 tokens) to the context window, and the per-iteration LLM call cost grows with each retry because the accumulated context grows. A secondary cause is missing iteration limits: an agent without `max_turns` or equivalent runs until the context window is exhausted or the process is manually killed, potentially running hundreds of iterations and accumulating hundreds of dollars in API costs. Both require infrastructure-layer mitigations — an iteration limit in application code and a per-agent daily budget cap enforced at the API gateway — because application-layer controls can be bypassed by exception handling, framework restarts, or direct API calls.
+Anthropic prompt caching uses explicit `cache_control` breakpoints in the messages array — add `{cache_control: {type: 'ephemeral'}}` to the last content block that should be cached, and Anthropic stores the KV state for all tokens at or before that breakpoint. Cache hit pricing for Claude 3.5 Sonnet: $0.30/MTok (90% discount vs $3.00/MTok normal input price); cache write surcharge: $3.75/MTok (25% above normal, paid on the first call or after TTL expiry); minimum cacheable block: 1,024 tokens; default TTL: 5 minutes, reset on every cache read. Break-even is 0.28 reads — a 10,000-token system prompt called twice within the TTL window saves more in read discounts than the write surcharge cost on the first call, so any agent repeated within 5 minutes benefits from Anthropic caching. Monitor `cache_creation_input_tokens` and `cache_read_input_tokens` in every API response — high `cache_creation_input_tokens` with zero `cache_read_input_tokens` means the cache is never being hit and the write surcharge is paid on every call.
 
-### How do I set a per-agent budget cap?
+### How does OpenAI prompt caching work?
 
-A per-agent budget cap sets a daily spending limit on an individual agent, after which LLM calls are rejected until the next billing day. Effective calibration: measure the agent's typical daily cost in staging, then set the production cap at 3× that amount — providing headroom for legitimate traffic spikes while stopping runaway loops before they exhaust the fleet budget. Set an alert at 80% utilization so cost pressure is visible before the cap is hit. For scheduled agents (daily reports, nightly processing), set the cap at expected per-run cost × number of runs × 2; for user-facing agents with unpredictable complexity, combine a per-task iteration limit with the daily cap. The cap must be enforced at the infrastructure layer — not in application code — because application-layer cost counters reset on process restart and can be bypassed by exception handling.
+OpenAI prompt caching is implicit — no configuration is required; a 50% discount is automatically applied to any input tokens that match a cached prefix from a recent call with the same API key. The discount applies to gpt-4o, gpt-4o-mini, o1, and o1-mini for prompts ≥1,024 tokens; cached tokens appear in `usage.prompt_tokens_details.cached_tokens` in the API response. There is no write surcharge — cache misses are billed at the normal rate with no penalty. The cache TTL is approximately 5–10 minutes (load-dependent, not documented precisely); any dynamic content injected before the 1,024-token mark prevents caching. Because caching is automatic, verify by checking `cached_tokens` in the response — a value of 0 for calls that should be hitting the cache indicates prefix instability or calls spaced beyond the TTL window.
 
-### How does prompt caching reduce AI agent cost?
+### How does Google Gemini context caching work?
 
-Prompt caching stores the computed key-value attention state of a repeated token prefix (system prompt, tool schemas) on the provider's servers, so subsequent requests with the same prefix receive a discount: 90% with Anthropic (cached tokens billed at 10% of normal input price, minimum 1,024 tokens, 5-minute TTL refreshed on hit), and 50% with OpenAI prefix caching (auto-applied to prompts ≥1,024 tokens). For a 2,000-token system prompt at 1,000 daily tasks with Claude 3.7 Sonnet ($3/M input): uncached system prompt cost = $6.00/day; cached cost ≈$0.60/day; annual savings ≈$1,971/year per agent type from system prompt tokens alone. The cache hit rate depends on prefix stability — dynamic timestamps in the system prompt or variable tool schema injection order invalidate the cache on every call and eliminate the discount entirely.
+Google Gemini context caching is an explicit object API — the developer creates a `CachedContent` resource via the Gemini API (specifying content, TTL, and optional expiration time) and then references the cached content by name in subsequent `GenerateContent` calls. The minimum cacheable content is 32,768 tokens (far higher than Anthropic's 1,024 or OpenAI's 1,024), making it optimized for large document corpora (RAG applications, large codebases) rather than system prompts. Storage costs $1.00/hour per 1M cached tokens for Gemini 1.5 Pro; the default TTL is 4.5 hours (configurable up to 24 hours); per-query cost reduction for the cached prefix is approximately 75%. Gemini context caching is best suited for applications that load a large static corpus once (a 100-page document, a full codebase) and query it repeatedly within the TTL window — the 4.5-hour TTL and low per-hour storage cost optimize for this access pattern rather than the high-frequency, short-TTL pattern of agent system prompt caching.
 
-### Is GPT-4o-mini worth using for AI agents?
+### What breaks prompt cache hits?
 
-GPT-4o-mini (May 2026: $0.15/M input, $0.60/M output) is 16.7× cheaper than GPT-4o ($2.50/M input, $10/M output) at the same token count, making it the correct model for any agent subtask that doesn't require GPT-4o's advanced reasoning — specifically: message routing and classification, structured data extraction from well-formatted sources, template-based output generation, simple tool selection from well-defined schemas, and summarization of clearly bounded content. Tasks where GPT-4o or Claude 3.7 Sonnet significantly outperform GPT-4o-mini: multi-hop reasoning across ambiguous sources, code generation requiring debugging loops, and complex instruction-following with many constraints. Routing 70% of tasks to GPT-4o-mini and 30% to GPT-4o reduces average model cost by approximately 60–70% with acceptable quality impact when task routing is calibrated in staging.
+The most common cause of prompt cache misses is dynamic content injected before the cacheable prefix: timestamps (`Current time: 2026-07-05T14:23:11Z`), user-specific content (`You are serving user {id}`), or live state values in the system prompt that change on every call — any varying token pushes everything after it out of the cacheable prefix. Other common causes include non-deterministic tool schema serialization (Python dict or JSON with varying key ordering producing different byte sequences per call), whitespace variability in template-based system prompts, and calling agents at intervals longer than the cache TTL (the cache expires between calls, making every call a cache write). On Anthropic, cache misses with `cache_control` configured trigger a 25% write surcharge — broken prefix stability means paying $3.75/MTok instead of $3.00/MTok on every call, a 25% cost increase vs no caching. Verify via `cache_creation_input_tokens` and `cache_read_input_tokens` in the API response; if `cache_creation_input_tokens` dominates with minimal `cache_read_input_tokens`, prefix instability is destroying the hit rate.
 
-### What is the OpenAI Batch API and when should I use it for agents?
+### How much does prompt caching save in a multi-agent fleet?
 
-The OpenAI Batch API provides a 50% cost reduction vs the synchronous API for identical requests submitted as batch jobs, with completion within 24 hours and no real-time latency guarantee. It is appropriate for offline, non-interactive agent workloads: nightly document processing, bulk data extraction across a large corpus, offline evaluation pipelines, and report generation scheduled for the following morning. It is not appropriate for user-facing agent interactions requiring responses under 5 seconds, real-time tool call sequences where each step depends on the previous result, or any workflow where the agent must act on results immediately. A nightly agent pipeline spending $100/night at synchronous rates saves $18,250/year by switching to Batch API — a significant return on the workflow redesign effort when latency tolerance exists.
+In a multi-agent fleet where N agents of the same type run concurrently with identical system prompts and tool schemas, the cache write cost is paid once by the first agent and amortized across N−1 subsequent reads in the TTL window. For 100 agents sharing a 10,000-token system prompt with Anthropic caching at Claude 3.5 Sonnet rates: 1 write ($0.0375) + 99 reads ($0.297) = $0.3345 total vs $3.00 uncached — $2.666 savings per 100-agent batch (88.9% reduction). For a 1,000-agent fleet, the per-agent cost approaches the pure read price ($0.003/call for 10,000 tokens), reducing system prompt token cost by approximately 90%. For OpenAI implicit caching, no configuration is needed — any fleet of agents using the same API key and the same system prompt prefix ≥1,024 tokens automatically shares cache hits within the TTL window.
 
-### How do I track AI agent cost per task?
+### How should I structure my system prompt for maximum cache hit rate?
 
-Per-task cost tracking requires tagging every LLM API call with metadata — at minimum: `agent_id`, `task_id`, `iteration_number`, `model_name` — and aggregating cost by these tags in the observability pipeline. Every LLM API response includes `usage.input_tokens` and `usage.output_tokens`; multiplying by the model's published price per token gives the per-call cost; summing across all calls sharing the same `task_id` gives the per-task cost. Useful derived metrics: average cost per task by agent type (identifies expensive agent types), cost per iteration (a growing per-iteration cost means the loop is not converging — a precursor to runaway), and P95 task cost (the expensive tail disproportionate to the average). The observability pipeline must ingest LLM call traces at the iteration level, not just final task results, to provide cost attribution that diagnoses loop amplification vs high-token-count legitimate tasks.
+Structure prompts so that all static content appears before any dynamic content, with the `cache_control` breakpoint placed at the static/dynamic boundary: (1) system prompt text (static — never changes per call), (2) tool schema definitions (static — changes only on deployment), (3) large reused document context if applicable (semi-static — cache with a second breakpoint if reused across calls), then (4) conversation history and (5) current user message (dynamic — not cached). On OpenAI, no breakpoints are needed — just ensure the static prefix is ≥1,024 tokens and appears before any per-call dynamic content. Common mistakes that break cache hit rate include injecting timestamps or user IDs into the system prompt before the cache breakpoint, using template-generated system prompts with non-deterministic whitespace or key ordering, and placing conversation history before the system prompt in the messages array.
 
-### How much does a runaway agentic loop cost?
+### Is prompt caching secure in multi-tenant agent systems?
 
-A runaway loop's cost compounds with each iteration because the context window grows: at GPT-4o rates ($2.50/M input), a loop with a 3,000-token system prompt and 1,200 tokens added per iteration costs ≈$0.011 at iteration 1, ≈$0.038 at iteration 10, and ≈$0.068 at iteration 20 — a 20-iteration storm costs ≈$0.60 per agent in input tokens before output and tool call costs. With 5 tool calls per iteration returning 1,000-token responses, add ≈$0.013/iteration in tool response cost, pushing a 20-iteration storm to ≈$0.86–$1.30 per agent. At 100 concurrent agents: $86–$130 in minutes. Stopping a runaway loop at iteration 5 instead of iteration 20 saves approximately 85% of total storm cost — the per-iteration cost is lowest in the early iterations, which is why infrastructure-level caps alerting at 80% utilization are more cost-effective than caps that only halt the loop after the budget is exhausted.
+Prompt caching is isolated by API key on both Anthropic and OpenAI — a cache entry created by one API key can only be hit by calls using the same API key; different API keys never share cache entries regardless of identical prompt content. In a properly architected multi-tenant system where each tenant uses a separate API key, there is no cross-tenant cache sharing and no way for one tenant to infer another's system prompt through cache timing attacks. The security risk arises when multiple tenants share a single API key — agents with different system prompts but a shared API key do not share cache entries (prefixes differ), but a tenant could construct requests designed to probe whether a particular prefix is cached, inferring information about another tenant's system prompt structure. For high-security multi-tenant deployments, enforce one API key per tenant as a hard architectural rule, not just a convention.
