@@ -1,274 +1,400 @@
 ---
-title: "LLM Prompt Caching — Cut Costs 50–90% on Anthropic, OpenAI, Gemini"
-description: "LLM prompt caching: Anthropic 90% reduction (5-min TTL), OpenAI 50% auto-applied, Gemini 75% (1-hour min). Covers prefix ordering, cache hit monitoring, per-tenant isolation, and fleet ROI."
+title: "Prompt Caching — Anthropic, OpenAI, and Gemini Cache Architecture Guide"
+description: "How prompt caching works: Anthropic 90% discount, OpenAI 50%, Gemini ~75%. Minimum thresholds, TTL windows, prefix stability requirements, and savings math for agent fleets."
 slug: /learn/llm-prompt-caching
-primary_keyword: llm prompt caching
-last_updated: "2026-06-30"
+primary_keyword: prompt caching
+last_updated: "2026-07-05"
 schema_types: ["FAQPage"]
 related:
   - /learn/llm-cost-optimization
-  - /learn/llm-gateway
+  - /learn/ai-agent-cost
+  - /learn/agentic-loop
   - /learn/ai-agent-security
+  - /learn/llm-gateway
   - /learn/ai-agent-observability
-  - /learn/ai-agent-reliability
-  - /learn/credential-management-ai-agents
 ---
 
-# LLM Prompt Caching: Cut Token Costs 50–90% Across Anthropic, OpenAI, and Gemini
+# Prompt Caching: Cache Hit Architecture for Anthropic, OpenAI, and Gemini
 
-LLM prompt caching is a provider-side optimization that stores the KV attention state of a repeated token prefix — system prompts, tool schemas, static documents — so subsequent requests skip recomputation and pay 50–90% less on cached tokens. For agent fleets that send the same system prompt and tool schemas on every LLM call, caching that prefix is the single highest-ROI cost optimization available. All three major providers now support it: Anthropic reached GA in August 2024, OpenAI in October 2024, and Google Gemini in June 2024.
+Prompt caching is an LLM inference optimization that stores the computed key-value attention state of a repeated token prefix on the provider's servers, so subsequent calls skip recomputation and receive a discounted price — Anthropic at 90% off (cache reads $0.30/MTok vs $3.00/MTok for Claude 3.5 Sonnet), OpenAI at 50% off (auto-applied ≥1,024 tokens), Gemini at approximately 75% off. The single constraint: the cached prefix must be byte-for-byte identical at the start of every prompt within the TTL window.
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> **LLM prompt caching** is a provider-side optimization that stores the computed key-value (KV) attention state of a repeated token prefix — such as a system prompt, tool schema set, or document context — so that subsequent API requests sharing the same prefix skip the recomputation cost, reducing cached-token billing by 50–90% depending on the provider and returning lower-latency responses for requests that hit the cache.
+> **Prompt caching** is an LLM inference optimization that stores the computed key-value (KV) attention state of a repeated token prefix on the provider's servers, so that subsequent requests containing the same prefix skip recomputation and are billed at a discounted rate — Anthropic at 90% off (cache reads: $0.30/MTok vs $3.00/MTok for Claude 3.5 Sonnet), OpenAI at 50% off (auto-applied for prefixes ≥1,024 tokens), and Google Gemini at approximately 75% off for context-cached content — with savings conditional on prefix stability across calls within the cache TTL window.
 
-## How LLM Prompt Caching Works: KV Cache and Prefix Matching
+## How Prompt Caching Works: KV Cache Mechanics
 
-### The KV Attention Cache: What Gets Stored
+### The KV Cache: What Is Being Stored and Why It Saves Money
 
-LLM inference computes key-value (KV) attention states for every token in the input context. This computation scales as O(n²) in the number of tokens and constitutes the bulk of input processing cost for long prompts. Prompt caching stores the computed KV states for a specific token sequence on the provider's servers. When a subsequent request arrives with the same token sequence as a prefix, the provider retrieves the cached KV states instead of recomputing them — charging only for the uncached portion of the input at the discounted cached-token rate.
+LLM inference has two phases for every input token: compute the key (K) and value (V) attention vectors for that token, then use those KV vectors in the attention mechanism to generate output. For a 10,000-token system prompt, the provider computes 10,000 KV sets on every API call — even when the content is identical to the previous call. Prompt caching stores those computed KV vectors on the provider's servers after the first call; subsequent calls with the same prefix retrieve the stored state instead of recomputing.
 
-What is cached is not the raw text but the computed numerical KV tensors. Two requests with identical text but different tokenization (different BPE vocabulary versions or model families) will not share a cache entry. The cached token count does not consume API rate limit quota in most provider implementations — a meaningful secondary benefit for high-frequency agent fleets that run close to TPM ceilings.
+The cost saving reflects compute skipped: KV recomputation is the expensive phase of input token processing. Providers pass the compute savings to the customer as a token discount. The key constraint: the cached prefix must be **byte-for-byte identical** on every call for the provider to recognize a cache hit. Any change — whitespace, punctuation, token ordering, even a single character — is a cache miss. On Anthropic, a cache miss while using `cache_control` also triggers a 25% write surcharge, making broken caching actively more expensive than no caching.
 
-### Prefix Matching: The Stability Requirement
+Understanding why the input token count matters so much requires understanding how context accumulates across loop iterations — see [the agentic loop and how context accumulates across iterations](/learn/agentic-loop).
 
-Cache lookup is exact prefix matching: the first N tokens of the new request must be byte-for-byte identical to the first N tokens of a previously cached request. This is not fuzzy or semantic matching. A single token difference in the prefix invalidates the cache for everything after that token.
+### Cache TTL: How Long the KV State Is Stored
 
-The practical implication is that stable content must come before dynamic content in every LLM call. The canonical order that maximizes cache hit rate across all three providers:
+Cache TTL is the duration the provider stores the KV state before eviction. After TTL expiry, the next call is a cache miss.
 
-1. **Static system instructions** — agent role, behavioral rules, output format requirements; identical across all calls for the same agent
-2. **Static tool schemas** — all tool definitions in fixed alphabetical order; include all possible tools, not a task-specific subset
-3. **Static reference documents** — knowledge base, API documentation, code style guides; large documents that benefit most from caching
-4. **Dynamic conversation history** — accumulated turns from the current session; cacheable as a secondary cache point
-5. **Current user message** — never cached; always dynamic
+| **Provider** | **Default TTL** | **Max TTL** | **TTL reset on hit?** |
+|---|---|---|---|
+| **Anthropic** | 5 minutes | 1 hour | Yes — resets on every read |
+| **OpenAI** | ~5–10 minutes | Not configurable | Not documented |
+| **Gemini** | 4.5 hours | 24 hours | Configurable on creation |
 
-Any inversion of this order breaks the cache. Placing a per-call timestamp (`Current date: {date}`), a tenant ID, or a request trace ID before the static system instructions moves dynamic content into the cacheable prefix position and produces a cache miss on every single call. The date should go in the user message. The tenant ID should go after a secondary cache boundary marker, not before the system instructions.
+TTL design implication for agent systems: agent calls must arrive within the TTL window to benefit from caching. A batch agent running 100 tasks with 2-second spacing covers 200 seconds per batch — within Anthropic's 5-minute TTL on every call. A nightly report agent running 100 tasks at 30-second intervals (50 minutes total) misses Anthropic's 5-minute TTL on all calls after the first few. For infrequent agents: extend TTL to 1 hour or disable caching entirely — the write surcharge on every miss makes low-frequency Anthropic caching more expensive than uncached.
 
-For LLM routing strategies that can direct requests to the provider with the highest cache hit rate for a given prefix, see [LLM gateway routing and provider fallback chains](/learn/llm-gateway).
+Anthropic TTL extension requires explicit configuration; OpenAI TTL is load-dependent and not configurable; Gemini TTL is set when creating the CachedContent object.
 
-## Anthropic Prompt Caching: 90% Reduction, 5-Minute TTL
+## Provider Implementations: Anthropic, OpenAI, and Gemini
 
-### Mechanics: cache_control, TTL, and Write Surcharge
+### Anthropic Prompt Caching: Explicit cache_control with 90% Discount
 
-Anthropic prompt caching reached general availability in August 2024. Unlike OpenAI's auto-applied approach, Anthropic requires explicit opt-in via a `cache_control: {type: 'ephemeral'}` marker placed in the message content at the desired cache boundary. Content up to and including the marker is cached as a single unit.
+**GA: August 2024.** Supported models: Claude 3.5 Sonnet, Claude 3.5 Haiku, Claude 3 Opus, Claude 3 Sonnet, Claude 3 Haiku.
 
-Key mechanics:
+**Pricing (Claude 3.5 Sonnet):**
+- Normal input: $3.00/MTok
+- Cache write: **$3.75/MTok** (25% surcharge — paid on first call or after TTL expiry)
+- Cache read: **$0.30/MTok** (90% discount)
 
-- **Cached token price**: 10% of normal input price — a 90% reduction
-- **Cache TTL**: 5 minutes from the **last cache read** (not from write) — every cache hit refreshes the timer
-- **Write surcharge**: 25% above normal input price on the first request that populates the cache
-- **Break-even point**: 2 cache hits amortize the write surcharge; any system prompt used more than twice per 5-minute window is net-positive
-- **Minimum cacheable block**: 1,024 tokens for Claude 3 Haiku, Claude 3 Sonnet, Claude 3 Opus, and Claude 3.5 Sonnet
-- **API response fields**: `cache_creation_input_tokens` (tokens written to cache this call) and `cache_read_input_tokens` (tokens served from cache this call)
+**Minimum cacheable block:** 1,024 tokens  
+**Default TTL:** 5 minutes (extendable to 1 hour)  
+**Activation:** Explicit — add `{cache_control: {type: 'ephemeral'}}` to the last content block that should be included in the cache
 
-The 5-minute TTL refreshed on hit behavior means active conversations maintain the cache indefinitely — each LLM call within a 5-minute window resets the timer. For agent fleets running at 100+ calls per hour, the cache is effectively permanent for as long as the fleet is active.
+Anthropic caches all content at or before the `cache_control` breakpoint. Up to 4 breakpoints per request are supported — useful for caching the system prompt separately from a large document injected as context.
 
-### Agent Fleet Calculation: $47,000/Year Savings on System Prompts
+**Response usage reporting:**
+- `usage.cache_creation_input_tokens` — tokens written to cache this call
+- `usage.cache_read_input_tokens` — tokens read from cache this call
+- `usage.input_tokens` — uncached tokens processed normally
 
-Concrete ROI for a 10-agent fleet:
+**Real-world savings calculation** (10,000-token system prompt × 100 agent calls):
+- 1 cache write: `10,000 tokens × $3.75/MTok` = **$0.0375**
+- 99 cache reads: `99 × 10,000 tokens × $0.30/MTok` = **$0.297**
+- Total cached cost: **$0.3345**
+- Uncached equivalent: **$3.00**
+- Net savings: **$2.666 per 100-call batch (88.9% reduction)**
 
-- **Setup**: 10 agents, 2,000-token system prompt, 100 calls/hour per agent = 1,000 fleet calls/hour
-- **Pricing**: Claude 3.5 Sonnet input at $3.00/million tokens
-- **Uncached cost**: 2,000 tokens × 1,000 calls × $3.00/M = **$6.00/hour = $52,560/year** in system prompt tokens alone
-- **With 90% caching**: cache write surcharge on first call ≈ $0.0075; subsequent calls ≈ $0.0006 each for the 2,000-token prefix
-- **Effective cost**: approximately **$0.60/hour = $5,256/year** for the system prompt prefix portion
-- **Annual savings**: approximately **$47,000/year on system prompt tokens alone**
+Break-even: additional write cost = `$0.0375 − $0.030 = $0.0075`; savings per read = `$0.030 − $0.003 = $0.027`; break-even = `0.0075 / 0.027 = 0.28 reads` — less than one subsequent call within the TTL window recoups the write surcharge. Any agent that calls the same system prompt twice within 5 minutes benefits from Anthropic caching.
 
-Tool schemas — commonly 500–3,000 additional tokens in tool-heavy agents — are also cacheable in the same prefix block at the same 90% discount, multiplying the savings further. At 100 calls/hour per agent, each agent sends 1.67 calls per minute, well within the 5-minute TTL window. Every call after the first per TTL window is a cache hit.
+### OpenAI Prompt Caching: Implicit 50% Discount, No Configuration Required
 
-For the broader cost reduction landscape including model selection, batching, and output length controls, see [LLM cost optimization and token budget strategies](/learn/llm-cost-optimization).
+**GA: October 2024.** Supported models: gpt-4o, gpt-4o-mini, o1, o1-mini, gpt-4o-realtime-preview, gpt-4o-audio-preview.
 
-### What Can and Cannot Be Cached
+**Pricing:**
+- Cached input tokens: **50% of normal input price** (auto-applied)
+- No write surcharge — cache misses billed at the normal rate with no penalty
 
-**Cacheable with Anthropic**: system prompt text, tool schema definitions (the `tools` array in the API request), static document context injected before conversation history, any content placed before the `cache_control` marker.
+**Minimum eligible prefix:** ≥1,024 tokens  
+**TTL:** ~5–10 minutes (load-dependent, disk-based LRU; not documented precisely)  
+**Activation:** None required — caching is implicit for all supported models
 
-**Not cacheable**: content after the marker (per-request dynamic content, current user message), tool call results and Observation turns (dynamic by nature), image content within the cached prefix (counted differently).
+OpenAI caching identifies the longest matching prefix from a recent call with the same API key and applies the 50% discount automatically. Developers do not restructure API calls to benefit — any existing application with a repeated system prompt ≥1,024 tokens gains caching without code changes.
 
-**Multi-turn caching strategy**: place the `cache_control` marker at the end of the system prompt and tool schemas block, before conversation history begins. On each turn, the system prompt and tool schemas serve from cache; only the conversation history and current message pay full input price. As conversation history grows, a second `cache_control` marker placed at the end of accumulated history caches the conversation state as well — enabling a two-tier cache: stable prefix at Tier 1, growing history at Tier 2.
+**Verification:** Check `usage.prompt_tokens_details.cached_tokens` in the API response. A value > 0 confirms a cache hit. If `cached_tokens` is consistently 0 for calls that should be caching:
 
-## OpenAI Prefix Caching: 50% Discount, Auto-Applied
+1. Verify the system prompt + tool schemas total ≥1,024 tokens
+2. Check call frequency — gaps >10 minutes may exceed the TTL
+3. Check for prefix variability — dynamic content before the 1,024-token mark prevents caching
+4. Verify model support — older gpt-3.5-turbo models do not support implicit caching
 
-### Mechanics: Automatic, Per-API-Key, No Opt-In
+The trade-off of implicit caching: no control over which content is cached, no TTL extension option, no explicit cache invalidation.
 
-OpenAI prefix caching launched in October 2024 with a different philosophy: no configuration required. Any API request with a prompt of 1,024 tokens or more automatically benefits from caching. The first request pays full input price; subsequent requests from the same API key sharing the same prefix pay 50% of normal input token cost for the cached portion.
+### Google Gemini Context Caching: Explicit Object API, 4.5h TTL, High Minimum
 
-Key mechanics:
+**GA: November 2024.** Supported models: Gemini 1.5 Pro, Gemini 1.5 Flash.
 
-- **Opt-in required**: none — auto-applied to all prompts ≥1,024 tokens
-- **Cached token price**: 50% of normal input price (vs Anthropic's 90% reduction)
-- **Cache scope**: per API key — all requests from the same API key share a cache namespace
-- **Write surcharge**: none — first request pays full price, no surcharge penalty
-- **Cache TTL**: not publicly documented; clears between sessions and on prefix change
-- **API response field**: `usage.cached_tokens` for monitoring
+**Pricing (Gemini 1.5 Pro):**
+- Storage: **$1.00/hour per 1M cached tokens**
+- Per-query cost reduction: **~75%** for the cached prefix
 
-The 50% discount is less favorable than Anthropic's 90%, but the zero-configuration model and no write surcharge make it the lowest-friction path for teams already using OpenAI models that want immediate cost reduction without prompt structure changes.
+**Minimum cacheable content:** **32,768 tokens** (far higher than Anthropic's 1,024 or OpenAI's 1,024)  
+**Default TTL:** 4.5 hours (configurable up to 24 hours)  
+**Activation:** Explicit object API — create a `CachedContent` resource via the Gemini API before use
 
-### The Tool Schema Ordering Problem
+Gemini's 32,768-token minimum targets large document corpora, not system prompts. The use case is RAG applications that load a 100-page PDF (~50,000 tokens) once and query it repeatedly within the TTL window. The 4.5-hour TTL and $1.00/hr storage cost are optimized for this access pattern.
 
-The most common OpenAI prefix cache invalidation cause in production agent systems is dynamic tool schema ordering. Many agent frameworks register tools based on task type — a coding task registers `code_execution` and `file_read`; a research task registers `web_search` and `read_document`. If the `tools` array is rebuilt per request with task-specific tool definitions, the prefix changes on every call and the cache never hits.
+**What can be cached:** system instructions, large documents, tool definitions, and conversation history.
 
-The OpenAI cookbook (2024) explicitly documents this: "Ensure that the static prefix remains consistent across API calls to maximize cache utilization. Any changes to the prefix, including adding or removing tools, will invalidate the cache."
+**CachedContent workflow:**
+1. POST to caches endpoint with content, TTL, and optional expiration time
+2. Receive a `CachedContent` object with a resource name
+3. Reference the cached content by name in subsequent `GenerateContent` calls
 
-The fix: register **all tools** that an agent may ever use in the prefix, in a fixed alphabetical order, on every call — even if only a subset will be used for the current task. The LLM calls only the tools it determines relevant; unused tool schemas in context are inert. The cache hit rate improvement from stable tool schema ordering outweighs the token cost of including unused tool definitions.
+For multi-agent systems with high-frequency calls and 2,000-token system prompts, Anthropic and OpenAI are the better fit. Gemini context caching becomes cost-effective when the cached payload exceeds 32,768 tokens and is reused many times across the 4.5-hour TTL.
 
-For reliability patterns around cold starts and first-request failures that also affect cache miss spikes, see [AI agent reliability and cold-start failure patterns](/learn/ai-agent-reliability).
+## Prefix Stability: The Architecture That Determines Cache Hit Rate
 
-## Google Gemini Context Caching: 75% Discount, Explicit API
+### What Breaks Cache Hits: Common Prefix Instability Patterns
 
-### Mechanics: Named Cache Objects, 1-Hour Minimum, Storage Cost
+A cache hit requires byte-for-byte identical prefix matching. Five patterns that commonly destroy cache hit rate in production:
 
-Google Gemini context caching, released in June 2024, uses an explicit model rather than automatic or marker-based caching. The developer creates a named `CachedContent` object via a separate API call specifying the content, model, and TTL. Subsequent requests reference the `cache_id`. This is fundamentally different from the other two providers — the cache is a first-class API resource, not a side effect of prefix matching.
+**1. Timestamps in system prompts.** A system prompt containing `Current time: 2026-07-05T14:23:11Z` generates a different byte sequence every second. Every call is a cache miss. Fix: remove timestamps from system prompts; inject time only when the task requires it, in a user message after the cacheable prefix.
 
-Key mechanics:
+**2. User-specific content at prompt position 1.** A system prompt starting with `You are serving user {user_id}: {user_name}.` changes on every call. Fix: move user-specific context to the end of the system prompt or to the first user message, after the cacheable static prefix.
 
-- **Discount**: 75% off input token pricing for cached content
-- **Minimum TTL**: 1 hour — cannot be set below 1 hour; Gemini caching is designed for long-lived contexts
-- **Maximum TTL**: up to 7 days
-- **Minimum context size**: 32,768 tokens for Gemini 1.5 Pro; 2,048 tokens for Gemini 1.5 Flash
-- **Cache storage cost**: $1.00 per million tokens per hour — a separate billing line item absent in Anthropic and OpenAI
+**3. Dynamic tool schemas.** Tool descriptions that include live state — current stock counts, user permissions, active features — change on every call. Fix: tool descriptions must be static; dynamic state belongs in tool results returned by the tool call, not in tool definitions.
 
-The storage cost is a critical ROI factor not present in other implementations. At the 32,768-token minimum for Gemini 1.5 Pro: storage cost = 32,768/1,000,000 × $1.00 = $0.033/hour per cache object. For a 1-hour cache window, this storage cost must be recovered by the inference savings from cache hits within that hour. Short-duration low-volume use cases can end up paying more in storage than they save in inference.
+**4. Non-deterministic serialization.** Python dicts and JSON objects with non-deterministic key ordering produce different byte sequences on each call even when the content is logically identical. Fix: use `json.dumps(schema, sort_keys=True)` for all tool schema content; use raw string literals for system prompt templates.
 
-### When to Use Gemini Context Caching vs Anthropic/OpenAI
+**5. Conversation history injected before the system prompt.** Some frameworks prepend conversation history to the messages array before the system prompt, pushing the system prompt out of the cacheable prefix position (position 0). Fix: system prompt must always be at position 0 in the messages array; conversation history follows after.
 
-**Gemini is the right choice when**: the cached content is very large (full codebases, legal document sets, extended knowledge bases exceeding 32,768 tokens); the same content will be referenced across many requests over multiple hours (the 1-hour minimum TTL is a feature — the cache persists without requiring request activity to maintain it, unlike Anthropic's 5-minute refresh requirement); and the 75% discount multiplied by expected cache hits outweighs the $1.00/M/hour storage cost over the cache lifetime.
+On Anthropic, every cache miss while `cache_control` is configured triggers the 25% write surcharge with no corresponding read discount. An agent with broken prefix stability paying $3.75/MTok instead of $3.00/MTok on every call is 25% more expensive than uncached. Monitor `cache_creation_input_tokens` vs `cache_read_input_tokens` — if the ratio is consistently > 1.0, prefix instability is the cause.
 
-**Anthropic is the right choice for**: per-agent system prompts and tool schemas (typically 1,024–5,000 tokens), high-frequency agent loops where 5-minute TTL is maintained by call frequency, and any use case where the 90% discount and zero storage cost are the dominant factors.
+### Designing for Maximum Cache Hit Rate
 
-**OpenAI is the right choice when**: zero configuration overhead is the priority, the deployment is OpenAI-model-only, and the 50% discount is sufficient. The auto-applied model removes any risk of misconfigured cache_control markers.
-
-## Maximizing Cache Hit Rate: Prefix Design and Ordering
-
-### Canonical Prefix Order: Static First, Dynamic Last
-
-The universal rule across all three providers: stable content must precede dynamic content. Any violation of this order produces a cache miss. Common violations and their fixes:
-
-| **Violation** | **Cache Impact** | **Fix** |
-|---|---|---|
-| `Current date: {date}` in system prompt | Cache miss on every call | Move date to user message |
-| Tool schemas registered per-task in varying order | Cache miss when tool set changes | Always register all tools alphabetically |
-| Tenant ID prepended before system instructions | Cache miss per tenant | Put tenant context after cache boundary marker |
-| Request trace ID in prefix | Cache miss on every call | Add trace ID as metadata, not prompt content |
-| Agent framework update changes system prompt template | Cache miss after deployment | Version-pin system prompt template; test cache hit rate post-deploy |
-
-The full canonical prefix structure:
+Structure agent prompts so that stable content appears before dynamic content, with the Anthropic `cache_control` breakpoint at the stable/dynamic boundary:
 
 ```
-[1] Static system instructions (always first)
-[2] Static tool schemas (all tools, alphabetical order, always identical)
-[3] Static reference documents (knowledge base, docs)
---- cache_control marker (Anthropic) / automatic boundary (OpenAI) ---
-[4] Dynamic conversation history (accumulated per session)
-[5] Current user message (never cached)
+[STATIC — cache this]
+1. System prompt: role definition, behavioral instructions, security rules, output format requirements
+   Typically 500–3,000 tokens. Identical across all calls for this agent type.
+2. Tool schemas: tool names, descriptions, parameter schemas
+   Typically 500–2,000 tokens. Changes only on deployment.
+
+[SEMI-STATIC — cache with second breakpoint if reused across multiple calls]
+3. Large document context: RAG results reused across multiple queries in the same session
+
+[DYNAMIC — do not cache]
+4. Conversation history: previous messages in this session. Grows with each turn.
+5. Current user message: the user's actual query.
 ```
 
-### Monitoring Cache Hit Rate: What to Measure
+**Anthropic cache_control placement:** pass `system` as an array of content blocks; add `{cache_control: {type: 'ephemeral'}}` to the last block:
 
-Cache performance is invisible without explicit monitoring. Silent cache invalidation — a prefix change that no one notices — produces a cost spike that appears in the next billing cycle.
+```json
+{
+  "system": [
+    {
+      "type": "text",
+      "text": "<full system prompt + tool schemas>",
+      "cache_control": {"type": "ephemeral"}
+    }
+  ],
+  "messages": [
+    {"role": "user", "content": "<current user message>"}
+  ]
+}
+```
 
-**Anthropic monitoring**: track `cache_creation_input_tokens` (cache miss on a cacheable prefix — expensive) vs `cache_read_input_tokens` (cache hit — cheap). Target: `cache_read_input_tokens` should represent >90% of system prompt token consumption for a stable agent. An alert when cache hit rate drops below 80% catches the problem before it costs thousands of dollars.
+For a 2,000-token system prompt + 1,500-token tool schemas = 3,500 cacheable tokens. The cache hit discount applies to those 3,500 tokens on every call after the first, regardless of how different the conversation history and user messages are. Dynamic content (positions 4–5) is processed at the full uncached rate.
 
-**OpenAI monitoring**: track `usage.cached_tokens` in the API response. Target: `cached_tokens` should equal the full system prompt + tool schema token count on all calls after the first per session. A sustained drop toward zero is a signal of prefix structure change.
+**OpenAI optimization:** ensure the static prefix is ≥1,024 tokens before any per-call dynamic content. No breakpoints required — just validate via `cached_tokens` in the response after the first few calls.
 
-**Gemini monitoring**: track `CachedContent` usage statistics via the API or Cloud Monitoring dashboard. Monitor total cache hits vs misses per cache object per hour.
+### Cache Hit Rate Math: When Caching Saves vs Costs Money
 
-Alert threshold: a cache hit rate drop from >90% to <50% on a fleet with $47,000/year in cache savings represents approximately $23,000/year in unrecovered cost. Set the alert before the billing cycle ends, not after. For the full observability stack including token cost telemetry, see [AI agent observability and cost monitoring pipelines](/learn/ai-agent-observability).
+**Anthropic break-even analysis** (Claude 3.5 Sonnet, 10,000-token system prompt):
 
-### Cache Warming: Pre-Populating for Cold Starts
+- Normal input: `10,000/1M × $3.00` = $0.030 per call
+- Cache write: `10,000/1M × $3.75` = $0.0375 per call (+$0.0075 vs normal)
+- Cache read: `10,000/1M × $0.30` = $0.003 per call (−$0.027 vs normal)
+- Break-even reads: `$0.0075 / $0.027 = 0.28` — less than 1 read recoups the write surcharge
 
-Cache warming pre-sends a request with the target prefix before the first user-facing request, ensuring the first production call hits the cache rather than paying full price plus a write surcharge.
+**Caching saves money** when the same prefix is called more than once per TTL window. Any agent called twice in 5 minutes benefits.
 
-**For Anthropic** (5-minute TTL): on agent startup, send a minimal request — a single-token user message like "ping" — with the full system prompt and tool schemas in the prefix with `cache_control` markers. This populates the cache at startup cost. To maintain warmth across an idle fleet, a dedicated health-check agent sends a minimal ping to each worker agent every 4 minutes — well within the 5-minute TTL window. A fleet of 10 agents requires 10 pings every 4 minutes, costing approximately 10 × 2,000 tokens × $0.30/M = $0.006 per 4-minute cycle — negligible compared to the savings.
+**Caching costs money** when prefix instability causes misses: every miss at $3.75/MTok vs the $3.00/MTok uncached rate is a 25% penalty. The threshold for whether broken caching helps or hurts: if hit rate < 20%, broken caching costs more than uncached at Claude 3.5 Sonnet rates.
 
-**For Gemini** (explicit cache objects): create the `CachedContent` object during the deployment process, not on the first user request. Cache object creation takes a few seconds; adding it to the hot path adds perceptible latency to the first user-facing call. Treat cache creation as infrastructure provisioning, not runtime behavior.
+**Monthly savings estimate** (2,000-token system prompt, 50 calls/day, Anthropic Claude 3.5 Sonnet, 20 working days, 95% cache hit rate):
+- Uncached: `50 × 20 × 2,000 tokens × $3.00/MTok` = $6.00/month on system prompt tokens
+- Cached: 1 write/day × 20 days = 20 writes; 49 reads/day × 20 days = 980 reads
+  - Write cost: `20 × 2,000 × $3.75/MTok` = $0.15
+  - Read cost: `980 × 2,000 × $0.30/MTok` = $0.588
+  - Total: **$0.738/month** vs $6.00 uncached = **$5.26/month savings per agent type**
 
-**For OpenAI** (auto-applied): the first request in any new session pays full price regardless. No warm-up is strictly necessary because the cache persists across the session automatically. However, for latency-sensitive applications, a synthetic first request can pre-populate the cache before user traffic arrives.
+For cost control at the fleet level — loop amplification, per-agent budget caps, and runaway loop prevention — see [AI agent cost and per-agent budget enforcement](/learn/ai-agent-cost).
 
-## Security: Per-Tenant Cache Isolation
+## Multi-Agent Fleet Caching: Shared Prefixes and Parallel Amplification
 
-### Cross-Tenant Cache Bleed: Two Attack Vectors
+### Fleet Caching Multiplier: N Agents Sharing One Cache Write
 
-A shared prompt cache — multiple tenants using the same API key, sharing the same cache key space — creates two data leakage vectors that are absent from most provider documentation.
+In a multi-agent fleet where N agents of the same type run concurrently with identical system prompts and tool schemas, the cache write cost is paid once by the first agent and amortized across N−1 subsequent reads in the TTL window.
 
-**Vector 1: Cache timing side-channel.** Cache hits return lower latency than cache misses because KV state retrieval is faster than recomputation. A TenantB agent that can measure API response latency can infer whether TenantA recently sent a specific system prompt: if TenantB constructs TenantA's suspected prefix and receives a cache hit (lower latency), it confirms TenantA's prefix was recently active. Severity: low for prefix-only leakage (the attacker learns that TenantA used a specific prefix, but not the prefix content, unless the prefix itself is the sensitive data).
+**Fleet multiplier calculation** (Anthropic, 10,000-token shared system prompt, 100 concurrent agents):
 
-**Vector 2: Semantic cache cross-contamination.** In deployments that augment provider-level prefix caching with an application-layer semantic cache — using embedding similarity to return cached responses for semantically similar queries — TenantB's query may retrieve TenantA's cached response if the queries are semantically similar. Severity: high — this is direct information disclosure of TenantA's response content to TenantB. This attack is not hypothetical for multi-tenant platforms that implement semantic caching without per-tenant namespace isolation.
+| **Scenario** | **Total cost** | **Per-agent cost** | **vs uncached** |
+|---|---|---|---|
+| **Uncached (100 calls)** | $3.00 | $0.030 | baseline |
+| **Cached (1 write + 99 reads)** | $0.3345 | $0.003345 | −88.9% |
+| **1,000 agents (1 write + 999 reads)** | $3.0375 → per agent $0.003 | $0.003 | −90% |
 
-The cross-tenant cache bleed vectors here are instances of the broader OWASP LLM information disclosure threat model — see [AI agent security and cross-tenant data leakage risks](/learn/ai-agent-security) for the full framework.
+The fleet multiplier: as N approaches infinity, per-agent cost approaches the pure read price ($0.003 for 10,000 tokens at Claude 3.5 Sonnet rates). A fleet of 1,000 agents running the same task simultaneously pays one write and 999 reads — 99.9% of the write cost is amortized.
 
-### Per-Tenant Cache Key Namespacing
+**Why multi-agent systems naturally benefit:** in a well-architected fleet, all instances of the same agent type use identical system prompts and tool schemas defined in a shared configuration file. The first agent to call within a TTL window pays the write; every subsequent agent reads from cache. No additional configuration is required — fleet cache amplification is an automatic property of shared agent definitions.
 
-**For Anthropic and OpenAI** (automatic prefix caching, per-API-key cache scope): the most effective isolation is one API key per tenant. Since the cache is maintained per API key, different tenants on different API keys cannot share cache state. This doubles as a billing isolation control — per-tenant API key usage is reported separately. OpenLegion's `$CRED{}` vault proxy provisions per-project credentials by default; each project (tenant) resolves its own API key handle through Zone 2, making per-tenant cache isolation automatic.
+For LLM gateway-level orchestration that routes calls to maximize fleet cache hit rates, see [LLM gateway routing and centralized cache management](/learn/llm-gateway).
 
-**For Gemini** (explicit cache objects): the `cache_id` is tenant-specific by construction — each tenant's `CachedContent` object is created with the tenant's content and referenced only by that tenant's requests. Cross-tenant cache access requires explicit `cache_id` disclosure, which should not occur in a correctly implemented authorization model.
+### Per-Tenant Cache Isolation: Security and Cost Attribution
 
-**For application-layer semantic caches**: every cache key must include a `tenant_id` prefix or hash. The cache lookup query must filter by `tenant_id` before embedding similarity comparison. This enforcement must happen at the storage client layer — agent code that constructs cache queries can be bypassed by prompt injection, but a storage client wrapper that enforces `tenant_id` scoping on all reads and writes cannot be bypassed through the agent's context.
+Cache isolation ensures that one tenant's cached prompt prefix cannot be read by another tenant's agent call. This is a security requirement — cross-tenant prefix sharing could allow one tenant to observe cache hit timing and infer another tenant's system prompt structure — and a cost attribution requirement.
 
-For the full per-tenant API key isolation architecture, see [credential management and per-tenant API key isolation](/learn/credential-management-ai-agents).
+**Provider isolation mechanism:** both Anthropic and OpenAI isolate caches by API key. A cache entry created by one API key can only be hit by subsequent calls using the same API key. Different tenants using different API keys never share cache entries, regardless of identical prompt content.
 
-## OpenLegion's Take: Cache Hit Rate Is an Infrastructure Property
+Within a single API key, all agents that share the same system prompt prefix share cache entries — this is the intended fleet sharing behavior, not a security concern. The cache is content-addressed within the API key namespace.
 
-Prompt caching is the highest-ROI cost optimization available for multi-agent fleets in 2026. A 10-agent fleet running Claude 3.5 Sonnet at scale saves approximately $47,000/year on system prompt tokens alone with Anthropic's 90% discount — before accounting for tool schemas, which can add another $10,000–30,000/year in savings depending on schema complexity.
+**Multi-tenant architecture requirement:** each tenant must use a separate API key to ensure cache isolation. Using a single shared API key across tenants with different system prompts still provides isolation (cache hits only occur on matching prefixes), but provides no isolation against timing-based inference attacks.
 
-The reason caching is underused is not lack of awareness of the discount percentages. It is that most agent frameworks make it trivially easy to accidentally invalidate the cache. Three specific patterns produce silent cache invalidation:
+For the full OWASP LLM security implications — including prompt injection at cache re-entry boundaries — see [AI agent security and prompt injection at the cache re-entry point](/learn/ai-agent-security).
 
-1. **Dynamic tool schema injection**: registering task-specific tool subsets instead of a fixed full set. The cache miss is invisible unless you monitor `cache_creation_input_tokens`. Teams discover the problem when they review their monthly bill.
+For cache hit rate monitoring and fleet-level observability dashboards, see [AI agent observability and cache hit rate monitoring](/learn/ai-agent-observability).
 
-2. **Variable system prompt construction**: prepending tenant-specific context before static instructions, or building the system prompt from templates that vary slightly between deployments. A template that adds a single extra space invalidates the cache across the entire fleet.
+## Implementation Patterns: cache_control, Response Monitoring, and Pitfalls
 
-3. **Inconsistent message ordering**: agent frameworks that compose the messages array differently depending on conversation state or tool availability produce different prefixes even when the content is semantically identical.
+### Anthropic cache_control Implementation
 
-Three concrete numbers that frame the cost of silent cache invalidation:
+Pass `system` as an array of content blocks rather than a plain string; add the `cache_control` field to the last block:
 
-- **$47,000/year** saved when a 10-agent fleet maintains >90% cache hit rate on a 2,000-token system prompt at Claude 3.5 Sonnet pricing
-- **$23,000/year** in unrecovered cost when cache hit rate drops from >90% to <50% on a fleet with $47,000/year in cache savings — the alert threshold that justifies continuous monitoring
-- **4 minutes** — the health-check ping interval required to maintain Anthropic's 5-minute cache TTL across an idle fleet; missing one ping per agent per 5-minute window means a cold-start cache miss on the next request
+```json
+{
+  "model": "claude-3-5-sonnet-20241022",
+  "system": [
+    {
+      "type": "text",
+      "text": "You are a research agent. [full system prompt content]",
+      "cache_control": {"type": "ephemeral"}
+    }
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": "Research question: [task-specific content]"
+    }
+  ]
+}
+```
 
-| **Cache property** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
+For caching both system prompt and a large document context, use two breakpoints:
+
+```json
+{
+  "system": [
+    {
+      "type": "text",
+      "text": "[system prompt + tool schemas]",
+      "cache_control": {"type": "ephemeral"}
+    }
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "[large document context for this session]",
+          "cache_control": {"type": "ephemeral"}
+        },
+        {
+          "type": "text",
+          "text": "[actual user question]"
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Monitoring in production:** log `usage.cache_creation_input_tokens`, `usage.cache_read_input_tokens`, and `usage.input_tokens` on every API response. Compute hit rate as `cache_read_input_tokens / (cache_read_input_tokens + cache_creation_input_tokens)`. Alert when hit rate drops below 80% — this indicates prefix instability and means the write surcharge is being paid without proportional read savings.
+
+### OpenAI Implicit Caching: Verification and Optimization
+
+No configuration required. Verify by checking `usage.prompt_tokens_details.cached_tokens` in the response:
+
+```python
+response = client.chat.completions.create(
+    model="gpt-4o",
+    messages=[system_message, user_message]
+)
+cached = response.usage.prompt_tokens_details.cached_tokens
+total_prompt = response.usage.prompt_tokens
+hit_rate = cached / total_prompt if total_prompt > 0 else 0
+```
+
+If `cached_tokens` is consistently 0 for calls that should be caching, check in order:
+1. Total prompt length ≥1,024 tokens
+2. System prompt + tool schemas appear before any per-call dynamic content
+3. Call frequency — gaps >10 minutes may exceed the TTL
+4. Model version — older gpt-3.5-turbo models do not support implicit caching
+
+Optimization: ensure the static prefix (system prompt + tool schemas) is ≥1,024 tokens. If the system prompt alone is only 600 tokens, adding a comprehensive set of tool schemas typically pushes the stable prefix past 1,024 tokens and enables caching.
+
+### Common Caching Pitfalls and How to Avoid Them
+
+**1. Timestamp injection before cache breakpoint.**
+Agent frameworks that automatically inject `Current date/time: X` into system prompts break every cache call. Fix: move time injection to a user message or to a position after the `cache_control` breakpoint. If the task genuinely needs the current time, inject it only in the user message, not the system prompt.
+
+**2. Stale cache content after system prompt update.**
+If the system prompt is updated (new tool added, behavioral change) but the TTL has not expired, calls within the TTL window retrieve the old cached version. Fix: after deploying a system prompt change, wait for TTL expiry (5 minutes for Anthropic's default) before relying on the updated version. To force immediate cache busting: change a single non-semantic character (e.g., add a trailing space) to invalidate the existing cache entry.
+
+**3. Write surcharge on low-frequency agents (Anthropic).**
+An agent called once per hour with the default 5-minute TTL incurs a cache write on every call (TTL expired between calls) with zero reads to amortize it — 25% more expensive than uncached. Fix: extend TTL to 1 hour for infrequent agents, or remove `cache_control` breakpoints entirely for agents called less than twice per 5-minute window.
+
+**4. Non-deterministic tool schema serialization.**
+Tool schemas generated by serializing Python dicts or TypeScript objects with non-deterministic key ordering produce different byte sequences on each call. Fix: use sorted-key JSON serialization for all tool schema content:
+
+```python
+import json
+tool_schema_str = json.dumps(tool_schemas, sort_keys=True, separators=(',', ':'))
+```
+
+**5. Template-based system prompt whitespace variability.**
+f-string or Jinja template-based system prompts that produce slightly different indentation or newline sequences on each instantiation generate different byte sequences. Fix: use raw string literals for system prompt templates; test for byte-for-byte stability by generating the prompt 10 times and asserting all outputs are identical.
+
+## OpenLegion's Take: Design Agent Systems for Cache-First Architecture
+
+Prompt caching is one of the few LLM cost optimizations with zero quality tradeoff — you pay less for the same output, with no model behavior change. It is also one of the easiest to accidentally break.
+
+Three concrete failure modes that turn a cost-saving feature into a cost-increasing one:
+
+**The broken Anthropic cache costs more than no cache.** A 10,000-token system prompt with `cache_control` configured but broken prefix stability (timestamp in the system prompt, user ID at position 1) pays $3.75/MTok on every call instead of $3.00/MTok — a 25% cost increase vs uncached. With 1,000 calls/day at this rate: $37.50/day vs $30.00/day uncached = **$7.50/day in cost from broken caching**. Caching is not opt-in-and-forget; it requires monitoring `cache_creation_input_tokens` vs `cache_read_input_tokens` in production.
+
+**Fleet cache hit rate is a property of shared agent definitions, not cache configuration.** In a 100-agent fleet where each agent has a slightly different system prompt (user ID injected, per-session state, different tool schema ordering) — even with `cache_control` correctly configured — no cache sharing occurs between agents and each incurs the write surcharge. In a 100-agent fleet with identical INSTRUCTIONS.md-defined system prompts across all instances of the same agent type, one cache write amortizes across 99 reads automatically. The amplification comes from the agent architecture, not from cache settings.
+
+**The break-even on Anthropic is 0.28 reads.** Any agent called more than once per 5-minute window benefits — which covers virtually every production agent system. The write surcharge concern is real but only applies to agents called at intervals longer than the TTL with no TTL extension configured.
+
+| **Cache architecture property** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Canonical prefix ordering enforced at infra layer** | Zone 2, by construction | Developer convention | Developer convention | Developer convention | Developer convention |
-| **Per-project API key isolation (cache namespace per tenant)** | Vault proxy, default | Manual | Manual | Manual | Manual |
-| **cache_creation_input_tokens surfaced in observability** | Native pipeline | Developer convention | Developer convention | Developer convention | Developer convention |
-| **Cache hit rate alerting (<80% trigger)** | Native | Not available | Not available | Not available | Not available |
-| **Cache warming on agent startup** | Health-check pattern | Manual | Manual | Manual | Manual |
-| **Semantic cache with per-tenant namespace isolation** | Storage client layer | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **System prompt defined in git (byte-for-byte stable across all instances of same agent type)** | INSTRUCTIONS.md, committed | Developer convention | Developer convention | Developer convention | Developer convention |
+| **Tool schemas static per agent role (no dynamic content in tool descriptions)** | Enforced by Zone 2 | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **Dynamic content injected after cache breakpoint (not in system prompt)** | Zone 2 architecture | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **Fleet cache sharing — N parallel agents share one cache write** | Natural consequence of shared INSTRUCTIONS.md | Possible if manually designed | Not built-in | Not built-in | Not built-in |
+| **Per-project API key isolation (per-tenant cache entries — no cross-tenant bleed)** | $CRED{} per project | Manual | Manual | Manual | Manual |
+| **Cache hit rate monitoring (cache_read_input_tokens in observability pipeline)** | Zone 2 tagged, observable | Manual (LangSmith) | Manual | Manual | Manual |
 
-Cache hit rate is not an application property. It is determined by prefix structure consistency — whether the first N tokens of every LLM call from a given agent are byte-for-byte identical across calls. That consistency is an infrastructure guarantee, not something that emerges from careful coding by each individual agent author. When the infrastructure builds the LLM request (enforcing canonical prefix order, injecting credentials via `$CRED{}` handles, composing the messages array in a fixed structure), cache hit rate is stable by construction. When agent code builds the LLM request, every agent author is a potential source of prefix variation.
+[Start building on OpenLegion](https://app.openlegion.ai) — agent definitions in git, cache-first architecture by default.
 
-[Start building on OpenLegion](https://app.openlegion.ai) — deploy multi-agent fleets where canonical prefix ordering is enforced at the mesh layer, cache hit rate is surfaced in the built-in observability pipeline, and per-project API key isolation prevents cross-tenant cache bleed by default.
+For broader LLM cost controls beyond caching — model selection, prompt compression, quantized models, and batch inference — see [LLM cost optimization at the model and infrastructure layer](/learn/llm-cost-optimization).
 
 <!-- SCHEMA: FAQPage -->
 
 ## Frequently Asked Questions
 
-### What is LLM prompt caching?
+### What is prompt caching?
 
-LLM prompt caching stores the computed key-value (KV) attention state of a repeated token prefix — system prompt, tool schemas, or document context — on the provider's servers so that subsequent API requests sharing the same prefix skip recomputation and receive a discount on cached-token billing: 90% with Anthropic (GA August 2024), 50% with OpenAI (October 2024), and 75% with Google Gemini (June 2024). The cache works through exact prefix matching — the first N tokens of the new request must be byte-for-byte identical to the cached prefix, so any modification to the cached prefix portion (reordering, whitespace changes, dynamic content injected before static content) invalidates the cache and triggers a full-price miss. For multi-agent systems where the same system prompt and tool schemas are sent on every LLM call, prompt caching is typically the single highest-ROI cost optimization available, cutting input token costs for the stable prefix portion by 50–90% across all cached calls.
+Prompt caching is an LLM inference optimization that stores the computed key-value (KV) attention state of a repeated prompt prefix on the provider's servers, so subsequent requests with the same prefix skip recomputation and receive a discounted rate. Anthropic's cache read price is $0.30/MTok for Claude 3.5 Sonnet (90% discount vs $3.00/MTok uncached); OpenAI applies a 50% discount automatically to cached prefixes ≥1,024 tokens; Google Gemini reduces per-query cost approximately 75% for context-cached content (minimum 32,768 tokens, $1.00/hr storage cost at Gemini 1.5 Pro rates). The core requirement for caching to produce savings is prefix stability — the cached token sequence must be byte-for-byte identical at the start of every prompt within the cache TTL window; dynamic content (timestamps, user IDs, live state) injected before the cacheable content breaks every cache call and, on Anthropic, triggers a 25% write surcharge with no corresponding read discount.
 
 ### How does Anthropic prompt caching work?
 
-Anthropic prompt caching (GA August 2024) is activated by placing a `cache_control: {type: 'ephemeral'}` marker at the desired cache boundary in the API request — content up to and including that marker is cached as a unit. Cached tokens are billed at 10% of normal input price (90% reduction); the first request that populates the cache incurs a one-time write surcharge of 25% above normal input price, which breaks even after 2 cache hits. The cache TTL is 5 minutes from the last cache read — every cache hit refreshes the timer, so active agent conversations maintain the cache indefinitely as long as requests arrive within 5-minute windows. The API response includes `cache_creation_input_tokens` and `cache_read_input_tokens` fields that enable monitoring cache hit rate in an observability pipeline; the minimum cacheable block is 1,024 tokens for Claude 3 and Claude 3.5 models.
+Anthropic prompt caching uses explicit `cache_control` breakpoints in the messages array — add `{cache_control: {type: 'ephemeral'}}` to the last content block that should be cached, and Anthropic stores the KV state for all tokens at or before that breakpoint. Cache hit pricing for Claude 3.5 Sonnet: $0.30/MTok (90% discount vs $3.00/MTok normal input price); cache write surcharge: $3.75/MTok (25% above normal, paid on the first call or after TTL expiry); minimum cacheable block: 1,024 tokens; default TTL: 5 minutes, reset on every cache read. Break-even is 0.28 reads — a 10,000-token system prompt called twice within the TTL window saves more in read discounts than the write surcharge cost on the first call, so any agent repeated within 5 minutes benefits from Anthropic caching. Monitor `cache_creation_input_tokens` and `cache_read_input_tokens` in every API response — high `cache_creation_input_tokens` with zero `cache_read_input_tokens` means the cache is never being hit and the write surcharge is paid on every call.
 
-### How does OpenAI prefix caching work?
+### How does OpenAI prompt caching work?
 
-OpenAI prefix caching (October 2024) is automatically applied to all API requests with prompts of 1,024 tokens or more with no opt-in required — the first request pays full input price, and all subsequent requests from the same API key sharing the same prefix receive a 50% discount on cached tokens. The cache is maintained per API key, meaning all requests from the same API key share a cache namespace, providing implicit cache isolation between tenants on different API keys but creating a shared cache surface if multiple tenants use the same key. Cache invalidation occurs on any change to the first 1,024 tokens of the prompt, including whitespace changes and tool schema reordering; the OpenAI cookbook (2024) explicitly documents that dynamic tool schema ordering is the most common cause of cache invalidation in agent systems. The API response includes `usage.cached_tokens` for monitoring.
+OpenAI prompt caching is implicit — no configuration is required; a 50% discount is automatically applied to any input tokens that match a cached prefix from a recent call with the same API key. The discount applies to gpt-4o, gpt-4o-mini, o1, and o1-mini for prompts ≥1,024 tokens; cached tokens appear in `usage.prompt_tokens_details.cached_tokens` in the API response. There is no write surcharge — cache misses are billed at the normal rate with no penalty. The cache TTL is approximately 5–10 minutes (load-dependent, not documented precisely); any dynamic content injected before the 1,024-token mark prevents caching. Because caching is automatic, verify by checking `cached_tokens` in the response — a value of 0 for calls that should be hitting the cache indicates prefix instability or calls spaced beyond the TTL window.
 
 ### How does Google Gemini context caching work?
 
-Google Gemini context caching (June 2024) requires explicit cache creation: the developer creates a named `CachedContent` object via a separate API call specifying the content, model, and TTL, then references the `cache_id` in subsequent requests. Cached tokens receive a 75% discount; the minimum cache duration is 1 hour (TTL cannot be set below 1 hour); and cache storage is billed separately at $1.00 per million tokens per hour — a cost not present in Anthropic or OpenAI implementations that must be included in ROI calculations. The minimum context size is 32,768 tokens for Gemini 1.5 Pro and 2,048 tokens for Gemini 1.5 Flash, making Gemini context caching most appropriate for large static document corpora referenced across many requests over hours or days, where the storage cost is amortized across a high volume of cache hits.
+Google Gemini context caching is an explicit object API — the developer creates a `CachedContent` resource via the Gemini API (specifying content, TTL, and optional expiration time) and then references the cached content by name in subsequent `GenerateContent` calls. The minimum cacheable content is 32,768 tokens (far higher than Anthropic's 1,024 or OpenAI's 1,024), making it optimized for large document corpora (RAG applications, large codebases) rather than system prompts. Storage costs $1.00/hour per 1M cached tokens for Gemini 1.5 Pro; the default TTL is 4.5 hours (configurable up to 24 hours); per-query cost reduction for the cached prefix is approximately 75%. Gemini context caching is best suited for applications that load a large static corpus once (a 100-page document, a full codebase) and query it repeatedly within the TTL window — the 4.5-hour TTL and low per-hour storage cost optimize for this access pattern rather than the high-frequency, short-TTL pattern of agent system prompt caching.
 
-### Why does my prompt cache keep getting invalidated?
+### What breaks prompt cache hits?
 
-The most common cache invalidation causes in agent systems are: dynamic tool schema ordering (registering task-specific tool subsets in varying orders instead of all tools in fixed alphabetical order on every call), injecting dynamic content before static content in the prefix (a timestamp, request ID, or per-tenant identifier placed before the system instructions forces a cache miss on every call), and agent framework updates that change the system prompt template structure. The fix requires enforcing a canonical stable-before-dynamic prefix order: static system instructions first, then static tool schemas in fixed alphabetical order, then static reference documents, then dynamic conversation history, then the current user message — any dynamic content that changes per call must come after the cache boundary, not before it. Monitoring `cache_creation_input_tokens` (Anthropic) or `usage.cached_tokens` (OpenAI) in an observability pipeline is the only way to detect silent cache invalidation before it becomes a cost spike in the next billing cycle.
+The most common cause of prompt cache misses is dynamic content injected before the cacheable prefix: timestamps (`Current time: 2026-07-05T14:23:11Z`), user-specific content (`You are serving user {id}`), or live state values in the system prompt that change on every call — any varying token pushes everything after it out of the cacheable prefix. Other common causes include non-deterministic tool schema serialization (Python dict or JSON with varying key ordering producing different byte sequences per call), whitespace variability in template-based system prompts, and calling agents at intervals longer than the cache TTL (the cache expires between calls, making every call a cache write). On Anthropic, cache misses with `cache_control` configured trigger a 25% write surcharge — broken prefix stability means paying $3.75/MTok instead of $3.00/MTok on every call, a 25% cost increase vs no caching. Verify via `cache_creation_input_tokens` and `cache_read_input_tokens` in the API response; if `cache_creation_input_tokens` dominates with minimal `cache_read_input_tokens`, prefix instability is destroying the hit rate.
 
-### How much money can prompt caching save in a multi-agent fleet?
+### How much does prompt caching save in a multi-agent fleet?
 
-For a 10-agent fleet sending a 2,000-token system prompt on every LLM call at 100 calls per hour per agent (1,000 total fleet calls per hour) at Claude 3.5 Sonnet's input price of $3.00 per million tokens, the uncached system prompt cost is $6.00 per hour or $52,560 per year. With Anthropic prompt caching at 90% reduction on cached tokens, the same prefix costs approximately $0.60 per hour for the cached portion — savings of approximately $47,000 per year on system prompt tokens alone, before accounting for tool schemas (commonly 500–3,000 additional cacheable tokens) that multiply the savings further. The ROI calculation improves at higher call frequency: more cache hits per cache write surcharge means better amortization of the 25% write cost and higher absolute savings per unit time.
+In a multi-agent fleet where N agents of the same type run concurrently with identical system prompts and tool schemas, the cache write cost is paid once by the first agent and amortized across N−1 subsequent reads in the TTL window. For 100 agents sharing a 10,000-token system prompt with Anthropic caching at Claude 3.5 Sonnet rates: 1 write ($0.0375) + 99 reads ($0.297) = $0.3345 total vs $3.00 uncached — $2.666 savings per 100-agent batch (88.9% reduction). For a 1,000-agent fleet, the per-agent cost approaches the pure read price ($0.003/call for 10,000 tokens), reducing system prompt token cost by approximately 90%. For OpenAI implicit caching, no configuration is needed — any fleet of agents using the same API key and the same system prompt prefix ≥1,024 tokens automatically shares cache hits within the TTL window.
 
-### Is prompt caching a security risk in multi-tenant systems?
+### How should I structure my system prompt for maximum cache hit rate?
 
-A shared prompt cache — multiple tenants using the same API key and sharing the same cache key space — creates two data leakage vectors: cache timing side-channels (a tenant can infer whether a specific prefix was recently cached by measuring the latency difference between a cache hit and a cache miss, revealing that another tenant recently sent a specific system prompt structure) and semantic cache cross-contamination (in application-layer semantic caches using embedding similarity lookup, a semantically similar query from TenantB may retrieve TenantA's cached response, a high-severity information disclosure). The mitigation for provider-level caching (Anthropic, OpenAI) is per-tenant API key isolation — since the cache is maintained per API key, different tenants on different keys cannot share cache state. For application-layer semantic caches, every cache key must include the `tenant_id` and lookup must filter by tenant before embedding similarity comparison, enforced at the storage client layer rather than by agent code.
+Structure prompts so that all static content appears before any dynamic content, with the `cache_control` breakpoint placed at the static/dynamic boundary: (1) system prompt text (static — never changes per call), (2) tool schema definitions (static — changes only on deployment), (3) large reused document context if applicable (semi-static — cache with a second breakpoint if reused across calls), then (4) conversation history and (5) current user message (dynamic — not cached). On OpenAI, no breakpoints are needed — just ensure the static prefix is ≥1,024 tokens and appears before any per-call dynamic content. Common mistakes that break cache hit rate include injecting timestamps or user IDs into the system prompt before the cache breakpoint, using template-generated system prompts with non-deterministic whitespace or key ordering, and placing conversation history before the system prompt in the messages array.
 
-### What is cache warming and why does it matter for agent fleets?
+### Is prompt caching secure in multi-tenant agent systems?
 
-Cache warming is the practice of pre-sending a request with the target prefix before the first user-facing request, ensuring the first production call hits the cache rather than paying full price plus a write surcharge. For Anthropic (5-minute TTL refreshed on hit), a dedicated health-check pattern — sending a minimal ping request with the full system prompt and tool schemas in the prefix every 4 minutes — maintains cache warmth across an idle fleet and prevents cold-start cache misses when traffic resumes; 10 agents × 2,000-token pings every 4 minutes costs approximately $0.006 per cycle at Claude 3.5 Sonnet cached pricing. For Gemini (explicit cache objects with 1-hour minimum TTL), the `CachedContent` object should be created during the deployment process rather than on the first user request, since object creation takes a few seconds and adds latency to the hot path. For OpenAI (auto-applied), the first request in each new session always pays full price — no warm-up mechanism is available — but the cache persists automatically throughout the session without requiring refresh activity.
+Prompt caching is isolated by API key on both Anthropic and OpenAI — a cache entry created by one API key can only be hit by calls using the same API key; different API keys never share cache entries regardless of identical prompt content. In a properly architected multi-tenant system where each tenant uses a separate API key, there is no cross-tenant cache sharing and no way for one tenant to infer another's system prompt through cache timing attacks. The security risk arises when multiple tenants share a single API key — agents with different system prompts but a shared API key do not share cache entries (prefixes differ), but a tenant could construct requests designed to probe whether a particular prefix is cached, inferring information about another tenant's system prompt structure. For high-security multi-tenant deployments, enforce one API key per tenant as a hard architectural rule, not just a convention.
