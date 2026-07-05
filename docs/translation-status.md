@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-07-05
 
-Tracks per-page translation coverage for the 75 canonical English pages
+Tracks per-page translation coverage for the 76 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 75
+- **Canonical pages:** 76
 - **Fully translated (all 12 locales):** 51
 - **Partially translated:** 1
-- **English-only (0 translations):** 23
+- **English-only (0 translations):** 24
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 51 / 75 | 68% |
-| zh-TW | 51 / 75 | 68% |
-| ja | 51 / 75 | 68% |
-| ko | 51 / 75 | 68% |
-| es | 51 / 75 | 68% |
-| fr | 51 / 75 | 68% |
-| de | 51 / 75 | 68% |
-| pt | 51 / 75 | 68% |
-| ar | 51 / 75 | 68% |
-| hi | 52 / 75 | 69% |
-| ru | 52 / 75 | 69% |
-| th | 52 / 75 | 69% |
+| zh | 51 / 76 | 67% |
+| zh-TW | 51 / 76 | 67% |
+| ja | 51 / 76 | 67% |
+| ko | 51 / 76 | 67% |
+| es | 51 / 76 | 67% |
+| fr | 51 / 76 | 67% |
+| de | 51 / 76 | 67% |
+| pt | 51 / 76 | 67% |
+| ar | 51 / 76 | 67% |
+| hi | 52 / 76 | 68% |
+| ru | 52 / 76 | 68% |
+| th | 52 / 76 | 68% |
 
 ## Coverage matrix
 
@@ -112,6 +112,7 @@ locales; they are not tracked here.
 | `/learn/human-in-the-loop-ai-agents` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/llm-cost-optimization` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/llm-gateway` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/llm-prompt-caching` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/multi-agent-systems` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -144,4 +145,5 @@ locales; they are not tracked here.
 - `/learn/build-ai-agent` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/grok-4` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/human-in-the-loop-ai-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/llm-prompt-caching` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
