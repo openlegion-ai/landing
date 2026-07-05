@@ -214,8 +214,8 @@ In a multi-agent fleet where N agents of the same type run concurrently with ide
 | **Scenario** | **Total cost** | **Per-agent cost** | **vs uncached** |
 |---|---|---|---|
 | **Uncached (100 calls)** | $3.00 | $0.030 | baseline |
-| **Cached (1 write + 99 reads)** | $0.3345 | $0.003345 | ≈−88.9% |
-| **1,000 agents (1 write + 999 reads)** | $3.0375 → per agent $0.003 | $0.003 | ≈−90% |
+| **Cached (1 write + 99 reads)** | $0.3345 | $0.003345 | −88.9% |
+| **1,000 agents (1 write + 999 reads)** | $3.0375 → per agent $0.003 | $0.003 | −90% |
 
 The fleet multiplier: as N approaches infinity, per-agent cost approaches the pure read price ($0.003 for 10,000 tokens at Claude 3.5 Sonnet rates). A fleet of 1,000 agents running the same task simultaneously pays one write and 999 reads — 99.9% of the write cost is amortized.
 
