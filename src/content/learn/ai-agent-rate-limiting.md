@@ -1,9 +1,9 @@
 ---
-title: "AI Agent Rate Limiting — Quota Control, Circuit Breakers, and Budget Caps"
+title: "AI Agent Rate Limiting: Quota Control, Circuit Breakers, and Budget Caps"
 description: "AI agent rate limiting stops API quota exhaustion and runaway loops. Token bucket algorithms, circuit breakers, per-agent budget caps, and mesh-layer enforcement before calls reach the LLM provider."
 slug: /learn/ai-agent-rate-limiting
 primary_keyword: ai agent rate limiting
-last_updated: "2026-07-05"
+last_updated: "2026-07-07"
 schema_types: ["FAQPage"]
 related:
   - /learn/ai-agent-cost
@@ -14,7 +14,7 @@ related:
   - /learn/ai-agent-reliability
 ---
 
-# AI Agent Rate Limiting — Quota Control, Circuit Breakers, and Budget Caps
+# AI Agent Rate Limiting: Quota Control, Circuit Breakers, and Budget Caps
 
 AI agent rate limiting is the practice of constraining how frequently autonomous agents call external APIs, consume tokens, or spend budget — enforced at the runtime layer before requests reach the LLM provider. Without per-agent limits, a fleet of 10 parallel agents making 1 GPT-4o call per second exhausts OpenAI Tier 1's 500 RPM quota in 50 seconds, triggering 429 errors that cascade into retry storms and API bans. Rate limiting is the architectural boundary between controlled agent systems and runaway cost explosions.
 
@@ -191,7 +191,7 @@ DLQs decouple rate limit recovery from agent execution: the agent is freed from 
 
 In a shared pool architecture, all agents draw from a single quota bucket. Implementation is straightforward: one token bucket, one rate limiter instance, all agents pass through it.
 
-**The problem:** a single runaway agent — stuck in a loop, misconfigured, or processing an unexpectedly large batch — can consume the shared pool, causing 429s for every other agent in the fleet. OWASP LLM Top 10 v1.1 (2025), LLM04 (Model Denial of Service) explicitly classifies unrestricted agent loops as a security risk: an agent consuming excessive resources degrades availability for all agents sharing the same infrastructure, which is equivalent to a self-inflicted denial of service.
+**The problem:** a single runaway agent — stuck in a loop, misconfigured, or processing an unexpectedly large batch — can consume the shared pool, causing 429s for every other agent in the fleet. OWASP LLM Top 10 v1.1 (2023), LLM04 (Model Denial of Service) explicitly classifies unrestricted agent loops as a security risk: an agent consuming excessive resources degrades availability for all agents sharing the same infrastructure, which is equivalent to a self-inflicted denial of service.
 
 In a shared pool, one LLM04-class event tanks the entire fleet. The diagnosis is straightforward: check which agent ID generated the spike. The mitigation requires post-hoc remediation (kill the runaway agent, wait for quota to recover). The damage — failed tasks across the fleet — is already done.
 
@@ -241,7 +241,7 @@ Three concrete numbers that define the failure mode:
 
 **OpenAI Tier 1 limits gpt-4o to 500 RPM and 30,000 TPM.** A fleet of 10 parallel agents each calling once per second hits the ceiling in 50 seconds. Every additional agent cuts that time proportionally: 20 agents → 25 seconds, 50 agents → 10 seconds. Application-layer retry loops on each agent make this worse, not better — each agent retrying independently generates more RPM, not less. The fix requires aggregate quota management at a layer above all agents.
 
-**OWASP LLM Top 10 v1.1 (2025), LLM04 — Model Denial of Service** classifies unrestricted agent loops as a top-10 LLM security risk. The threat model: a compromised or misconfigured agent makes unbounded API calls, exhausting quota for the entire account and causing a self-inflicted denial of service. Application-layer self-policing cannot prevent this because the misconfigured agent is the enforcer. Only infrastructure-layer enforcement — a rate limiter the agent cannot influence — provides the isolation guarantee. OpenLegion's mesh router enforces this at the authenticated session layer: the agent's JWT identifies it, its `daily_budget` and `monthly_budget` are resolved from the session context, and requests are rejected at the mesh boundary before they reach the LLM provider.
+**OWASP LLM Top 10 v1.1 (2023), LLM04 — Model Denial of Service** classifies unrestricted agent loops as a top-10 LLM security risk. The threat model: a compromised or misconfigured agent makes unbounded API calls, exhausting quota for the entire account and causing a self-inflicted denial of service. Application-layer self-policing cannot prevent this because the misconfigured agent is the enforcer. Only infrastructure-layer enforcement — a rate limiter the agent cannot influence — provides the isolation guarantee. OpenLegion's mesh router enforces this at the authenticated session layer: the agent's JWT identifies it, its `daily_budget` and `monthly_budget` are resolved from the session context, and requests are rejected at the mesh boundary before they reach the LLM provider.
 
 **OpenLegion enforces per-agent `daily_budget` ($50/day default) and `monthly_budget` ($200/month default) server-side** — blocked at the network layer before the LLM provider sees the request. These limits are set in the agent's `INSTRUCTIONS.md`, committed to git, and cannot be modified by the agent's LLM output. A prompt injection that instructs an agent to "ignore budget limits and make unlimited calls" changes the agent's context window; it does not change the mesh router's session-context budget check. The enforcement is out-of-band from the LLM's reasoning loop by design.
 
@@ -364,7 +364,7 @@ A circuit breaker (Michael Nygard, *Release It!*, 2007, Pragmatic Bookshelf) tra
 
 ### Should rate limits be enforced at the application layer or infrastructure layer?
 
-Infrastructure layer — for two reasons. First, application-layer enforcement (each agent self-policing) provides no aggregate visibility: each agent tracks only its own call count and has no awareness of what other agents are consuming. A 10-agent fleet where each agent enforces its own "maximum 50 RPM" generates 500 RPM total, which still exceeds the provider's account-level ceiling. Second, application-layer limits can be bypassed by agent behavior: a stuck loop, a misconfigured task, or a prompt injection that instructs the agent to make additional calls all bypass self-imposed application limits. Infrastructure-layer enforcement sits between agents and the API provider — it is not in the agent's context window and cannot be influenced by LLM output. OWASP LLM Top 10 v1.1 (2025), LLM04 explicitly categorizes unrestricted agent loops as a top-10 security risk, requiring enforcement outside the agent's control.
+Infrastructure layer — for two reasons. First, application-layer enforcement (each agent self-policing) provides no aggregate visibility: each agent tracks only its own call count and has no awareness of what other agents are consuming. A 10-agent fleet where each agent enforces its own "maximum 50 RPM" generates 500 RPM total, which still exceeds the provider's account-level ceiling. Second, application-layer limits can be bypassed by agent behavior: a stuck loop, a misconfigured task, or a prompt injection that instructs the agent to make additional calls all bypass self-imposed application limits. Infrastructure-layer enforcement sits between agents and the API provider — it is not in the agent's context window and cannot be influenced by LLM output. OWASP LLM Top 10 v1.1 (2023), LLM04 explicitly categorizes unrestricted agent loops as a top-10 security risk, requiring enforcement outside the agent's control.
 
 ### How does OpenLegion enforce rate limiting for AI agents?
 
