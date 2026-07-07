@@ -1,9 +1,9 @@
 ---
-title: "LLM Routing — Model Selection, Cost Optimization, and Router Architecture"
+title: "LLM Routing: Model Selection, Cost Optimization, and Router Architecture"
 description: "How LLM routing works: model selection by complexity and cost. RouteLLM 40% savings, OpenRouter, AWS Bedrock intelligent routing, LiteLLM OSS, Martian, and adversarial ML router security risks."
 slug: /learn/llm-routing
 primary_keyword: llm routing
-last_updated: "2026-07-05"
+last_updated: "2026-07-07"
 schema_types: ["FAQPage"]
 related:
   - /learn/llm-gateway
@@ -132,28 +132,20 @@ Load-balancing routing distributes queries across multiple equivalent endpoints 
 
 ### AWS Bedrock Intelligent Prompt Routing: Managed Complexity Classifier
 
-**AWS Bedrock intelligent prompt routing** (GA 2025) uses an AWS-managed complexity classifier to score each query and route between two Anthropic models on Bedrock:
-- **Simple queries** → Claude 3 Haiku (lower cost, faster, lower capability)
-- **Complex queries** → Claude 3.5 Sonnet (higher quality, higher cost)
+**AWS Bedrock intelligent prompt routing** (GA 2025) uses an AWS-managed complexity classifier to score each query and route between two models within the same model family. AWS reports an average **30% cost reduction** for mixed-complexity workloads using intelligent prompt routing vs always using the heavier model.
 
-The routing threshold is configurable via the Bedrock console or API. AWS reports an average **30% cost reduction** for mixed-complexity workloads using intelligent prompt routing vs always using Sonnet.
+**Supported model families (as of 2025):** Anthropic Claude (Claude 3 Haiku, Claude 3.5 Haiku, Claude 3.5 Sonnet), Amazon Nova (Nova Lite, Nova Pro), and Meta Llama (Llama 3.1 70B/8B, Llama 3.2, Llama 3.3 70B). Each router pairs two models within the same family; the routing threshold is configurable via the Bedrock console or API.
 
 **Limitations:**
-- Routes only between Haiku and Sonnet — two Anthropic models on AWS Bedrock. No cross-provider routing, no access to GPT-4o or Llama models.
+- Routes only within a single model family on AWS Bedrock — no cross-provider routing, no cross-family routing (e.g., cannot route between a Claude model and a Llama model in a single router).
 - No ability to inject custom routing logic or retrain the complexity classifier on domain-specific data.
 - Threshold configuration is coarse — no per-query-type tuning.
 
-Best fit: AWS-native deployments already using Bedrock with Claude models, where query complexity is genuinely mixed and the Haiku/Sonnet capability gap is acceptable for the simpler tier.
+Best fit: AWS-native deployments already using Bedrock, where query complexity is genuinely mixed and the capability gap between the two models in the chosen family is acceptable for the simpler tier.
 
 ### Martian and LiteLLM: Enterprise Router and OSS Router
 
-**Martian** (withmartian.com): raised a **$9M Series A in 2024** on model routing. Commercial router that learns per-customer routing policies from production traffic rather than using a generic complexity classifier trained on public benchmark data.
-
-Key claims:
-- Average **40% cost savings** across enterprise customers with quality maintained above a configurable threshold
-- Model-agnostic API: the customer specifies quality requirements, Martian selects the model
-- Routing policy adapts over time as production traffic patterns shift
-- Includes quality monitoring dashboards showing routing decisions and quality metrics by query type
+**Martian** (withmartian.com): raised a **$9M Series A in 2024** originally focused on model routing. As of 2026, the company has pivoted to AI interpretability research ("Understanding Intelligence"). Teams relying on Martian's routing product should verify current availability directly with the company.
 
 **LiteLLM OSS router** (github.com/BerriAI/litellm, Apache 2.0): open-source Python library and proxy server supporting **100+ LLM providers**. Routing features:
 - **Fallback:** priority list of models — try model A, fall back to model B on error or rate limit
@@ -218,7 +210,7 @@ An ML-based router that scores query complexity is an adversarial target. Three 
 
 ### Routing Data Exfiltration and Vault-Proxied Routing
 
-Routing systems that log query content to make routing decisions — Martian logs production traffic to learn per-customer routing policies; some classifier-based routers log query-decision pairs for threshold calibration — have access to potentially sensitive query content.
+Routing systems that log query content to make routing decisions — some classifier-based routers log query-decision pairs for threshold calibration — have access to potentially sensitive query content.
 
 **Data exfiltration risk:** a compromised or malicious routing layer exfiltrates query content including PII, proprietary data, or confidential instructions in system prompts. The routing layer sits between the agent and the LLM provider — it sees every query before the model does.
 
@@ -230,7 +222,7 @@ Routing systems that log query content to make routing decisions — Martian log
 
 ## OpenLegion's Take: Structural Routing Beats Dynamic Routing for Production Agent Fleets
 
-The RouteLLM paper, the Martian pitch deck, and the AWS Bedrock documentation all position dynamic per-query routing as the goal. Route each query to the cheapest model that can handle it, trained classifier decides in real time. The savings numbers are compelling: 40% cost reduction, 30% cost reduction, always-available.
+The RouteLLM paper, and the AWS Bedrock documentation all position dynamic per-query routing as the goal. Route each query to the cheapest model that can handle it, trained classifier decides in real time. The savings numbers are compelling: 40% cost reduction, 30% cost reduction, always-available.
 
 Three concrete problems that reframe this for production agent systems:
 
@@ -240,14 +232,14 @@ Three concrete problems that reframe this for production agent systems:
 
 **OpenLegion enforces per-agent model configuration in INSTRUCTIONS.md, committed to git.** Every model assignment is a git commit — full audit trail of which agent role uses which model and when that changed. The routing decision is made once by a developer who understands the role's complexity requirements; the mesh router enforces it at every call without a classifier. Zero classifier overhead, zero adversarial attack surface, deterministic behavior, full auditability.
 
-| **Routing property** | **OpenLegion** | **RouteLLM (OSS)** | **OpenRouter** | **AWS Bedrock routing** | **Martian** |
+| **Routing property** | **OpenLegion** | **RouteLLM (OSS)** | **OpenRouter** | **AWS Bedrock routing** | **LiteLLM** |
 |---|---|---|---|---|---|
 | **Per-agent model config (structural routing)** | INSTRUCTIONS.md, committed to git | Not available | Not available | Not available | Not available |
 | **Routing decision audit trail** | Every model call tagged with agent_id and model | Logging configurable | Per-call response metadata | CloudWatch logs | Dashboard |
-| **Adversarial attack surface on routing** | None (structural, not content-based) | ML classifier (BERT/MF) — attackable | Model-by-name (low surface) | AWS-managed classifier — attackable | ML classifier — attackable |
+| **Adversarial attack surface on routing** | None (structural, not content-based) | ML classifier (BERT/MF) — attackable | Model-by-name (low surface) | AWS-managed classifier — attackable | Config-based (low surface) |
 | **Vault-proxied model calls** | Zone 2 proxy, credentials never in agent context | No | No | IAM role | No |
 | **Per-agent budget cap** | daily_budget, monthly_budget in INSTRUCTIONS.md | No | Per-key budget limit | Bedrock cost allocation | Per-team budget |
-| **Cross-provider routing** | Per-agent model config can target any provider | OpenAI-compatible | 200+ endpoints | Anthropic on Bedrock only | Multi-provider |
+| **Cross-provider routing** | Per-agent model config can target any provider | OpenAI-compatible | 200+ endpoints | Within Bedrock only | 100+ providers |
 
 For the proxy/authentication layer that complements routing — API key consolidation, rate limiting, and request logging — see [LLM gateway authentication, rate limiting, and spend enforcement](/learn/llm-gateway).
 
@@ -269,7 +261,7 @@ OpenRouter is a model aggregator providing access to 200+ LLM endpoints (2025) t
 
 ### What is AWS Bedrock intelligent prompt routing?
 
-AWS Bedrock intelligent prompt routing (generally available 2025) uses an AWS-managed complexity classifier to score each query and route it to either Claude 3 Haiku (for queries scored as simple — lower cost, faster) or Claude 3.5 Sonnet (for queries scored as complex — higher quality, higher cost), with the routing threshold configurable via the Bedrock console or API. AWS reports an average 30% cost reduction for mixed-complexity workloads using intelligent prompt routing vs always using Sonnet. The feature is limited to routing between two Anthropic models on AWS Bedrock — no cross-provider routing, no custom routing logic, no ability to retrain the complexity classifier on domain-specific data. It is best suited for AWS-native deployments already using Bedrock with Claude models and a genuinely mixed-complexity query distribution.
+AWS Bedrock intelligent prompt routing (generally available 2025) uses an AWS-managed complexity classifier to score each query and route it between two models within the same model family on AWS Bedrock. AWS reports an average 30% cost reduction for mixed-complexity workloads vs always using the heavier model. Supported families include Anthropic Claude, Amazon Nova, and Meta Llama models. The feature routes only within a single model family — no cross-provider routing, no cross-family routing, no custom routing logic, and no ability to retrain the complexity classifier on domain-specific data. It is best suited for AWS-native deployments already using Bedrock with a genuinely mixed-complexity query distribution.
 
 ### What is the difference between LLM routing and an LLM gateway?
 
