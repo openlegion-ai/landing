@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-07-08
 
-Tracks per-page translation coverage for the 79 canonical English pages
+Tracks per-page translation coverage for the 80 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 79
+- **Canonical pages:** 80
 - **Fully translated (all 12 locales):** 52
 - **Partially translated:** 1
-- **English-only (0 translations):** 26
+- **English-only (0 translations):** 27
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 52 / 79 | 66% |
-| zh-TW | 52 / 79 | 66% |
-| ja | 52 / 79 | 66% |
-| ko | 52 / 79 | 66% |
-| es | 52 / 79 | 66% |
-| fr | 52 / 79 | 66% |
-| de | 52 / 79 | 66% |
-| pt | 52 / 79 | 66% |
-| ar | 52 / 79 | 66% |
-| hi | 53 / 79 | 67% |
-| ru | 53 / 79 | 67% |
-| th | 53 / 79 | 67% |
+| zh | 52 / 80 | 65% |
+| zh-TW | 52 / 80 | 65% |
+| ja | 52 / 80 | 65% |
+| ko | 52 / 80 | 65% |
+| es | 52 / 80 | 65% |
+| fr | 52 / 80 | 65% |
+| de | 52 / 80 | 65% |
+| pt | 52 / 80 | 65% |
+| ar | 52 / 80 | 65% |
+| hi | 53 / 80 | 66% |
+| ru | 53 / 80 | 66% |
+| th | 53 / 80 | 66% |
 
 ## Coverage matrix
 
@@ -113,6 +113,7 @@ locales; they are not tracked here.
 | `/learn/grok-4` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/human-in-the-loop-ai-agents` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/llm-cost-optimization` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/llm-fine-tuning` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/llm-gateway` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/llm-prompt-caching` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/llm-routing` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
@@ -149,6 +150,7 @@ locales; they are not tracked here.
 - `/learn/build-ai-agent` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/grok-4` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/human-in-the-loop-ai-agents` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/llm-fine-tuning` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/llm-prompt-caching` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/llm-routing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
