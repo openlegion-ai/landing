@@ -1,5 +1,5 @@
 ---
-title: "LLM Fine Tuning — LoRA, QLoRA, Security Risks, and When to Fine-Tune"
+title: "LLM Fine Tuning: LoRA, QLoRA, Security Risks, and When to Fine-Tune"
 description: "When and how to fine-tune LLMs: LoRA vs QLoRA vs full fine-tuning, OpenAI API pricing, GDPR Art. 17 PII-in-weights risk, catastrophic forgetting, fine-tuning vs RAG decision framework."
 slug: /learn/llm-fine-tuning
 primary_keyword: llm fine tuning
@@ -83,7 +83,7 @@ For monitoring fine-tuned model quality in production — tracking benchmark deg
 
 **Trainable parameter count:** for GPT-3 175B with rank r=4 targeting Q and V attention matrices, LoRA yields approximately **18M trainable parameters — 0.01% of the 175B total (a 10,000× reduction)**. For a 7B model with rank 16 targeting all attention projections, approximately 4–8M trainable parameters.
 
-**HuggingFace PEFT** (22,000+ GitHub stars, 2026): `get_peft_model(model, lora_config)` applies LoRA to any HuggingFace model in 3 lines of code. Key hyperparameters:
+**HuggingFace PEFT** (21,000+ GitHub stars, 2026): `get_peft_model(model, lora_config)` applies LoRA to any HuggingFace model in 3 lines of code. Key hyperparameters:
 
 | **Hyperparameter** | **Typical range** | **Effect** |
 |---|---|---|
@@ -100,22 +100,22 @@ For monitoring fine-tuned model quality in production — tracking benchmark deg
 
 **QLoRA** (Quantized LoRA, Dettmers et al., 2023, arXiv:2305.14314) combines 4-bit NF4 quantization of the frozen base model with LoRA adapters trained in bfloat16.
 
-**Memory reduction:** a 65B parameter model at fp16 requires approximately 130GB GPU RAM. QLoRA reduces this to approximately 40GB — fitting on **a single 48GB A100 GPU**. Before QLoRA, fine-tuning a 65B model required a cluster of 8× A100 GPUs ($16+/hr); after QLoRA, a single rented A100 ($2–4/hr) is sufficient.
+**Memory reduction:** a 65B parameter model at fp16 requires approximately 130GB GPU RAM. QLoRA reduces this to approximately 40GB — fitting on **a single 48GB GPU**. Before QLoRA, fine-tuning a 65B model required a cluster of 8× A100 GPUs ($16+/hr); after QLoRA, a single rented 48GB GPU ($2–4/hr) is sufficient.
 
-**Benchmark:** QLoRA achieves **less than 4% performance loss on MMLU and Vicuna** benchmarks compared to full fp16 fine-tuning.
+**Benchmark:** QLoRA achieves near-parity with full fp16 fine-tuning on MMLU and Vicuna benchmarks — the paper reports it "preserves full 16-bit finetuning task performance."
 
 **QLoRA techniques:**
 - **NF4 quantization:** a quantization data type optimized for normally-distributed model weights; compresses base model from 16-bit to 4-bit per parameter
 - **Double quantization:** quantizes the quantization constants themselves (8-bit → 4-bit), saving approximately 0.37 bits per parameter on top of NF4
 - **Paged optimizers:** uses GPU unified memory paging to handle occasional memory spikes during training without out-of-memory errors
 
-**Axolotl** (9,000+ GitHub stars, 2026): YAML-configured trainer built on HuggingFace PEFT and DeepSpeed. Enables QLoRA with `load_in_4bit: true` and `adapter: qlora` in the config file. Supports Flash Attention 2, DeepSpeed ZeRO stages 1/2/3 for multi-GPU training, and multiple dataset formats (Alpaca, FLAN, ShareGPT, custom JSONL).
+**Axolotl** (12,000+ GitHub stars, 2026): YAML-configured trainer built on HuggingFace PEFT and DeepSpeed. Enables QLoRA with `load_in_4bit: true` and `adapter: qlora` in the config file. Supports Flash Attention 2, DeepSpeed ZeRO stages 1/2/3 for multi-GPU training, and multiple dataset formats (Alpaca, FLAN, ShareGPT, custom JSONL).
 
 For the broader LLM cost stack — model routing, prompt compression, and quantization at inference time — see [LLM cost optimization and model selection tradeoffs](/learn/llm-cost-optimization).
 
 ### Other PEFT Methods: Prefix Tuning, IA3, and AdaLoRA
 
-HuggingFace PEFT (22,000+ GitHub stars, 2026) supports several PEFT methods beyond LoRA:
+HuggingFace PEFT (21,000+ GitHub stars, 2026) supports several PEFT methods beyond LoRA:
 
 - **Prefix Tuning** (Li and Liang, 2021): prepends learned virtual tokens to the input at each transformer layer. The virtual tokens are trained while the base model is frozen. Slightly fewer trainable parameters than LoRA but generally lower generation quality.
 - **IA3** (Infused Adapter by Inhibiting and Amplifying Inner Activations): scales specific transformer activations with learned vectors. Extremely parameter-efficient — even fewer parameters than LoRA. Effective for few-shot adaptation, less so for full fine-tuning datasets.
@@ -146,7 +146,7 @@ OpenAI's fine-tuning API supports GPT-4o mini and GPT-4o as of 2025.
 
 ### Self-Hosted Fine-Tuning with Axolotl and HuggingFace PEFT
 
-**Axolotl** (9,000+ GitHub stars, 2026): YAML-configured distributed fine-tuning framework supporting LoRA, QLoRA, full fine-tuning, and instruction tuning.
+**Axolotl** (12,000+ GitHub stars, 2026): YAML-configured distributed fine-tuning framework supporting LoRA, QLoRA, full fine-tuning, and instruction tuning.
 
 **Typical Axolotl QLoRA training run:**
 - GPU: 1× A100 80GB ($2–4/hr on RunPod, Lambda Labs)
@@ -274,7 +274,7 @@ LoRA (Low-Rank Adaptation, arXiv:2106.09685, Edward Hu et al., NeurIPS 2022) fre
 
 ### What is QLoRA?
 
-QLoRA (Quantized LoRA, Dettmers et al., 2023, arXiv:2305.14314) combines 4-bit NF4 quantization of the frozen base model with LoRA adapters trained in bfloat16, enabling fine-tuning of a 65B parameter model on a single 48GB GPU — compared to approximately 520GB of GPU RAM required for full fp16 fine-tuning of the same model size. The benchmark result is less than 4% performance loss on MMLU and Vicuna compared to full fp16 fine-tuning, making QLoRA the practical standard for fine-tuning large models without a GPU cluster. QLoRA uses three techniques: NF4 quantization (4-bit data type optimized for normally-distributed weights), double quantization (quantizing the quantization constants for an additional 0.37 bits/parameter saving), and paged optimizers (GPU unified memory paging to handle training memory spikes), implemented in HuggingFace PEFT and Axolotl with a simple `load_in_4bit: true` configuration.
+QLoRA (Quantized LoRA, Dettmers et al., 2023, arXiv:2305.14314) combines 4-bit NF4 quantization of the frozen base model with LoRA adapters trained in bfloat16, enabling fine-tuning of a 65B parameter model on a single 48GB GPU — compared to approximately 520GB of GPU RAM required for full fp16 fine-tuning of the same model size. The paper reports that QLoRA preserves full 16-bit finetuning task performance, making it the practical standard for fine-tuning large models without a GPU cluster. QLoRA uses three techniques: NF4 quantization (4-bit data type optimized for normally-distributed weights), double quantization (quantizing the quantization constants for an additional 0.37 bits/parameter saving), and paged optimizers (GPU unified memory paging to handle training memory spikes), implemented in HuggingFace PEFT and Axolotl with a simple `load_in_4bit: true` configuration.
 
 ### When should I fine-tune an LLM vs use RAG?
 
@@ -290,11 +290,11 @@ Catastrophic forgetting occurs when full fine-tuning on a narrow domain dataset 
 
 ### How much does it cost to fine-tune an LLM?
 
-OpenAI's fine-tuning API for GPT-4o mini costs $8.00/million training tokens — $16 for a 1,000-example dataset at 2,000 tokens per example — plus a 2× inference premium ($0.30/M input, $1.20/M output vs $0.15/M base). Self-hosted QLoRA fine-tuning on Llama 3.1 8B or Mistral 7B using a rented A100 GPU ($2–4/hr on RunPod or Lambda Labs) typically costs $1–16 in compute for 1,000–10,000 example datasets taking 30 minutes to 4 hours of training time. Full fine-tuning costs scale with model size: a 70B model requires 4–8× A100 80GB GPUs, making a training run $100–500+. QLoRA's ability to fine-tune a 65B parameter model on a single 48GB GPU for under $10 in compute has made parameter-efficient fine-tuning the default approach for teams without a GPU cluster.
+OpenAI's fine-tuning API for GPT-4o mini costs $8.00/million training tokens — $16 for a 1,000-example dataset at 2,000 tokens per example — plus a 2× inference premium ($0.30/M input, $1.20/M output vs $0.15/M base). Self-hosted QLoRA fine-tuning on Llama 3.1 8B or Mistral 7B using a rented 48GB GPU ($2–4/hr on RunPod or Lambda Labs) typically costs $1–16 in compute for 1,000–10,000 example datasets taking 30 minutes to 4 hours of training time. Full fine-tuning costs scale with model size: a 70B model requires 4–8× A100 80GB GPUs, making a training run $100–500+. QLoRA's ability to fine-tune a 65B parameter model on a single 48GB GPU for under $10 in compute has made parameter-efficient fine-tuning the default approach for teams without a GPU cluster.
 
 ### What are HuggingFace PEFT and Axolotl?
 
-HuggingFace PEFT (Parameter-Efficient Fine-Tuning) is an open-source Python library (22,000+ GitHub stars, 2026) implementing LoRA, QLoRA, Prefix Tuning, IA3, AdaLoRA, and other PEFT methods with a 3-line API (`get_peft_model(model, lora_config)`) compatible with any HuggingFace Transformers model — adapter weights are saved as a small file (20–150MB vs 14–70GB for the full base model). Axolotl is an open-source distributed fine-tuning framework (9,000+ GitHub stars, 2026) built on PEFT and DeepSpeed, configured via YAML for reproducible training runs and supporting Flash Attention 2, DeepSpeed ZeRO stages 1/2/3 for multi-GPU training, and dataset formats including Alpaca, FLAN, ShareGPT, and custom JSONL. Together they form the standard self-hosted fine-tuning stack: Axolotl manages training orchestration and dataset loading, PEFT handles the LoRA/QLoRA adapter mechanics, and vLLM or Text Generation Inference (TGI) serves the resulting adapter in production with OpenAI-compatible APIs and per-request LoRA hot-loading.
+HuggingFace PEFT (Parameter-Efficient Fine-Tuning) is an open-source Python library (21,000+ GitHub stars, 2026) implementing LoRA, QLoRA, Prefix Tuning, IA3, AdaLoRA, and other PEFT methods with a 3-line API (`get_peft_model(model, lora_config)`) compatible with any HuggingFace Transformers model — adapter weights are saved as a small file (20–150MB vs 14–70GB for the full base model). Axolotl is an open-source distributed fine-tuning framework (12,000+ GitHub stars, 2026) built on PEFT and DeepSpeed, configured via YAML for reproducible training runs and supporting Flash Attention 2, DeepSpeed ZeRO stages 1/2/3 for multi-GPU training, and dataset formats including Alpaca, FLAN, ShareGPT, and custom JSONL. Together they form the standard self-hosted fine-tuning stack: Axolotl manages training orchestration and dataset loading, PEFT handles the LoRA/QLoRA adapter mechanics, and vLLM or Text Generation Inference (TGI) serves the resulting adapter in production with OpenAI-compatible APIs and per-request LoRA hot-loading.
 
 ## Start Fine-Tuning LLMs for Production Agents
 
