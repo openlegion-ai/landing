@@ -1,5 +1,5 @@
 ---
-title: "LLM Structured Output — JSON Schema, Pydantic, and Schema Enforcement"
+title: "LLM Structured Output: JSON Schema, Pydantic, and Schema Enforcement"
 description: "How LLM structured output works: OpenAI Structured Outputs GA 2024 vs JSON mode, Anthropic tool_use, Instructor library, constrained decoding with Outlines, and security risks of unvalidated output."
 slug: /learn/llm-structured-output
 primary_keyword: llm structured output
@@ -10,7 +10,7 @@ related:
   - /learn/ai-agent-security
   - /learn/llm-fine-tuning
   - /learn/llm-routing
-  - /learn/agentic-loop
+  - /learn/agentic-workflows
   - /learn/ai-agent-testing
 ---
 
@@ -57,7 +57,7 @@ In strict mode, the model's token generation is constrained so that **only token
 
 **Token-level vs value-level distinction:** Structured Outputs guarantees structure (keys, types, required fields) but not value validity. A required string field `action` will always be present, but its content may still be semantically wrong (the model returns `"action": "serach"` instead of `"search"`). Combine server-side Structured Outputs with client-side Pydantic `Literal` type validators for value-level constraints.
 
-For how structured output failures propagate across loop iterations and compound cost, see [the agentic loop and how structured output failures propagate across iterations](/learn/agentic-loop).
+For how structured output failures propagate across loop iterations and compound cost, see [agentic workflows and how structured output failures propagate across iterations](/learn/agentic-workflows).
 
 ## Provider Schema Enforcement: OpenAI, Anthropic, and Google
 
@@ -138,7 +138,7 @@ For the proxy and authentication layer in front of multi-provider structured out
 
 ### Instructor: Pydantic Validation + Automatic Retry
 
-**Instructor** (jxnl/instructor, 9,700+ GitHub stars, 2026) wraps LLM provider clients with Pydantic model validation and automatic retry on `ValidationError`.
+**Instructor** (567-labs/instructor, 13,000+ GitHub stars, 2026) wraps LLM provider clients with Pydantic model validation and automatic retry on `ValidationError`.
 
 ```python
 import instructor
@@ -272,7 +272,7 @@ The model cannot generate an invalid token even if the unconstrained logit distr
 
 ### Outlines: JSON Schema, Regex, and CFG Constraints
 
-**Outlines** (outlines-dev/outlines, 10,000+ GitHub stars, 2026) implements constrained decoding for local models.
+**Outlines** (dottxt-ai/outlines, 14,000+ GitHub stars, 2026) implements constrained decoding for local models.
 
 **Constraint types:**
 
@@ -344,7 +344,7 @@ For testing structured output compliance at scale — generating adversarial sch
 
 Three concrete problems define the structured output failure mode in production:
 
-**The JSON mode trap has a named CVE pattern.** CVE-2024-5184 (Palo Alto Unit 42, May 2024) demonstrates prompt injection via tool response content. The attack vector is an LLM that processes external content and produces structured output without schema enforcement — the injected instruction causes the model to return output that the downstream agent treats as a legitimate directive. Schema enforcement with `additionalProperties: false` is not a complete defense (the model may still be manipulated within allowed fields), but it is a necessary condition: any agent pipeline that passes unvalidated LLM JSON to downstream stages is vulnerable to injection propagation through the data layer.
+**The JSON mode trap has a named CVE pattern.** CVE-2024-5184 (Synopsys/Unit 42, May 2024) demonstrates prompt injection via tool response content. The attack vector is an LLM that processes external content and produces structured output without schema enforcement — the injected instruction causes the model to return output that the downstream agent treats as a legitimate directive. Schema enforcement with `additionalProperties: false` is not a complete defense (the model may still be manipulated within allowed fields), but it is a necessary condition: any agent pipeline that passes unvalidated LLM JSON to downstream stages is vulnerable to injection propagation through the data layer.
 
 **OpenAI Structured Outputs (GA August 6, 2024) closed a reliability gap that JSON mode left open since November 2023.** The 9-month window when JSON mode was the only available pattern produced an entire generation of agent pipelines with latent schema violation bugs. Many of these pipelines are still running in production, surfacing as intermittent `KeyError` exceptions with no obvious root cause. The fix — migrating from `json_object` to `json_schema` strict mode — is a one-line change for supported models. The schema design requirements (`additionalProperties: false`, all fields in `required`) are the correct security defaults for a production schema regardless.
 
@@ -373,11 +373,11 @@ OpenAI JSON mode (November 2023, `response_format: {type: "json_object"}`) guara
 
 ### How does the Instructor library work?
 
-Instructor (jxnl/instructor, 9,700+ GitHub stars) wraps LLM provider clients (OpenAI, Anthropic, Gemini, and others) with Pydantic model validation and automatic retry on `ValidationError` — the call `client.chat.completions.create(response_model=MyPydanticModel, max_retries=3, messages=[...])` parses the LLM response into the Pydantic model, and if validation fails, appends the specific `ValidationError` message to the conversation and retries the LLM call up to `max_retries` times. The retry feedback mechanism is the key difference from a manual retry loop: the model receives the specific validation error (`"field action must be one of ['search', 'navigate', 'click'], got 'tool_action'"`) rather than a generic retry prompt, allowing it to correct the specific field that failed. Instructor is provider-agnostic — `instructor.from_anthropic(Anthropic())` works identically for Anthropic models using `tool_use` schema enforcement under the hood, raising `InstructorRetryException` if all retries fail.
+Instructor (567-labs/instructor, 13,000+ GitHub stars) wraps LLM provider clients (OpenAI, Anthropic, Gemini, and others) with Pydantic model validation and automatic retry on `ValidationError` — the call `client.chat.completions.create(response_model=MyPydanticModel, max_retries=3, messages=[...])` parses the LLM response into the Pydantic model, and if validation fails, appends the specific `ValidationError` message to the conversation and retries the LLM call up to `max_retries` times. The retry feedback mechanism is the key difference from a manual retry loop: the model receives the specific validation error (`"field action must be one of ['search', 'navigate', 'click'], got 'tool_action'"`) rather than a generic retry prompt, allowing it to correct the specific field that failed. Instructor is provider-agnostic — `instructor.from_anthropic(Anthropic())` works identically for Anthropic models using `tool_use` schema enforcement under the hood, raising `InstructorRetryException` if all retries fail.
 
 ### What is constrained decoding and how does Outlines implement it?
 
-Constrained decoding modifies the token generation process at the logit level to allow only tokens that can appear in a valid continuation of the target format — at each generation step, a binary mask sets the logit of every invalid token to -infinity before softmax, making it structurally impossible for the model to generate a token that would violate the schema. Outlines (outlines-dev/outlines, 10,000+ GitHub stars) implements constrained decoding for local models, supporting JSON Schema, Pydantic models, regex patterns, context-free grammars, and fixed choice sets as constraint types; it integrates with HuggingFace Transformers, llama.cpp, and vLLM via a logit processor. Constrained decoding provides the same 100% schema conformance guarantee as OpenAI Structured Outputs but applies to locally-hosted models where server-side schema enforcement is not available; the computational overhead is typically 5–20% increased generation time due to the per-token mask computation.
+Constrained decoding modifies the token generation process at the logit level to allow only tokens that can appear in a valid continuation of the target format — at each generation step, a binary mask sets the logit of every invalid token to -infinity before softmax, making it structurally impossible for the model to generate a token that would violate the schema. Outlines (dottxt-ai/outlines, 14,000+ GitHub stars) implements constrained decoding for local models, supporting JSON Schema, Pydantic models, regex patterns, context-free grammars, and fixed choice sets as constraint types; it integrates with HuggingFace Transformers, llama.cpp, and vLLM via a logit processor. Constrained decoding provides the same 100% schema conformance guarantee as OpenAI Structured Outputs but applies to locally-hosted models where server-side schema enforcement is not available; the computational overhead is typically 5–20% increased generation time due to the per-token mask computation.
 
 ### How do I implement structured output with Anthropic Claude?
 
