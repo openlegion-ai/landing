@@ -1,5 +1,5 @@
 ---
-title: "LLM Observability — Token Traces, TTFT SLOs, and Prompt Logging Security"
+title: "LLM Observability: Token Traces, TTFT SLOs, and Prompt Logging Security"
 description: "LLM observability: OTel Gen AI spans, Langfuse prompt registry, TTFT SLO design, Anthropic token counting API, OpenLLMetry zero-code tracing, and OWASP LLM02 prompt logging security risks."
 slug: /learn/llm-observability
 primary_keyword: llm observability
@@ -148,7 +148,7 @@ For the routing layer that uses these latency signals to redirect calls to lower
 
 ### Langfuse: Open-Source Prompt Tracking and Cost Attribution
 
-**Langfuse** (langfuse.com, github.com/langfuse/langfuse, **13,000+ GitHub stars, 2026**): open-source LLM observability platform with prompt version tracking and cost attribution.
+**Langfuse** (langfuse.com, github.com/langfuse/langfuse, **30,000+ GitHub stars, 2026**): open-source LLM observability platform with prompt version tracking and cost attribution.
 
 **Key capabilities:**
 
@@ -303,7 +303,7 @@ When content logging is operationally required (debugging hallucinations, measur
 
 Apply a PII detection library to identify and redact entities from prompt/response text before sending to the observability backend:
 
-- **Microsoft Presidio** (github.com/microsoft/presidio, Apache 2.0): open-source PII detection and anonymization; real-time scrubbing at <10ms per call for typical prompt lengths; supports English and 20+ other languages; entity types: `PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `CREDIT_CARD_NUMBER`, `SSN`, `MEDICAL_RECORD_NUMBER`, `IP_ADDRESS`
+- **Microsoft Presidio** (github.com/data-privacy-stack/presidio, MIT): open-source PII detection and anonymization; real-time scrubbing at <10ms per call for typical prompt lengths; supports English and 20+ other languages; entity types: `PERSON`, `EMAIL_ADDRESS`, `PHONE_NUMBER`, `CREDIT_CARD_NUMBER`, `SSN`, `MEDICAL_RECORD_NUMBER`, `IP_ADDRESS`
 - **AWS Comprehend PII:** managed service; no infrastructure to run
 - **Google Cloud DLP:** managed service with custom info type definitions
 
@@ -431,7 +431,7 @@ OpenTelemetry Gen AI semantic conventions (v1.29+, merged November 2024) are sta
 
 ### What is Langfuse and how does it work?
 
-Langfuse (13,000+ GitHub stars, 2026) is an open-source LLM observability platform with a prompt registry (version-controlled prompt templates with one-call rollback), cost attribution per prompt version and model, trace visualization, and evaluation datasets for regression testing prompt changes before deployment. It integrates via Python and JavaScript SDKs, a `LangfuseCallbackHandler` for LangChain, and a `LangfuseOpenAI` wrapper for drop-in client replacement, and self-hosts on Docker Compose or Kubernetes — the self-hosted deployment keeps prompt and response data in the operator's own database, eliminating the third-party data processing relationship that makes Langfuse Cloud an OWASP LLM02 risk for sensitive deployments. The cost attribution by prompt version feature is the most operationally valuable capability: it identifies exactly which prompt version is driving a cost or quality change without requiring manual log parsing.
+Langfuse (30,000+ GitHub stars, 2026) is an open-source LLM observability platform with a prompt registry (version-controlled prompt templates with one-call rollback), cost attribution per prompt version and model, trace visualization, and evaluation datasets for regression testing prompt changes before deployment. It integrates via Python and JavaScript SDKs, a `LangfuseCallbackHandler` for LangChain, and a `LangfuseOpenAI` wrapper for drop-in client replacement, and self-hosts on Docker Compose or Kubernetes — the self-hosted deployment keeps prompt and response data in the operator's own database, eliminating the third-party data processing relationship that makes Langfuse Cloud an OWASP LLM02 risk for sensitive deployments. The cost attribution by prompt version feature is the most operationally valuable capability: it identifies exactly which prompt version is driving a cost or quality change without requiring manual log parsing.
 
 ### What is TTFT and what are good TTFT SLO targets?
 
