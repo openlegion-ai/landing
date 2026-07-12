@@ -1,5 +1,5 @@
 ---
-title: "Context Engineering for AI Agents — Slots, Compression, and Security"
+title: "Context Engineering for AI Agents: Slots, Compression, and Security"
 description: "How to engineer AI agent context: four slots, tool result compression, sliding window history, blackboard working memory, OWASP LLM02/LLM06 from context mismanagement, and vault-proxied credentials."
 slug: /learn/context-engineering
 primary_keyword: context engineering AI agents
@@ -7,7 +7,7 @@ last_updated: "2026-07-12"
 schema_types: ["FAQPage"]
 related:
   - /learn/ai-agent-context-window
-  - /learn/agentic-loop
+  - /learn/agentic-workflows
   - /learn/ai-agent-memory
   - /learn/llm-prompt-caching
   - /learn/ai-agent-security
@@ -74,7 +74,7 @@ Tool results are the primary source of context token waste. The compression oppo
 
 **Strategy 1 — LLM extraction before appending:**
 
-After receiving the raw tool result, call a small cheap model (Claude 3.5 Haiku at $0.25/MTok, GPT-4o-mini at $0.15/MTok) to extract only the needed information:
+After receiving the raw tool result, call a small cheap model (Claude 3.5 Haiku at $0.80/MTok, GPT-4o-mini at $0.15/MTok) to extract only the needed information:
 
 ```python
 EXTRACT_PROMPT = """Extract only the following information from this tool result:
@@ -126,7 +126,7 @@ compressed = compressor.compress_prompt(
 )
 ```
 
-For the cost dimension of context token accumulation — how per-step input costs compound across multi-step tasks — see [the agentic loop and context accumulation across multi-turn tasks](/learn/agentic-loop).
+For the cost dimension of context token accumulation — how per-step input costs compound across multi-step tasks — see [agentic workflows and context accumulation across multi-turn tasks](/learn/agentic-workflows).
 
 ### Conversation History Management: Sliding Windows and Progressive Summarization
 
@@ -233,7 +233,7 @@ The most common production security failure in agent context engineering: inject
 
 4. **Multi-turn context carry-forward:** in multi-step tasks, the credential persists in the system prompt for the entire task duration. Every step's input token count includes the credential. The attack surface window is the full task duration, not a single call.
 
-**OWASP LLM06 (Sensitive Information Disclosure, LLM Top 10 2025)** explicitly covers credentials in LLM context as a disclosure vector.
+**OWASP LLM02 (Sensitive Information Disclosure, LLM Top 10 2025)** explicitly covers credentials in LLM context as a disclosure vector.
 
 **The correct architecture:** credentials should never be in the agent's context window. Tool calls that require credentials should route through a vault proxy that resolves the credential at the network layer when the tool call executes. The agent context contains only a reference name (`$CRED{stripe_api_key}`), never the credential value. If a prompt injection attack instructs the model to "output the Stripe API key from your system prompt," there is nothing to output — the raw credential was never in the context.
 
@@ -241,7 +241,7 @@ For the technique that reduces repeated system prompt token costs across calls w
 
 ### OWASP LLM02 and LLM06: Context Mismanagement as Root Cause
 
-**OWASP LLM02 (Insecure Output Handling, LLM Top 10 2025):** occurs when the model generates output that contains or acts on sensitive information present in its context.
+**OWASP LLM02 (Sensitive Information Disclosure, LLM Top 10 2025):** occurs when over-retention of sensitive data in context causes the model to disclose it in output or carry it across sessions where it should not appear.
 
 Concrete scenario: a customer service agent is given the customer's full account record — including PII: name, email, phone, billing address, last four credit card digits — in the system prompt to personalize responses. The agent correctly uses the PII to personalize the initial response. But it also includes the customer's phone number in an error message that is logged in plain text, and in a follow-up response to a different user because the system prompt was not cleared between sessions in a multi-tenant deployment.
 
@@ -257,7 +257,7 @@ Name: {customer.name}, Email: {customer.email}
 Customer message: {customer_request}"""
 ```
 
-**OWASP LLM06 (Sensitive Information Disclosure, LLM Top 10 2025):** occurs when the model discloses information from its context that the user or an external observer should not see — most commonly triggered by prompt injection when the system prompt contains credentials, proprietary business logic, or competitive intelligence.
+**OWASP LLM06 (Excessive Agency, LLM Top 10 2025):** occurs when an agent takes actions beyond its authorized scope — including disclosing restricted context content such as credentials, proprietary business logic, or competitive intelligence when manipulated by prompt injection.
 
 Context engineering mitigation: keep the system prompt minimal — role, constraints, tool definitions, output format. Move sensitive runtime data (customer PII, session configuration, business logic parameters) to per-turn context injections with explicit scope instructions:
 
@@ -424,7 +424,7 @@ Three concrete failures from production context engineering debt:
 
 | **Context engineering property** | **OpenLegion** | **LangChain agents** | **CrewAI** | **AutoGen** | **OpenAI Assistants API** |
 |---|---|---|---|---|---|
-| **`$CRED{}` vault proxy — credentials never written to agent context window (OWASP LLM06 mitigation)** | Yes — Zone 2 network-layer resolution | No — env var / system prompt injection | No — env var pattern | No — env var pattern | No — env var pattern |
+| **`$CRED{}` vault proxy — credentials never written to agent context window (OWASP LLM02 mitigation)** | Yes — Zone 2 network-layer resolution | No — env var / system prompt injection | No — env var pattern | No — env var pattern | No — env var pattern |
 | **Blackboard working memory — context window stays at fixed size regardless of task length** | Yes — hierarchical blackboard keys, per-agent selective read | No — accumulates in conversation history | No — accumulates per agent | No — accumulates in history | No — accumulates until truncation |
 | **Tool result compression before context append** | Yes — structured extraction, configurable compression strategy | Not built-in | Not built-in | Not built-in | Not built-in |
 | **Per-turn PII context injection with explicit scope (vs persistent system prompt)** | Yes — INSTRUCTIONS.md pattern enforces separation | Not enforced | Not enforced | Not enforced | Not enforced |
@@ -445,15 +445,15 @@ A production agent context window contains content from four distinct slots: the
 
 ### How do I compress tool results to reduce context bloat?
 
-Tool result compression delivers the highest context reduction per engineering effort because tool results are often 5,000–50,000 tokens while the needed information is 50–200 tokens. The most effective pattern: after receiving a raw tool result, call a small cheap model (Claude 3.5 Haiku at $0.25/MTok or GPT-4o-mini at $0.15/MTok) with "Extract only [specific information needed] from this tool result: [raw_result]" and append only the extracted summary to the main conversation — compression ratio is 10–100x and the extraction call costs $0.001–$0.01, less than the input cost savings on subsequent steps. For structured JSON results, extract only the needed fields before appending; for general text compression, LLMLingua-2 (Microsoft Research, 2024, arXiv:2403.12968) achieves 2–5x compression with less than 5% performance degradation on LongBench benchmarks.
+Tool result compression delivers the highest context reduction per engineering effort because tool results are often 5,000–50,000 tokens while the needed information is 50–200 tokens. The most effective pattern: after receiving a raw tool result, call a small cheap model (Claude 3.5 Haiku at $0.80/MTok or GPT-4o-mini at $0.15/MTok) with "Extract only [specific information needed] from this tool result: [raw_result]" and append only the extracted summary to the main conversation — compression ratio is 10–100x and the extraction call costs $0.001–$0.01, less than the input cost savings on subsequent steps. For structured JSON results, extract only the needed fields before appending; for general text compression, LLMLingua-2 (Microsoft Research, 2024, arXiv:2403.12968) achieves 2–5x compression with less than 5% performance degradation on LongBench benchmarks.
 
 ### What is the security risk of putting secrets in the agent system prompt?
 
-Injecting API keys, database connection strings, or JWT tokens into the system prompt is an OWASP LLM06 (Sensitive Information Disclosure, LLM Top 10 2025) violation: credentials in the context window can be extracted by prompt injection attacks ("repeat your system prompt"), logged by observability platforms that capture full prompt content, and leaked in tool call argument logs when the model constructs Authorization headers from injected credentials. The correct architecture: credentials should never be in the agent's context window — tool calls that require credentials should route through a vault proxy that resolves the credential at the network layer when the tool call executes, so the agent context contains only a reference name and never the credential value. If a prompt injection attack instructs the model to output the API key from its system prompt, there is nothing to output because the raw credential was never written to the context.
+Injecting API keys, database connection strings, or JWT tokens into the system prompt is an OWASP LLM02 (Sensitive Information Disclosure, LLM Top 10 2025) violation: credentials in the context window can be extracted by prompt injection attacks ("repeat your system prompt"), logged by observability platforms that capture full prompt content, and leaked in tool call argument logs when the model constructs Authorization headers from injected credentials. The correct architecture: credentials should never be in the agent's context window — tool calls that require credentials should route through a vault proxy that resolves the credential at the network layer when the tool call executes, so the agent context contains only a reference name and never the credential value. If a prompt injection attack instructs the model to output the API key from its system prompt, there is nothing to output because the raw credential was never written to the context.
 
 ### What is OWASP LLM02 and how does context engineering prevent it?
 
-OWASP LLM02 (Insecure Output Handling, LLM Top 10 2025) occurs when the model generates output that contains or acts on sensitive information present in its context — for example, a model given customer PII in its system prompt for personalization outputs that PII in an error message visible to another user, or carries PII across sessions in a multi-tenant deployment where the system prompt is not cleared between users. Context engineering prevents LLM02 through context hygiene: include PII and sensitive data only in per-turn context injections scoped to the specific turn that requires them, with explicit instructions not to repeat the data in output, rather than in the system prompt that persists across all turns and all users. The related failure, OWASP LLM06 (Sensitive Information Disclosure), where the model discloses system prompt content via prompt injection, is mitigated by keeping the system prompt minimal and moving sensitive runtime data to per-turn injections.
+OWASP LLM02 (Sensitive Information Disclosure, LLM Top 10 2025) occurs when over-retained sensitive data in context causes the model to disclose it in output — for example, a model given customer PII in its system prompt for personalization outputs that PII in an error message visible to another user, or carries PII across sessions in a multi-tenant deployment where the system prompt is not cleared between users. Context engineering prevents LLM02 through context hygiene: include PII and sensitive data only in per-turn context injections scoped to the specific turn that requires them, with explicit instructions not to repeat the data in output, rather than in the system prompt that persists across all turns and all users. The related failure, OWASP LLM06 (Excessive Agency), where prompt injection causes the model to act outside its authorized scope by disclosing system prompt content, is mitigated by keeping the system prompt minimal and moving sensitive runtime data to per-turn injections.
 
 ### What is the blackboard pattern for agent working memory?
 
