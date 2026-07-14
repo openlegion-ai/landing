@@ -16,7 +16,7 @@ related:
 
 # AI Agent Debugging: Diagnosing Loops, Hallucinated Calls, and Context Failures
 
-AI agent debugging is the practice of diagnosing and resolving failures in deployed AI agents — distinct from testing (pre-production validation) and observability (ongoing runtime metrics) in that debugging is reactive investigation of a specific failure that already occurred. Where a stateless web application failure is localized to a request-response log and a line number, an agent failure at step 15 requires reconstructing 14 turns of accumulated context to find the divergence point. Three failure categories account for most production incidents: infinite loops, hallucinated tool names, and context overflow.
+AI agent debugging is the practice of diagnosing and resolving failures in deployed AI agents — distinct from testing (pre-production validation) and observability (ongoing runtime metrics) in that debugging is reactive investigation of a specific failure. Where a stateless web application failure is localized to a request-response log and a line number, an agent failure at step 15 requires reconstructing 14 turns of accumulated context to find the divergence point. Three failure categories account for most production incidents: infinite loops, hallucinated tool names, and context overflow.
 
 <!-- SCHEMA: DefinitionBlock -->
 
