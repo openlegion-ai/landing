@@ -1,14 +1,14 @@
 ---
-title: "AI Agent Debugging — Loops, Hallucinated Calls, and Post-Mortem Traces"
+title: "AI Agent Debugging: Loops, Hallucinated Calls, and Post-Mortem Traces"
 description: "AI agent debugging: diagnosing infinite loops, hallucinated tool names, context overflow, and credential 401s using OTel GenAI spans, LangSmith trace replay, and structured post-mortem templates."
 slug: /learn/ai-agent-debugging
 primary_keyword: ai agent debugging
-last_updated: "2026-07-13"
+last_updated: "2026-07-14"
 schema_types: ["FAQPage"]
 related:
   - /learn/ai-agent-observability
   - /learn/ai-agent-testing
-  - /learn/agentic-loop
+  - /learn/agentic-workflows
   - /learn/ai-agent-reliability
   - /learn/llm-observability
   - /learn/context-engineering
@@ -110,7 +110,7 @@ for iteration in range(MAX_ITERATIONS):
 raise RuntimeError(f"Circuit breaker: trace {trace_id} exceeded {MAX_ITERATIONS} iterations")
 ```
 
-For the full agentic loop architecture — how tool calls chain across turns, loop termination conditions, and the dependency patterns that create infinite loops — see [the agentic loop and the mechanics that produce infinite loops](/learn/agentic-loop).
+For the full agentic loop architecture — how tool calls chain across turns, loop termination conditions, and the dependency patterns that create infinite loops — see [the agentic loop and the mechanics that produce infinite loops](/learn/agentic-workflows).
 
 ### Hallucinated Tool Name: ToolNotFoundError
 
@@ -232,7 +232,7 @@ For the proactive context management strategies that prevent overflow — tool r
 
 ### OTel GenAI Spans: The Debugging Primitive
 
-OpenTelemetry GenAI Semantic Conventions v1.26.0 (January 2025) defines standardized span attributes for LLM call tracing — the first stable release after prior draft versions varied across instrumentation libraries, making cross-tool trace correlation unreliable.
+OpenTelemetry GenAI Semantic Conventions v1.26.0 (released May 2024) first introduced standardized span attributes for LLM call tracing — prior draft versions varied across instrumentation libraries, making cross-tool trace correlation unreliable.
 
 **Key span attributes for debugging:**
 
@@ -281,7 +281,7 @@ Trace replay enables reliable reproduction of non-deterministic failures:
 
 The critical capability to verify before relying on any tracing tool: **does it capture the full prompt sent to the model at each step, or only the final output?** Without full prompt capture, identifying the root cause requires guessing.
 
-**AgentOps** (agentops.ai): open-sourced January 2024; 4,000+ GitHub stars by mid-2025. Session-level tracing via decorator-based instrumentation:
+**AgentOps** (agentops.ai): repo created August 2023 (github.com/AgentOps-AI/agentops); 5,700+ GitHub stars as of July 2026. Session-level tracing via decorator-based instrumentation:
 
 ```python
 import agentops
@@ -482,11 +482,11 @@ The three failure categories documented in the ReAct paper (arXiv:2210.03629, Ya
 
 ### What are OpenTelemetry GenAI spans and how do I use them for agent debugging?
 
-OpenTelemetry GenAI Semantic Conventions v1.26.0 (January 2025, the first stable release) defines standardized span attributes for LLM call tracing: `gen_ai.request.model` (which model was called — catches routing errors), `gen_ai.usage.input_tokens` (context overflow detection — a spike indicates a large tool result was appended; a sudden drop indicates eviction), `gen_ai.usage.output_tokens` (truncation detection — a drop to 1–5 tokens indicates the model hit `max_tokens`), and `gen_ai.response.finish_reasons` (`"stop"` = normal completion, `"length"` = max_tokens hit, `"content_filter"` = content policy rejection, `"tool_calls"` = tool invocation). The debugging workflow: list all LLM spans in the failed run ordered by timestamp, find the span where `finish_reason` changed from expected to unexpected, and examine `input_tokens` at that span to determine if context overflow contributed.
+OpenTelemetry GenAI Semantic Conventions v1.26.0 (released May 2024) first introduced standardized span attributes for LLM call tracing: `gen_ai.request.model` (which model was called — catches routing errors), `gen_ai.usage.input_tokens` (context overflow detection — a spike indicates a large tool result was appended; a sudden drop indicates eviction), `gen_ai.usage.output_tokens` (truncation detection — a drop to 1–5 tokens indicates the model hit `max_tokens`), and `gen_ai.response.finish_reasons` (`"stop"` = normal completion, `"length"` = max_tokens hit, `"content_filter"` = content policy rejection, `"tool_calls"` = tool invocation). The debugging workflow: list all LLM spans in the failed run ordered by timestamp, find the span where `finish_reason` changed from expected to unexpected, and examine `input_tokens` at that span to determine if context overflow contributed.
 
 ### How does LangSmith trace replay work for agent debugging?
 
-LangSmith processes over 1 billion LLM traces per month (Q1 2025) and provides trace replay as its core debugging feature: given a trace ID from a failed production run, the LangSmith UI reconstructs the full step-by-step execution showing each LLM call's full input context, the model's output, each tool call with arguments and results, and cumulative token counts and cost. Trace replay enables reliable reproduction of non-deterministic failures by replaying the exact same inputs with `temperature=0` rather than trying to manually recreate the scenario — the model produces the same failure consistently, allowing testing a fix without waiting for recurrence in production. AgentOps (open-sourced January 2024, 4,000+ GitHub stars mid-2025) provides comparable session-level replay with `@agentops.record_action` and `@agentops.record_tool` decorators and a timeline view of every call and state transition.
+LangSmith processes over 1 billion LLM traces per month (Q1 2025) and provides trace replay as its core debugging feature: given a trace ID from a failed production run, the LangSmith UI reconstructs the full step-by-step execution showing each LLM call's full input context, the model's output, each tool call with arguments and results, and cumulative token counts and cost. Trace replay enables reliable reproduction of non-deterministic failures by replaying the exact same inputs with `temperature=0` rather than trying to manually recreate the scenario — the model produces the same failure consistently, allowing testing a fix without waiting for recurrence in production. AgentOps (repo created August 2023, 5,700+ GitHub stars as of July 2026) provides comparable session-level replay with `@agentops.record_action` and `@agentops.record_tool` decorators and a timeline view of every call and state transition.
 
 ### How do I debug an AI agent stuck in an infinite loop?
 
