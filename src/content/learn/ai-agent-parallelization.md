@@ -520,3 +520,4 @@ Fan-out/fan-in delivers real latency gains — 5 independent 10-second subtasks 
 The failure modes to design against before scaling: disjoint state keys (not shared write targets), idempotency keys on all parallel tool calls, and per-agent credential injection (not shared env vars).
 
 [Start building on OpenLegion](https://app.openlegion.ai) — disjoint blackboard keys per parallel agent, `$CRED{}` vault injection per-request at the network layer, `asyncio.Semaphore()` backpressure enforced at the mesh layer, and `max_parallelism` bounded by operator configuration.
+
