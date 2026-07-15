@@ -1,5 +1,5 @@
 ---
-title: "AI Agent Parallelization — Fan-Out, asyncio, and Race Condition Safety"
+title: "AI Agent Parallelization: Fan-Out, asyncio, and Race Condition Safety"
 description: "AI agent parallelization: fan-out/fan-in, asyncio.gather(), Semaphore backpressure, OpenAI parallel_tool_calls (Nov 2023), Anthropic tool_use (Mar 2024), LangGraph Send(), race conditions."
 slug: /learn/ai-agent-parallelization
 primary_keyword: ai agent parallelization
@@ -8,15 +8,15 @@ schema_types: ["FAQPage"]
 related:
   - /learn/ai-agent-orchestration
   - /learn/multi-agent-systems
-  - /learn/agentic-loop
-  - /learn/function-calling
+  - /learn/agentic-workflows
+  - /learn/ai-agent-tool-use
   - /learn/ai-agent-reliability
   - /learn/llm-cost-optimization
 ---
 
 # AI Agent Parallelization: Fan-Out, asyncio, Checkpointing, and Race Condition Safety
 
-AI agent parallelization is the concurrent execution of multiple agent tasks or tool calls within a single agentic workflow — dispatching independent subtasks to run simultaneously rather than sequentially, collecting their outputs when complete (fan-in), and merging the results. OpenAI enabled `parallel_tool_calls` on November 6 2023, Anthropic enabled Claude 3 parallel `tool_use` on March 4 2024, and LangGraph's `Send()` API launched in May 2024; Anthropic's multi-agent research documents up to 80% latency reduction for independent workflows. The key risk: race conditions in shared agent state.
+AI agent parallelization is the concurrent execution of multiple agent tasks or tool calls within a single agentic workflow — dispatching independent subtasks simultaneously rather than sequentially, collecting outputs when complete (fan-in), and merging the results. OpenAI enabled `parallel_tool_calls` on November 6, 2023, Anthropic enabled Claude 3 parallel `tool_use` on March 4, 2024, and LangGraph's `Send()` API launched in May 2024; Anthropic's "Building effective agents" (December 2024) documents up to 80% latency reduction for independent workflows. The key risk: race conditions in shared agent state.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -45,7 +45,7 @@ Fan-out is the dispatch phase: from a single orchestrating step, N independent s
 
 Anthropic's multi-agent research ("Building effective agents," December 2024) documents **up to 80% latency reduction** for fully independent workflows.
 
-For the single-agent execution loop that each parallel branch runs internally — the tool call, result, reasoning cycle within one agent — see [the agentic loop and single-agent execution mechanics](/learn/agentic-loop).
+For the single-agent execution loop that each parallel branch runs internally — the tool call, result, reasoning cycle within one agent — see [the agentic loop and single-agent execution mechanics](/learn/agentic-workflows).
 
 ### Fan-In: Collecting and Merging Parallel Outputs
 
@@ -260,7 +260,7 @@ async def handle_anthropic_parallel_tools(response, tool_registry: dict):
     return {"role": "user", "content": tool_results}
 ```
 
-For the full function calling protocol — tool schema design, strict JSON Schema, and tool error handling that underpins parallel tool calls — see [function calling and parallel tool call implementation](/learn/function-calling).
+For the full function calling protocol — tool schema design, strict JSON Schema, and tool error handling that underpins parallel tool calls — see [function calling and parallel tool call implementation](/learn/ai-agent-tool-use).
 
 ### LangGraph Send() API: Parallel Node Execution
 
