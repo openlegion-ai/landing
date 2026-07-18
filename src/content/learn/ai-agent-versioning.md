@@ -1,6 +1,6 @@
 ---
-title: "AI Agent Versioning — Model Pinning, Prompt SemVer, and Behavior Drift"
-description: "AI agent versioning: model snapshot pinning, SemVer 2.0.0 prompt contracts, behavior drift detection, rollback, EU AI Act Article 12 August 2026, and NIST AI RMF GOVERN 1.7 documentation."
+title: "AI Agent Versioning: Model Pinning, Prompt SemVer, and Behavior Drift"
+description: "AI agent versioning: model snapshot pinning, SemVer 2.0.0 prompt contracts, behavior drift detection, rollback, EU AI Act Article 12 August 2, 2026, and NIST AI RMF GOVERN 1.7 documentation."
 slug: /learn/ai-agent-versioning
 primary_keyword: ai agent versioning
 last_updated: "2026-07-18"
@@ -16,11 +16,11 @@ related:
 
 # AI Agent Versioning: Model Pinning, Prompt SemVer, and Behavior Drift Detection
 
-AI agent versioning is the practice of explicitly tracking all components that affect agent behavior — pinned model snapshot, versioned system prompt, and inter-agent hand-off contract format — so behavior changes are intentional rather than silent. Chen et al. 2023 documented GPT-4 code generation declining from 52% to 10% between March and June 2023 snapshots without announcement; EU AI Act Article 12 enforcement begins August 2026. Calling 'gpt-4o' instead of 'gpt-4o-2024-08-06' is an uncontrolled behavior change.
+AI agent versioning is the practice of explicitly tracking all components that affect agent behavior: pinned model snapshot, versioned system prompt, and inter-agent hand-off contract format, so behavior changes are intentional rather than silent. Chen et al. 2023 documented GPT-4 code generation declining from 52% to 10% between March and June 2023 snapshots without announcement; EU AI Act Article 12 enforcement begins August 2, 2026. Calling 'gpt-4o' instead of 'gpt-4o-2024-08-06' is an uncontrolled behavior change.
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> **AI agent versioning** is the practice of explicitly tracking and controlling all components of an AI agent system that affect its behavior — the pinned model snapshot identifier (`gpt-4o-2024-08-06`, `claude-3-5-sonnet-20241022`), the versioned prompt and system message (using Semantic Versioning 2.0.0 to signal breaking vs backward-compatible changes), the tool schema version, and the inter-agent hand-off contract format — so that behavior changes are intentional and traceable, regressions can be detected before production deployment, and the system's state at any prior point can be reconstructed for audit or rollback.
+> **AI agent versioning** is the practice of explicitly tracking and controlling all components of an AI agent system that affect its behavior: the pinned model snapshot identifier (`gpt-4o-2024-08-06`, `claude-3-5-sonnet-20241022`), the versioned prompt and system message (using Semantic Versioning 2.0.0 to signal breaking vs backward-compatible changes), the tool schema version, and the inter-agent hand-off contract format, so that behavior changes are intentional and traceable, regressions can be detected before production deployment, and the system's state at any prior point can be reconstructed for audit or rollback.
 
 ## The Silent Drift Problem: Why Non-Pinned Models Fail in Production
 
@@ -31,7 +31,7 @@ AI agent versioning is the practice of explicitly tracking all components that a
 - **Code generation task pass rate: 52% to 10%** — a 42-point decline between March and June 2023
 - **Math problem solving (chain-of-thought format compliance): 84% to 51%** — a 33-point decline
 
-The regression was not announced by OpenAI. Teams calling the non-pinned `'gpt-4'` alias received the June snapshot automatically upon its release — experiencing different production behavior with no notification. The only teams that detected the regression were running systematic behavioral evaluation suites; teams without evals did not know their agent had changed.
+The regression was not announced by OpenAI. Teams calling the non-pinned `'gpt-4'` alias received the June snapshot automatically upon its release, experiencing different production behavior with no notification. The only teams that detected the regression were running systematic behavioral evaluation suites; teams without evals did not know their agent had changed.
 
 This is the canonical evidence that non-pinned model aliases deliver uncontrolled behavior changes. Any agent deployment relying on an alias like `'gpt-4o'` or `'claude-3-5-sonnet-latest'` implicitly accepts that its behavior may change at any provider-determined time.
 
@@ -63,7 +63,7 @@ Anthropic uses explicit date-versioned model IDs: `claude-3-5-sonnet-20241022`, 
 
 **Anthropic deprecation policy: minimum 6-month notice** before API access is removed for any deprecated model version. The first model under this policy: `claude-3-opus-20240229`.
 
-**Critical distinction:** the `anthropic-version: 2023-06-01` API header pins the Anthropic API response *schema* version — not the model version. These are separate concerns and must both be pinned independently.
+**Critical distinction:** the `anthropic-version: 2023-06-01` API header pins the Anthropic API response *schema* version, not the model version. These are separate concerns and must both be pinned independently.
 
 **Google Gemini versioning:**
 
@@ -533,7 +533,7 @@ Three concrete facts about versioning in production:
 
 ### What is AI agent versioning?
 
-AI agent versioning is the practice of explicitly tracking and controlling all components of an AI agent that affect its behavior — the pinned model snapshot (`gpt-4o-2024-08-06`, `claude-3-5-sonnet-20241022`), the system prompt with a SemVer tag, the tool schema version, and the inter-agent hand-off contract format — so that behavior changes are intentional and traceable rather than silent. Without versioning, a provider update to a non-pinned model alias (`'gpt-4o'` instead of `'gpt-4o-2024-08-06'`) can change agent behavior in production without any notification, as documented by Chen et al. 2023 (arXiv:2307.09009) where GPT-4 code generation pass rate declined from 52% to 10% between March and June 2023 snapshots. EU AI Act Article 12 (enforcement August 2026) requires version-controlled technical documentation for high-risk AI systems; NIST AI RMF 1.0 GOVERN 1.7 requires version-controlled documentation of AI model configurations.
+AI agent versioning is the practice of explicitly tracking and controlling all components of an AI agent that affect its behavior: the pinned model snapshot (`gpt-4o-2024-08-06`, `claude-3-5-sonnet-20241022`), the system prompt with a SemVer tag, the tool schema version, and the inter-agent hand-off contract format, so that behavior changes are intentional and traceable rather than silent. Without versioning, a provider update to a non-pinned model alias (`'gpt-4o'` instead of `'gpt-4o-2024-08-06'`) can change agent behavior in production without any notification, as documented by Chen et al. 2023 (arXiv:2307.09009) where GPT-4 code generation pass rate declined from 52% to 10% between March and June 2023 snapshots. EU AI Act Article 12 (enforcement August 2, 2026) requires version-controlled technical documentation for high-risk AI systems; NIST AI RMF 1.0 GOVERN 1.7 requires version-controlled documentation of AI model configurations.
 
 ### How do I pin a model version to prevent behavior drift?
 
