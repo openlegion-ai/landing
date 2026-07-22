@@ -5,7 +5,7 @@
 >
 > Last generated: 2026-07-22
 
-Tracks per-page translation coverage for the 89 canonical English pages
+Tracks per-page translation coverage for the 90 canonical English pages
 under `src/content/`. A page is "fully translated" when a file exists at
 `src/content/<locale>/<same-path>` for all 12
 translation locales.
@@ -16,27 +16,27 @@ locales; they are not tracked here.
 
 ## Summary
 
-- **Canonical pages:** 89
+- **Canonical pages:** 90
 - **Fully translated (all 12 locales):** 52
 - **Partially translated:** 1
-- **English-only (0 translations):** 36
+- **English-only (0 translations):** 37
 
 ### Coverage by locale
 
 | Locale | Translated | Coverage |
 |---|---|---|
-| zh | 52 / 89 | 58% |
-| zh-TW | 52 / 89 | 58% |
-| ja | 52 / 89 | 58% |
-| ko | 52 / 89 | 58% |
-| es | 52 / 89 | 58% |
-| fr | 52 / 89 | 58% |
-| de | 52 / 89 | 58% |
-| pt | 52 / 89 | 58% |
-| ar | 52 / 89 | 58% |
-| hi | 53 / 89 | 60% |
-| ru | 53 / 89 | 60% |
-| th | 53 / 89 | 60% |
+| zh | 52 / 90 | 58% |
+| zh-TW | 52 / 90 | 58% |
+| ja | 52 / 90 | 58% |
+| ko | 52 / 90 | 58% |
+| es | 52 / 90 | 58% |
+| fr | 52 / 90 | 58% |
+| de | 52 / 90 | 58% |
+| pt | 52 / 90 | 58% |
+| ar | 52 / 90 | 58% |
+| hi | 53 / 90 | 59% |
+| ru | 53 / 90 | 59% |
+| th | 53 / 90 | 59% |
 
 ## Coverage matrix
 
@@ -127,6 +127,7 @@ locales; they are not tracked here.
 | `/learn/llm-routing` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/llm-structured-output` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/managed-ai-agent-hosting` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
+| `/learn/mcp-tools` | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 0/12 |
 | `/learn/model-context-protocol` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/multi-agent-systems` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
 | `/learn/what-is-an-ai-agent` | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | 12/12 |
@@ -171,4 +172,5 @@ locales; they are not tracked here.
 - `/learn/llm-prompt-caching` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/llm-routing` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 - `/learn/llm-structured-output` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
+- `/learn/mcp-tools` — missing: zh, zh-TW, ja, ko, es, fr, de, pt, ar, hi, ru, th
 
