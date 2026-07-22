@@ -11,7 +11,6 @@ related:
   - /learn/ai-agent-mcp-security
   - /learn/credential-management-ai-agents
   - /learn/ai-agent-sandboxing
-  - /learn/function-calling
 ---
 
 # MCP Tools Security: Hardening Tool Calls Against Poisoning and Exfiltration
@@ -318,7 +317,7 @@ Strict `inputSchema` validation is not just a developer ergonomics feature — i
 
 **JSON-RPC error -32602 for validation failures.** When the tool host validates invocation arguments against the schema and validation fails, the correct JSON-RPC error code is `-32602` (Invalid params). Agents must handle this error without retrying with alternative arguments — a retry loop on -32602 indicates the LLM is attempting to find valid parameters through enumeration.
 
-For how strict schemas interact with LLM function calling in OpenAI and Anthropic APIs — see [LLM function calling and JSON Schema tool definitions](/learn/function-calling).
+For how strict schemas interact with LLM function calling in OpenAI and Anthropic APIs — see [AI agent tool use patterns and when to give agents tools](/learn/ai-agent-tool-use).
 
 ## Audit Logging and Sandbox Isolation
 
@@ -378,7 +377,6 @@ REDACT_PATTERNS: list[re.Pattern] = [
 ]
 
 def redact_arguments(arguments: dict[str, Any]) -> dict[str, Any]:
-    """Redact potentially sensitive values before writing to audit log."""
     redacted = {}
     for key, value in arguments.items():
         if isinstance(value, str):
@@ -570,3 +568,6 @@ When a tool invocation triggers a security anomaly — an authorization denial, 
 MCP tool security requires controls at four distinct points: the connection layer (host allowlisting before discovery), the authorization layer (OAuth 2.1 per-tool scope claims with PKCE), the execution layer (vault proxy injection, strict schema validation, sandbox isolation), and the observability layer (immutable audit logging with tamper detection). Securing only one layer while leaving others open is not defense-in-depth — it is a single control with three bypasses.
 
 [Start building on OpenLegion](https://app.openlegion.ai) — host allowlisting before tool discovery, vault proxy credential injection (secrets never in invocation arguments), per-tool OAuth 2.1 scope enforcement, description sanitization before LLM presentation, human approval gates for destructive tools, and immutable per-invocation audit logging.
+
+## Sources
+
