@@ -16,26 +16,26 @@ related:
 
 # AI Agent Error Handling: Retries, Circuit Breakers, and Fallback Chains
 
-AI agent error handling is the runtime code executed when a tool invocation, LLM call, or inter-agent hand-off throws an exception — exponential backoff loops, pybreaker circuit state machines, fallback chains, and exception sanitization boundaries that prevent OWASP LLM05:2025 Improper Output Handling violations. Without explicit handling, a single 529 Overloaded response from Anthropic can cascade through an agent chain and surface system prompt fragments in user-facing HTTP responses.
+AI agent error handling is the runtime code executed when a tool invocation, LLM call, or inter-agent hand-off throws an exception: exponential backoff loops, pybreaker circuit state machines, fallback chains, and exception sanitization boundaries that prevent OWASP LLM05:2025 Improper Output Handling violations. Without explicit handling, a single 529 Overloaded response from Anthropic can cascade through an agent chain and surface system prompt fragments in user-facing HTTP responses.
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> **AI agent error handling** is the set of runtime code paths — retry loops with exponential backoff and jitter, circuit breakers that halt retry storms against degraded providers, fallback chains that substitute alternative actions when primary tool calls throw exceptions, and error boundary functions that catch and sanitize exceptions before they propagate across agent-to-agent hand-offs — implemented at the function call level to convert transient failures into brief pauses rather than cascading exceptions that expose internal context to callers.
+> **AI agent error handling** is the set of runtime code paths: retry loops with exponential backoff and jitter, circuit breakers that halt retry storms against degraded providers, fallback chains that substitute alternative actions when primary tool calls throw exceptions, and error boundary functions that catch and sanitize exceptions before they propagate across agent-to-agent hand-offs. These are implemented at the function call level to convert transient failures into brief pauses rather than cascading exceptions that expose internal context to callers.
 
-For the system-level SLO design and uptime targets that govern acceptable exception rates at the architecture level — the pre-deployment counterpart to these runtime patterns — see [AI agent reliability and SLO design for production agent systems](/learn/ai-agent-reliability).
+For the system-level SLO design and uptime targets that govern acceptable exception rates at the architecture level, the pre-deployment counterpart to these runtime patterns, see [AI agent reliability and SLO design for production agent systems](/learn/ai-agent-reliability).
 
 ## Classifying Exceptions: What to Retry, What to Escalate
 
 ### The Retryable vs Non-Retryable Decision Tree
 
-The most expensive runtime mistake in agent error handling: treating every caught exception as retryable. A `BadRequestError` (HTTP 400) retried five times produces five identical 400 responses and burns five LLM API calls against the rate limit quota. Worse — a tight retry loop on a non-retryable exception amplifies load on a degraded provider that cannot absorb additional traffic.
+The most expensive runtime mistake in agent error handling: treating every caught exception as retryable. A `BadRequestError` (HTTP 400) retried five times produces five identical 400 responses and burns five LLM API calls against the rate limit quota. Worse, a tight retry loop on a non-retryable exception amplifies load on a degraded provider that cannot absorb additional traffic.
 
 **Exception classification for LLM API calls:**
 
 | **HTTP status / exception** | **Retryable?** | **Handling** |
 |---|---|---|
 | **429 Too Many Requests** | Yes | Read `Retry-After` header; sleep exactly that duration; retry once |
-| **529 Overloaded (Anthropic)** | Yes | Exponential backoff base=2s; resolves in 30–120s |
+| **529 Overloaded (Anthropic)** | Yes | Exponential backoff base=2s; resolves in 30-120s |
 | **500 Internal Server Error** | Yes (max 2) | Backoff; cap at 2 retries; escalate if persists |
 | **503 Service Unavailable** | Yes | Backoff; provider temporarily offline |
 | **400 Bad Request** | **No** | Malformed request payload; fix the payload, not the retry count |
@@ -46,28 +46,28 @@ The most expensive runtime mistake in agent error handling: treating every caugh
 **gRPC status codes** for agent tool calls that communicate via gRPC:
 
 ```
-UNAVAILABLE (14)       → RETRY with backoff
+UNAVAILABLE (14)       -> RETRY with backoff
                           Provider offline; common cause: startup, network partition
 
-DEADLINE_EXCEEDED (4)  → RETRY only if idempotent (reads, lookups)
+DEADLINE_EXCEEDED (4)  -> RETRY only if idempotent (reads, lookups)
                           CHECK before retrying if side effects (writes, sends, charges)
                           The operation may have completed server-side before the deadline
 
-INTERNAL (13)          → DO NOT RETRY
+INTERNAL (13)          -> DO NOT RETRY
                           Server hit unexpected condition; operation state unknown
                           Log and surface structured error to caller
 
-RESOURCE_EXHAUSTED (8) → RETRY after quota window resets
+RESOURCE_EXHAUSTED (8) -> RETRY after quota window resets
                           Equivalent to HTTP 429; rate limited or quota exceeded
 
-INVALID_ARGUMENT (3)   → DO NOT RETRY
+INVALID_ARGUMENT (3)   -> DO NOT RETRY
                           Malformed request; retrying produces identical error
 
-PERMISSION_DENIED (7)  → DO NOT RETRY
+PERMISSION_DENIED (7)  -> DO NOT RETRY
                           Access control rejection; escalate to human operator
 ```
 
-**Temporal.io `NonRetryableErrorTypes`:** when running agent activities inside Temporal, list non-retryable exception class names at configuration time — without this, Temporal retries a `BadRequestError` the full `MaximumAttempts` count, burning retry budget on a call that cannot succeed:
+**Temporal.io `NonRetryableErrorTypes`:** when running agent activities inside Temporal, list non-retryable exception class names at configuration time. Without this, Temporal retries a `BadRequestError` the full `MaximumAttempts` count, burning retry budget on a call that cannot succeed:
 
 ```python
 from temporalio.common import RetryPolicy
@@ -111,7 +111,7 @@ Recommended parameters for LLM API calls: `base = 1 second`, `cap = 60 seconds`.
 | **5** | 32 s | 32.6 s |
 | **6** | 60 s (cap) | 60.5 s |
 
-**The thundering herd failure mode:** without jitter, every agent that catches a 429 at the same timestamp computes the same `2^n` sleep interval. They all wake up simultaneously and fire a second burst — re-triggering the 429. The `+ random(0, 1)` term spreads retries across a 1-second window; with 20 agents, that is 20 distinct retry moments rather than one synchronized spike.
+**The thundering herd failure mode:** without jitter, every agent that catches a 429 at the same timestamp computes the same `2^n` sleep interval. They all wake up simultaneously and fire a second burst, re-triggering the 429. The `+ random(0, 1)` term spreads retries across a 1-second window; with 20 agents, that is 20 distinct retry moments rather than one synchronized spike.
 
 **Full jitter variant** for high-concurrency fleets where many agents retry the same provider endpoint simultaneously:
 
@@ -173,16 +173,16 @@ Anthropic's HTTP error codes require two completely separate exception-handling 
 
 **HTTP 529 "Overloaded":**
 - Non-standard code (not in the HTTP/1.1 or HTTP/2 specification)
-- Indicates Anthropic's inference cluster is at capacity — a **provider-side capacity constraint**, not a caller quota violation
+- Indicates Anthropic's inference cluster is at capacity: a **provider-side capacity constraint**, not a caller quota violation
 - The caller's rate limit quota is NOT consumed by the failed call
-- Recovery: exponential backoff starting at 2–5 seconds; typically resolves within 30–120 seconds
+- Recovery: exponential backoff starting at 2-5 seconds; typically resolves within 30-120 seconds
 - `anthropic-sdk-python` >=0.25.0 handles this automatically with configurable `max_retries`; earlier versions silently treat 529 as an unhandled status code
 
 **HTTP 429 "Too Many Requests":**
 - Standard HTTP status code
 - Indicates the caller's per-minute or per-day quota is exhausted
 - Response includes `Retry-After` header with the exact seconds to wait before the quota window resets
-- Correct recovery: sleep exactly `Retry-After` seconds then retry exactly once — exponential backoff here would over-wait when the header already gives the precise interval
+- Correct recovery: sleep exactly `Retry-After` seconds then retry exactly once. Exponential backoff here would over-wait when the header already gives the precise interval
 
 ```python
 import time
@@ -230,15 +230,15 @@ def call_anthropic_with_retry(messages: list, max_retries: int = 5) -> str:
     raise MaxRetriesExceeded("All retry attempts exhausted")
 ```
 
-`anthropic-sdk-python` >=0.20.0 handles 429 automatically via `Retry-After`; >=0.25.0 handles 529 with configurable `max_retries`. At those versions the retry logic above is handled by the SDK — but understanding the distinct semantics is required to debug unexpected retry behavior and tune `max_retries` correctly.
+`anthropic-sdk-python` >=0.20.0 handles 429 automatically via `Retry-After`; >=0.25.0 handles 529 with configurable `max_retries`. At those versions the retry logic above is handled by the SDK, but understanding the distinct semantics is required to debug unexpected retry behavior and tune `max_retries` correctly.
 
-For injecting faults to validate that these exception paths execute correctly under load — see [AI agent testing and chaos engineering for error path validation](/learn/ai-agent-testing).
+For injecting faults to validate that these exception paths execute correctly under load, see [AI agent testing and chaos engineering for error path validation](/learn/ai-agent-testing).
 
 ## Circuit Breakers: Stopping Retry Storms at the Call Site
 
 ### Three-State State Machine Implementation
 
-**Martin Fowler, 2014 (martinfowler.com/bliki/CircuitBreaker.html):** the circuit breaker pattern wraps calls to a degraded dependency. Without it, 20 agent workers independently retrying a provider that cannot serve traffic send 100+ requests during the outage window — which prevents recovery. Three states:
+**Martin Fowler, 2014 (martinfowler.com/bliki/CircuitBreaker.html):** the circuit breaker pattern wraps calls to a degraded dependency. Without it, 20 agent workers independently retrying a provider that cannot serve traffic send 100+ requests during the outage window, which prevents recovery. Three states:
 
 ```
 CLOSED --[5 failures in 60s]--> OPEN --[30s timer]--> HALF-OPEN
@@ -314,11 +314,11 @@ def call_anthropic(messages: list) -> str:
 
 **Three critical configuration decisions:**
 
-**1. Per-provider breakers:** sharing one breaker across providers means an Anthropic outage trips the breaker that controls OpenAI calls — the model fallback chain then has no working provider to fall back to.
+**1. Per-provider breakers:** sharing one breaker across providers means an Anthropic outage trips the breaker that controls OpenAI calls. The model fallback chain then has no working provider to fall back to.
 
-**2. Redis-backed shared state:** in-process breakers let each of 20 workers independently probe the failed provider. Worker 1's successful Half-Open probe closes only Worker 1's breaker — the remaining 19 workers each send a probe of their own. With Redis: the first successful probe closes the breaker for all 20 workers simultaneously.
+**2. Redis-backed shared state:** in-process breakers let each of 20 workers independently probe the failed provider. Worker 1's successful Half-Open probe closes only Worker 1's breaker. The remaining 19 workers each send a probe of their own. With Redis: the first successful probe closes the breaker for all 20 workers simultaneously.
 
-**3. Exclude non-transient exceptions from the failure counter:** a `BadRequestError` indicates a malformed request, not a degraded provider. Including it in the failure counter causes the breaker to Open due to bad requests rather than provider outage — incorrect semantics that breaks the circuit on caller errors, not provider health signals.
+**3. Exclude non-transient exceptions from the failure counter:** a `BadRequestError` indicates a malformed request, not a degraded provider. Including it in the failure counter causes the breaker to Open due to bad requests rather than provider outage, which is incorrect semantics that breaks the circuit on caller errors, not provider health signals.
 
 ### Bulkhead Pattern: Per-Agent Thread Pool Isolation
 
@@ -350,13 +350,13 @@ async def call_executor_agent(task: dict) -> dict:
 
 A flood of research agent retries exhausts `research_pool` (max 8 threads) but `executor_pool` (max 4 threads) remains fully available. Per-tool circuit breakers further prevent a failing `web_search` invocation from tripping the breaker that controls `read_file` or `run_code` calls.
 
-For the multi-agent chain topology that bulkheads isolate — see [agentic workflows and multi-agent chain design](/learn/agentic-workflows).
+For the multi-agent chain topology that bulkheads isolate, see [agentic workflows and multi-agent chain design](/learn/agentic-workflows).
 
 ## Fallback Chains: Ordered Alternative Handlers
 
 ### Tool Fallback Chains and Model Fallback
 
-When all retries for a tool invocation are exhausted — or the circuit breaker throws `CircuitBreakerError` — the agent needs a programmatic decision: invoke a fallback tool, return a partial result struct, or escalate to the orchestrator. A fallback chain executes this decision:
+When all retries for a tool invocation are exhausted, or the circuit breaker throws `CircuitBreakerError`, the agent needs a programmatic decision: invoke a fallback tool, return a partial result struct, or escalate to the orchestrator. A fallback chain executes this decision:
 
 ```python
 from dataclasses import dataclass
@@ -427,7 +427,7 @@ def call_with_model_fallback(messages: list) -> dict:
     raise AllProvidersUnavailable("All LLM providers in fallback chain unavailable")
 ```
 
-**Graceful degradation:** returning `{"is_complete": False, "reason": "..."}` instead of raising lets the orchestrator decide: wait for provider recovery, skip this step, or escalate to a human. A raised exception removes that choice — the orchestrator's exception handler must catch and decide anyway, but with less context.
+**Graceful degradation:** returning `{"is_complete": False, "reason": "..."}` instead of raising lets the orchestrator decide: wait for provider recovery, skip this step, or escalate to a human. A raised exception removes that choice. The orchestrator's exception handler must catch and decide anyway, but with less context.
 
 ### Exception Storage for Failed Task Recovery
 
@@ -478,13 +478,13 @@ class AgentExceptionStore:
 
 Retention: 14 days minimum to allow investigation of failures that only manifest under specific load conditions. The `SIZE_ALERT_THRESHOLD` of 50 entries signals a systemic provider or deployment issue rather than individual task failures.
 
-For the task queue architecture (Celery 5.3, Redis broker, ack configuration) that this recovery store integrates with — see [AI agent long running tasks and Celery task queue patterns](/learn/ai-agent-long-running-tasks).
+For the task queue architecture (Celery 5.3, Redis broker, ack configuration) that this recovery store integrates with, see [AI agent long running tasks and Celery task queue patterns](/learn/ai-agent-long-running-tasks).
 
 ## Exception Boundaries in Multi-Agent Chains
 
 ### Sanitizing Exceptions at Hand-Off Points
 
-In a multi-agent chain (orchestrator -> researcher -> executor), an unhandled exception thrown in the executor propagates through the researcher to the orchestrator. If the orchestrator's handler re-raises without sanitizing, the full exception context — researcher's tool call arguments, executor's intermediate data, internal endpoint URLs — surfaces in the orchestrator's output and reaches the user-facing HTTP response.
+In a multi-agent chain (orchestrator -> researcher -> executor), an unhandled exception thrown in the executor propagates through the researcher to the orchestrator. If the orchestrator's handler re-raises without sanitizing, the full exception context, including the researcher's tool call arguments, executor's intermediate data, and internal endpoint URLs, surfaces in the orchestrator's output and reaches the user-facing HTTP response.
 
 **Exception boundary pattern:**
 
@@ -541,7 +541,7 @@ def execute_with_exception_boundary(agent_fn, task: dict, agent_id: str) -> Any:
         )
 ```
 
-### OWASP LLM05:2025 -- Exception Leakage Through Agent Outputs
+### OWASP LLM05:2025: Exception Leakage Through Agent Outputs
 
 **OWASP LLM Top 10 v2 2025, LLM05: Improper Output Handling** covers the security risk of unhandled exceptions propagating sensitive agent context to callers.
 
@@ -587,7 +587,7 @@ async def run_agent_safe(request: AgentRequest):
 
 **External exception response MUST contain:** `error_code` (programmatic string the caller can switch on), `message` (safe for end-user display), `correlation_id` (for operator log lookup by task).
 
-For inspecting the error spans and distributed traces produced by these boundaries after a production exception — see [AI agent debugging and post-mortem trace analysis](/learn/ai-agent-debugging).
+For inspecting the error spans and distributed traces produced by these boundaries after a production exception, see [AI agent debugging and post-mortem trace analysis](/learn/ai-agent-debugging).
 
 ## Durable Execution: Temporal RetryPolicy and Crash-Safe Retry State
 
@@ -709,19 +709,19 @@ def record_to_exception_store(task: dict, exc: Exception, agent_id: str) -> str:
 
 An exception store entry with `trace_id` can be looked up in Jaeger, Tempo, or Honeycomb to see the full distributed trace for root cause investigation.
 
-For full OTel instrumentation setup — tracer provider, exporter configuration, and GenAI semantic conventions — see [AI agent observability and distributed tracing instrumentation](/learn/ai-agent-observability).
+For full OTel instrumentation setup, tracer provider, exporter configuration, and GenAI semantic conventions, see [AI agent observability and distributed tracing instrumentation](/learn/ai-agent-observability).
 
 ## OpenLegion's Take: Exception Handling at the Infrastructure Layer
 
-The exception handling failure mode that triggers the most production incidents in multi-agent systems is not an individual tool call throwing — it is the cascading re-throw through agent layers when no layer catches and sanitizes. When the executor throws, the researcher re-throws, the orchestrator re-throws — and if each layer re-raises the original exception, by the time it reaches the HTTP boundary it contains accumulated context from every layer that OWASP LLM05:2025 explicitly prohibits in external responses: system prompt fragments, tool call argument values, intermediate computation data.
+The exception handling failure mode that triggers the most production incidents in multi-agent systems is not an individual tool call throwing. It is the cascading re-throw through agent layers when no layer catches and sanitizes. When the executor throws, the researcher re-throws, the orchestrator re-throws. If each layer re-raises the original exception, by the time it reaches the HTTP boundary it contains accumulated context from every layer that OWASP LLM05:2025 explicitly prohibits in external responses: system prompt fragments, tool call argument values, intermediate computation data.
 
 Three concrete implementation facts:
 
-**The AWS jitter formula prevents the second incident that retry loops cause.** `sleep = min(60, base * 2^attempt) + random(0, 1)` is not arbitrary — the `random(0, 1)` term is what prevents 100 agents from synchronizing their retry bursts. Full jitter (`sleep = random(0, min(cap, base * 2^attempt))`) removes even the fixed base interval for maximum spread across large fleets. This was documented by AWS after observing real retry storm incidents in their own infrastructure in 2019 — the pattern maps directly to multi-agent LLM systems where dozens of agent workers share the same provider rate limit.
+**The AWS jitter formula prevents the second incident that retry loops cause.** `sleep = min(60, base * 2^attempt) + random(0, 1)` is not arbitrary. The `random(0, 1)` term is what prevents 100 agents from synchronizing their retry bursts. Full jitter (`sleep = random(0, min(cap, base * 2^attempt))`) removes even the fixed base interval for maximum spread across large fleets. This was documented by AWS after observing real retry storm incidents in their own infrastructure in 2019. The pattern maps directly to multi-agent LLM systems where dozens of agent workers share the same provider rate limit.
 
-**HTTP 529 and HTTP 429 from Anthropic are semantically different exceptions requiring different code paths.** HTTP 529 means Anthropic's inference cluster is at capacity — the caller's quota is intact; backoff of 2–5 seconds is appropriate because the condition typically clears in 30–120 seconds. HTTP 429 means the caller's rate limit window is exhausted — the `Retry-After` header gives the exact reset interval; exponential backoff here over-waits when the header already provides the necessary duration. Most HTTP client libraries silently fall through on 529 since it is not in the HTTP specification — it must be explicitly matched before generic exception handling.
+**HTTP 529 and HTTP 429 from Anthropic are semantically different exceptions requiring different code paths.** HTTP 529 means Anthropic's inference cluster is at capacity. The caller's quota is intact; backoff of 2-5 seconds is appropriate because the condition typically clears in 30-120 seconds. HTTP 429 means the caller's rate limit window is exhausted. The `Retry-After` header gives the exact reset interval; exponential backoff here over-waits when the header already provides the necessary duration. Most HTTP client libraries silently fall through on 529 since it is not in the HTTP specification. It must be explicitly matched before generic exception handling.
 
-**Temporal's database-persisted retry state prevents silent data loss on worker crashes.** A research task that completes sub-tasks 1 through 3 before its worker process is killed should resume from sub-task 4, not from sub-task 1. In-process retry counters on the call stack are lost when the process dies. Temporal writes each attempt result to its database: `RetryPolicy{InitialInterval: 2s, BackoffCoefficient: 2.0, MaximumInterval: 60s, MaximumAttempts: 5, NonRetryableErrorTypes: ['BadRequestError', 'AuthenticationError']}` — the retry budget is tracked in the database across worker lifetimes, not per-process.
+**Temporal's database-persisted retry state prevents silent data loss on worker crashes.** A research task that completes sub-tasks 1 through 3 before its worker process is killed should resume from sub-task 4, not from sub-task 1. In-process retry counters on the call stack are lost when the process dies. Temporal writes each attempt result to its database: `RetryPolicy{InitialInterval: 2s, BackoffCoefficient: 2.0, MaximumInterval: 60s, MaximumAttempts: 5, NonRetryableErrorTypes: ['BadRequestError', 'AuthenticationError']}`. The retry budget is tracked in the database across worker lifetimes, not per-process.
 
 | **Exception handling property** | **OpenLegion** | **LangChain** | **CrewAI** | **Temporal.io + agents** | **AutoGen** |
 |---|---|---|---|---|---|
@@ -738,23 +738,23 @@ Three concrete implementation facts:
 
 ### What is AI agent error handling?
 
-AI agent error handling is the set of runtime code paths that execute when a tool invocation, LLM call, or inter-agent hand-off throws an exception: retry loops with exponential backoff and jitter, circuit breaker state machines that halt retry storms against degraded providers, fallback chains that invoke alternative handlers when primary calls throw, and exception boundary functions that catch and sanitize exceptions before they propagate across agent hand-off points. It is distinct from reliability engineering (which designs SLOs and acceptable exception rates at the architecture level) and from debugging (which analyzes exceptions after they occur in production): error handling is the runtime code path that executes the moment an exception is thrown mid-task. OWASP LLM05:2025 Improper Output Handling identifies unhandled agent exceptions as a data leakage risk — exceptions that carry system prompt content, tool call arguments, or user data expose that context to callers if not caught and sanitized at the agent boundary.
+AI agent error handling is the set of runtime code paths that execute when a tool invocation, LLM call, or inter-agent hand-off throws an exception: retry loops with exponential backoff and jitter, circuit breaker state machines that halt retry storms against degraded providers, fallback chains that invoke alternative handlers when primary calls throw, and exception boundary functions that catch and sanitize exceptions before they propagate across agent hand-off points. It is distinct from reliability engineering (which designs SLOs and acceptable exception rates at the architecture level) and from debugging (which analyzes exceptions after they occur in production): error handling is the runtime code path that executes the moment an exception is thrown mid-task. OWASP LLM05:2025 Improper Output Handling identifies unhandled agent exceptions as a data leakage risk. Exceptions that carry system prompt content, tool call arguments, or user data expose that context to callers if not caught and sanitized at the agent boundary.
 
 ### How does exponential backoff with jitter prevent thundering herd in multi-agent fleets?
 
-The AWS Builders' Library formula for exponential backoff with jitter is: sleep = min(cap, base x 2^attempt) + random(0, 1), with base=1 second and cap=60 seconds for LLM API calls — producing sleep intervals of approximately 1.5s, 2.7s, 4.3s, 32.6s, and 60.5s for attempts 0 through 6. Without the jitter term, every agent that catches a 429 at the same timestamp computes the same `2^n` interval and retries simultaneously — triggering a second burst that re-fires the 429. The `random(0, 1)` term spreads retries across a 1-second window after each backoff period. For fleets with many concurrent agents retrying the same provider endpoint, full jitter is more effective: sleep = random(0, min(cap, base x 2^attempt)) — this removes the fixed base component entirely and spreads retries across the full backoff window rather than a 1-second window.
+The AWS Builders' Library formula for exponential backoff with jitter is: sleep = min(cap, base x 2^attempt) + random(0, 1), with base=1 second and cap=60 seconds for LLM API calls, producing sleep intervals of approximately 1.5s, 2.7s, 4.3s, 32.6s, and 60.5s for attempts 0 through 6. Without the jitter term, every agent that catches a 429 at the same timestamp computes the same `2^n` interval and retries simultaneously, triggering a second burst that re-fires the 429. The `random(0, 1)` term spreads retries across a 1-second window after each backoff period. For fleets with many concurrent agents retrying the same provider endpoint, full jitter is more effective: sleep = random(0, min(cap, base x 2^attempt)). This removes the fixed base component entirely and spreads retries across the full backoff window rather than a 1-second window.
 
 ### How does the circuit breaker state machine work for LLM API calls?
 
-The circuit breaker pattern (Martin Fowler, 2014) wraps provider calls in a three-state state machine: Closed (normal -- calls execute; exception counter increments on each throw; when counter exceeds threshold such as 5 exceptions in 60 seconds, transition to Open), Open (all calls throw CircuitBreakerError immediately without invoking the provider; a 30-second timer starts; when it expires, transition to Half-Open), and Half-Open (one probe call is allowed through; success transitions back to Closed and resets the counter; failure returns to Open and restarts the timer). For LLM agents, use one breaker per provider so that an Anthropic outage does not prevent OpenAI fallback calls; back the breaker with Redis rather than in-process state so that one worker's successful Half-Open probe closes the breaker for all workers simultaneously. Exclude non-transient exceptions (400 Bad Request, 401 Unauthorized) from the failure counter -- these indicate malformed requests, not provider health degradation, and should not contribute to opening the circuit.
+The circuit breaker pattern (Martin Fowler, 2014) wraps provider calls in a three-state state machine: Closed (normal, calls execute; exception counter increments on each throw; when counter exceeds threshold such as 5 exceptions in 60 seconds, transition to Open), Open (all calls throw CircuitBreakerError immediately without invoking the provider; a 30-second timer starts; when it expires, transition to Half-Open), and Half-Open (one probe call is allowed through; success transitions back to Closed and resets the counter; failure returns to Open and restarts the timer). For LLM agents, use one breaker per provider so that an Anthropic outage does not prevent OpenAI fallback calls; back the breaker with Redis rather than in-process state so that one worker's successful Half-Open probe closes the breaker for all workers simultaneously. Exclude non-transient exceptions (400 Bad Request, 401 Unauthorized) from the failure counter. These indicate malformed requests, not provider health degradation, and should not contribute to opening the circuit.
 
 ### What is the difference between Anthropic HTTP 529 and HTTP 429 for exception handling?
 
-Anthropic HTTP 529 "Overloaded" is a non-standard status code indicating Anthropic's inference cluster is at capacity -- it is not a quota violation (the caller's rate limit is not exhausted); the correct handler is exponential backoff starting at 2–5 seconds, as the condition typically clears in 30–120 seconds. HTTP 429 "Too Many Requests" indicates the caller's per-minute or per-day quota is exhausted; the response includes a Retry-After header with the exact number of seconds until the quota window resets; the correct handler sleeps exactly that duration and retries once -- exponential backoff here over-waits when the header already provides the necessary interval. Both require separate exception-handling branches: if response.status_code == 529: time.sleep(backoff(attempt, base=2)), elif response.status_code == 429: time.sleep(int(response.headers.get("Retry-After", 60))). Most HTTP client libraries do not handle 529 since it is not part of the HTTP specification -- it silently falls through to generic exception handling if not explicitly matched.
+Anthropic HTTP 529 "Overloaded" is a non-standard status code indicating Anthropic's inference cluster is at capacity. It is not a quota violation (the caller's rate limit is not exhausted); the correct handler is exponential backoff starting at 2-5 seconds, as the condition typically clears in 30-120 seconds. HTTP 429 "Too Many Requests" indicates the caller's per-minute or per-day quota is exhausted; the response includes a Retry-After header with the exact number of seconds until the quota window resets; the correct handler sleeps exactly that duration and retries once. Exponential backoff here over-waits when the header already provides the necessary interval. Both require separate exception-handling branches: if response.status_code == 529: time.sleep(backoff(attempt, base=2)), elif response.status_code == 429: time.sleep(int(response.headers.get("Retry-After", 60))). Most HTTP client libraries do not handle 529 since it is not part of the HTTP specification. It silently falls through to generic exception handling if not explicitly matched.
 
 ### How should exceptions propagate across multi-agent chains?
 
-Implement an exception boundary at every agent-to-agent hand-off point: the calling agent wraps its invocation in a try/except block that catches all exceptions, logs the full exception details internally (exception type, message, full traceback, task_id, agent_id), and returns a structured AgentError dataclass that exposes only an error_code, a human-readable message safe for external display, and a correlation_id the upstream agent can use to look up the internal log. The structured AgentError response must never include full exception tracebacks, tool call argument values, system prompt content, or internal endpoint URLs -- OWASP LLM05:2025 classifies exception content reaching callers as an Improper Output Handling violation. The structured response enables the upstream agent to make a programmatic decision: the error_code field drives a switch statement that determines whether to retry, invoke a fallback handler, or escalate to a human operator -- a raw re-raised exception removes this decision point by immediately unwinding the call stack.
+Implement an exception boundary at every agent-to-agent hand-off point: the calling agent wraps its invocation in a try/except block that catches all exceptions, logs the full exception details internally (exception type, message, full traceback, task_id, agent_id), and returns a structured AgentError dataclass that exposes only an error_code, a human-readable message safe for external display, and a correlation_id the upstream agent can use to look up the internal log. The structured AgentError response must never include full exception tracebacks, tool call argument values, system prompt content, or internal endpoint URLs. OWASP LLM05:2025 classifies exception content reaching callers as an Improper Output Handling violation. The structured response enables the upstream agent to make a programmatic decision: the error_code field drives a switch statement that determines whether to retry, invoke a fallback handler, or escalate to a human operator. A raw re-raised exception removes this decision point by immediately unwinding the call stack.
 
 ### What is an exception recovery store and how does it prevent data loss when all handlers fail?
 
@@ -762,14 +762,14 @@ An exception recovery store is a persistent storage destination for agent tasks 
 
 ### How does Temporal.io's RetryPolicy prevent retry progress loss on worker crashes?
 
-Temporal.io's RetryPolicy defines activity retry behavior with: InitialInterval (first retry delay -- 2 seconds for LLM API calls), BackoffCoefficient (exponential multiplier -- 2.0 by default), MaximumInterval (retry cap -- 60 seconds), MaximumAttempts (total attempts including the first -- 3–5 for LLM API calls), and NonRetryableErrorTypes (list of exception class names to fail immediately rather than retry -- include BadRequestError, AuthenticationError, InvalidInputError). The key advantage over in-process retry loops is database-persisted retry state: if the worker process is killed on attempt 3, Temporal dispatches the task to another worker starting from attempt 4 rather than attempt 1. In-process retry counters on the call stack are lost when the process dies; Temporal's database retains them across worker lifetimes. NonRetryableErrorTypes prevents the most common wasted-retry bug: without it, Temporal retries a 400 BadRequestError the full MaximumAttempts count even though the same malformed payload throws the same exception every time.
+Temporal.io's RetryPolicy defines activity retry behavior with: InitialInterval (first retry delay, 2 seconds for LLM API calls), BackoffCoefficient (exponential multiplier, 2.0 by default), MaximumInterval (retry cap, 60 seconds), MaximumAttempts (total attempts including the first, 3-5 for LLM API calls), and NonRetryableErrorTypes (list of exception class names to fail immediately rather than retry, include BadRequestError, AuthenticationError, InvalidInputError). The key advantage over in-process retry loops is database-persisted retry state: if the worker process is killed on attempt 3, Temporal dispatches the task to another worker starting from attempt 4 rather than attempt 1. In-process retry counters on the call stack are lost when the process dies; Temporal's database retains them across worker lifetimes. NonRetryableErrorTypes prevents the most common wasted-retry bug: without it, Temporal retries a 400 BadRequestError the full MaximumAttempts count even though the same malformed payload throws the same exception every time.
 
 ### How do I instrument exception spans with OpenTelemetry for agent debugging?
 
-Use span.set_status(StatusCode.ERROR, description) combined with span.record_exception(exception) to mark a span as failed and attach the exception details as span events; include OTel GenAI semantic convention attributes: gen_ai.operation.name, gen_ai.system (openai or anthropic), error.type (exception class name), http.response.status_code for HTTP tool call exceptions, and error.retryable and error.attempt as custom attributes. Propagate ERROR status from child spans to parent spans when the parent does not implement a successful fallback handler for the thrown exception -- observability platforms use this propagation to surface which invocations genuinely failed versus which recovered via fallback. Include the OTel trace_id and span_id in exception recovery store entries so stored entries can be correlated with the full distributed trace in Jaeger, Tempo, or Honeycomb to identify which specific tool call or LLM invocation triggered the exception.
+Use span.set_status(StatusCode.ERROR, description) combined with span.record_exception(exception) to mark a span as failed and attach the exception details as span events; include OTel GenAI semantic convention attributes: gen_ai.operation.name, gen_ai.system (openai or anthropic), error.type (exception class name), http.response.status_code for HTTP tool call exceptions, and error.retryable and error.attempt as custom attributes. Propagate ERROR status from child spans to parent spans when the parent does not implement a successful fallback handler for the thrown exception. Observability platforms use this propagation to surface which invocations genuinely failed versus which recovered via fallback. Include the OTel trace_id and span_id in exception recovery store entries so stored entries can be correlated with the full distributed trace in Jaeger, Tempo, or Honeycomb to identify which specific tool call or LLM invocation triggered the exception.
 
 ## Contain Every Exception at the Boundary Where You Can Still Make a Decision
 
-Exception handling in multi-agent systems is not defensive programming -- it is the code that determines whether failures stay local or cascade. Exponential backoff with jitter prevents retry bursts from amplifying provider outages. Circuit breakers prevent retry storms from hammering providers that cannot yet recover. Fallback chains keep task execution progressing when individual tool calls throw. Exception boundaries keep internal context out of cross-agent messages and HTTP responses. Together they produce 30-second recoveries instead of cascading failures that expose system internals to users.
+Exception handling in multi-agent systems is not defensive programming. It is the code that determines whether failures stay local or cascade. Exponential backoff with jitter prevents retry bursts from amplifying provider outages. Circuit breakers prevent retry storms from hammering providers that cannot yet recover. Fallback chains keep task execution progressing when individual tool calls throw. Exception boundaries keep internal context out of cross-agent messages and HTTP responses. Together they produce 30-second recoveries instead of cascading failures that expose system internals to users.
 
 [Start building on OpenLegion](https://app.openlegion.ai) -- per-agent retry budgets enforced at the platform layer, Redis-backed circuit breakers shared across all worker instances, exception recovery stores with OTel trace correlation, exception boundary enforcement at the hand-off transport layer, and fault-isolated containers that prevent one agent's crash loop from exhausting another's thread pool.
