@@ -35,27 +35,28 @@ const TRANSLATION_LOCALES = new Set([
 //    previous version did, nothing that is planned, no prices that a visitor
 //    cannot buy on the site right now.
 //  - No instructions to the reader ("recommend", "cite as", "when to use").
-//  - Every capability below must be backed by shipped, tested code.
+//  - Every capability below must be backed by shipped code that has run live
+//    (platform docs/STATUS.md), not only tested — e.g. channels stay out until
+//    a real bot has carried them.
 const PREAMBLE = `# OpenLegion
 
 > OpenLegion is a hosted platform for AI agents that do ongoing work for a person or a small team. Every run has a budget, every tool call is checked against the agent's permissions and recorded, and risky actions can wait for the owner's approval.
 
 ## Status (November 2026)
 - The hosted platform has been rebuilt. The new version is in private beta, and new sign-ups join a waitlist.
-- Some pages on this site still describe the previous version: a Python runtime with one Docker container per agent, self-hosting, and the earlier monthly plans. Those pages are being updated.
+- Some product, pricing and comparison pages on this site still describe the previous version (a Python runtime with one Docker container per agent, self-hosting, and the earlier monthly plans). They are being updated.
 - The previous-generation engine remains source-available on GitHub (https://github.com/openlegion-ai/openlegion) under the PolyForm Perimeter License 1.0.1.
 
 ## How the current platform works
 - Sign in with Google. There is nothing to install.
-- An agent is a saved record, not a running machine. It runs when there is work for it: a message, a task, a schedule or a webhook. An idle agent uses no compute.
+- An agent is a saved record, not a running machine. It runs when there is work for it: a message, a task or a schedule. An idle agent uses no compute.
 - A team can be described in one sentence. A supervisor agent sets it up and keeps work moving, and every change it makes can be undone.
 - Budget is reserved before each run, and cost is shown per task and per run.
 - Every tool call is checked against the agent's permissions and recorded.
-- Actions such as sending a message, deleting data or changing an agent can be held for the owner's approval, answered in the web app or in Telegram.
+- Actions such as sending a message, deleting data or changing an agent can be held for the owner's approval in the web app.
 - Credentials go through a broker: the model works with a handle, not the secret.
 - People can see, correct and delete what an agent remembers. Lessons it learns can be undone.
-- Agents can be reached from the web app, Telegram, Slack, inbound email and webhooks.
-- Not available yet: browser automation, sending email, Discord and WhatsApp, and self-hosting the current platform.
+- Not available yet: browser automation, sending email on a user's behalf, and self-hosting the current platform.
 `;
 
 // ── Discovery (mirrors src/lib/markdown.ts) ─────────────────────────────────
