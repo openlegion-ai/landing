@@ -56,6 +56,14 @@
     "subtitle": "ほとんどのAIエージェントツールはデモ用に作られました — OpenLegionは本番環境用に作られました。",
     "tableCaption": "一般的なAIエージェントフレームワークとOpenLegionの機能比較"
   },
+  "consent": {
+    "accept": "同意する",
+    "label": "Cookie の同意",
+    "privacy": "プライバシーポリシー",
+    "reject": "拒否する",
+    "settings": "Cookie 設定",
+    "text": "当サイトでは、利用状況の測定とマーケティングの改善のために Cookie を使用しています。同意または拒否を選択でき、選択はいつでも変更できます。"
+  },
   "contentPage": {
     "breadcrumbAriaLabel": "パンくずリスト",
     "breadcrumbComparisons": "比較",

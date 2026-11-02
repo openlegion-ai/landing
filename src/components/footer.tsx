@@ -4,9 +4,11 @@ import { useTranslations, useLocale } from "next-intl";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { FOOTER_COLUMNS } from "@/lib/constants";
 import { linkLocaleFor } from "@/lib/markdown";
+import { CookieSettingsButton } from "@/components/consent-manager";
 
 export function Footer() {
   const t = useTranslations("footer");
+  const tc = useTranslations("consent");
   const locale = useLocale();
   return (
     <footer className="footer-gradient relative px-6 md:px-8">
@@ -38,6 +40,9 @@ export function Footer() {
             </p>
             <p className="mt-4 text-xs text-muted/70">
               {t("license", { year: new Date().getFullYear() })}
+            </p>
+            <p className="mt-2">
+              <CookieSettingsButton label={tc("settings")} />
             </p>
           </AnimateIn>
 

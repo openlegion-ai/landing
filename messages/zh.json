@@ -56,6 +56,14 @@
     "subtitle": "大多数 AI 智能体工具是为演示而生——OpenLegion 是为生产环境而生。",
     "tableCaption": "典型 AI 智能体框架与 OpenLegion 的功能对比"
   },
+  "consent": {
+    "accept": "接受",
+    "label": "Cookie 同意",
+    "privacy": "隐私政策",
+    "reject": "拒绝",
+    "settings": "Cookie 设置",
+    "text": "我们使用 Cookie 来了解网站的使用情况并改进营销。您可以接受或拒绝，并可随时更改您的选择。"
+  },
   "contentPage": {
     "breadcrumbAriaLabel": "面包屑导航",
     "breadcrumbComparisons": "方案对比",

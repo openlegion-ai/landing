@@ -56,6 +56,14 @@
     "subtitle": "Die meisten KI-Agenten-Tools wurden für Demos gebaut — OpenLegion wurde für den Produktiveinsatz gebaut.",
     "tableCaption": "Funktionsvergleich zwischen typischen KI-Agenten-Frameworks und OpenLegion"
   },
+  "consent": {
+    "accept": "Akzeptieren",
+    "label": "Cookie-Einwilligung",
+    "privacy": "Datenschutzrichtlinie",
+    "reject": "Ablehnen",
+    "settings": "Cookie-Einstellungen",
+    "text": "Wir verwenden Cookies, um zu messen, wie die Website genutzt wird, und um unser Marketing zu verbessern. Sie können sie akzeptieren oder ablehnen und Ihre Wahl jederzeit ändern."
+  },
   "contentPage": {
     "breadcrumbAriaLabel": "Brotkrümelnavigation",
     "breadcrumbComparisons": "Vergleiche",
