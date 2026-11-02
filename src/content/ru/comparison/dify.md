@@ -6,7 +6,7 @@ description: >-
  для AI-агентов.
 slug: /comparison/dify
 primary_keyword: openlegion vs dify
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

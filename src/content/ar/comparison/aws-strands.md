@@ -5,7 +5,7 @@ description: >-
  وإدارة بيانات الاعتماد، وتكامل AWS، وتنسيق تعدد الوكلاء.
 slug: /comparison/aws-strands
 primary_keyword: OpenLegion مقابل AWS Strands
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

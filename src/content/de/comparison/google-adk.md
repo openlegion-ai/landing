@@ -5,7 +5,7 @@ description: >-
  Credential-Verwaltung, A2A-Protokoll und Multi-Agenten-Orchestrierung.
 slug: /comparison/google-adk
 primary_keyword: openlegion vs google adk
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

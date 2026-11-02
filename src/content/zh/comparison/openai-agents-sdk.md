@@ -4,7 +4,7 @@ description: >-
  OpenLegion vs OpenAI Agents SDK：在安全性、智能体隔离、凭证管理、厂商锁定和多智能体编排上的并排对比。
 slug: /comparison/openai-agents-sdk
 primary_keyword: openlegion vs openai agents sdk
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

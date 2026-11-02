@@ -12,7 +12,7 @@ secondary_keywords:
  - ai agent task routing
  - blackboard pub/sub handoff
  - agentic ai orchestration
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

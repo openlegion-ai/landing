@@ -5,7 +5,7 @@ description: >-
  與多代理編排的並列比較。
 slug: /comparison/openai-agents-sdk
 primary_keyword: openlegion vs openai agents sdk
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

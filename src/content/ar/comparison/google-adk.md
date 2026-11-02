@@ -5,7 +5,7 @@ description: >-
  الوكلاء، وإدارة بيانات الاعتماد، وبروتوكول A2A، وتنسيق تعدد الوكلاء.
 slug: /comparison/google-adk
 primary_keyword: OpenLegion مقابل Google ADK
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

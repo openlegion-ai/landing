@@ -4,7 +4,7 @@ description: >-
  OpenLegion vs AWS Strands Agents SDK：セキュリティ、エージェント隔離、クレデンシャル管理、AWS統合、マルチエージェントオーケストレーションの比較。
 slug: /comparison/aws-strands
 primary_keyword: openlegion vs aws strands
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

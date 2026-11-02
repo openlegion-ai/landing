@@ -4,7 +4,7 @@ description: >-
   OpenLegionと16のAIエージェントフレームワークを比較：LangGraph、CrewAI、AutoGen、OpenClaw、ZeroClaw、NanoClaw、OpenFang、MemUなど。セキュリティ、価格、アーキテクチャを横並びで検証。
 slug: /comparison
 primary_keyword: AIエージェントフレームワーク比較 2026
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 page_type: hub
 schema_types:

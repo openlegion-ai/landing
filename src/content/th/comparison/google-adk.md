@@ -5,7 +5,7 @@ description: >-
  เอเจนต์ การจัดการข้อมูลรับรอง โปรโตคอล A2A และการจัดวง multi-agent
 slug: /comparison/google-adk
 primary_keyword: openlegion vs google adk
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

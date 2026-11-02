@@ -5,7 +5,7 @@ description: >-
  الاعتماد، وضوابط التكلفة، ونماذج النشر لمنصات وكلاء الذكاء الاصطناعي.
 slug: /comparison/manus-ai
 primary_keyword: OpenLegion مقابل Manus AI
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

@@ -5,7 +5,7 @@ description: >-
   ZeroClaw, NanoClaw, OpenFang, MemU 등. 보안, 가격, 아키텍처를 한눈에.
 slug: /comparison
 primary_keyword: ai 에이전트 프레임워크 비교 2026
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 page_type: hub
 schema_types:

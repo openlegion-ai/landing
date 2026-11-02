@@ -6,7 +6,7 @@ description: >-
   والتسعير والبنية المعمارية، جنباً إلى جنب.
 slug: /comparison
 primary_keyword: مقارنة أطر وكلاء الذكاء الاصطناعي 2026
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 page_type: hub
 schema_types:

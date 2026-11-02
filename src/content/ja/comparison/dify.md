@@ -4,7 +4,7 @@ description: >-
  OpenLegion vs Dify：AIエージェント向けのセキュリティ、エージェント隔離、クレデンシャル管理、ビジュアルワークフロー構築、本番展開の比較。
 slug: /comparison/dify
 primary_keyword: openlegion vs dify
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

@@ -4,7 +4,7 @@ description: >-
  OpenLegion vs Google Agent Development Kit：セキュリティ、エージェント隔離、クレデンシャル管理、A2Aプロトコル、マルチエージェントオーケストレーションの比較。
 slug: /comparison/google-adk
 primary_keyword: openlegion vs google adk
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage
