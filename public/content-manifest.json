@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://www.openlegion.ai",
-  "pageCount": 62,
+  "pageCount": 91,
   "pages": [
     {
       "slug": "/ai-social-media-management",
@@ -967,6 +967,30 @@
       "url": "https://www.openlegion.ai/en/comparison/semantic-kernel"
     },
     {
+      "slug": "/comparison/zapier",
+      "title": "OpenLegion vs Zapier: The AI Agent Alternative to Workflow Automation",
+      "description": "OpenLegion vs Zapier: why teams replacing Zapier with an AI agent platform get autonomous execution, vault-isolated credentials, and multi-agent orchestration instead of trigger-action zaps.",
+      "primaryKeyword": "zapier alternative",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-30",
+      "pageType": "comparison",
+      "related": [
+        "/comparison/n8n",
+        "/comparison/mastra",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-security",
+        "/learn/credential-management-ai-agents",
+        "/learn/llm-gateway"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/comparison/zapier"
+    },
+    {
       "slug": "/comparison/zeroclaw",
       "title": "OpenLegion vs ZeroClaw — Detailed Comparison (2026)",
       "description": "OpenLegion vs ZeroClaw: Rust single-binary agent runtime vs Python security-first framework. Credential management, isolation, budget controls, and deployment compared.",
@@ -1050,6 +1074,42 @@
       "url": "https://www.openlegion.ai/en/deepseek-v4-agents"
     },
     {
+      "slug": "/learn/agent-as-a-service",
+      "title": "Agent as a Service: Pricing, Tenant Isolation, and AaaS vs Self-Hosted",
+      "description": "Agent as a service (AaaS): AI agents on managed infrastructure with consumption pricing. Covers AWS Bedrock Agents, OpenAI Operator, CVE-2024-5184 isolation, and AaaS vs self-hosted TCO.",
+      "primaryKeyword": "agent as a service",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-02",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-deployment",
+        "/learn/ai-agent-platform",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-multi-tenancy",
+        "/learn/credential-management-ai-agents",
+        "/learn/llm-cost-optimization"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/agent-as-a-service"
+    },
+    {
       "slug": "/learn/agent-handoff-patterns",
       "title": "Agent Handoff Patterns: Routing Work Between AI Agents",
       "description": "Agent handoff patterns define how AI agents transfer tasks, context, and credentials: push handoff, pull dispatch, blackboard-pointer routing, and streaming transfer for multi-agent systems.",
@@ -1122,6 +1182,78 @@
       "url": "https://www.openlegion.ai/en/learn/agent2agent-protocol"
     },
     {
+      "slug": "/learn/agentic-ai-design-patterns",
+      "title": "Agentic AI Design Patterns: ReAct, Plan-and-Execute, Reflexion, and More",
+      "description": "ReAct, Plan-and-Execute, Reflexion, Critic-Actor, Supervisor-Worker, Mixture-of-Agents: agentic AI design patterns with trade-offs, failure modes, security gates, and production selection guidance.",
+      "primaryKeyword": "agentic AI design patterns",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-25",
+      "pageType": "learn",
+      "related": [
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-orchestration",
+        "/learn/ai-agent-planning",
+        "/learn/ai-agent-reliability",
+        "/learn/multi-agent-systems",
+        "/learn/ai-agent-security"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/agentic-ai-design-patterns"
+    },
+    {
+      "slug": "/learn/agentic-loop",
+      "title": "Agentic Loop: How AI Agents Perceive, Think, and Act",
+      "description": "The agentic loop is the perceive-think-act cycle every AI agent runs on each iteration. Learn loop mechanics, termination strategies, and how to prevent infinite loops and runaway spend.",
+      "primaryKeyword": "agentic loop",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-08",
+      "pageType": "learn",
+      "related": [
+        "/learn/agentic-workflows",
+        "/learn/agentic-ai-design-patterns",
+        "/learn/ai-agent-planning",
+        "/learn/ai-agent-tool-use",
+        "/learn/ai-agent-prompt-injection",
+        "/learn/ai-agent-cost"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/agentic-loop"
+    },
+    {
       "slug": "/learn/agentic-rag",
       "title": "Agentic RAG: Sub-Question Decomposition, HyDE, and Corpus Security",
       "description": "How agentic RAG works: iterative retrieval loops, sub-question decomposition, HyDE, FLARE, and re-ranking. Covers multi-agent pipelines, corpus injection attacks, and embedding model selection.",
@@ -1188,6 +1320,30 @@
       "url": "https://www.openlegion.ai/en/learn/agentic-workflows"
     },
     {
+      "slug": "/learn/ai-agent-access-control",
+      "title": "AI Agent Access Control: RBAC, ABAC, and Least Privilege",
+      "description": "AI agent access control: RBAC and ABAC models, least-privilege tool-level ACLs, vault credential scoping, inter-agent trust tokens, OWASP LLM06, NIST SP 800-207 Zero Trust, and EU AI Act Article 9.",
+      "primaryKeyword": "ai agent access control",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-21",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-sandboxing",
+        "/learn/credential-management-ai-agents",
+        "/learn/ai-agent-audit-log",
+        "/learn/ai-agent-governance",
+        "/learn/ai-agent-observability"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-access-control"
+    },
+    {
       "slug": "/learn/ai-agent-architecture",
       "title": "AI Agent Architecture — Layers, Topologies, and Security-First Design",
       "description": "AI agent architecture: four structural layers (perception, reasoning, memory, action), single vs multi-agent topologies, ReAct loop, and 2025 cross-agent standards (Google A2A, OpenAI handoffs).",
@@ -1210,6 +1366,33 @@
         "en"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-architecture"
+    },
+    {
+      "slug": "/learn/ai-agent-audit-log",
+      "title": "AI Agent Audit Log: Immutable Trails, Compliance, and Forensics",
+      "description": "Build an immutable AI agent audit log for SOC 2, GDPR Article 30, and OWASP LLM06:2025. Covers append-only design, OTLP schema, SIEM integration, tamper-evidence, and forensic investigation.",
+      "primaryKeyword": "ai agent audit log",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-23",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-governance",
+        "/learn/ai-agent-monitoring",
+        "/learn/credential-management-ai-agents",
+        "/learn/ai-agent-orchestration"
+      ],
+      "availableLocales": [
+        "en",
+        "hi",
+        "ru",
+        "th"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-audit-log"
     },
     {
       "slug": "/learn/ai-agent-benchmarks",
@@ -1260,6 +1443,54 @@
       "url": "https://www.openlegion.ai/en/learn/ai-agent-context-window"
     },
     {
+      "slug": "/learn/ai-agent-cost",
+      "title": "AI Agent Cost: Budget Caps, Token Attribution, and Runaway Loop Control",
+      "description": "AI agent cost at runtime: token pricing, tool call overhead, loop amplification, and budget caps. GPT-4o pricing, Batch API 50% discount, Anthropic prompt caching, and runaway loop cost analysis.",
+      "primaryKeyword": "ai agent cost",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-05",
+      "pageType": "learn",
+      "related": [
+        "/learn/llm-cost-optimization",
+        "/learn/ai-agent-observability",
+        "/learn/llm-gateway",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-reliability",
+        "/learn/agentic-rag"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-cost"
+    },
+    {
+      "slug": "/learn/ai-agent-debugging",
+      "title": "AI Agent Debugging: Loops, Hallucinated Calls, and Post-Mortem Traces",
+      "description": "AI agent debugging: diagnosing infinite loops, hallucinated tool names, context overflow, and credential 401s using OTel GenAI spans, LangSmith trace replay, and structured post-mortem templates.",
+      "primaryKeyword": "ai agent debugging",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-14",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-testing",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-reliability",
+        "/learn/llm-observability",
+        "/learn/context-engineering"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-debugging"
+    },
+    {
       "slug": "/learn/ai-agent-deployment",
       "title": "AI Agent Deployment: Container TTLs, Budget Caps, and Circuit Breakers",
       "description": "Deploy AI agents to production: container TTLs, per-agent budget caps, LLM circuit breakers, credential vault proxy, graceful shutdown, and Kubernetes HPA for agent fleets.",
@@ -1282,6 +1513,30 @@
         "en"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-deployment"
+    },
+    {
+      "slug": "/learn/ai-agent-error-handling",
+      "title": "AI Agent Error Handling: Retries, Circuit Breakers, and Fallback Chains",
+      "description": "AI agent error handling: exponential backoff with jitter, circuit breaker pattern (Fowler 2014), Anthropic 529 vs 429, Temporal RetryPolicy, gRPC status codes, OWASP LLM05:2025, and OTel error spans.",
+      "primaryKeyword": "ai agent error handling",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-22",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-reliability",
+        "/learn/ai-agent-debugging",
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-long-running-tasks",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-testing"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-error-handling"
     },
     {
       "slug": "/learn/ai-agent-evaluation",
@@ -1384,6 +1639,54 @@
       "url": "https://www.openlegion.ai/en/learn/ai-agent-governance"
     },
     {
+      "slug": "/learn/ai-agent-guardrails",
+      "title": "AI Guardrails: Input/Output Controls, Platform Enforcement, and LLM Safety",
+      "description": "AI guardrails: input, output, behavioral, and budget validation layers for LLM agents. OWASP LLM01 and LLM06, NeMo, AWS Bedrock, Guardrails AI, CVE-2024-5184, structural vs prompt-level enforcement.",
+      "primaryKeyword": "ai guardrails",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-05",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-sandboxing",
+        "/learn/ai-agent-prompt-injection",
+        "/learn/credential-management-ai-agents",
+        "/learn/ai-agent-reliability",
+        "/learn/agentic-workflows"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-guardrails"
+    },
+    {
+      "slug": "/learn/ai-agent-long-running-tasks",
+      "title": "AI Agent Long Running Tasks: Queues, Checkpoints, and Credential Refresh",
+      "description": "AI agent long running tasks in production: Celery 5.3 task queues, LangGraph checkpointing, OAuth credential refresh, progressive summarization every 20-30 steps, and Lambda timeout workarounds.",
+      "primaryKeyword": "ai agent long running tasks",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-16",
+      "pageType": "learn",
+      "related": [
+        "/learn/agentic-loop",
+        "/learn/ai-agent-reliability",
+        "/learn/ai-agent-deployment",
+        "/learn/credential-management-ai-agents",
+        "/learn/llm-prompt-caching",
+        "/learn/ai-agent-debugging"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-long-running-tasks"
+    },
+    {
       "slug": "/learn/ai-agent-mcp-security",
       "title": "AI Agent MCP Security: Red-Team Guide to Exploit Prevention",
       "description": "Red-team guide to AI agent MCP security: tool poisoning exploits, rug-pull backdoors, supply chain attacks, cross-pipeline injection, and infrastructure hardening.",
@@ -1472,6 +1775,42 @@
       "url": "https://www.openlegion.ai/en/learn/ai-agent-monitoring"
     },
     {
+      "slug": "/learn/ai-agent-multi-tenancy",
+      "title": "AI Agent Multi-Tenancy: Credential Isolation and SOC 2 Controls",
+      "description": "Prevent cross-tenant data leakage in multi-tenant AI agent systems. Covers OWASP LLM06, per-tenant credential scoping, Kubernetes namespaces, SOC 2 CC6.1/CC6.6 controls, and partitioned audit logs.",
+      "primaryKeyword": "ai agent multi-tenancy",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-24",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-security",
+        "/learn/credential-management-ai-agents",
+        "/learn/ai-agent-governance",
+        "/learn/ai-agent-sandboxing",
+        "/learn/ai-agent-audit-log",
+        "/learn/ai-agent-platform"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-multi-tenancy"
+    },
+    {
       "slug": "/learn/ai-agent-observability",
       "title": "AI Agent Observability — Tracing, Costs & Failure Modes",
       "description": "AI agent observability covers traces, costs, prompt versioning, and failure modes for autonomous agents in production. Why it differs from app observability — and what to track.",
@@ -1556,6 +1895,54 @@
       "url": "https://www.openlegion.ai/en/learn/ai-agent-orchestration"
     },
     {
+      "slug": "/learn/ai-agent-parallelization",
+      "title": "AI Agent Parallelization: Fan-Out, asyncio, and Race Condition Safety",
+      "description": "AI agent parallelization: fan-out/fan-in, asyncio.gather(), Semaphore backpressure, OpenAI parallel_tool_calls (Nov 2023), Anthropic tool_use (Mar 2024), LangGraph Send(), race conditions.",
+      "primaryKeyword": "ai agent parallelization",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-15",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-orchestration",
+        "/learn/multi-agent-systems",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-tool-use",
+        "/learn/ai-agent-reliability",
+        "/learn/llm-cost-optimization"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-parallelization"
+    },
+    {
+      "slug": "/learn/ai-agent-planning",
+      "title": "AI Agent Planning: ReAct, Tree of Thoughts, and Plan-and-Execute",
+      "description": "AI agent planning: ReAct reasoning traces, Tree of Thoughts multi-path search, Plan-and-Execute separation, extended thinking in o3, and pre-execution HITL gates before irreversible actions.",
+      "primaryKeyword": "ai agent planning",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-23",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-architecture",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-orchestration",
+        "/learn/human-in-the-loop-ai-agents",
+        "/learn/ai-agent-security",
+        "/learn/multi-agent-systems"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-planning"
+    },
+    {
       "slug": "/learn/ai-agent-platform",
       "title": "AI Agent Platform — Deploy Secure Agents",
       "description": "OpenLegion is a managed AI agent platform with container isolation, credential vaulting, and budget controls. Bring your own LLM API keys.",
@@ -1618,6 +2005,54 @@
         "en"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-prompt-injection"
+    },
+    {
+      "slug": "/learn/ai-agent-rate-limiting",
+      "title": "AI Agent Rate Limiting: Quota Control, Circuit Breakers, and Budget Caps",
+      "description": "AI agent rate limiting stops API quota exhaustion and runaway loops. Token bucket algorithms, circuit breakers, per-agent budget caps, and mesh-layer enforcement before calls reach the LLM provider.",
+      "primaryKeyword": "ai agent rate limiting",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-07",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-cost",
+        "/learn/llm-cost-optimization",
+        "/learn/ai-agent-observability",
+        "/learn/llm-gateway",
+        "/learn/ai-agent-sandboxing",
+        "/learn/ai-agent-reliability"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-rate-limiting"
+    },
+    {
+      "slug": "/learn/ai-agent-reliability",
+      "title": "AI Agent Reliability — Circuit Breakers, Backoff, and Dead-Letter Queues",
+      "description": "Reliable AI agents: exponential backoff with jitter for LLM 429s, circuit breakers for cascading failures, dead-letter queues, idempotency keys for safe retries, and budget caps as guardrails.",
+      "primaryKeyword": "ai agent reliability",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-23",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-deployment",
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-monitoring",
+        "/learn/ai-agent-security",
+        "/learn/human-in-the-loop-ai-agents",
+        "/learn/llm-cost-optimization"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-reliability"
     },
     {
       "slug": "/learn/ai-agent-sandboxing",
@@ -1708,6 +2143,48 @@
       "url": "https://www.openlegion.ai/en/learn/ai-agent-state-management"
     },
     {
+      "slug": "/learn/ai-agent-testing",
+      "title": "AI Agent Testing: Unit, Integration, and CI Validator Patterns",
+      "description": "AI agent testing requires non-determinism-aware unit tests, task replay integration tests, and CI validator gates. Learn the patterns, tools, and benchmarks production teams use.",
+      "primaryKeyword": "ai agent testing",
+      "secondaryKeywords": [
+        "how to test ai agents",
+        "ai agent unit testing",
+        "ai agent integration testing",
+        "agent benchmark evaluation",
+        "pytest ai agent"
+      ],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-02",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-evaluation",
+        "/learn/ai-agent-security",
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-sandboxing",
+        "/learn/ai-agent-tool-use",
+        "/learn/agentic-workflows"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-testing"
+    },
+    {
       "slug": "/learn/ai-agent-tool-use",
       "title": "AI Agent Tool Use — Function Calling, Schemas, and Safe Execution",
       "description": "How AI agents use tools: defining tool schemas, function calling across providers, parallel and chained calls, output parsing, error recovery, and permission scoping for safe production execution.",
@@ -1742,6 +2219,54 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/learn/ai-agent-tool-use"
+    },
+    {
+      "slug": "/learn/ai-agent-versioning",
+      "title": "AI Agent Versioning: Model Pinning, Prompt SemVer, and Behavior Drift",
+      "description": "AI agent versioning: model snapshot pinning, SemVer 2.0.0 prompt contracts, behavior drift detection, rollback, EU AI Act Article 12 August 2, 2026, and NIST AI RMF GOVERN 1.7 documentation.",
+      "primaryKeyword": "ai agent versioning",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-18",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-governance",
+        "/learn/ai-agent-testing",
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-deployment",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-debugging"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-versioning"
+    },
+    {
+      "slug": "/learn/ai-agent-workflow",
+      "title": "AI Agent Workflow: Chains, Routers, Orchestrators, and Typed Handoffs",
+      "description": "AI agent workflow: linear chain, router, orchestrator, evaluator-optimizer; typed handoffs (OpenAI SDK March 2025); LangGraph v0.2 StateGraph (June 2024); OWASP LLM01:2025; credential isolation.",
+      "primaryKeyword": "ai agent workflow",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-23",
+      "pageType": "learn",
+      "related": [
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-error-handling",
+        "/learn/ai-agent-testing",
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-access-control",
+        "/learn/ai-agent-long-running-tasks"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/ai-agent-workflow"
     },
     {
       "slug": "/learn/ai-coding-agents",
@@ -1787,6 +2312,42 @@
       "url": "https://www.openlegion.ai/en/learn/ai-coding-agents"
     },
     {
+      "slug": "/learn/autonomous-ai-agents",
+      "title": "Autonomous AI Agents: Autonomy Spectrum, Safety Gates, Production Risks",
+      "description": "Autonomous AI agents: L0-L4 autonomy spectrum, safety gates at each level, Anthropic RSP, EU AI Act classification, OWASP LLM06, and secure L2-L3 deployment patterns.",
+      "primaryKeyword": "autonomous ai agents",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-23",
+      "pageType": "learn",
+      "related": [
+        "/learn/what-is-an-ai-agent",
+        "/learn/ai-agent-governance",
+        "/learn/ai-agent-security",
+        "/learn/human-in-the-loop-ai-agents",
+        "/learn/agentic-workflows",
+        "/learn/managed-ai-agent-hosting"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/autonomous-ai-agents"
+    },
+    {
       "slug": "/learn/browser-use-agents",
       "title": "Browser Use Agents — How AI Agents Control the Web",
       "description": "Browser use agents let AI autonomously navigate websites, fill forms, and extract data. Learn how they work, their security risks, and how to run them safely in isolated containers.",
@@ -1829,6 +2390,30 @@
       "url": "https://www.openlegion.ai/en/learn/browser-use-agents"
     },
     {
+      "slug": "/learn/build-ai-agent",
+      "title": "How to Build an AI Agent: Tools, Credentials, Deployment, and Scheduling",
+      "description": "Build an AI agent step by step: define the agent loop, register tools, configure vault credential injection, set budget caps, deploy to production, schedule with heartbeat cron, and add observability.",
+      "primaryKeyword": "build ai agent",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-23",
+      "pageType": "learn",
+      "related": [
+        "/learn/what-is-an-ai-agent",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-tool-use",
+        "/learn/ai-agent-deployment",
+        "/learn/credential-management-ai-agents",
+        "/learn/human-in-the-loop-ai-agents"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/build-ai-agent"
+    },
+    {
       "slug": "/learn/claude-opus-4-8",
       "title": "Claude Opus 4.8 - Capabilities, Cost, and Agentic Performance",
       "description": "Claude Opus 4.8 launched May 28 2026: 84% on Online-Mind2Web, fast mode 3x cheaper, dynamic workflows in Claude Code, first Opus to complete every Super-Agent benchmark case at GPT-5.5 cost parity.",
@@ -1868,6 +2453,30 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/learn/claude-opus-4-8"
+    },
+    {
+      "slug": "/learn/context-engineering",
+      "title": "Context Engineering for AI Agents: Slots, Compression, and Security",
+      "description": "How to engineer AI agent context: four slots, tool result compression, sliding window history, blackboard working memory, OWASP LLM02/LLM06 from context mismanagement, and vault-proxied credentials.",
+      "primaryKeyword": "context engineering AI agents",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-12",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-context-window",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-memory",
+        "/learn/llm-prompt-caching",
+        "/learn/ai-agent-security",
+        "/learn/llm-observability"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/context-engineering"
     },
     {
       "slug": "/learn/credential-management-ai-agents",
@@ -1995,6 +2604,162 @@
       "url": "https://www.openlegion.ai/en/learn/llm-cost-optimization"
     },
     {
+      "slug": "/learn/llm-fine-tuning",
+      "title": "LLM Fine Tuning: LoRA, QLoRA, Security Risks, and When to Fine-Tune",
+      "description": "When and how to fine-tune LLMs: LoRA vs QLoRA vs full fine-tuning, OpenAI API pricing, GDPR Art. 17 PII-in-weights risk, catastrophic forgetting, fine-tuning vs RAG decision framework.",
+      "primaryKeyword": "llm fine tuning",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-08",
+      "pageType": "learn",
+      "related": [
+        "/learn/llm-cost-optimization",
+        "/learn/ai-agent-security",
+        "/learn/llm-gateway",
+        "/learn/llm-routing",
+        "/learn/ai-agent-observability",
+        "/learn/credential-management-ai-agents"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/llm-fine-tuning"
+    },
+    {
+      "slug": "/learn/llm-gateway",
+      "title": "LLM Gateway: Routing, Auth, and Cost Control for AI Agents",
+      "description": "An LLM gateway routes AI agent requests across model providers, enforces rate limits, injects credentials without exposing them to agent code, and attributes token costs per agent.",
+      "primaryKeyword": "llm gateway",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-06-24",
+      "pageType": "learn",
+      "related": [
+        "/comparison/litellm",
+        "/learn/ai-agent-mcp-security",
+        "/learn/credential-management-ai-agents",
+        "/learn/ai-agent-monitoring",
+        "/learn/llm-cost-optimization",
+        "/learn/ai-agent-security"
+      ],
+      "availableLocales": [
+        "en",
+        "ar",
+        "de",
+        "es",
+        "fr",
+        "hi",
+        "ja",
+        "ko",
+        "pt",
+        "ru",
+        "th",
+        "zh",
+        "zh-TW"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/llm-gateway"
+    },
+    {
+      "slug": "/learn/llm-observability",
+      "title": "LLM Observability: Token Traces, TTFT SLOs, and Prompt Logging Security",
+      "description": "LLM observability: OTel Gen AI spans, Langfuse prompt registry, TTFT SLO design, Anthropic token counting API, OpenLLMetry zero-code tracing, and OWASP LLM02 prompt logging security risks.",
+      "primaryKeyword": "llm observability",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-10",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-observability",
+        "/learn/ai-agent-security",
+        "/learn/llm-cost-optimization",
+        "/learn/llm-prompt-caching",
+        "/learn/llm-routing",
+        "/learn/llm-structured-output"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/llm-observability"
+    },
+    {
+      "slug": "/learn/llm-prompt-caching",
+      "title": "Prompt Caching — Anthropic, OpenAI, and Gemini Cache Architecture Guide",
+      "description": "How prompt caching works: Anthropic 90% discount, OpenAI 50%, Gemini ~75%. Minimum thresholds, TTL windows, prefix stability requirements, and savings math for agent fleets.",
+      "primaryKeyword": "prompt caching",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-05",
+      "pageType": "learn",
+      "related": [
+        "/learn/llm-cost-optimization",
+        "/learn/ai-agent-cost",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-security",
+        "/learn/llm-gateway",
+        "/learn/ai-agent-observability"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/llm-prompt-caching"
+    },
+    {
+      "slug": "/learn/llm-routing",
+      "title": "LLM Routing: Model Selection, Cost Optimization, and Router Architecture",
+      "description": "How LLM routing works: model selection by complexity and cost. RouteLLM 40% savings, OpenRouter, AWS Bedrock intelligent routing, LiteLLM OSS, Martian, and adversarial ML router security risks.",
+      "primaryKeyword": "llm routing",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-07",
+      "pageType": "learn",
+      "related": [
+        "/learn/llm-gateway",
+        "/learn/llm-cost-optimization",
+        "/learn/ai-agent-cost",
+        "/learn/llm-prompt-caching",
+        "/learn/ai-agent-observability",
+        "/learn/multi-agent-systems"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/llm-routing"
+    },
+    {
+      "slug": "/learn/llm-structured-output",
+      "title": "LLM Structured Output: JSON Schema, Pydantic, and Schema Enforcement",
+      "description": "How LLM structured output works: OpenAI Structured Outputs GA 2024 vs JSON mode, Anthropic tool_use, Instructor library, constrained decoding with Outlines, and security risks of unvalidated output.",
+      "primaryKeyword": "llm structured output",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-09",
+      "pageType": "learn",
+      "related": [
+        "/learn/ai-agent-reliability",
+        "/learn/ai-agent-security",
+        "/learn/llm-fine-tuning",
+        "/learn/llm-routing",
+        "/learn/agentic-workflows",
+        "/learn/ai-agent-testing"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/llm-structured-output"
+    },
+    {
       "slug": "/learn/managed-ai-agent-hosting",
       "title": "Managed AI Agent Hosting - Deploy Secure Agent Fleets",
       "description": "Managed AI agent hosting from OpenLegion: deploy container-isolated agent fleets on a dedicated VPS with vaulted credentials, per-agent budgets, and no infrastructure to run yourself.",
@@ -2036,6 +2801,29 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/learn/managed-ai-agent-hosting"
+    },
+    {
+      "slug": "/learn/mcp-tools",
+      "title": "MCP Tools Security: Hardening Against Poisoning and Exfiltration",
+      "description": "MCP tools security: tool poisoning, credential exfiltration, OWASP LLM01:2025, OWASP LLM07, OAuth 2.1 scope claims (July 2025), JSON-RPC -32602, sandbox isolation, and vault proxy injection.",
+      "primaryKeyword": "mcp tools",
+      "secondaryKeywords": [],
+      "schemaTypes": [
+        "FAQPage"
+      ],
+      "lastUpdated": "2026-07-22",
+      "pageType": "learn",
+      "related": [
+        "/learn/model-context-protocol",
+        "/learn/ai-agent-tool-use",
+        "/learn/ai-agent-mcp-security",
+        "/learn/credential-management-ai-agents",
+        "/learn/ai-agent-sandboxing"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/mcp-tools"
     },
     {
       "slug": "/learn/model-context-protocol",
