@@ -186,6 +186,23 @@ export function getContentEntry(slug: string): ContentEntry | undefined {
 }
 
 /**
+ * Raw `last_updated` frontmatter of the file served for (slug, locale), falling
+ * back to the English file. YAML may hand back a string ("2026-03") or a Date
+ * (unquoted 2026-05-30), so callers normalise it.
+ */
+export function getContentLastUpdated(slug: string, locale: string): unknown {
+  const entry = CONTENT_MAP.get(slug);
+  if (!entry) return undefined;
+  if (locale === "en" || !entry.availableLocales.includes(locale)) return entry.frontmatter.last_updated;
+  try {
+    const { data } = matter(fs.readFileSync(resolveContentPath(entry, locale), "utf-8"));
+    return (data as Partial<ContentFrontmatter>).last_updated ?? entry.frontmatter.last_updated;
+  } catch {
+    return entry.frontmatter.last_updated;
+  }
+}
+
+/**
  * Resolve the locale a next-intl `<Link>` should use for an internal href.
  *
  * A markdown content page (one in CONTENT_MAP) that lacks a translation in the
