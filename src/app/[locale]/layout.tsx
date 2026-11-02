@@ -220,13 +220,8 @@ export default async function LocaleLayout({
         codeRepository: GITHUB_URL,
         programmingLanguage: "Python",
         softwareRequirements: "Python 3.10+, Docker",
-        offers: {
-          "@type": "Offer",
-          price: "19",
-          priceCurrency: "USD",
-          url: `https://www.openlegion.ai/${locale}/pricing`,
-          availability: "https://schema.org/InStock",
-        },
+        // No `offers`: hosted plans are waitlist-only right now, and structured
+        // data must match what a visitor can actually buy on the page.
         featureList: tSchema.raw("softwareFeatureList") as string[],
       },
       {
@@ -250,12 +245,6 @@ export default async function LocaleLayout({
         areaServed: tSchema("areaServed"),
         description: tSchema("serviceDescription"),
         url: `https://www.openlegion.ai/${locale}/pricing`,
-        offers: [
-          { "@type": "Offer", name: "Basic",   price: "19",  priceCurrency: "USD", availability: "https://schema.org/InStock" },
-          { "@type": "Offer", name: "Growth",  price: "62",  priceCurrency: "USD", availability: "https://schema.org/InStock" },
-          { "@type": "Offer", name: "Pro",     price: "152", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-          { "@type": "Offer", name: "Pro Max", price: "296", priceCurrency: "USD", availability: "https://schema.org/InStock" },
-        ],
       },
     ],
   };
