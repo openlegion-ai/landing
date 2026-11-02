@@ -5,7 +5,7 @@ description: >-
  成本控制與部署模式。
 slug: /comparison/manus-ai
 primary_keyword: openlegion vs manus ai
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

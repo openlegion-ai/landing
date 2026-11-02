@@ -4,7 +4,7 @@ description: >-
  OpenLegion vs Dify：在安全性、智能体隔离、凭证管理、可视化工作流构建和 AI 智能体的生产部署上的对比。
 slug: /comparison/dify
 primary_keyword: openlegion vs dify
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

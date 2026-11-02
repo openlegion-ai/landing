@@ -5,7 +5,7 @@ description: >-
  Credential-Verwaltung, Enterprise-Funktionen und Multi-Agenten-Orchestrierung.
 slug: /comparison/semantic-kernel
 primary_keyword: openlegion vs semantic kernel
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

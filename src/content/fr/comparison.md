@@ -6,7 +6,7 @@ description: >-
   architecture côte à côte.
 slug: /comparison
 primary_keyword: comparaison frameworks d'agents IA 2026
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 page_type: hub
 schema_types:

@@ -4,7 +4,7 @@ description: >-
  OpenLegion vs Manus AI：在 AI 智能体平台的安全性、智能体隔离、凭证管理、成本控制和部署模型上的对比。
 slug: /comparison/manus-ai
 primary_keyword: openlegion vs manus ai
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

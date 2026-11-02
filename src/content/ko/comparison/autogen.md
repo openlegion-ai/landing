@@ -11,7 +11,7 @@ secondary_keywords:
   - autogen maintenance mode
   - microsoft agent framework
   - autogen vs openlegion
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
   - FAQPage

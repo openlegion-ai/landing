@@ -5,7 +5,7 @@ description: >-
  agente, gestão de credenciais, integração com AWS e orquestração multiagente.
 slug: /comparison/aws-strands
 primary_keyword: openlegion vs aws strands
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

@@ -5,7 +5,7 @@ description: >-
  الوكلاء، وإدارة بيانات الاعتماد، وميزات المؤسسات، وتنسيق تعدد الوكلاء.
 slug: /comparison/semantic-kernel
 primary_keyword: OpenLegion مقابل Semantic Kernel
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

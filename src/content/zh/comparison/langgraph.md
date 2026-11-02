@@ -10,7 +10,7 @@ secondary_keywords:
  - langgraph cve
  - ai agent orchestration comparison
  - langgraph vs openlegion
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

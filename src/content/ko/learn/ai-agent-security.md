@@ -11,7 +11,7 @@ secondary_keywords:
   - ai agent sandbox escape
   - secure ai agent deployment
   - ai agent threat model
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
   - FAQPage

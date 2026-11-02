@@ -9,7 +9,7 @@ secondary_keywords:
   - "langgraph vs crewai vs openlegion"
   - "生产级 ai 智能体框架"
   - "ai 智能体框架安全"
-date_published: "2025-12"
+date_published: "2026-03"
 last_updated: "2026-03"
 schema_types:
   - FAQPage

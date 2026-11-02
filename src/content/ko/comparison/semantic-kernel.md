@@ -5,7 +5,7 @@ description: >-
   멀티 에이전트 오케스트레이션의 1대1 비교.
 slug: /comparison/semantic-kernel
 primary_keyword: openlegion vs semantic kernel
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
   - FAQPage

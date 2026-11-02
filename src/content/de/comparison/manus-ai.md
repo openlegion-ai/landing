@@ -5,7 +5,7 @@ description: >-
  Kostenkontrollen und Deployment-Modellen für KI-Agenten-Plattformen.
 slug: /comparison/manus-ai
 primary_keyword: openlegion vs manus ai
-date_published: 2025-12
+date_published: 2026-03
 last_updated: 2026-03
 schema_types:
  - FAQPage

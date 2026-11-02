@@ -3,7 +3,7 @@ title: "OpenLegion vs 所有 AI 智能体框架 — 2026 对比中心"
 description: "将 OpenLegion 与 16 个 AI 智能体框架和运行时进行对比：LangGraph、CrewAI、AutoGen、OpenClaw、ZeroClaw、NanoClaw、nanobot、PicoClaw、OpenFang、MemU 等。安全性、定价和架构。"
 slug: "/comparison"
 primary_keyword: "ai 智能体框架对比 2026"
-date_published: "2025-12"
+date_published: "2026-03"
 last_updated: "2026-03"
 schema_types:
   - FAQPage
