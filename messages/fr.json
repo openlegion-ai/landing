@@ -56,6 +56,14 @@
     "subtitle": "La plupart des outils d'agents IA ont été conçus pour des démos — OpenLegion a été conçu pour la production.",
     "tableCaption": "Comparaison des fonctionnalités entre les frameworks d'agents IA classiques et OpenLegion"
   },
+  "consent": {
+    "accept": "Accepter",
+    "label": "Consentement aux cookies",
+    "privacy": "Politique de confidentialité",
+    "reject": "Refuser",
+    "settings": "Paramètres des cookies",
+    "text": "Nous utilisons des cookies pour mesurer l'utilisation du site et améliorer notre marketing. Vous pouvez les accepter ou les refuser, et modifier votre choix à tout moment."
+  },
   "contentPage": {
     "breadcrumbAriaLabel": "Fil d'Ariane",
     "breadcrumbComparisons": "Comparaisons",

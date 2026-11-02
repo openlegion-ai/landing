@@ -9,6 +9,8 @@ import { GITHUB_URL, DISCORD_URL, TWITTER_URL, RTL_LOCALES, SUPPORTED_LOCALES } 
 import { ogLocaleFor } from "@/lib/content-page-helpers";
 import { Navbar } from "@/components/navbar";
 import { LaunchPricingBand } from "@/components/launch-pricing-band";
+import { ConsentManager } from "@/components/consent-manager";
+import { gaBootstrapScript } from "@/lib/consent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -284,53 +286,12 @@ export default async function LocaleLayout({
             <Navbar />
           </header>
           {children}
+          <ConsentManager />
         </NextIntlClientProvider>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-758JT3002Y"
-          strategy="afterInteractive"
-        />
+        {/* GA with Consent Mode v2, production host only. Clarity and the Meta
+            Pixel are loaded by <ConsentManager /> — see src/lib/consent.ts. */}
         <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-758JT3002Y', {
-              linker: { domains: ['openlegion.ai', 'www.openlegion.ai', 'app.openlegion.ai'] }
-            });
-          `}
-        </Script>
-        <Script id="meta-pixel" strategy="afterInteractive">
-          {`
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '2386274771877282');
-            fbq('track', 'PageView');
-          `}
-        </Script>
-        <noscript>
-          {/* eslint-disable-next-line @next/next/no-img-element -- Meta Pixel noscript beacon must be a raw 1x1 img */}
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            alt=""
-            src="https://www.facebook.com/tr?id=2386274771877282&ev=PageView&noscript=1"
-          />
-        </noscript>
-        <Script id="microsoft-clarity" strategy="afterInteractive">
-          {`
-            (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-            })(window, document, "clarity", "script", "voko6al3fo");
-          `}
+          {gaBootstrapScript()}
         </Script>
         <Script id="tawk-to" strategy="lazyOnload">
           {`

@@ -56,6 +56,14 @@
     "subtitle": "大多數 AI 智慧代理工具是為展示而打造 — OpenLegion 是為生產環境而打造。",
     "tableCaption": "典型 AI 智慧代理框架與 OpenLegion 的功能比較"
   },
+  "consent": {
+    "accept": "接受",
+    "label": "Cookie 同意",
+    "privacy": "隱私權政策",
+    "reject": "拒絕",
+    "settings": "Cookie 設定",
+    "text": "我們使用 Cookie 來了解網站的使用情況並改善行銷。您可以接受或拒絕，並可隨時變更您的選擇。"
+  },
   "contentPage": {
     "breadcrumbAriaLabel": "麵包屑導覽",
     "breadcrumbComparisons": "比較",

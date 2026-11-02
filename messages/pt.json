@@ -56,6 +56,14 @@
     "subtitle": "A maioria das ferramentas de agentes de IA foi feita para demos — OpenLegion foi feito para produção.",
     "tableCaption": "Comparação de recursos entre frameworks típicos de agentes de IA e OpenLegion"
   },
+  "consent": {
+    "accept": "Aceitar",
+    "label": "Consentimento de cookies",
+    "privacy": "Política de privacidade",
+    "reject": "Rejeitar",
+    "settings": "Configurações de cookies",
+    "text": "Usamos cookies para medir como o site é utilizado e melhorar nosso marketing. Você pode aceitá-los ou rejeitá-los e alterar sua escolha a qualquer momento."
+  },
   "contentPage": {
     "breadcrumbAriaLabel": "Caminho de navegação",
     "breadcrumbComparisons": "Comparações",
