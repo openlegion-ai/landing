@@ -12,13 +12,14 @@ interface StatDef {
   suffix?: string;
 }
 
-// Outcome-framed stats for the buyer audience. Developer proof points
-// (5,800+ tests, 0 CVEs) live in the Enterprise and Comparison sections.
+// Four stated facts, not animated metrics: the price of entry, the credit
+// rate, when agents run, and how many walls stop them. `target: 0` renders
+// the locale `fallback` string rather than a counter.
 const STATS: StatDef[] = [
-  { target: 0, suffix: "" },
-  { target: 0, suffix: "" },
-  { target: 0, suffix: "" },
-  { target: 0, suffix: "" },
+  { target: 0 },
+  { target: 0 },
+  { target: 0 },
+  { target: 0 },
 ];
 
 export function SocialProof({

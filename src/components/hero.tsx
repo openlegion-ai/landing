@@ -60,7 +60,7 @@ export function Hero() {
 
             <AnimateIn delay={0.06} scale>
               <h1 className="mb-2 text-[2rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[3rem] xl:text-[3.25rem]">
-                {t("headingLine1")}<span className="gradient-text-animated">{t("headingHighlight")}</span>
+                {t("headingLine1")}<span className="gradient-text-animated">{t("headingHighlight")}</span>{" "}
                 <br />
                 {t("headingLine2")}
               </h1>
