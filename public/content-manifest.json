@@ -318,7 +318,7 @@
       "schemaTypes": [
         "FAQPage"
       ],
-      "lastUpdated": "2026-05-22",
+      "lastUpdated": "2026-11-03",
       "pageType": "comparison",
       "related": [
         "/comparison/litellm",
@@ -486,7 +486,7 @@
       "schemaTypes": [
         "FAQPage"
       ],
-      "lastUpdated": "2026-06-09",
+      "lastUpdated": "2026-11-03",
       "pageType": "comparison",
       "related": [
         "/comparison/langgraph",

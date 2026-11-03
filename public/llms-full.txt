@@ -19147,16 +19147,16 @@ Yes. Visual Dify workflow nodes map to OpenLegion agent configurations: LLM node
 
 No. OpenLegion has no drag-and-drop canvas: you describe the work in chat, and the assistant turns it into goals, tasks and agents you can read and adjust. There is no visual workflow editor. This is a deliberate design choice: every action is checked by one policy engine and recorded as a receipt, in ways that visual workflow definitions stored as database records are not. Teams that need a no-code editor for non-technical stakeholders should use Dify for that use case.
 
-<!-- https://www.openlegion.ai/en/comparison/flowise | last_updated: 2026-05-22 -->
+<!-- https://www.openlegion.ai/en/comparison/flowise | last_updated: 2026-11-03 -->
 
 # Flowise Alternative: OpenLegion Security Platform vs Visual Workflow Builder
 
-Flowise is a drag-and-drop visual builder for LLM applications with 52,998 GitHub stars that shipped 7 HIGH-severity CVEs on May 14 2026 — all mass-assignment and IDOR vulnerabilities allowing authenticated users to cross workspace boundaries. OpenLegion is a security-first multi-agent platform with vault-held credential isolation, a sandboxed run for every task, and native goal-and-task coordination. When the visual builder's convenience comes with a 7-CVE cluster in a single release, the security case for a different architecture becomes concrete.
+Flowise is a drag-and-drop visual builder for LLM applications with 55,547 GitHub stars that shipped 15 HIGH/CRITICAL-severity advisories on May 14 2026 — mostly mass-assignment and IDOR vulnerabilities allowing authenticated users to cross workspace boundaries. OpenLegion is a security-first multi-agent platform with vault-held credential isolation, a sandboxed run for every task, and native goal-and-task coordination. When the visual builder's convenience comes with a 15-advisory cluster in a single release, the security case for a different architecture becomes concrete.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is Flowise?**
-> Flowise is an open-source drag-and-drop visual builder for LLM-powered applications and agent workflows (52,998 GitHub stars, non-OSI commercial license), enabling no-code construction of LangChain and LlamaIndex-based pipelines through a node-based UI with chatbot, RAG, and agent flow capabilities.
+> Flowise is an open-source drag-and-drop visual builder for LLM-powered applications and agent workflows (55,547 GitHub stars, non-OSI commercial license), enabling no-code construction of LangChain and LlamaIndex-based pipelines through a node-based UI with chatbot, RAG, and agent flow capabilities.
 
 ## TL;DR
 
@@ -19165,17 +19165,17 @@ Flowise is a drag-and-drop visual builder for LLM applications with 52,998 GitHu
 | **Primary purpose** | Security-first multi-agent execution platform | Visual drag-and-drop LLM workflow builder |
 | **User interface** | Hosted web app, agent configuration in-app | Visual node editor, no-code |
 | **Security architecture** | Sandboxed run per task, credential vault, per-agent permissions | Shared process, workspace-boundary CVEs in v3.1.1 |
-| **CVE history** | Hosted platform, patched centrally | 7 HIGH-severity CVEs in May 2026 (CVSS 7.7-8.1) |
+| **CVE history** | Hosted platform, patched centrally | 15 HIGH/CRITICAL advisories in May 2026 (CVSS 7.0-9.4) |
 | **Multi-agent support** | Native team model, goals, tasks, delegation | Limited; primarily single-flow visual design |
 | **Credential handling** | Credential vault — agents never hold plaintext keys | User-accessible workspace credential storage |
 | **License model** | Engine source-available (PolyForm Perimeter 1.0.1) | Non-OSI commercial license with restrictions |
 | **Workspace isolation** | Run-level — structural, not application-layer | Application-layer — repeatedly broken by IDOR bugs |
-| **API boundary security** | Enforced by the policy engine; not bypassable by agents | Bypassable — CVE-2026-46444 left endpoints unauthenticated |
+| **API boundary security** | Enforced by the policy engine; not bypassable by agents | Bypassable — CVE-2026-46444 left vector store endpoints without permission checks |
 | **Development complexity** | Plain-language agent instructions | Visual builder, minimal code |
 
 ## Visual Workflow Design vs Security Architecture
 
-Flowise's value proposition is speed: drag a LangChain ChatOpenAI node, connect a vector store, attach a memory buffer, wire an output — a working LLM application in minutes without code. For prototyping and demos, this is genuinely useful. The 52,998 GitHub stars reflect real utility for developers who want to experiment with LLM pipelines without writing framework code.
+Flowise's value proposition is speed: drag a LangChain ChatOpenAI node, connect a vector store, attach a memory buffer, wire an output — a working LLM application in minutes without code. For prototyping and demos, this is genuinely useful. The 55,547 GitHub stars reflect real utility for developers who want to experiment with LLM pipelines without writing framework code.
 
 The architectural constraint of visual builders is that visual simplicity and security depth trade against each other. Visual builders abstract the underlying implementation to make it accessible; that abstraction makes it harder to enforce fine-grained security boundaries. When every node in a flow runs in the same process, workspace isolation must be enforced at the application layer by checking workspace IDs in every request handler. This is error-prone, and Flowise's May 2026 CVE cluster demonstrates it fails repeatedly.
 
@@ -19183,15 +19183,17 @@ OpenLegion's security architecture is structural, not application-layer. Every a
 
 ## The CVE Cluster: 7 HIGH-Severity Vulnerabilities in v3.1.1
 
-On May 14 2026, Flowise published 7 HIGH-severity CVEs for version 3.1.1. All seven share the same root cause: mass-assignment and IDOR vulnerabilities in the API layer that allow authenticated users to overwrite `workspaceId` parameters and access resources belonging to other workspaces.
+On May 14 2026, Flowise published 18 security advisories for version 3.1.1 and earlier, all patched in 3.1.2; 15 of them are rated HIGH or CRITICAL. Ten share the same root cause: mass-assignment and IDOR vulnerabilities in the API layer that allow authenticated users to overwrite `workspaceId` parameters and access resources belonging to other workspaces.
 
 The pattern: a user in Workspace A makes an API request for a resource in Workspace B by substituting Workspace B's ID into the request parameter. The server accepts the substituted ID without verifying that the requesting user belongs to Workspace B. The request succeeds. Workspace A's user reads, writes, or deletes Workspace B's resources.
 
-CVSS scores ranged 7.7-8.1 (HIGH). The full list of affected endpoints covers credentials, flows, tools, vector stores, document stores, API keys, and assistants — effectively every resource type in the application.
+The ten mass-assignment CVEs score CVSS 7.6-7.7 (HIGH), and scores across all 15 HIGH and CRITICAL advisories range 7.0-9.4 (GitHub's CVSS 4.0 ratings). The mass-assignment bugs cover chatflows and agentflows, tools, variables, assistants, custom templates, datasets, dataset rows, evaluations, and evaluators — effectively every resource type in the application. Other advisories in the batch leaked credential data (CVE-2026-46443) and exposed Basic Auth credentials through the API (CVE-2026-46440).
 
-**CVE-2026-46444** (CVSS ~8.1) stands apart: the OpenAI vector store endpoints had no authentication middleware at all. Any authenticated user — regardless of workspace or role — could create, read, update, and delete vector stores. The lack of authentication was not a workspace boundary bypass; it was an absent authentication check.
+**CVE-2026-46444** (CVSS 8.7 HIGH) stands apart: the OpenAI vector store endpoints required an API key but had no permission middleware at all. Any authenticated user — regardless of workspace or role — could create, read, update, and delete vector stores. The missing check was not a workspace boundary bypass; it was an absent authorization check (CWE-862, Missing Authorization).
 
-Seven HIGH-severity CVEs of the same class in a single release version indicates a systemic API boundary problem, not an isolated oversight. The [AI agent security vulnerabilities](/learn/ai-agent-security) analysis explains why mass-assignment vulnerabilities cluster: they originate from patterns where object IDs come from user-controlled input without server-side ownership verification, and they tend to recur until the underlying input handling is refactored.
+**CVE-2026-46442** (CVSS 9.4 CRITICAL) is the most severe: `POST /api/v1/node-custom-function` lacked route-level authorization, so any authenticated user or API key could submit JavaScript to the Custom JS Function node. When `E2B_APIKEY` is not configured — the common deployment case — Flowise runs that code in a NodeVM sandbox that can be escaped to reach `child_process`, giving authenticated remote code execution on the Flowise server host.
+
+Ten HIGH-severity CVEs of the same class in a single release version indicates a systemic API boundary problem, not an isolated oversight. The [AI agent security vulnerabilities](/learn/ai-agent-security) analysis explains why mass-assignment vulnerabilities cluster: they originate from patterns where object IDs come from user-controlled input without server-side ownership verification, and they tend to recur until the underlying input handling is refactored.
 
 ## Credential Security: User-Accessible vs Vault Isolation
 
@@ -19205,7 +19207,7 @@ OpenLegion's credential vault scopes credential access per agent. Agent A's cred
 
 Flowise delivers genuine value for rapid LLM application prototyping. The visual editor, the built-in LangChain and LlamaIndex integration, and the component marketplace make it a fast path from concept to working demo. For teams evaluating LLM capabilities without a dedicated engineering team, it is a reasonable choice.
 
-The production security case is harder to make after May 14 2026. Seven HIGH-severity CVEs of the same class — mass-assignment IDOR across every resource type — in a single release is a systemic problem, not a one-off. CVE-2026-46444 (unauthenticated vector store endpoints) was not a workspace-boundary bug; it was a missing authentication check on a production endpoint. Teams running Flowise in multi-tenant or production environments should audit all v3.1.1 endpoints regardless of whether they've applied the patches, because the vulnerability class recurs when the underlying input handling pattern is not changed.
+The production security case is harder to make after May 14 2026. Ten HIGH-severity CVEs of the same class — mass-assignment IDOR across every resource type — in a single release is a systemic problem, not a one-off. CVE-2026-46444 (vector store endpoints without permission checks) was not a workspace-boundary bug; it was a missing authorization check on a production endpoint, and CVE-2026-46442 let any authenticated user run commands on the host through a NodeVM sandbox escape. Teams running Flowise in multi-tenant or production environments should audit all v3.1.1 endpoints regardless of whether they've applied the 3.1.2 patches, because the vulnerability class recurs when the underlying input handling pattern is not changed.
 
 For builders who need a production agent platform rather than a visual prototyping tool, the structural isolation provided by a sandboxed run per task, vault-held credentials, and per-agent permissions eliminates the vulnerability class entirely. Application-layer workspace checks are unnecessary when workspace boundaries are structural.
 
@@ -19242,11 +19244,11 @@ See [AI agent frameworks landscape](/learn/ai-agent-frameworks) for a broader co
 
 ### What is Flowise vs OpenLegion?
 
-Flowise is a visual drag-and-drop builder for LLM applications with 52,998 GitHub stars, enabling no-code construction of LangChain and LlamaIndex pipelines through a node-based UI. OpenLegion is a security-first multi-agent execution platform with vault-held credential isolation, a sandboxed run for every task, and native goal-and-task coordination. Flowise prioritizes visual accessibility; OpenLegion prioritizes production security architecture and multi-agent coordination.
+Flowise is a visual drag-and-drop builder for LLM applications with 55,547 GitHub stars, enabling no-code construction of LangChain and LlamaIndex pipelines through a node-based UI. OpenLegion is a security-first multi-agent execution platform with vault-held credential isolation, a sandboxed run for every task, and native goal-and-task coordination. Flowise prioritizes visual accessibility; OpenLegion prioritizes production security architecture and multi-agent coordination.
 
 ### What are Flowise's security vulnerabilities in 2026?
 
-Flowise v3.1.1 shipped 7 HIGH-severity CVEs on May 14 2026 (CVSS 7.7-8.1), all mass-assignment and IDOR vulnerabilities allowing authenticated users to overwrite workspaceId parameters and access resources in other workspaces. CVE-2026-46444 is the most severe: OpenAI vector store endpoints had no authentication middleware, allowing any authenticated user to create, read, update, and delete vector stores regardless of workspace or role. All seven CVEs share the same root cause — user-controlled IDs accepted without server-side ownership verification.
+Flowise v3.1.1 shipped 15 HIGH- and CRITICAL-severity advisories on May 14 2026 (CVSS 7.0-9.4), all patched in 3.1.2. Ten are mass-assignment and IDOR vulnerabilities allowing authenticated users to overwrite workspaceId parameters and access resources in other workspaces; they share the same root cause — user-controlled IDs accepted without server-side ownership verification. CVE-2026-46442 (CVSS 9.4 CRITICAL) is the most severe: an authenticated user can escape the NodeVM sandbox behind the Custom JS Function endpoint and run commands on the host. CVE-2026-46444 (CVSS 8.7) left the OpenAI vector store endpoints without permission checks, allowing any authenticated user to create, read, update, and delete vector stores regardless of workspace or role.
 
 ### How does OpenLegion's security architecture differ from Flowise?
 
@@ -19890,16 +19892,16 @@ Use LangGraph when workflow expressiveness is the binding constraint: conditiona
 
 Yes. The two platforms address different parts of the agent deployment problem and can coexist. A common pattern: LangGraph handles complex internal reasoning workflows where the team controls all inputs and has existing security infrastructure in place, while OpenLegion handles externally-facing agents that process untrusted data, hold credentials for external APIs, or require demonstrable security posture for compliance review. The boundary between them maps to trust domain boundaries in the production architecture.
 
-<!-- https://www.openlegion.ai/en/comparison/litellm | last_updated: 2026-06-09 -->
+<!-- https://www.openlegion.ai/en/comparison/litellm | last_updated: 2026-11-03 -->
 
 # LiteLLM Alternative: OpenLegion Distributed Vault vs Centralized Gateway
 
-OpenLegion vs LiteLLM represents the fundamental security trade-off between vault-held credentials injected outside the model and centralized LLM gateway credential aggregation. LiteLLM excels as a unified provider gateway with 47,997 GitHub stars, cost tracking, and 100+ LLM provider support, but suffered CVE-2026-42208 (CVSS 9.3 CRITICAL) where SQL injection exposed the entire credential database to unauthenticated attackers. In OpenLegion credentials live in a vault and are injected at call time, and the model only ever holds a handle — there is no credential database to read.
+OpenLegion vs LiteLLM represents the fundamental security trade-off between vault-held credentials injected outside the model and centralized LLM gateway credential aggregation. LiteLLM excels as a unified provider gateway with 62,615 GitHub stars, cost tracking, and 100+ LLM provider support, but suffered CVE-2026-42208 (CVSS 9.8 CRITICAL) where SQL injection exposed the entire credential database to unauthenticated attackers. In OpenLegion credentials live in a vault and are injected at call time, and the model only ever holds a handle — there is no credential database to read.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is LiteLLM and how does it compare to OpenLegion?**
-> LiteLLM is a centralized LLM gateway with 47,997+ GitHub stars that aggregates provider credentials in one database for unified access, cost tracking, and provider routing. OpenLegion is a security-first multi-agent platform where credentials live in a vault and are injected outside the model, eliminating credential databases as attack targets. LiteLLM provides gateway unification; OpenLegion provides architectural security isolation.
+> LiteLLM is a centralized LLM gateway with 62,615+ GitHub stars that aggregates provider credentials in one database for unified access, cost tracking, and provider routing. OpenLegion is a security-first multi-agent platform where credentials live in a vault and are injected outside the model, eliminating credential databases as attack targets. LiteLLM provides gateway unification; OpenLegion provides architectural security isolation.
 
 ## TL;DR
 
@@ -19908,7 +19910,7 @@ OpenLegion vs LiteLLM represents the fundamental security trade-off between vaul
 | **Primary purpose** | Centralized LLM gateway and provider proxy | Security-first multi-agent platform with vault-held credentials |
 | **Architecture** | Centralized credential database with API routing | Credentials in a vault, injected outside the model |
 | **Credential storage** | All provider keys in centralized database | Vault injects credentials at call time; the model holds a handle |
-| **Recent CVEs** | 5 CVEs in 2026, including CRITICAL SQL injection | n/a — hosted platform |
+| **Recent CVEs** | 30+ CVEs in 2026, including CRITICAL SQL injection | n/a — hosted platform |
 | **Security isolation** | Shared gateway with access controls | Sandboxed run per task, vault-held credentials |
 | **Provider support** | 100+ LLMs with unified API interface | Smartest, Smart and Normal model presets |
 | **Cost tracking** | Built-in spend tracking and budgeting | Per-agent credit budgets, cost per task visible |
@@ -19932,7 +19934,7 @@ Model choice is a preset — Smartest, Smart or Normal — so there is no aggreg
 
 **Centralized gateways** become high-value attack targets because successful compromise exposes all organization credentials simultaneously. The centralized database contains API keys for every LLM provider, potentially worth thousands of dollars in aggregate usage value plus access to sensitive AI workloads.
 
-CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entire credential database to unauthenticated attackers. The vulnerability affected every organization using LiteLLM because the centralized architecture created a single point of total credential compromise.
+CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entire credential database to unauthenticated attackers. The vulnerability affected every organization running the vulnerable LiteLLM versions because the centralized architecture created a single point of total credential compromise.
 
 **Distributed architectures** spread credential risk across per-agent credential scopes instead of one shared store. No single compromise exposes all organizational credentials because the vault grants access per agent without aggregating it into one queryable database. Even a compromised run cannot expose credentials, because the model only ever holds a handle.
 
@@ -19940,7 +19942,7 @@ CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entir
 
 ### CVE-2026-42208: CRITICAL SQL Injection
 
-**CVSS 9.3 CRITICAL severity** vulnerability discovered by Tencent YunDing Security Lab where SQL injection in LiteLLM's API key verification exposed the entire credential database to unauthenticated attackers. The vulnerability occurred in the authorization header parsing logic where crafted SQL payloads bypassed input validation.
+**CVSS 9.8 CRITICAL severity** vulnerability (NVD's CVSS 3.1 score; GitHub's CVSS 4.0 score is 9.3) where SQL injection in LiteLLM's API key verification exposed the entire credential database to unauthenticated attackers. It affected versions 1.81.16 through 1.83.6 and was patched in v1.83.7. CISA added it to the Known Exploited Vulnerabilities catalog on May 8 2026, confirming exploitation in the wild. The flaw sat in the API key check: the key value from a crafted `Authorization` header was mixed into the database query text instead of being passed as a separate parameter, and reached that query through the proxy's error-handling path.
 
 **Complete credential exposure** allowed attackers to read and modify all stored API keys for OpenAI, Anthropic, Google, Cohere, and other providers. The database contained not just credentials but also usage quotas, cost tracking data, and administrative settings, providing complete visibility into organizational AI usage patterns.
 
@@ -19950,15 +19952,15 @@ CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entir
 
 ### The 2026 CVE Pattern: Five Vulnerabilities in Four Months
 
-**Version range 1.80-1.83** shipped five distinct CVEs within four months, indicating systematic security challenges in the codebase:
+**Five serious CVEs** were published between April and May 2026, and they are only part of the year's total: NVD lists more than 30 LiteLLM CVEs published in 2026, indicating systematic security challenges in the codebase:
 
-1. **CVE-2026-42208** - SQL injection exposing credential database
-2. **CVE-2026-43115** - OS command injection via provider configuration
-3. **CVE-2026-43892** - Sandbox escape in Docker container
-4. **CVE-2026-44201** - Server-Side Template Injection (SSTI) RCE
-5. **CVE-2026-44673** - Pass-the-hash authentication bypass
+1. **CVE-2026-42208** (CVSS 9.8 CRITICAL) - SQL injection exposing the credential database to unauthenticated attackers. Fixed in v1.83.7.
+2. **CVE-2026-35029** (CVSS 8.8 HIGH) - Missing admin authorization on `/config/update`: any authenticated user could change proxy configuration and register pass-through handlers pointing to attacker-controlled Python code, achieving RCE. Fixed in v1.83.0.
+3. **CVE-2026-35030** (CVSS 9.1 CRITICAL) - OIDC userinfo cache key collision: with JWT authentication enabled (not the default), a crafted token whose first 20 characters match a legitimate user's cached token inherits that user's identity. Fixed in v1.83.0.
+4. **CVE-2026-40217** (CVSS 8.8 HIGH) - Code execution via bytecode rewriting at `/guardrails/test_custom_code`, a sandbox escape in the custom-code guardrail. Fixed in v1.83.10.
+5. **CVE-2026-42203** (CVSS 8.8 HIGH) - Server-Side Template Injection (SSTI) RCE at `/prompts/test`: prompt templates were rendered without sandboxing, so any holder of a valid proxy API key could run code in the proxy process. Affected 1.80.5 through 1.83.6; fixed in v1.83.7.
 
-**Centralized impact** meant that each vulnerability affected every organization using LiteLLM because the gateway architecture concentrated all security risk in a single service. Distributed architectures limit blast radius by isolating security failures to individual components.
+**Centralized impact** meant that each vulnerability affected every organization running the affected LiteLLM versions because the gateway architecture concentrated all security risk in a single service. Distributed architectures limit blast radius by isolating security failures to individual components.
 
 ### Root Cause: Architectural Security Debt
 
@@ -19988,9 +19990,9 @@ CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entir
 
 ## OpenLegion's Take
 
-LiteLLM vs OpenLegion represents the classic security versus convenience trade-off in AI infrastructure. LiteLLM's 47,997 stars and 100+ provider support demonstrate that centralized LLM gateways solve real developer productivity challenges by eliminating integration complexity and providing unified cost tracking.
+LiteLLM vs OpenLegion represents the classic security versus convenience trade-off in AI infrastructure. LiteLLM's 62,615 stars and 100+ provider support demonstrate that centralized LLM gateways solve real developer productivity challenges by eliminating integration complexity and providing unified cost tracking.
 
-But the 2026 CVE cluster exposes the systematic risks of credential aggregation. CVE-2026-42208 (CVSS 9.3 CRITICAL) proved that SQL injection can expose entire organizational credential stores when all provider keys live in one database. The five CVEs shipped in four months indicate that feature velocity outpaced security architecture review in the centralized gateway model.
+But the 2026 CVE cluster exposes the systematic risks of credential aggregation. CVE-2026-42208 (CVSS 9.8 CRITICAL, exploited in the wild per CISA) proved that SQL injection can expose entire organizational credential stores when all provider keys live in one database. More than 30 CVEs published in 2026 indicate that feature velocity outpaced security architecture review in the centralized gateway model.
 
 OpenLegion's credential vault eliminates the aggregation risk entirely. No database stores API keys where they can be exposed through SQL injection, authentication bypass, or a sandbox escape. The architectural approach makes credential exposure through agent compromise structurally impossible rather than relying on access controls that can fail.
 
@@ -20036,11 +20038,11 @@ For a broader view of [AI agent security architecture and how vault proxy isolat
 
 ### What is LiteLLM vs OpenLegion?
 
-LiteLLM is a centralized LLM gateway with 47,997+ GitHub stars that aggregates provider credentials in one database for unified access to 100+ LLM providers with cost tracking and routing capabilities. OpenLegion is a security-first multi-agent platform where credentials live in a vault and are injected outside the model, eliminating credential databases as attack targets. LiteLLM provides gateway unification; OpenLegion provides architectural credential isolation.
+LiteLLM is a centralized LLM gateway with 62,615+ GitHub stars that aggregates provider credentials in one database for unified access to 100+ LLM providers with cost tracking and routing capabilities. OpenLegion is a security-first multi-agent platform where credentials live in a vault and are injected outside the model, eliminating credential databases as attack targets. LiteLLM provides gateway unification; OpenLegion provides architectural credential isolation.
 
 ### What are LiteLLM's recent security vulnerabilities?
 
-CVE-2026-42208 (CVSS 9.3 CRITICAL) allowed SQL injection to read and modify the entire credential database through crafted Authorization headers, discovered by Tencent YunDing Security Lab. Four additional CVEs in 2026 included OS command injection via provider configuration, sandbox escape in Docker containers, SSTI RCE, and pass-the-hash authentication bypass. All five CVEs occurred within the 1.80-1.83 version range.
+CVE-2026-42208 (CVSS 9.8 CRITICAL) allowed unauthenticated SQL injection to read, and potentially modify, the entire credential database through crafted Authorization headers. It affected versions 1.81.16 through 1.83.6, was patched in v1.83.7, and is on CISA's Known Exploited Vulnerabilities list. Other serious 2026 CVEs include missing admin authorization on /config/update enabling RCE (CVE-2026-35029), an OIDC cache key collision that lets an attacker assume another user's identity when JWT authentication is enabled (CVE-2026-35030), a sandbox escape in the custom-code guardrail (CVE-2026-40217), and SSTI RCE at /prompts/test (CVE-2026-42203). NVD lists more than 30 LiteLLM CVEs published in 2026.
 
 ### How do they handle LLM provider credentials?
 
