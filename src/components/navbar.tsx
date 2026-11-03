@@ -41,7 +41,7 @@ export function Navbar() {
     >
       {scrolled && (
         <div
-          className="absolute bottom-0 left-0 right-0 h-px bg-border"
+          className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/25 to-transparent"
           aria-hidden="true"
         />
       )}
@@ -116,7 +116,7 @@ export function Navbar() {
           <a
             href={`${APP_URL}/signin`}
             onClick={() => trackCtaClick({ location: "nav_signin" })}
-            className="nav-link inline-flex min-h-[44px] items-center px-2 py-2 text-xs text-muted transition-colors hover:text-foreground whitespace-nowrap"
+            className="nav-link hidden min-h-[44px] items-center px-2 py-2 text-xs text-muted sm:inline-flex transition-colors hover:text-foreground whitespace-nowrap"
           >
             {t("signIn")}
           </a>
@@ -176,6 +176,16 @@ export function Navbar() {
                   </Link>
                 );
               })}
+              <a
+                href={`${APP_URL}/signin`}
+                onClick={() => {
+                  trackCtaClick({ location: "nav_signin_mobile_menu" });
+                  setMobileOpen(false);
+                }}
+                className="rounded-md px-3 py-3 text-sm text-muted transition-colors hover:bg-card hover:text-foreground sm:hidden"
+              >
+                {t("signIn")}
+              </a>
               <div className="mt-2 flex items-center gap-3 border-t border-border/50 px-3 pt-3">
                 <LanguageSwitcher />
                 <a
