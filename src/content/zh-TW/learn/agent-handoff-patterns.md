@@ -46,7 +46,7 @@ Agent交接模式是一種軟體設計模式，規定自主AI代理如何將任�
 
 在黑板指標交接中，呼叫方將輸出寫入共享持久儲存上的命名鍵（例如`output/researcher/task_abc123`），並僅向被呼叫方傳送鍵名。被呼叫方讀取鍵並精確擷取所需的欄位。原始憑證、中間草稿內容和呼叫方的完整上下文永遠不會出現在交接訊息中。
 
-OpenLegion的`hand_off()`函式原生實現了此模式：它將輸出資料寫入黑板上的`output/{agent_id}/{handoff_id}`，在接收方的收件匣中建立帶有該鍵指標的任務項目，並喚醒接收方。儲存在Vault中的憑證由Mesh在執行時注入。
+OpenLegion透過委派套用相同原則：呼叫方將輸出記錄在共享的目標與任務紀錄上，為接收方建立指向它的任務，並喚醒接收方。儲存在金庫中的憑證會在執行時於模型之外注入。
 
 **優勢**：最高憑證隔離，被呼叫方只讀取所需內容，透過鍵版本歷史的完整稽核追蹤。  
 **風險**：與直接推送相比增加了讀取操作；需要具有適當存取控制的可靠共享儲存。
@@ -78,7 +78,7 @@ Google ADK的`transfer_to_agent()`將包含對話歷程的完整`Session`物件�
 
 ### 作為安全預設值的黑板指標模式
 
-黑板指標模式在協定層級消除憑證暴露，而不是依賴應用層篩選。儲存在OpenLegion Vault中的憑證永遠不會注入代理上下文。
+黑板指標模式在協定層級消除憑證暴露，而不是依賴應用層篩選。儲存在OpenLegion金庫中的憑證永遠不會注入代理上下文——它們在API呼叫邊界於模型之外注入，模型只持有一個句柄。
 
 ## 主要框架如何實現交接
 
@@ -117,12 +117,12 @@ def researcher_node(state: AgentState) -> Command:
     )
 ```
 
-### OpenLegion：帶黑板指標和收件匣投遞的hand_off()
+### OpenLegion：帶任務指標和收件匣投遞的委派
 
-OpenLegion的`hand_off()`函式原生實現黑板指標交接。
+OpenLegion透過委派原生實現指標式交接。
 
 ```python
-hand_off(
+delegate(
     to="writer",
     summary="研究完成：langchain-alternative，2847字的原始資料",
     data='{"topic": "langchain-alternative", "sources_key": "research/langchain-alt-sources", "word_count_target": 3000}'
@@ -199,7 +199,7 @@ Google ADK（GitHub 20,100星，Apache-2.0）使用transfer_to_agent()，將包�
 
 ### 什麼是黑板指標交接模式，為什麼它更安全？
 
-在黑板指標交接中，呼叫方將輸出寫入共享儲存上的命名鍵（如output/agent-id/task-id），然後只向被呼叫方傳送鍵指標，而非資料本身。被呼叫方只讀取所需的欄位。憑證永遠不會出現在交接訊息中，消除了OWASP LLM06:2025（敏感資訊洩露）的竊取向量。OpenLegion的hand_off()原生實現了此模式。
+在黑板指標交接中，呼叫方將輸出寫入共享儲存上的命名鍵（如output/agent-id/task-id），然後只向被呼叫方傳送鍵指標，而非資料本身。被呼叫方只讀取所需的欄位。憑證永遠不會出現在交接訊息中，消除了OWASP LLM06:2025（敏感資訊洩露）的竊取向量。OpenLegion的委派原生實現了此模式。
 
 ### Agent交接中存在哪些安全風險？
 
@@ -217,7 +217,7 @@ Google ADK（GitHub 20,100星，Apache-2.0）使用transfer_to_agent()，將包�
 
 交接邊界是大多數多代理可靠性問題的起源。上下文遺失會降低下游任務品質，載荷中的憑證洩漏會建立隨管道長度增長的竊取風險。
 
-OpenLegion的黑板指標交接在協定層級解決了這兩個問題。`hand_off()`將輸出寫入命名鍵，只向接收方的收件匣投遞指標，並依靠Vault代理憑證注入。接收方從黑板讀取恰好所需的內容，不多不少。
+OpenLegion的指標式委派在協定層級解決了這兩個問題。委派將輸出寫入命名鍵，只向接收方的任務投遞指標，並依靠在模型之外注入的金庫保管憑證。接收方讀取恰好所需的內容，不多不少。每次委派都會記錄成擁有者可讀的收據。
 
 對於擷取交接協定遺漏的失敗的監控層，請參閱[代理可觀測性：跨管道階段追蹤交接](/learn/ai-agent-observability)。對於確定選擇哪種交接模式的框架層，請參閱[比較生產部署的AI代理框架](/learn/ai-agent-frameworks)。
 

@@ -3,7 +3,7 @@ title: Model Context Protocol (MCP) — Wie KI-Agenten Tools nutzen
 description: >-
   Das Model Context Protocol (MCP) ist Anthropics offener Standard, der
   KI-Agenten ermöglicht, externe Tools zu entdecken und aufzurufen. Funktionsweise,
-  Sicherheitshinweise und OpenLegions MCP-Unterstützung.
+  Sicherheitshinweise und was OpenLegion stattdessen tut.
 slug: /learn/model-context-protocol
 primary_keyword: model context protocol
 secondary_keywords:
@@ -74,14 +74,14 @@ Die Referenz-MCP-Integration von Claude Desktop mountet Server als Host-Subproze
 
 ## Wie OpenLegion MCP integriert
 
-OpenLegion ist standardmäßig ein MCP-Client. Agenten in der Runtime entdecken automatisch für ihre Flotte konfigurierte MCP-Server, sehen die Tool-Liste in ihrem Kontextfenster und rufen MCP-Tools über denselben Vault-vermittelten, ACL-gegateten Pfad wie integrierte Skills auf. Das Mesh erzwingt die Produktions-grade-Schichten, die MCP auslässt:
+MCP ist bei OpenLegion zum Start nicht verfügbar. Agenten nutzen OpenLegions eigenes integriertes Tool-Set, und jeder Aufruf nimmt denselben Weg: eine Absicht, die eine einzige Policy-Engine prüft, bevor sie geschieht, und die anschließend als Beleg festgehalten wird, den der Eigentümer lesen kann. Das sind die Produktions-grade-Schichten, die MCP bewusst auslässt:
 
-- Jeder MCP-Server läuft in seinem eigenen sandboxed Namespace; der Agent erhält nie direkten stdio-Zugriff auf den Server-Prozess.
-- Pro-Agent-ACLs steuern, welche MCP-Server ein bestimmter Agent aufrufen darf.
-- Jeder Tool-Call zählt auf das Pro-Agent-Budget; ein Agent, der sein Cap überschreitet, wird abgeschnitten, egal ob die Ausgaben aus LLMs oder MCP-Tools kamen.
-- Das Mesh zeichnet jeden MCP-Call ins Trace-Log auf — dieselbe Telemetrie, die in [KI-Agenten-Observability](/learn/ai-agent-observability) behandelt wird.
+- Code, den der Agent schreibt, läuft in einer Sandbox ohne standardmäßigen Netzwerkzugriff; der Agent erhält nie direkten stdio-Zugriff auf einen Host-Prozess.
+- Pro-Agent-Berechtigungen steuern, welche Tools ein bestimmter Agent aufrufen darf.
+- Jeder Tool-Call zählt auf das eigene Credit-Budget des Agenten; ein Agent, der es erschöpft, wird abgeschnitten, egal ob die Ausgaben aus Modellen oder Tools kamen.
+- Jeder Aufruf wird mit der Identität des Agenten, einem Zeitstempel und den exakten Kosten festgehalten — dieselbe Telemetrie, die in [KI-Agenten-Observability](/learn/ai-agent-observability) behandelt wird.
 
-Das Ergebnis: Sie erhalten die Breite des MCP-Ökosystems, ohne dessen Standard-Vertrauensannahmen zu erben.
+Das Ergebnis: eine schmalere Tool-Fläche als die des MCP-Ökosystems — und keine seiner Standard-Vertrauensannahmen.
 
 ## OpenLegions Standpunkt
 
@@ -120,4 +120,4 @@ OpenAI Function Calling ist ein Einzelanbieter-Muster, das einem LLM ermöglicht
 
 ### Kann ich MCP mit jedem LLM-Anbieter nutzen?
 
-Ja. MCP ist LLM-agnostisch — der Client rendert MCP-Tool-Definitionen in das Format, das das zugrundeliegende LLM erwartet (Anthropic Tool Use, OpenAI Function Calling, Gemini Function Declarations). Runtimes wie OpenLegion, die 100+ Anbieter via LiteLLM unterstützen, passen MCP-Tools automatisch an die Calling-Convention jedes Anbieters an.
+Ja. MCP ist LLM-agnostisch — der Client rendert MCP-Tool-Definitionen in das Format, das das zugrundeliegende LLM erwartet (Anthropic Tool Use, OpenAI Function Calling, Gemini Function Declarations). Eine Runtime, die die Anbieterwahl hinter Modell-Presets verbirgt — wie OpenLegion mit Smartest, Smart und Normal —, passt Tool-Definitionen für Sie an die Calling-Convention jedes Anbieters an.

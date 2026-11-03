@@ -202,7 +202,7 @@ Private eval design principles:
 
 Many production workloads contain sensitive data (customer PII, proprietary code, internal documents) that cannot be sent to third-party evaluation platforms. Private eval must happen in your own infrastructure.
 
-In OpenLegion, the blackboard replay mechanism enables private benchmarking without external data exposure. Agents write their tool calls, intermediate results, and final outputs to the blackboard during live runs. The replay system re-runs a recorded session with a different model or scaffold, substituting the new model's responses at each tool call while keeping the task context identical. This produces controlled model comparisons on real production tasks without re-exposing task data to external evaluation APIs.
+In OpenLegion, every unit of work is a recorded, replayable wake, which enables private benchmarking without external data exposure. Each wake records the agent's tool calls, intermediate results, and final outputs as it runs. Replaying a recorded wake re-runs it with a different model preset or scaffold, substituting the new model's responses at each tool call while keeping the task context identical. This produces controlled model comparisons on real production tasks without re-exposing task data to external evaluation APIs.
 
 For teams on raw Kubernetes infrastructure, the equivalent is a reproducible eval harness: containerized agent with the task set mounted as a read-only volume, model API calls routed through your own proxy (which logs without forwarding data to third parties), and a scoring function that runs post-completion inside the container. The eval data never leaves your network perimeter.
 

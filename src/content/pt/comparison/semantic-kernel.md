@@ -23,43 +23,43 @@ Semantic Kernel é o SDK agnóstico a modelo da Microsoft para construir agentes
 
 Porém, no início de 2026, Semantic Kernel está entrando em **frequência reduzida de updates** junto com o AutoGen. A Microsoft anunciou o Microsoft Agent Framework como sucessor unificado, com guias de migração já publicados.
 
-OpenLegion (~59 estrelas) é uma [plataforma de agentes de IA](/learn/ai-agent-platform) security-first que prioriza isolamento por contêiner, credenciais em proxy de cofre e controles de orçamento por agente em vez de amplitude de SDK enterprise.
+OpenLegion é uma [plataforma de agentes de IA](/learn/ai-agent-platform) security-first que prioriza execuções de tarefa em sandbox, credenciais guardadas em cofre e orçamentos de créditos por agente em vez de amplitude de SDK enterprise.
 
 Esta é uma comparação direta **OpenLegion vs Semantic Kernel** baseada em documentação pública no momento da escrita.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Qual a diferença entre OpenLegion e Semantic Kernel?**
-> Semantic Kernel é um SDK multilíngua de agentes de IA da Microsoft que move produtos Copilot, com integração profunda com Azure e arquitetura de plugin enterprise. OpenLegion é um framework de agentes security-first com isolamento por contêiner obrigatório, gestão de credenciais via proxy de cofre e imposição de orçamento por agente. Semantic Kernel oferece a integração Microsoft enterprise mais ampla; OpenLegion oferece os padrões de segurança em produção mais fortes.
+> Semantic Kernel é um SDK multilíngua de agentes de IA da Microsoft que move produtos Copilot, com integração profunda com Azure e arquitetura de plugin enterprise. OpenLegion é uma plataforma de agentes security-first com uma execução em sandbox para cada tarefa, credenciais guardadas em cofre e imposição de orçamento por agente. Semantic Kernel oferece a integração Microsoft enterprise mais ampla; OpenLegion oferece os padrões de segurança em produção mais fortes.
 
 ## TL;DR
 
 - **Semantic Kernel** é a escolha certa quando você precisa de integração profunda com o ecossistema Microsoft, suporte multilíngua (C#, Python, Java) e está construindo no Azure.
-- **OpenLegion** é a escolha certa quando isolamento de credenciais, sandbox obrigatório de agente e controles de custo por agente são requisitos rígidos.
+- **OpenLegion** é a escolha certa quando isolamento de credenciais, execução de tarefas em sandbox e controles de custo por agente são requisitos rígidos.
 - **Modo de manutenção**: SK está agora em modo de manutenção. A Microsoft recomenda migrar para o Agent Framework em 6 a 12 meses. Suporte garantido por pelo menos 1 ano após a GA do Agent Framework.
 - **Vulnerabilidade crítica**: Um RCE CVSS 9,9 foi divulgado no filtro InMemoryVectorStore do SDK Python (no início de 2026), corrigido em release subsequente.
-- **Modelo de credenciais**: SK depende de DefaultAzureCredential (Managed Identity, autenticação por certificado). Sem proxy de cofre embutido. OpenLegion usa credenciais em proxy de cofre.
-- **Vantagem do OpenLegion**: Zero dependências externas, cloud-agnóstico, sem risco de migração de plataforma.
+- **Modelo de credenciais**: SK depende de DefaultAzureCredential (Managed Identity, autenticação por certificado). Sem cofre embutido. OpenLegion guarda as credenciais num cofre e as injeta fora do modelo.
+- **Vantagem do OpenLegion**: Nada para instalar, plataforma hospedada, sem risco de migração de plataforma.
 
 ## Comparação Lado a Lado
 
 | Dimensão | OpenLegion | Semantic Kernel |
 |---|---|---|
 | **Foco primário** | Orquestração multiagente segura | SDK enterprise de agentes de IA com arquitetura de plugin |
-| **Arquitetura** | Modelo de quatro zonas de confiança (mais camada operador-ou-interna) | Contêiner DI Kernel gerenciando serviços, plugins e workflows de IA |
+| **Arquitetura** | Um único motor de políticas na frente de cada ação | Contêiner DI Kernel gerenciando serviços, plugins e workflows de IA |
 | **Status** | Desenvolvimento ativo | Frequência reduzida de updates (no início de 2026); sucessor é o Microsoft Agent Framework |
-| **Isolamento de agente** | Contêiner Docker por agente obrigatório | Sem isolamento embutido; agentes rodam no processo host |
-| **Gestão de credenciais** | Proxy de cofre — injeção cega, agentes nunca veem chaves | DefaultAzureCredential (Managed Identity, certificado, service principal) |
-| **Controles de orçamento / custo** | Diário e mensal por agente com corte rígido | Nenhum embutido |
-| **Orquestração** | Coordenação modelo de frota (blackboard + pub/sub + handoff) | Function calling + planning; composição agent-as-plugin |
-| **Multiagente** | Orquestração nativa de frota (DAGs sequenciais e paralelos com blackboard) | ChatCompletionAgent GA, group chat, AgentGroupChat |
-| **Suporte a linguagem** | Python | C#, Python, Java (C# mais maduro; Java atrasado significativamente) |
-| **Suporte a LLM** | 100+ via LiteLLM | Azure OpenAI, OpenAI, Anthropic, Google, Mistral e 20+ via connectors |
+| **Isolamento de agente** | Execução em sandbox por tarefa, sem rede por padrão | Sem isolamento embutido; agentes rodam no processo host |
+| **Gestão de credenciais** | Guardadas em cofre — agentes nunca veem chaves | DefaultAzureCredential (Managed Identity, certificado, service principal) |
+| **Controles de orçamento / custo** | Orçamento de créditos por agente, corte rígido | Nenhum embutido |
+| **Orquestração** | Metas → tarefas → agentes, conduzido por um assistente | Function calling + planning; composição agent-as-plugin |
+| **Multiagente** | Times de agentes com permissões por agente | ChatCompletionAgent GA, group chat, AgentGroupChat |
+| **Suporte a linguagem** | Aplicação web hospedada, nada para instalar | C#, Python, Java (C# mais maduro; Java atrasado significativamente) |
+| **Suporte a LLM** | Presets Smartest, Smart e Normal | Azure OpenAI, OpenAI, Anthropic, Google, Mistral e 20+ via connectors |
 | **Funcionalidades enterprise** | Embutidas: isolamento, cofre, orçamentos, logs de auditoria | Filters (function invocation, prompt render, auto function), integração com Copilot |
-| **Integração com nuvem** | Cloud-agnóstico | Integração profunda com Azure (Key Vault, Managed Identity, Entra ID) |
-| **Estrelas no GitHub** | ~59 | ~27.300 |
-| **Licença** | PolyForm Perimeter License 1.0.1 | MIT |
-| **Melhor para** | Frotas em produção exigindo governança security-first | Times Microsoft enterprise construindo extensões para Copilot |
+| **Integração com nuvem** | Hospedado, nenhuma nuvem para operar | Integração profunda com Azure (Key Vault, Managed Identity, Entra ID) |
+| **Estrelas no GitHub** | Não divulgadas | ~27.300 |
+| **Licença** | Engine: PolyForm Perimeter License 1.0.1 | MIT |
+| **Melhor para** | Times em produção exigindo governança security-first | Times Microsoft enterprise construindo extensões para Copilot |
 
 ## Diferenças de Arquitetura
 
@@ -75,7 +75,7 @@ Uma vulnerabilidade crítica de RCE (CVSS 9,9, reportada no início de 2026) foi
 
 ### Arquitetura do OpenLegion
 
-OpenLegion usa um modelo de quatro zonas de confiança (mais uma camada operador-ou-interna) onde os agentes são explicitamente não confiáveis. Cada agente roda em um contêiner Docker sem acesso ao host, execução non-root e limites de recurso. O proxy de cofre cuida da injeção de credencial a partir da Zona 2 — os agentes nunca veem chaves de API cruas. A coordenação modelo de frota define acesso exato a ferramenta, permissões e orçamentos por agente antes da execução.
+OpenLegion coloca um único motor de políticas na frente de cada ação, tratando os agentes como explicitamente não confiáveis. Cada tarefa roda sob demanda em um sandbox sem acesso à rede por padrão e depois para. O cofre cuida da injeção de credencial fora do modelo — os agentes nunca veem chaves de API cruas, só um handle. A coordenação por metas e tarefas define acesso exato a ferramenta, permissões e orçamentos por agente antes da execução.
 
 ## Quando Escolher Semantic Kernel
 
@@ -89,29 +89,29 @@ OpenLegion usa um modelo de quatro zonas de confiança (mais uma camada operador
 
 ## Quando Escolher OpenLegion
 
-**Você precisa de isolamento de agente em nível de processo.** Agentes SK rodam no processo host com memória compartilhada e acesso ao filesystem. OpenLegion isola cada agente no seu próprio contêiner com filesystem, rede e limites de recurso separados.
+**Você precisa de isolamento de agente em nível de processo.** Agentes SK rodam no processo host com memória compartilhada e acesso ao filesystem. OpenLegion roda cada tarefa no seu próprio sandbox, sem acesso à rede por padrão e sem processo compartilhado.
 
-**Segurança de credenciais é requisito rígido.** SK depende de DefaultAzureCredential — o processo do agente tem acesso à cadeia de credenciais. O proxy de cofre do OpenLegion garante que os agentes nunca vejam credenciais cruas, mesmo se o processo do agente é comprometido.
+**Segurança de credenciais é requisito rígido.** SK depende de DefaultAzureCredential — o processo do agente tem acesso à cadeia de credenciais. O cofre do OpenLegion injeta as credenciais fora do modelo, então os agentes nunca veem credenciais cruas, mesmo se o processo do agente é comprometido.
 
-**Você precisa de imposição de orçamento por agente.** SK não tem controles de custo embutidos. OpenLegion impõe limites rígidos por agente com corte automático.
+**Você precisa de imposição de orçamento por agente.** SK não tem controles de custo embutidos. OpenLegion dá a cada agente um orçamento de créditos com corte rígido automático.
 
 **Você quer evitar risco de migração de plataforma.** SK está entrando em modo de manutenção. A migração para o Microsoft Agent Framework introduz mudanças de API. OpenLegion é ativamente desenvolvido sem depreciação planejada.
 
-**Você precisa de deploy cloud-agnóstico.** OpenLegion roda em qualquer infraestrutura. SK é otimizado para Azure e perde funcionalidade significativa fora do ecossistema Microsoft.
+**Você não quer operar infraestrutura.** OpenLegion é uma aplicação web hospedada: basta entrar com o Google e começar. SK é otimizado para Azure e perde funcionalidade significativa fora do ecossistema Microsoft.
 
-Traga suas próprias chaves de API de LLM. Sem markup sobre uso de modelo.
+Os modelos são escolhidos por preset: Smartest, Smart ou Normal. O trabalho é medido em créditos de US$ 0,001 cada.
 
 ## O Trade-off Honesto
 
-Semantic Kernel tem a integração Microsoft mais profunda, suporte multilíngua e move os produtos de agente de IA mais amplamente implantados (Copilot, 230.000+ organizações). OpenLegion tem a arquitetura de segurança, isolamento de credenciais e independência de nuvem.
+Semantic Kernel tem a integração Microsoft mais profunda, suporte multilíngua e move os produtos de agente de IA mais amplamente implantados (Copilot, 230.000+ organizações). OpenLegion tem a arquitetura de segurança, isolamento de credenciais e nada para instalar.
 
-Se você está construindo na stack de IA da Microsoft, Semantic Kernel (ou seu sucessor, o Agent Framework) é a escolha pragmática. Se precisa de segurança em produção que não dependa de nenhum provedor de nuvem, a resposta é OpenLegion.
+Se você está construindo na stack de IA da Microsoft, Semantic Kernel (ou seu sucessor, o Agent Framework) é a escolha pragmática. Se precisa de segurança em produção sem nada de seu para operar, a resposta é OpenLegion.
 
 Para o cenário completo, veja nossa [comparação de frameworks de agentes de IA](/learn/ai-agent-frameworks).
 
 ## CTA
 
-**Precisa de segurança grau de produção para sua frota de agentes?**
+**Precisa de segurança grau de produção para o seu time de agentes?**
 [Começar Agora](https://app.openlegion.ai) | [Ler a Documentação](https://docs.openlegion.ai)
 
 ---
@@ -122,7 +122,7 @@ Para o cenário completo, veja nossa [comparação de frameworks de agentes de I
 
 ### Qual a diferença entre OpenLegion e Semantic Kernel?
 
-Semantic Kernel (~27.300 estrelas) é o SDK multilíngua de agentes de IA da Microsoft, movendo produtos Copilot. OpenLegion é um [framework de agentes de IA](/learn/ai-agent-platform) security-first com isolamento por contêiner obrigatório, credenciais via proxy de cofre e imposição de orçamento por agente. SK oferece a integração Microsoft mais ampla; OpenLegion oferece os padrões de segurança mais fortes.
+Semantic Kernel (~27.300 estrelas) é o SDK multilíngua de agentes de IA da Microsoft, movendo produtos Copilot. OpenLegion é um [framework de agentes de IA](/learn/ai-agent-platform) security-first com uma execução em sandbox para cada tarefa, credenciais guardadas em cofre e imposição de orçamento por agente. SK oferece a integração Microsoft mais ampla; OpenLegion oferece os padrões de segurança mais fortes.
 
 ### O Semantic Kernel está sendo descontinuado?
 
@@ -130,19 +130,19 @@ SK está entrando em modo de manutenção junto com o AutoGen. A Microsoft recom
 
 ### O que foi a vulnerabilidade CVSS 9,9 do Semantic Kernel?
 
-Uma vulnerabilidade crítica de RCE (CVSS 9,9, reportada no início de 2026) no filter InMemoryVectorStore do SDK Python permitia injeção de código. O isolamento por contêiner do OpenLegion evita essa classe de vulnerabilidade garantindo que os agentes não podem acessar recursos do host.
+Uma vulnerabilidade crítica de RCE (CVSS 9,9, reportada no início de 2026) no filter InMemoryVectorStore do SDK Python permitia injeção de código. As execuções de tarefa em sandbox do OpenLegion evitam essa classe de vulnerabilidade garantindo que os agentes não podem acessar recursos do host.
 
 ### O Semantic Kernel funciona fora do Azure?
 
-SK suporta múltiplos provedores de modelo e pode rodar fora do Azure. Porém, funcionalidades-chave enterprise exigem serviços Azure. OpenLegion é totalmente cloud-agnóstico, com zero dependências de provedor de nuvem.
+SK suporta múltiplos provedores de modelo e pode rodar fora do Azure. Porém, funcionalidades-chave enterprise exigem serviços Azure. OpenLegion é uma aplicação web hospedada, sem nenhuma nuvem sua para operar.
 
 ### Como os filters do Semantic Kernel se comparam à segurança do OpenLegion?
 
-Os filters do SK oferecem governança em nível de aplicação (redação de PII, bloqueio de conteúdo, logging). OpenLegion oferece segurança em nível de infraestrutura (isolamento por contêiner, proxy de cofre, limites de recurso). São camadas complementares; filters do SK governam o que os agentes fazem, enquanto OpenLegion restringe o que os agentes podem acessar. Veja nossa página de [segurança de agentes de IA](/learn/ai-agent-security) para o modelo completo de ameaças.
+Os filters do SK oferecem governança em nível de aplicação (redação de PII, bloqueio de conteúdo, logging). OpenLegion oferece segurança em nível de plataforma (execuções em sandbox, cofre de credenciais, orçamentos por agente). São camadas complementares; filters do SK governam o que os agentes fazem, enquanto OpenLegion restringe o que os agentes podem acessar. Veja nossa página de [segurança de agentes de IA](/learn/ai-agent-security) para o modelo completo de ameaças.
 
 ### Posso usar plugins do Semantic Kernel com OpenLegion?
 
-Plugins do SK podem ser adaptados para funcionar com a matriz de permissão de ferramentas do OpenLegion. A principal adaptação é adicionar controles de acesso por agente e rotear chamadas autenticadas de API pelo proxy de cofre.
+Plugins do SK podem ser adaptados para funcionar com a matriz de permissão de ferramentas do OpenLegion. A principal adaptação é adicionar controles de acesso por agente e resolver as credenciais pelo cofre, fora do modelo.
 
 ---
 

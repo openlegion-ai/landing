@@ -16,7 +16,7 @@ related:
 
 # Bucle Agéntico: Cómo los Agentes de IA Perciben, Piensan y Actúan
 
-Un bucle agéntico es el ciclo repetitivo percibir-pensar-actuar que impulsa a un agente de IA desde el inicio de la tarea hasta la respuesta final. En cada iteración, el agente lee el contexto — observaciones, resultados de herramientas, memoria — llama a un LLM para razonar sobre los próximos pasos, ejecuta una herramienta o devuelve una respuesta, y luego repite. Los límites de iteración, las condiciones de terminación y el manejo de errores determinan si un agente de producción es fiable o un riesgo — OpenLegion aplica límites estrictos en la capa mesh, convirtiendo los bucles descontrolados en fallos deterministas.
+Un bucle agéntico es el ciclo repetitivo percibir-pensar-actuar que impulsa a un agente de IA desde el inicio de la tarea hasta la respuesta final. En cada iteración, el agente lee el contexto — observaciones, resultados de herramientas, memoria — llama a un LLM para razonar sobre los próximos pasos, ejecuta una herramienta o devuelve una respuesta, y luego repite. Los límites de iteración, las condiciones de terminación y el manejo de errores determinan si un agente de producción es fiable o un riesgo — OpenLegion aplica límites estrictos en su motor de políticas, convirtiendo los bucles descontrolados en fallos deterministas.
 
 ## ¿Qué es un Bucle Agéntico?
 
@@ -101,9 +101,9 @@ La terminación natural ocurre cuando el paso de pensar del LLM emite una respue
 La terminación basada en presupuesto detiene el bucle cuando el agente ha consumido un monto en dólares configurado.
 
 **Modelo de aplicación de OpenLegion:**
-- `daily_budget` ($50/día por defecto) y `monthly_budget` ($200/mes por defecto) se configuran por agente en `INSTRUCTIONS.md`
-- El enrutador mesh rastrea el gasto acumulado por ID de agente en tiempo real
-- Cuando una iteración de bucle excedería el presupuesto diario restante, la solicitud se rechaza en la capa mesh antes de llegar al proveedor LLM
+- Cada agente lleva su propio presupuesto, fijado por agente en la app y medido en créditos de $0.001 cada uno
+- El motor de políticas rastrea el gasto acumulado por agente en tiempo real
+- Cuando una iteración de bucle excedería el presupuesto restante, el motor de políticas rechaza la intención antes de llegar al modelo
 
 ### Terminación Basada en Errores
 
@@ -139,11 +139,11 @@ El control de bucles es una propiedad de seguridad, no solo operativa. Los tres 
 
 | **Mecanismo de control de bucle** | **OpenLegion** | **LangChain AgentExecutor** | **LangGraph** | **OpenAI Agents SDK** |
 |---|---|---|---|---|
-| **Límite de iteración** | max_turns en INSTRUCTIONS.md, aplicado en mesh | max_iterations=15 (predeterminado) | recursion_limit=25 | max_turns=10 (predeterminado) |
-| **Terminación basada en presupuesto** | daily_budget + monthly_budget por agente, aplicado en capa mesh | No integrado | No integrado | No integrado |
+| **Límite de iteración** | Tope de turnos por agente, aplicado por el motor de políticas | max_iterations=15 (predeterminado) | recursion_limit=25 | max_turns=10 (predeterminado) |
+| **Terminación basada en presupuesto** | Presupuesto de créditos por agente, aplicado por el motor de políticas | No integrado | No integrado | No integrado |
 | **Terminación de error** | Error estructurado devuelto al orquestador | Lanza AgentExecutorError | Lanza GraphRecursionError | Lanza MaxTurnsExceeded |
-| **Defensa contra inyección** | Llamadas a herramientas proxificadas por vault; autoridad del prompt del sistema | handle_parsing_errors configurable | No integrado | No integrado |
-| **Pista de auditoría de bucle** | Cada iteración registrada con agent_id, modelo, llamada a herramienta, costo | LangSmith (opcional) | LangSmith (opcional) | Panel de OpenAI |
+| **Defensa contra inyección** | Credenciales en bóveda; actuar sobre contenido no confiable requiere aprobación | handle_parsing_errors configurable | No integrado | No integrado |
+| **Pista de auditoría de bucle** | Cada despertar registrado como recibo: identidad del agente, modelo, llamada a herramienta, costo | LangSmith (opcional) | LangSmith (opcional) | Panel de OpenAI |
 
 Para los patrones que componen múltiples bucles de agentes en sistemas de producción, ver [cómo los flujos de trabajo agénticos componen múltiples bucles en pipelines de producción](/learn/agentic-workflows) y [patrones de diseño de IA agéntica para orquestación de bucles y coordinación de agentes](/learn/agentic-ai-design-patterns).
 
@@ -173,7 +173,7 @@ La inyección de prompt via contenido de respuesta de herramienta — demostrada
 
 ### ¿Cómo previene OpenLegion los bucles agénticos descontrolados?
 
-OpenLegion aplica defensa en profundidad con dos capas de aplicación. Los límites de iteración por agente configurados en INSTRUCTIONS.md se aplican en la capa de aplicación. Los daily_budget y monthly_budget por agente se aplican en la capa del enrutador mesh antes de cada llamada LLM. Cuando una iteración de bucle excedería el presupuesto restante, la solicitud se rechaza en la capa de red. Una inyección de prompt que instruye al agente a ignorar límites de presupuesto no puede anular la verificación de presupuesto del enrutador mesh.
+OpenLegion aplica defensa en profundidad con dos capas de aplicación. Los límites de iteración por agente se aplican en la capa de aplicación. Cada agente lleva su propio presupuesto, medido en créditos de $0.001 cada uno, y el motor de políticas lo verifica antes de cada llamada al modelo. Cuando una iteración de bucle excedería el presupuesto restante, la intención se rechaza antes de ocurrir. Una inyección de prompt que instruye al agente a ignorar límites de presupuesto no puede anular la verificación de presupuesto del motor de políticas.
 
 ### ¿Cuál es la diferencia entre un bucle agéntico y un flujo de trabajo?
 
@@ -183,7 +183,7 @@ Un bucle agéntico es el ciclo de iteración por agente — el ciclo de ejecuci�
 
 El bucle agéntico es donde se gana o pierde la fiabilidad del agente. Los valores predeterminados del framework — max_turns=10, recursion_limit=25 — son puntos de partida, no configuraciones de producción.
 
-OpenLegion aplica límites de presupuesto y límites de iteración en la capa mesh — fuera de banda del razonamiento LLM del agente, no anulable por inyección de prompt.
+OpenLegion aplica límites de presupuesto y límites de iteración en su motor de políticas — fuera de banda del razonamiento LLM del agente, no anulable por inyección de prompt.
 
 [Comenzar a construir en OpenLegion](https://app.openlegion.ai) — límites de bucle estrictos y aplicación de presupuesto por agente integrados.
 

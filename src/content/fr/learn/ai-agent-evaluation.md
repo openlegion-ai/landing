@@ -153,9 +153,9 @@ Enregistrez un dataset d'évaluation doré avec des entrées de tâches, des sé
 
 ### Comment OpenLegion supporte-t-il l'évaluation des agents ?
 
-Le mesh d'agents d'OpenLegion émet des traces d'appels d'outils structurées qui peuvent être rejouées sur un harnais d'évaluation. Le vault de credentials garantit que les exécutions d'évaluation utilisent des credentials isolés. Les agents d'évaluation pilotés par heartbeat peuvent exécuter des suites de régression selon un calendrier.
+OpenLegion enregistre chaque appel d'outil comme un reçu, et ces traces structurées peuvent être rejouées sur un harnais d'évaluation. Le coffre-fort de credentials garantit que les exécutions d'évaluation utilisent des credentials isolés. Des agents d'évaluation planifiés peuvent exécuter des suites de régression selon un calendrier.
 
-## Évaluez vos agents dans un mesh sécurisé
+## Évaluez vos agents sur une plateforme sécurisée
 
 Les agents fiables nécessitent une infrastructure d'évaluation qui teste la trajectoire d'exécution complète. Le problème d'erreur cumulative est réel : un taux de fiabilité par étape de 90 % signifie qu'un agent à cinq étapes échoue sur 41 % des exécutions.
 

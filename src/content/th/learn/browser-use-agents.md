@@ -68,15 +68,15 @@ Browser agents คือหมวดหมู่เครื่องมือ�
 
 ### การสาธิตการขโมย Credential ใน 150 วินาที
 
-งานวิจัยที่บันทึกไว้อย่างเป็นสาธารณะในปี 2025 แสดงให้เห็นว่า browser agent สามารถถูกจัดการเพื่อขโมย credential ได้ภายใน 150 วินาที ผ่านคำสั่งที่ซ่อนอยู่ในหน้าเว็บ การป้องกันนั้นเป็นแบบสถาปัตยกรรม: หาก credentials ไม่มีอยู่ใน context ของ agent หรือหน่วยความจำของ process การ injection ก็ไม่สามารถดึงออกมาได้ OpenLegion Vault Proxy รับประกันว่า session credentials ถูก inject ที่ชั้นเครือข่าย ไม่ปรากฏใน context window ของ agent เลย
+งานวิจัยที่บันทึกไว้อย่างเป็นสาธารณะในปี 2025 แสดงให้เห็นว่า browser agent สามารถถูกจัดการเพื่อขโมย credential ได้ภายใน 150 วินาที ผ่านคำสั่งที่ซ่อนอยู่ในหน้าเว็บ การป้องกันนั้นเป็นแบบสถาปัตยกรรม: หาก credentials ไม่มีอยู่ใน context ของ agent หรือหน่วยความจำของ process การ injection ก็ไม่สามารถดึงออกมาได้ ใน OpenLegion credentials อยู่ใน vault และถูก inject นอกโมเดล ซึ่งถือเพียง handle เท่านั้น จึงไม่ปรากฏใน context window ของ agent เลย
 
 ### OWASP LLM08 Excessive Agency และการอนุญาตของเบราว์เซอร์
 
 OWASP LLM Top 10 2025 จัดอันดับ excessive agency (LLM08) เป็นหมวดหมู่ความเสี่ยงอันดับต้นๆ Browser agents คือตัวอย่างที่ชัดเจน: agent ที่มีสิทธิ์ในการนำทาง อ่าน กรอกแบบฟอร์ม และกดปุ่มสามารถทำการซื้อ ส่งข้อความ ลบบัญชี และขโมยข้อมูล
 
-### วิธีที่ OpenLegion Sandbox Browser Agents (Camoufox + Zone 1)
+### วิธีที่ OpenLegion Sandbox การกระทำของ Agent (แซนด์บ็อกซ์ + การอนุมัติ)
 
-OpenLegion รันอินสแตนซ์ Camoufox browser แบบแยกออกจากกันที่พอร์ต :8500 ภายใน Zone 1 Docker container ของแต่ละ agent หนึ่งอินสแตนซ์ต่อหนึ่ง agent มีสี่คุณสมบัติ: ไม่มีสถานะ session ที่ใช้ร่วมกัน ต้านทานการ fingerprint, Vault Proxy credentials, การกำหนดเส้นทางเครือข่ายผ่าน Mesh Host
+OpenLegion ไม่มี browser automation ตอนเปิดตัว และโค้ดที่ agent เขียนรันในแซนด์บ็อกซ์ที่ไม่มีการเข้าถึงเครือข่ายเป็นค่าเริ่มต้น มีสี่คุณสมบัติที่กำหนดกรอบการกักงานของ agent: ไม่มีสถานะ session ที่ใช้ร่วมกัน ต้านทานการ fingerprint เป็นคุณสมบัติของชั้นเบราว์เซอร์, credentials ที่เก็บใน vault, การอนุมัติก่อนกระทำต่อเนื้อหาที่ไม่น่าเชื่อถือ
 
 ## รูปแบบสถาปัตยกรรม Browser Agent
 
@@ -86,31 +86,31 @@ OpenLegion รันอินสแตนซ์ Camoufox browser แบบแย
 
 ### การจัดการ CAPTCHA
 
-สามแนวทาง: เบราว์เซอร์เชิงพฤติกรรม (ต้านทานการ fingerprint), บริการแก้ CAPTCHA ($1-3 ต่อ 1,000 การแก้), การสำรองแบบ human-in-the-loop OpenLegion รองรับการส่งต่อ CAPTCHA แบบ human-in-the-loop ผ่าน dashboard
+สามแนวทาง: เบราว์เซอร์เชิงพฤติกรรม (ต้านทานการ fingerprint), บริการแก้ CAPTCHA ($1-3 ต่อ 1,000 การแก้), การสำรองแบบ human-in-the-loop สิ่งที่เทียบเท่าใน OpenLegion คือกำแพงการอนุมัติ: งานหยุดในแอปเมื่อเจ้าของหรือผู้ดูแลระบบต้องตัดสินใจ
 
-### การ Inject Credentials: Vault Proxy กับ Cookie ที่ฮาร์ดโค้ด
+### การ Inject Credentials: Credential Vault กับ Cookie ที่ฮาร์ดโค้ด
 
-**แย่ที่สุด**: credentials โดยตรงในคำสั่งของ agent **แย่**: ตัวแปรสภาพแวดล้อม (เข้าถึงได้ผ่าน `os.environ`) **ถูกต้อง**: การ inject Vault Proxy ที่ชั้นเครือข่าย
+**แย่ที่สุด**: credentials โดยตรงในคำสั่งของ agent **แย่**: ตัวแปรสภาพแวดล้อม (เข้าถึงได้ผ่าน `os.environ`) **ถูกต้อง**: การ inject จาก credential vault นอกโมเดล ซึ่งถือเพียง handle เท่านั้น
 
 ## Browser Use Agents: การเปรียบเทียบสถาปัตยกรรม
 
 | **มิติ** | **OpenLegion** | **browser-use** | **Raw Playwright** | **Stagehand** |
 |---|---|---|---|---|
-| **Execution Backend** | Camoufox (Firefox, ต้านทาน fingerprint) | Playwright (Chromium) | Playwright | Cloud Chromium |
-| **Session Isolation** | Container ต่อ agent | Process ที่ใช้ร่วมกัน | ขึ้นอยู่กับการนำไปใช้ | จัดการโดย cloud |
-| **การจัดการ Credentials** | การ inject Vault Proxy | ผ่าน context window | การนำไปใช้ด้วยตนเอง | จัดการ |
-| **รองรับ CAPTCHA** | Camoufox fingerprint + human-in-loop | ไม่มีในตัว | ไม่มีในตัว | บริการแก้ CAPTCHA |
-| **Container Sandboxing** | Zone 1 Docker, non-root | ไม่มี | ไม่มี | Cloud sandbox |
+| **Execution Backend** | ไม่มีตอนเปิดตัว — ไม่มี browser automation | Playwright (Chromium) | Playwright | Cloud Chromium |
+| **Session Isolation** | การรันในแซนด์บ็อกซ์ต่องาน — เชิงโครงสร้าง | Process ที่ใช้ร่วมกัน | ขึ้นอยู่กับการนำไปใช้ | จัดการโดย cloud |
+| **การจัดการ Credentials** | เก็บใน vault ฉีดนอกโมเดล | ผ่าน context window | การนำไปใช้ด้วยตนเอง | จัดการ |
+| **รองรับ CAPTCHA** | ไม่เกี่ยวข้อง — ไม่มี browser automation | ไม่มีในตัว | ไม่มีในตัว | บริการแก้ CAPTCHA |
+| **Container Sandboxing** | การรันงานในแซนด์บ็อกซ์ ไม่มีเครือข่ายเป็นค่าเริ่มต้น | ไม่มี | ไม่มี | Cloud sandbox |
 | **GitHub Stars** | — | 96,282 (พฤษภาคม 2026) | N/A | ~9,000 |
-| **ใบอนุญาต** | BSL 1.1 | MIT | Apache 2.0 | MIT |
+| **ใบอนุญาต** | PolyForm Perimeter 1.0.1 (เอนจิน) | MIT | Apache 2.0 | MIT |
 
 ## เมื่อใดควรใช้ Browser Agents (และเมื่อใดไม่ควร)
 
 **กรณีการใช้งานที่ถูกต้อง**: การวิจัยเว็บและการดึงข้อมูล, การทำแบบฟอร์มอัตโนมัติสำหรับบริการของตนเอง, การตรวจสอบและการทดสอบ **กรณีการใช้งานที่ต้องการการควบคุมเพิ่มเติม**: session ที่ผ่านการยืนยันตัวตน, เว็บไซต์การเงิน **หลีกเลี่ยงหากไม่มี sandbox ที่เข้มงวด**: URL ที่ไม่น่าเชื่อถือที่ผู้ใช้ให้มา
 
-## เริ่มต้นกับ Browser Agents ที่ปลอดภัยบน OpenLegion
+## เริ่มต้นกับการกระทำของ Agent ที่ปลอดภัยบน OpenLegion
 
-**รัน browser agents ในคอนเทนเนอร์ที่แยกออกจากกันพร้อม Vault Proxy credentials และการควบคุมเครือข่ายต่อ agent**
+**รัน agent ด้วย credentials ที่เก็บใน vault, การรันในแซนด์บ็อกซ์ต่องาน และการอนุมัติก่อนพวกมันลงมือ**
 [เริ่มต้น](https://app.openlegion.ai) | [อ่านเอกสาร](https://docs.openlegion.ai) | [ดูแพลตฟอร์ม](/learn/ai-agent-platform)
 
 ---
@@ -133,11 +133,11 @@ browser-use ห่อหุ้ม Playwright ของ Microsoft ให้ LLM �
 
 ### จะรัน browser agents อย่างปลอดภัยได้อย่างไร?
 
-ต้องการการควบคุมสี่ประการ: การแยก container, Vault Proxy credentials, การควบคุม network egress, ขีดจำกัดงบประมาณต่อ agent OpenLegion browser service ที่รองรับโดย Camoufox นำไปใช้ทั้งสี่อย่างโดยค่าเริ่มต้นภายใน Zone 1 Docker containers
+ต้องการการควบคุมสี่ประการ: การแยก container, credentials ที่เก็บใน vault, การควบคุม network egress, ขีดจำกัดงบประมาณต่อ agent OpenLegion ไม่มี browser automation ตอนเปิดตัว แต่ใช้การควบคุมทั้งสี่อย่างเดียวกันกับทุกการกระทำของ agent
 
-### Camoufox คืออะไร และทำไม OpenLegion ถึงใช้มัน?
+### Camoufox คืออะไร และ OpenLegion ใช้มันหรือไม่?
 
-Camoufox คือเบราว์เซอร์แบบ headless ที่ใช้ Firefox เป็นพื้นฐาน ซึ่ง patch JavaScript APIs เพื่อรายงานโปรไฟล์ฮาร์ดแวร์จริงแทนลายเซ็น headless OpenLegion รันอินสแตนซ์ Camoufox หนึ่งตัวต่อ agent ที่พอร์ต :8500 ใน Zone 1 Docker container แต่ละตัว
+Camoufox คือเบราว์เซอร์แบบ headless ที่ใช้ Firefox เป็นพื้นฐาน ซึ่ง patch JavaScript APIs เพื่อรายงานโปรไฟล์ฮาร์ดแวร์จริงแทนลายเซ็น headless OpenLegion ไม่ได้รัน Camoufox หรือ browser automation อื่นใดตอนเปิดตัว; การแยกของมันมาจากการรันในแซนด์บ็อกซ์ต่องานที่โค้ดในแซนด์บ็อกซ์ไม่มีการเข้าถึงเครือข่ายเป็นค่าเริ่มต้น
 
 ### ความแตกต่างระหว่าง browser-use และ Playwright สำหรับ AI agents คืออะไร?
 
@@ -145,8 +145,8 @@ Playwright คือไลบรารี automation เบราว์เซอ
 
 ### Browser Use Agents สามารถจัดการการเข้าสู่ระบบและ session ที่ผ่านการยืนยันตัวตนได้หรือไม่?
 
-ได้ แต่การจัดการ session ที่ผ่านการยืนยันตัวตนเป็นหนึ่งในการดำเนินงานที่มีความเสี่ยงสูงสุด OpenLegion inject session credentials ที่ชั้นเครือข่ายผ่าน Vault Proxy
+ได้ แต่การจัดการ session ที่ผ่านการยืนยันตัวตนเป็นหนึ่งในการดำเนินงานที่มีความเสี่ยงสูงสุด OpenLegion เก็บ credentials ไว้ใน vault และ inject นอกโมเดล — agent ทำงานผ่าน session ที่ยืนยันตัวตนโดยถือเพียง handle
 
 ### Browser agents จัดการ CAPTCHA อย่างไร?
 
-สามแนวทาง: เบราว์เซอร์เชิงพฤติกรรม (ต้านทานการ fingerprint), บริการแก้ CAPTCHA ($1-3 ต่อ 1,000 ครั้ง, ความหน่วง 10-60 วินาที), การสำรองแบบ human-in-the-loop OpenLegion รองรับการส่งต่อ CAPTCHA แบบ human-in-the-loop ผ่าน dashboard
+สามแนวทาง: เบราว์เซอร์เชิงพฤติกรรม (ต้านทานการ fingerprint), บริการแก้ CAPTCHA ($1-3 ต่อ 1,000 ครั้ง, ความหน่วง 10-60 วินาที), การสำรองแบบ human-in-the-loop OpenLegion ไม่มี browser automation ตอนเปิดตัว; สิ่งที่เทียบเท่าแบบ human-in-the-loop คือกำแพงการอนุมัติ

@@ -46,7 +46,7 @@ Pull dispatch reduces credential exposure: the queue message contains only a tas
 
 In blackboard-pointer handoff, the caller writes its output to a named key on a shared persistent store — for example, `output/researcher/task_abc123` — and sends the callee only the key name. The callee reads the key and retrieves exactly the fields it needs. Raw credentials, intermediate scratchpad content, and the caller's full context never appear in the handoff message.
 
-OpenLegion's `hand_off()` function implements this pattern natively: it writes output data to `output/{agent_id}/{handoff_id}` on the blackboard, creates a task entry in the recipient's inbox with a pointer to that key, and wakes the recipient. The recipient reads the blackboard key to retrieve the full payload. Credentials stored in the vault are injected by the mesh at execution time — they never appear in the handoff payload itself.
+OpenLegion applies the same principle through delegation: the caller records its output on the shared record of goals and tasks, creates a task for the recipient that points at it, and wakes the recipient. The recipient reads that record when it wakes, pulling only the fields it needs. Credentials live in a vault and are injected outside the model at execution time — they never appear in the delegated payload itself.
 
 **Strengths**: highest credential isolation, callee reads only what it needs, full audit trail via key version history, decoupled timing (callee can read on its own schedule).  
 **Risks**: adds a read operation vs. direct push; requires a reliable shared store with appropriate access controls.
@@ -82,9 +82,9 @@ OpenAI Agents SDK's `handoff()` mitigates this with `input_filter` (added v0.0.5
 
 ### The Blackboard-Pointer Pattern as the Secure Default
 
-The blackboard-pointer pattern eliminates credential exposure at the protocol level rather than relying on application-layer filtering. Credentials stored in OpenLegion's vault are never injected into agent context — they are resolved at the API call boundary by the mesh proxy. This means there are no credentials in agent context to exfiltrate via handoff, regardless of which pattern the caller uses.
+The blackboard-pointer pattern eliminates credential exposure at the protocol level rather than relying on application-layer filtering. Credentials stored in OpenLegion's vault are never injected into agent context — they are injected outside the model at the API call boundary, so the model only ever holds a handle. This means there are no credentials in agent context to exfiltrate via handoff, regardless of which pattern the caller uses.
 
-For teams adopting OpenLegion: `hand_off(to="agent_id", summary="...", data="...")` is the complete handoff API. The `data` parameter is written to the blackboard; the recipient reads it via the task's `output_key`. No credential appears in the payload. The blackboard key version history provides a full audit trail of what was transferred and when.
+For teams adopting OpenLegion: delegation is the complete handoff API — an agent hands a teammate a task with a summary and structured data. The task is recorded rather than passed as context; the recipient reads it when it next wakes. No credential appears in the payload. Every delegation is recorded as a receipt the owner can read — a full audit trail of what was transferred and when.
 
 ## How Major Frameworks Implement Handoff
 
@@ -130,19 +130,19 @@ def researcher_node(state: AgentState) -> Command:
 
 LangGraph's shared state model is expressive for tightly coupled workflows but provides no credential isolation between nodes. Any node that has access to the graph can read any state field, including fields that should be restricted to specific roles.
 
-### OpenLegion: hand_off() with Blackboard Pointer and Inbox Delivery
+### OpenLegion: Delegation with a Task Pointer and Inbox Delivery
 
-OpenLegion's `hand_off()` function implements blackboard-pointer handoff natively. The caller writes output data to `output/{agent_id}/{handoff_id}`, creates a task in the recipient's inbox with the `output_key` pointer, and wakes the recipient. The recipient reads the blackboard key to retrieve full payload data.
+OpenLegion implements pointer-style handoff natively through delegation. The caller records its output on the shared record of goals and tasks, creates a task for the recipient that carries the pointer, and wakes the recipient. The recipient reads that record when it wakes to retrieve full payload data.
 
 ```python
-hand_off(
+delegate(
     to="writer",
     summary="Research complete: langchain-alternative, 2847 words of source material",
     data='{"topic": "langchain-alternative", "sources_key": "research/langchain-alt-sources", "word_count_target": 3000}'
 )
 ```
 
-Credentials injected by the vault mesh proxy never appear in `data`. The recipient's `check_inbox()` returns the task with `output_key` pointing to the blackboard entry — the recipient calls `read_blackboard(output_key)` to retrieve the full structured payload.
+Credentials live in the vault and are injected outside the model, so they never appear in `data`. The recipient's task carries the `sources_key` pointer to the stored output — the recipient reads that record to retrieve the full structured payload.
 
 ## Handoff Data Contracts
 
@@ -159,7 +159,7 @@ A well-designed handoff payload is a structured specification, not a transcript 
 ### What to Exclude: Raw Credentials, Full Context Windows, Intermediate Scratchpads
 
 Exclude from handoff payloads:
-- **API keys, tokens, and credentials** — these should be injected by the mesh at execution time, never stored in handoff data
+- **API keys, tokens, and credentials** — these should be injected outside the model at execution time, never stored in handoff data
 - **Full conversation transcripts** — truncate to relevant summaries; the callee does not need to know every tool call the caller made
 - **Intermediate reasoning scratchpads** — the caller's chain-of-thought while working through a problem is not useful to the callee and may contain sensitive information
 - **Data the callee's role does not require** — apply least-privilege to context just as you apply it to permissions
@@ -230,7 +230,7 @@ Google ADK (20,100 GitHub stars, Apache-2.0) uses transfer_to_agent(), which pas
 
 ### What is the blackboard-pointer handoff pattern and why is it more secure?
 
-In blackboard-pointer handoff, the caller writes its output to a named key on a shared store (such as output/agent-id/task-id), then sends the callee only the key pointer — not the data itself. The callee reads only the fields it needs. Credentials never appear in the handoff message, eliminating the OWASP LLM06:2025 (Sensitive Information Disclosure) exfiltration vector. OpenLegion's hand_off() implements this pattern natively.
+In blackboard-pointer handoff, the caller writes its output to a named key on a shared store (such as output/agent-id/task-id), then sends the callee only the key pointer — not the data itself. The callee reads only the fields it needs. Credentials never appear in the handoff message, eliminating the OWASP LLM06:2025 (Sensitive Information Disclosure) exfiltration vector. OpenLegion's delegation implements this pattern natively.
 
 ### What security risks exist in agent handoff?
 
@@ -248,7 +248,7 @@ Include: a concise task summary (under 200 words), a pointer to the output data 
 
 The handoff boundary is where most multi-agent reliability problems originate — context loss degrades downstream task quality, and credential leakage in the payload creates exfiltration risk that grows with pipeline length. Both failures are architectural, not implementation bugs: they stem from patterns that pass too much data across the boundary by default.
 
-OpenLegion's blackboard-pointer handoff addresses both problems at the protocol level. `hand_off()` writes output to a named key, delivers only a pointer to the recipient's inbox, and relies on vault-proxied credential injection rather than context-embedded API keys. The recipient reads exactly what it needs from the blackboard, nothing more. The key version history provides an audit trail of every handoff without requiring additional instrumentation.
+OpenLegion's pointer-style delegation addresses both problems at the protocol level. Delegation writes output to a named key, delivers only a pointer to the recipient's task, and relies on vault-held credentials injected outside the model rather than context-embedded API keys. The recipient reads exactly what it needs, nothing more. Every delegation is recorded as a receipt, giving an audit trail of every handoff without requiring additional instrumentation.
 
 For the monitoring layer that catches failures the handoff protocol misses, see [agent observability: tracing handoffs across pipeline stages](/learn/ai-agent-observability). For the framework layer that determines which handoff pattern to choose, see [comparing AI agent frameworks for production deployments](/learn/ai-agent-frameworks).
 

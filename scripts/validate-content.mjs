@@ -304,7 +304,8 @@ function checkImages(content) {
 // Nav routes that exist as Next.js pages (not markdown-driven) — links to
 // these are valid even though they're absent from the content map.
 const STATIC_NAV_ROUTES = new Set([
-  "/", "/pricing", "/faq", "/terms", "/privacy", "/money-back-guarantee",
+  "/", "/pricing", "/faq", "/security", "/terms", "/privacy",
+  "/money-back-guarantee",
 ]);
 
 function checkInternalLinks(content, knownSlugs) {

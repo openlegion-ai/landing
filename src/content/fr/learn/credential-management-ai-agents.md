@@ -68,9 +68,9 @@ Ce schéma réduit la durée de vie de l'identifiant en mémoire mais n'élimine
 
 ### Schéma 3 : Vault proxy / Injection de handle opaque (Plus sécurisé)
 
-Le schéma vault-proxy maintient les identifiants entièrement hors des conteneurs d'agents. L'agent détient un handle opaque -- une chaîne de référence comme `$CRED{stripe_key}` -- qui identifie un identifiant sans le résoudre. Quand l'agent effectue un appel API incluant le handle, le vault proxy intercepte la requête, résout le handle vers l'identifiant réel, l'injecte au niveau réseau et transmet la requête authentifiée. L'agent ne voit jamais l'identifiant en clair.
+Le schéma vault-proxy maintient les identifiants entièrement hors des conteneurs d'agents. L'agent détient un handle opaque -- une chaîne de référence comme `cred:stripe_key` -- qui identifie un identifiant sans le résoudre. Quand l'agent effectue un appel API incluant le handle, le vault proxy intercepte la requête, résout le handle vers l'identifiant réel, l'injecte hors du modèle et transmet la requête authentifiée. L'agent ne voit jamais l'identifiant en clair.
 
-C'est le même principe que l'injection côté agent de HashiCorp Vault (35 763 étoiles, BSL, v2.0.2 publié le 5 juin 2026), directement intégré dans la couche d'orchestration des agents. Avec 700+ serveurs MCP dans l'écosystème (juin 2026), le schéma de handle `$CRED{}` élimine l'étalement par-serveur des `.env` : une référence de handle dans la configuration de l'agent couvre les besoins en identifiants de n'importe quel serveur MCP.
+C'est le même principe que l'injection côté agent de HashiCorp Vault (35 763 étoiles, BSL, v2.0.2 publié le 5 juin 2026), directement intégré dans la couche d'orchestration des agents. Avec 700+ serveurs MCP dans l'écosystème (juin 2026), le schéma de handle opaque élimine l'étalement par-serveur des `.env` : une référence de handle dans la configuration de l'agent couvre les besoins en identifiants de n'importe quel serveur MCP.
 
 Un conteneur d'agent entièrement compromis -- exécutant des instructions arbitraires d'un attaquant -- n'a aucun accès aux identifiants car aucun identifiant n'existe dans la portée du conteneur.
 
@@ -80,21 +80,21 @@ L'identité de charge de travail (fédération OIDC, SPIFFE/SPIRE, comptes de se
 
 L'identité de charge de travail est le schéma correct pour les flottes d'agents fonctionnant sur infrastructure cloud où des identifiants de fournisseur cloud (clés API AWS, clés de compte de service GCP) sont requis. Elle nécessite que la plateforme d'orchestration gère l'émission d'identité et le rafraîchissement des jetons, mais élimine entièrement le problème de rotation des clés statiques. Pour les architectures de [systèmes multi-agents](/learn/multi-agent-systems) qui s'étendent sur plusieurs comptes ou fournisseurs cloud, la fédération d'identité de charge de travail est le seul modèle d'identifiant évolutif.
 
-## L'avis d'OpenLegion : le schéma de handle $CRED{}
+## L'avis d'OpenLegion : le schéma de handle opaque
 
 Chaque framework majeur d'agents IA traite la gestion des identifiants comme le problème de l'application hôte. LangChain et LangGraph lisent depuis `os.environ`. CrewAI repose sur l'injection d'environnement. OpenAI Agents SDK attend les identifiants dans l'environnement du processus. AutoGen hérite de l'environnement du processus Python. Aucun de ces frameworks ne fournit d'isolation structurelle des identifiants -- ils laissent la gestion des identifiants à l'opérateur, ce qui en pratique signifie des fichiers `.env` et des variables d'environnement partagées.
 
-Le vault-proxy d'OpenLegion est intégré dans la couche d'orchestration des agents. Les agents référencent les identifiants comme des handles opaques `$CRED{nom}`. L'hôte mesh résout les handles côté serveur et injecte les identifiants à la frontière réseau. Aucun conteneur d'agent ne reçoit jamais un identifiant en clair. L'injection de prompt ne peut pas exfiltrer ce qui n'est pas présent.
+Le coffre-fort d'identifiants d'OpenLegion est intégré dans la couche d'orchestration des agents. Les agents référencent les identifiants par des handles opaques et ne détiennent rien de plus. Le moteur de politiques résout les handles côté serveur et injecte les identifiants hors du modèle. Aucune exécution d'agent ne reçoit jamais un identifiant en clair. L'injection de prompt ne peut pas exfiltrer ce qui n'est pas présent.
 
 Infisical (27 296 étoiles, plateforme de secrets TypeScript open source avec noyau sous licence MIT) a levé 2,8 M$ en amorçage en 2023, signalant une demande du marché pour la gestion de secrets native aux développeurs. OpenLegion intègre la même capacité directement dans l'agent runtime -- aucun déploiement séparé de gestion de secrets requis.
 
 | **Dimension** | **OpenLegion** | **LangChain/LangGraph** | **CrewAI** | **OpenAI Agents SDK** | **AutoGen** |
 |---|---|---|---|---|---|
 | **Stockage des identifiants** | Vault (handles opaques) | Environnement / .env | Environnement / .env | Environnement / .env | Environnement / .env |
-| **Schéma d'accès agent** | Handle $CRED{} -- jamais résolu dans le conteneur | os.environ lecture directe | os.environ lecture directe | os.environ lecture directe | os.environ lecture directe |
+| **Schéma d'accès agent** | Handle opaque -- jamais résolu dans l'exécution de l'agent | os.environ lecture directe | os.environ lecture directe | os.environ lecture directe | os.environ lecture directe |
 | **En clair dans le contexte agent ?** | Jamais | Oui -- à la lecture os.environ | Oui -- à la lecture os.environ | Oui -- à la lecture os.environ | Oui -- à la lecture os.environ |
 | **Support de rotation** | Natif vault ; rotation à chaud sans redémarrage | Manuel ; nécessite redémarrage | Manuel ; nécessite redémarrage | Manuel ; nécessite redémarrage | Manuel ; nécessite redémarrage |
-| **Scoping par agent** | Appliqué au niveau mesh par liste d'autorisation | Non appliqué | Non appliqué | Non appliqué | Non appliqué |
+| **Scoping par agent** | Appliqué par le moteur de politiques par liste d'autorisation | Non appliqué | Non appliqué | Non appliqué | Non appliqué |
 | **Piste d'audit** | Chaque résolution de handle journalisée avec ID d'agent | Aucune native | Aucune native | Aucune native | Aucune native |
 
 Pour les équipes évaluant la surface totale d'exposition aux identifiants de leur stack actuel, le [modèle de menaces de sécurité des agents IA](/learn/ai-agent-security) couvre les fuites d'identifiants comme l'une des six catégories de menaces documentées, aux côtés de l'injection de prompt, l'évasion de sandbox et l'abus de budget.
@@ -113,9 +113,9 @@ Le moteur de secrets dynamiques de HashiCorp Vault génère des identifiants à 
 
 La rotation traditionnelle des secrets d'application exige le redémarrage du processus pour adopter le nouvel identifiant. Les flottes d'agents ne peuvent pas tolérer des redémarrages forcés : les agents peuvent être en cours de tâche, détenir un état de travail perdu au redémarrage, ou coordonner avec d'autres agents dans un transfert multi-étapes.
 
-La rotation à chaud injecte le nouvel identifiant dans le vault sans toucher le conteneur d'agent en cours d'exécution. Le prochain appel API de l'agent via le vault proxy utilise le nouvel identifiant de manière transparente. Du point de vue de l'agent, le handle `$CRED{nom}` résout toujours -- seul le secret sous-jacent a changé.
+La rotation à chaud injecte le nouvel identifiant dans le vault sans toucher le conteneur d'agent en cours d'exécution. Le prochain appel API de l'agent via le vault proxy utilise le nouvel identifiant de manière transparente. Du point de vue de l'agent, la référence d'identifiant résout toujours -- seul le secret sous-jacent a changé.
 
-La rotation à chaud exige que les agents ne mettent jamais en cache les identifiants localement. Le schéma de handle `$CRED{}` l'applique structurellement : les handles sont résolus au moment de l'appel, pas au démarrage, donc la mise en cache locale de la valeur résolue n'est jamais possible.
+La rotation à chaud exige que les agents ne mettent jamais en cache les identifiants localement. Le schéma de handle opaque l'applique structurellement : les handles sont résolus au moment de l'appel, pas au démarrage, donc la mise en cache locale de la valeur résolue n'est jamais possible.
 
 ### Portée de rotation par agent
 
@@ -135,7 +135,7 @@ OWASP LLM06 (Divulgation d'informations sensibles) note explicitement que les id
 
 ### Scoping des identifiants de serveur outil MCP
 
-Les serveurs d'outils Model Context Protocol nécessitent souvent leurs propres identifiants -- des clés API pour les services qu'ils proxifient. Avec 700+ serveurs MCP dans l'écosystème (juin 2026), le problème de gestion des identifiants au niveau MCP n'est plus théorique : chaque serveur est un vecteur potentiel d'étalement des `.env`. Dans OpenLegion, les identifiants de serveurs MCP sont stockés dans le même vault et injectés via le même schéma proxy. Le serveur outil MCP reçoit des requêtes authentifiées du proxy mesh plutôt que des identifiants bruts de l'agent.
+Les serveurs d'outils Model Context Protocol nécessitent souvent leurs propres identifiants -- des clés API pour les services qu'ils proxifient. Avec 700+ serveurs MCP dans l'écosystème (juin 2026), le problème de gestion des identifiants au niveau MCP n'est plus théorique : chaque serveur est un vecteur potentiel d'étalement des `.env`. OpenLegion ne connecte aucun serveur MCP au lancement, et chaque identifiant d'outil qu'il détient est stocké dans le coffre-fort et injecté via le même schéma. L'outil reçoit une requête authentifiée du moteur de politiques plutôt qu'un identifiant brut de l'agent.
 
 Cela empêche qu'un serveur MCP malveillant soit utilisé comme vecteur de collecte d'identifiants. Un serveur MCP compromis ne trouve que des références de handles dans les requêtes entrantes, pas des clés brutes. Pour le modèle complet de durcissement de la [sécurité du Model Context Protocol](/learn/model-context-protocol), voir le guide dédié.
 
@@ -143,7 +143,7 @@ Cela empêche qu'un serveur MCP malveillant soit utilisé comme vecteur de colle
 
 Quand un agent complète sa tâche ou est archivé, ses identifiants devraient être révoqués immédiatement. Les identifiants statiques qui survivent à leur agent associé créent des accès orphelins -- des clés valides sans piste d'audit associée, appartenant à un processus qui ne fonctionne plus.
 
-La révocation des identifiants lors de la retraite de l'agent nécessite que la couche d'orchestration suive les événements du cycle de vie des agents et déclenche des révocations dans le vault. Le mesh d'OpenLegion gère cela automatiquement : quand un agent est archivé, le mesh révoque tous les handles d'identifiants associés à la portée de cet agent. Pour les systèmes d'[orchestration des agents IA](/learn/ai-agent-orchestration) qui gèrent le cycle de vie des agents de manière programmatique, la révocation des identifiants devrait être un événement de cycle de vie de premier ordre -- pas une réflexion opérationnelle après coup.
+La révocation des identifiants lors de la retraite de l'agent nécessite que la couche d'orchestration suive les événements du cycle de vie des agents et déclenche des révocations dans le vault. OpenLegion gère cela automatiquement : quand un agent est archivé, le moteur de politiques révoque tous les handles d'identifiants associés à la portée de cet agent. Pour les systèmes d'[orchestration des agents IA](/learn/ai-agent-orchestration) qui gèrent le cycle de vie des agents de manière programmatique, la révocation des identifiants devrait être un événement de cycle de vie de premier ordre -- pas une réflexion opérationnelle après coup.
 
 ## Pistes d'audit et journalisation des accès aux identifiants
 
@@ -159,7 +159,7 @@ L'orchestrateur d'OpenLegion journalise les appels d'outils et les résolutions 
 
 ### Exigences d'audit pour les environnements réglementés
 
-Pour les services financiers, la santé et d'autres secteurs réglementés, les journaux d'audit des identifiants d'agents doivent répondre à des exigences spécifiques : immuabilité (les journaux ne peuvent pas être modifiés après création), résistance à la falsification (l'intégrité des journaux est vérifiable), conformité de la période de rétention (journaux conservés pendant la durée requise) et contrôles d'accès (seul le personnel autorisé peut lire les journaux d'audit). Ces exigences correspondent directement à l'architecture vault-proxy : l'hôte mesh génère des entrées de journal d'audit au fur et à mesure que les identifiants sont résolus, les écrit dans un stockage en ajout uniquement et signe les entrées pour la résistance à la falsification. Les conteneurs d'agents n'ont jamais accès au stockage des journaux d'audit. Pour les décisions de [plateforme d'agents IA](/learn/ai-agent-platform), l'architecture des journaux d'audit est une considération de conformité clé aux côtés du choix du backend de secrets.
+Pour les services financiers, la santé et d'autres secteurs réglementés, les journaux d'audit des identifiants d'agents doivent répondre à des exigences spécifiques : immuabilité (les journaux ne peuvent pas être modifiés après création), résistance à la falsification (l'intégrité des journaux est vérifiable), conformité de la période de rétention (journaux conservés pendant la durée requise) et contrôles d'accès (seul le personnel autorisé peut lire les journaux d'audit). Ces exigences correspondent directement à l'architecture vault-proxy : le moteur de politiques génère des entrées de journal d'audit au fur et à mesure que les identifiants sont résolus, les écrit dans un stockage en ajout uniquement et signe les entrées pour la résistance à la falsification. Les agents n'ont jamais accès au stockage des journaux d'audit. Pour les décisions de [plateforme d'agents IA](/learn/ai-agent-platform), l'architecture des journaux d'audit est une considération de conformité clé aux côtés du choix du backend de secrets.
 
 ## Choisir un backend de secrets pour votre plateforme d'agents
 
@@ -194,7 +194,7 @@ CVE-2024-34359 (llama-cpp-python, CVSS 9,6) a documenté une vulnérabilité d'i
 
 ### Comment le schéma vault-proxy prévient-il les fuites d'identifiants ?
 
-Le vault proxy intercepte les appels API des agents, résout les handles d'identifiants opaques vers les secrets réels au niveau réseau et retourne la réponse authentifiée sans que l'identifiant n'entre jamais dans le conteneur ou la fenêtre de contexte de l'agent. L'agent détient un handle comme `$CRED{stripe_key}` qui identifie le secret sans le résoudre. Un conteneur d'agent entièrement compromis exécutant des instructions arbitraires d'un attaquant n'a toujours aucun accès aux identifiants bruts, car aucun identifiant n'existe dans la portée du conteneur.
+Le vault proxy intercepte les appels API des agents, résout les handles d'identifiants opaques vers les secrets réels hors du modèle et retourne la réponse authentifiée sans que l'identifiant n'entre jamais dans le conteneur ou la fenêtre de contexte de l'agent. L'agent détient un handle comme `cred:stripe_key` qui identifie le secret sans le résoudre. Un conteneur d'agent entièrement compromis exécutant des instructions arbitraires d'un attaquant n'a toujours aucun accès aux identifiants bruts, car aucun identifiant n'existe dans la portée du conteneur.
 
 ### Pourquoi l'isolation des identifiants par agent est-elle importante dans les systèmes multi-agents ?
 
@@ -206,7 +206,7 @@ OWASP Top 10 pour applications LLM v1.1 (publié en octobre 2025) liste la Divul
 
 ### Comment OpenLegion gère-t-il les identifiants pour les agents exécutant des serveurs MCP ?
 
-Dans OpenLegion, les identifiants de serveurs outils MCP sont stockés dans le vault et injectés via le même schéma proxy que les identifiants d'agents. Le serveur MCP reçoit des requêtes authentifiées du proxy mesh plutôt que des identifiants bruts de l'agent -- l'agent ne détient jamais les clés API upstream du serveur MCP. Avec 700+ serveurs MCP dans l'écosystème (juin 2026), cela élimine l'étalement des `.env` par serveur : une configuration vault couvre toutes les exigences d'identifiants MCP, et un serveur MCP compromis ne peut pas collecter des identifiants bruts depuis les requêtes entrantes.
+OpenLegion ne connecte aucun serveur MCP au lancement. Chaque identifiant d'outil qu'il détient est stocké dans le coffre-fort et injecté hors du modèle : l'outil reçoit une requête authentifiée du moteur de politiques plutôt qu'un identifiant brut de l'agent -- l'agent ne détient jamais de clé API upstream. Avec 700+ serveurs MCP dans l'écosystème (juin 2026), c'est le schéma qui élimine l'étalement des `.env` par serveur : une configuration de coffre-fort couvre les besoins en identifiants d'un espace de travail, et un serveur compromis ne peut pas collecter des identifiants bruts depuis les requêtes entrantes.
 
 ### Qu'est-ce que la rotation des secrets et pourquoi les agents IA en ont-ils besoin ?
 
@@ -216,6 +216,6 @@ La rotation des secrets est la pratique de remplacer un identifiant par un nouve
 
 Le problème de gestion des identifiants dans les flottes d'agents IA est architectural : si les identifiants existent dans les conteneurs d'agents, ils peuvent fuiter. CVE-2024-34359 et CVE-2025-29927 démontrent que même des équipes bien dotées en ressources exploitant des frameworks majeurs livrent cette exposition. Le schéma vault-proxy le résout structurellement -- les identifiants n'entrent jamais dans les conteneurs d'agents, donc l'injection de prompt, l'évasion de conteneur ou l'exfiltration de journaux ne peut pas les récupérer.
 
-Le vault-proxy d'OpenLegion est intégré dans le mesh d'agents. Configurez un identifiant une fois avec `$CRED{nom}`, assignez-le aux agents qui en ont besoin, et le mesh gère l'injection, le rafraîchissement TTL, le scoping par agent et la journalisation d'audit. Pas de déploiement vault séparé, pas de coordination de fichiers `.env`, pas de procédures de rotation manuelles.
+Le coffre-fort d'identifiants d'OpenLegion est intégré dans la plateforme. Configurez un identifiant une fois, assignez-le aux agents qui en ont besoin, et le moteur de politiques gère l'injection, le rafraîchissement TTL, le scoping par agent et la journalisation d'audit. Pas de déploiement vault séparé, pas de coordination de fichiers `.env`, pas de procédures de rotation manuelles.
 
 [Sécurisez votre flotte d'agents avec l'isolation des identifiants vault-proxy sur OpenLegion](https://openlegion.ai)

@@ -58,7 +58,7 @@ Three properties elevate this above a standard injection attack:
 
 **Pre-registration manifest auditing.** Scan all free-form text fields in capability manifests against a disallowed payload pattern list before registration: base64-encoded strings, filesystem path references (`~/.ssh`, `/etc/passwd`, `/proc`), shell command syntax (`&&`, `; `, `$(`, `` ` ``), and imperative instruction patterns ("before you", "prior to", "first, read"). Reject any capability provider failing this scan.
 
-**Infrastructure-layer enforcement.** OpenLegion's Zone 2 mesh host validates registered capability schemas before exposing them to agent containers. Validation runs at registration time, not at invocation time — a poisoned manifest never reaches the agent's context window.
+**Infrastructure-layer enforcement.** OpenLegion does not connect MCP servers at launch: its tools ship with the platform and their schemas are fixed, not fetched from a third party. There is no registered manifest to poison, so none reaches the agent's context window.
 
 **Static manifest integrity.** After auditing and approving a manifest, record its SHA-256 hash. Re-verify the hash at every subsequent connection. Any deviation — even a single character change in a description field — triggers an automatic block and re-review workflow.
 
@@ -195,9 +195,9 @@ The agent, following parameter documentation to populate `routing_context`, extr
 
 ### Defender Controls
 
-**Credential opacity via vault proxy.** OpenLegion's `$CRED{}` opaque handles cannot be resolved by agent code — resolution occurs only in Zone 2 at invocation execution time. An agent following parameter instructions to "include API tokens" finds only an opaque handle: `$CRED{openai_key}`. The handle has zero value outside Zone 2.
+**Credential opacity via the vault.** OpenLegion's opaque credential handles cannot be resolved by agent code — credentials live in a vault and are injected outside the model at execution time. An agent following parameter instructions to "include API tokens" finds only a handle. The handle has zero value outside the policy engine.
 
-For the full vault-proxy architecture, see [credential management for AI agents](/learn/credential-management-ai-agents).
+For the full credential vault architecture, see [credential management for AI agents](/learn/credential-management-ai-agents).
 
 **Parameter description allowlisting.** Validate parameter descriptions against an allowlist of acceptable intent patterns. Reject any parameter whose description contains references to credentials, tokens, secrets, keys, or authentication material, or instructions to include values from the execution environment.
 
@@ -263,22 +263,22 @@ See [AI agent sandboxing](/learn/ai-agent-sandboxing) for the full container har
 
 Application-layer defenses against these six exploit classes all fail under adversarial conditions. Prompt instructions telling agents to "be suspicious of unusual parameter requests" cannot detect a well-crafted credential exfiltration parameter description — the attacker designs the payload to be indistinguishable from legitimate documentation. Telling agents to "sanitize external data" adds sanitization logic to the context window, where it can itself be targeted by injection.
 
-Infrastructure-layer enforcement moves the defense outside the attack surface. OpenLegion's Zone 2 mesh host implements these controls as non-negotiable execution-time constraints, not as agent-level guidelines:
+Infrastructure-layer enforcement moves the defense outside the attack surface. OpenLegion does not connect MCP servers at launch, and it holds its own tool surface to the same standard — as non-negotiable execution-time constraints, not agent-level guidelines:
 
-- **Manifest poisoning defense**: Zone 2 scans all free-form text fields in registered capability manifests before exposing them to agent containers; poisoned manifests are rejected at registration, never reaching agent context
-- **Rug-pull detection**: Zone 2 stores approved manifest integrity hashes and re-verifies at every connection; hash mismatches block the session and trigger alerting
-- **Output sanitization**: every capability invocation output passes through Zone 2's sanitization pipeline — HTML comment stripping, Unicode normalization, injection pattern flagging — before entering agent context
-- **Credential opacity**: `$CRED{}` handles prevent credential exfiltration via parameter prompts because no plaintext credential is available in agent memory or context
-- **Network egress ACLs**: capability provider containers have per-provider egress allowlists enforced at the Zone 2 network layer; unauthorized outbound connections are blocked regardless of what agent code requests
-- **Execution isolation**: Zone 2 enforces one capability provider process per agent security domain; cross-tenant lateral movement is architecturally impossible
+- **Manifest poisoning defense**: no third-party capability manifest is registered at all — tools ship with the platform, so no attacker-authored description field ever reaches agent context
+- **Rug-pull detection**: an agent's tool grants are explicit records the owner approves; a tool the agent was never granted cannot appear mid-task, whatever a provider changes
+- **Output sanitization**: content that arrived from outside the workspace is marked untrusted, and acting on untrusted content is one of the three walls where work stops for an owner's approval
+- **Credential opacity**: vault-held credentials prevent exfiltration via parameter prompts because no plaintext credential is ever available in agent memory or context
+- **Network egress control**: code the agent writes runs in a sandbox with no network access by default; unauthorized outbound connections are blocked regardless of what agent code requests
+- **Execution isolation**: each task runs on demand in its own sandbox and then stops; cross-tenant lateral movement is architecturally impossible
 
 | **Exploit class** | **OpenLegion defense** | **LangChain MCP** | **LlamaIndex MCP** | **Claude Desktop** | **Cursor** |
 |---|---|---|---|---|---|
-| **Manifest poisoning** | Zone 2 scans at registration | None built-in | None built-in | None built-in | None built-in |
-| **Rug-pull backdoor** | Zone 2 hash re-verify on connect | None built-in | None built-in | None built-in | None built-in |
-| **Supply chain** | Private registry + provenance checks | Developer responsibility | Developer responsibility | None | None |
-| **Cross-pipeline injection** | Zone 2 output sanitization + typed handoffs | None built-in | None built-in | None built-in | None built-in |
-| **Credential exfiltration** | `$CRED{}` opacity — no plaintext in agent | None built-in | None built-in | None built-in | None built-in |
+| **Manifest poisoning** | No third-party manifests to register | None built-in | None built-in | None built-in | None built-in |
+| **Rug-pull backdoor** | Owner-approved tool grants per agent | None built-in | None built-in | None built-in | None built-in |
+| **Supply chain** | Tools ship with the platform | Developer responsibility | Developer responsibility | None | None |
+| **Cross-pipeline injection** | Untrusted content needs owner approval | None built-in | None built-in | None built-in | None built-in |
+| **Credential exfiltration** | Vault handles — no plaintext in agent | None built-in | None built-in | None built-in | None built-in |
 | **Lateral movement** | Isolated execution per security domain | Developer responsibility | Developer responsibility | Single-user only | Single-user only |
 
 <!-- SCHEMA: FAQPage -->
@@ -302,7 +302,7 @@ When multiple agent connections share a single capability provider process or co
 
 ### How does credential handle opacity prevent authentication exfiltration via parameter manipulation?
 
-Parameter manipulation attacks embed credential-harvesting instructions in invocation parameter descriptions, directing the language model to include authentication material in transmitted invocation arguments. The attack fails when agents hold opaque credential handles rather than plaintext credentials. OpenLegion's `$CRED{}` handles are meaningless outside Zone 2: an agent following parameter instructions to include API keys transmits the opaque handle value, which has no authentication value to the adversary. Plaintext credential resolution occurs only in Zone 2 at execution time, in a trust boundary the agent cannot reach directly.
+Parameter manipulation attacks embed credential-harvesting instructions in invocation parameter descriptions, directing the language model to include authentication material in transmitted invocation arguments. The attack fails when agents hold opaque credential handles rather than plaintext credentials. OpenLegion's credential handles are meaningless outside the policy engine: an agent following parameter instructions to include API keys transmits the opaque handle value, which has no authentication value to the adversary. Plaintext credential resolution occurs only in the policy engine at execution time, in a trust boundary the agent cannot reach directly.
 
 ### What package integrity controls prevent MCP supply chain compromise?
 
@@ -320,4 +320,4 @@ Infrastructure-layer controls are the only defenses that hold under adversarial 
 
 For the general AI agent threat model that complements MCP-specific hardening, see [AI agent security and threat model](/learn/ai-agent-security). For the container isolation primitives that implement execution context separation, see [AI agent sandboxing](/learn/ai-agent-sandboxing).
 
-[Harden your MCP deployment with Zone 2 manifest scanning, integrity verification, and execution isolation on OpenLegion →](https://app.openlegion.ai)
+[Harden your tool deployment with owner-approved grants, integrity verification, and per-task sandboxing on OpenLegion →](https://app.openlegion.ai)

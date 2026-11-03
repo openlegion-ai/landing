@@ -75,7 +75,7 @@ Le mode d'echec de securite de ReAct cible directement le bloc-notes. Si une Obs
 
 Trois mesures d'attenuation requises ensemble:
 1. Assainir chaque Observation avant l'ajout au bloc-notes
-2. Pre-journaliser chaque Action a Zone 2 avant la distribution
+2. Pre-journaliser chaque Action au moteur de politiques avant la distribution
 3. Traiter chaque Observation d'outil comme une entree non fiable
 
 ## Plan-and-Execute: Separation de la planification et de l'execution
@@ -106,7 +106,7 @@ Resultats de benchmark: HumanEval coding pass@1 -- 91% avec Reflexion vs 80% (+1
 
 Le mode d'echec de securite de Reflexion est distinct et plus persistant que le risque d'injection dans le bloc-notes de ReAct. Si une Observation contient du contenu adversarial, la reflexion generee peut encoder des conseils controles par l'attaquant -- indefiniment, pour chaque future tentative de tache qui la recupere.
 
-Quatre mesures d'attenuation requises: assainissement de la reflexion avant stockage; stockage blackboard versionne avec attribution agent_id; TTL de reflexion; porte de revue HITL pour les reflexions proposant des changements de comportement categoriques.
+Quatre mesures d'attenuation requises: assainissement de la reflexion avant stockage; attribution versionnee a l'agent et a la tache; TTL de reflexion; porte de revue HITL pour les reflexions proposant des changements de comportement categoriques.
 
 ## Critic-Actor: Separation de l'evaluation et de l'execution
 
@@ -131,7 +131,7 @@ Supervisor-Worker a un agent Superviseur qui recoit un objectif, le decompose en
 
 ### Propriete de securite: Confinement du rayon d'impact des Workers compromis
 
-La propriete de securite principale de Supervisor-Worker est le confinement du rayon d'impact: un Worker compromis ou injete avec un prompt ne peut appeler que les outils dans son role defini. Un ResearchWorker qui recoit une instruction injectee pour appeler `send_email()` echouera a la verification des permissions de Zone 2.
+La propriete de securite principale de Supervisor-Worker est le confinement du rayon d'impact: un Worker compromis ou injete avec un prompt ne peut appeler que les outils dans son role defini. Un ResearchWorker qui recoit une instruction injectee pour appeler `send_email()` echouera a la verification des permissions du moteur de politiques.
 
 ## Mixture-of-Agents: Raisonnement par ensemble sur des instances de modele
 
@@ -154,11 +154,11 @@ Chaque pattern de conception agentique dans ce guide a un mode d'echec de securi
 
 | **Controle de securite** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Journalisation pre-execution des Actions** | Zone 2, natif | Convention developpeur | Convention developpeur | Convention developpeur | Convention developpeur |
-| **ACL du plan Blackboard** | Impose par l'infrastructure | Non disponible | Non disponible | Non disponible | Non disponible |
+| **Journalisation pre-execution des Actions** | Moteur de politiques, natif | Convention developpeur | Convention developpeur | Convention developpeur | Convention developpeur |
+| **ACL du plan sur le registre partage** | Impose par l'infrastructure | Non disponible | Non disponible | Non disponible | Non disponible |
 | **Memoire episodique versionnee avec attribution agent_id** | Natif | Convention developpeur | Convention developpeur | Convention developpeur | Convention developpeur |
 | **Modele Critique separe avec contexte independant** | Isolation d'agent native | Configuration manuelle | Configuration manuelle | Configuration manuelle | Configuration manuelle |
-| **Application des permissions d'outils Zone 2 par Worker** | Impose par l'infrastructure | Convention developpeur | Convention developpeur | Convention developpeur | Convention developpeur |
+| **Application des permissions d'outils par Worker** | Impose par le moteur de politiques | Convention developpeur | Convention developpeur | Convention developpeur | Convention developpeur |
 
 [Commencer sur OpenLegion](https://app.openlegion.ai)
 
@@ -188,7 +188,7 @@ Le pattern Critic-Actor separe un modele Critique (evaluant les actions proposee
 
 ### Qu'est-ce que le pattern Supervisor-Worker pour les agents IA?
 
-Supervisor-Worker a un agent Superviseur qui decompose les objectifs et dispatche les taches a des agents Workers specialises avec des roles definis et des ensembles d'outils restreints, de sorte que chaque Worker opere sous le principe du moindre privilege. Le confinement du rayon d'impact est l'avantage de securite principal: un Worker injete tentant d'utiliser un outil en dehors de son role echoue a la verification des permissions de Zone 2.
+Supervisor-Worker a un agent Superviseur qui decompose les objectifs et dispatche les taches a des agents Workers specialises avec des roles definis et des ensembles d'outils restreints, de sorte que chaque Worker opere sous le principe du moindre privilege. Le confinement du rayon d'impact est l'avantage de securite principal: un Worker injete tentant d'utiliser un outil en dehors de son role echoue a la verification des permissions du moteur de politiques.
 
 ### Qu'est-ce que Mixture-of-Agents (MoA)?
 

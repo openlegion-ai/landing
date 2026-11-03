@@ -20,41 +20,41 @@ related:
 
 Google's Agent Development Kit (ADK) is the most architecturally ambitious entry in the agent framework landscape. With ~17,600 GitHub stars, three agent types (LLM, Workflow, Custom), and the A2A (Agent-to-Agent) protocol donated to the Linux Foundation with 150+ partners, ADK positions itself as the interoperability standard for multi-agent systems. It deploys natively to Vertex AI Agent Engine Runtime and integrates deeply with Google Cloud services.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes container isolation, vault-proxied credentials, and per-agent budget controls over cloud ecosystem breadth.
+OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes sandboxed task runs, vault-held credentials, and per-agent budget controls over cloud ecosystem breadth.
 
 This is a direct **OpenLegion vs Google ADK** comparison based on public documentation at the time of writing.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and Google ADK?**
-> Google ADK is an event-driven async agent framework with three agent types and the A2A interoperability protocol, optimized for Google Cloud deployment. OpenLegion is a security-first agent framework with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). ADK offers the broadest agent interoperability; OpenLegion offers the strongest production security defaults.
+> Google ADK is an event-driven async agent framework with three agent types and the A2A interoperability protocol, optimized for Google Cloud deployment. OpenLegion is a security-first agent platform with a sandboxed run for every task, vault-held credentials, per-agent credit budgets, and goal-and-task coordination (goals to tasks to agents). ADK offers the broadest agent interoperability; OpenLegion offers the strongest production security defaults.
 
 ## TL;DR
 
 - **Google ADK** is the right choice when you need A2A protocol interoperability, Google Cloud integration, and tiered sandboxing with Vertex AI deployment.
-- **OpenLegion** is the right choice when credential isolation, mandatory agent sandboxing, per-agent cost controls, and cloud-agnostic deployment are hard requirements.
+- **OpenLegion** is the right choice when credential isolation, sandboxed task runs, per-agent cost controls, and a recorded receipt for every action are hard requirements.
 - **A2A protocol**: ADK pioneered Agent-to-Agent communication, now a Linux Foundation project with 150+ partners including Salesforce, SAP, Deloitte.
 - **Google ecosystem lock-in**: ADK runs on Vertex AI Agent Engine Runtime ($0.0864/vCPU-hr + $0.25/1K events). Self-hosted loses managed sandboxing.
-- **Credential model**: ADK uses Google Secret Manager. OpenLegion uses a vault proxy that works on any infrastructure.
-- **Sandbox tiers**: ADK offers three levels (Vertex, Docker, Unsafe). OpenLegion provides mandatory Docker isolation with no unsafe fallback.
+- **Credential model**: ADK uses Google Secret Manager. OpenLegion keeps credentials in a vault and injects them outside the model.
+- **Sandbox tiers**: ADK offers three levels (Vertex, Docker, Unsafe). OpenLegion sandboxes every task run, with no unsafe fallback.
 
 ## Side-by-Side Comparison
 
 | Dimension | OpenLegion | Google ADK |
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Event-driven agent framework with A2A interoperability |
-| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Runner/Events with three agent types (LLM, Workflow, Custom) |
-| **Agent isolation** | Mandatory Docker container per agent, non-root | Tiered: Vertex sandbox (managed), Docker, Unsafe (no isolation) |
-| **Credential management** | Vault proxy, blind injection, agents never see keys | Google Secret Manager integration |
-| **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in; Vertex billing per vCPU-hr and events |
-| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Event-driven async with Sequential, Parallel, and Loop workflows |
-| **Interoperability** | MCP tool servers | A2A protocol (Linux Foundation, 150+ partners) + MCP |
-| **LLM support** | 100+ via LiteLLM | Gemini native + LiteLLM for 100+ models |
-| **Deployment** | Cloud-agnostic (any Docker host) | Vertex AI Agent Engine Runtime or self-hosted |
-| **Dependencies** | Zero external, Python + SQLite + Docker | Google Cloud SDK + ADK packages |
-| **GitHub stars** | ~59 | ~17,600 |
+| **Architecture** | One policy engine in front of every action | Runner/Events with three agent types (LLM, Workflow, Custom) |
+| **Agent isolation** | A sandboxed run for every task, no network by default | Tiered: Vertex sandbox (managed), Docker, Unsafe (no isolation) |
+| **Credential management** | Vault-held, injected outside the model, agents never see keys | Google Secret Manager integration |
+| **Budget / cost controls** | Per-agent credit budget with hard cutoff | None built-in; Vertex billing per vCPU-hr and events |
+| **Orchestration** | Goal-and-task coordination (goals to tasks to agents) | Event-driven async with Sequential, Parallel, and Loop workflows |
+| **Interoperability** | Webhooks, Slack, Telegram, Google connectors | A2A protocol (Linux Foundation, 150+ partners) + MCP |
+| **LLM support** | Smartest, Smart and Normal presets | Gemini native + LiteLLM for 100+ models |
+| **Deployment** | Hosted web app, nothing to install | Vertex AI Agent Engine Runtime or self-hosted |
+| **Dependencies** | None, sign in with Google in a browser | Google Cloud SDK + ADK packages |
+| **GitHub stars** | n/a | ~17,600 |
 | **License** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
-| **Best for** | Production fleets requiring security-first governance | Google Cloud teams needing A2A interoperability |
+| **Best for** | Production teams requiring security-first governance | Google Cloud teams needing A2A interoperability |
 
 ## Architecture Differences
 
@@ -70,7 +70,7 @@ No direct CVEs exist for ADK. One dependency-level security patch was issued. AD
 
 ### OpenLegion's architecture
 
-OpenLegion uses a four-zone trust model (plus an operator-or-internal tier) where every agent runs in a Docker container with non-root execution, no Docker socket access, and resource caps. Credentials are handled by a vault proxy in Zone 2. fleet-model coordination define exact tool access, permissions, and budgets per agent before execution.
+OpenLegion puts one policy engine in front of every action: each task runs on demand in a sandbox with no network access by default, then stops. Credentials live in a vault and are injected outside the model. Goal-and-task coordination defines exact tool access, permissions, and budgets per agent before execution.
 
 ## When to Choose Google ADK
 
@@ -78,35 +78,35 @@ OpenLegion uses a four-zone trust model (plus an operator-or-internal tier) wher
 
 **You are building on Google Cloud.** Vertex AI Agent Engine Runtime provides managed deployment, auto-scaling, and Google-managed sandboxing. If you are already on GCP, ADK is the path of least resistance.
 
-**You need multiple agent types.** ADK's three agent types (LLM, Workflow, Custom) provide architectural flexibility that fleet-model coordination do not match for complex, mixed-pattern systems.
+**You need multiple agent types.** ADK's three agent types (LLM, Workflow, Custom) provide architectural flexibility that goal-and-task coordination does not match for complex, mixed-pattern systems.
 
 **You value a clean security record.** ADK has no framework-level CVEs and benefits from Google's security infrastructure on Vertex.
 
 ## When to Choose OpenLegion
 
-**You need cloud-agnostic deployment.** ADK is optimized for Google Cloud. Running it outside GCP means losing managed sandboxing, Secret Manager, and Agent Engine. OpenLegion runs identically on any infrastructure with Python and Docker.
+**You want no infrastructure at all.** ADK is optimized for Google Cloud. Running it outside GCP means losing managed sandboxing, Secret Manager, and Agent Engine. OpenLegion is a hosted web app: sign in with Google and start, there is nothing to install.
 
-**Credential security needs to be cloud-independent.** ADK's credential management depends on Google Secret Manager. OpenLegion's vault proxy works on any infrastructure.
+**Credential security needs to be cloud-independent.** ADK's credential management depends on Google Secret Manager. OpenLegion holds credentials in a vault and injects them outside the model.
 
 **You need per-agent budget enforcement.** ADK has no built-in cost controls. Vertex bills per vCPU-hr and per event. OpenLegion enforces per-agent hard budget limits.
 
-**You need mandatory isolation with no unsafe fallback.** ADK's three-tier sandbox model includes an Unsafe option. OpenLegion provides mandatory Docker isolation with no way to skip it.
+**You need mandatory isolation with no unsafe fallback.** ADK's three-tier sandbox model includes an Unsafe option. OpenLegion sandboxes every task run, with no way to skip it.
 
-**You need zero external dependencies.** OpenLegion runs on Python + SQLite + Docker. ADK requires Google Cloud SDK and packages.
+**You need nothing to install.** OpenLegion runs in the browser: sign in with Google and start. ADK requires Google Cloud SDK and packages.
 
-Bring your own LLM API keys. No markup on model usage.
+Models are chosen by preset: Smartest, Smart or Normal. Work is metered in credits at $0.001 each.
 
 ## The Honest Trade-off
 
-Google ADK has the A2A protocol, Google Cloud integration, and a clean security record. OpenLegion has the cloud-agnostic architecture, mandatory isolation, and credential independence.
+Google ADK has the A2A protocol, Google Cloud integration, and a clean security record. OpenLegion has the hosted architecture, a sandboxed run for every task, and credential independence.
 
-If you need agent interoperability and Google Cloud deployment, the answer is ADK. If you need production security that works anywhere without cloud lock-in, the answer is OpenLegion.
+If you need agent interoperability and Google Cloud deployment, the answer is ADK. If you need production security with nothing of your own to run, the answer is OpenLegion.
 
 For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent-frameworks).
 
 ## CTA
 
-**Need production-grade security for your agent fleet?**
+**Need production-grade security for your agent team?**
 [Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
@@ -117,7 +117,7 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ### What is the difference between OpenLegion and Google ADK?
 
-Google ADK (~17,600 stars) is an event-driven agent framework with A2A interoperability and Google Cloud integration. OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, and per-agent budget enforcement. ADK excels at cross-framework interoperability; OpenLegion excels at cloud-agnostic production security.
+Google ADK (~17,600 stars) is an event-driven agent framework with A2A interoperability and Google Cloud integration. OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with a sandboxed run for every task, vault-held credentials, and per-agent credit budgets. ADK excels at cross-framework interoperability; OpenLegion excels at hosted production security.
 
 ### What is the A2A protocol?
 
@@ -125,19 +125,19 @@ A2A (Agent-to-Agent) is an interoperability protocol pioneered by Google and don
 
 ### Does Google ADK work outside Google Cloud?
 
-ADK supports self-hosted deployment but loses managed sandboxing, Secret Manager integration, and Agent Engine Runtime outside GCP. OpenLegion runs identically on any infrastructure.
+ADK supports self-hosted deployment but loses managed sandboxing, Secret Manager integration, and Agent Engine Runtime outside GCP. OpenLegion is hosted, so there is nothing to deploy.
 
 ### How does ADK sandboxing compare to OpenLegion?
 
-ADK offers three tiers: Vertex (Google-managed), Docker, and Unsafe (no isolation). OpenLegion provides mandatory Docker isolation for every agent with no unsafe option. See our [AI agent security](/learn/ai-agent-security) page for the full comparison.
+ADK offers three tiers: Vertex (Google-managed), Docker, and Unsafe (no isolation). OpenLegion sandboxes every task run for every agent, with no unsafe option. See our [AI agent security](/learn/ai-agent-security) page for the full comparison.
 
 ### How does ADK pricing compare to OpenLegion?
 
-ADK is free (Apache 2.0). Vertex AI Agent Engine Runtime costs $0.0864/vCPU-hr plus $0.25 per 1,000 events. OpenLegion is source-available (PolyForm Perimeter License 1.0.1) with a bring-your-own-API-keys model and no markup.
+ADK is free (Apache 2.0). Vertex AI Agent Engine Runtime costs $0.0864/vCPU-hr plus $0.25 per 1,000 events. OpenLegion is free to start with 1,000 credits and no card, then $29/month on Pro with 10,000 credits.
 
 ### Can I use A2A agents with OpenLegion?
 
-OpenLegion does not implement A2A natively but supports MCP tool servers for external agent connectivity. Teams needing both A2A interoperability and security-first [orchestration](/learn/ai-agent-orchestration) can run ADK for inter-agent communication and OpenLegion for credential-sensitive workloads.
+OpenLegion does not implement A2A natively but reaches other systems through webhooks and its channel connectors. Teams needing both A2A interoperability and security-first [orchestration](/learn/ai-agent-orchestration) can run ADK for inter-agent communication and OpenLegion for credential-sensitive workloads.
 
 ---
 

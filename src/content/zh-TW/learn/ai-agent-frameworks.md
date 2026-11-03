@@ -38,7 +38,7 @@ related:
 ## 重點摘要
 
 - **六個框架比較**:OpenLegion、OpenClaw、LangGraph、CrewAI、AutoGen、Semantic Kernel
-- **關鍵差異**:安全。沒有主要框架提供內建的憑證隔離、強制容器沙箱與每代理預算強制執行。OpenLegion 提供。
+- **關鍵差異**:安全。沒有主要框架提供內建的憑證隔離、沙箱化的任務執行與每代理預算強制執行。OpenLegion 提供。
 - **LangGraph** 採用率最高(每月 PyPI 下載約 600 萬),程式化控制最具彈性
 - **CrewAI** 以角色為基礎的代理設計最易學
 - **OpenClaw** 擁有最大的社群(約 67K GitHub 星),但有公開的安全疑慮
@@ -49,27 +49,27 @@ related:
 
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
-| **類型** | 平台(PolyForm Perimeter License 1.0.1) | 代理 OS(開源) | 框架 + 平台 | 框架 + 平台 | 框架 | 企業 SDK |
-| **託管** | 自我託管或代管 | 自我託管或雲端 | 自我託管或 LangSmith | 自我託管或 CrewAI AMP | 自我託管 | 自我託管(Azure 整合) |
-| **代理隔離** | 每代理 Docker 容器(強制) | Docker 容器(可選,需要 Docker socket) | 無內建 | 僅 CodeInterpreter 使用 Docker | Docker 用於程式碼執行 | 無(嵌入式 SDK) |
-| **憑證管理** | 金庫代理 — 盲注入 | 具遮罩的 Secret Registry | 環境變數 | 環境變數 | 環境變數 | Azure Key Vault 整合 |
-| **多代理支援** | 艦隊模型協調(循序、並行),具黑板協調與發布訂閱訊息 | 以單代理為主(SDK 支援多) | 含條件邊的 StateGraph、swarm | Crews(自主)+ Flows(事件驅動) | 群組對話(RoundRobin、Selector、Swarm、GraphFlow) | ChatCompletionAgent、群組對話、agent-as-plugin |
-| **預算 / 成本控制** | 每代理每日與每月,具硬性截止 | 無 | 無 | 無 | 無 | 無 |
-| **主要語言** | Python | Python | Python、JavaScript | Python | Python、.NET | .NET、Python、Java |
-| **LLM 支援** | 透過 LiteLLM 支援 100+ | 透過 LiteLLM 支援 100+ | 透過 LangChain 任意 | 透過 LiteLLM 任意 | 透過設定任意 | Azure OpenAI + 其他 |
-| **GitHub 星數** | ~40 | ~67,300 | ~25,200 | ~33,400 | ~54,400 | ~26,900 |
-| **授權** | PolyForm Perimeter License 1.0.1 | MIT(核心) | MIT | MIT(核心) | MIT | MIT |
+| **類型** | 代管平台(引擎 PolyForm Perimeter 1.0.1) | 代理 OS(開源) | 框架 + 平台 | 框架 + 平台 | 框架 | 企業 SDK |
+| **託管** | 代管網頁應用 — 無需安裝 | 自我託管或雲端 | 自我託管或 LangSmith | 自我託管或 CrewAI AMP | 自我託管 | 自我託管(Azure 整合) |
+| **代理隔離** | 每項任務一次沙箱執行(永遠開啟) | Docker 容器(可選,需要 Docker socket) | 無內建 | 僅 CodeInterpreter 使用 Docker | Docker 用於程式碼執行 | 無(嵌入式 SDK) |
+| **憑證管理** | 憑證金庫 — 在模型之外注入 | 具遮罩的 Secret Registry | 環境變數 | 環境變數 | 環境變數 | Azure Key Vault 整合 |
+| **多代理支援** | 目標與任務協調(目標 → 任務 → 代理),具委派與事件喚醒 | 以單代理為主(SDK 支援多) | 含條件邊的 StateGraph、swarm | Crews(自主)+ Flows(事件驅動) | 群組對話(RoundRobin、Selector、Swarm、GraphFlow) | ChatCompletionAgent、群組對話、agent-as-plugin |
+| **預算 / 成本控制** | 每代理點數預算,具硬性截止 | 無 | 無 | 無 | 無 | 無 |
+| **主要語言** | 無 — 在網頁應用中設定代理 | Python | Python、JavaScript | Python | Python、.NET | .NET、Python、Java |
+| **LLM 支援** | Smartest、Smart 與 Normal 預設 | 透過 LiteLLM 支援 100+ | 透過 LangChain 任意 | 透過 LiteLLM 任意 | 透過設定任意 | Azure OpenAI + 其他 |
+| **GitHub 星數** | 未公布 | ~67,300 | ~25,200 | ~33,400 | ~54,400 | ~26,900 |
+| **授權** | 引擎 PolyForm Perimeter 1.0.1;平台專有 | MIT(核心) | MIT | MIT(核心) | MIT | MIT |
 | **最適合** | 安全優先需求的生產環境 | AI 驅動的軟體開發 | 複雜的狀態工作流程 | 快速原型、角色團隊 | 研究、微軟生態圈 | .NET 企業、Azure 用戶 |
 
 ## 何時選擇各框架
 
 ### 何時選擇 OpenLegion
 
-當你的主要關切是生產安全與治理時,請選擇 OpenLegion。若你需要代理永不見原始 API 金鑰(透過金庫代理的金庫憑證)、每代理強制容器隔離、具硬性截止的每代理預算強制執行,或執行前即可稽核的艦隊模型協調(黑板 + 發布訂閱 + 交棒),OpenLegion 是合適的選擇。
+當你的主要關切是生產安全與治理時,請選擇 OpenLegion。若你需要代理永不見原始 API 金鑰(憑證存放於金庫,並在模型之外注入)、每項任務一次沙箱執行、具硬性截止的每代理預算強制執行,或執行前即可稽核的目標與任務協調(目標 → 任務 → 代理),OpenLegion 是合適的選擇。
 
 OpenLegion 是一個較年輕的專案,社群規模小於替代方案。若你需要龐大的社群貢獻整合生態圈,或你正在打造安全並非優先考量的快速原型,其他框架可能更快上手。
 
-自帶 LLM API 金鑰。模型用量零加價。
+模型以預設組合挑選 — Smartest、Smart 或 Normal — 可按代理或按工作區設定。
 
 ### 何時選擇 OpenClaw
 
@@ -111,12 +111,12 @@ OpenLegion 是一個較年輕的專案,社群規模小於替代方案。若你�
 
 | 營運關切 | 框架(DIY) | OpenLegion | LangSmith | CrewAI AMP |
 |---|---|---|---|---|
-| 容器隔離 | 自行建構 | 內建、強制 | 不含 | 僅 CodeInterpreter |
-| 憑證金庫 | 自行建構 | 內建(金庫代理) | 不含 | 企業版 |
+| 容器隔離 | 自行建構 | 內建的沙箱執行 | 不含 | 僅 CodeInterpreter |
+| 憑證金庫 | 自行建構 | 內建(憑證金庫) | 不含 | 企業版 |
 | 預算強制執行 | 自行建構 | 內建(每代理) | 不含 | 不含 |
 | 可觀測性 | 自行整合 | 內建儀表板 | 內建(追蹤、評估) | 內建(企業) |
-| 多通路部署 | 自行建構 | 內建(5 通路 + webhook) | 不含 | 不含 |
-| 定價 | 免費(+ 基礎設施成本) | PolyForm Perimeter License 1.0.1(+ 代管選項) | 免費 - $39/席次/月 + 用量 | 免費 - $25/月 + 企業 |
+| 多通路部署 | 自行建構 | 內建(4 通路 + webhook) | 不含 | 不含 |
+| 定價 | 免費(+ 基礎設施成本) | 免費 $0 · Pro $29/月 · Team $99/月 | 免費 - $39/席次/月 + 用量 | 免費 - $25/月 + 企業 |
 
 對於評估頂尖 AI 代理框架的團隊,誠實的答案是:若安全與治理是首要,OpenLegion 為此而生。若生態成熟度與社群規模最重要,LangGraph 與 CrewAI 具明顯優勢。若你在微軟生態圈,Semantic Kernel(或新的 Microsoft Agent Framework)是自然之選。
 
@@ -134,7 +134,7 @@ AI 代理框架版圖快速演進。多個新進入者正在累積動能:
 
 ## CTA
 
-**需要為代理艦隊提供生產級安全?**
+**需要為你的代理團隊提供生產級安全?**
 [立即開始](https://app.openlegion.ai) | [閱讀文件](https://docs.openlegion.ai)
 
 ---
@@ -145,23 +145,23 @@ AI 代理框架版圖快速演進。多個新進入者正在累積動能:
 
 ### 最佳 AI 代理框架有哪些?
 
-2026 年最佳 AI 代理框架,依採用率與能力,有:LangGraph(每月下載約 600 萬,採用率最高,最適合複雜狀態工作流程)、CrewAI(學習曲線最平緩,角色式代理設計)、OpenClaw(社群最大,AI 驅動開發)、AutoGen / Microsoft Agent Framework(微軟生態圈)、Semantic Kernel(.NET 企業),以及 OpenLegion(安全優先,具內建隔離、憑證金庫與成本控制)。
+2026 年最佳 AI 代理框架,依採用率與能力,有:LangGraph(每月下載約 600 萬,採用率最高,最適合複雜狀態工作流程)、CrewAI(學習曲線最平緩,角色式代理設計)、OpenClaw(社群最大,AI 驅動開發)、AutoGen / Microsoft Agent Framework(微軟生態圈)、Semantic Kernel(.NET 企業),以及 OpenLegion(安全優先,具內建沙箱執行、憑證金庫與成本控制)。
 
 ### AI 代理框架比較:它們如何不同?
 
-AI 代理框架在五大關鍵面向上有所不同:編排模型(圖式 vs 角色式 vs 對話式)、隔離(每代理容器 vs 共享程序)、憑證管理(金庫代理 vs 環境變數)、成本控制(每代理預算 vs 無),以及託管(自我託管 vs 代管平台)。詳細的逐項比較請見上方比較表。
+AI 代理框架在五大關鍵面向上有所不同:編排模型(圖式 vs 角色式 vs 對話式)、隔離(每代理容器 vs 共享程序)、憑證管理(憑證金庫 vs 環境變數)、成本控制(每代理預算 vs 無),以及託管(自我託管 vs 代管平台)。詳細的逐項比較請見上方比較表。
 
 ### 生產環境最佳 AI 代理框架是什麼?
 
-生產環境最佳 AI 代理框架取決於你的限制。若需要安全優先(憑證隔離、強制沙箱、預算強制執行),OpenLegion 為此而生。若需要具最大彈性的複雜狀態工作流程,LangGraph 搭配 LangSmith 提供最強的可觀測性。若在 Microsoft / .NET 生態圈,Semantic Kernel 提供原生 Azure 整合。沒有單一框架能在所有面向上「最佳」。
+生產環境最佳 AI 代理框架取決於你的限制。若需要安全優先(憑證隔離、沙箱任務執行、預算強制執行),OpenLegion 為此而生。若需要具最大彈性的複雜狀態工作流程,LangGraph 搭配 LangSmith 提供最強的可觀測性。若在 Microsoft / .NET 生態圈,Semantic Kernel 提供原生 Azure 整合。沒有單一框架能在所有面向上「最佳」。
 
 ### 開源 vs 代管 AI 代理平台:差別是什麼?
 
-開源 AI 代理框架(LangGraph 核心、CrewAI 開源版、AutoGen)提供代理邏輯 — 你建構基礎設施。代管 [AI 代理平台](/learn/ai-agent-platform) 則加上營運層:容器佈建、憑證金庫、成本追蹤、可觀測性。OpenLegion 作為原始碼可取得的專案(PolyForm Perimeter License 1.0.1)同時內建代管平台能力,跨越此鴻溝。LangSmith 與 CrewAI AMP 則是各自開源框架之上的付費代管層。
+開源 AI 代理框架(LangGraph 核心、CrewAI 開源版、AutoGen)提供代理邏輯 — 你建構基礎設施。代管 [AI 代理平台](/learn/ai-agent-platform) 則加上營運層:容器佈建、憑證金庫、成本追蹤、可觀測性。OpenLegion 跨越此鴻溝:引擎以 PolyForm Perimeter License 1.0.1 原始碼可取得發布,代管平台則由我們為你執行它。LangSmith 與 CrewAI AMP 則是各自開源框架之上的付費代管層。
 
 ### OpenLegion 相對於 OpenClaw / LangGraph / CrewAI / AutoGen 的定位?
 
-OpenLegion 佔據特定利基:安全優先的 [AI 代理平台](/learn/ai-agent-platform)。根據公開文件,它是唯一提供內建金庫代理憑證、每代理強制容器隔離,以及原生預算強制執行的框架。OpenClaw 擁有最大社群與最強 AI 程式設計能力。LangGraph 具最高採用率與最具彈性的編排。CrewAI 學習曲線最平緩。AutoGen 正在轉移至 Microsoft Agent Framework。
+OpenLegion 佔據特定利基:安全優先的 [AI 代理平台](/learn/ai-agent-platform)。根據公開文件,它是唯一提供內建金庫保管憑證、每項任務一次沙箱執行,以及原生每代理預算強制執行的框架。OpenClaw 擁有最大社群與最強 AI 程式設計能力。LangGraph 具最高採用率與最具彈性的編排。CrewAI 學習曲線最平緩。AutoGen 正在轉移至 Microsoft Agent Framework。
 
 ### 如何在 AI 代理框架之間選擇?
 
@@ -169,11 +169,11 @@ OpenLegion 佔據特定利基:安全優先的 [AI 代理平台](/learn/ai-agent-
 
 ### 2026 年代理式 AI 框架是否已生產就緒?
 
-多數框架在大量額外工程下具備生產能力。LangGraph 已在 Klarna、Elastic、LinkedIn 等公司生產使用 — 但都自行建構了隔離與憑證管理層。CrewAI Enterprise 透過其付費平台提供 SOC 2 合規。OpenClaw 有商業雲端產品。OpenLegion 將生產基礎設施(隔離、金庫、成本控制)納入核心。誠實答案:框架已就緒;問題在於你願意自行打造多少生產基礎設施。
+多數框架在大量額外工程下具備生產能力。LangGraph 已在 Klarna、Elastic、LinkedIn 等公司生產使用 — 但都自行建構了隔離與憑證管理層。CrewAI Enterprise 透過其付費平台提供 SOC 2 合規。OpenClaw 有商業雲端產品。OpenLegion 將生產基礎設施(沙箱執行、金庫、成本控制)納入核心。誠實答案:框架已就緒;問題在於你願意自行打造多少生產基礎設施。
 
 ### 最安全的 AI 代理框架是什麼?
 
-根據撰寫當下的公開文件,OpenLegion 提供最完整的內建安全:金庫代理憑證(代理永不見原始 API 金鑰)、每代理強制 Docker 容器隔離、具硬性截止的每代理預算強制執行、每代理權限矩陣、多個瓶頸點的 unicode 清理,以及艦隊模型協調編排以利稽核。其他框架可透過自訂工程達成類似安全,但無一現成具備這些功能。
+根據撰寫當下的公開文件,OpenLegion 提供最完整的內建安全:金庫保管的憑證(代理永不見原始 API 金鑰)、每項任務一次沙箱執行、具硬性截止的每代理預算強制執行、每代理權限矩陣、多個瓶頸點的 unicode 清理,以及目標與任務協調以利稽核。其他框架可透過自訂工程達成類似安全,但無一現成具備這些功能。
 
 ---
 

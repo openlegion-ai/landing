@@ -36,7 +36,7 @@ This statefulness changes your scaling model. You cannot rely on standard horizo
 
 A web service request consuming 50ms of CPU is predictable. An agent task consuming 50 LLM calls at gpt-4o pricing of $0.0025/1K tokens, with a 128K-token context window, can cost $12.80 in a single run — or $0.04 if the task resolves in two steps. OWASP LLM10 (Unbounded Consumption) explicitly identifies infrastructure-level budget caps as the required mitigation: application-layer limits can be bypassed if the agent is compromised or the prompt is injected. Budget enforcement at the infrastructure layer — enforced by the orchestration platform, not the agent process itself — is not optional for production deployments handling external inputs.
 
-OpenLegion enforces budget caps at Zone 2 (Cost Tracker): $50/day and $200/month per agent by default, configurable per role. These limits are not bypassable by agent code — the LLM proxy rejects calls once the cap is reached, regardless of what the agent process requests.
+OpenLegion enforces budget caps in the policy engine that sits in front of every action: each agent carries its own credit budget, configurable per agent. These limits are not bypassable by agent code — the platform rejects calls once the cap is reached, regardless of what the agent requests.
 
 ### Runaway Loops: The Retry-Until-Bankrupt Failure Mode
 
@@ -48,7 +48,7 @@ Circuit breakers break this loop at the infrastructure layer before your budget 
 
 ### Resource Limits: Memory, CPU, and the OOM Kill Problem
 
-Start with 512MB memory and 0.25 CPU for a general-purpose Python agent. OpenLegion's default template uses 384MB/0.15 CPU for lightweight task agents and 768MB/0.5 CPU for agents loading embedding models. The pattern: run a load test with a representative task set, measure p95 memory consumption, and set `resources.limits.memory` to p95 × 2. OOM kills happen silently in Kubernetes — the pod is evicted with reason `OOMKilled` and the agent's in-progress work is lost without a checkpoint.
+Start with 512MB memory and 0.25 CPU for a general-purpose Python agent. OpenLegion sizes each task run itself, so on the hosted platform there is nothing to right-size. The pattern: run a load test with a representative task set, measure p95 memory consumption, and set `resources.limits.memory` to p95 × 2. OOM kills happen silently in Kubernetes — the pod is evicted with reason `OOMKilled` and the agent's in-progress work is lost without a checkpoint.
 
 For Docker-only deployments, the equivalent flags are `--memory 512m --cpus 0.25`. Docker's default is no limit — an unconstrained agent can consume all host memory during a runaway loop.
 
@@ -68,7 +68,7 @@ Set requests below limits. The scheduler uses requests for bin-packing; limits e
 
 Every spawned agent container needs a time-to-live. Without TTL enforcement, a container that loses its task reference — due to a scheduler restart, a network partition, or an orphaned handoff — continues running indefinitely, consuming resources and accumulating cost.
 
-In OpenLegion, `spawn_fleet_agent(ttl=3600)` sets a 3,600-second (one-hour) hard limit. The mesh terminates the container at TTL expiry regardless of task state. For tasks expected to run longer, extend the TTL at spawn time: `spawn_fleet_agent(ttl=7200)` for two-hour tasks.
+In OpenLegion the equivalent is structural: each task runs on demand and then stops, so there is no long-lived agent process to time out. The platform ends the run when the task ends, regardless of what the agent was doing.
 
 In Kubernetes, the equivalent is `activeDeadlineSeconds` on the Pod spec:
 
@@ -160,7 +160,7 @@ These controls operate at different layers and neither substitutes for the other
 | Circuit breaker | LLM API rate-limit cascade, retry storms | Per-agent, at LLM call site |
 | Budget cap | Runaway cost from unbounded token consumption | Infrastructure layer, LLM proxy |
 | Max iterations | Single-task infinite loop | Agent framework (LangChain AgentExecutor) |
-| Container TTL | Zombie container resource consumption | Orchestration layer (K8s, mesh) |
+| Container TTL | Zombie container resource consumption | Orchestration layer (K8s, platform) |
 
 A compromised agent that bypasses `max_iterations` in application code still hits the budget cap at the infrastructure proxy. A retry storm blocked by the circuit breaker still consumes budget if the task re-queues repeatedly — the budget cap prevents the total from exceeding your configured ceiling. All four controls together define a complete runaway prevention stack.
 
@@ -179,11 +179,11 @@ The [AI agent security guide](/learn/ai-agent-security) details how environment 
 
 ### Vault Proxy Pattern: Credentials Never in Agent Memory
 
-OpenLegion's vault proxy keeps API keys in Zone 2, separated from agent containers in Zone 1 by a network boundary. Agent code references credentials as opaque handles (`$CRED{openai_key}`) — the handle is a string token with no embedded key material. When the agent makes an LLM call, the request routes through the Zone 2 proxy, which resolves the handle to the actual key and injects it at the network layer before forwarding the request.
+OpenLegion's credential vault keeps API keys outside the model entirely. The agent references a credential only as an opaque handle — a string token with no embedded key material. When the agent makes an LLM call, the platform resolves the handle to the actual key and injects it outside the model before forwarding the request.
 
-The agent container never holds the plaintext key. No memory dump, no environment print, no prompt injection exfiltrates the actual credential — there is nothing to exfiltrate from within the agent's address space. The vault proxy also enforces per-agent credential scope: agent roles define which credential handles they can resolve. An agent configured for read-only research tasks cannot resolve write-scope credentials even if instructed by a compromised prompt.
+The agent never holds the plaintext key. No memory dump, no environment print, no prompt injection exfiltrates the actual credential — there is nothing to exfiltrate from within the model's context. The vault also enforces per-agent credential scope: each agent's permissions define which credential handles it can resolve. An agent configured for read-only research tasks cannot resolve write-scope credentials even if instructed by a compromised prompt.
 
-For deployments not using OpenLegion's mesh, the equivalent pattern is HashiCorp Vault Agent (35,797 GitHub stars, BSL 1.1 license) sidecar injection: Vault Agent runs as a sidecar, authenticates to Vault using the pod's Kubernetes service account, and writes short-lived credentials to a shared in-memory volume rather than environment variables. The credentials rotate automatically, and the agent process reads them from the in-memory volume — never from env vars.
+For deployments not using OpenLegion, the equivalent pattern is HashiCorp Vault Agent (35,797 GitHub stars, BSL 1.1 license) sidecar injection: Vault Agent runs as a sidecar, authenticates to Vault using the pod's Kubernetes service account, and writes short-lived credentials to a shared in-memory volume rather than environment variables. The credentials rotate automatically, and the agent process reads them from the in-memory volume — never from env vars.
 
 ### Kubernetes Secrets: Better Than Env Vars, Still Not Vault-Grade
 
@@ -256,7 +256,7 @@ Production AI agent deployment in 2026 fails in one of three ways: cost overruns
 
 The Kubernetes HPA v2 custom metrics API, circuit breaker patterns, and vault proxy injection are all available as open-source infrastructure. The gap is not tooling — it is operational knowledge applied to agent-specific failure modes. The four-control runaway prevention stack (circuit breaker + budget cap + max iterations + TTL) is not complex to implement; it is simply not in the default configuration of any agent framework as of June 2026.
 
-OpenLegion's mesh enforces three of the four controls at the platform layer: budget caps (Zone 2 Cost Tracker), TTLs (`spawn_fleet_agent(ttl=N)`), and credential isolation (Zone 2 vault proxy with opaque handles). `max_iterations` is set per agent role in the mesh configuration. Teams adopting the mesh inherit this runaway prevention stack without implementing it from scratch. Teams building on raw Kubernetes need to wire each control explicitly.
+OpenLegion enforces three of the four controls at the platform layer: budget caps (a credit budget per agent), task lifetimes (each task runs on demand and then stops), and credential isolation (a vault outside the model, reached only by handle). `max_iterations` is set per agent in the app. Teams adopting the platform inherit this runaway prevention stack without implementing it from scratch. Teams building on raw Kubernetes need to wire each control explicitly.
 
 For deeper coverage of the observability layer that surfaces circuit breaker trips, OOM kills, and budget cap events in production, see the [AI agent observability guide](/learn/ai-agent-observability). For the sandboxing layer that hardens agent containers against prompt injection exfiltration, see [AI agent sandboxing](/learn/ai-agent-sandboxing).
 
@@ -277,7 +277,7 @@ AI agents are stateful, consume variable token budgets measured in dollars per t
 
 ### What is a container TTL and why do agents need one?
 
-A container TTL (time-to-live) is a hard deadline after which the container is automatically terminated, regardless of task state. Agents that lose their task reference due to a scheduler restart or orphaned handoff continue running indefinitely without a TTL, consuming resources and accumulating cost. In Kubernetes, set `activeDeadlineSeconds` on the Pod spec. In OpenLegion, pass `ttl=3600` to `spawn_fleet_agent`. The TTL should be set to at least 2× the expected maximum task duration.
+A container TTL (time-to-live) is a hard deadline after which the container is automatically terminated, regardless of task state. Agents that lose their task reference due to a scheduler restart or orphaned handoff continue running indefinitely without a TTL, consuming resources and accumulating cost. In Kubernetes, set `activeDeadlineSeconds` on the Pod spec. In OpenLegion there is nothing to set: each task runs on demand and then stops. The TTL should be set to at least 2× the expected maximum task duration.
 
 ### How do LLM circuit breakers work in production agent deployments?
 

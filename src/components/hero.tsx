@@ -1,10 +1,9 @@
 "use client";
 
-import { useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { ONBOARDING_URL } from "@/lib/constants";
+import { WAITLIST_URL } from "@/lib/constants";
 import { trackCtaClick } from "@/lib/analytics";
 
 const PARTICLES = [
@@ -20,35 +19,12 @@ const TRUST_KEYS = ["0", "1", "2"] as const;
 
 export function Hero() {
   const t = useTranslations("hero");
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (reducedMotion) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          video.play().catch(() => {});
-        } else {
-          video.pause();
-        }
-      },
-      { threshold: 0.25 },
-    );
-    observer.observe(video);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section
       id="hero"
       aria-label={t("ariaLabel")}
-      className="relative flex min-h-[calc(100dvh-96px)] items-center overflow-hidden px-6 md:px-8"
+      className="relative overflow-hidden px-6 md:px-8"
     >
       <div className="hero-glow" aria-hidden="true" />
       <div className="hero-orb-3" aria-hidden="true" />
@@ -72,23 +48,18 @@ export function Hero() {
         />
       ))}
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl pt-12 pb-8 sm:pt-16 sm:pb-12">
+      <div className="relative z-10 mx-auto w-full max-w-6xl pt-12 pb-14 sm:pt-16 sm:pb-20">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left: text content */}
           <div className="text-center lg:text-left">
-            <AnimateIn scale>
-              <div className="badge-shimmer mb-6 inline-flex items-center rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm font-medium text-accent-light backdrop-blur-sm">
-                {t("badge")}
-              </div>
-            </AnimateIn>
+            <p className="sr-only">{t("badge")}</p>
 
             <AnimateIn delay={0.06} scale>
-              <h1 className="mb-2 text-[2rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[3rem] xl:text-[3.25rem]">
-                {t("headingLine1")}<span className="gradient-text-animated">{t("headingHighlight")}</span>
-                <br />
+              <h1 className="mb-2 max-w-xl text-balance text-[2rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:mx-0 lg:text-[3rem] xl:text-[3.25rem]">
+                {t("headingLine1")}<span className="gradient-text-animated">{t("headingHighlight")}</span>{" "}
                 {t("headingLine2")}
               </h1>
-              <p className="mb-5 text-base font-medium tracking-tight text-muted/60 sm:text-lg md:text-xl">
+              <p className="mb-5 text-base font-medium tracking-tight text-muted sm:text-lg md:text-xl">
                 {t("tagline")}
               </p>
             </AnimateIn>
@@ -102,7 +73,7 @@ export function Hero() {
             <AnimateIn delay={0.14}>
               <div id="hero-cta" className="flex flex-col items-center sm:flex-row sm:justify-center lg:justify-start">
                 <Link
-                  href={ONBOARDING_URL}
+                  href={WAITLIST_URL}
                   onClick={() => trackCtaClick({ location: "hero_primary" })}
                   className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2.5 rounded-xl px-7 py-3.5 text-sm font-semibold text-white sm:w-auto"
                 >
@@ -120,7 +91,9 @@ export function Hero() {
             </AnimateIn>
           </div>
 
-          {/* Right: video demo */}
+          {/* Right: product frame — a workspace thread, one sentence in,
+              a standing agent and its first approval card out. Static by
+              decision: the old demo.mp4 showed the retired VPS product. */}
           <AnimateIn delay={0.18}>
             <div className="mx-auto max-w-lg lg:max-w-none">
               <div className="terminal terminal-hero">
@@ -132,25 +105,58 @@ export function Hero() {
                     {t("terminalTitle")}
                   </span>
                 </div>
-                <video
-                  ref={videoRef}
-                  src="/demo.mp4"
-                  poster="/demo-poster.jpg"
-                  title={t("videoTitle")}
-                  width={1920}
-                  height={1080}
-                  muted
-                  loop
-                  playsInline
-                  controls
-                  preload="none"
-                  className="w-full"
-                >
-                  <p>{t("videoFallback")}</p>
-                </video>
+
+                <div className="space-y-4 p-5 text-start md:p-6">
+                  <div>
+                    <p className="mb-1 font-mono text-[11px] uppercase tracking-wider text-muted/60">
+                      {t("frame.youLabel")}
+                    </p>
+                    <p className="text-[13px] leading-relaxed text-foreground/90">
+                      {t("frame.prompt")}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="mb-1 font-mono text-[11px] uppercase tracking-wider text-accent-light/80">
+                      {t("frame.assistantLabel")}
+                    </p>
+                    <p className="text-[13px] leading-relaxed text-foreground/90">
+                      {t("frame.reply")}
+                    </p>
+                  </div>
+
+                  <div className="rounded-lg border border-border bg-card p-3.5">
+                    <p className="mb-1.5 font-mono text-[10px] uppercase tracking-wider text-muted/60">
+                      {t("frame.taskLabel")}
+                    </p>
+                    <p className="text-[13px] font-semibold text-foreground">
+                      {t("frame.taskTitle")}
+                    </p>
+                    <p className="mt-1 font-mono text-[11px] text-muted">
+                      {t("frame.taskMeta")}
+                    </p>
+                  </div>
+
+                  <div className="rounded-lg border border-accent/30 bg-accent/[0.08] p-3.5">
+                    <p className="mb-1.5 font-mono text-[10px] uppercase tracking-wider text-accent-light">
+                      {t("frame.approvalLabel")}
+                    </p>
+                    <p className="text-[13px] text-foreground/90">
+                      {t("frame.approvalBody")}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2" aria-hidden="true">
+                      <span className="rounded-md bg-accent px-3 py-1 text-[11px] font-semibold text-white">
+                        {t("frame.approveLabel")}
+                      </span>
+                      <span className="rounded-md border border-border px-3 py-1 text-[11px] font-medium text-muted">
+                        {t("frame.denyLabel")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <p className="mt-3 text-center text-sm italic text-muted/50">
-                {t("videoCaptionBelow")}
+              <p className="mt-3 text-center text-sm text-muted/70">
+                {t("frame.caption")}
               </p>
             </div>
           </AnimateIn>
@@ -158,10 +164,6 @@ export function Hero() {
 
       </div>
 
-      {/* Scroll cue at bottom of hero — hidden on mobile to avoid overlap */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-muted/30 hidden sm:block" aria-hidden="true">
-        <div className="scroll-mouse" />
-      </div>
     </section>
   );
 }

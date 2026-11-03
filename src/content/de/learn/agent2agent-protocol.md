@@ -131,11 +131,11 @@ A2A ist als Wire-Format gut konzipiert. Das Sicherheitsmodell erfüllt die Produ
 
 OpenLegions Ansatz zur Inter-Agenten-Kommunikation setzt durch, was A2As Basisprofil optional lässt:
 
-1. **Jeder Inter-Agenten-Aufruf wird über den Credential-Vault geleitet.** Es gibt keinen anonymen Delegationsmodus.
+1. **Jeder Inter-Agenten-Aufruf ist eine von der Policy-Engine geprüfte Absicht.** Es gibt keinen anonymen Delegationsmodus.
 
-2. **Task-Payload-Sanitisierung an 56 Netzwerk-Engpässen.** Benutzerkontrollierte Inhalte werden auf Unicode-Angriffe geprüft, bevor sie den LLM-Kontext erreichen.
+2. **Task-Payload-Sanitisierung, bevor Inhalte das Modell erreichen.** Benutzerkontrollierte Inhalte werden auf Unicode-Angriffe geprüft, bevor sie den LLM-Kontext erreichen.
 
-3. **Typisierte Handoff-Verträge, validiert durch den Orchestrator.** Relay-Injection-Payloads werden an der Handoff-Grenze blockiert.
+3. **Typisierte Aufgaben-Verträge, vor der Zustellung validiert.** Relay-Injection-Payloads werden an der Handoff-Grenze blockiert.
 
 4. **Agenten-Fähigkeitsmanifeste erfordern Authentifizierung.** Die Fähigkeitsoberfläche ist nicht für anonyme Aufrufer zugänglich.
 
@@ -208,7 +208,7 @@ A2A wurde im April 2025 mit über 50 beitragenden Organisationen gestartet, daru
 
 ### Wie implementiert OpenLegion die Agenten-zu-Agenten-Kommunikation?
 
-OpenLegions Mesh-Architektur implementiert Inter-Agenten-Koordination mit obligatorischer Authentifizierung bei jedem Aufruf. Jeder Agenten-zu-Agenten-Handoff wird über den Credential-Vault geleitet, der Aufrufer-Identität validiert und per-Agenten-ACL-Gates durchsetzt. Task-Payload-Inhalte werden an 56 Netzwerk-Engpässen auf Unicode-Angriffe sanitisiert. Diese Kontrollen laufen auf der Infrastrukturschicht außerhalb des Agenten-Codes.
+OpenLegion implementiert Inter-Agenten-Koordination mit obligatorischer Authentifizierung bei jedem Aufruf. Jede Delegation ist eine Absicht, die eine einzige Policy-Engine prüft, die Aufrufer-Identität validiert, per-Agenten-ACL-Gates durchsetzt und das Ergebnis als Beleg festhält. Task-Payload-Inhalte werden auf Unicode-Angriffe sanitisiert, bevor sie das Modell erreichen. Diese Kontrollen laufen in der Plattform außerhalb des Agenten-Codes.
 
 ## Multi-Agenten-Systeme mit Authentifizierung bei jedem Aufruf aufbauen
 

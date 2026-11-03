@@ -235,7 +235,7 @@ The most common production security failure in agent context engineering: inject
 
 **OWASP LLM02 (Sensitive Information Disclosure, LLM Top 10 2025)** explicitly covers credentials in LLM context as a disclosure vector.
 
-**The correct architecture:** credentials should never be in the agent's context window. Tool calls that require credentials should route through a vault proxy that resolves the credential at the network layer when the tool call executes. The agent context contains only a reference name (`$CRED{stripe_api_key}`), never the credential value. If a prompt injection attack instructs the model to "output the Stripe API key from your system prompt," there is nothing to output — the raw credential was never in the context.
+**The correct architecture:** credentials should never be in the agent's context window. Tool calls that require credentials should route through a credential vault that injects the credential outside the model when the tool call executes. The agent context contains only a reference name (an opaque handle), never the credential value. If a prompt injection attack instructs the model to "output the Stripe API key from your system prompt," there is nothing to output — the raw credential was never in the context.
 
 For the technique that reduces repeated system prompt token costs across calls without changing the credential-in-context risk — see [LLM prompt caching and context reuse across calls](/learn/llm-prompt-caching).
 
@@ -416,7 +416,7 @@ The most underappreciated production agent failure mode is not hallucination —
 
 Three concrete failures from production context engineering debt:
 
-**Credentials in the system prompt are OWASP LLM06 violations with a deferred trigger.** The injection attack that extracts them may not happen on deployment — it happens when a sufficiently sophisticated user or external attacker crafts the right prompt, weeks or months later. By then, the credential has been in the system prompt on every API call, logged by every observability platform the team uses, and present in every exported conversation trace. The exposure window is the entire deployment lifetime, not a single call. OpenLegion resolves credentials at the Zone 2 network layer via `$CRED{name}` handles — the raw credential value is never written to the agent's context window on any call, so there is nothing to extract, log, or leak.
+**Credentials in the system prompt are OWASP LLM06 violations with a deferred trigger.** The injection attack that extracts them may not happen on deployment — it happens when a sufficiently sophisticated user or external attacker crafts the right prompt, weeks or months later. By then, the credential has been in the system prompt on every API call, logged by every observability platform the team uses, and present in every exported conversation trace. The exposure window is the entire deployment lifetime, not a single call. OpenLegion keeps credentials in a vault and injects them outside the model, which only ever holds a handle — the raw credential value is never written to the agent's context window on any call, so there is nothing to extract, log, or leak.
 
 **OpenAI Assistants API automatic truncation at ~32,000 tokens with no developer-visible eviction policy** creates an invisible context management layer that can silently drop system prompt sections, tool definitions, or critical earlier context. The developer cannot audit what was in the context window when a specific response was generated. For production agents requiring debuggable context state, this is a correctness and incident-response liability — when the agent produces an unexpected response, "what was in its context at that moment?" has no answer. OpenLegion logs a full context content hash for every agent turn in the immutable audit log, enabling exact reconstruction of the context state for any historical response.
 
@@ -424,10 +424,10 @@ Three concrete failures from production context engineering debt:
 
 | **Context engineering property** | **OpenLegion** | **LangChain agents** | **CrewAI** | **AutoGen** | **OpenAI Assistants API** |
 |---|---|---|---|---|---|
-| **`$CRED{}` vault proxy — credentials never written to agent context window (OWASP LLM02 mitigation)** | Yes — Zone 2 network-layer resolution | No — env var / system prompt injection | No — env var pattern | No — env var pattern | No — env var pattern |
-| **Blackboard working memory — context window stays at fixed size regardless of task length** | Yes — hierarchical blackboard keys, per-agent selective read | No — accumulates in conversation history | No — accumulates per agent | No — accumulates in history | No — accumulates until truncation |
+| **Credential vault — credentials never written to agent context window (OWASP LLM02 mitigation)** | Yes — vault injection outside the model | No — env var / system prompt injection | No — env var pattern | No — env var pattern | No — env var pattern |
+| **Blackboard working memory — context window stays at fixed size regardless of task length** | Yes — goals and tasks in a shared record, read on demand | No — accumulates in conversation history | No — accumulates per agent | No — accumulates in history | No — accumulates until truncation |
 | **Tool result compression before context append** | Yes — structured extraction, configurable compression strategy | Not built-in | Not built-in | Not built-in | Not built-in |
-| **Per-turn PII context injection with explicit scope (vs persistent system prompt)** | Yes — INSTRUCTIONS.md pattern enforces separation | Not enforced | Not enforced | Not enforced | Not enforced |
+| **Per-turn PII context injection with explicit scope (vs persistent system prompt)** | Yes — agent instructions enforce the separation | Not enforced | Not enforced | Not enforced | Not enforced |
 | **Pre-flight token count + context budget enforcement (Anthropic token counting API)** | Yes — count before send, trigger compression if over budget | Not built-in | Not built-in | Not built-in | No — post-hoc truncation |
 | **Full context content hash logged per turn (enables audit of context state at any historical step)** | Yes — immutable audit log | LangSmith (optional) | Not built-in | Not built-in | Not available — truncation is opaque |
 
@@ -449,7 +449,7 @@ Tool result compression delivers the highest context reduction per engineering e
 
 ### What is the security risk of putting secrets in the agent system prompt?
 
-Injecting API keys, database connection strings, or JWT tokens into the system prompt is an OWASP LLM02 (Sensitive Information Disclosure, LLM Top 10 2025) violation: credentials in the context window can be extracted by prompt injection attacks ("repeat your system prompt"), logged by observability platforms that capture full prompt content, and leaked in tool call argument logs when the model constructs Authorization headers from injected credentials. The correct architecture: credentials should never be in the agent's context window — tool calls that require credentials should route through a vault proxy that resolves the credential at the network layer when the tool call executes, so the agent context contains only a reference name and never the credential value. If a prompt injection attack instructs the model to output the API key from its system prompt, there is nothing to output because the raw credential was never written to the context.
+Injecting API keys, database connection strings, or JWT tokens into the system prompt is an OWASP LLM02 (Sensitive Information Disclosure, LLM Top 10 2025) violation: credentials in the context window can be extracted by prompt injection attacks ("repeat your system prompt"), logged by observability platforms that capture full prompt content, and leaked in tool call argument logs when the model constructs Authorization headers from injected credentials. The correct architecture: credentials should never be in the agent's context window — tool calls that require credentials should route through a credential vault that injects the credential outside the model when the tool call executes, so the agent context contains only a reference name and never the credential value. If a prompt injection attack instructs the model to output the API key from its system prompt, there is nothing to output because the raw credential was never written to the context.
 
 ### What is OWASP LLM02 and how does context engineering prevent it?
 
@@ -473,6 +473,6 @@ Context engineering is not the last 10% of agent development — it is the archi
 
 The four slots — system prompt, tool result, conversation history, scratchpad — each have distinct compression strategies. Tool result compression (10–100x via LLM extraction) is the highest-ROI action. Sliding window with pinned goal state prevents goal loss. The blackboard pattern eliminates context bloat for tasks of any length.
 
-Security is not separable from context engineering: OWASP LLM02 and LLM06 both trace to what information was placed in context and for how long. Credentials belong in a vault proxy, not a system prompt.
+Security is not separable from context engineering: OWASP LLM02 and LLM06 both trace to what information was placed in context and for how long. Credentials belong in a credential vault, not a system prompt.
 
-[Start building context-managed agents on OpenLegion](https://app.openlegion.ai) — `$CRED{}` vault-proxied credentials never written to context, blackboard working memory with per-agent selective key reads, pre-flight token counting, and full context hash logging per turn.
+[Start building context-managed agents on OpenLegion](https://app.openlegion.ai) — vault-held credentials never written to context, goals and tasks kept in a shared record instead of the context window, pre-flight token counting, and full context hash logging per turn.

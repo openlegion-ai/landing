@@ -152,16 +152,16 @@ Responses API ของ OpenAI (มีนาคม 2025) ทำให้กา�
 
 ผู้ให้บริการ LLM หลักแต่ละรายมี API การเรียกเครื่องมือที่แตกต่างกัน การ abstraction ที่ถูกต้อง: นิยามเครื่องมือครั้งเดียวและให้เฟรมเวิร์กแปลเป็นรูปแบบที่ถูกต้องของผู้ให้บริการเมื่อถึงเวลาเรียก
 
-รีจิสทรีเครื่องมือของ OpenLegion ใช้ abstraction นี้ นิยาม `search_web` ครั้งเดียว mesh จะแปลนิยามไปยัง OpenAI `tools`, Anthropic `tools` หรือ Gemini `functionDeclarations` ขึ้นอยู่กับโมเดลที่กำหนดค่า ประตู ACL ไม่ใช่ทางเลือก การเรียกเครื่องมือทุกครั้ง — ในตัว MCP หรือกำหนดเอง — ผ่านเมทริกซ์สิทธิ์ต่อ agent ก่อนการรัน
+รีจิสทรีเครื่องมือของ OpenLegion ใช้ abstraction นี้ นิยาม `search_web` ครั้งเดียว แพลตฟอร์มจะแปลนิยามไปยัง OpenAI `tools`, Anthropic `tools` หรือ Gemini `functionDeclarations` ขึ้นอยู่กับโมเดลที่พรีเซ็ตของเอเจนต์เลือก ประตูสิทธิ์ไม่ใช่ทางเลือก การเรียกเครื่องมือทุกครั้ง — ในตัวหรือกำหนดเอง — ผ่านเมทริกซ์สิทธิ์ต่อ agent ก่อนการรัน
 
 | **มิติ** | **OpenLegion** | **LangChain / LangGraph** | **OpenAI Agents SDK** | **CrewAI** | **Anthropic โดยตรง** |
 |---|---|---|---|---|---|
 | **รูปแบบนิยามเครื่องมือ** | สคีมาเดียว แปลตามผู้ให้บริการ | ต้องใช้ wrapper เฉพาะผู้ให้บริการ | รูปแบบ OpenAI เท่านั้น | ตัวตกแต่งเครื่องมือ CrewAI | รูปแบบ Anthropic tool_use เท่านั้น |
-| **การ abstraction ผู้ให้บริการ** | ใช่ — GPT-4o, Claude, Gemini รวมกัน | บางส่วน — ผ่าน LangChain integrations | ไม่ — โมเดล OpenAI เท่านั้น | บางส่วน | ไม่ — Anthropic เท่านั้น |
+| **การ abstraction ผู้ให้บริการ** | ใช่ — พรีเซ็ตเดียว ผู้ให้บริการถูก abstract | บางส่วน — ผ่าน LangChain integrations | ไม่ — โมเดล OpenAI เท่านั้น | บางส่วน | ไม่ — Anthropic เท่านั้น |
 | **การบังคับใช้ ACL** | เมทริกซ์สิทธิ์ต่อ agent เชิงโครงสร้าง | ไม่มีในตัว | ไม่มีในตัว | ไม่มีในตัว | ไม่มีในตัว |
 | **การเรียกเครื่องมือแบบขนาน** | รองรับ | รองรับ (ขึ้นอยู่กับผู้ให้บริการ) | ใช่ — ค่าเริ่มต้นใน Responses API | รองรับ | ใช่ — Claude รองรับ |
-| **เครื่องมือในตัว** | เบราว์เซอร์ ไฟล์ HTTP shell สร้างภาพ | ผ่านเครื่องมือชุมชน LangChain | web_search, file_search, computer_use | ไม่มีในตัว | ไม่มีในตัว |
-| **การผสาน MCP** | Native — pipeline ACL/budget เดียวกัน | ผ่าน LangChain MCP adapters | ทดลอง | ไม่ใช่ native | ไม่ใช่ native |
+| **เครื่องมือในตัว** | ไฟล์ HTTP โค้ดในแซนด์บ็อกซ์ Calendar Drive | ผ่านเครื่องมือชุมชน LangChain | web_search, file_search, computer_use | ไม่มีในตัว | ไม่มีในตัว |
+| **การผสาน MCP** | ยังไม่เชื่อมต่อตอนเปิดตัว | ผ่าน LangChain MCP adapters | ทดลอง | ไม่ใช่ native | ไม่ใช่ native |
 
 <!-- SCHEMA: FAQPage -->
 ## คำถามที่พบบ่อย

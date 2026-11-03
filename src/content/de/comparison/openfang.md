@@ -26,39 +26,39 @@ related:
 
 OpenFang platzte am 24. Februar 2026 auf die Bühne und erreichte in seiner ersten Woche 9.300 GitHub-Stars. Vollständig in Rust gebaut, bewirbt sich OpenFang als vollständiges "Agent Operating System" — kein Chatbot-Wrapper, sondern eine Infrastrukturschicht für autonome Agenten, die rund um die Uhr ohne menschliche Aufforderung laufen.
 
-OpenLegion ist ein sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agent-platform), das um Container-Isolation, Vault-Proxy-Credential-Verwaltung, Pro-Agent-Budgetdurchsetzung und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff) gebaut ist.
+OpenLegion ist ein gehostetes, sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agent-platform), das um Sandbox-Läufe pro Aufgabe, Credentials im Vault, Pro-Agent-Credit-Budgets und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten) gebaut ist.
 
-Beide Projekte priorisieren Sicherheit. Beide nutzen Rust-grade Isolations-Primitive. Aber die Philosophien gehen scharf auseinander: OpenFang maximiert die Feature-Fläche (137.000 Zeilen Rust, 14 Crates, 53 Tools, 40 Kanäle); OpenLegion minimiert die Angriffsfläche (~77.000 Zeilen, in Stunden auditierbar). Diese Seite legt die echten Kompromisse offen.
+Beide Projekte priorisieren Sicherheit, und beide isolieren den Code, den ein Agent ausführt. Aber die Philosophien gehen scharf auseinander: OpenFang maximiert die Feature-Fläche (137.000 Zeilen Rust, 14 Crates, 53 Tools, 40 Kanäle); OpenLegion minimiert die Angriffsfläche (eine Policy-Engine vor jeder Aktion). Diese Seite legt die echten Kompromisse offen.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Was ist der Unterschied zwischen OpenLegion und OpenFang?**
-> OpenFang ist ein Rust-natives Agent Operating System mit angeblich 16 Sicherheits-Schichten, 40 Messaging-Adaptern, 7 autonomen "Hands", einer WASM-Sandbox und einem integrierten P2P-Protokoll — alles kompiliert zu einem ~32-MB-Binary. OpenLegion ist ein Python-basiertes Security-First-Agenten-Framework mit verpflichtender Docker-Container-Isolation pro Agent, Vault-Proxy-Credential-Verwaltung (Agenten sehen nie API-Keys), Pro-Agent-Budgetdurchsetzung und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff). OpenFang optimiert auf Feature-Vollständigkeit; OpenLegion optimiert auf minimale, auditierbare Sicherheit.
+> OpenFang ist ein Rust-natives Agent Operating System mit angeblich 16 Sicherheits-Schichten, 40 Messaging-Adaptern, 7 autonomen "Hands", einer WASM-Sandbox und einem integrierten P2P-Protokoll — alles kompiliert zu einem ~32-MB-Binary. OpenLegion ist ein gehostetes, sicherheitsorientiertes Agenten-Framework mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault, die das Modell nie sieht, Pro-Agent-Credit-Budgets und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten). OpenFang optimiert auf Feature-Vollständigkeit; OpenLegion optimiert auf minimale, auditierbare Sicherheit.
 
 ## Auf einen Blick
 
 | Dimension | OpenLegion | OpenFang |
 |---|---|---|
 | **Primärer Fokus** | Minimale, auditierbare Sicherheit | Feature-vollständiges Agent OS |
-| **Sprache** | Python | Rust |
-| **Codebasis** | ~77.000 Zeilen | 137.000 Zeilen (14 Crates) |
-| **Binary-Größe** | Python + Docker | ~32 MB Single-Binary |
-| **Cold-Start** | Standard-Docker (~2–5 s) | 180 ms (angegeben) |
-| **Agenten-Isolation** | Docker-Container pro Agent, Non-Root | WASM Dual-Metered Sandbox |
-| **Credential-Sicherheit** | Vault-Proxy — Agenten sehen keine Keys | AES-256-GCM-Vault + Memory-Zeroisierung |
-| **Budget-Kontrollen** | Pro Agent tägliche/monatliche Hartabschaltung | Keine dokumentierten Pro-Agent-Budget-Limits |
-| **Orchestrierung** | Fleet-Modell-Koordination — Blackboard + Pub/Sub + Handoff (kein CEO-Agent) | Workflow-Engine mit Fan-out, Bedingungen, Schleifen |
-| **LLM-Anbieter** | 100+ über LiteLLM | 27+ (3 native Driver) |
+| **Sprache** | Gehosteter Dienst; nichts zu installieren | Rust |
+| **Codebasis** | Gehostete Plattform; Engine veröffentlicht | 137.000 Zeilen (14 Crates) |
+| **Binary-Größe** | Keine; nichts zu installieren | ~32 MB Single-Binary |
+| **Cold-Start** | Sofort; Agenten sind Datensätze, keine Server | 180 ms (angegeben) |
+| **Agenten-Isolation** | Ein Sandbox-Lauf für jede Aufgabe, ohne Netzwerk | WASM Dual-Metered Sandbox |
+| **Credential-Sicherheit** | Im Vault — das Modell hält nur ein Handle | AES-256-GCM-Vault + Memory-Zeroisierung |
+| **Budget-Kontrollen** | Pro-Agent-Credit-Budget mit harter Abschaltung | Keine dokumentierten Pro-Agent-Budget-Limits |
+| **Orchestrierung** | Ziel-und-Aufgaben-Koordination — Ziele → Aufgaben → Agenten | Workflow-Engine mit Fan-out, Bedingungen, Schleifen |
+| **LLM-Anbieter** | Presets Smartest, Smart und Normal | 27+ (3 native Driver) |
 | **Messaging-Kanäle** | 5 | 40 |
 | **Sicherheits-Schichten** | 6 integriert | 16 (angegeben) |
-| **Multi-Agent** | Flotten-Templates mit Pro-Agent-ACLs | MCP + A2A + OFP-P2P-Protokoll |
-| **Autonome Ausführung** | Über Workflows geplant | 7 integrierte "Hands" (autonome Agenten) |
+| **Multi-Agent** | Ein Assistent, der Teammitglieder erstellt und delegiert | MCP + A2A + OFP-P2P-Protokoll |
+| **Autonome Ausführung** | Zeitpläne und Event-Wakes | 7 integrierte "Hands" (autonome Agenten) |
 | **Migrationstools** | Manuell | Integriert von OpenClaw, LangChain, AutoGPT |
 | **Desktop-App** | Nein | Tauri-2.0-Native-App |
-| **GitHub-Stars** | ~59 | ~9.300 |
-| **Lizenz** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
-| **Produktions-Track-Record** | Pre-Release | Pre-Release (Tage alt) |
-| **Bekannte CVEs** | 0 | 0 |
+| **GitHub-Stars** | Engine source-available | ~9.300 |
+| **Lizenz** | Engine PolyForm Perimeter 1.0.1; Plattform proprietär | Apache 2.0 |
+| **Produktions-Track-Record** | Gehostete Plattform live | Pre-Release (Tage alt) |
+| **Bekannte CVEs** | Keine veröffentlicht | 0 |
 
 ## Wählen Sie OpenFang, wenn …
 
@@ -74,15 +74,15 @@ Beide Projekte priorisieren Sicherheit. Beide nutzen Rust-grade Isolations-Primi
 
 ## Wählen Sie OpenLegion, wenn …
 
-**Auditierbarkeit zählt mehr als Feature-Zahl.** OpenLegions ~77.000-zeilige Codebasis kann von einem einzelnen Engineer durchgelesen werden. OpenFangs 137.000 Zeilen Rust über 14 Crates sind ambitioniert — aber ein unabhängiger Analyst merkte an, dass das für ein v0.3-Projekt "Nachhaltigkeitsfragen aufwirft".
+**Auditierbarkeit zählt mehr als Feature-Zahl.** OpenLegion stellt eine Policy-Engine vor jede Aktion, sodass an einer Stelle nachzulesen ist, was ein Agent darf. OpenFangs 137.000 Zeilen Rust über 14 Crates sind ambitioniert — aber ein unabhängiger Analyst merkte an, dass das für ein v0.3-Projekt "Nachhaltigkeitsfragen aufwirft".
 
-**Sie Credential-Isolation brauchen, nicht nur Verschlüsselung.** Beide Frameworks verschlüsseln Secrets at Rest. Der architektonische Unterschied: OpenFangs AES-256-GCM-Vault speichert verschlüsselte Keys, die die Agenten-Runtime in den Speicher entschlüsselt (mit Zeroisierung nach Gebrauch). OpenLegions Vault-Proxy bedeutet, dass Agenten API-Aufrufe über einen Proxy machen — sie halten nie entschlüsselte Keys in ihrem Prozessspeicher. Wird ein Agent kompromittiert, gibt es keine Keys zu extrahieren.
+**Sie Credential-Isolation brauchen, nicht nur Verschlüsselung.** Beide Frameworks verschlüsseln Secrets at Rest. Der architektonische Unterschied: OpenFangs AES-256-GCM-Vault speichert verschlüsselte Keys, die die Agenten-Runtime in den Speicher entschlüsselt (mit Zeroisierung nach Gebrauch). OpenLegion injiziert Credentials außerhalb des Modells, das immer nur ein Handle hält — ein entschlüsselter Key gelangt nie in den Kontext des Agenten oder in seinen Lauf. Wird ein Agent kompromittiert, gibt es keine Keys zu extrahieren.
 
-**Sie Pro-Agent-Kostenkontrollen mit Hartabschaltungen brauchen.** OpenLegion erzwingt tägliche und monatliche Ausgabenlimits pro Agent mit automatischen Hartabschaltungen. OpenFangs Dokumentation beschreibt keine Pro-Agent-Budgetdurchsetzung — in einem System, das auf 24/7-autonomen Betrieb ausgelegt ist, ist das eine sinnvolle Lücke.
+**Sie Pro-Agent-Kostenkontrollen mit Hartabschaltungen brauchen.** Jeder OpenLegion-Agent trägt sein eigenes Credit-Budget, abgerechnet in Credits zu je $0,001, mit automatischer Hartabschaltung. OpenFangs Dokumentation beschreibt keine Pro-Agent-Budgetdurchsetzung — in einem System, das auf 24/7-autonomen Betrieb ausgelegt ist, ist das eine sinnvolle Lücke.
 
-**Sie auditierbares Routing wollen.** OpenLegion nutzt Fleet-Modell-Koordination — Blackboard + Pub/Sub + Handoff — mit Pro-Agent-Tool-Loop-Erkennung (Warnung bei 2 Wiederholungen, Block bei 4, Terminierung bei 9), sodass außer Kontrolle geratene Schleifen begrenzt sind. OpenFangs Workflow-Engine unterstützt Schleifen und konditionales Branching, das von LLM-Reasoning gesteuert wird — das bietet Flexibilität, führt aber LLM-getriebenes Routing ein.
+**Sie auditierbares Routing wollen.** OpenLegion organisiert Arbeit als Ziele → Aufgaben → Agenten und hält jeden Tool-Aufruf, jede Delegation und jede Freigabe als Beleg fest, den der Eigentümer lesen kann, sodass außer Kontrolle geratene Schleifen durch das Budget begrenzt sind. OpenFangs Workflow-Engine unterstützt Schleifen und konditionales Branching, das von LLM-Reasoning gesteuert wird — das bietet Flexibilität, führt aber LLM-getriebenes Routing ein.
 
-**Sie das Python-Ökosystem bevorzugen.** OpenLegion ist Python-nativ mit 100+ LLM-Anbietern via LiteLLM. OpenFang erfordert Rust-Kompilation und unterstützt derzeit 27 Anbieter über 3 native Driver.
+**Sie nichts installieren wollen.** OpenLegion ist eine gehostete Web-App, und Modelle werden per Preset gewählt: Smartest, Smart oder Normal. OpenFang erfordert Rust-Kompilation und unterstützt derzeit 27 Anbieter über 3 native Driver.
 
 ## Vergleich der Sicherheitsmodelle
 
@@ -90,19 +90,19 @@ Beide Projekte priorisieren Sicherheit. Beide nutzen Rust-grade Isolations-Primi
 
 **OpenFang** speichert API-Keys in einem AES-256-GCM-verschlüsselten Vault. Zur Laufzeit entschlüsselt der Agentenprozess Keys in den Speicher, nutzt sie für API-Aufrufe und zeroisiert dann die Speicherregion. Das ist starke kryptographische Praxis. Für die Dauer des API-Aufrufs existiert der entschlüsselte Key jedoch im Speicherraum des Agenten. OpenFang ergänzt Memory-Zeroisierung (Löschen der Keys nach Gebrauch) und SSRF-Schutz (Blockieren privater IPs und Cloud-Metadaten-Endpoints).
 
-**OpenLegion** nutzt eine Vault-Proxy-Architektur, in der Agenten nie entschlüsselte Keys erhalten. Agenten machen API-Aufrufe über einen Proxy, der Credentials auf Netzwerkebene injiziert. Selbst wenn der Speicher eines Agenten während der Ausführung gedumpt wird, sind keine API-Keys präsent. Das ist ein architektonischer Unterschied, nicht nur ein Verschlüsselungs-Unterschied.
+**OpenLegion** hält Credentials in einem Vault und injiziert sie außerhalb des Modells, das immer nur ein Handle hält. Ein entschlüsselter Key gelangt nie in den Kontext des Agenten oder in den Code, den er ausführt. Selbst wenn ein Lauf mitten in der Ausführung gedumpt wird, sind keine API-Keys präsent. Das ist ein architektonischer Unterschied, nicht nur ein Verschlüsselungs-Unterschied.
 
 ### Isolationsmodell
 
 **OpenFang** nutzt WASM-Dual-Metered-Sandboxing (Fuel-Limits + Epoch-Interruption) für Tool-Ausführung. Das betreibt Code in einer WebAssembly-Sandbox mit strikten Ressourcen-Limits. Es setzt auch Ed25519-Manifest-Signing, Merkle-Hash-Chain-Audit-Trails, Taint-Tracking und Subprozess-Isolation ein. Die Isolation passiert auf Sprach-Runtime-Ebene.
 
-**OpenLegion** nutzt Docker-Container-Isolation — jeder Agent läuft in seinem eigenen OS-Level-Container mit Non-Root-Ausführung, ohne Docker-Socket-Zugriff, no-new-privileges-Flag und Pro-Container-Ressourcen-Caps. Die Isolation passiert auf Betriebssystem-Ebene. Docker-Container bieten für die meisten Threat-Modelle stärkere Isolationsgrenzen als WASM-Sandboxes, aber mit höherem Ressourcen-Overhead.
+**OpenLegion** isoliert pro Aufgabe statt pro Prozess — jede Aufgabe läuft bei Bedarf und endet dann, und Code, den der Agent schreibt, läuft in einer Sandbox ohne standardmäßigen Netzwerkzugriff. Die Isolation passiert pro Arbeitseinheit, und jede Einheit ist ein festgehaltener, nachvollziehbarer Lauf. Es gibt keinen langlebigen Agentenprozess zu kompromittieren, und ein untätiger Agent führt überhaupt nichts aus.
 
 ### Budget-Kontrollen
 
 **OpenFang** dokumentiert keine Pro-Agent-Budgetdurchsetzung. Für ein System, das autonome Hands 24/7 laufen lassen soll, ist unkontrollierte Ausgabe ein Produktionsrisiko.
 
-**OpenLegion** erzwingt tägliche und monatliche Pro-Agent-Limits mit automatischer Hartabschaltung. Wenn ein Budget erschöpft ist, stoppt der Agent — keine Ausnahmen.
+**OpenLegion** gibt jedem Agenten ein eigenes Credit-Budget mit automatischer Hartabschaltung. Wenn ein Budget erschöpft ist, stoppt der Agent — keine Ausnahmen.
 
 ## OpenFangs Ökosystem: Was es am besten kann
 
@@ -126,29 +126,29 @@ Die 1.767+ Tests und null clippy-Warnungen suggerieren Engineering-Disziplin.
 
 **Fehlende Budget-Kontrollen.** Für ein System, das auf 24/7-autonomen Agentenbetrieb ausgelegt ist, schafft das Fehlen dokumentierter Pro-Agent-Ausgabenlimits echtes Produktionsrisiko. Eine unkontrollierte Hand, die API-Aufrufe nach Plan macht, kann Budgets verbrennen, ohne jemanden zu alarmieren.
 
-**Unverifizierte Sicherheits-Behauptungen.** 16 Sicherheits-Schichten ist eine marketingfreundliche Zahl, aber keine wurde unabhängig auditiert. Das Projekt hat keine SOC-2-, ISO-27001- oder Drittanbieter-Penetration-Test-Ergebnisse. OpenLegion ebenfalls nicht — aber OpenLegions ~77.000-zeilige Codebasis ist praktisch manuell auditierbar.
+**Unverifizierte Sicherheits-Behauptungen.** 16 Sicherheits-Schichten ist eine marketingfreundliche Zahl, aber keine wurde unabhängig auditiert. Das Projekt hat keine SOC-2-, ISO-27001- oder Drittanbieter-Penetration-Test-Ergebnisse. OpenLegion ebenfalls nicht — aber OpenLegions Kontrollen sitzen in einer Policy-Engine, die sich an einer Stelle auditieren lässt.
 
 ### Was OpenLegion anders abdeckt
 
-Wo OpenFang Sicherheit über Breite adressiert (16 Schichten über WASM-Sandboxing, Taint-Tracking, Merkle-Audit-Trails, SSRF-Schutz und mehr), adressiert OpenLegion sie über Tiefe in den drei Bereichen, die für Produktions-Agenten-Deployments am wichtigsten sind: Credential-Isolation (Vault-Proxy), Ausführungs-Isolation (Docker-Container) und Kosten-Isolation (Pro-Agent-Budgets). OpenLegions Fleet-Modell-Koordination tauscht OpenFangs schleifenfähige Workflow-Flexibilität gegen strukturelle Garantien: Endlosschleifen können nicht auftreten, und jeder Workflow ist vor der Ausführung auditierbar.
+Wo OpenFang Sicherheit über Breite adressiert (16 Schichten über WASM-Sandboxing, Taint-Tracking, Merkle-Audit-Trails, SSRF-Schutz und mehr), adressiert OpenLegion sie über Tiefe in den drei Bereichen, die für Produktions-Agenten-Deployments am wichtigsten sind: Credential-Isolation (ein Vault, den das Modell nie liest), Ausführungs-Isolation (ein Sandbox-Lauf pro Aufgabe) und Kosten-Isolation (Pro-Agent-Credit-Budgets). OpenLegions Ziel-und-Aufgaben-Koordination tauscht OpenFangs schleifenfähige Workflow-Flexibilität gegen strukturelle Garantien: Ein Credit-Budget begrenzt jeden Agenten, und jede Aktion hinterlässt einen Beleg.
 
 ## Hosting- vs. Self-Host-Kompromisse
 
 **OpenFang** kompiliert zu einem einzelnen ~32-MB-Binary, das auf jedem Linux-/macOS-System läuft. Keine Runtime-Abhängigkeiten jenseits des Binarys selbst. Die Tauri-Desktop-App bietet ein natives GUI. Self-Hosted-Deployment ist unkompliziert, erfordert aber Rust-Kompilation oder vorgebaute Binaries.
 
-**OpenLegion** benötigt Python, SQLite und Docker. Die gehostete Plattform (kommt bald) wird Per-User-VPS-Instanzen bieten. Self-Hosted-Deployment benötigt mehr Komponenten, profitiert aber vom reifen Docker-Ökosystem für Orchestrierung, Monitoring und Skalierung.
+**OpenLegion** hat keine Installation vor Ort. Die gehostete Plattform ist live und verlangt nichts davon: mit Google anmelden, kostenlos mit 1,000 Credits und ohne Kreditkarte starten oder für $29/Monat zu Pro wechseln. Es gibt keine Runtime zu kompilieren, kein Binary auszuliefern und keine Infrastruktur zu überwachen — zum Preis, die Plattform nicht selbst zu betreiben.
 
 ## Für wen
 
 **OpenFang** ist für Solo-Entwickler und kleine Teams, die ein batteries-included autonomes Agenten-System mit maximaler Feature-Breite wollen. Das Hands-System adressiert Menschen, die Agenten unabhängig laufen lassen wollen, ohne eigene Workflows zu engineeren. Die Rust-Performance-Eigenschaften eignen sich für hochdichte Deployments auf begrenzter Hardware. Ideale Persona: ein technisch ambitionierter Entwickler, der eine Multi-Channel-autonome Agenten-Flotte baut, der Feature-Vollständigkeit und Raw-Performance über Auditierbarkeit stellt.
 
-**OpenLegion** ist für Teams, die Agenten in Umgebungen ausspielen, in denen Credential-Sicherheit, Kostenkontrolle und Auditierbarkeit harte Anforderungen sind — regulierte Branchen, kundengerichtete Agenten-Flotten und Produktions-Workloads, bei denen Runaway-Kosten oder Credential-Leaks reale Konsequenzen haben. Ideale Persona: ein sicherheitsbewusstes Engineering-Team, das Compliance-Reviewern genau nachweisen muss, worauf jeder Agent zugreifen, ausgeben und tun darf.
+**OpenLegion** ist für Teams, die Agenten in Umgebungen ausspielen, in denen Credential-Sicherheit, Kostenkontrolle und Auditierbarkeit harte Anforderungen sind — regulierte Branchen, kundengerichtete Agenten-Teams und Produktions-Workloads, bei denen Runaway-Kosten oder Credential-Leaks reale Konsequenzen haben. Ideale Persona: ein sicherheitsbewusstes Engineering-Team, das Compliance-Reviewern genau nachweisen muss, worauf jeder Agent zugreifen, ausgeben und tun darf.
 
 ## Der ehrliche Kompromiss
 
 OpenFang ist der ambitionierteste neue Player im KI-Agenten-Bereich. Seine Feature-Fläche ist für ein Projekt, das in Wochen gemessen wird, atemberaubend. Wenn das Team eine 137.000-zeilige Rust-Codebasis aufrechterhalten, die autonome Hands-Vision liefern und unabhängige Sicherheitsverifizierung erlangen kann, wird es eine formidable Plattform.
 
-OpenLegion setzt auf das Gegenteil: eine kleine, auditierbare Codebasis mit tiefen Sicherheits-Garantien in den drei Bereichen, die die meisten Produktionsvorfälle verursachen — Credential-Leaks, unkontrollierte Kosten und nicht-deterministisches Agentenverhalten. Weniger Features, stärkere Garantien.
+OpenLegion setzt auf das Gegenteil: eine kleine, auditierbare Kontrollfläche mit tiefen Sicherheits-Garantien in den drei Bereichen, die die meisten Produktionsvorfälle verursachen — Credential-Leaks, unkontrollierte Kosten und ungeprüftes Agentenverhalten. Weniger Features, stärkere Garantien.
 
 Wenn Sie ein Agent OS mit 40 Kanälen, 7 autonomen Hands und einem P2P-Protokoll wollen, wählen Sie OpenFang. Wenn Sie genau wissen müssen, worauf Ihre Agenten zugreifen, was sie ausgeben und tun dürfen — und es einem Auditor nachweisen müssen —, wählen Sie OpenLegion.
 
@@ -171,7 +171,7 @@ OpenFang ist ein Rust-natives Agent Operating System. Es kompiliert 137.000 Zeil
 
 ### OpenLegion vs. OpenFang: Was ist der Unterschied?
 
-OpenFang maximiert Feature-Fläche — 16 Sicherheits-Schichten, 40 Kanäle, autonome Hands, P2P-Networking, Migrationstools und eine Desktop-App. OpenLegion maximiert Sicherheits-Tiefe — Vault-Proxy-Credential-Isolation (Agenten sehen nie Keys), Pro-Agent-Budgetdurchsetzung mit Hartabschaltungen, Docker-Container-Isolation pro Agent und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff), die vor der Ausführung auditierbar ist.
+OpenFang maximiert Feature-Fläche — 16 Sicherheits-Schichten, 40 Kanäle, autonome Hands, P2P-Networking, Migrationstools und eine Desktop-App. OpenLegion maximiert Sicherheits-Tiefe — Credentials im Vault (das Modell hält nur ein Handle), Pro-Agent-Credit-Budgets mit Hartabschaltungen, einen Sandbox-Lauf für jede Aufgabe und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten), die als Belege festgehalten wird, die der Eigentümer lesen kann.
 
 ### Ist OpenLegion eine OpenFang-Alternative?
 
@@ -179,23 +179,23 @@ Ja. Beide sind sicherheitsbewusste KI-Agenten-Frameworks, lösen aber unterschie
 
 ### Wie vergleicht sich Credential-Handling zwischen OpenLegion und OpenFang?
 
-OpenFang nutzt AES-256-GCM-Verschlüsselung mit Memory-Zeroisierung — Keys werden für API-Aufrufe in den Agentenspeicher entschlüsselt, dann gewischt. OpenLegion nutzt einen Vault-Proxy — Agenten machen API-Aufrufe über einen Proxy, der Credentials auf Netzwerkebene injiziert. Agenten halten in keinem Moment entschlüsselte Keys im Speicher. Der Vault-Proxy bietet stärkere Credential-Isolation gegen Memory-Dump-Angriffe.
+OpenFang nutzt AES-256-GCM-Verschlüsselung mit Memory-Zeroisierung — Keys werden für API-Aufrufe in den Agentenspeicher entschlüsselt, dann gewischt. OpenLegion nutzt einen Credential-Vault — Credentials werden außerhalb des Modells injiziert, das immer nur ein Handle hält. Ein entschlüsselter Key gelangt nie in den Kontext des Agenten oder in seinen Lauf. Der Vault bietet stärkere Credential-Isolation gegen Memory-Dump-Angriffe.
 
 ### Welches ist besser für Produktions-KI-Agenten?
 
-Beide sind Pre-Release. OpenFang bietet mehr Features, ist aber Tage alt (v0.3.4) ohne dokumentierte Produktions-Deployments. OpenLegion bietet tiefere Sicherheits-Garantien, hat aber eine kleinere Community. Für Produktionsnutzung bewerten Sie: Brauchen Sie autonome 24/7-Hands (OpenFang) oder Auditierbarkeit mit Kostenkontrollen (OpenLegion)? Keines hat bisher Drittanbieter-Sicherheits-Audits.
+OpenFang bietet mehr Features, ist aber Tage alt (v0.3.4) ohne dokumentierte Produktions-Deployments. OpenLegions gehostete Plattform ist live und bietet tiefere Sicherheits-Garantien, hat aber eine kleinere Community. Für Produktionsnutzung bewerten Sie: Brauchen Sie autonome 24/7-Hands (OpenFang) oder Auditierbarkeit mit Kostenkontrollen (OpenLegion)? Keines hat bisher Drittanbieter-Sicherheits-Audits.
 
 ### Hat OpenFang Pro-Agent-Kostenkontrollen?
 
-OpenFangs Dokumentation beschreibt keine Pro-Agent-Budgetdurchsetzung. Für Systeme, die autonome Hands nach Plan laufen lassen, ist unkontrollierte API-Ausgabe ein Produktionsrisiko. OpenLegion erzwingt tägliche und monatliche Pro-Agent-Limits mit automatischer Hartabschaltung.
+OpenFangs Dokumentation beschreibt keine Pro-Agent-Budgetdurchsetzung. Für Systeme, die autonome Hands nach Plan laufen lassen, ist unkontrollierte API-Ausgabe ein Produktionsrisiko. OpenLegion gibt jedem Agenten ein eigenes Credit-Budget mit automatischer Hartabschaltung.
 
 ### Wie vergleichen sich OpenFangs 16 Sicherheits-Schichten mit OpenLegions 6?
 
-OpenFangs 16 Schichten umfassen WASM-Sandboxing, Ed25519-Signing, Merkle-Audit-Trails, Taint-Tracking, SSRF-Schutz, Secret-Zeroisierung, HMAC-Authentifizierung, Rate-Limiting, Subprozess-Isolation, Prompt-Injection-Scanning, Path-Traversal-Prävention, AES-256-GCM-Vault, RBAC, HTTP-Header, Human-Approval-Gates und einen Watchdog-Thread. OpenLegions 6 Schichten fokussieren auf Docker-Container-Isolation, Vault-Proxy-Credentials, Pro-Agent-ACLs, Budgetdurchsetzung, Fleet-Modell-Koordinations-Determinismus und Ressourcen-Caps. OpenFang deckt mehr Oberfläche ab; OpenLegion geht tiefer bei den drei wirkungsstärksten Vektoren (Credentials, Isolation, Kosten). Keine der Behauptungen wurde unabhängig auditiert.
+OpenFangs 16 Schichten umfassen WASM-Sandboxing, Ed25519-Signing, Merkle-Audit-Trails, Taint-Tracking, SSRF-Schutz, Secret-Zeroisierung, HMAC-Authentifizierung, Rate-Limiting, Subprozess-Isolation, Prompt-Injection-Scanning, Path-Traversal-Prävention, AES-256-GCM-Vault, RBAC, HTTP-Header, Human-Approval-Gates und einen Watchdog-Thread. OpenLegions 6 Schichten fokussieren auf Sandbox-Läufe pro Aufgabe, Credentials im Vault, Pro-Agent-Tool-Grants, Credit-Budgets, eine Policy-Engine vor jeder Aktion und einen Beleg für jede Aktion. OpenFang deckt mehr Oberfläche ab; OpenLegion geht tiefer bei den drei wirkungsstärksten Vektoren (Credentials, Isolation, Kosten). Keine der Behauptungen wurde unabhängig auditiert.
 
 ### Kann ich von OpenFang zu OpenLegion migrieren?
 
-OpenFang-Workflows und Hands müssten als Fleet-Modell-Koordination mit expliziten Agentendefinitionen, Tool-Zugriffskontrollen und Budget-Limits restrukturiert werden. LLM-Konfigurationen werden direkt übertragen, da beide große Anbieter unterstützen. Workflow-Muster siehe unsere Seite zur [KI-Agenten-Orchestrierung](/learn/ai-agent-orchestration).
+OpenFang-Workflows und Hands müssten als Ziele und Aufgaben mit expliziten Agentendefinitionen, Tool-Zugriffskontrollen und Budget-Limits restrukturiert werden. Es gibt keine LLM-Konfiguration zu übertragen, da OpenLegion Modelle per Preset wählt. Workflow-Muster siehe unsere Seite zur [KI-Agenten-Orchestrierung](/learn/ai-agent-orchestration).
 
 ---
 

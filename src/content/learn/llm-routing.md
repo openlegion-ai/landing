@@ -230,16 +230,16 @@ Three concrete problems that reframe this for production agent systems:
 
 **OpenAI Tier 1 limits gpt-4o to 500 RPM and 30,000 TPM.** A dynamic router that unevenly distributes queries between cheap and expensive model tiers can cause a different failure mode: cheap-model throughput is fine, but the expensive-model allocation is consumed faster than expected by routing decisions. This requires monitoring not just cost but quota consumption per model tier.
 
-**OpenLegion enforces per-agent model configuration in INSTRUCTIONS.md, committed to git.** Every model assignment is a git commit — full audit trail of which agent role uses which model and when that changed. The routing decision is made once by a developer who understands the role's complexity requirements; the mesh router enforces it at every call without a classifier. Zero classifier overhead, zero adversarial attack surface, deterministic behavior, full auditability.
+**OpenLegion assigns a model preset per agent — Smartest, Smart or Normal.** Every change of preset is recorded as a receipt — a full audit trail of which agent role runs on which tier and when that changed. The routing decision is made once by an owner who understands the role's complexity requirements; the policy engine enforces it at every call without a classifier. Zero classifier overhead, zero adversarial attack surface, deterministic behavior, full auditability.
 
 | **Routing property** | **OpenLegion** | **RouteLLM (OSS)** | **OpenRouter** | **AWS Bedrock routing** | **LiteLLM** |
 |---|---|---|---|---|---|
-| **Per-agent model config (structural routing)** | INSTRUCTIONS.md, committed to git | Not available | Not available | Not available | Not available |
+| **Per-agent model config (structural routing)** | Model preset per agent, set in the app | Not available | Not available | Not available | Not available |
 | **Routing decision audit trail** | Every model call tagged with agent_id and model | Logging configurable | Per-call response metadata | CloudWatch logs | Dashboard |
 | **Adversarial attack surface on routing** | None (structural, not content-based) | ML classifier (BERT/MF) — attackable | Model-by-name (low surface) | AWS-managed classifier — attackable | Config-based (low surface) |
-| **Vault-proxied model calls** | Zone 2 proxy, credentials never in agent context | No | No | IAM role | No |
-| **Per-agent budget cap** | daily_budget, monthly_budget in INSTRUCTIONS.md | No | Per-key budget limit | Bedrock cost allocation | Per-team budget |
-| **Cross-provider routing** | Per-agent model config can target any provider | OpenAI-compatible | 200+ endpoints | Within Bedrock only | 100+ providers |
+| **Vault-held model credentials** | Injected outside the model, never in agent context | No | No | IAM role | No |
+| **Per-agent budget cap** | Per-agent credit budget, set in the app | No | Per-key budget limit | Bedrock cost allocation | Per-team budget |
+| **Cross-provider routing** | Preset per agent — Smartest, Smart or Normal | OpenAI-compatible | 200+ endpoints | Within Bedrock only | 100+ providers |
 
 For the proxy/authentication layer that complements routing — API key consolidation, rate limiting, and request logging — see [LLM gateway authentication, rate limiting, and spend enforcement](/learn/llm-gateway).
 
@@ -285,6 +285,6 @@ LLM routing is a cost optimization technique: it works when the cheaper model pr
 
 The structural routing pattern — per-agent model assignment in committed configuration, zero classifier overhead, zero adversarial attack surface — captures role-based complexity savings without dynamic routing's operational overhead. A reasoning agent assigned Claude 3.7 Sonnet and a routing agent assigned GPT-4o-mini is LLM routing without a classifier.
 
-[Start building on OpenLegion](https://app.openlegion.ai) — per-agent model configuration in INSTRUCTIONS.md, vault-proxied model calls, per-agent budget enforcement.
+[Start building on OpenLegion](https://app.openlegion.ai) — a model preset per agent, vault-held credentials injected outside the model, per-agent budget enforcement.
 
 For the proxy/authentication layer that complements routing — API key consolidation, rate limiting, and request logging — see [LLM gateway authentication, rate limiting, and spend enforcement](/learn/llm-gateway).

@@ -42,7 +42,7 @@ AI agent memory enables persistent context, learning, and coordination across se
 
 **Cost implications** scale linearly with context length since every LLM call re-processes the entire context window. A 100K token context costs approximately 10x more than a 10K token context, making efficient context management essential for production systems.
 
-**Memory compression** techniques include summarization of old conversations, fact extraction to structured storage, and selective retention of high-value context. OpenLegion automatically compacts context when approaching token limits while preserving essential information in workspace files.
+**Memory compression** techniques include summarization of old conversations, fact extraction to structured storage, and selective retention of high-value context. OpenLegion automatically compacts context when approaching token limits while preserving essential information in the agent's memory.
 
 ### Semantic Memory: Vector Store Retrieval
 
@@ -60,9 +60,9 @@ AI agent memory enables persistent context, learning, and coordination across se
 
 **Blackboard systems** extend key-value storage for multi-agent coordination. Agents write progress updates, share work products, and coordinate handoffs through hierarchical keys like `status/researcher` or `output/analyst/report_draft`. This enables complex multi-agent workflows without external message queues.
 
-**Permission models** control which agents can read and write specific memory regions. OpenLegion's blackboard implements pattern-based permissions where agents gain access to key prefixes like `research/*` or `tasks/agent_id/*` while preventing unauthorized access to sensitive coordination state.
+**Permission models** control which agents can read and write specific memory regions. In OpenLegion every read and write is an intent the policy engine checks before it happens, so an agent reaches only the goals, tasks, and memory its owner scoped it to and cannot touch sensitive coordination state.
 
-**Persistence guarantees** ensure that structured memory survives agent restarts, system updates, and infrastructure changes. SQLite provides ACID guarantees for OpenLegion's blackboard while remaining lightweight enough for single-node deployment without external database dependencies.
+**Persistence guarantees** ensure that structured memory survives agent restarts, system updates, and infrastructure changes. In OpenLegion agents are durable records rather than servers: each task runs on demand and then stops, while the shared record of goals, tasks, and memory outlives every run.
 
 ### Episodic Memory: Event Logs and Procedures
 
@@ -94,7 +94,7 @@ AI agent memory enables persistent context, learning, and coordination across se
 
 **Cross-agent contamination** happens in shared memory systems where one agent's credentials become accessible to other agents through memory retrieval operations. This violates the principle of least privilege and creates credential sprawl across agent fleets.
 
-**Architectural prevention** requires credential isolation at the system level rather than application-level controls. OpenLegion's vault proxy ensures that no agent memory system ever contains plaintext credentials because agents never receive them directly.
+**Architectural prevention** requires credential isolation at the system level rather than application-level controls. OpenLegion's credential vault ensures that no agent memory system ever contains plaintext credentials: they are injected outside the model, which only ever holds a handle.
 
 ## OpenLegion's Take
 
@@ -102,29 +102,29 @@ AI agent memory is fundamental to autonomous systems that must operate beyond si
 
 CVE-2025-67732 exposed the systematic credential exposure risk when agent memory systems share authentication tokens through queryable storage. Memory poisoning attacks documented in arXiv cs.AI 2025 demonstrate how false facts injected into persistent storage can corrupt agent behavior across sessions. These aren't theoretical risks — they're documented attack vectors against popular memory libraries.
 
-OpenLegion's architecture addresses these risks through isolation rather than access controls. The vault proxy ensures that credentials never enter memory systems where they could be retrieved through queries or attacks. Per-agent workspace isolation prevents memory contamination between agents while enabling coordination through controlled blackboard interfaces.
+OpenLegion's architecture addresses these risks through isolation rather than access controls. Credentials live in a vault and are injected outside the model, so they never enter memory systems where a query or an attack could retrieve them. Per-agent memory isolation prevents contamination while coordination runs through goals and tasks the policy engine checks.
 
-The operational advantages matter too. Popular memory libraries like mem0 (56,445 stars) and Letta (22,890 stars) require external vector databases and credential management, creating operational complexity and additional attack surfaces. OpenLegion's native blackboard runs on SQLite without external dependencies, reducing both security risks and operational overhead.
+The operational advantages matter too. Popular memory libraries like mem0 (56,445 stars) and Letta (22,890 stars) require external vector databases and credential management, creating operational complexity and additional attack surfaces. OpenLegion is a hosted web app with nothing to install and no vector database to run yourself, reducing both security risks and operational overhead.
 
-Choose shared memory systems when coordination requirements outweigh security concerns and you have infrastructure expertise to manage external vector databases securely. Choose OpenLegion when credential security and operational simplicity are essential, and native blackboard coordination meets your memory requirements without external dependencies.
+Choose shared memory systems when coordination requirements outweigh security concerns and you have infrastructure expertise to manage external vector databases securely. Choose OpenLegion when credential security and operational simplicity are essential, and goal-and-task coordination meets your memory requirements with nothing to run yourself.
 
-### Four-Zone Architecture: Vault-Protected Memory
+### Policy-Engine Architecture: Vault-Protected Memory
 
-**Four-zone architecture** separates credential management from memory operations entirely. Zone 1 (Public Internet), Zone 2 (Mesh Network), Zone 3 (Agent Containers), and Zone 4 (Vault Proxy) ensure that credentials never persist in agent memory systems where they could be exposed through queries or attacks.
+**One policy engine** separates credential management from memory operations entirely. Every action is an intent checked before it happens and recorded as a receipt, and credentials live in a vault injected outside the model, so they never persist in agent memory where a query or an attack could expose them.
 
-**Native blackboard** provides structured memory coordination without external vector databases or credential management systems. Agents coordinate through hierarchical keys, pub/sub events, and persistent state while maintaining security boundaries through permission-based access control.
+**Goals and tasks** provide structured memory coordination without external vector databases or credential management systems. Agents coordinate through a shared record of goals and tasks, event wakes, and persistent state while maintaining security boundaries through permission-based access control.
 
-**Write permissions** prevent memory contamination by controlling which agents can modify specific memory regions. The pattern-based permission system ensures that research agents cannot corrupt configuration data and configuration agents cannot pollute research findings.
+**Write permissions** prevent memory contamination by controlling which agents can modify specific memory regions. Every write is an intent the policy engine checks, so research agents cannot corrupt configuration data and configuration agents cannot pollute research findings.
 
-**Zero external dependencies** mean the entire memory system runs on SQLite with ACID guarantees without requiring external vector databases, Redis caching, or specialized memory services. This reduces operational complexity while maintaining security isolation.
+**Nothing to run yourself** means the entire memory system is part of the hosted platform, with no external vector database, Redis cache, or specialized memory service to operate. This reduces operational complexity while maintaining security isolation.
 
 ### Per-Agent Workspace Isolation
 
-**Private workspace** provides each agent with isolated file storage for personal memory, configuration, and working files. SOUL.md, INSTRUCTIONS.md, MEMORY.md, and other workspace files remain private to the owning agent while shared coordination occurs through the blackboard.
+**Private workspace** provides each agent with isolated storage for personal memory, configuration, and working files. An agent's instructions, memory, and artifacts remain private to the owning agent while shared coordination occurs through goals and tasks.
 
-**Memory search** operates across both structured facts in the agent's personal memory database and workspace files using BM25 keyword matching plus optional semantic search when embeddings are configured. This provides comprehensive memory retrieval without shared vector store security risks.
+**Memory search** operates across both the structured facts in an agent's own memory and its workspace files, combining keyword matching with semantic retrieval. This provides comprehensive memory retrieval without shared vector store security risks.
 
-**Artifact isolation** ensures that agent work products remain private until explicitly shared through the blackboard or artifact systems. Agents cannot accidentally access other agents' personal memory or intermediate work products, maintaining clear security boundaries.
+**Artifact isolation** ensures that agent work products remain private until explicitly shared as an artifact or handed to another agent. Agents cannot accidentally access other agents' personal memory or intermediate work products, maintaining clear security boundaries.
 
 **[Explore AI agent platform architecture](/learn/ai-agent-platform)** for comprehensive security and memory management approaches. For [AI agent security vulnerabilities](/learn/ai-agent-security), see detailed threat models and CVE coverage.
 
@@ -144,9 +144,9 @@ Memory poisoning injects false facts into persistent agent memory systems, corru
 
 CVE-2025-67732 demonstrated credential exposure when shared memory stores contain API keys accessible to any authenticated user. Vector similarity searches can inadvertently retrieve sensitive information when query terms match credential metadata. Cross-agent contamination occurs when one agent's credentials become accessible to others through normal memory operations, violating least privilege principles.
 
-### What is the OpenLegion blackboard?
+### What is the OpenLegion shared record?
 
-A native shared key-value persistent store enabling agent-to-agent coordination without external vector databases or services. It runs on SQLite with ACID guarantees and pattern-based permission controls. The vault proxy prevents credential exposure by ensuring agents never receive plaintext credentials. Write permissions prevent memory contamination between agents while enabling structured coordination through hierarchical keys.
+The durable record of goals, tasks, and results that lets agents coordinate without external vector databases or services. Work is organised goals → tasks → agents, with an assistant that delegates to the teammates it creates. Credentials live in a vault and are injected outside the model, so agents never receive plaintext credentials. Every read and write is an intent the policy engine checks, which prevents memory contamination between agents.
 
 ### Which memory libraries are most popular?
 
@@ -154,4 +154,4 @@ mem0ai/mem0 leads with 56,445 GitHub stars and $23.5M Series A funding from Insi
 
 ### How do you secure agent memory in production?
 
-Use architectural credential isolation through vault proxy systems rather than application-level controls. Implement per-agent workspace isolation to prevent memory contamination. Apply pattern-based permissions following least privilege principles. Monitor memory operations for abnormal access patterns and potential poisoning attacks. Never store credentials in any agent memory system including vector stores or episodic logs.
+Use architectural credential isolation through a credential vault rather than application-level controls. Implement per-agent workspace isolation to prevent memory contamination. Apply pattern-based permissions following least privilege principles. Monitor memory operations for abnormal access patterns and potential poisoning attacks. Never store credentials in any agent memory system including vector stores or episodic logs.

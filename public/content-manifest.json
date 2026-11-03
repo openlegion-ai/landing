@@ -5,7 +5,7 @@
     {
       "slug": "/ai-social-media-management",
       "title": "AI Social Media Management Software — Autonomous Agent Platform",
-      "description": "AI social media management software that runs autonomous agents to post, reply, and engage across X, LinkedIn, Instagram, and TikTok — multi-account, BYO LLM keys.",
+      "description": "AI social media management software that runs autonomous agents to plan, draft, and review posts for X, LinkedIn, Instagram, and TikTok — multi-account, with approvals.",
       "primaryKeyword": "ai social media management",
       "secondaryKeywords": [
         "ai social media management software",
@@ -270,7 +270,7 @@
     {
       "slug": "/comparison/dify",
       "title": "Dify Alternative: Security-First Platform vs Visual LLMOps",
-      "description": "OpenLegion vs Dify: air-gapped credentials vs GHSA-8235-vv5j-mmvg SSRF (CVSS 8.3), agent mesh vs visual LLMOps, single-process vs 12-container Postgres/Redis/MinIO stack.",
+      "description": "OpenLegion vs Dify: vault-held credentials vs GHSA-8235-vv5j-mmvg SSRF (CVSS 8.3), goal-and-task agents vs visual LLMOps, hosted web app vs 12-container Postgres/Redis/MinIO stack.",
       "primaryKeyword": "dify alternative",
       "secondaryKeywords": [],
       "schemaTypes": [
@@ -306,7 +306,7 @@
     {
       "slug": "/comparison/flowise",
       "title": "Flowise Alternative — Security-First Platform vs Visual Builder",
-      "description": "OpenLegion vs Flowise: vault isolation vs 7 HIGH-severity CVEs, multi-agent mesh vs visual flow builder, OSI licensing vs commercial restrictions compared.",
+      "description": "OpenLegion vs Flowise: vault isolation vs 7 HIGH-severity CVEs, hosted multi-agent platform vs visual flow builder, source-available vs commercial licensing compared.",
       "primaryKeyword": "flowise alternative",
       "secondaryKeywords": [
         "openlegion vs flowise",
@@ -410,7 +410,7 @@
     {
       "slug": "/comparison/langgraph",
       "title": "OpenLegion vs LangGraph — Detailed Comparison (2026)",
-      "description": "OpenLegion vs LangGraph: security architecture, credential isolation, CVE history, budget controls, graph-based vs fleet-model coordination, and production deployment compared.",
+      "description": "OpenLegion vs LangGraph: security architecture, credential isolation, CVE history, budget controls, graph-based vs goal-and-task coordination, and production deployment compared.",
       "primaryKeyword": "openlegion vs langgraph",
       "secondaryKeywords": [
         "langgraph alternative",
@@ -474,7 +474,7 @@
     {
       "slug": "/comparison/litellm",
       "title": "LiteLLM Alternative — Vault Isolation vs Credential Store",
-      "description": "OpenLegion vs LiteLLM: vault proxy vs centralized credential store. CVE-2026-42208 (CVSS 9.3) SQL injection exposed LiteLLM credential DB. Distributed isolation vs gateway aggregation.",
+      "description": "OpenLegion vs LiteLLM: vault isolation vs centralized credential store. CVE-2026-42208 (CVSS 9.3) SQL injection exposed LiteLLM credential DB. Distributed isolation vs gateway aggregation.",
       "primaryKeyword": "litellm alternative",
       "secondaryKeywords": [
         "openlegion vs litellm",
@@ -630,7 +630,7 @@
     {
       "slug": "/comparison/n8n",
       "title": "n8n Alternative — OpenLegion Agent Platform vs Workflow Automation",
-      "description": "OpenLegion vs n8n: multi-agent mesh platform vs workflow automation tool, license freedom vs fair-code restrictions, credential vault vs database storage compared for AI agent operations.",
+      "description": "OpenLegion vs n8n: hosted multi-agent platform vs workflow automation tool, source-available engine vs fair-code license, credential vault vs database storage compared for AI agent operations.",
       "primaryKeyword": "n8n alternative",
       "secondaryKeywords": [
         "openlegion vs n8n",
@@ -993,7 +993,7 @@
     {
       "slug": "/comparison/zeroclaw",
       "title": "OpenLegion vs ZeroClaw — Detailed Comparison (2026)",
-      "description": "OpenLegion vs ZeroClaw: Rust single-binary agent runtime vs Python security-first framework. Credential management, isolation, budget controls, and deployment compared.",
+      "description": "OpenLegion vs ZeroClaw: Rust single-binary agent runtime vs hosted security-first platform. Credential management, isolation, budget controls, and deployment compared.",
       "primaryKeyword": "openlegion vs zeroclaw",
       "secondaryKeywords": [
         "zeroclaw alternative",
@@ -1032,7 +1032,7 @@
     {
       "slug": "/deepseek-v4-agents",
       "title": "Run DeepSeek-Based Agents Securely with OpenLegion (2026)",
-      "description": "Run DeepSeek-based AI agents with vault-proxied credentials, container isolation, and per-agent budget controls. OpenLegion's AI agent framework supports DeepSeek via LiteLLM.",
+      "description": "Run DeepSeek-based AI agents with vault-held credentials, a sandboxed run for every task, and per-agent budget controls on OpenLegion's hosted AI agent framework.",
       "primaryKeyword": "deepseek agents",
       "secondaryKeywords": [
         "deepseek openlegion",
@@ -1376,7 +1376,7 @@
       "schemaTypes": [
         "FAQPage"
       ],
-      "lastUpdated": "2026-06-23",
+      "lastUpdated": "2026-11-03",
       "pageType": "learn",
       "related": [
         "/learn/ai-agent-security",
@@ -1857,7 +1857,7 @@
     {
       "slug": "/learn/ai-agent-orchestration",
       "title": "AI Agent Orchestration — Coordinate Agents",
-      "description": "Container-isolated multi-agent runtime with fleet-model coordination (blackboard + pub/sub + handoff), credential vaulting, and per-agent budget controls.",
+      "description": "Hosted multi-agent orchestration runtime with goal-and-task coordination, vault-held credentials, per-agent credit budgets, and policy-checked actions.",
       "primaryKeyword": "ai agent orchestration",
       "secondaryKeywords": [
         "multi-agent coordination",
@@ -1945,7 +1945,7 @@
     {
       "slug": "/learn/ai-agent-platform",
       "title": "AI Agent Platform — Deploy Secure Agents",
-      "description": "OpenLegion is a managed AI agent platform with container isolation, credential vaulting, and budget controls. Bring your own LLM API keys.",
+      "description": "OpenLegion is a managed AI agent platform with sandboxed task runs, credential vaulting, and per-agent budgets. Nothing to install.",
       "primaryKeyword": "ai agent platform",
       "secondaryKeywords": [
         "managed ai agent platform",
@@ -2009,7 +2009,7 @@
     {
       "slug": "/learn/ai-agent-rate-limiting",
       "title": "AI Agent Rate Limiting: Quota Control, Circuit Breakers, and Budget Caps",
-      "description": "AI agent rate limiting stops API quota exhaustion and runaway loops. Token bucket algorithms, circuit breakers, per-agent budget caps, and mesh-layer enforcement before calls reach the LLM provider.",
+      "description": "AI agent rate limiting stops API quota exhaustion and runaway loops. Token bucket algorithms, circuit breakers, per-agent budget caps, and platform enforcement before calls reach the LLM provider.",
       "primaryKeyword": "ai agent rate limiting",
       "secondaryKeywords": [],
       "schemaTypes": [
@@ -2081,7 +2081,7 @@
     {
       "slug": "/learn/ai-agent-security",
       "title": "AI Agent Security — Threats, Isolation, Vaults",
-      "description": "AI agent security guide: credential leakage, prompt injection, sandbox escape, and how container isolation, vault-proxied credentials, and budget controls mitigate each threat.",
+      "description": "AI agent security guide: credential leakage, prompt injection, sandbox escape, and how run isolation, vault-held credentials, and budget controls mitigate each threat.",
       "primaryKeyword": "ai agent security",
       "secondaryKeywords": [
         "ai agent credential leakage",
@@ -2093,7 +2093,7 @@
       "schemaTypes": [
         "FAQPage"
       ],
-      "lastUpdated": "2026-03",
+      "lastUpdated": "2026-11",
       "pageType": "learn",
       "related": [
         "/learn/ai-agent-platform",
@@ -2193,7 +2193,7 @@
       "schemaTypes": [
         "FAQPage"
       ],
-      "lastUpdated": "2026-06-08",
+      "lastUpdated": "2026-11-03",
       "pageType": "learn",
       "related": [
         "/learn/agentic-workflows",
@@ -2271,7 +2271,7 @@
     {
       "slug": "/learn/ai-coding-agents",
       "title": "AI Coding Agents - Deploy Secure Dev Agent Teams",
-      "description": "AI coding agents that plan, write, test, and review code autonomously. OpenLegion runs them in isolated containers with vaulted credentials and per-agent budgets - a self-hostable dev agent team.",
+      "description": "AI coding agents that plan, write, test, and review code autonomously. OpenLegion runs each task in a sandbox with vault-held credentials and per-agent budgets - a hosted dev agent team.",
       "primaryKeyword": "ai coding agents",
       "secondaryKeywords": [
         "ai code agent",
@@ -2392,7 +2392,7 @@
     {
       "slug": "/learn/build-ai-agent",
       "title": "How to Build an AI Agent: Tools, Credentials, Deployment, and Scheduling",
-      "description": "Build an AI agent step by step: define the agent loop, register tools, configure vault credential injection, set budget caps, deploy to production, schedule with heartbeat cron, and add observability.",
+      "description": "Build an AI agent step by step: define the agent loop, register tools, configure vault credential injection, set budget caps, deploy to production, schedule recurring runs, and add observability.",
       "primaryKeyword": "build ai agent",
       "secondaryKeywords": [],
       "schemaTypes": [
@@ -2762,7 +2762,7 @@
     {
       "slug": "/learn/managed-ai-agent-hosting",
       "title": "Managed AI Agent Hosting - Deploy Secure Agent Fleets",
-      "description": "Managed AI agent hosting from OpenLegion: deploy container-isolated agent fleets on a dedicated VPS with vaulted credentials, per-agent budgets, and no infrastructure to run yourself.",
+      "description": "Managed AI agent hosting from OpenLegion: run secure agent teams in a hosted web app with vaulted credentials, per-agent budgets, and no dedicated VPS or infrastructure to run yourself.",
       "primaryKeyword": "managed ai agent hosting",
       "secondaryKeywords": [
         "host ai agents",
@@ -2828,7 +2828,7 @@
     {
       "slug": "/learn/model-context-protocol",
       "title": "Model Context Protocol (MCP) — How AI Agents Use Tools",
-      "description": "Model Context Protocol (MCP) is Anthropic's open standard for letting AI agents discover and call external tools. How it works, security caveats, and OpenLegion's MCP support.",
+      "description": "Model Context Protocol (MCP) is Anthropic's open standard for letting AI agents discover and call external tools. How it works, security caveats, and what OpenLegion does instead.",
       "primaryKeyword": "model context protocol",
       "secondaryKeywords": [
         "MCP",
@@ -2957,7 +2957,7 @@
     {
       "slug": "/openclaw-alternative",
       "title": "OpenClaw Alternative — OpenLegion",
-      "description": "Looking for an OpenClaw alternative? OpenLegion offers container isolation, vault-proxied credentials, per-agent budget controls, and fleet coordination (blackboard + pub/sub + handoff).",
+      "description": "Looking for an OpenClaw alternative? OpenLegion offers sandboxed task runs, vault-held credentials, per-agent budget controls, and goal-and-task coordination (goals → tasks → agents).",
       "primaryKeyword": "openclaw alternative",
       "secondaryKeywords": [
         "openclaw replacement",

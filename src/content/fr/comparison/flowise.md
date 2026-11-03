@@ -1,6 +1,6 @@
 ---
 title: Alternative Flowise — Plateforme axée sécurité vs Builder visuel
-description: "OpenLegion vs Flowise : isolation vault contre 7 CVE de sévérité HIGH, mesh multi-agents contre builder de flux visuel, licence OSI contre restrictions commerciales comparés."
+description: "OpenLegion vs Flowise : isolation vault contre 7 CVE de sévérité HIGH, plateforme multi-agents hébergée contre builder de flux visuel, licence source-available contre restrictions commerciales comparées."
 slug: /comparison/flowise
 primary_keyword: flowise alternative
 secondary_keywords:
@@ -25,7 +25,7 @@ related:
 
 # Alternative Flowise : Plateforme de sécurité OpenLegion vs Builder de workflow visuel
 
-Flowise est un builder visuel par glisser-déposer pour les applications LLM avec 52 998 étoiles GitHub qui a publié 7 CVE de sévérité HIGH le 14 mai 2026, toutes des vulnérabilités d'affectation de masse et IDOR permettant aux utilisateurs authentifiés de franchir les limites des espaces de travail. OpenLegion est une plateforme multi-agents axée sécurité avec isolation des credentials par proxy vault, isolation Docker par conteneur d'agent et coordination native de flotte. Quand la commodité du builder visuel s'accompagne d'un cluster de 7 CVE dans une seule version, le cas sécurité pour une architecture différente devient concret.
+Flowise est un builder visuel par glisser-déposer pour les applications LLM avec 52 998 étoiles GitHub qui a publié 7 CVE de sévérité HIGH le 14 mai 2026, toutes des vulnérabilités d'affectation de masse et IDOR permettant aux utilisateurs authentifiés de franchir les limites des espaces de travail. OpenLegion est une plateforme multi-agents axée sécurité avec des credentials isolés dans un coffre-fort, une exécution en bac à sable pour chaque tâche et une coordination native par objectifs et tâches. Quand la commodité du builder visuel s'accompagne d'un cluster de 7 CVE dans une seule version, le cas sécurité pour une architecture différente devient concret.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -37,15 +37,15 @@ Flowise est un builder visuel par glisser-déposer pour les applications LLM ave
 | **Dimension** | **OpenLegion** | **Flowise** |
 |---|---|---|
 | **But principal** | Plateforme d'exécution multi-agents axée sécurité | Builder de workflow LLM visuel par glisser-déposer |
-| **Interface utilisateur** | Configuration d'agent code-first | Éditeur de nœuds visuel, sans code |
-| **Architecture sécurité** | Isolation Docker par agent, proxy vault, ACL par agent | Processus partagé, CVE de limites d'espace de travail dans v3.1.1 |
-| **Historique CVE** | Aucun publié | 7 CVE HIGH en mai 2026 (CVSS 7,7-8,1) |
-| **Support multi-agents** | Modèle de flotte natif, tableau noir, pub/sub, handoffs | Limité ; conception visuelle de flux unique principalement |
-| **Gestion des credentials** | Proxy vault — les agents ne détiennent jamais de clés en clair | Stockage de credentials accessible par les utilisateurs |
-| **Modèle de licence** | BSL 1.1 (se convertit en Apache 2.0 après 4 ans) | Licence commerciale non-OSI avec restrictions |
-| **Isolation des espaces** | Niveau conteneur — structurelle, pas couche applicative | Couche applicative — répétitivement compromise par des bugs IDOR |
-| **Sécurité des limites API** | Appliquée au mesh host ; non contournable par les agents | Contournable — CVE-2026-46444 a laissé des endpoints non authentifiés |
-| **Complexité de développement** | Code requis pour la logique d'agent | Builder visuel, code minimal |
+| **Interface utilisateur** | Application web hébergée, configuration d'agent dans l'app | Éditeur de nœuds visuel, sans code |
+| **Architecture sécurité** | Exécution en bac à sable par tâche, coffre-fort, permissions par agent | Processus partagé, CVE de limites d'espace de travail dans v3.1.1 |
+| **Historique CVE** | Plateforme hébergée, corrigée de façon centralisée | 7 CVE HIGH en mai 2026 (CVSS 7,7-8,1) |
+| **Support multi-agents** | Modèle d'équipe natif, objectifs, tâches, délégation | Limité ; conception visuelle de flux unique principalement |
+| **Gestion des credentials** | Coffre-fort — les agents ne détiennent jamais de clés en clair | Stockage de credentials accessible par les utilisateurs |
+| **Modèle de licence** | Moteur en source-available (PolyForm Perimeter 1.0.1) | Licence commerciale non-OSI avec restrictions |
+| **Isolation des espaces** | Niveau exécution — structurelle, pas couche applicative | Couche applicative — répétitivement compromise par des bugs IDOR |
+| **Sécurité des limites API** | Appliquée par le moteur de politiques ; non contournable par les agents | Contournable — CVE-2026-46444 a laissé des endpoints non authentifiés |
+| **Complexité de développement** | Instructions d'agent en langage courant | Builder visuel, code minimal |
 
 ## Conception de workflow visuel vs architecture de sécurité
 
@@ -53,7 +53,7 @@ La proposition de valeur de Flowise est la vitesse : faire glisser un nœud Lang
 
 La contrainte architecturale des builders visuels est que la simplicité visuelle et la profondeur sécurité se font concurrence. Quand chaque nœud d'un flux s'exécute dans le même processus, l'isolation des espaces de travail doit être appliquée au niveau de la couche applicative. C'est sujet aux erreurs, et le cluster CVE de mai 2026 de Flowise démontre que cela échoue à plusieurs reprises.
 
-L'architecture sécurité d'OpenLegion est structurelle, pas couche applicative. L'isolation par conteneur par agent signifie que les limites des espaces de travail sont appliquées par le système d'exploitation, pas par la validation de paramètres. Les [modèles d'orchestration multi-agents](/learn/ai-agent-orchestration) montrent comment l'isolation structurelle permet la coordination sans vulnérabilités d'état partagé.
+L'architecture sécurité d'OpenLegion est structurelle, pas couche applicative. Chaque action est une intention vérifiée par un moteur de politiques unique avant qu'elle n'ait lieu : les limites des espaces de travail sont donc appliquées par la plateforme, pas par la validation de paramètres. Les [modèles d'orchestration multi-agents](/learn/ai-agent-orchestration) montrent comment l'isolation structurelle permet la coordination sans vulnérabilités d'état partagé.
 
 ## Le cluster CVE : 7 vulnérabilités de sévérité HIGH dans v3.1.1
 
@@ -71,7 +71,7 @@ Sept CVE de sévérité HIGH de la même classe dans une seule version de releas
 
 Flowise stocke les credentials dans un stockage au niveau de l'espace de travail accessible via l'interface utilisateur. Les utilisateurs disposant d'un accès peuvent afficher, modifier et supprimer les credentials.
 
-L'architecture proxy vault d'OpenLegion délimite l'accès aux credentials par agent. L'Agent A a une liste d'autorisation contenant exactement les credentials dont il a légitimement besoin. L'Agent B ne peut pas accéder aux credentials de l'Agent A. Les credentials sont injectés au niveau réseau — aucune clé en clair n'est jamais exposée.
+Le coffre-fort de credentials d'OpenLegion délimite l'accès aux credentials par agent. L'Agent A a une liste d'autorisation contenant exactement les credentials dont il a légitimement besoin. L'Agent B ne peut pas accéder aux credentials de l'Agent A. Les credentials sont injectés hors du modèle — aucune clé en clair n'est jamais exposée.
 
 ## L'avis d'OpenLegion
 
@@ -91,13 +91,13 @@ Pour les développeurs qui ont besoin d'une plateforme d'agents de production pl
 
 ## Choisissez OpenLegion si...
 
-**Vous avez besoin d'une sécurité de niveau production.** L'isolation des credentials par proxy vault, l'isolation de processus par conteneur par agent et les ACL par agent fournissent des garanties de sécurité structurelles que les vérifications d'espace de travail au niveau applicatif ne peuvent pas égaler.
+**Vous avez besoin d'une sécurité de niveau production.** L'isolation des credentials dans un coffre-fort, une exécution en bac à sable pour chaque tâche et les permissions par agent fournissent des garanties de sécurité structurelles que les vérifications d'espace de travail au niveau applicatif ne peuvent pas égaler.
 
-**Vous avez besoin d'une coordination multi-agents native.** Flowise est principalement un builder visuel de flux unique. Le modèle de flotte d'OpenLegion est conçu pour les workflows multi-agents autonomes.
+**Vous avez besoin d'une coordination multi-agents native.** Flowise est principalement un builder visuel de flux unique. Le modèle d'équipe d'OpenLegion — objectifs, tâches, délégation typée, agents par rôle — est conçu pour les workflows multi-agents autonomes.
 
-**La clarté de la licence est importante.** BSL 1.1 vers Apache 2.0 est documenté et prévisible.
+**La clarté de la licence est importante.** Le moteur d'OpenLegion est publié en source-available sous PolyForm Perimeter License 1.0.1, et la plateforme hébergée est propriétaire.
 
-**Vous avez besoin de contrôles de coûts par agent.** Les plafonds budgétaires LLM quotidiens et mensuels par agent évitent les coûts d'agents incontrôlés. Flowise n'a pas de primitive équivalente.
+**Vous avez besoin de contrôles de coûts par agent.** Chaque agent porte son propre budget en crédits, ce qui évite les coûts d'agents incontrôlés. Flowise n'a pas de primitive équivalente.
 
 Voir le [paysage des frameworks d'agents IA](/learn/ai-agent-frameworks) pour une comparaison plus large. Pour comparer l'approche visuelle de Flowise à la plateforme IA de Dify, voir la [comparaison OpenLegion vs Dify](/comparison/dify).
 
@@ -114,7 +114,7 @@ Voir le [paysage des frameworks d'agents IA](/learn/ai-agent-frameworks) pour un
 
 ### Qu'est-ce que Flowise vs OpenLegion ?
 
-Flowise est un builder visuel par glisser-déposer pour les applications LLM avec 52 998 étoiles GitHub, permettant la construction sans code de pipelines LangChain et LlamaIndex via une interface à nœuds. OpenLegion est une plateforme d'exécution multi-agents axée sécurité avec isolation des credentials par proxy vault, isolation Docker par conteneur d'agent et coordination native de flotte. Flowise priorise l'accessibilité visuelle ; OpenLegion priorise l'architecture de sécurité en production.
+Flowise est un builder visuel par glisser-déposer pour les applications LLM avec 52 998 étoiles GitHub, permettant la construction sans code de pipelines LangChain et LlamaIndex via une interface à nœuds. OpenLegion est une plateforme d'exécution multi-agents axée sécurité avec des credentials isolés dans un coffre-fort, une exécution en bac à sable pour chaque tâche et une coordination native par objectifs et tâches. Flowise priorise l'accessibilité visuelle ; OpenLegion priorise l'architecture de sécurité en production.
 
 ### Quelles sont les vulnérabilités de sécurité de Flowise en 2026 ?
 
@@ -122,16 +122,16 @@ Flowise v3.1.1 a publié 7 CVE de sévérité HIGH le 14 mai 2026 (CVSS 7,7-8,1)
 
 ### Comment l'architecture sécurité d'OpenLegion diffère-t-elle de Flowise ?
 
-Flowise applique les limites des espaces de travail au niveau applicatif par validation de paramètres, un schéma qui échoue à plusieurs reprises. OpenLegion applique l'isolation des agents structurellement : chaque agent s'exécute dans un conteneur Docker séparé sans processus partagé, les credentials sont stockés dans une zone vault que les conteneurs d'agents ne peuvent pas interroger, et les ACL par agent sont appliquées au mesh host.
+Flowise applique les limites des espaces de travail au niveau applicatif par validation de paramètres, un schéma qui échoue à plusieurs reprises. OpenLegion applique l'isolation des agents structurellement : chaque tâche s'exécute dans son propre bac à sable sans processus partagé, les credentials sont stockés dans un coffre-fort que l'exécution d'un agent ne peut pas interroger, et les permissions par agent sont appliquées par le moteur de politiques.
 
 ### Lequel est meilleur pour les systèmes d'agents IA multi-agents ?
 
-OpenLegion est conçu pour la coordination multi-agents avec partage d'état natif via tableau noir, bus d'événements pub/sub, handoffs typés entre rôles et ACL d'outils par agent. Flowise se concentre sur la conception visuelle de flux unique ; la coordination multi-agents nécessite l'enchaînement de flux séparés, ce qui manque de gestion d'état inter-agents native.
+OpenLegion est conçu pour la coordination multi-agents avec un registre partagé d'objectifs et de tâches, des réveils sur événement, une délégation typée entre rôles et des permissions d'outils par agent. Flowise se concentre sur la conception visuelle de flux unique ; la coordination multi-agents nécessite l'enchaînement de flux séparés, ce qui manque de gestion d'état inter-agents native.
 
 ### Quelles sont les restrictions de licence de Flowise ?
 
-Flowise utilise une licence commerciale non approuvée par l'OSI qui restreint la modification et la redistribution. OpenLegion utilise BSL 1.1, qui se convertit en Apache 2.0 après 4 ans, fournissant un chemin documenté vers la licence open-source complète.
+Flowise utilise une licence commerciale non approuvée par l'OSI qui restreint la modification et la redistribution. OpenLegion publie son moteur en source-available sous PolyForm Perimeter License 1.0.1, qui autorise l'usage et la modification mais pas les offres de service concurrentes, tandis que la plateforme hébergée est propriétaire et n'exige aucune revue de licence avant usage.
 
 ### Puis-je migrer de Flowise vers OpenLegion ?
 
-Oui. Les flux visuels Flowise se traduisent en configurations d'agents dans OpenLegion — les nœuds LLM deviennent des paramètres de modèle d'agent, les nœuds d'outils deviennent des permissions d'outils d'agent, les pipelines RAG deviennent des configurations de mémoire d'agent. La migration nécessite d'écrire la logique d'agent en code plutôt que de connecter des nœuds visuels.
+Oui. Les flux visuels Flowise se traduisent en configurations d'agents dans OpenLegion — les nœuds LLM deviennent le préréglage de modèle d'un agent, les nœuds d'outils deviennent des permissions d'outils d'agent, les pipelines RAG deviennent des configurations de mémoire d'agent. La migration nécessite de décrire les agents et leurs objectifs dans l'application plutôt que de connecter des nœuds visuels.

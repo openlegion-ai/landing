@@ -153,9 +153,9 @@ Registre um dataset de avaliação dourado com entradas de tarefas, sequências 
 
 ### Como a OpenLegion suporta avaliação de agentes?
 
-O mesh de agentes da OpenLegion emite traces estruturados de chamadas de ferramentas que podem ser reproduzidos contra um arnês de avaliação. O vault de credenciais garante que as execuções de avaliação usem credenciais isoladas. Agentes de avaliação controlados por heartbeat podem executar suites de regressão de forma programada.
+A OpenLegion registra cada chamada de ferramenta como um recibo, e esses traces estruturados podem ser reproduzidos contra um arnês de avaliação. O vault de credenciais garante que as execuções de avaliação usem credenciais isoladas. Agentes de avaliação agendados podem executar suites de regressão de forma programada.
 
-## Avalie seus agentes em um mesh seguro
+## Avalie seus agentes em uma plataforma segura
 
 Agentes confiáveis requerem infraestrutura de avaliação que teste a trajetória de execução completa. O problema de erro acumulativo é real: uma taxa de confiabilidade por etapa de 90% significa que um agente de cinco etapas falha em 41% das execuções.
 

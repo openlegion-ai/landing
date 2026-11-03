@@ -362,9 +362,9 @@ LIMIT 20;
 | **401 on production, works in staging** | Staging credentials used with production endpoint |
 | **403 (not 401)** | Credential valid but insufficient permissions for this endpoint |
 
-**Vault-proxied credential audit (OpenLegion pattern):**
+**Vault-held credential audit (OpenLegion pattern):**
 
-With vault-proxied credentials, the audit log records which credential name was accessed (`stripe_api_key`), by which agent (`research-agent`), at which step (timestamp). The credential value is never logged. The entry "credential `stripe_api_key` accessed by `research-agent` at step 7" confirms the correct credential name was used — isolating the problem to credential expiry or endpoint misconfiguration rather than "wrong env var."
+With vault-held credentials, the audit log records which credential name was accessed (`stripe_api_key`), by which agent (`research-agent`), at which step (timestamp). The credential value is never logged. The entry "credential `stripe_api_key` accessed by `research-agent` at step 7" confirms the correct credential name was used — isolating the problem to credential expiry or endpoint misconfiguration rather than "wrong env var."
 
 Frameworks using `os.environ["STRIPE_API_KEY"]` cannot produce an equivalent audit entry without explicit logging at every access point. Even then, the env var value at that moment is not recoverable without also logging it — which is itself a security violation.
 
@@ -447,25 +447,25 @@ def test_tool_registry_consistency():
 **8. Prevention measure** — what architectural change prevents the failure class:
 "Added `validate_tool_registry()` call at agent startup. Future tool renames raise `ConfigError` before the agent processes any user request."
 
-## OpenLegion's Take: The Blackboard as a Debugging Surface
+## OpenLegion's Take: The Receipt Trail as a Debugging Surface
 
 The hardest part of debugging a broken agent is not finding the error — it is reconstructing what the agent believed to be true at the moment it made the wrong decision. In a stateless web application, the request-response log tells you everything. In a multi-step agent, the relevant state at step 15 is the system prompt, 14 turns of conversation history, 10 tool results, and reasoning traces. Without state reconstruction capability, debugging is guessing.
 
 Three concrete facts that define the OpenLegion debugging architecture:
 
-**Every blackboard write is timestamped, keyed, and agent-attributed.** The full state of any agent run can be reconstructed by querying all blackboard writes with a given `task_id` prefix — no external SaaS dependency, no in-memory history lost on process exit. Frameworks that accumulate state in-memory have no equivalent post-hoc reconstruction path.
+**Every wake is recorded, timestamped, and agent-attributed.** The full state of any agent run can be reconstructed from the receipts recorded under a given `task_id` — no external SaaS dependency, no in-memory history lost on process exit. Frameworks that accumulate state in-memory have no equivalent post-hoc reconstruction path.
 
 **Credential access is vault-audited, not env-var-opaque.** When a tool call returns a 401, the audit log records which credential name was accessed (`stripe_api_key`), by which agent (`research-agent`), at which step (2026-07-13T14:32:05Z). The value is never logged. Frameworks using `os.environ["STRIPE_API_KEY"]` cannot provide an equivalent audit trail without logging credential values — a security violation. Vault-audited access isolates auth failures to expiry or endpoint misconfiguration in seconds.
 
-**OTel GenAI spans (v1.26.0) emitted at every LLM call** capture `gen_ai.usage.input_tokens` and `gen_ai.response.finish_reasons` at the call level. Combined with `task_id` propagation to every handoff and blackboard write, and `max_iterations` circuit breakers enforced at the mesh layer, the debugging surface is complete: any failure can be localized to a specific step with the exact context that step received.
+**OTel GenAI spans (v1.26.0) emitted at every LLM call** capture `gen_ai.usage.input_tokens` and `gen_ai.response.finish_reasons` at the call level. Combined with `task_id` propagation to every delegation and recorded wake, and `max_iterations` circuit breakers enforced by the platform, the debugging surface is complete: any failure can be localized to a specific step with the exact context that step received.
 
 | **Debugging capability** | **OpenLegion** | **LangChain agents** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Every blackboard write timestamped + agent-attributed — full run state reconstructable by task_id prefix** | Yes — blackboard as debugging surface | No — in-memory, lost on exit | No — in-memory | No — in-memory | No — in-memory |
+| **Every wake recorded, timestamped + agent-attributed — full run state reconstructable by task_id prefix** | Yes — receipts as debugging surface | No — in-memory, lost on exit | No — in-memory | No — in-memory | No — in-memory |
 | **Vault credential access audit log — which secret accessed, by which agent, at which step** | Yes — vault audit, value never logged | No — env var, no audit trail | No — env var | No — env var | No — env var |
 | **OTel GenAI spans v1.26.0 at every LLM call (input_tokens, finish_reasons)** | Yes — stable conventions | LangSmith (LangChain-native) | Not built-in | Not built-in | OpenAI dashboard only |
-| **task_id propagated to every handoff, blackboard write, and LLM span** | Yes — mesh-layer propagation | Manual trace_id required | Manual | Manual | Not enforced |
-| **max_iterations circuit breaker at mesh layer** | Yes — platform-wide | Per-agent, configurable | Per-agent | Per-agent | Not built-in |
+| **task_id propagated to every delegation, recorded wake, and LLM span** | Yes — platform-level propagation | Manual trace_id required | Manual | Manual | Not enforced |
+| **max_iterations circuit breaker at the platform layer** | Yes — platform-wide | Per-agent, configurable | Per-agent | Per-agent | Not built-in |
 | **Validator stage catches schema/link/content failures before production** | Yes — CI gate before every PR | Not built-in | Not built-in | Not built-in | Not built-in |
 
 <!-- SCHEMA: FAQPage -->
@@ -510,4 +510,4 @@ Agent debugging is state reconstruction. The tools that matter are not error mon
 
 Set `max_iterations` on every loop. Log `input_tokens` at every LLM call. Put exact tool name strings in every system prompt. Validate the tool registry at startup. Write the regression test before closing the incident ticket.
 
-[Start building on OpenLegion](https://app.openlegion.ai) — `task_id` propagated to every handoff and blackboard write, OTel GenAI spans at every LLM call, vault audit logs for credential access, and `max_iterations` circuit breakers enforced at the mesh layer.
+[Start building on OpenLegion](https://app.openlegion.ai) — `task_id` propagated to every delegation and recorded wake, OTel GenAI spans at every LLM call, vault audit logs for credential access, and `max_iterations` circuit breakers enforced by the platform.

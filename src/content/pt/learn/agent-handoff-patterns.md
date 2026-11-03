@@ -46,7 +46,7 @@ O despacho pull reduz a exposição de credenciais: a mensagem de fila contém a
 
 Na transferência por ponteiro blackboard, o chamador escreve sua saída em uma chave nomeada em um armazenamento persistente compartilhado, por exemplo `output/researcher/task_abc123`, e envia ao chamado apenas o nome da chave. O chamado lê a chave e recupera exatamente os campos de que precisa. Credenciais brutas, scratchpads intermediários e o contexto completo do chamador nunca aparecem na mensagem de transferência.
 
-A função `hand_off()` da OpenLegion implementa esse padrão nativamente: ela escreve dados de saída em `output/{agent_id}/{handoff_id}` no blackboard, cria uma entrada de tarefa na caixa de entrada do destinatário com um ponteiro para essa chave, e acorda o destinatário. Credenciais armazenadas no vault são injetadas pelo mesh no momento da execução.
+A OpenLegion aplica o mesmo princípio por delegação: o chamador registra sua saída no registro compartilhado de metas e tarefas, cria uma tarefa para o destinatário apontando para ela, e acorda o destinatário. Credenciais ficam num cofre e são injetadas fora do modelo no momento da execução.
 
 **Pontos fortes**: isolamento máximo de credenciais, o chamado lê apenas o que precisa, trilha de auditoria completa via histórico de versões de chave.  
 **Riscos**: adiciona uma operação de leitura; requer um armazenamento compartilhado confiável com controles de acesso apropriados.
@@ -78,7 +78,7 @@ A causa raiz da perda de contexto é a discrepância entre o que o agente chamad
 
 ### O padrão ponteiro blackboard como padrão seguro
 
-O padrão ponteiro blackboard elimina a exposição de credenciais no nível do protocolo em vez de depender da filtragem na camada de aplicação. Credenciais armazenadas no vault da OpenLegion nunca são injetadas no contexto do agente.
+O padrão ponteiro blackboard elimina a exposição de credenciais no nível do protocolo em vez de depender da filtragem na camada de aplicação. Credenciais armazenadas no cofre da OpenLegion nunca são injetadas no contexto do agente — são injetadas fora do modelo, que só guarda um handle.
 
 ## Como os principais frameworks implementam a transferência
 
@@ -117,12 +117,12 @@ def researcher_node(state: AgentState) -> Command:
     )
 ```
 
-### OpenLegion: hand_off() com ponteiro blackboard e entrega na caixa de entrada
+### OpenLegion: delegação com ponteiro de tarefa e entrega na caixa de entrada
 
-A função `hand_off()` da OpenLegion implementa a transferência por ponteiro blackboard nativamente.
+A OpenLegion implementa a transferência por ponteiro nativamente, por delegação.
 
 ```python
-hand_off(
+delegate(
     to="writer",
     summary="Pesquisa concluída: langchain-alternative, 2847 palavras de material fonte",
     data='{"topic": "langchain-alternative", "sources_key": "research/langchain-alt-sources", "word_count_target": 3000}'
@@ -144,7 +144,7 @@ Uma carga útil de transferência bem projetada é uma especificação estrutura
 ### O que excluir: credenciais brutas, janelas de contexto completas, scratchpads intermediários
 
 Excluir das cargas úteis de transferência:
-- **Chaves API, tokens e credenciais**: devem ser injetados pelo mesh no momento da execução
+- **Chaves API, tokens e credenciais**: devem ser injetados fora do modelo no momento da execução
 - **Transcrições completas de conversa**: truncar a resumos relevantes
 - **Scratchpads de raciocínio intermediário**: a cadeia de pensamento do chamador não é útil para o chamado
 - **Dados que o papel do chamado não requer**: aplicar mínimo privilégio ao contexto
@@ -199,7 +199,7 @@ O Google ADK (20.100 estrelas GitHub, Apache-2.0) usa transfer_to_agent(), que p
 
 ### O que é o padrão de transferência por ponteiro blackboard e por que é mais seguro?
 
-Na transferência por ponteiro blackboard, o chamador escreve sua saída em uma chave nomeada em um armazenamento compartilhado (como output/agent-id/task-id), depois envia ao chamado apenas o ponteiro de chave, não os dados em si. O chamado lê apenas os campos de que precisa. Credenciais nunca aparecem na mensagem de transferência, eliminando o vetor de exfiltração OWASP LLM06:2025. A função hand_off() da OpenLegion implementa esse padrão nativamente.
+Na transferência por ponteiro blackboard, o chamador escreve sua saída em uma chave nomeada em um armazenamento compartilhado (como output/agent-id/task-id), depois envia ao chamado apenas o ponteiro de chave, não os dados em si. O chamado lê apenas os campos de que precisa. Credenciais nunca aparecem na mensagem de transferência, eliminando o vetor de exfiltração OWASP LLM06:2025. A delegação da OpenLegion implementa esse padrão nativamente.
 
 ### Quais riscos de segurança existem na transferência de agentes?
 
@@ -217,7 +217,7 @@ Incluir: um resumo conciso de tarefa (menos de 200 palavras), um ponteiro para a
 
 O limite de transferência é a origem da maioria dos problemas de confiabilidade multi-agente. A perda de contexto degrada a qualidade das tarefas posteriores, e os vazamentos de credenciais na carga útil criam riscos de exfiltração que crescem com o comprimento do pipeline.
 
-A transferência por ponteiro blackboard da OpenLegion resolve ambos os problemas no nível do protocolo. `hand_off()` escreve saídas em uma chave nomeada, entrega apenas um ponteiro à caixa de entrada do destinatário e se baseia na injeção de credenciais com proxy de vault. O destinatário lê exatamente o que precisa, nada mais.
+A delegação por ponteiro da OpenLegion resolve ambos os problemas no nível do protocolo. A delegação escreve saídas em uma chave nomeada, entrega apenas um ponteiro à tarefa do destinatário e se baseia em credenciais guardadas em cofre e injetadas fora do modelo. O destinatário lê exatamente o que precisa, nada mais. Cada delegação é registrada como um recibo.
 
 Para a camada de monitoramento que detecta falhas que o protocolo de transferência perde, consulte [observabilidade de agentes: rastrear transferências nas etapas do pipeline](/learn/ai-agent-observability). Para a camada de framework que determina qual padrão de transferência escolher, consulte [comparação de frameworks de agentes IA para implantações em produção](/learn/ai-agent-frameworks).
 

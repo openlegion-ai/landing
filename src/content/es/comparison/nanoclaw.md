@@ -26,33 +26,33 @@ related:
 
 NanoClaw es la consentida de seguridad de la oleada de alternativas a OpenClaw. Creado usando Claude Code a finales de enero de 2026, NanoClaw es un núcleo TypeScript de ~500 líneas que ejecuta cada agente en su propio contenedor Linux a nivel de SO. Llegó a la portada de Hacker News, ganó cobertura en VentureBeat y The Register, y ha sido elogiado por los desarrolladores como "manejable, auditable, flexible". Con aproximadamente 7.200 estrellas en GitHub, es la más enfocada en seguridad de las alternativas ligeras a OpenClaw.
 
-OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) security-first con aislamiento obligatorio por contenedor Docker, gestión de credenciales por proxy de bóveda, aplicación de presupuesto por agente y coordinación tipo flota (blackboard + pub/sub + handoff).
+OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) security-first con una ejecución en sandbox para cada tarea, credenciales guardadas en una bóveda, aplicación de presupuesto por agente y coordinación por objetivos y tareas (objetivos → tareas → agentes).
 
-NanoClaw y OpenLegion son los dos frameworks en este espacio que *ambos* usan aislamiento por contenedor a nivel de SO como límite primario de seguridad. La cuestión es qué más se sitúa encima de esa base.
+NanoClaw y OpenLegion son los dos frameworks en este espacio que *ambos* tratan el aislamiento de la ejecución como límite primario de seguridad. La cuestión es qué más se sitúa encima de esa base.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **¿Cuál es la diferencia entre OpenLegion y NanoClaw?**
-> NanoClaw es un asistente de agente de IA TypeScript ultra-mínimo (~500 líneas de núcleo) construido sobre el Claude Agent SDK de Anthropic. Cada agente corre en un contenedor Linux aislado con bloqueo de archivos sensibles y paso de secretos basado en stdin. OpenLegion es un framework security-first basado en Python que añade gestión de credenciales por proxy de bóveda, aplicación de presupuesto por agente, coordinación tipo flota (blackboard + pub/sub + handoff), más de 100 proveedores LLM y orquestación de flota multi-agente encima del aislamiento por contenedor Docker. NanoClaw es mínimo por filosofía; OpenLegion es comprehensivo por diseño.
+> NanoClaw es un asistente de agente de IA TypeScript ultra-mínimo (~500 líneas de núcleo) construido sobre el Claude Agent SDK de Anthropic. Cada agente corre en un contenedor Linux aislado con bloqueo de archivos sensibles y paso de secretos basado en stdin. OpenLegion es una plataforma alojada security-first que añade credenciales guardadas en bóveda, aplicación de presupuesto por agente, coordinación por objetivos y tareas (objetivos → tareas → agentes), presets de modelo Smartest, Smart y Normal, y equipos multi-agente encima de una ejecución en sandbox para cada tarea. NanoClaw es mínimo por filosofía; OpenLegion es comprehensivo por diseño.
 
 ## TL;DR
 
 | Dimensión | OpenLegion | NanoClaw |
 |---|---|---|
 | **Enfoque principal** | Infraestructura de seguridad de producción | Minimalismo radical + aislamiento por contenedor |
-| **Lenguaje** | Python | TypeScript (~500 líneas de núcleo) |
-| **Base de código total** | ~77.000 líneas | ~3.900 líneas (~15 archivos) |
-| **Aislamiento de agente** | Contenedor Docker por agente | Contenedor Linux por agente (Apple Container/Docker) |
-| **Seguridad de credenciales** | Proxy de bóveda — los agentes nunca ven las claves | Inyección JSON por stdin; blocklists para archivos sensibles |
-| **Controles de presupuesto** | Corte estricto diario/mensual por agente | Ninguno integrado |
-| **Orquestación** | Coordinación tipo flota (blackboard + pub/sub + handoff) | Chat-driven; sin motor de flujo |
-| **Proveedores LLM** | 100+ vía LiteLLM | Solo Claude (Anthropic Agent SDK) |
-| **Canales de mensajería** | 5 | 4 (WhatsApp, Telegram, Discord, Slack) |
-| **Multi-agente** | Plantillas de flota con ACLs por agente | Agent Swarms (equipos de Claude Code) |
-| **Modelo de personalización** | Configuración + plugins | "Skills sobre Features" — la IA reescribe el código fuente |
-| **Estrellas GitHub** | ~59 | ~7.200 |
-| **Licencia** | PolyForm Perimeter License 1.0.1 | MIT |
-| **CVEs conocidos** | 0 | 0 |
+| **Lenguaje** | App web alojada, nada que instalar | TypeScript (~500 líneas de núcleo) |
+| **Base de código total** | No publicada | ~3.900 líneas (~15 archivos) |
+| **Aislamiento de agente** | Ejecución en sandbox por tarea | Contenedor Linux por agente (Apple Container/Docker) |
+| **Seguridad de credenciales** | Guardadas en bóveda — los agentes nunca ven las claves | Inyección JSON por stdin; blocklists para archivos sensibles |
+| **Controles de presupuesto** | Presupuesto de créditos por agente, corte estricto | Ninguno integrado |
+| **Orquestación** | Coordinación por objetivos y tareas (objetivos → tareas → agentes) | Chat-driven; sin motor de flujo |
+| **Proveedores LLM** | Presets Smartest, Smart y Normal | Solo Claude (Anthropic Agent SDK) |
+| **Canales de mensajería** | Chat web, Telegram, Slack, email | 4 (WhatsApp, Telegram, Discord, Slack) |
+| **Multi-agente** | Equipos con permisos por agente | Agent Swarms (equipos de Claude Code) |
+| **Modelo de personalización** | Configurado en la app | "Skills sobre Features" — la IA reescribe el código fuente |
+| **Estrellas GitHub** | No publicadas | ~7.200 |
+| **Licencia** | Motor: PolyForm Perimeter License 1.0.1 | MIT |
+| **CVEs conocidos** | Ninguno divulgado | 0 |
 
 ## Elija NanoClaw si...
 
@@ -64,17 +64,17 @@ NanoClaw y OpenLegion son los dos frameworks en este espacio que *ambos* usan ai
 
 **Necesita WhatsApp como canal de primera clase.** La integración WhatsApp de NanoClaw vía la biblioteca Baileys está integrada y bien probada, con emparejamiento por código QR y archivos de memoria por grupo.
 
-**El aislamiento por contenedor importa pero la simplicidad importa más.** NanoClaw le da aislamiento a nivel de SO sin requerir que aprenda orquestación Docker, coordinación tipo flota o configuración multi-agente. Un contenedor por agente, configurado a través de conversación.
+**El aislamiento por contenedor importa pero la simplicidad importa más.** NanoClaw le da aislamiento a nivel de SO sin requerir que aprenda orquestación Docker, definiciones de flujo o configuración multi-agente. Un contenedor por agente, configurado a través de conversación.
 
 ## Elija OpenLegion si...
 
-**Necesita aislamiento de credenciales más allá del bloqueo de archivos.** NanoClaw bloquea el acceso a archivos sensibles (.ssh, .gnupg, .aws, .azure, .gcloud) y pasa secretos vía JSON stdin. Sin embargo, las credenciales de Anthropic están montadas para que Claude Code pueda autenticarse dentro del contenedor — significando que el agente *puede* descubrir estas credenciales vía operaciones de Bash o archivo. El proxy de bóveda de OpenLegion es arquitectónicamente diferente: los agentes hacen llamadas API a través de un proxy que inyecta credenciales en la capa de red. No existen credenciales en el entorno del agente para descubrir.
+**Necesita aislamiento de credenciales más allá del bloqueo de archivos.** NanoClaw bloquea el acceso a archivos sensibles (.ssh, .gnupg, .aws, .azure, .gcloud) y pasa secretos vía JSON stdin. Sin embargo, las credenciales de Anthropic están montadas para que Claude Code pueda autenticarse dentro del contenedor — significando que el agente *puede* descubrir estas credenciales vía operaciones de Bash o archivo. La bóveda de credenciales de OpenLegion es arquitectónicamente diferente: las credenciales se inyectan fuera del modelo, que solo llega a retener un identificador. No existen credenciales en el entorno del agente para descubrir.
 
-**Necesita más de un proveedor LLM.** NanoClaw es solo Claude por diseño. Si su despliegue requiere GPT-4, Gemini, Llama, Mistral o cualquier modelo no Anthropic, NanoClaw no puede servirle. OpenLegion soporta más de 100 proveedores vía LiteLLM con claves API BYO y cero recargo.
+**Necesita más de un proveedor LLM.** NanoClaw es solo Claude por diseño. Si su despliegue requiere GPT-4, Gemini, Llama, Mistral o cualquier modelo no Anthropic, NanoClaw no puede servirle. OpenLegion elige modelos por preset — Smartest, Smart o Normal — por agente o por espacio de trabajo.
 
-**Necesita aplicación de presupuesto por agente.** NanoClaw no tiene mecanismo para limitar el gasto API por agente. Con llamadas a la API Claude a los precios por token de Anthropic, los swarms de agentes incontrolados pueden acumular costes significativos. OpenLegion aplica límites diarios y mensuales por agente con cortes automáticos estrictos.
+**Necesita aplicación de presupuesto por agente.** NanoClaw no tiene mecanismo para limitar el gasto API por agente. Con llamadas a la API Claude a los precios por token de Anthropic, los swarms de agentes incontrolados pueden acumular costes significativos. OpenLegion da a cada agente su propio presupuesto de créditos con cortes automáticos estrictos.
 
-**Necesita coordinación auditable de flota multi-agente.** Los Agent Swarms de NanoClaw son chat-driven — Claude Code coordina agentes especializados dentro de conversaciones. Esto es flexible pero no determinista. La coordinación tipo flota de OpenLegion define registros explícitos de handoff, acceso a herramientas y dependencias por agente. La coordinación es auditable antes de la ejecución.
+**Necesita coordinación auditable de equipos multi-agente.** Los Agent Swarms de NanoClaw son chat-driven — Claude Code coordina agentes especializados dentro de conversaciones. Esto es flexible pero no determinista. La coordinación por objetivos y tareas de OpenLegion registra cada delegación, concesión de herramienta y dependencia por agente. La coordinación la verifica un único motor de políticas antes de la ejecución.
 
 **Necesita escalar más allá de uso personal.** NanoClaw está diseñado como asistente personal de IA. Su arquitectura — Node.js de un solo proceso, código fuente reescrito por IA, sin gestión de configuración — no escala naturalmente a despliegues de flota con acceso basado en roles, requisitos de cumplimiento o aislamiento multi-tenant.
 
@@ -84,19 +84,19 @@ NanoClaw y OpenLegion son los dos frameworks en este espacio que *ambos* usan ai
 
 **NanoClaw** pasa secretos a los agentes vía JSON stdin — nunca se cargan en process.env. Las rutas de archivos sensibles (.ssh, .gnupg, .aws, etc.) están bloqueadas vía una blocklist explícita. Los contenedores corren como no-root con montajes de proyecto de solo lectura. **Limitación conocida:** Las credenciales de Anthropic están montadas para que Claude Code pueda autenticarse, significando que los agentes pueden descubrir estas credenciales a través de Bash o operaciones de archivo dentro del contenedor.
 
-**OpenLegion** almacena credenciales en una bóveda a la que los agentes no pueden acceder. Las llamadas API se enrutan a través de un proxy de bóveda que inyecta credenciales en la capa de red. No existen archivos de credenciales, variables de entorno o secretos montados dentro del contenedor del agente. Incluso si el agente logra ejecución arbitraria de código, no hay credenciales que encontrar.
+**OpenLegion** almacena credenciales en una bóveda a la que los agentes no pueden acceder. Las credenciales se inyectan fuera del modelo, que solo llega a retener un identificador. No existen archivos de credenciales, variables de entorno o secretos montados dentro de la ejecución del agente. Incluso si el agente logra ejecución arbitraria de código, no hay credenciales que encontrar.
 
 ### Modelo de aislamiento
 
-**Ambos frameworks usan aislamiento por contenedor a nivel de SO.** NanoClaw usa Apple Container (macOS) o Docker (Linux) con sistema de archivos, namespace IPC y espacio de proceso separados por agente. Las allowlists de montaje controlan qué directorios pueden acceder los agentes. OpenLegion usa contenedores Docker con ejecución no-root, sin socket Docker, no-new-privileges y límites de recursos por contenedor (CPU, memoria, red).
+**Ambos frameworks aíslan cada ejecución de agente.** NanoClaw usa Apple Container (macOS) o Docker (Linux) con sistema de archivos, namespace IPC y espacio de proceso separados por agente. Las allowlists de montaje controlan qué directorios pueden acceder los agentes. OpenLegion ejecuta cada tarea bajo demanda en su propio sandbox, sin acceso a red por defecto, y la ejecución se detiene cuando la tarea termina.
 
-Los límites de aislamiento son comparables. La diferencia es lo que sucede *dentro* del contenedor: NanoClaw da a los agentes amplia capacidad (acceso shell, lectura/escritura de archivos, navegación web, Chromium) con blocklists a nivel de archivo. OpenLegion restringe a los agentes a través de acceso a herramientas definido en YAML y ACLs por agente.
+Los límites de aislamiento son comparables. La diferencia es lo que sucede *dentro* de ese límite: NanoClaw da a los agentes amplia capacidad (acceso shell, lectura/escritura de archivos, navegación web, Chromium) con blocklists a nivel de archivo. OpenLegion restringe a los agentes a través de concesiones de herramienta verificadas por política y permisos por agente.
 
 ### Controles de presupuesto
 
 **NanoClaw** no tiene aplicación de presupuesto integrada. El uso de la API Claude se factura a las tarifas estándar por token de Anthropic sin límites por agente.
 
-**OpenLegion** aplica límites de gasto diarios y mensuales por agente con corte automático estricto.
+**OpenLegion** da a cada agente su propio presupuesto de créditos con corte automático estricto.
 
 ## El Ecosistema de NanoClaw: Qué Hace Mejor
 
@@ -124,33 +124,33 @@ Con ~500 líneas de código de núcleo, NanoClaw puede ser auditado más rápido
 
 ### Qué cubre OpenLegion de forma diferente
 
-OpenLegion construye infraestructura de producción encima de la misma base de aislamiento por contenedor: el proxy de bóveda elimina el problema de montaje de credenciales, la coordinación tipo flota proporciona coordinación auditable de flota multi-agente, los presupuestos por agente previenen excesos de coste, el soporte de más de 100 proveedores elimina el lock-in de proveedor y las ACLs por agente habilitan acceso a herramientas basado en roles.
+OpenLegion construye infraestructura de producción encima de la misma base de aislamiento: las credenciales guardadas en bóveda eliminan el problema de montaje de credenciales, la coordinación por objetivos y tareas proporciona trabajo en equipo multi-agente auditable, los presupuestos por agente previenen excesos de coste, los presets de modelo eliminan el lock-in de proveedor y los permisos por agente habilitan acceso a herramientas basado en roles.
 
 ## Compensaciones de Hosting vs Self-Host
 
 **NanoClaw** requiere Node.js y Apple Container (macOS) o Docker (Linux). La configuración es interactiva — usted configura a través de conversación con Claude Code en lugar de editar archivos de config. El autoalojamiento es la única opción; no hay servicio alojado.
 
-**OpenLegion** requiere Python, SQLite y Docker. La plataforma alojada (próximamente) ofrecerá instancias VPS por usuario. El despliegue autoalojado usa herramientas Docker estándar.
+**OpenLegion** no tiene edición autoalojada ni nada que usted deba instalar. La plataforma alojada ya está en marcha y no requiere nada de eso: inicia sesión con Google, empieza gratis con 1,000 créditos y sin tarjeta, o pasa a Pro por $29/mes. No hay runtime ni servidor propio que operar.
 
 ## Para Quién Es
 
 **NanoClaw** es para desarrolladores individuales que quieren un asistente personal de IA con aislamiento por contenedor, conectividad WhatsApp/Telegram y simplicidad radical de código. El usuario ideal es un usuario avanzado de Claude que quiere su propio agente estilo Claw con mejor seguridad que OpenClaw — y que está cómodo con un modelo de personalización AI-first donde los cambios suceden a través de conversación, no configuración.
 
-**OpenLegion** es para equipos desplegando sistemas multi-agente en entornos de producción. El usuario ideal gestiona flotas de agentes que manejan credenciales sensibles, necesitan controles de gasto por agente y requieren definiciones de flujo auditables para cumplimiento.
+**OpenLegion** es para equipos desplegando sistemas multi-agente en entornos de producción. El usuario ideal gestiona equipos de agentes que manejan credenciales sensibles, necesitan controles de gasto por agente y requieren un registro auditable de cada acción para cumplimiento.
 
 ## La Compensación Honesta
 
-NanoClaw y OpenLegion son los únicos dos frameworks en esta comparativa que *ambos* usan aislamiento por contenedor a nivel de SO. NanoClaw logra esto en ~500 líneas de código — un logro de ingeniería notable que prueba que el aislamiento por contenedor no requiere complejidad de framework.
+NanoClaw y OpenLegion son los únicos dos frameworks en esta comparativa que *ambos* hacen del aislamiento de la ejecución un límite primario. NanoClaw logra esto en ~500 líneas de código — un logro de ingeniería notable que prueba que el aislamiento por contenedor no requiere complejidad de framework.
 
-OpenLegion pregunta: ¿qué más requiere el despliegue de producción más allá del aislamiento por contenedor? La respuesta es separación de credenciales (proxy de bóveda), control de coste (presupuestos por agente), determinismo de flujo (coordinación tipo flota), independencia de proveedor (100+ modelos) y orquestación de flota (ACLs multi-agente). Estas son las capas que separan un asistente personal de una plataforma de producción.
+OpenLegion pregunta: ¿qué más requiere el trabajo de producción más allá del aislamiento de la ejecución? La respuesta es separación de credenciales (una bóveda), control de coste (presupuestos por agente), coordinación que se puede auditar (objetivos → tareas → agentes), independencia de proveedor (presets de modelo) y orquestación de equipo (permisos por agente). Estas son las capas que separan un asistente personal de una plataforma de producción.
 
-Si quiere un agente Claude personal aislado por contenedor en 500 líneas de código, elija NanoClaw. Si necesita el stack completo de producción encima del aislamiento por contenedor, elija OpenLegion.
+Si quiere un agente Claude personal aislado por contenedor en 500 líneas de código, elija NanoClaw. Si necesita el stack completo de producción encima de ejecuciones aisladas, elija OpenLegion.
 
 Para el panorama completo, consulte nuestra [comparativa de frameworks de agentes de IA](/learn/ai-agent-frameworks).
 
 ## CTA
 
-**¿Necesita el stack completo de producción encima del aislamiento por contenedor?**
+**¿Necesita el stack completo de producción encima de ejecuciones aisladas?**
 [Empezar](https://app.openlegion.ai) | [Leer la documentación](https://docs.openlegion.ai) | [Ver todas las comparativas](/comparison)
 
 ---
@@ -165,27 +165,27 @@ NanoClaw es un asistente de agente de IA TypeScript ultra-mínimo (~500 líneas 
 
 ### OpenLegion vs NanoClaw: ¿cuál es la diferencia?
 
-Ambos usan aislamiento por contenedor a nivel de SO. NanoClaw es un asistente personal de ~500 líneas construido exclusivamente sobre Claude con personalización AI-driven. OpenLegion añade credenciales por proxy de bóveda (los agentes nunca ven las claves), aplicación de presupuesto por agente, coordinación tipo flota (blackboard + pub/sub + handoff), más de 100 proveedores LLM y orquestación de flota multi-agente. NanoClaw es mínimo y personal; OpenLegion es comprehensivo y orientado a producción.
+Ambos aíslan cada ejecución de agente. NanoClaw es un asistente personal de ~500 líneas construido exclusivamente sobre Claude con personalización AI-driven. OpenLegion añade credenciales guardadas en bóveda (los agentes nunca ven las claves), aplicación de presupuesto por agente, coordinación por objetivos y tareas (objetivos → tareas → agentes), presets de modelo y equipos multi-agente. NanoClaw es mínimo y personal; OpenLegion es comprehensivo y orientado a producción.
 
 ### ¿Es OpenLegion una alternativa a NanoClaw?
 
-Sí. Ambos usan aislamiento por contenedor como base de seguridad. OpenLegion extiende esto con gestión de credenciales por proxy de bóveda, controles de coste por agente, coordinación tipo flota auditable y soporte para más de 100 proveedores LLM. Los equipos que superan el modelo de asistente personal de NanoClaw o necesitan independencia de proveedor encontrarían OpenLegion un siguiente paso natural.
+Sí. Ambos usan el aislamiento de la ejecución como base de seguridad. OpenLegion extiende esto con credenciales guardadas en bóveda, controles de coste por agente, coordinación auditable por objetivos y tareas y modelos elegidos por preset. Los equipos que superan el modelo de asistente personal de NanoClaw o necesitan independencia de proveedor encontrarían OpenLegion un siguiente paso natural.
 
 ### ¿Cómo se compara el manejo de credenciales entre OpenLegion y NanoClaw?
 
-NanoClaw pasa secretos vía JSON stdin y bloquea acceso a archivos sensibles, pero monta credenciales de Anthropic para que Claude Code pueda autenticarse — los agentes pueden descubrirlas vía Bash. OpenLegion usa un proxy de bóveda donde los agentes hacen llamadas API a través de un proxy que inyecta credenciales. No existen credenciales en el contenedor del agente en ninguna forma.
+NanoClaw pasa secretos vía JSON stdin y bloquea acceso a archivos sensibles, pero monta credenciales de Anthropic para que Claude Code pueda autenticarse — los agentes pueden descubrirlas vía Bash. OpenLegion usa una bóveda de credenciales donde las credenciales se inyectan fuera del modelo, que solo llega a retener un identificador. No existen credenciales en la ejecución del agente en ninguna forma.
 
 ### ¿Cuál es mejor para agentes de IA en producción?
 
-NanoClaw está diseñado como asistente personal, no como plataforma de producción. Carece de aplicación de presupuesto, determinismo de flujo, soporte multi-proveedor y gestión de flota. OpenLegion está construido específicamente para producción con presupuestos por agente, coordinación tipo flota, credenciales por proxy de bóveda y soporte de más de 100 proveedores.
+NanoClaw está diseñado como asistente personal, no como plataforma de producción. Carece de aplicación de presupuesto, determinismo de flujo, soporte multi-proveedor y gestión de flota. OpenLegion está construido específicamente para producción con presupuestos por agente, coordinación por objetivos y tareas, credenciales guardadas en bóveda y modelos elegidos por preset.
 
 ### ¿Soporta NanoClaw múltiples proveedores LLM?
 
-No. NanoClaw está construido exclusivamente sobre el Claude Agent SDK de Anthropic. Solo funciona con modelos Claude. OpenLegion soporta más de 100 proveedores vía LiteLLM incluyendo OpenAI, Anthropic, Google, Meta, Mistral y modelos locales.
+No. NanoClaw está construido exclusivamente sobre el Claude Agent SDK de Anthropic. Solo funciona con modelos Claude. OpenLegion no está atado a un proveedor: los modelos se eligen por preset — Smartest, Smart o Normal — por agente o por espacio de trabajo.
 
 ### ¿Puedo migrar de NanoClaw a OpenLegion?
 
-El código fuente reescrito por IA y la configuración chat-driven de NanoClaw necesitarían reestructurarse como coordinación tipo flota con definiciones explícitas de agente, controles de acceso a herramientas y límites de presupuesto. La lógica de agente específica de Claude se transfiere dado que OpenLegion soporta Anthropic vía LiteLLM. Consulte nuestra página de [orquestación de agentes de IA](/learn/ai-agent-orchestration).
+El código fuente reescrito por IA y la configuración chat-driven de NanoClaw necesitarían reestructurarse como objetivos, tareas y agentes con definiciones explícitas de agente, controles de acceso a herramientas y límites de presupuesto. La lógica de agente específica de Claude se transfiere dado que los presets de OpenLegion cubren modelos frontera de varios proveedores. Consulte nuestra página de [orquestación de agentes de IA](/learn/ai-agent-orchestration).
 
 ---
 

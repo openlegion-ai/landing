@@ -1,6 +1,6 @@
 ---
 title: "Memória de Agentes IA: Quatro Tipos, Riscos de Segurança e Implementação"
-description: "Memória de agentes IA: in-context, vector store, K-V estruturado e tipos episódicos. Riscos de segurança por envenenamento de memória e exposição de credenciais. Arquitetura vault do OpenLegion."
+description: "Memória de agentes IA: in-context, vector store, K-V estruturado e tipos episódicos. Riscos de segurança por envenenamento de memória e exposição de credenciais. Arquitetura de cofre do OpenLegion."
 slug: /learn/ai-agent-memory
 primary_keyword: ai agent memory
 secondary_keywords:
@@ -82,17 +82,17 @@ A memória de agentes IA permite contexto persistente, aprendizado e coordenaç�
 
 A memória de agentes IA é fundamental para sistemas autônomos, mas as implicações de segurança da memória persistente criam riscos significativos que muitas implementações ignoram. O CVE-2025-67732 expôs o risco sistemático de exposição de credenciais. Ataques de envenenamento de memória documentados em arXiv cs.AI 2025 demonstram como fatos falsos injetados em armazenamento persistente podem corromper o comportamento dos agentes entre sessões.
 
-A arquitetura do OpenLegion aborda esses riscos através de isolamento em vez de controles de acesso. O proxy vault garante que credenciais nunca entrem em sistemas de memória. O isolamento de espaço de trabalho por agente previne contaminação de memória entre agentes.
+A arquitetura do OpenLegion aborda esses riscos através de isolamento em vez de controles de acesso. As credenciais ficam num cofre e são injetadas fora do modelo, então nunca entram em sistemas de memória. O isolamento de memória por agente previne contaminação enquanto a coordenação passa por metas e tarefas verificadas pelo motor de políticas.
 
-### Arquitetura de Quatro Zonas: Memória Protegida por Vault
+### Arquitetura de Motor de Políticas: Memória Protegida por Cofre
 
-**Arquitetura de quatro zonas** separa completamente gerenciamento de credenciais de operações de memória. As Zonas 1-4 garantem que credenciais nunca persistam em sistemas de memória de agentes.
+**Um único motor de políticas** separa completamente gerenciamento de credenciais de operações de memória. Cada ação é uma intenção verificada antes de acontecer e registrada como recibo, e as credenciais ficam num cofre injetado fora do modelo, então nunca persistem em sistemas de memória de agentes.
 
-**Quadro negro nativo** fornece coordenação de memória estruturada sem bancos de dados vetoriais externos. Funciona em SQLite com garantias ACID.
+**Metas e tarefas** fornecem coordenação de memória estruturada sem bancos de dados vetoriais externos. Os agentes coordenam por um registro compartilhado de metas e tarefas, despertares por evento e estado persistente.
 
 ### Isolamento de Espaço de Trabalho por Agente
 
-**Espaço de trabalho privado** fornece a cada agente armazenamento de arquivos isolado para memória pessoal, configuração e arquivos de trabalho.
+**Espaço de trabalho privado** fornece a cada agente armazenamento isolado para memória pessoal, configuração e arquivos de trabalho, privado ao agente dono.
 
 **[Explore a arquitetura da plataforma de agentes IA](/learn/ai-agent-platform)** para abordagens abrangentes de segurança e gerenciamento de memória. Para [vulnerabilidades de segurança de agentes IA](/learn/ai-agent-security), consulte modelos de ameaças detalhados e cobertura CVE.
 
@@ -112,9 +112,9 @@ Envenenamento de memória injeta fatos falsos em sistemas de memória persistent
 
 CVE-2025-67732 demonstrou exposição de credenciais quando stores de memória compartilhada contêm chaves de API acessíveis a qualquer usuário autenticado. Buscas de similaridade vetorial podem inadvertidamente recuperar informações sensíveis quando termos de consulta correspondem semanticamente a metadados de credenciais.
 
-### O que é o quadro negro do OpenLegion?
+### O que é o registro compartilhado do OpenLegion?
 
-Um store chave-valor persistente compartilhado nativo que permite coordenação agente-a-agente sem bancos de dados vetoriais externos ou serviços. Funciona em SQLite com garantias ACID e controles de permissão baseados em padrões. O proxy vault previne exposição de credenciais garantindo que agentes nunca recebam credenciais em texto claro.
+O registro durável de metas, tarefas e resultados que permite coordenação agente-a-agente sem bancos de dados vetoriais externos ou serviços. O trabalho é organizado em metas → tarefas → agentes, com um assistente que delega aos colegas de equipe que cria. As credenciais ficam num cofre e são injetadas fora do modelo, então agentes nunca recebem credenciais em texto claro.
 
 ### Quais bibliotecas de memória são mais populares?
 
@@ -122,4 +122,4 @@ mem0ai/mem0 lidera com 56.445 estrelas no GitHub e $23,5M de financiamento Séri
 
 ### Como proteger a memória de agentes em produção?
 
-Use isolamento arquitetural de credenciais via sistemas de proxy vault em vez de controles no nível de aplicação. Implemente isolamento de espaço de trabalho por agente para prevenir contaminação de memória. Aplique permissões baseadas em padrões seguindo o princípio do menor privilégio. Nunca armazene credenciais em nenhum sistema de memória de agente.
+Use isolamento arquitetural de credenciais via um cofre de credenciais em vez de controles no nível de aplicação. Implemente isolamento de espaço de trabalho por agente para prevenir contaminação de memória. Aplique permissões baseadas em padrões seguindo o princípio do menor privilégio. Nunca armazene credenciais em nenhum sistema de memória de agente.

@@ -2,7 +2,7 @@
 
 import { Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { ONBOARDING_URL } from "@/lib/constants";
+import { WAITLIST_URL } from "@/lib/constants";
 
 /** Fixed-height (h-9 = 36px) — sits in flow inside the sticky header above Navbar. */
 export const LAUNCH_BANNER_HEIGHT_PX = 36;
@@ -15,7 +15,7 @@ export function LaunchPricingBand() {
         <Sparkles className="size-3.5 shrink-0 text-primary" aria-hidden />
         <span className="min-w-0 truncate text-foreground/90">{t("message")}</span>
         <a
-          href={ONBOARDING_URL}
+          href={WAITLIST_URL}
           className="shrink-0 font-semibold text-primary hover:underline"
         >
           {t("cta")}

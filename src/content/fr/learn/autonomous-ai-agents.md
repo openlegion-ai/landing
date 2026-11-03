@@ -50,7 +50,7 @@ Les agents L1 agissent de manière autonome dans une portée prédéfinie et fix
 
 Les agents L2 reçoivent un objectif et exécutent de manière autonome un plan multi-étapes pour l'accomplir. OpenAI Operator (janvier 2025) est le premier L2 déployé commercialement. L2 est le niveau d'autonomie où les erreurs composées deviennent le risque primaire: un agent avec 95 % de précision par étape sur une tâche de 20 étapes a 36 % de chances de compléter correctement toutes les 20 étapes (0,95^20).
 
-**Niveau d'autonomie par défaut d'OpenLegion: L2 avec superviseur mesh.** Cinq barrières de sécurité requises:
+**Niveau d'autonomie par défaut d'OpenLegion: L2 avec supervision par le moteur de politiques.** Cinq barrières de sécurité requises:
 
 1. Inspection du plan pré-exécution avant toute action irréversible
 2. Barrière HITL avant les appels d'outils irréversibles (commit, envoi, POST)
@@ -65,13 +65,13 @@ Les agents L3 reçoivent un objectif de haut niveau et génèrent leur propre d�
 **Barrières de sécurité requises pour L3** (toutes les barrières L2 plus):
 - Vérification automatisée de politique de plan avant exécution
 - Mémoire d'échec par réflexion
-- Limite de capacité explicite dans INSTRUCTIONS.md
+- Limite de capacité explicite dans les instructions de l'agent
 - Détection de dérive d'objectif
 - Limite de profondeur de révision: maximum 3 cycles avant escalade
 
 ### L4: Agent auto-modifiant, réécrit objectifs, code et configuration
 
-Les agents L4 peuvent modifier leurs propres objectifs, réécrire leur propre code, créer de nouveaux agents et acquérir des ressources externes de manière autonome. Aucun système L4 déployé commercialement n'existe en 2026. Propriétés de prévention L4 d'OpenLegion: accès aux credentials uniquement via des handles `$CRED{}` explicitement enregistrés, plafond budgétaire appliqué au proxy LLM de la Zone 2.
+Les agents L4 peuvent modifier leurs propres objectifs, réécrire leur propre code, créer de nouveaux agents et acquérir des ressources externes de manière autonome. Aucun système L4 déployé commercialement n'existe en 2026. Propriétés de prévention L4 d'OpenLegion: accès aux credentials uniquement via des références de coffre-fort explicitement enregistrées, plafond budgétaire appliqué par le moteur de politiques hors du modèle.
 
 ## Barrières de sécurité par niveau d'autonomie
 
@@ -105,7 +105,7 @@ OWASP LLM06:2025 est la catégorie de risque critique pour les agents autonomes.
 
 La mauvaise généralisation d'objectif survient quand un agent a appris à optimiser pour un objectif proxy qui fonctionne bien en entraînement mais diverge de l'objectif visé en déploiement. Détection: jeu de test conçu pour exposer la divergence proxy-objectif.
 
-Atténuation dans INSTRUCTIONS.md:
+Atténuation dans les instructions de l'agent:
 
 ```markdown
 ## Vérification d'alignement d'objectif
@@ -137,7 +137,7 @@ La loi européenne sur l'IA (effective août 2024) classifie les agents autonome
 
 ## La position d'OpenLegion
 
-Le spectre L0-L4 est un outil de planification, pas une catégorie marketing. La plupart des déploiements en production ciblent L2 avec supervision du superviseur mesh. Les agents OpenLegion se déploient par défaut en L2.
+Le spectre L0-L4 est un outil de planification, pas une catégorie marketing. La plupart des déploiements en production ciblent L2 avec une supervision appliquée par la plateforme. Les agents OpenLegion se déploient par défaut en L2.
 
 L3 est atteignable mais nécessite un travail supplémentaire. OpenLegion soutient les déploiements L3 pour les clients entreprise ayant opéré des agents L2 en mode supervisé pendant au moins 30 jours.
 
@@ -145,7 +145,7 @@ Pour le cadre de gouvernance couvrant la politique des agents autonomes dans une
 
 ## Commencer
 
-**Déployer des agents autonomes L2 avec barrières de sécurité structurelles, supervision mesh et kill switch en moins de 60 secondes.**
+**Déployer des agents autonomes L2 avec barrières de sécurité structurelles, supervision par le moteur de politiques et kill switch en moins de 60 secondes.**
 [Commencer sur OpenLegion](https://app.openlegion.ai) | [Lire la documentation](https://docs.openlegion.ai) | [Qu'est-ce qu'un agent IA?](/learn/what-is-an-ai-agent)
 
 ---

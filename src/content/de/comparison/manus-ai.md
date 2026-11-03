@@ -20,41 +20,41 @@ related:
 
 Manus AI startete im März 2025 und wurde laut Branchenberichten im Dezember 2025 für angeblich über 2 Milliarden US-Dollar von Meta übernommen. In nur acht Monaten erreichte Manus über 100 Mio. $ ARR, verarbeitete 147 Billionen Tokens auf 80 Millionen virtuellen Rechnern und baute eine Discord-Community mit 186.000+ Mitgliedern auf. Es ist eine Closed-Source-Cloud-only-Plattform für autonome Agenten.
 
-OpenLegion (~59 Stars) ist eine source-available (PolyForm Perimeter License 1.0.1) sicherheitsorientierte [KI-Agenten-Plattform](/learn/ai-agent-platform), die Container-Isolation, Vault-vermittelte Credentials und Pro-Agent-Budget-Kontrollen mit vollständigem Self-Hosted-Deployment priorisiert.
+OpenLegion ist eine gehostete, sicherheitsorientierte [KI-Agenten-Plattform](/learn/ai-agent-platform), die Sandbox-Läufe pro Aufgabe, Credentials im Vault und Pro-Agent-Credit-Budgets priorisiert; ihre Engine ist source-available unter der PolyForm Perimeter License 1.0.1 veröffentlicht.
 
 Dies ist ein direkter **OpenLegion vs. Manus AI**-Vergleich auf Basis öffentlicher Dokumentation und unabhängiger Sicherheitsforschung zum Zeitpunkt des Schreibens.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Was ist der Unterschied zwischen OpenLegion und Manus AI?**
-> Manus AI ist eine Closed-Source-Cloud-only-Plattform für autonome Agenten, die jeder Nutzersession einen dedizierten virtuellen Rechner (Firecracker-microVM) zur Aufgabenausführung gibt. OpenLegion ist ein source-available (PolyForm Perimeter License 1.0.1), Security-First-KI-Agenten-Framework mit verpflichtender Docker-Container-Isolation pro Agent, Vault-Proxy-Credential-Verwaltung, Pro-Agent-Budgetdurchsetzung und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff). Manus optimiert auf autonome Aufgabenerledigung; OpenLegion optimiert auf Sicherheit, Transparenz und Entwicklerkontrolle.
+> Manus AI ist eine Closed-Source-Cloud-only-Plattform für autonome Agenten, die jeder Nutzersession einen dedizierten virtuellen Rechner (Firecracker-microVM) zur Aufgabenausführung gibt. OpenLegion ist eine gehostete, sicherheitsorientierte KI-Agenten-Plattform mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault, Pro-Agent-Credit-Budgets und Ziel-und-Aufgaben-Koordination (erst Ziele, dann Aufgaben, dann Agenten); ihre Engine ist source-available unter der PolyForm Perimeter License 1.0.1. Manus optimiert auf autonome Aufgabenerledigung; OpenLegion optimiert auf Sicherheit, Transparenz und Kontrolle durch den Eigentümer.
 
 ## Auf einen Blick
 
 - **Manus AI** ist die richtige Wahl, wenn Sie einen schlüsselfertigen autonomen Agenten brauchen, der Recherche, Datenanalyse und Web-Automatisierung mit minimaler Entwicklerbeteiligung übernimmt.
-- **OpenLegion** ist die richtige Wahl, wenn Credential-Isolation, Code-Transparenz, Self-Hosted-Deployment, Pro-Agent-Kostenkontrollen und auditierbare Fleet-Modell-Koordination harte Anforderungen sind.
+- **OpenLegion** ist die richtige Wahl, wenn Credential-Isolation, Code-Transparenz, ein Beleg für jede Aktion, Pro-Agent-Kostenkontrollen und auditierbare Ziel-und-Aufgaben-Koordination harte Anforderungen sind.
 - **Sicherheitsbedenken**: Unabhängige Forscher bei Aurascape entdeckten SilentBridge — eine Klasse von Zero-Click-Indirect-Prompt-Injection-Angriffen gegen Manus, die auf Cloud-Metadaten-IPs und interne Netzwerke zugreifen konnten.
-- **Credential-Modell**: Manus speichert Login-Credentials als verschlüsselte Session-Replay-Dateien, die auf das Backend hochgeladen werden. OpenLegion nutzt einen Vault-Proxy — Agenten sehen nie rohe Keys.
-- **Kostenvorhersagbarkeit**: Manus-Nutzer berichten von unvorhersehbarem Credit-Verbrauch. Ein Nutzer gab 8.555 Credits für eine als "100 % komplett" gemeldete Aufgabe aus, die nur zu 37 % fertig war. OpenLegion erzwingt tägliche und monatliche Pro-Agent-Budget-Hartabschaltungen.
-- **Deployment**: Manus lehnt lokales oder Self-Hosted-Deployment explizit ab. OpenLegion läuft überall dort, wo Sie Python + Docker betreiben können.
+- **Credential-Modell**: Manus speichert Login-Credentials als verschlüsselte Session-Replay-Dateien, die auf das Backend hochgeladen werden. OpenLegion hält Credentials in einem Vault und injiziert sie außerhalb des Modells — Agenten sehen nie rohe Keys.
+- **Kostenvorhersagbarkeit**: Manus-Nutzer berichten von unvorhersehbarem Credit-Verbrauch. Ein Nutzer gab 8.555 Credits für eine als "100 % komplett" gemeldete Aufgabe aus, die nur zu 37 % fertig war. OpenLegion gibt jedem Agenten ein eigenes Credit-Budget mit harter Abschaltung.
+- **Deployment**: Manus lehnt lokales oder Self-Hosted-Deployment explizit ab. OpenLegion ist eine gehostete Web-App — mit Google anmelden und loslegen.
 
 ## Direkter Vergleich
 
 | Dimension | OpenLegion | Manus AI |
 |---|---|---|
 | **Primärer Fokus** | Sichere Multi-Agenten-Orchestrierung | Autonome Aufgabenausführung |
-| **Architektur** | Vier-Zonen-Trust-Modell (plus Operator-oder-Internal-Ebene) | Virtueller Rechner pro Session (Firecracker-microVM) |
-| **Source-Modell** | Source-available (PolyForm Perimeter License 1.0.1) | Closed Source (proprietär) |
-| **Agenten-Isolation** | Verpflichtender Docker-Container pro Agent, Non-Root, no-new-privileges | Firecracker-microVM pro Session (~150 ms Spin-up) |
-| **Credential-Verwaltung** | Vault-Proxy — Blind-Injection, Agenten sehen nie Keys | Verschlüsselte Session-Replay-Dateien an Manus-Backend hochgeladen |
-| **Budget-/Kostenkontrollen** | Pro Agent täglich und monatlich mit Hartabschaltung | Credit-basiert, keine Pro-Task-Limits, kein Rollover |
-| **Orchestrierung** | Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff) | Blackbox-LLM-getrieben (Analyze-Plan-Execute-Observe-Iterate) |
-| **Zugrundeliegende Modelle** | 100+ über LiteLLM (BYO-Keys) | Claude 3.5/3.7 Sonnet + Alibaba Qwen (keine Modellwahl) |
-| **Self-Hosted** | Ja — Python + SQLite + Docker | Nein — Cloud-only, explizit abgelehnt |
-| **Multi-Agent** | YAML-definierte Agenten-Flotten mit Pro-Agent-ACLs | "Wide Research" spawnt parallele Sub-Agenten (keine Nutzerkontrolle) |
-| **Pricing** | BYO-API-Keys, null Aufschlag | Kostenlos (300 Credits/Tag) bis 199 $/Monat (19.900 Credits) |
-| **Community** | ~59 GitHub-Stars | 186.000+ Discord-Mitglieder |
-| **Geeignet für** | Produktions-Flotten mit Security-First-Governance | Allzweck-autonome Aufgabenausführung |
+| **Architektur** | Eine Policy-Engine vor jeder einzelnen Aktion | Virtueller Rechner pro Session (Firecracker-microVM) |
+| **Source-Modell** | Engine source-available (PolyForm Perimeter License 1.0.1) | Closed Source (proprietär) |
+| **Agenten-Isolation** | Ein Sandbox-Lauf pro Aufgabe, standardmäßig ohne Netzwerkzugriff | Firecracker-microVM pro Session (~150 ms Spin-up) |
+| **Credential-Verwaltung** | Im Vault — außerhalb des Modells injiziert, Agenten sehen nie Keys | Verschlüsselte Session-Replay-Dateien an Manus-Backend hochgeladen |
+| **Budget-/Kostenkontrollen** | Pro-Agent-Credit-Budget mit harter Abschaltung | Credit-basiert, keine Pro-Task-Limits, kein Rollover |
+| **Orchestrierung** | Erst Ziele, dann Aufgaben, dann Agenten, mit delegierendem Assistenten | Blackbox-LLM-getrieben (Analyze-Plan-Execute-Observe-Iterate) |
+| **Zugrundeliegende Modelle** | Presets Smartest, Smart und Normal | Claude 3.5/3.7 Sonnet + Alibaba Qwen (keine Modellwahl) |
+| **Self-Hosted** | Nein — gehostete Web-App, nichts zu installieren | Nein — Cloud-only, explizit abgelehnt |
+| **Multi-Agent** | Agenten als dauerhafte Datensätze mit Pro-Agent-Tool-Grants | "Wide Research" spawnt parallele Sub-Agenten (keine Nutzerkontrolle) |
+| **Pricing** | Kostenlos 0 $ (1.000 Credits) bis 99 $/Monat (35.000 Credits) | Kostenlos (300 Credits/Tag) bis 199 $/Monat (19.900 Credits) |
+| **Community** | Source-available Engine auf GitHub | 186.000+ Discord-Mitglieder |
+| **Geeignet für** | Produktions-Teams mit Security-First-Governance | Allzweck-autonome Aufgabenausführung |
 
 ## Architektur-Unterschiede
 
@@ -70,7 +70,7 @@ Nach der Meta-Übernahme wird Manus in Metas Werbeökosystem integriert (Manus A
 
 ### OpenLegions Architektur
 
-OpenLegion nutzt ein Vier-Zonen-Trust-Modell (plus eine Operator-oder-Internal-Ebene). Jeder Agent läuft in seinem eigenen Docker-Container — Non-Root, ohne Docker-Socket-Zugriff, ressourcen-gedeckelt. Der Vault-Proxy übernimmt alle authentifizierten API-Aufrufe, sodass Agenten nie rohe Credentials sehen. Fleet-Modell-Koordination definiert exakten Tool-Zugriff, Ressourcen-Limits und Budgets pro Agent. Pro-Agent-Tool-Loop-Erkennung (Warnung bei 2 Wiederholungen, Block bei 4, Terminierung bei 9) verhindert außer Kontrolle geratene Schleifen.
+OpenLegion stellt eine einzige Policy-Engine vor jede Aktion. Agenten sind dauerhafte Datensätze, keine Server: Jede Aufgabe läuft bei Bedarf und endet dann, und Code, den der Agent schreibt, läuft in einer Sandbox ohne standardmäßigen Netzwerkzugriff. Der Vault hält jedes Credential und injiziert es außerhalb des Modells, sodass Agenten nie rohe Secrets sehen. Agenten-Datensätze definieren exakten Tool-Zugriff, Freigabe-Schwellen und Budgets pro Agent. Jeder Lauf wird in Credits abgerechnet, sodass eine außer Kontrolle geratene Schleife am Budget endet.
 
 ## Wann Manus AI wählen
 
@@ -84,27 +84,27 @@ OpenLegion nutzt ein Vier-Zonen-Trust-Modell (plus eine Operator-oder-Internal-E
 
 ## Wann OpenLegion wählen
 
-**Credential-Sicherheit ist eine harte Anforderung.** Manus lädt verschlüsselte Session-Replays mit Login-Credentials in sein Cloud-Backend hoch. SilentBridge zeigte, dass Agenten-Container auf interne Netzwerke zugreifen konnten. OpenLegions Vault-Proxy stellt sicher, dass Agenten nie rohe Keys sehen.
+**Credential-Sicherheit ist eine harte Anforderung.** Manus lädt verschlüsselte Session-Replays mit Login-Credentials in sein Cloud-Backend hoch. SilentBridge zeigte, dass Agenten-Container auf interne Netzwerke zugreifen konnten. OpenLegions Vault injiziert Credentials außerhalb des Modells, sodass Agenten nie rohe Keys sehen.
 
-**Sie brauchen Kostenvorhersagbarkeit.** Der Credit-Verbrauch von Manus ist unvorhersehbar — Nutzer berichten von Aufgaben, die ganze Credit-Kontingente bei unvollständigem Ergebnis leeren. OpenLegion erzwingt tägliche und monatliche Pro-Agent-Hartabschaltungen. Sie kontrollieren genau, was jeder Agent ausgeben darf.
+**Sie brauchen Kostenvorhersagbarkeit.** Der Credit-Verbrauch von Manus ist unvorhersehbar — Nutzer berichten von Aufgaben, die ganze Credit-Kontingente bei unvollständigem Ergebnis leeren. OpenLegion erzwingt eine harte Abschaltung am Credit-Budget jedes Agenten und zeigt die exakten Kosten jeder Aufgabe. Sie kontrollieren genau, was jeder Agent ausgeben darf.
 
-**Sie brauchen Self-Hosted-Deployment.** Manus lehnt lokales Deployment explizit ab. Für regulierte Branchen und On-Premises-Umgebungen oder Datensouveränitätsanforderungen läuft OpenLegion überall, wo Sie Python + Docker betreiben können.
+**Sie brauchen durchsetzbare Freigaben.** Manus gibt Nutzern keine Kontrolle über das Verhalten von Sub-Agenten. Bei OpenLegion hält die Arbeit an drei Stellen für eine Freigabe des Eigentümers an: beim Erreichen Dritter in Ihrem Namen, beim Löschen von Daten und beim Handeln auf ungeprüften Inhalten.
 
-**Sie brauchen Transparenz und Auditierbarkeit.** Manus ist eine Closed-Source-Blackbox. OpenLegions ca. 77.000-zeilige Codebasis ist vollständig auditierbar. Fleet-Modell-Koordination ist versionskontrollierbar und vor der Ausführung compliance-prüfbar.
+**Sie brauchen Transparenz und Auditierbarkeit.** Manus ist eine Closed-Source-Blackbox. OpenLegions Engine ist source-available veröffentlicht und auditierbar. Jeder Tool-Aufruf, jede Delegation und jede Freigabe wird mit der Identität des Agenten, einem Zeitstempel und den exakten Kosten festgehalten.
 
-**Sie brauchen Modellwahl.** Manus zwingt Sie in seinen gewählten Modell-Stack. OpenLegion unterstützt 100+ Modelle über LiteLLM mit BYO-API-Keys und null Aufschlag auf die Nutzung.
+**Sie brauchen Modellwahl.** Manus zwingt Sie in seinen gewählten Modell-Stack. OpenLegion wählt Modelle per Preset — Smartest, Smart oder Normal — pro Agent oder pro Workspace.
 
 ## Der ehrliche Kompromiss
 
-Manus AI und OpenLegion lösen grundlegend unterschiedliche Probleme. Manus ist eine Plattform für autonome Agenten für Menschen, die wollen, dass KI Aufgaben Ende-zu-Ende ohne Entwicklerbeteiligung erledigt. OpenLegion ist ein Entwickler-Framework für Teams, die sichere, kontrollierbare, auditierbare Agenten-Orchestrierung brauchen.
+Manus AI und OpenLegion lösen grundlegend unterschiedliche Probleme. Manus ist eine Plattform für autonome Agenten für Menschen, die wollen, dass KI Aufgaben Ende-zu-Ende ohne Entwicklerbeteiligung erledigt. OpenLegion ist eine gehostete Plattform für Teams, die sichere, kontrollierbare, auditierbare Agenten-Orchestrierung brauchen.
 
-Wenn Sie "recherchiere dieses Thema" sagen und einen vollständigen Report zurückbekommen wollen, ist Manus schwer zu schlagen. Wenn Sie genau wissen müssen, worauf Ihre Agenten zugreifen, was sie ausgeben und welche Credentials sie berühren dürfen — und Sie das auf eigener Infrastruktur brauchen —, lautet die Antwort OpenLegion.
+Wenn Sie "recherchiere dieses Thema" sagen und einen vollständigen Report zurückbekommen wollen, ist Manus schwer zu schlagen. Wenn Sie genau wissen müssen, worauf Ihre Agenten zugreifen, was sie ausgeben und welche Credentials sie berühren dürfen — und Sie dafür jeweils einen lesbaren Beleg brauchen —, lautet die Antwort OpenLegion.
 
 Für die gesamte Landschaft siehe unseren [KI-Agenten-Frameworks-Vergleich](/learn/ai-agent-frameworks).
 
 ## CTA
 
-**Produktionsgrade Sicherheit für Ihre Agenten-Flotte?**
+**Produktionsgrade Sicherheit für Ihr Agenten-Team?**
 [Loslegen](https://app.openlegion.ai) | [Dokumentation lesen](https://docs.openlegion.ai)
 
 ---
@@ -115,27 +115,27 @@ Für die gesamte Landschaft siehe unseren [KI-Agenten-Frameworks-Vergleich](/lea
 
 ### Was ist der Unterschied zwischen OpenLegion und Manus AI?
 
-Manus AI ist eine Closed-Source-Cloud-only-Plattform für autonome Agenten, die laut Berichten von Meta übernommen wurde. Jede Session läuft in einer Firecracker-microVM. OpenLegion ist eine source-available (PolyForm Perimeter License 1.0.1), Security-First-[KI-Agenten-Plattform](/learn/ai-agent-platform) mit verpflichtender Docker-Container-Isolation, Vault-Proxy-Credentials, Pro-Agent-Budgetdurchsetzung und vollständigem Self-Hosted-Deployment.
+Manus AI ist eine Closed-Source-Cloud-only-Plattform für autonome Agenten, die laut Berichten von Meta übernommen wurde. Jede Session läuft in einer Firecracker-microVM. OpenLegion ist eine gehostete, sicherheitsorientierte [KI-Agenten-Plattform](/learn/ai-agent-platform) mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault, Pro-Agent-Credit-Budgets und einer Engine, die source-available unter der PolyForm Perimeter License 1.0.1 steht.
 
 ### Ist Manus AI Open Source?
 
-Nein. Manus AI ist vollständig Closed Source und Cloud-only. Die Plattform lehnt Self-Hosted- oder lokales Deployment explizit ab. OpenLegion ist source-available (PolyForm Perimeter License 1.0.1) mit vollständig auditierbarer Codebasis.
+Nein. Manus AI ist vollständig Closed Source und Cloud-only. Die Plattform lehnt Self-Hosted- oder lokales Deployment explizit ab. OpenLegions Engine ist source-available (PolyForm Perimeter License 1.0.1) und auditierbar; die gehostete Plattform ist proprietär.
 
 ### Wie handhabt Manus AI Credentials?
 
-Manus speichert Login-Credentials als verschlüsselte Session-Replay-Dateien, die ins Cloud-Backend hochgeladen werden. Sicherheitsforscher entdeckten die SilentBridge-Schwachstelle — Zero-Click-Prompt-Injection-Angriffe, die auf Cloud-Metadaten und interne Netzwerke zugreifen konnten. OpenLegion nutzt einen Vault-Proxy, bei dem Agenten nie rohe API-Keys sehen.
+Manus speichert Login-Credentials als verschlüsselte Session-Replay-Dateien, die ins Cloud-Backend hochgeladen werden. Sicherheitsforscher entdeckten die SilentBridge-Schwachstelle — Zero-Click-Prompt-Injection-Angriffe, die auf Cloud-Metadaten und interne Netzwerke zugreifen konnten. OpenLegion hält Credentials in einem Vault und injiziert sie außerhalb des Modells, sodass Agenten nie rohe API-Keys sehen.
 
 ### Wie viel kostet Manus AI?
 
-Manus bietet Stufen Free (300 tägliche Credits), Plus (39 $/Monat, 3.900 Credits) und Pro (199 $/Monat, 19.900 Credits) sowie Team-/Enterprise-Custom-Pläne. Durchschnittliche Aufgabenkosten liegen bei ca. 2 $, aber der Credit-Verbrauch ist unvorhersehbar. OpenLegion nutzt BYO-API-Keys ohne Aufschlag mit Pro-Agent-Budgetdurchsetzung.
+Manus bietet Stufen Free (300 tägliche Credits), Plus (39 $/Monat, 3.900 Credits) und Pro (199 $/Monat, 19.900 Credits) sowie Team-/Enterprise-Custom-Pläne. Durchschnittliche Aufgabenkosten liegen bei ca. 2 $, aber der Credit-Verbrauch ist unvorhersehbar. OpenLegion ist kostenlos mit 1.000 einmaligen Credits, 29 $/Monat für Pro mit 10.000 — und budgetiert jeden Agenten.
 
 ### Kann ich Manus AI selbst hosten?
 
-Nein. Manus AI ist Cloud-only ohne Self-Hosted-Option. OpenLegion benötigt nur Python, SQLite und Docker und läuft in On-Premises-Umgebungen.
+Nein. Manus AI ist Cloud-only ohne Self-Hosted-Option. OpenLegion ist ebenfalls eine gehostete Web-App — mit Google anmelden, nichts zu installieren und zum Start keine Self-Host-Option.
 
 ### Kann ich von Manus AI zu OpenLegion migrieren?
 
-Manus-Tasks sind nicht als wiederverwendbare Workflows exportierbar. Der Wechsel zu OpenLegion bedeutet, Task-Logik als Fleet-Modell-Koordination mit expliziten Agenten-Definitionen, Tool-Zugriffskontrollen und Budget-Limits neu zu bauen. Der Vorteil ist volle Transparenz und Kontrolle über jeden Schritt. Workflow-Muster siehe unsere Seite zur [KI-Agenten-Orchestrierung](/learn/ai-agent-orchestration).
+Manus-Tasks sind nicht als wiederverwendbare Workflows exportierbar. Der Wechsel zu OpenLegion bedeutet, Task-Logik als Ziele und Aufgaben mit expliziten Agenten-Definitionen, Tool-Zugriffskontrollen und Budget-Limits neu zu bauen. Der Vorteil ist volle Transparenz und Kontrolle über jeden Schritt. Workflow-Muster siehe unsere Seite zur [KI-Agenten-Orchestrierung](/learn/ai-agent-orchestration).
 
 ---
 

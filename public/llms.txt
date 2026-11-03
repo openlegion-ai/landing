@@ -4,7 +4,8 @@
 
 ## Status (November 2026)
 - The hosted platform has been rebuilt. The new version is in private beta, and new sign-ups join a waitlist.
-- Some product, pricing and comparison pages on this site still describe the previous version (a Python runtime with one Docker container per agent, self-hosting, and the earlier monthly plans). They are being updated.
+- Some older articles on this site still describe the previous version (a Python runtime with one Docker container per agent, a shared blackboard, and self-hosting). They are being updated.
+- Launch pricing is listed at https://www.openlegion.ai/en/pricing. Plans cannot be bought until sign-up opens.
 - The previous-generation engine remains source-available on GitHub (https://github.com/openlegion-ai/openlegion) under the PolyForm Perimeter License 1.0.1.
 
 ## How the current platform works

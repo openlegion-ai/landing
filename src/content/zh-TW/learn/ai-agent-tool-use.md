@@ -164,16 +164,16 @@ OpenAI的Responses API（2025年3月）將並行工具呼叫設為預設。在�
 
 每個主要LLM提供商都有不同的工具呼叫API。正確的抽象：定義一次工具，讓框架在呼叫時將其轉換為正確的提供商約定。
 
-OpenLegion的工具登錄表實作了這種抽象。定義一次`search_web`。網格根據設定的模型將定義轉換為OpenAI `tools`、Anthropic `tools`或Gemini `functionDeclarations`。ACL門不是可選的。每個工具呼叫 — 內建的、MCP的或自訂的 — 在執行前都要經過每代理權限矩陣。
+OpenLegion的工具登錄表實作了這種抽象。定義一次`search_web`。平台會依照智能體預設所解析到的模型,將定義轉換為OpenAI `tools`、Anthropic `tools`或Gemini `functionDeclarations`。ACL門不是可選的。每個工具呼叫 — 內建的或自訂的 — 在執行前都要經過每代理權限矩陣。
 
 | **維度** | **OpenLegion** | **LangChain / LangGraph** | **OpenAI Agents SDK** | **CrewAI** | **Anthropic直接** |
 |---|---|---|---|---|---|
 | **工具定義格式** | 單一結構描述，提供商轉換 | 需要特定於提供商的包裝器 | 僅OpenAI格式 | CrewAI工具裝飾器 | 僅Anthropic tool_use格式 |
-| **提供商抽象** | 是 — GPT-4o、Claude、Gemini統一 | 部分 — 透過LangChain整合 | 否 — 僅OpenAI模型 | 部分 | 否 — 僅Anthropic |
+| **提供商抽象** | 是 — 單一預設,提供商被抽象化 | 部分 — 透過LangChain整合 | 否 — 僅OpenAI模型 | 部分 | 否 — 僅Anthropic |
 | **ACL執行** | 每代理權限矩陣，結構性 | 未內建 | 未內建 | 未內建 | 未內建 |
 | **並行工具呼叫** | 支援 | 支援（依賴提供商） | 是 — Responses API預設值 | 支援 | 是 — Claude支援 |
-| **內建工具** | 瀏覽器、檔案、HTTP、Shell、影像生成 | 透過LangChain社群工具 | web_search、file_search、computer_use | 未內建 | 未內建 |
-| **MCP整合** | 原生 — 相同的ACL/預算管道 | 透過LangChain MCP介面卡 | 實驗性 | 非原生 | 非原生 |
+| **內建工具** | 檔案、HTTP、沙箱程式碼、日曆、雲端硬碟 | 透過LangChain社群工具 | web_search、file_search、computer_use | 未內建 | 未內建 |
+| **MCP整合** | 推出時未連接 | 透過LangChain MCP介面卡 | 實驗性 | 非原生 | 非原生 |
 
 有關MCP規範、伺服器架構和每伺服器權限要求，請參閱[模型上下文協議指南](/learn/model-context-protocol)。
 
@@ -181,7 +181,7 @@ OpenLegion的工具登錄表實作了這種抽象。定義一次`search_web`。�
 
 ### 內建執行期工具
 
-內建工具由執行期預先強化：瀏覽器自動化、檔案操作、HTTP請求、Shell命令、影像生成。首先使用內建工具。
+內建工具由平台預先強化：檔案操作、HTTP請求、在沙箱中執行的程式碼，以及Google日曆與雲端硬碟連接器。每一個都受代理權限矩陣控管，並計入代理的點數預算。
 
 ### MCP工具伺服器
 
@@ -189,7 +189,7 @@ MCP工具由透過stdio或HTTP上的JSON-RPC公開工具的模型上下文協議
 
 ### 自訂工具登錄
 
-自訂工具是您在代理工具登錄表中編寫和登錄的Python（或TypeScript）函式。提供完全的靈活性；取捨是您擁有驗證、錯誤處理、冪等性和安全控制。
+自訂工具是您在代理工具登錄表中編寫和登錄的Python（或TypeScript）函式。提供完全的靈活性；取捨是您擁有驗證、錯誤處理、冪等性和安全控制。任何自訂工具都與內建工具一樣，會經過同一個政策引擎與點數預算。
 
 <!-- SCHEMA: FAQPage -->
 ## 常見問題

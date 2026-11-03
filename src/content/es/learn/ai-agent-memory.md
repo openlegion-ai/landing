@@ -82,17 +82,17 @@ La memoria de agentes IA permite contexto persistente, aprendizaje y coordinaci�
 
 La memoria de agentes IA es fundamental para sistemas autónomos, pero las implicaciones de seguridad de la memoria persistente crean riesgos significativos que muchas implementaciones ignoran. CVE-2025-67732 expuso el riesgo sistemático de exposición de credenciales. Los ataques de envenenamiento de memoria documentados en arXiv cs.AI 2025 demuestran cómo hechos falsos inyectados en almacenamiento persistente pueden corromper el comportamiento de los agentes entre sesiones.
 
-La arquitectura de OpenLegion aborda estos riesgos mediante aislamiento en lugar de controles de acceso. El proxy vault asegura que las credenciales nunca entren en sistemas de memoria. El aislamiento de espacio de trabajo por agente previene la contaminación de memoria entre agentes.
+La arquitectura de OpenLegion aborda estos riesgos mediante aislamiento en lugar de controles de acceso. Las credenciales viven en una bóveda y se inyectan fuera del modelo, así que nunca entran en sistemas de memoria. El aislamiento de memoria por agente previene la contaminación entre agentes.
 
-### Arquitectura de Cuatro Zonas: Memoria Protegida por Vault
+### Arquitectura de Motor de Políticas: Memoria Protegida por Bóveda
 
-**La arquitectura de cuatro zonas** separa completamente la gestión de credenciales de las operaciones de memoria. Las Zonas 1-4 aseguran que las credenciales nunca persistan en sistemas de memoria de agentes.
+**Un único motor de políticas** separa completamente la gestión de credenciales de las operaciones de memoria. Cada acción es una intención verificada antes de ocurrir, y las credenciales viven en una bóveda fuera del modelo, así que nunca persisten en la memoria de los agentes.
 
-**El pizarrón nativo** proporciona coordinación de memoria estructurada sin bases de datos vectoriales externas. Funciona en SQLite con garantías ACID.
+**Los objetivos y tareas** proporcionan coordinación de memoria estructurada sin bases de datos vectoriales externas. Todo forma parte de la plataforma alojada.
 
 ### Aislamiento de Espacio de Trabajo por Agente
 
-**El espacio de trabajo privado** proporciona a cada agente almacenamiento de archivos aislado para memoria personal, configuración y archivos de trabajo.
+**El espacio de trabajo privado** proporciona a cada agente almacenamiento aislado para memoria personal, configuración y archivos de trabajo.
 
 **[Explora la arquitectura de la plataforma de agentes IA](/learn/ai-agent-platform)** para enfoques completos de seguridad y gestión de memoria. Para [vulnerabilidades de seguridad de agentes IA](/learn/ai-agent-security), consulta modelos de amenazas detallados y cobertura CVE.
 
@@ -112,9 +112,9 @@ El envenenamiento de memoria inyecta hechos falsos en sistemas de memoria persis
 
 CVE-2025-67732 demostró exposición de credenciales cuando los stores de memoria compartida contienen claves API accesibles a cualquier usuario autenticado. Las búsquedas de similitud vectorial pueden recuperar inadvertidamente información sensible cuando los términos de consulta coinciden semánticamente con metadatos de credenciales.
 
-### ¿Qué es el pizarrón de OpenLegion?
+### ¿Qué es el registro compartido de OpenLegion?
 
-Un store clave-valor persistente compartido nativo que permite la coordinación agente-a-agente sin bases de datos vectoriales externas ni servicios. Funciona en SQLite con garantías ACID y controles de permisos basados en patrones. El proxy vault previene la exposición de credenciales asegurando que los agentes nunca reciban credenciales en texto claro.
+El registro duradero de objetivos, tareas y resultados que permite la coordinación agente-a-agente sin bases de datos vectoriales externas ni servicios. El trabajo se organiza objetivos → tareas → agentes, con un asistente que delega en los compañeros que crea. Las credenciales viven en una bóveda y se inyectan fuera del modelo, así que los agentes nunca reciben credenciales en texto claro.
 
 ### ¿Cuáles son las bibliotecas de memoria más populares?
 
@@ -122,4 +122,4 @@ mem0ai/mem0 lidera con 56.445 estrellas en GitHub y $23,5M de financiación Seri
 
 ### ¿Cómo se asegura la memoria de agentes en producción?
 
-Usa aislamiento arquitectónico de credenciales mediante sistemas de proxy vault en lugar de controles a nivel de aplicación. Implementa aislamiento de espacio de trabajo por agente para prevenir contaminación de memoria. Aplica permisos basados en patrones siguiendo el principio de mínimo privilegio. Nunca almacenes credenciales en ningún sistema de memoria de agente.
+Usa aislamiento arquitectónico de credenciales mediante una bóveda de credenciales en lugar de controles a nivel de aplicación. Implementa aislamiento de espacio de trabajo por agente para prevenir contaminación de memoria. Aplica permisos basados en patrones siguiendo el principio de mínimo privilegio. Nunca almacenes credenciales en ningún sistema de memoria de agente.

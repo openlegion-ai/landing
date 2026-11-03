@@ -351,7 +351,7 @@ For process-level isolation: container namespaces, seccomp syscall filtering, an
 
 ### Per-Agent Vault Credential Scoping
 
-Agents hold **opaque vault handles**, credential references like `$CRED{tavily_search_key}`, not raw credential values. The vault enforces per-agent credential scoping at injection time:
+Agents hold **opaque vault handles**, credential references that name a secret without carrying it, not raw credential values. The vault enforces per-agent credential scoping at injection time:
 
 ```yaml
 # Per-agent credential permissions in vault configuration
@@ -391,7 +391,7 @@ async def resolve_credential(credential_name: str, agent_id: str,
     return await vault.resolve(credential_name, inject_into="http_request_header")
 ```
 
-A compromised agent that exfiltrates its vault handles gives an attacker opaque strings like `$CRED{tavily_search_key}`. These strings resolve to credentials only when presented from the correct `agent_id` with the correct task context, not raw API keys that work from any client.
+A compromised agent that exfiltrates its vault handles gives an attacker opaque strings and nothing else. These strings resolve to credentials only when presented from the correct `agent_id` with the correct task context, not raw API keys that work from any client.
 
 For the complete vault architecture: credential rotation, per-call injection mechanics, and audit logging, see [credential management for AI agents and vault proxy architecture](/learn/credential-management-ai-agents).
 
@@ -538,15 +538,15 @@ Three concrete facts about agent access control in production:
 
 **OWASP LLM06 Excessive Agency is not a model behavior problem: it is a permissions architecture problem.** The attack pattern (indirect prompt injection to tool abuse via over-permissioned tool) works regardless of how well the model is aligned, because the model is following instructions that appear legitimate in its context window. The only reliable defense is ensuring the over-permissioned tool invocation cannot succeed: the tool does not exist in the agent's tool registry, the tool has parameter constraints that prevent the injected instruction from being executable, or the tool requires human approval before executing. CVE-2024-27564 (March 2024) demonstrated this: the fix was not a model update: it was restricting the plugin's network access to a domain whitelist.
 
-**Vault handles are not security through obscurity: they are opaque tokens that enforce agent identity at resolution time.** A `$CRED{stripe_api_key}` handle in the executor agent's context resolves to a Stripe API key only when the vault verifies: (1) the requesting agent_id is in the `allowed_credentials` list for `stripe_api_key`, (2) the task context satisfies any minimum user permission requirements, and (3) the request comes from within the authorized network boundary. A prompt injection that exfiltrates `$CRED{stripe_api_key}` from the agent's context window has exfiltrated an opaque string, not a usable credential. This is why credential scoping at the vault layer is a stronger defense than per-agent environment variable isolation: the vault enforces the credential access policy at every resolution, not just at agent startup.
+**Vault handles are not security through obscurity: they are opaque tokens that enforce agent identity at resolution time.** A handle for `stripe_api_key` in the executor agent's context resolves to a Stripe API key only when the vault verifies: (1) the requesting agent_id is in the `allowed_credentials` list for `stripe_api_key`, (2) the task context satisfies any minimum user permission requirements, and (3) the resolution happens outside the model, which only ever holds the handle. A prompt injection that exfiltrates that handle from the agent's context window has exfiltrated an opaque string, not a usable credential. This is why credential scoping at the vault layer is a stronger defense than per-agent environment variable isolation: the vault enforces the credential access policy at every resolution, not just at agent startup.
 
 **EU AI Act Article 12 audit trail requirement means every tool call needs a `requesting_user_id`.** Annex IV requires logging of "the identification of the natural or legal persons involved in the use of the system": for AI agent systems, this means the human who initiated the task must be attributable to every tool call the agent makes during that task, even if the task runs asynchronously. The delegation token pattern (user's permission scope bound to the agent's task context, `requesting_user_id` in every delegation token claim, delegation token verified before every tool dispatch) is the architectural mechanism that satisfies this requirement without requiring the user to remain connected during agent execution.
 
 | **Access control property** | **OpenLegion** | **LangGraph** | **CrewAI** | **AutoGen** | **AWS Bedrock Agents** |
 |---|---|---|---|---|---|
 | **Vault handles not raw credentials: agents hold opaque references; vault enforces allowed_credentials per agent_id at injection time** | Yes: vault per-agent scope | No: env var | No: env var | No: env var | Partial: Secrets Manager but no per-agent credential scope |
-| **Blackboard ACLs server-enforced: read/write glob patterns per agent; 403 on mismatch; agents cannot read each other's output without explicit grant** | Yes: server-enforced | No: shared state | No: shared state | No: shared state | No: S3 bucket-level only |
-| **ABAC with task context: same agent different effective permissions based on task_type and requesting_user_permission_level** | Yes: mesh ABAC | No: static roles | No: static roles | No | Partial: IAM conditions |
+| **Shared-state ACLs server-enforced: read/write glob patterns per agent; 403 on mismatch; agents cannot read each other's output without explicit grant** | Yes: server-enforced | No: shared state | No: shared state | No: shared state | No: S3 bucket-level only |
+| **ABAC with task context: same agent different effective permissions based on task_type and requesting_user_permission_level** | Yes: policy-engine ABAC | No: static roles | No: static roles | No | Partial: IAM conditions |
 | **Signed inter-agent hand-offs with Ed25519: sender identity verified before processing; malicious hand-off injection rejected** | Yes: Ed25519 | No: unsigned | No: unsigned | No: unsigned | No: unsigned |
 | **Per-tool-call access decision logged with requesting_user_id: EU AI Act Article 12 audit trail** | Yes: automatic | No: user-defined | No: user-defined | No: user-defined | Partial: CloudTrail but no requesting_user_id |
 | **Human approval gate on destructive tools: irreversible actions queued for approval; OWASP LLM06 Excessive Autonomy mitigated** | Yes: approval queue | No | No | No | No |
@@ -591,4 +591,4 @@ EU AI Act Article 9 (Regulation EU 2024/1689, high-risk AI provisions effective 
 
 Access control instructions in system prompts ("do not access files outside your workspace") are not access control: they are guidelines the model may or may not follow, and they provide no defense against prompt injection. Access control for AI agents means the tool does not have the permission to access outside the workspace, full stop. The infrastructure enforces it: the tool registry rejects the call, the vault denies the credential resolution, the blackboard returns 403, the database row-level policy blocks the query.
 
-[Start building on OpenLegion](https://app.openlegion.ai): vault credential scoping per agent, blackboard ACLs server-enforced, ABAC with task context, Ed25519 signed inter-agent hand-offs, human approval queues for destructive tools, and per-tool-call audit logs with requesting_user_id for EU AI Act Article 12 compliance.
+[Start building on OpenLegion](https://app.openlegion.ai): vault credential scoping per agent, shared-state ACLs server-enforced, ABAC with task context, identity-verified inter-agent delegation, human approval queues for destructive tools, and per-tool-call audit logs with requesting_user_id for EU AI Act Article 12 compliance.

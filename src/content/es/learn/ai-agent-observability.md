@@ -42,7 +42,7 @@ La **observabilidad de agentes de IA** es la disciplina de registrar cada llamad
 - **La observabilidad de agentes es más difícil que la observabilidad de aplicaciones** porque el flujo de control del agente se decide por un LLM en runtime, no por código escrito a mano.
 - **Cuatro señales importan**: trazas end-to-end, coste por agente, versionado de prompt y modelo, y captura de eventos de seguridad (intentos de inyección de prompt, denegaciones ACL, cortes de presupuesto).
 - **La mayoría de frameworks de agentes vienen sin observabilidad integrada** — los equipos atornillan LangSmith, Langfuse o Arize Phoenix y descubren las brechas tras su primer incidente en producción.
-- **El panel del mesh de OpenLegion registra cada llamada a herramienta, petición de LLM, línea de coste y evento de seguridad por defecto** — sin código de instrumentación, sin integración de agente de terceros.
+- **OpenLegion registra cada llamada a herramienta, petición de LLM, línea de coste y evento de seguridad como un recibo por defecto** — sin código de instrumentación, sin integración de agente de terceros.
 - **La observabilidad de coste es el presupuesto que no sabía que estaba gastando**: sin topes por agente, un agente atascado puede quemar cientos de dólares en llamadas API de la noche a la mañana.
 
 ## Por Qué la Observabilidad de Agentes de IA Es Diferente
@@ -78,25 +78,25 @@ Intentos de inyección de prompt, denegaciones ACL, bloqueos SSRF, cortes de pre
 
 | Señal | Qué se captura | Dónde verlo |
 |---|---|---|
-| **Traza** | Cada llamada a herramienta, petición LLM, handoff de agente con temporización | Panel del mesh → Ejecuciones de Agente |
+| **Traza** | Cada llamada a herramienta, petición LLM, delegación con temporización | Panel → Despertares |
 | **Coste** | Tokens entrada/salida, coste en dólares por proveedor por agente | Panel → Panel de Coste |
 | **Prompts** | Hash del prompt de sistema, versión, modelo, parámetros por ejecución | Vista de detalle por ejecución |
 | **Seguridad** | Denegaciones ACL, cortes de presupuesto, bloqueos SSRF, aciertos del sanitizador | Panel → Log de Seguridad |
-| **Salud** | Uso de recursos del contenedor, latencia del mesh, estado del pool del navegador | Panel → Panel de Flota |
+| **Salud** | Tasa de éxito de tareas, latencia de despertar, cola de aprobaciones | Panel → Panel de Trabajo |
 
-El panel es parte del runtime de código abierto — no un servicio gestionado al que tenga que suscribirse. Los despliegues autoalojados mantienen toda la telemetría en su infraestructura.
+El panel es parte de la plataforma — no un servicio aparte al que tenga que suscribirse e instrumentar. Cada despertar queda registrado y es reproducible, con el coste exacto de la tarea adjunto.
 
 ## Stacks de Observabilidad Código Abierto vs Gestionados
 
 Si está ejecutando un framework de agentes diferente, las herramientas atornillables líderes son LangSmith (ecosistema LangChain, gestionado), Langfuse (código abierto, autoalojable), Arize Phoenix (código abierto, enfocado en evaluación) y Helicone (basado en proxy, integración simple). Cada uno requiere código de instrumentación en su agente — envolver clientes LLM, añadir manejadores de callback, configurar exportadores de trazas. La carga de integración escala con el tamaño de su flota.
 
-El mesh de OpenLegion se sitúa en la ruta de llamada de cada operación de agente por diseño — bóveda de credenciales, puerta ACL, rastreador de coste y registrador de trazas están todos colocalizados en la zona de confianza. No hay paso de instrumentación. La compensación: usted adopta el runtime de OpenLegion, no solo una capa de observabilidad.
+El motor de políticas de OpenLegion se sitúa en la ruta de llamada de cada operación de agente por diseño — la bóveda de credenciales, la verificación de permisos, el medidor de coste y el recibo forman todos parte del mismo paso. No hay paso de instrumentación. La compensación: usted adopta la plataforma OpenLegion, no solo una capa de observabilidad.
 
 Consulte nuestra [comparativa de frameworks de agentes de IA](/learn/ai-agent-frameworks) para el panorama completo, o la [página vs LangGraph](/comparison/langgraph) para un cara a cara sobre observabilidad específicamente.
 
 ## La Postura de OpenLegion
 
-La observabilidad de agentes es el nuevo APM — y el ecosistema de IA está repitiendo cada error que el APM tardó una década en arreglar. La telemetría se fragmenta en SDKs específicos de proveedor. Los precios escalan con el volumen de eventos, de modo que las flotas más ocupadas pagan más por observarse a sí mismas. Funciones "avanzadas" como alertas y retención quedan detrás de niveles empresariales. OpenLegion toma la postura opuesta: el panel, las trazas, el ledger de costes y el log de eventos de seguridad vienen con la [plataforma de agentes de IA](/learn/ai-agent-platform), no como upsell. Cada ejecución registra la traza completa por defecto, usted autoaloja los datos, posee la retención y puede exportar a OpenTelemetry si quiere reenviarlo a Datadog o Honeycomb de todos modos.
+La observabilidad de agentes es el nuevo APM — y el ecosistema de IA está repitiendo cada error que el APM tardó una década en arreglar. La telemetría se fragmenta en SDKs específicos de proveedor. Los precios escalan con el volumen de eventos, de modo que las flotas más ocupadas pagan más por observarse a sí mismas. Funciones "avanzadas" como alertas y retención quedan detrás de niveles empresariales. OpenLegion toma la postura opuesta: el panel, las trazas, el ledger de costes y el log de eventos de seguridad vienen con la [plataforma de agentes de IA](/learn/ai-agent-platform), no como upsell. Cada ejecución registra la traza completa por defecto, el propietario puede leer cada recibo que produjo y puede exportar a OpenTelemetry si quiere reenviarlo a Datadog o Honeycomb de todos modos.
 
 ## CTA
 
@@ -119,7 +119,7 @@ La observabilidad de LLM rastrea llamadas individuales al modelo — prompt, res
 
 ### ¿Necesito una herramienta de observabilidad separada si ya estoy en Datadog?
 
-Datadog y herramientas APM similares manejan bien la latencia, errores y uso de recursos, pero no entienden de forma nativa los costes de tokens LLM, el versionado de prompts o la semántica de trazas de agentes. La mayoría de equipos emparejan una herramienta de observabilidad nativa de agentes (Langfuse, Arize Phoenix, LangSmith) con su APM existente, o adoptan un runtime como OpenLegion que viene con telemetría integrada y puede exportar OpenTelemetry a cualquier APM que ya operen.
+Datadog y herramientas APM similares manejan bien la latencia, errores y uso de recursos, pero no entienden de forma nativa los costes de tokens LLM, el versionado de prompts o la semántica de trazas de agentes. La mayoría de equipos emparejan una herramienta de observabilidad nativa de agentes (Langfuse, Arize Phoenix, LangSmith) con su APM existente, o adoptan una plataforma como OpenLegion que viene con telemetría integrada y puede exportar OpenTelemetry a cualquier APM que ya operen.
 
 ### ¿Qué debería rastrear para la observabilidad de coste de agentes de IA?
 
@@ -131,4 +131,4 @@ Como mínimo: detección de inyección de prompt, denegaciones ACL (un agente in
 
 ### ¿Cómo se compara la observabilidad de OpenLegion con LangSmith?
 
-LangSmith es un servicio gestionado de observabilidad para el ecosistema LangChain — fuertes funciones de tracing, evaluación y gestión de prompts. El panel de OpenLegion viene con el runtime mismo, está autoalojado por defecto y registra las mismas señales (trazas, coste, prompts, eventos de seguridad) sin requerir instrumentación en su código de agente. LangSmith se integra en cualquier framework que lo adopte; la observabilidad de OpenLegion funciona automáticamente dentro del runtime de OpenLegion.
+LangSmith es un servicio gestionado de observabilidad para el ecosistema LangChain — fuertes funciones de tracing, evaluación y gestión de prompts. El panel de OpenLegion viene con la plataforma misma, está activo por defecto y registra las mismas señales (trazas, coste, prompts, eventos de seguridad) sin requerir instrumentación en su código de agente. LangSmith se integra en cualquier framework que lo adopte; la observabilidad de OpenLegion funciona automáticamente dentro de OpenLegion.

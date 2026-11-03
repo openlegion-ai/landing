@@ -78,13 +78,13 @@ AI agent memory autonomous AI systems के लिए sessions के across pe
 
 AI agent memory autonomous systems के लिए fundamental है, लेकिन persistent memory के security implications significant risks create करते हैं जिन्हें कई implementations ignore करती हैं। CVE-2025-67732 ने systematic credential exposure risk expose किया।
 
-OpenLegion की architecture access controls के बजाय isolation के through इन risks address करती है। Vault proxy ensure करता है कि credentials कभी memory systems में enter न करें।
+OpenLegion की architecture access controls के बजाय isolation के through इन risks address करती है। Credentials एक vault में रहते हैं और model के बाहर inject होते हैं, इसलिए वे कभी memory systems में enter नहीं करते।
 
-### Four-Zone Architecture: Vault-Protected Memory
+### Policy-Engine Architecture: Vault-Protected Memory
 
-**Four-zone architecture** credential management को memory operations से completely separate करती है। Zones 1-4 ensure करते हैं कि credentials agent memory systems में persist न करें।
+**एक ही policy engine** credential management को memory operations से completely separate करता है। हर action एक intent है जिसे पहले check और receipt के रूप में record किया जाता है, और credentials vault में रहकर model के बाहर inject होते हैं, इसलिए वे agent memory में persist नहीं करते।
 
-**Native blackboard** external vector databases के बिना structured memory coordination provide करता है। SQLite पर ACID guarantees के साथ run करता है।
+**Goals और tasks** external vector databases के बिना structured memory coordination provide करते हैं। Agents goals और tasks के साझा record, event wakes, और persistent state के through coordinate करते हैं।
 
 ### Per-Agent Workspace Isolation
 
@@ -108,9 +108,9 @@ Memory poisoning persistent agent memory systems में false facts inject �
 
 CVE-2025-67732 ने credential exposure demonstrate किया जब shared memory stores में ऐसे API keys हों जो memory access वाले किसी भी authenticated user को accessible हों। Vector similarity searches inadvertently sensitive information retrieve कर सकती हैं।
 
-### OpenLegion blackboard क्या है?
+### OpenLegion का साझा record क्या है?
 
-External vector databases या services के बिना agent-to-agent coordination enable करने वाला native shared key-value persistent store। SQLite पर ACID guarantees और pattern-based permission controls के साथ run करता है।
+Goals, tasks और results का वह durable record जो external vector databases या services के बिना agent-to-agent coordination enable करता है। हर read और write एक intent है जिसे policy engine check करता है।
 
 ### कौन से memory libraries सबसे popular हैं?
 
@@ -118,4 +118,4 @@ mem0ai/mem0 Insight Partners के $23.5M Series A funding के साथ 56,
 
 ### Production में agent memory को कैसे secure करें?
 
-Application-level controls के बजाय vault proxy systems के through architectural credential isolation use करें। Memory contamination prevent करने के लिए per-agent workspace isolation implement करें। Least privilege principles follow करते हुए pattern-based permissions apply करें। किसी भी agent memory system में credentials कभी store न करें।
+Application-level controls के बजाय एक credential vault के through architectural credential isolation use करें। Memory contamination prevent करने के लिए per-agent workspace isolation implement करें। Least privilege principles follow करते हुए pattern-based permissions apply करें। किसी भी agent memory system में credentials कभी store न करें।

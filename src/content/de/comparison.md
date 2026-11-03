@@ -27,7 +27,7 @@ related:
 
 Laut Branchenanalysten erreichte der Markt für agentische KI 2025 ein geschätztes Volumen von 7,6 Milliarden US-Dollar und wird bis 2030 voraussichtlich 47–52 Milliarden US-Dollar erreichen. Analystenhäuser prognostizieren, dass bis Ende 2026 ein erheblicher Teil der Unternehmensanwendungen KI-Agenten integrieren wird. Angesichts von mehr als einem Dutzend konkurrierender Frameworks hängt die richtige Wahl davon ab, was Sie tatsächlich benötigen: schnelles Prototyping, Cloud-native Bereitstellung, visuelle Modellierung oder Produktionssicherheit.
 
-OpenLegion ist ein sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agent-platform), das auf Container-Isolation, Vault-vermittelten Credentials und agentenspezifischer Budgetdurchsetzung basiert. Auf dieser Seite vergleichen wir es mit allen wichtigen Alternativen — einschließlich der explodierenden Zahl von OpenClaw-Ökosystem-Projekten — damit Sie entscheiden können, welches Framework zu Ihren Anforderungen passt.
+OpenLegion ist ein sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agent-platform), das auf Sandbox-Läufen pro Aufgabe, Credentials im Vault und agentenspezifischer Budgetdurchsetzung basiert. Auf dieser Seite vergleichen wir es mit allen wichtigen Alternativen — einschließlich der explodierenden Zahl von OpenClaw-Ökosystem-Projekten — damit Sie entscheiden können, welches Framework zu Ihren Anforderungen passt.
 
 ## Master-Vergleichstabelle
 
@@ -43,7 +43,7 @@ OpenLegion ist ein sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agen
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27.300 | MIT | Nicht integriert | DefaultAzureCredential | Kostenlos (Open Source) | Kritische RCE (CVSS 9,9) | Reduzierte Update-Frequenz |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19.200 | MIT | Keine (gleicher Prozess) | Env-Var-API-Key | Kostenloses SDK; API nutzungsbasiert | 0 | Aktiv |
 | [**Dify**](/comparison/dify) | 131.000 | Modifiziertes Apache 2.0 | Plugin-Sandbox | Workspace-geteilte Keys | Cloud 59–159 $/Monat | CVE-2025-3466 (CVSS 9,8) | Aktiv |
-| **OpenLegion** | neu | PolyForm Perimeter License 1.0.1 | Docker pro Agent (Standard und einziger Modus) | Vault-Proxy (Agenten sehen keine Keys) | Pro Agent tägliche/monatliche Hartabschaltung | Keine bekannt (v0.1.0) | Aktiv |
+| **OpenLegion** | neu | PolyForm Perimeter License 1.0.1 (Engine) | Sandbox-Lauf pro Aufgabe (Standard und einziger Modus) | Im Vault (das Modell hält nur ein Handle) | Pro-Agent-Credit-Budget, harte Abschaltung | entfällt — gehostete Plattform | Aktiv |
 
 ## Die Sicherheitslücke
 
@@ -51,7 +51,7 @@ Branchenumfragen nennen Sicherheit konsistent als wichtigste Anforderung für de
 
 Öffentliche Sicherheitsforschung hat ernsthafte Schwachstellen in der gesamten Agenten-Framework-Landschaft dokumentiert — RCE-Ketten im LangChain-Ökosystem, Sandbox-Ausbrüche mit offengelegten Geheimschlüsseln, Credential-Leaks, Prompt-Injection-Angriffe und unbegrenzte Schleifen. Die spezifischen CVEs und Schweregrade variieren; aktuelle Details finden Sie in den Advisories der jeweiligen Hersteller und in der primären Berichterstattung.
 
-OpenLegion macht Sicherheit zu einem zentralen Wertversprechen: Defense-in-Depth durch Docker-Container-Isolation pro Agent, Vault-vermittelte Credential-Verwaltung, bei der Agenten nie rohe API-Schlüssel sehen, agentenspezifische ACLs und Ressourcenobergrenzen.
+OpenLegion macht Sicherheit zu einem zentralen Wertversprechen: Defense-in-Depth durch einen Sandbox-Lauf für jede Aufgabe, Credentials im Vault, die das Modell nie im Klartext sieht, eine einzige Policy-Engine vor jeder Aktion und Budgets pro Agent.
 
 Eine ausführliche Analyse finden Sie in unserem [KI-Agenten-Sicherheits-Beitrag](/learn/ai-agent-security).
 
@@ -101,15 +101,15 @@ OpenLegion gehört zur Developer-First-Kategorie mit einem einzigartigen Fokus a
 
 ## Was OpenLegion anders macht
 
-**Vault-Proxy**: Agenten sehen niemals rohe API-Schlüssel. Credentials werden auf Netzwerkebene durch einen Proxy injiziert — wenn ein Agent kompromittiert wird, kann er keine Geheimnisse exfiltrieren. Nur wenige andere Frameworks bieten das.
+**Credential-Vault**: Agenten sehen niemals rohe API-Schlüssel. Credentials liegen in einem Vault und werden außerhalb des Modells injiziert, das immer nur ein Handle hält — wenn ein Agent kompromittiert wird, kann er keine Geheimnisse exfiltrieren. Nur wenige andere Frameworks bieten das.
 
-**Verpflichtende Container-Isolation**: Jeder Agent läuft in seinem eigenen Docker-Container mit Non-Root-Ausführung, ohne Docker-Socket-Zugriff und mit Ressourcenobergrenzen. Dies ist der Standard und einzige Modus.
+**Gesandboxte Aufgabenausführung**: Jede Aufgabe läuft bei Bedarf und endet dann, es gibt also keinen langlebigen Agentenprozess zu kompromittieren, und Code, den der Agent schreibt, läuft in einer Sandbox ohne standardmäßigen Netzwerkzugriff. Dies ist der Standard und einzige Modus.
 
-**Agentenspezifische Budgetdurchsetzung**: Tägliche und monatliche Ausgabenlimits pro Agent mit automatischer Hartabschaltung. Adressiert die dokumentierten Probleme mit Endlosschleifen, unkontrollierten Iterationen und unvorhersehbarem Credit-Verbrauch, die andere Frameworks zutage gefördert haben.
+**Agentenspezifische Budgetdurchsetzung**: Jeder Agent trägt sein eigenes Credit-Budget, abgerechnet in Credits zu je $0,001, mit automatischer Hartabschaltung. Adressiert die dokumentierten Probleme mit Endlosschleifen, unkontrollierten Iterationen und unvorhersehbarem Credit-Verbrauch, die andere Frameworks zutage gefördert haben.
 
-**Fleet-Modell — Blackboard + Pub/Sub + Handoff (kein CEO-Agent)**: Koordination über ein SQLite-basiertes Blackboard mit atomarem Compare-and-Set, einen Pub/Sub-Event-Bus und ein strukturiertes Handoff-Protokoll. Agentenspezifische Iterationsobergrenzen und Tool-Loop-Erkennung (Warnung bei 2 Wiederholungen, Blockierung bei 4, Terminierung bei 9) beenden außer Kontrolle geratene Schleifen. In YAML auditierbar; versionskontrollierbar.
+**Ziel-und-Aufgaben-Koordination (kein CEO-Agent)**: Arbeit wird als Ziele → Aufgaben → Agenten organisiert, mit einem Assistenten, der die nötigen Teammitglieder erstellt und an sie delegiert, plus Event-Wakes für alles, was auf etwas reagieren muss. Budgets pro Agent und festgehaltene, nachvollziehbare Läufe begrenzen außer Kontrolle geratene Schleifen. Jeder Tool-Aufruf, jede Delegation und jede Freigabe wird mit Identität, Zeitstempel und exakten Kosten festgehalten.
 
-**BYO-API-Keys + verwaltete Credits**: Unterstützung für 100+ Modelle über LiteLLM mit null Aufschlag bei BYOK-Nutzung. Managed Hosting bietet auch vorausbezahlte LLM-Credits als Komfortoption. Kein Vendor Lock-in zu einem Modellanbieter.
+**Modell-Presets + Credits**: Modelle werden per Preset gewählt — Smartest, Smart oder Normal — pro Agent oder pro Workspace, es gibt also keine Provider-Verdrahtung zu pflegen. Arbeit wird in Credits zu je $0,001 abgerechnet; enthaltene Credits erneuern sich monatlich, gekaufte Pakete verfallen nie.
 
 Technische Details finden Sie auf der Seite zur [KI-Agenten-Orchestrierung](/learn/ai-agent-orchestration).
 
@@ -138,7 +138,7 @@ OpenLegion und LangGraph erfüllen unterschiedliche Anforderungen. LangGraph bie
 
 ### Was ist das sicherste KI-Agenten-Framework?
 
-OpenLegion macht Sicherheit zu einem primären Designziel mit Defense-in-Depth: verpflichtende Container-Isolation, Vault-vermittelte Credentials, agentenspezifische ACLs, begrenzte Ausführung, SSRF-Schutz und Input-Sanitisierung. Die meisten anderen Frameworks haben entweder keine integrierten Sicherheits-Defaults oder bieten sie nur in kostenpflichtigen Stufen. Siehe unsere Analyse zur [KI-Agenten-Sicherheit](/learn/ai-agent-security).
+OpenLegion macht Sicherheit zu einem primären Designziel mit Defense-in-Depth: einen Sandbox-Lauf für jede Aufgabe, Credentials im Vault, eine einzige Policy-Engine vor jeder Aktion, begrenzte Ausführung, Freigabe des Eigentümers an drei Stellen und einen Beleg für alles. Die meisten anderen Frameworks haben entweder keine integrierten Sicherheits-Defaults oder bieten sie nur in kostenpflichtigen Stufen. Siehe unsere Analyse zur [KI-Agenten-Sicherheit](/learn/ai-agent-security).
 
 ### Werden AutoGen und Semantic Kernel noch gepflegt?
 

@@ -1,9 +1,9 @@
 ---
 title: Alternative à OpenClaw — OpenLegion
 description: >-
-  Vous cherchez une alternative à OpenClaw ? OpenLegion offre isolation par
-  conteneur, identifiants protégés par proxy, contrôles de budget par agent et
-  coordination de flotte (tableau noir + pub/sub + handoff).
+  Vous cherchez une alternative à OpenClaw ? OpenLegion offre des exécutions de
+  tâches en bac à sable, des identifiants en coffre-fort, des budgets par agent
+  et une coordination par objectifs et tâches (objectifs → tâches → agents).
 slug: /openclaw-alternative
 primary_keyword: alternative à openclaw
 secondary_keywords:
@@ -27,58 +27,58 @@ related:
 
 Si vous recherchez une **alternative à OpenClaw**, vous avez probablement rencontré l'un de ces points de friction : l'exigence du socket Docker accorde un accès hôte trop large pour votre posture de sécurité, vous avez besoin d'une isolation des identifiants qui va au-delà du masquage de secrets en-processus, vous voulez des contrôles de coûts par agent pour prévenir les dépenses incontrôlées, ou vous avez besoin d'une orchestration de flotte multi-agent plutôt que d'un seul agent de codage.
 
-OpenLegion est un [framework d'agents IA](/learn/ai-agent-platform) source-disponible conçu pour les équipes nécessitant une sécurité et une gouvernance de niveau production. Apportez vos propres clés API LLM (ou utilisez des crédits managés). Aucune majoration sur l'usage de modèles BYOK.
+OpenLegion est un [framework d'agents IA](/learn/ai-agent-platform) hébergé conçu pour les équipes nécessitant une sécurité et une gouvernance de niveau production. Connectez-vous avec Google — il n'y a rien à installer. Les modèles sont choisis par préréglage : Smartest, Smart ou Normal.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Pourquoi chercher une alternative à OpenClaw ?**
-> Les équipes cherchent des alternatives à OpenClaw lorsqu'elles ont besoin de défauts de sécurité plus stricts (isolation par conteneur obligatoire sans montage du socket Docker), d'une gestion des identifiants où les agents ne voient jamais les clés API brutes, d'application des budgets par agent, ou d'un modèle de coordination de flotte structuré pour des opérations multi-agents auditables.
+> Les équipes cherchent des alternatives à OpenClaw lorsqu'elles ont besoin de défauts de sécurité plus stricts (une exécution en bac à sable pour chaque tâche, sans rien sur une machine à vous), d'une gestion des identifiants où les agents ne voient jamais les clés API brutes, d'application des budgets par agent, ou d'un modèle de coordination par objectifs et tâches structuré pour des opérations multi-agents auditables.
 
 ## En bref
 
-- **Isolation par conteneur** — Chaque agent dans son propre conteneur Docker. Aucun montage du socket Docker. Non-root, no-new-privileges, plafonds de ressources configurables.
-- **Identifiants protégés par proxy de coffre-fort** — Coffre-fort d'identifiants avec handles `$CRED{name}`. Les agents ne voient jamais les clés brutes ; le proxy injecte les identifiants au niveau réseau.
-- **Contrôles de budget par agent** — Limites quotidiennes et mensuelles avec coupure stricte. Pas de factures-surprises.
-- **Coordination de flotte** — Modèle de flotte : tableau noir (SQLite CAS) + pub/sub + handoff structuré. 13 templates prêts à l'emploi en YAML.
-- **Multi-canal** — CLI, Telegram, Discord, Slack, WhatsApp (texte uniquement ; prod requiert `WHATSAPP_APP_SECRET`) — plus des points de terminaison webhook pour les intégrations externes. Pas seulement une GUI web.
-- **Aucun service externe** — Python + SQLite + Docker. Pas de Redis, pas de Kubernetes, pas de LangChain.
+- **Exécutions de tâches en bac à sable** — Chaque tâche s'exécute à la demande dans son propre bac à sable. Aucun accès réseau par défaut, et rien qui continue de tourner ensuite.
+- **Identifiants conservés en coffre-fort** — Les identifiants vivent dans un coffre-fort et le modèle ne détient jamais qu'une référence. Les agents ne voient jamais les clés brutes ; l'identifiant est injecté hors du modèle.
+- **Contrôles de budget par agent** — Chaque agent porte son propre budget en crédits avec coupure stricte. Pas de factures-surprises.
+- **Coordination par objectifs et tâches** — Objectifs → tâches → agents, avec un assistant qui crée les coéquipiers dont il a besoin et leur délègue.
+- **Multi-canal** — Chat web sur tous les forfaits, Telegram et webhooks dès Pro, Slack et e-mail entrant sur Team et au-delà. Les agents travaillent là où vous travaillez déjà.
+- **Rien à exploiter** — Une application web hébergée. Pas de Redis, pas de Kubernetes, aucun serveur à vous.
 
 ## Comparaison rapide
 
 | Capacité | OpenClaw | OpenLegion |
 |---|---|---|
-| **Isolation d'agent** | Niveau processus | Conteneur Docker par agent, sans socket Docker, non-root |
-| **Gestion des identifiants** | Registre de secrets — secrets accessibles au processus de l'agent | Proxy de coffre-fort — les agents ne voient jamais les clés brutes |
-| **Contrôles de coûts** | Aucun | Budgets quotidiens/mensuels par agent avec coupure stricte |
-| **Coordination** | Event-sourced, basé SDK | Modèle de flotte — tableau noir + pub/sub + handoff (pas d'agent CEO) |
-| **Multi-agent** | Mono-agent principal, SDK supporte le multi | Modèle de flotte natif avec coordination tableau noir, pub/sub et protocole de handoff structuré |
-| **Canaux de déploiement** | GUI web, CLI | CLI, Telegram, Discord, Slack, WhatsApp + webhooks |
-| **Dépendances** | Python, Docker (+ écosystème) | Python, SQLite, Docker (sans services externes) |
-| **Support LLM** | Compatible LiteLLM | 100+ via LiteLLM |
+| **Isolation d'agent** | Niveau processus | Exécution en bac à sable par tâche, aucun réseau par défaut, rien sur votre hôte |
+| **Gestion des identifiants** | Registre de secrets — secrets accessibles au processus de l'agent | Coffre-fort d'identifiants — les agents ne voient jamais les clés brutes |
+| **Contrôles de coûts** | Aucun | Budgets en crédits par agent avec coupure stricte |
+| **Coordination** | Event-sourced, basé SDK | Objectifs → tâches → agents, avec un assistant qui délègue |
+| **Multi-agent** | Mono-agent principal, SDK supporte le multi | Équipes natives avec un registre partagé d'objectifs et de tâches, réveils sur événement et délégation structurée |
+| **Canaux de déploiement** | GUI web, CLI | Chat web, Telegram, webhooks, Slack, e-mail entrant |
+| **Dépendances** | Python, Docker (+ écosystème) | Aucune — une application web hébergée, rien à installer |
+| **Support LLM** | Compatible LiteLLM | Préréglages Smartest, Smart et Normal |
 | **Communauté** | 200K+ étoiles GitHub | Nouveau projet, petite équipe |
-| **Idéal pour** | Développement logiciel piloté par IA | Opérations de flotte multi-agents sécurisées |
+| **Idéal pour** | Développement logiciel piloté par IA | Opérations d'équipe multi-agents sécurisées |
 
 Pour une analyse plus approfondie des différences architecturales, consultez notre [comparaison complète OpenLegion vs OpenClaw](/comparison/openclaw).
 
 ## Pourquoi les équipes changent
 
-**Les équipes de sécurité** signalent l'exigence du socket Docker. Monter `/var/run/docker.sock` dans le conteneur de l'agent équivaut effectivement à un accès root à l'hôte. L'hôte de mesh d'OpenLegion gère les conteneurs via l'API Docker depuis une zone de confiance — le conteneur de l'agent n'a aucun accès au socket Docker.
+**Les équipes de sécurité** signalent l'exigence du socket Docker. Monter `/var/run/docker.sock` dans le conteneur de l'agent équivaut effectivement à un accès root à l'hôte. OpenLegion s'exécute dans la plateforme hébergée et ne touche jamais votre machine — aucun socket à monter, aucun hôte à vous à atteindre.
 
-**Les équipes traitant des identifiants de production** ont besoin de plus qu'un masquage de secrets. Le registre de secrets d'OpenClaw masque les secrets en sortie, mais ceux-ci existent toujours dans la mémoire du processus de l'agent. Le proxy de coffre-fort d'OpenLegion garde les secrets entièrement à l'extérieur du conteneur de l'agent — l'agent envoie une requête, le proxy injecte l'identifiant et l'agent reçoit le résultat. Même un agent totalement compromis ne peut pas extraire les identifiants.
+**Les équipes traitant des identifiants de production** ont besoin de plus qu'un masquage de secrets. Le registre de secrets d'OpenClaw masque les secrets en sortie, mais ceux-ci existent toujours dans la mémoire du processus de l'agent. Le coffre-fort d'identifiants d'OpenLegion garde les secrets entièrement hors du modèle — l'agent envoie une requête par référence, la plateforme injecte l'identifiant et l'agent reçoit le résultat. Même un agent totalement compromis ne peut pas extraire les identifiants.
 
 **Les équipes brûlant du budget sur des boucles d'agents** ont besoin de limites strictes. Sans contrôles de coûts intégrés, une boucle récursive ou un agent mal configuré peut consommer des centaines de dollars avant intervention manuelle. Les contrôles de budget par agent d'OpenLegion appliquent les limites à la [couche d'orchestration](/learn/ai-agent-orchestration) avec coupure automatique.
 
-**Les équipes déployant sur des canaux orientés client** ont besoin de plus qu'une GUI web. OpenLegion déploie des agents sur CLI, Telegram, Discord, Slack et WhatsApp — plus des points de terminaison webhook pour intégrations externes — via des jetons de canal configurés par environnement.
+**Les équipes déployant sur des canaux orientés client** ont besoin de plus d'une seule surface. OpenLegion met les agents dans le chat web sur tous les forfaits, Telegram et webhooks dès Pro, et Slack et e-mail entrant sur Team et au-delà.
 
 ## Démarrer
 
-```bash
-git clone https://github.com/openlegion-ai/openlegion.git
-cd openlegion && ./install.sh
-openlegion start   # configuration en ligne au premier lancement, puis déploiement des agents dans des conteneurs isolés
+```text
+1. Ouvrez l'application et connectez-vous avec Google.
+2. Dites à l'assistant ce que vous voulez faire faire.
+3. Démarrez gratuitement avec 1,000 crédits, sans carte bancaire.
 ```
 
-Trois commandes ; les constructions d'images Docker au premier lancement prennent quelques minutes (une image agent, une image service-navigateur). Python 3.10+ et Docker requis.
+Trois étapes, et le premier agent travaille en une minute environ. Aucun runtime, aucun conteneur, aucune infrastructure à vous.
 
 ## CTA
 
@@ -93,27 +93,27 @@ Trois commandes ; les constructions d'images Docker au premier lancement prennen
 
 ### Quelle est la meilleure alternative à OpenClaw ?
 
-Pour les équipes dont la préoccupation principale est la sécurité et la gouvernance, OpenLegion est l'alternative à OpenClaw la plus directe. Elle fournit des capacités qu'OpenClaw n'a pas : isolation par conteneur obligatoire sans montage du socket Docker, identifiants protégés par proxy de coffre-fort, application des budgets par agent et modèle de coordination de flotte (tableau noir + pub/sub + handoff). Pour les équipes axées sur la flexibilité des workflows stateful, LangGraph est une autre alternative solide. Consultez notre [comparaison complète des frameworks d'agents IA](/learn/ai-agent-frameworks).
+Pour les équipes dont la préoccupation principale est la sécurité et la gouvernance, OpenLegion est l'alternative à OpenClaw la plus directe. Elle fournit des capacités qu'OpenClaw n'a pas : une exécution en bac à sable pour chaque tâche sans rien sur une machine à vous, des identifiants conservés en coffre-fort, l'application des budgets par agent et un modèle de coordination par objectifs et tâches (objectifs → tâches → agents). Pour les équipes axées sur la flexibilité des workflows stateful, LangGraph est une autre alternative solide. Consultez notre [comparaison complète des frameworks d'agents IA](/learn/ai-agent-frameworks).
 
 ### Pourquoi choisir une alternative à OpenClaw managée ?
 
-Une alternative à OpenClaw managée gère la couche de sécurité opérationnelle que les déploiements OpenClaw auto-hébergés vous obligent à construire : durcissement des conteneurs, coffre-fort d'identifiants, suivi des coûts et déploiement multi-canal. OpenLegion fournit cela comme fonctionnalités intégrées au framework. Cela réduit l'investissement DevOps nécessaire pour passer du prototype à la production tout en améliorant la posture de sécurité de votre flotte d'agents.
+Une alternative à OpenClaw managée gère la couche de sécurité opérationnelle que les déploiements OpenClaw auto-hébergés vous obligent à construire : isolation des exécutions, coffre-fort d'identifiants, suivi des coûts et déploiement multi-canal. OpenLegion fournit cela comme fonctionnalités intégrées à la plateforme. Cela supprime l'investissement DevOps nécessaire pour passer du prototype à la production tout en améliorant la posture de sécurité de votre équipe d'agents.
 
 ### OpenClaw vs OpenLegion : que devrais-je utiliser ?
 
-Utilisez OpenClaw si vous avez besoin d'un agent de codage IA spécialisé, voulez la plus grande communauté open-source ou priorisez une flexibilité maximale en auto-hébergement. Utilisez OpenLegion si vous avez besoin d'isolation des identifiants (les agents ne voient jamais les clés), de contrôles de budget par agent, d'un modèle de coordination de flotte structuré, ou si vous déployez des flottes multi-agents sur des canaux orientés client. Pour une comparaison détaillée, consultez [OpenLegion vs OpenClaw](/comparison/openclaw).
+Utilisez OpenClaw si vous avez besoin d'un agent de codage IA spécialisé, voulez la plus grande communauté open-source ou priorisez une flexibilité maximale en auto-hébergement. Utilisez OpenLegion si vous avez besoin d'isolation des identifiants (les agents ne voient jamais les clés), de contrôles de budget par agent, d'un modèle de coordination par objectifs et tâches structuré, ou si vous déployez des équipes d'agents sur des canaux orientés client. Pour une comparaison détaillée, consultez [OpenLegion vs OpenClaw](/comparison/openclaw).
 
 ### OpenLegion exige-t-il mes clés API LLM ?
 
-OpenLegion prend en charge BYOK (Bring Your Own Keys). Vous pouvez fournir vos propres clés API de tout fournisseur LLM — OpenAI, Anthropic, Google, Mistral et 100+ autres via LiteLLM. Vos clés sont conservées dans le coffre-fort d'identifiants de l'hôte de mesh et injectées via proxy de coffre-fort. Les agents ne voient jamais les clés brutes. Vous payez les fournisseurs directement à leurs tarifs publiés sans majoration. L'hébergement managé propose également des crédits LLM prépayés pour plus de commodité.
+Non. Les modèles viennent avec la plateforme et sont choisis par préréglage — Smartest, Smart ou Normal — par agent ou par espace de travail : il n'y a donc aucune clé de fournisseur à apporter. Le travail est mesuré en crédits à $0,001 l'unité et le coût exact de chaque tâche est visible. Les identifiants que vous connectez vivent dans un coffre-fort et sont injectés hors du modèle, qui ne détient jamais qu'une référence. Les agents ne voient jamais les clés brutes.
 
 ### Puis-je auto-héberger plutôt qu'utiliser OpenLegion hébergé ?
 
-Oui. OpenLegion est source-disponible sous licence PolyForm Perimeter License 1.0.1. L'auto-hébergement nécessite Python 3.10+ et Docker. Le processus d'installation est `git clone && ./install.sh && openlegion start` ; les constructions d'images Docker au premier lancement prennent quelques minutes. Aucun service externe requis — pas de Redis, pas de Kubernetes, pas de services cloud. S'exécute sur une seule machine. Une option hébergée est également disponible pour les équipes préférant une infrastructure managée.
+Pas au lancement. OpenLegion est une application web hébergée : connectez-vous avec Google et démarrez — il n'y a rien à installer. Le moteur publié séparément est source-disponible sous licence PolyForm Perimeter License 1.0.1, mais la plateforme hébergée est propriétaire et n'a aucune édition auto-hébergée. Pas de Redis, pas de Kubernetes, aucune infrastructure à vous à exploiter. Le forfait gratuit est à $0 avec 1,000 crédits uniques et sans carte bancaire.
 
 ### Quelle est la difficulté de migrer d'OpenClaw vers OpenLegion ?
 
-Les deux projets utilisent Python pour les définitions d'agents et un routage de modèles compatible LiteLLM, donc les configurations LLM se transfèrent directement. Les intégrations d'outils nécessitent une adaptation à la matrice d'autorisations d'OpenLegion, et vous définirez les flottes d'agents via les templates YAML d'OpenLegion. La migration des identifiants est une configuration unique du coffre-fort. Le principal compromis : vous gagnez l'isolation obligatoire, les identifiants protégés par proxy de coffre-fort et les contrôles de budget ; vous perdez les capacités de codage spécialisées d'OpenClaw et son grand écosystème communautaire.
+Il n'y a rien à installer : la migration est une configuration, pas un déploiement. Le routage des modèles ne se transfère pas : OpenLegion choisit les modèles par préréglage — Smartest, Smart ou Normal. Les intégrations d'outils nécessitent une adaptation à la matrice d'autorisations d'OpenLegion, et vous décrirez les équipes d'agents à l'assistant dans l'application. La migration des identifiants est une configuration unique du coffre-fort. Le principal compromis : vous gagnez les exécutions en bac à sable, les identifiants conservés en coffre-fort et les contrôles de budget ; vous perdez les capacités de codage spécialisées d'OpenClaw et son grand écosystème communautaire.
 
 ---
 

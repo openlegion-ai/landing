@@ -27,33 +27,33 @@ related:
 
 CrewAI is the most-starred dedicated agent framework on GitHub with approximately 44,600 stars and 278 contributors. Its role-based design — where you define agents with roles, goals, and backstories — is the most intuitive multi-agent abstraction available. Over 100,000 developers have been certified through learn.crewai.com, and enterprise customers include IBM, Microsoft, Walmart, SAP, and PayPal. CrewAI 1.0 hit GA on October 20, 2025.
 
-OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
+OpenLegion is a hosted, security-first [AI agent framework](/learn/ai-agent-platform) with a sandboxed run for every task, vault-held credentials, per-agent credit budgets, and goal-and-task coordination (goals → tasks → agents).
 
 CrewAI makes it easy to build agent teams. OpenLegion makes it safe to deploy them. These are complementary strengths, and the right choice depends on which matters more for your deployment.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and CrewAI?**
-> CrewAI is a role-based multi-agent framework with intuitive role/goal/backstory agent definitions, event-driven Flows for production pipelines, and an enterprise Agent Management Platform (AMP) with SOC2, SSO, and PII masking. OpenLegion is a security-first agent framework with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). CrewAI optimizes for developer velocity; OpenLegion optimizes for production safety.
+> CrewAI is a role-based multi-agent framework with intuitive role/goal/backstory agent definitions, event-driven Flows for production pipelines, and an enterprise Agent Management Platform (AMP) with SOC2, SSO, and PII masking. OpenLegion is a hosted, security-first agent framework with a sandboxed run for every task, vault-held credentials the model never sees, per-agent credit budgets, and goal-and-task coordination (goals → tasks → agents). CrewAI optimizes for developer velocity; OpenLegion optimizes for production safety.
 
 ## TL;DR
 
 | Dimension | OpenLegion | CrewAI |
 |---|---|---|
 | **Primary focus** | Production security infrastructure | Role-based multi-agent coordination |
-| **Architecture** | Four-zone trust model (User → Mesh Host → Agent Containers, plus operator-or-internal) | Crews + Flows with role/goal/backstory agent design |
-| **Agent isolation** | Docker container per agent, non-root, no-new-privileges | Shared Python process; Docker only for CodeInterpreterTool |
-| **Credential security** | Vault proxy — agents never see keys | Environment variables; AMP Enterprise adds secret manager |
-| **Budget controls** | Per-agent daily/monthly hard cutoff | None built-in; "loop of doom" can burn API credits |
-| **Orchestration** | Fleet-model coordination — blackboard + pub/sub + handoff (no CEO agent) | Sequential, Hierarchical, Hybrid; Flows for event-driven |
-| **Telemetry** | Zero telemetry collected | On by default; collects `base_url`, opt-out available |
-| **Multi-agent** | Fleet templates with per-agent ACLs | Crews with role-based agents, auto-generated managers |
-| **LLM support** | 100+ via LiteLLM | 100+ via LiteLLM |
-| **Human-in-the-loop** | Approval gates in fleet-model coordination | `human_input=True` flag (terminal-based) |
+| **Architecture** | One policy engine in front of every action | Crews + Flows with role/goal/backstory agent design |
+| **Agent isolation** | A sandboxed run for every task; no network by default | Shared Python process; Docker only for CodeInterpreterTool |
+| **Credential security** | Vault-held — the model only ever holds a handle | Environment variables; AMP Enterprise adds secret manager |
+| **Budget controls** | Per-agent credit budget with hard cutoff | None built-in; "loop of doom" can burn API credits |
+| **Orchestration** | Goal-and-task coordination — goals → tasks → agents | Sequential, Hierarchical, Hybrid; Flows for event-driven |
+| **Telemetry** | Every action recorded as a receipt for the owner | On by default; collects `base_url`, opt-out available |
+| **Multi-agent** | An assistant that creates teammates and delegates | Crews with role-based agents, auto-generated managers |
+| **LLM support** | Smartest, Smart and Normal presets | 100+ via LiteLLM |
+| **Human-in-the-loop** | Approvals at three walls, decided in the app | `human_input=True` flag (terminal-based) |
 | **Enterprise features** | Built-in: isolation, vault, budgets, audit | AMP: SOC2, SSO, PII masking, RBAC, VPC (paid tiers) |
-| **GitHub stars** | ~59 | ~44,600 |
-| **Known CVEs** | 0 | "Uncrew" (CVSS 9.2); 65% data exfiltration rate in research |
-| **License** | PolyForm Perimeter License 1.0.1 | MIT |
+| **GitHub stars** | Engine published source-available | ~44,600 |
+| **Known CVEs** | None published | "Uncrew" (CVSS 9.2); 65% data exfiltration rate in research |
+| **License** | Engine PolyForm Perimeter 1.0.1; platform proprietary | MIT |
 
 ## Choose CrewAI if...
 
@@ -71,13 +71,13 @@ CrewAI makes it easy to build agent teams. OpenLegion makes it safe to deploy th
 
 **You cannot afford runaway API costs.** CrewAI's "loop of doom" — where agents enter infinite deliberation loops burning API credits — is well-documented in community forums. No built-in mechanism stops it. OpenLegion enforces hard per-agent budget limits with automatic cutoff. No agent can exceed its allocation regardless of reasoning behavior.
 
-**Credential security is a hard requirement.** CrewAI stores API keys in environment variables or config files accessible to the agent process. All agents in a crew share the same Python process, meaning any agent can access any credential. OpenLegion's vault proxy means agents never hold credentials — they're never present in the agent's container.
+**Credential security is a hard requirement.** CrewAI stores API keys in environment variables or config files accessible to the agent process. All agents in a crew share the same Python process, meaning any agent can access any credential. OpenLegion keeps credentials in a vault and injects them outside the model, which only ever holds a handle.
 
-**Telemetry transparency matters.** OpenLegion collects zero telemetry. CrewAI's default-on telemetry collects usage data including `base_url`, which can expose internal API endpoint URLs. Data routes to US-hosted servers. For teams under EU data locality requirements or strict data sovereignty policies, this is a compliance risk.
+**Telemetry transparency matters.** OpenLegion records every action as a receipt the owner can read. CrewAI's default-on telemetry collects usage data including `base_url`, which can expose internal API endpoint URLs. Data routes to US-hosted servers. For teams under EU data locality requirements or strict data sovereignty policies, this is a compliance risk.
 
-**You need per-agent isolation.** CrewAI agents share a Python process and can access each other's context, environment variables, and filesystem. OpenLegion isolates every agent in its own Docker container with separate filesystem, network, and resource limits.
+**You need per-agent isolation.** CrewAI agents share a Python process and can access each other's context, environment variables, and filesystem. OpenLegion runs each task on demand in its own sandbox, with no network access by default and no shared process to read from.
 
-**You need auditable fleet-model coordination.** CrewAI's Hierarchical mode uses an auto-generated manager agent that delegates dynamically — you cannot predict the exact execution path before runtime. OpenLegion's fleet-model coordination define execution order, tool access, and dependencies before any agent runs. Workflows are bounded by per-agent tool-loop detection.
+**You need an auditable record of what ran.** CrewAI's Hierarchical mode uses an auto-generated manager agent that delegates dynamically — you cannot predict the exact execution path before runtime. OpenLegion records every tool call, delegation and approval with the agent's identity, a timestamp and the exact cost. Work is bounded by each agent's credit budget.
 
 ## Security Model Comparison
 
@@ -85,13 +85,13 @@ CrewAI makes it easy to build agent teams. OpenLegion makes it safe to deploy th
 
 **CrewAI** stores API keys in environment variables or `.env` files. All agents in a crew share the same Python process, so any agent can read any environment variable. The Enterprise AMP tier adds secret manager integration (HashiCorp Vault, AWS Secrets Manager) — but this requires an enterprise subscription.
 
-**OpenLegion** stores credentials in a vault accessible only through a proxy. Agents make API calls through the vault proxy; credentials are injected at the network level. No environment variables with API keys exist in agent containers. Even if an agent achieves arbitrary code execution, no credentials are present.
+**OpenLegion** stores credentials in a vault. They are injected outside the model, which only ever holds a handle, so no raw key is ever present in a prompt or in a task's environment. Even if an agent achieves arbitrary code execution, no credentials are present.
 
 ### Isolation model
 
 **CrewAI** runs all agents in a shared Python process. Agents can access each other's context, shared state, environment variables, and the filesystem. Docker isolation is available only for the CodeInterpreterTool (code execution) — the agents themselves are not isolated. A compromised agent can access all resources available to the process.
 
-**OpenLegion** uses Docker container isolation per agent. Each agent runs in a separate container with non-root execution, no Docker socket, no-new-privileges, and per-container resource caps. Agents cannot access other agents, the host system, or credential stores.
+**OpenLegion** isolates work per task, not per process. Each task runs on demand and then stops, and code the agent writes runs in a sandbox with no network access by default. Agents cannot access other agents, the host system, or credential stores.
 
 ### Security track record
 
@@ -101,13 +101,13 @@ CrewAI makes it easy to build agent teams. OpenLegion makes it safe to deploy th
 - **65% data exfiltration success rate:** Academic research demonstrated that malicious files placed in an agent's working context could convince CrewAI agents to exfiltrate data.
 - **Telemetry `base_url` collection:** Community-discovered data collection that could expose internal API endpoints.
 
-**OpenLegion** has no CVEs reported as of v0.1.0. Container isolation limits data exfiltration: even if an agent is convinced to exfiltrate, it has no access to credentials and network egress is controlled per container.
+**OpenLegion** has no comparable incident on record. Sandboxed runs limit data exfiltration: even if an agent is convinced to exfiltrate, it has no access to credentials and the code it writes has no network access by default.
 
 ### Budget controls
 
 **CrewAI** has no built-in budget enforcement. The "loop of doom" — where agents enter infinite deliberation loops — is documented in community forums and GitHub issues. There is no automatic cutoff.
 
-**OpenLegion** enforces per-agent daily and monthly budget limits with automatic hard cutoff.
+**OpenLegion** gives every agent its own credit budget, metered in credits at $0.001 each, with automatic hard cutoff.
 
 ## CrewAI's Ecosystem: What It Does Best
 
@@ -139,13 +139,13 @@ Over 100,000 developers certified through learn.crewai.com creates a talent pool
 
 ### What OpenLegion covers differently
 
-OpenLegion provides the security layer that CrewAI leaves to its enterprise tier: vault proxy replaces environment variable credentials, Docker containers replace shared-process execution, per-agent budgets prevent the "loop of doom" cost problem, fleet-model coordination replace dynamic delegation with auditable determinism, and zero telemetry replaces opt-out telemetry.
+OpenLegion provides the security layer that CrewAI leaves to its enterprise tier: a vault replaces environment variable credentials, sandboxed task runs replace shared-process execution, per-agent credit budgets prevent the "loop of doom" cost problem, goal-and-task coordination replaces dynamic delegation with an auditable path, and a receipt for every action replaces opt-out telemetry.
 
 ## Hosting vs Self-Host Tradeoffs
 
 **CrewAI** can be self-hosted as a Python library with pip install. The AMP platform provides hosted deployment, monitoring, and enterprise features at paid tiers. Self-hosted deployments lack the security and compliance features available on AMP.
 
-**OpenLegion** requires Python, SQLite, and Docker. The hosted platform (coming soon) offers per-user VPS instances at $19/month with BYO API keys. Security features (vault proxy, container isolation, budgets) are available in both self-hosted and hosted deployments — not gated behind enterprise pricing.
+**OpenLegion** has no self-hosted install. The hosted platform is live and requires none of that: sign in with Google, start free with 1,000 credits and no card, or go Pro at $29/month. Security features (vault-held credentials, sandboxed runs, budgets) are on every plan, including the free one — not gated behind enterprise pricing.
 
 ## Who It's For
 
@@ -157,9 +157,9 @@ OpenLegion provides the security layer that CrewAI leaves to its enterprise tier
 
 CrewAI has the community (44,600 stars), the enterprise adoption (IBM, Microsoft, Walmart), the developer velocity (30-minute prototype), and the most intuitive multi-agent abstraction. For rapid prototyping and teams with enterprise AMP budgets, it is the leading choice.
 
-OpenLegion has the security architecture (vault proxy, container isolation, zero telemetry), cost governance (per-agent budgets), and auditable fleet-model coordination. These capabilities are built in, not enterprise-gated.
+OpenLegion has the security architecture (vault-held credentials, sandboxed runs, a receipt for every action), cost governance (per-agent credit budgets), and auditable goal-and-task coordination. These capabilities are built in, not enterprise-gated.
 
-If you need a working multi-agent system in 30 minutes, choose CrewAI. If you need to prove your agents cannot access credentials, exceed budgets, or send telemetry, choose OpenLegion.
+If you need a working multi-agent system in 30 minutes, choose CrewAI. If you need to prove your agents cannot access credentials, exceed budgets, or act without a receipt, choose OpenLegion.
 
 For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent-frameworks).
 
@@ -180,31 +180,31 @@ CrewAI is a role-based multi-agent framework with approximately 44,600 GitHub st
 
 ### OpenLegion vs CrewAI: what's the difference?
 
-CrewAI is a role-based multi-agent framework optimized for developer velocity with the fastest speed-to-prototype and an enterprise AMP for compliance. OpenLegion is a security-first framework with Docker container isolation, vault proxy credentials (agents never see keys), per-agent budgets, zero telemetry, and fleet-model coordination (blackboard + pub/sub + handoff). CrewAI optimizes for building quickly; OpenLegion optimizes for deploying safely.
+CrewAI is a role-based multi-agent framework optimized for developer velocity with the fastest speed-to-prototype and an enterprise AMP for compliance. OpenLegion is a hosted, security-first framework with a sandboxed run for every task, vault-held credentials (the model only holds a handle), per-agent credit budgets, and goal-and-task coordination (goals → tasks → agents). CrewAI optimizes for building quickly; OpenLegion optimizes for deploying safely.
 
 ### Is OpenLegion a CrewAI alternative?
 
-Yes. OpenLegion serves as a CrewAI alternative for teams whose primary requirements are production security and cost control. It provides capabilities CrewAI's open-source version lacks: mandatory container isolation, vault proxy credentials, per-agent budget enforcement, and zero telemetry. It does not replicate CrewAI's role-based abstraction, enterprise AMP features, or 100K+ developer community.
+Yes. OpenLegion serves as a CrewAI alternative for teams whose primary requirements are production security and cost control. It provides capabilities CrewAI's open-source version lacks: a sandboxed run for every task, vault-held credentials, per-agent credit budgets, and a receipt for every action. It does not replicate CrewAI's role-based abstraction, enterprise AMP features, or 100K+ developer community.
 
 ### How does credential handling compare between OpenLegion and CrewAI?
 
-CrewAI stores API keys in environment variables accessible to all agents in a shared Python process. Enterprise AMP adds secret manager integration at paid tiers. OpenLegion uses a vault proxy — agents make API calls through a proxy that injects credentials at the network level. Agents never hold keys in any form, regardless of deployment tier.
+CrewAI stores API keys in environment variables accessible to all agents in a shared Python process. Enterprise AMP adds secret manager integration at paid tiers. OpenLegion keeps credentials in a vault and injects them outside the model. The model only ever holds a handle, never a key, on every plan.
 
 ### Which is better for production AI agents?
 
-For rapid prototyping and teams with enterprise AMP budgets, CrewAI offers SOC2 compliance and the fastest development experience. For teams needing built-in security without enterprise pricing — credential isolation, per-agent budgets, container isolation, and zero telemetry — OpenLegion provides stronger guarantees at the framework level.
+For rapid prototyping and teams with enterprise AMP budgets, CrewAI offers SOC2 compliance and the fastest development experience. For teams needing built-in security without enterprise pricing — credential isolation, per-agent budgets, sandboxed task runs, and a receipt for every action — OpenLegion provides stronger guarantees at the platform level.
 
 ### What is CrewAI's "loop of doom" problem?
 
-CrewAI agents can enter infinite deliberation loops where they repeatedly consult each other without producing output, burning API credits with no automatic cutoff. This is documented in community forums and GitHub issues. OpenLegion prevents this with per-agent budget hard cutoffs and fleet-model coordination (blackboard + pub/sub + handoff) that define finite, acyclic task graphs.
+CrewAI agents can enter infinite deliberation loops where they repeatedly consult each other without producing output, burning API credits with no automatic cutoff. This is documented in community forums and GitHub issues. OpenLegion prevents this with per-agent credit budgets that cut off hard, and goal-and-task coordination (goals → tasks → agents) that defines finite work.
 
 ### Does CrewAI collect telemetry?
 
-Yes. CrewAI collects anonymous telemetry by default, including `base_url` which can expose internal API endpoint URLs. Data routes to US-hosted servers. Opt out with `CREWAI_DISABLE_TELEMETRY=true`. OpenLegion collects zero telemetry.
+Yes. CrewAI collects anonymous telemetry by default, including `base_url` which can expose internal API endpoint URLs. Data routes to US-hosted servers. Opt out with `CREWAI_DISABLE_TELEMETRY=true`. OpenLegion records every action as a receipt the owner can read.
 
 ### Can I migrate from CrewAI to OpenLegion?
 
-Both use LiteLLM, so provider configurations transfer directly. CrewAI role/goal/backstory definitions map to OpenLegion agent configurations. Sequential crews map to fleet-model coordination patterns; hierarchical crews need restructuring as sequential or parallel fleet patterns with blackboard coordination. The main trade-off is losing CrewAI's rapid-prototyping speed in exchange for built-in security.
+OpenLegion picks models by preset, so there is no provider configuration to move. CrewAI role/goal/backstory definitions map to OpenLegion agent records. Sequential crews map to goals and tasks; hierarchical crews are restructured as an assistant that creates the teammates it needs and delegates to them. The main trade-off is losing CrewAI's rapid-prototyping speed in exchange for built-in security.
 
 ---
 

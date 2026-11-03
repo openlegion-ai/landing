@@ -2,8 +2,8 @@
 title: 'Sécurité des agents IA — Menaces, isolation, coffres-forts'
 description: >-
  Guide de sécurité des agents IA : fuite d'identifiants, injection de prompt,
- évasion de bac à sable, et comment l'isolation par conteneur, les identifiants
- protégés par proxy de coffre-fort et les contrôles de budget atténuent chaque
+ évasion de bac à sable, et comment l'isolation des exécutions, les identifiants
+ conservés en coffre-fort et les contrôles de budget atténuent chaque
  menace.
 slug: /learn/ai-agent-security
 primary_keyword: sécurité des agents IA
@@ -28,9 +28,9 @@ related:
 
 Chaque framework d'agents IA vous donne des outils pour construire des agents. Presque aucun ne vous donne des outils pour les contenir. Lorsqu'un agent peut appeler des API, naviguer sur le web, exécuter du code et accéder à des bases de données, la question de sécurité n'est pas de savoir si quelque chose peut mal tourner — c'est à quoi ressemble le rayon d'impact quand cela arrive.
 
-La **sécurité des agents IA** est la pratique consistant à contraindre les agents autonomes afin qu'un agent compromis, mal configuré ou malveillant ne puisse pas faire fuiter des identifiants, exfiltrer des données, vider des budgets ou escalader des privilèges. OpenLegion traite cela comme une préoccupation architecturale fondamentale, pas un module additionnel. Chaque agent s'exécute dans un conteneur isolé avec identifiants protégés par proxy de coffre-fort, contrôles de budget par agent et une matrice d'autorisations — tous activés par défaut.
+La **sécurité des agents IA** est la pratique consistant à contraindre les agents autonomes afin qu'un agent compromis, mal configuré ou malveillant ne puisse pas faire fuiter des identifiants, exfiltrer des données, vider des budgets ou escalader des privilèges. OpenLegion traite cela comme une préoccupation architecturale fondamentale, pas un module additionnel. Chaque action est une intention vérifiée par un moteur de politiques unique avant qu'elle n'ait lieu, les identifiants vivent dans un coffre-fort hors du modèle, et chaque agent porte son propre budget — tous activés par défaut.
 
-Apportez vos propres clés API LLM. Aucune majoration sur l'usage des modèles.
+Les modèles sont choisis par préréglage — Smartest, Smart ou Normal — par agent ou par espace de travail.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -42,8 +42,8 @@ Apportez vos propres clés API LLM. Aucune majoration sur l'usage des modèles.
 - **La menace est réelle.** Les recherches montrent que 77 % des organisations avec des déploiements IA ont connu des incidents de sécurité en 2024. Seulement 5 % expriment de la confiance dans leurs mesures de sécurité IA.
 - **Quatre menaces principales** : fuite d'identifiants, injection de prompt, abus de ressources (déni de portefeuille) et exfiltration de données. Chacune nécessite une atténuation différente.
 - **Aucun framework majeur ne fournit de sécurité intégrée.** Selon la documentation publique, LangGraph, CrewAI, AutoGen et OpenClaw reposent tous sur les variables d'environnement pour les identifiants sans isolation native ni application des budgets.
-- **Défense à six couches d'OpenLegion** : isolation par conteneur, durcissement de conteneur, séparation des identifiants (proxy de coffre-fort), application des autorisations, validation des entrées et désinfection unicode — toutes activées par défaut.
-- **Les agents IA sécurisés sont possibles avec des clés BYO** — le modèle de proxy de coffre-fort signifie que vos clés restent dans la zone de confiance et que les agents interagissent via un proxy qui n'expose jamais les secrets bruts.
+- **Défense en couches d'OpenLegion** : un moteur de politiques unique devant chaque action, des exécutions de tâches en bac à sable, la séparation des identifiants (un coffre-fort hors du modèle), l'application des autorisations, la validation des entrées et la désinfection unicode — toutes activées par défaut.
+- **Vos propres identifiants de services restent en sécurité** — ils vivent dans un coffre-fort et sont injectés hors du modèle, qui ne détient jamais qu'une référence et ne voit jamais de secret brut.
 
 ## Le modèle de menace pour les agents IA
 
@@ -53,7 +53,7 @@ Apportez vos propres clés API LLM. Aucune majoration sur l'usage des modèles.
 
 **Quelle fréquence.** Une recherche publiée début 2026 a constaté que 283 des 3 984 compétences d'agents scannées (7,1 %) contenaient des failles critiques de gestion des identifiants, faisant passer les clés API et mots de passe via le contexte LLM en clair. Séparément, 76 compétences contenaient des charges utiles délibérément malveillantes conçues pour le vol d'identifiants. Les incidents très médiatisés incluent un employé xAI faisant fuiter une clé API sur GitHub qui a fourni l'accès à 60+ LLM privés pendant deux mois, et une vulnérabilité dans une plateforme LLM populaire qui a exposé les clés API via un point de terminaison non authentifié.
 
-**Comment OpenLegion l'atténue.** OpenLegion utilise des identifiants protégés par proxy de coffre-fort via un proxy de coffre-fort. Les clés API sont stockées dans l'hôte de mesh (Zone 2). Lorsqu'un agent doit appeler une API externe, la requête est routée via le proxy de coffre-fort, qui injecte l'identifiant au niveau réseau. L'agent ne voit, n'enregistre ni n'a accès en mémoire à la clé brute. Même un agent totalement compromis ne peut pas extraire les identifiants car ils ne sont jamais présents dans le conteneur de l'agent.
+**Comment OpenLegion l'atténue.** Les identifiants vivent dans un coffre-fort et sont injectés hors du modèle, qui ne détient jamais qu'une référence. Lorsqu'un agent doit appeler une API externe, la plateforme injecte l'identifiant à la frontière de l'appel. L'agent ne voit, n'enregistre ni n'a accès en mémoire à la clé brute. Même un agent totalement compromis ne peut pas extraire les identifiants car ils ne sont jamais présents dans son exécution.
 
 ### Menace 2 : Injection de prompt
 
@@ -61,7 +61,7 @@ Apportez vos propres clés API LLM. Aucune majoration sur l'usage des modèles.
 
 **Quelle fréquence.** L'injection de prompt apparaît dans plus de 73 % des déploiements IA de production évalués lors d'audits de sécurité. OpenAI a déclaré en décembre 2025 que l'injection de prompt « ne sera probablement jamais entièrement résolue ». OWASP la classe comme la vulnérabilité n°1 pour les applications LLM. Les incidents du monde réel incluent un agent navigateur qui a été trompé pour voler des identifiants en 150 secondes via des instructions cachées sur une page web, et des systèmes RAG d'entreprise où du contenu malveillant dans des documents publics a fait fuiter des données propriétaires par les agents.
 
-**Comment OpenLegion l'atténue.** OpenLegion applique une défense en profondeur sur plusieurs couches. La désinfection unicode supprime les caractères invisibles (overrides bidi, caractères de tag, caractères de largeur zéro) à 56 points d'étranglement avant que le contenu n'atteigne le contexte LLM — ces caractères sont couramment utilisés pour cacher des instructions injectées. La validation des entrées empêche le path traversal et applique une évaluation sûre des conditions. L'isolation par conteneur limite le rayon d'impact : même si un agent est injecté avec succès, il ne peut accéder qu'à son propre conteneur bac à sable avec ses propres autorisations délimitées. Il ne peut pas accéder aux données d'autres agents, au coffre-fort d'identifiants ou au système hôte.
+**Comment OpenLegion l'atténue.** OpenLegion applique une défense en profondeur sur plusieurs couches. La désinfection unicode supprime les caractères invisibles (overrides bidi, caractères de tag, caractères de largeur zéro) avant que le contenu n'atteigne le contexte LLM — ces caractères sont couramment utilisés pour cacher des instructions injectées. La validation des entrées empêche le path traversal et applique une évaluation sûre des conditions. Agir sur du contenu non fiable est l'une des trois barrières où le travail s'arrête pour l'approbation du propriétaire, ce qui limite le rayon d'impact : un agent injecté ne peut agir que dans ses propres autorisations délimitées. Il ne peut atteindre ni les données d'autres agents, ni le coffre-fort d'identifiants, ni le système hôte.
 
 Aucun système ne peut garantir une immunité complète à l'injection de prompt. L'approche d'OpenLegion est de minimiser la surface d'attaque et de contenir les dégâts.
 
@@ -71,7 +71,7 @@ Aucun système ne peut garantir une immunité complète à l'injection de prompt
 
 **Quelle fréquence.** Ceci est listé comme OWASP LLM10:2025 (consommation non bornée). La plupart des systèmes de facturation cloud n'arrêtent pas automatiquement les frais lorsque les budgets sont dépassés — les alertes se déclenchent, mais le compteur continue. Les rapports communautaires de CrewAI et LangGraph décrivent des boucles de combustion de jetons qui ont consommé 10 fois les budgets attendus.
 
-**Comment OpenLegion l'atténue.** Contrôles de budget par agent quotidiens et mensuels avec coupure stricte. Chaque agent de la flotte a son propre budget en jetons suivi en temps réel. Lorsque la limite est atteinte, la [couche d'orchestration](/learn/ai-agent-orchestration) arrête cet agent spécifique. Le reste du workflow continue ou se met en pause gracieusement. Il n'y a pas d'« avertissement doux » qui se fait ignorer — la coupure est appliquée au niveau de l'infrastructure.
+**Comment OpenLegion l'atténue.** Budgets par agent avec coupure stricte. Chaque agent de l'équipe a son propre budget, et chaque unité de travail est un réveil enregistré mesuré en crédits à $0,001 l'unité. Lorsque la limite est atteinte, la [couche d'orchestration](/learn/ai-agent-orchestration) arrête cet agent spécifique. Le reste du workflow continue ou se met en pause gracieusement. Il n'y a pas d'« avertissement doux » qui se fait ignorer — la coupure est appliquée au niveau de la plateforme.
 
 ### Menace 4 : Exfiltration de données
 
@@ -79,37 +79,37 @@ Aucun système ne peut garantir une immunité complète à l'injection de prompt
 
 **Quelle fréquence.** Des techniques d'exfiltration zero-click ont été démontrées contre des agents opérant sur des plateformes de messagerie (où les aperçus de lien récupèrent automatiquement les URL), des outils de collaboration d'entreprise et des dépôts de code. La recherche sur les agents bancaires a montré environ 20 % de taux de succès pour les attaques d'exfiltration de données.
 
-**Comment OpenLegion l'atténue.** L'isolation réseau au niveau conteneur restreint quels points de terminaison externes chaque agent peut atteindre. La matrice d'autorisations définit les outils, fichiers et opérations mesh autorisés par agent. Les requêtes sortantes sont routées via des canaux contrôlés. Combiné à l'isolation des identifiants (l'agent n'a aucun identifiant à exfiltrer) et à la coordination en modèle de flotte (qui journalise chaque action), la surface d'attaque pour l'exfiltration est significativement réduite par rapport aux agents s'exécutant dans des espaces de processus partagés avec un accès réseau non restreint.
+**Comment OpenLegion l'atténue.** Le code que l'agent écrit tourne dans un bac à sable sans accès réseau par défaut, et joindre un tiers en votre nom s'arrête pour l'approbation du propriétaire. La matrice d'autorisations définit les outils, fichiers et opérations autorisés par agent. Les requêtes sortantes sont routées via des canaux contrôlés. Combiné à l'isolation des identifiants (l'agent n'a aucun identifiant à exfiltrer) et aux reçus qui enregistrent chaque action, la surface d'attaque pour l'exfiltration est significativement réduite par rapport aux agents s'exécutant dans des espaces de processus partagés avec un accès réseau non restreint.
 
 ### Menace 5 : Évasion de bac à sable
 
 **Ce qui se passe.** Un agent ou son code exécuté s'évade de son conteneur et obtient l'accès au système hôte, à d'autres conteneurs ou à la couche d'orchestration. Des vulnérabilités d'évasion de conteneur sont découvertes régulièrement — plusieurs CVE runC de haute gravité ont été divulguées en novembre 2025 affectant Docker et Kubernetes chez les principaux fournisseurs cloud.
 
-**Comment OpenLegion l'atténue.** Durcissement de conteneur : exécution non-root (UID 1000), flag `no-new-privileges`, limites de mémoire configurables (384 Mo par défaut), limites de CPU configurables (0,15 par défaut) et aucun système de fichiers partagé entre conteneurs. Chaque agent a son propre volume `/data`. Le modèle de confiance à quatre zones (plus un niveau opérateur ou interne) signifie que même si un agent s'évade de son conteneur, il atterrit dans une zone sans accès direct au coffre-fort d'identifiants ou aux conteneurs d'autres agents. Pour les environnements nécessitant une isolation plus forte, l'architecture supporte les microVM Docker Sandbox.
+**Comment OpenLegion l'atténue.** Le code que l'agent écrit tourne dans un bac à sable sans accès réseau par défaut, et chaque tâche s'exécute à la demande puis s'arrête — il n'y a aucun processus d'agent durable à compromettre. Chaque agent a son propre stockage, jamais un stockage partagé. Un moteur de politiques unique devant chaque action signifie que même si une exécution était détournée, elle n'aurait aucun chemin direct vers le coffre-fort d'identifiants ou les données d'un autre agent. Les identifiants sont injectés hors du modèle : une exécution détournée n'a donc rien à voler.
 
 ### Menace 6 : Attaques de chaîne d'approvisionnement
 
 **Ce qui se passe.** Du code malveillant est introduit via des compétences d'agents, des serveurs d'outils MCP, des configurations partagées ou des dépendances de framework. Des serveurs MCP malveillants ont été trouvés sur npm imitant des services légitimes. Des fichiers de configuration crowdsourcés ont été weaponisés avec des prompts cachés déclenchés par LLM.
 
-**Comment OpenLegion l'atténue.** OpenLegion utilise zéro dépendance de framework externe — pas de LangChain, pas de Redis, pas de Kubernetes. Le cœur est Python pur + SQLite. Les serveurs d'outils MCP sont supportés mais mis en bac à sable via la matrice d'autorisations. La coordination en modèle de flotte signifie que les appels d'outils sont explicitement déclarés dans la définition du workflow, pas découverts dynamiquement au runtime — réduisant la surface pour l'injection d'outils inattendus.
+**Comment OpenLegion l'atténue.** Chaque outil qu'un agent peut atteindre est accordé explicitement par un propriétaire, pas découvert au runtime, et il n'y a aucune surface de plugins tiers au lancement. Les octrois d'outils sont vérifiés par le moteur de politiques à chaque appel, et chaque octroi est enregistré comme un reçu que le propriétaire peut lire. La coordination par objectifs et tâches signifie que les appels d'outils sont explicites dans la définition de la tâche, pas résolus dynamiquement — réduisant la surface pour l'injection d'outils inattendus.
 
 ## Comment fonctionne l'isolation des agents IA dans OpenLegion
 
-Le modèle de confiance à quatre zones d'OpenLegion plus un niveau opérateur ou interne sépare chaque déploiement en frontières de sécurité distinctes :
+OpenLegion place un moteur de politiques unique devant chaque action et sépare un espace de travail en frontières de sécurité distinctes :
 
-**Zone 0 — Entrée externe non fiable.** Tout ce qui arrive des utilisateurs ou de tiers : CLI, Telegram, Discord, Slack, WhatsApp et points de terminaison webhook. Les entrées sont validées et désinfectées via des gardes anti-injection de prompt avant d'entrer en Zone 2.
+**Entrée non fiable.** Tout ce qui arrive des utilisateurs ou de tiers : chat web, Telegram, Slack, e-mail entrant et points de terminaison webhook. Les entrées sont validées et désinfectées via des gardes anti-injection de prompt, et agir sur du contenu non fiable s'arrête pour l'approbation du propriétaire.
 
-**Zone 1 — Conteneurs d'agents bac à sable (non fiables).** Chaque agent s'exécute comme une instance FastAPI isolée dans son propre conteneur Docker. Chaque conteneur a son propre volume `/data`, sa propre base de données mémoire (SQLite + recherche vectorielle), des plafonds de ressources configurables (384 Mo RAM / 0,15 CPU par défaut), exécution non-root (UID 1000), `cap_drop=ALL`, `no-new-privileges`, un système de fichiers racine en lecture seule, et aucun accès au socket Docker, au coffre-fort d'identifiants ou aux conteneurs d'autres agents.
+**L'exécution de l'agent.** Chaque tâche s'exécute à la demande puis s'arrête. Le code que l'agent écrit tourne dans un bac à sable sans accès réseau par défaut, et l'exécution ne détient aucun identifiant — seulement une référence. Les agents sont des enregistrements durables, pas des serveurs : il n'y a aucun processus durable à compromettre, en créer un est instantané, un agent inactif ne coûte rien, et un espace de travail peut en faire tourner des centaines.
 
-**Zone 2 — Hôte de mesh (fiable).** Le seul composant ayant accès aux identifiants. Exécute le tableau noir (état partagé + WAL), le routeur PubSub, le coffre-fort d'identifiants (proxy d'injection aveugle), la matrice ACL, le gestionnaire de conteneurs, le suivi des coûts et le service de navigateur (Camoufox par agent sur :8500). Cette zone est durcie et non exposée au code d'agent.
+**Le moteur de politiques.** Chaque action est une intention vérifiée avant qu'elle n'ait lieu : appel d'outil, délégation, approbation, coût. C'est le seul composant ayant accès au coffre-fort, il injecte les identifiants hors du modèle et enregistre chaque action comme un reçu que le propriétaire peut lire.
 
-**Zone 2.5 — Opérateur ou interne.** Opérations de plan de contrôle réservées disponibles pour l'agent opérateur ou l'outillage interne du mesh — gestion de flotte, modifications d'agents, octrois d'autorisations (l'opérateur ne peut pas accorder `can_spawn` ou `can_use_wallet`).
+**Décisions du propriétaire et de l'administrateur.** Le travail s'arrête pour une approbation à trois barrières seulement : joindre un tiers en votre nom, supprimer des données et agir sur du contenu non fiable. Les approbations sont décidées dans l'application par un propriétaire ou un administrateur, jamais par l'agent lui-même.
 
-**Zone 3 — Loopback uniquement, interne.** Le niveau le plus restreint : points de terminaison qui requièrent à la fois un en-tête `x-mesh-internal: 1` et une IP source loopback. Utilisé uniquement pour les appels de coordination interne au mesh.
+**Isolation de l'espace de travail.** Les agents, tâches, mémoires et reçus d'un espace de travail lui sont délimités, et les octrois d'autorisations par agent les restreignent encore. Rien de ce qu'un agent fait ne dépasse les octrois que son propriétaire lui a donnés.
 
-Cette architecture signifie qu'un agent compromis en Zone 1 ne peut pas atteindre la Zone 2 (identifiants) ou d'autres conteneurs Zone 1 (données d'autres agents). Le rayon d'impact de tout compromis d'un seul agent est contenu dans le bac à sable de cet agent.
+Cette architecture signifie qu'un agent compromis ne peut atteindre ni le coffre-fort ni les données d'un autre agent. Le rayon d'impact de tout compromis d'un seul agent est contenu dans l'exécution de cet agent et dans ses propres octrois.
 
-## Gestion des identifiants d'agents IA : proxy de coffre-fort vs variables d'environnement
+## Gestion des identifiants d'agents IA : coffre-fort d'identifiants vs variables d'environnement
 
 Le patron de gestion des identifiants le plus courant dans les [frameworks d'agents IA](/learn/ai-agent-frameworks) est les variables d'environnement. Votre clé API se trouve dans un fichier `.env` ou est passée via `OAI_CONFIG_LIST`. Le processus de l'agent la lit directement. Cela signifie :
 
@@ -118,9 +118,9 @@ Le patron de gestion des identifiants le plus courant dans les [frameworks d'age
 - Les journaux, messages d'erreur et sorties de débogage peuvent contenir la clé
 - Si l'agent est compromis, l'attaquant a un accès direct à tous les identifiants injectés
 
-Le proxy de coffre-fort d'OpenLegion change cette architecture fondamentalement. Les clés API sont stockées dans le coffre-fort d'identifiants de l'hôte de mesh (Zone 2). Lorsqu'un agent doit faire un appel API authentifié, il envoie la requête au proxy de coffre-fort. Le proxy injecte l'identifiant au niveau réseau, effectue l'appel authentifié et renvoie le résultat à l'agent. L'agent ne voit, ne stocke ni n'a accès en mémoire à la clé brute.
+Le coffre-fort d'identifiants d'OpenLegion change cette architecture fondamentalement. Les clés API sont stockées dans le coffre-fort, hors du modèle. Lorsqu'un agent doit faire un appel API authentifié, la plateforme injecte l'identifiant à la frontière de l'appel, effectue l'appel authentifié et renvoie le résultat à l'agent. Le modèle ne détient jamais qu'une référence et ne voit, ne stocke ni n'a accès en mémoire à la clé brute.
 
-C'est ce qu'on appelle les **identifiants protégés par proxy de coffre-fort** — le même principe utilisé par les systèmes de gestion des secrets d'entreprise comme HashiCorp Vault, mais intégré dans la couche d'[orchestration d'agents IA](/learn/ai-agent-orchestration) plutôt que de nécessiter une infrastructure séparée.
+C'est ce qu'on appelle les **identifiants conservés en coffre-fort** — le même principe utilisé par les systèmes de gestion des secrets d'entreprise comme HashiCorp Vault, mais intégré dans la couche d'[orchestration d'agents IA](/learn/ai-agent-orchestration) plutôt que de nécessiter une infrastructure séparée.
 
 ## Agents IA conteneurisés : pourquoi l'isolation au niveau processus ne suffit pas
 
@@ -128,13 +128,13 @@ Plusieurs frameworks offrent une forme d'isolation, mais les détails de mise en
 
 | Framework | Approche d'isolation | Ce qui est réellement isolé | Ce qui est partagé |
 |---|---|---|---|
-| **OpenLegion** | Conteneur Docker par agent (obligatoire) | Processus, système de fichiers, réseau, mémoire, identifiants | Rien — les agents sont totalement isolés |
+| **OpenLegion** | Exécution en bac à sable par tâche (toujours active) | Processus, système de fichiers, réseau, mémoire, identifiants | Rien — les agents sont totalement isolés |
 | **OpenClaw** | Conteneur Docker (optionnel) | Processus, système de fichiers | Socket Docker monté par défaut ; réseau hôte accessible |
 | **LangGraph** | Aucune intégrée | N/A | Tout — les agents partagent le processus Python |
 | **CrewAI** | Docker pour CodeInterpreter | Sortie d'exécution de code | Les processus d'agents partagent le runtime Python |
 | **AutoGen** | Docker pour exécution de code | Sortie d'exécution de code | Les processus d'agents partagent le runtime Python |
 
-La distinction critique : OpenLegion isole **l'agent lui-même** dans un conteneur. D'autres frameworks qui offrent l'isolation Docker n'isolent typiquement que **la sortie d'exécution de code** — le processus de l'agent, sa mémoire et son accès aux identifiants restent partagés. Cela signifie qu'une injection de prompt qui compromet un agent dans LangGraph ou CrewAI a accès à tous les identifiants et états dans le processus partagé. Dans OpenLegion, le même compromis est contenu à un seul conteneur bac à sable sans accès aux identifiants.
+La distinction critique : OpenLegion isole **l'exécution de la tâche elle-même**. D'autres frameworks qui offrent l'isolation Docker n'isolent typiquement que **la sortie d'exécution de code** — le processus de l'agent, sa mémoire et son accès aux identifiants restent partagés. Cela signifie qu'une injection de prompt qui compromet un agent dans LangGraph ou CrewAI a accès à tous les identifiants et états dans le processus partagé. Dans OpenLegion, le même compromis est contenu à une seule exécution en bac à sable sans accès aux identifiants.
 
 ## Contrôles de coûts d'agents IA : l'application des budgets comme sécurité
 
@@ -142,11 +142,11 @@ Les contrôles de coûts ne sont pas juste de la gouvernance financière — ce 
 
 L'application des budgets d'OpenLegion fonctionne au niveau de l'orchestrateur :
 
-- Chaque agent a un budget de jetons quotidien et mensuel configurable
-- L'usage des jetons est suivi en temps réel par le suivi des coûts en Zone 2
+- Chaque agent a son propre budget configurable, mesuré en crédits à $0,001 l'unité
+- L'usage est suivi en temps réel, et le coût exact de chaque tâche est visible
 - Lorsqu'un agent atteint sa limite, l'orchestrateur émet une coupure stricte — l'agent est arrêté
 - Le reste du pipeline de workflow continue ou se met en pause gracieusement
-- Les données de coût sont visibles dans le tableau de bord de la flotte avec des décompositions par agent
+- Les données de coût sont visibles dans le tableau de bord avec des décompositions par agent
 
 Aucun autre framework majeur d'agents IA ne fournit cette capacité intégrée, selon la documentation publique au moment de la rédaction.
 
@@ -154,10 +154,10 @@ Aucun autre framework majeur d'agents IA ne fournit cette capacité intégrée, 
 
 OpenLegion est **conçu pour les environnements qui nécessitent** des contrôles de conformité, notamment :
 
-- **Traçage des requêtes** : la coordination en modèle de flotte auditable signifie que chaque étape du workflow est explicite et traçable. Le système de traçage des requêtes intégré enregistre les transitions de tâches, les appels d'outils et la dépense en jetons pour une observabilité en temps réel. Le tableau noir (état partagé) fournit un contexte de coordination entre agents.
-- **Coordination en modèle de flotte auditable** : la coordination en modèle de flotte (tableau noir + pub/sub + handoff) peut être auditée avant exécution — vous pouvez vérifier le flux complet de données, autorisations et interactions d'agents sans exécuter le système.
-- **Isolation des données** : les conteneurs par agent avec volumes `/data` dédiés garantissent que les données sensibles traitées par un agent ne sont pas accessibles aux autres agents.
-- **Support air-gap** : aucun service externe (pas de Redis, pas de Kubernetes, pas de services cloud requis) signifie qu'OpenLegion peut s'exécuter dans des environnements on-prem.
+- **Traçage des requêtes** : la coordination auditable par objectifs et tâches signifie que chaque étape du workflow est explicite et traçable. Chaque appel d'outil, délégation et approbation est enregistré avec l'identité de l'agent, un horodatage et le coût exact de la tâche. Le registre partagé d'objectifs et de tâches fournit un contexte de coordination entre agents.
+- **Coordination auditable par objectifs et tâches** : la coordination par objectifs et tâches (objectifs → tâches → agents) peut être auditée avant exécution — vous pouvez vérifier le flux complet de données, autorisations et interactions d'agents sans exécuter le système.
+- **Isolation des données** : le stockage par agent et les octrois d'autorisations par agent garantissent que les données sensibles traitées par un agent ne sont pas accessibles aux autres agents.
+- **Moindre privilège** : les outils, fichiers et opérations de chaque agent sont accordés explicitement par un propriétaire, et chaque octroi est enregistré comme un reçu.
 
 **Important** : OpenLegion ne détient actuellement pas SOC 2, ISO 27001, HIPAA ou autres certifications de conformité. L'architecture est conçue pour supporter les environnements avec ces exigences, mais la certification est une fonction de votre déploiement, configuration et contrôles organisationnels — pas seulement du framework.
 
@@ -178,27 +178,27 @@ La sécurité des agents IA est l'ensemble des contrôles qui empêchent les age
 
 ### Comment sécuriser les agents IA avec des clés API ?
 
-L'approche la plus sécurisée est les identifiants protégés par proxy de coffre-fort : stockez les clés API dans un coffre-fort que les agents ne peuvent pas atteindre directement. Lorsqu'un agent doit faire un appel authentifié, la requête est routée via un proxy qui injecte l'identifiant au niveau réseau. L'agent ne voit jamais la clé brute. OpenLegion implémente cela via son proxy de coffre-fort en Zone 2 du modèle de confiance à quatre zones (plus un niveau opérateur ou interne). L'approche la moins sécurisée (et la plus courante) est les variables d'environnement, où les clés existent dans la mémoire de l'agent et peuvent être divulguées via injection de prompt, journalisation ou sortie d'erreur.
+L'approche la plus sécurisée est les identifiants conservés en coffre-fort : stockez les clés API dans un coffre-fort que les agents ne peuvent pas atteindre directement. Lorsqu'un agent doit faire un appel authentifié, la plateforme injecte l'identifiant hors du modèle. L'agent ne voit jamais la clé brute. OpenLegion implémente cela avec un coffre-fort d'identifiants que le modèle ne peut référencer que par une référence. L'approche la moins sécurisée (et la plus courante) est les variables d'environnement, où les clés existent dans la mémoire de l'agent et peuvent être divulguées via injection de prompt, journalisation ou sortie d'erreur.
 
 ### Comment fonctionne l'isolation des agents IA ?
 
-L'isolation des agents signifie exécuter chaque agent dans son propre environnement bac à sable — processus, système de fichiers, espace de noms réseau et espace mémoire séparés. Dans OpenLegion, chaque agent s'exécute dans un conteneur Docker dédié avec des limites de ressources configurables (384 Mo RAM, 0,15 CPU par défaut), exécution non-root et aucun système de fichiers partagé. Cela signifie qu'un agent compromis ne peut pas accéder aux données d'autres agents, au coffre-fort d'identifiants ou au système hôte. Cela diffère des frameworks où les agents partagent un processus Python et peuvent accéder à la mémoire des autres.
+L'isolation des agents signifie exécuter chaque agent dans son propre environnement bac à sable — processus, système de fichiers, espace de noms réseau et espace mémoire séparés. Dans OpenLegion, chaque tâche s'exécute à la demande puis s'arrête, le code que l'agent écrit tourne dans un bac à sable sans accès réseau par défaut, et les agents ne partagent aucun stockage. Cela signifie qu'un agent compromis ne peut pas accéder aux données d'autres agents, au coffre-fort d'identifiants ou au système hôte. Cela diffère des frameworks où les agents partagent un processus Python et peuvent accéder à la mémoire des autres.
 
 ### Pourquoi les agents IA ont-ils besoin de contrôles de budget / coûts ?
 
-Les agents autonomes peuvent entrer dans des boucles récursives, faire des appels API excessifs ou être manipulés pour consommer des ressources bien au-delà de ce qui est nécessaire. Sans contrôles de budget, un seul agent incontrôlé peut drainer des centaines de dollars en jetons en minutes. Dans les systèmes multi-agents, cela se compose — chaque agent multiplie le risque. OpenLegion applique des budgets quotidiens et mensuels par agent avec coupures strictes au niveau de l'orchestrateur, empêchant tout agent unique de causer un coût non borné.
+Les agents autonomes peuvent entrer dans des boucles récursives, faire des appels API excessifs ou être manipulés pour consommer des ressources bien au-delà de ce qui est nécessaire. Sans contrôles de budget, un seul agent incontrôlé peut drainer des centaines de dollars en jetons en minutes. Dans les systèmes multi-agents, cela se compose — chaque agent multiplie le risque. OpenLegion donne à chaque agent son propre budget avec coupure stricte, mesuré en crédits à $0,001 l'unité, empêchant tout agent unique de causer un coût non borné.
 
 ### Les agents IA sécurisés sont-ils possibles avec des clés BYO ?
 
-Oui. Le modèle de clé BYO (Bring Your Own) est en fait plus sécurisé avec une architecture appropriée. Dans OpenLegion, vos clés sont stockées dans le coffre-fort d'identifiants de l'hôte de mesh et injectées via un proxy de coffre-fort au niveau réseau. Les agents ne voient jamais les clés brutes. Cela vous donne une transparence totale des coûts (vous voyez exactement ce que chaque agent dépense avec chaque fournisseur), une flexibilité de fournisseur (échangez les modèles par agent) et les mêmes garanties d'isolation des identifiants quel que soit le fournisseur que vous utilisez. Apportez vos propres clés API LLM. Aucune majoration sur l'usage des modèles.
+OpenLegion n'utilise pas de modèle de clé BYO (Bring Your Own) pour les LLM — les modèles sont choisis par préréglage, Smartest, Smart ou Normal, par agent ou par espace de travail. Les identifiants de services que vous apportez, comme les jetons OAuth et les clés API tierces, sont conservés dans un coffre-fort et injectés hors du modèle, qui ne détient jamais qu'une référence. Vous conservez une transparence totale des coûts : chaque unité de travail est un réveil enregistré mesuré en crédits à $0,001 l'unité, et le coût exact de chaque tâche est visible.
 
 ### Qu'est-ce que le Top 10 OWASP pour les agents IA ?
 
-OWASP a publié le Top 10 pour les applications agentiques en décembre 2025. Le risque n°1 est le détournement d'objectif d'agent — où un attaquant manipule un agent pour poursuivre des objectifs différents de ce que l'utilisateur a prévu. Les autres risques majeurs incluent la fuite d'identifiants, l'agence excessive (les agents prenant des actions au-delà de leur portée) et les vulnérabilités de la chaîne d'approvisionnement (outils ou plugins malveillants). OpenLegion répond à ces enjeux via les identifiants protégés par proxy de coffre-fort, l'isolation par conteneur, les matrices d'autorisations et la coordination en modèle de flotte (tableau noir + pub/sub + handoff).
+OWASP a publié le Top 10 pour les applications agentiques en décembre 2025. Le risque n°1 est le détournement d'objectif d'agent — où un attaquant manipule un agent pour poursuivre des objectifs différents de ce que l'utilisateur a prévu. Les autres risques majeurs incluent la fuite d'identifiants, l'agence excessive (les agents prenant des actions au-delà de leur portée) et les vulnérabilités de la chaîne d'approvisionnement (outils ou plugins malveillants). OpenLegion répond à ces enjeux via les identifiants conservés en coffre-fort, les exécutions de tâches en bac à sable, les matrices d'autorisations et la coordination par objectifs et tâches (objectifs → tâches → agents).
 
 ### Comment OpenLegion se compare-t-il à OpenClaw en matière de sécurité ?
 
-Selon la documentation publique, OpenLegion fournit des défauts de sécurité plus stricts. Le déploiement local par défaut d'OpenClaw nécessite le montage du socket Docker (accordant un large accès hôte), son analyseur de sécurité a eu des problèmes signalés d'activation cohérente, et il stocke les identifiants dans une configuration accessible au processus de l'agent. OpenLegion exécute les agents dans des conteneurs isolés obligatoires, utilise un proxy de coffre-fort pour les identifiants protégés par proxy de coffre-fort, applique des budgets par agent et applique une désinfection unicode à plusieurs points d'étranglement. Pour une comparaison détaillée, consultez [OpenLegion vs OpenClaw](/comparison/openclaw).
+Selon la documentation publique, OpenLegion fournit des défauts de sécurité plus stricts. Le déploiement local par défaut d'OpenClaw nécessite le montage du socket Docker (accordant un large accès hôte), son analyseur de sécurité a eu des problèmes signalés d'activation cohérente, et il stocke les identifiants dans une configuration accessible au processus de l'agent. OpenLegion exécute chaque tâche dans une exécution en bac à sable, conserve les identifiants dans un coffre-fort injecté hors du modèle, applique des budgets par agent et applique une désinfection unicode à plusieurs points d'étranglement. Pour une comparaison détaillée, consultez [OpenLegion vs OpenClaw](/comparison/openclaw).
 
 ### Quels frameworks de conformité s'appliquent aux agents IA ?
 

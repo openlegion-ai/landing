@@ -75,7 +75,7 @@ Das ReAct-Sicherheitsfehlersszenario zielt direkt auf den Notizblock ab. Wenn ei
 
 Drei gemeinsam erforderliche Gegenmassnahmen:
 1. Bereinigen Sie jede Beobachtung vor dem Anhaengen an den Notizblock
-2. Protokollieren Sie jede Aktion in Zone 2 vor der Ausfuehrung
+2. Protokollieren Sie jede Aktion in der Policy-Engine vor der Ausfuehrung
 3. Behandeln Sie jede Tool-Beobachtung als nicht vertrauenswuerdige Eingabe
 
 ## Plan-and-Execute: Planung von der Ausfuehrung trennen
@@ -106,7 +106,7 @@ Benchmark-Ergebnisse: HumanEval-Coding pass@1 -- 91 % mit Reflexion vs. 80 % Sta
 
 Reflexions Sicherheitsfehler ist persistenter als Notizblock-Injektion bei ReAct. Wenn eine Beobachtung adversarialen Inhalt enthaelt, kann die generierte Reflexion angreifer-gesteuerte Anleitungen enkodieren, die dauerhaft im episodischen Speicher gespeichert werden und alle zukuenftigen Aufgabenversuche betreffen.
 
-Vier erforderliche Gegenmassnahmen: Reflexionsbereinigung vor der Speicherung; versionierter Blackboard-Speicher mit agent_id-Zuordnung; Reflexions-TTL; HITL-Ueberpruefungsgate fuer verhaltensaendernde Reflexionen.
+Vier erforderliche Gegenmassnahmen: Reflexionsbereinigung vor der Speicherung; versionierte Zuordnung von Reflexionen zu Agent und Aufgabe; Reflexions-TTL; HITL-Ueberpruefungsgate fuer verhaltensaendernde Reflexionen.
 
 ## Critic-Actor: Bewertung von der Ausfuehrung trennen
 
@@ -131,7 +131,7 @@ Supervisor-Worker hat ein Supervisor-Agent, das Ziele zerlegt und Aufgaben an sp
 
 ### Sicherheitseigenschaft: Eindaemmung des Blast Radius kompromittierter Worker
 
-Das primaere Sicherheitsmerkmal von Supervisor-Worker ist die Eindaemmung des Blast Radius: Ein kompromittierter Worker kann nur Tools innerhalb seiner definierten Rolle aufrufen. Ein ResearchWorker, der eine injizierte Anweisung erhaelt, `send_email()` aufzurufen, scheitert bei Zone 2s Berechtigungspruefung.
+Das primaere Sicherheitsmerkmal von Supervisor-Worker ist die Eindaemmung des Blast Radius: Ein kompromittierter Worker kann nur Tools innerhalb seiner definierten Rolle aufrufen. Ein ResearchWorker, der eine injizierte Anweisung erhaelt, `send_email()` aufzurufen, scheitert bei der Berechtigungspruefung der Policy-Engine.
 
 ## Mixture-of-Agents: Ensemble-Argumentation ueber Modellinstanzen hinweg
 
@@ -154,11 +154,11 @@ Jedes agentic Design Muster in diesem Leitfaden hat einen Sicherheitsfehler, den
 
 | **Sicherheitskontrolle** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Vorausfuehrungs-Action-Logging** | Zone 2, nativ | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention |
-| **Blackboard-Plan-ACL** | Infrastruktur-durchgesetzt | Nicht verfuegbar | Nicht verfuegbar | Nicht verfuegbar | Nicht verfuegbar |
+| **Vorausfuehrungs-Action-Logging** | Policy-Engine, nativ | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention |
+| **Plan-ACL auf dem gemeinsamen Verzeichnis** | Infrastruktur-durchgesetzt | Nicht verfuegbar | Nicht verfuegbar | Nicht verfuegbar | Nicht verfuegbar |
 | **Versionierter episodischer Speicher mit agent_id** | Nativ | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention |
 | **Separates Critic-Modell mit unabhaengigem Kontext** | Native Agent-Isolierung | Manuelle Einrichtung | Manuelle Einrichtung | Manuelle Einrichtung | Manuelle Einrichtung |
-| **Zone-2-Tool-Berechtigungsdurchsetzung pro Worker** | Infrastruktur-durchgesetzt | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention |
+| **Policy-Engine-Tool-Berechtigungsdurchsetzung pro Worker** | Infrastruktur-durchgesetzt | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention | Entwickler-Konvention |
 
 [Jetzt auf OpenLegion starten](https://app.openlegion.ai)
 

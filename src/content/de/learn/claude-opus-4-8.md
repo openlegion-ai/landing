@@ -43,7 +43,7 @@ Drittens: Fast-Modus mit 3x niedrigeren Kosten. Databricks berichtete von 61% g�
 
 Die Anthropic-Ankündigung kam am selben Tag wie ihre Series-H-Runde über 65 Mrd. USD bei einer Post-Money-Bewertung von 965 Mrd. USD.
 
-OpenLegion unterstützt das vollständige Anthropic-API-Modellregister. Das Setzen von `claude-opus-4-8-20260528` als Standard für eine Flotte ist eine einzelne Konfigurationsänderung. Tresor-isolierte API-Aufrufe, Pro-Agent-Budgetlimits und Container-isolierte Ausführung werden automatisch angewendet, [was eine KI-Agent-Plattform für den Betrieb von Opus 4.8 mit Budgetkontrollen und Tresor-Isolation bietet](/learn/ai-agent-platform).
+OpenLegion betreibt Anthropics Modelle hinter eigenen Presets. Einen Agenten auf das Smartest-Preset zu setzen, ist eine einzelne Wahl in der App. Credentials im Vault, ein Credit-Budget pro Agent und gesandboxte Aufgabenläufe werden automatisch angewendet, [was eine KI-Agent-Plattform für den Betrieb von Opus 4.8 mit Budgetkontrollen und Tresor-Isolation bietet](/learn/ai-agent-platform).
 
 ## Benchmark-Leistung: Was die Zahlen zeigen
 
@@ -119,13 +119,13 @@ Für [agentisches Workflow-Design und wie die Urteilsverbesserungen von Opus 4.8
 
 ## OpenLegion und Claude Opus 4.8
 
-OpenLegion unterstützt `claude-opus-4-8-20260528` als Fleet-Modelloption. Das Setzen als Standard für einen Agenten ist ein einzelnes Feld in der Agentenkonfiguration:
+OpenLegion betreibt Modelle der Opus-Klasse unter seinem Smartest-Preset. Dieses Preset für einen Agenten zu wählen, ist ein einzelnes Feld in der Agentenkonfiguration:
 
 ```
-model: anthropic/claude-opus-4-8-20260528
+model_preset: smartest
 ```
 
-Alle OpenLegion-Sicherheitskontrollen gelten automatisch für Opus 4.8-Aufrufe: Tresor-Proxy-Credential-Injektion (der API-Schlüssel betritt nie den Agent-Container), Pro-Agent-Tages- und Monatslimits (eine unkontrollierte Opus 4.8-Schleife kann Ihr API-Kontingent nicht ohne Erreichen des Limits erschöpfen), Docker-Container-Isolation und vollständiges Audit-Logging.
+Alle OpenLegion-Sicherheitskontrollen gelten automatisch für Opus 4.8-Aufrufe: Credentials im Vault, außerhalb des Modells injiziert (kein Schlüssel erreicht je den Agenten), ein Credit-Budget pro Agent (eine unkontrollierte Opus 4.8-Schleife stoppt, wenn ihr Budget endet), gesandboxte Aufgabenläufe und vollständiges Audit-Logging.
 
 Für Mehrагenten-Vergleiche, siehe [OpenLegion vs. LangGraph bei der Bereitstellung von Opus 4.8 in graphbasierter vs. flacher Fleet-Architektur](/comparison/langgraph) und [OpenLegion vs. AutoGen bei Opus 4.8 in geteilten Prozess- vs. isolierten Container-Mehrагenten-Systemen](/comparison/autogen).
 

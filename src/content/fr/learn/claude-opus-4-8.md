@@ -43,7 +43,7 @@ Troisièmement : mode rapide 3x moins cher. Databricks a signalé un coût de to
 
 L'annonce d'Anthropic est venue le même jour que leur Série H à 65 milliards USD à une valorisation post-money de 965 milliards USD.
 
-OpenLegion prend en charge l'intégralité du catalogue de modèles API Anthropic. Définir `claude-opus-4-8-20260528` comme valeur par défaut de votre flotte est un changement de configuration unique. Les appels API isolés par coffre-fort, les plafonds budgétaires par agent et l'exécution isolée par conteneur s'appliquent automatiquement, [ce que fournit une plateforme d'agents IA pour exécuter Opus 4.8 avec des contrôles budgétaires et une isolation par coffre-fort](/learn/ai-agent-platform).
+OpenLegion exécute les modèles d'Anthropic derrière ses propres préréglages. Pointer un agent vers le préréglage Smartest est un choix unique dans l'application. Les identifiants conservés en coffre-fort, un budget en crédits par agent et les exécutions de tâches en bac à sable s'appliquent automatiquement, [ce que fournit une plateforme d'agents IA pour exécuter Opus 4.8 avec des contrôles budgétaires et une isolation par coffre-fort](/learn/ai-agent-platform).
 
 ## Performance des benchmarks : Ce que montrent les chiffres
 
@@ -119,19 +119,19 @@ Pour la [conception de workflows agentiques et comment les améliorations de jug
 
 ## OpenLegion et Claude Opus 4.8
 
-OpenLegion prend en charge `claude-opus-4-8-20260528` comme option de modèle de flotte. Le définir comme valeur par défaut pour un agent est un seul champ dans la configuration de l'agent :
+OpenLegion exécute les modèles de classe Opus sous son préréglage Smartest. Choisir ce préréglage pour un agent est un seul champ dans la configuration de l'agent :
 
 ```
-model: anthropic/claude-opus-4-8-20260528
+model_preset: smartest
 ```
 
-Tous les contrôles de sécurité d'OpenLegion s'appliquent automatiquement aux appels Opus 4.8 : injection d'identifiants via le proxy coffre-fort (la clé API n'entre jamais dans le conteneur de l'agent), plafonds budgétaires quotidiens et mensuels par agent (une boucle incontrôlée Opus 4.8 ne peut pas épuiser votre quota API sans atteindre le plafond), isolation des conteneurs Docker et journalisation complète des audits.
+Tous les contrôles de sécurité d'OpenLegion s'appliquent automatiquement aux appels Opus 4.8 : identifiants conservés en coffre-fort et injectés hors du modèle (aucune clé n'atteint jamais l'agent), un budget en crédits par agent (une boucle incontrôlée Opus 4.8 s'arrête quand son budget s'arrête), exécutions de tâches en bac à sable et journalisation complète des audits.
 
 Pour les comparaisons multi-agents, voir [OpenLegion vs LangGraph lors du déploiement d'Opus 4.8 dans une architecture de flotte graphique vs plate](/comparison/langgraph) et [OpenLegion vs AutoGen avec Opus 4.8 dans des systèmes multi-agents à processus partagé vs conteneur isolé](/comparison/autogen).
 
 ## Commencer avec Claude Opus 4.8 sur OpenLegion
 
-**Définissez `claude-opus-4-8-20260528` comme valeur par défaut de votre flotte. Isolé par coffre-fort, limité en budget, prêt pour la production.**
+**Exécutez les modèles de classe Opus sur le préréglage Smartest. Isolé par coffre-fort, limité en budget, prêt pour la production.**
 [Commencer](https://app.openlegion.ai) | [Lire la documentation](https://docs.openlegion.ai) | [Voir la plateforme](/learn/ai-agent-platform)
 
 ---

@@ -42,7 +42,7 @@ related:
 - **एजेंट observability app observability से कठिन है** क्योंकि एजेंट का control flow runtime पर एक LLM द्वारा decide किया जाता है, handwritten code द्वारा नहीं।
 - **चार signals मायने रखते हैं**: end-to-end traces, प्रति-एजेंट cost, prompt और model versioning, और security-event capture (prompt-injection attempts, ACL denies, बजट cutoffs)।
 - **अधिकांश एजेंट frameworks बिना अंतर्निहित observability के ship होते हैं** — teams LangSmith, Langfuse, या Arize Phoenix bolt on करती हैं और अपने पहले production incident के बाद gaps discover करती हैं।
-- **OpenLegion का mesh dashboard हर tool call, LLM request, cost line, और security event को default रूप से record करता है** — कोई instrumentation code नहीं, कोई third-party एजेंट integration नहीं।
+- **OpenLegion हर tool call, LLM request, cost line, और security event को default रूप से एक receipt के रूप में record करता है** — कोई instrumentation code नहीं, कोई third-party एजेंट integration नहीं।
 - **Cost observability वह बजट है जिसे आप नहीं जानते थे कि आप खर्च कर रहे थे**: प्रति-एजेंट caps के बिना, एक stuck एजेंट रात भर में सैकड़ों dollars API calls में burn कर सकता है।
 
 ## AI एजेंट Observability क्यों अलग है
@@ -78,25 +78,25 @@ Prompt-injection attempts, ACL denies, SSRF blocks, बजट cutoffs, unicode s
 
 | Signal | क्या capture होता है | कहाँ देखें |
 |---|---|---|
-| **Trace** | समय के साथ हर tool call, LLM request, एजेंट handoff | Mesh dashboard → Agent Runs |
+| **Trace** | समय के साथ हर tool call, LLM request, delegation | Dashboard → Wakes |
 | **Cost** | Tokens in/out, प्रति provider प्रति एजेंट dollar cost | Dashboard → Cost panel |
 | **Prompts** | प्रति run System prompt hash, version, model, parameters | Per-run detail view |
 | **Security** | ACL denies, बजट cutoffs, SSRF blocks, sanitizer hits | Dashboard → Security log |
-| **Health** | Container resource use, mesh latency, browser pool state | Dashboard → Fleet panel |
+| **Health** | Task success rate, wake latency, approval queue depth | Dashboard → Work panel |
 
-Dashboard open-source runtime का हिस्सा है — एक managed service नहीं जिसे आपको subscribe करना है। Self-hosted deployments सभी telemetry आपके infrastructure पर रखते हैं।
+Dashboard प्लेटफ़ॉर्म का हिस्सा है — एक अलग service नहीं जिसे आपको subscribe और instrument करना है। हर wake record और replayable है, task की exact cost के साथ।
 
 ## Open-Source बनाम Managed Observability Stacks
 
 यदि आप एक भिन्न एजेंट framework चला रहे हैं, leading bolt-on tools हैं LangSmith (LangChain ecosystem, managed), Langfuse (open-source, self-hostable), Arize Phoenix (open-source, evaluation-focused), और Helicone (proxy-based, simple integration)। प्रत्येक को आपके एजेंट में instrumentation code की आवश्यकता है — LLM clients wrap करें, callback handlers जोड़ें, trace exporters configure करें। Integration burden आपके fleet size के साथ scale करता है।
 
-OpenLegion का mesh design के अनुसार हर एजेंट operation के call path में बैठता है — credential vault, ACL gate, cost tracker, और trace recorder सभी trusted zone में colocated हैं। कोई instrumentation step नहीं है। Trade-off: आप केवल observability layer नहीं, बल्कि OpenLegion runtime को adopt करते हैं।
+OpenLegion का policy engine design के अनुसार हर एजेंट operation के call path में बैठता है — credential vault, permission check, cost meter, और receipt सभी एक ही step का हिस्सा हैं। कोई instrumentation step नहीं है। Trade-off: आप केवल observability layer नहीं, बल्कि OpenLegion प्लेटफ़ॉर्म को adopt करते हैं।
 
 पूर्ण landscape के लिए हमारा [AI एजेंट frameworks comparison](/learn/ai-agent-frameworks) देखें, या specifically observability पर head-to-head के लिए [vs LangGraph page](/comparison/langgraph)।
 
 ## OpenLegion का दृष्टिकोण
 
-एजेंट observability नया APM है — और AI ecosystem हर वह गलती repeat कर रहा है जिसे APM को fix करने में दशक लगा। Telemetry vendor-specific SDKs में fragments होती है। Pricing event volume के साथ scale करती है इसलिए सबसे busy fleets खुद को watch करने के लिए सबसे अधिक भुगतान करती हैं। "Advanced" features जैसे alerting और retention enterprise tiers के पीछे बैठते हैं। OpenLegion opposite stance लेता है: dashboard, traces, cost ledger, और security event log [AI एजेंट प्लेटफ़ॉर्म](/learn/ai-agent-platform) के साथ ship होते हैं, upsell के रूप में नहीं। हर run default रूप से full trace record करता है, आप data को self-host करते हैं, आप retention के मालिक हैं, और यदि आप इसे Datadog या Honeycomb पर forward करना चाहते हैं तो OpenTelemetry में export कर सकते हैं।
+एजेंट observability नया APM है — और AI ecosystem हर वह गलती repeat कर रहा है जिसे APM को fix करने में दशक लगा। Telemetry vendor-specific SDKs में fragments होती है। Pricing event volume के साथ scale करती है इसलिए सबसे busy fleets खुद को watch करने के लिए सबसे अधिक भुगतान करती हैं। "Advanced" features जैसे alerting और retention enterprise tiers के पीछे बैठते हैं। OpenLegion opposite stance लेता है: dashboard, traces, cost ledger, और security event log [AI एजेंट प्लेटफ़ॉर्म](/learn/ai-agent-platform) के साथ ship होते हैं, upsell के रूप में नहीं। हर run default रूप से full trace record करता है, owner इसके द्वारा बनाई गई हर receipt पढ़ सकता है, और यदि आप इसे Datadog या Honeycomb पर forward करना चाहते हैं तो OpenTelemetry में export कर सकते हैं।
 
 ## CTA
 
@@ -119,7 +119,7 @@ LLM observability individual model calls को track करता है — pr
 
 ### क्या मुझे एक अलग observability tool चाहिए यदि मैं पहले से Datadog पर हूँ?
 
-Datadog और similar APM tools latency, errors, और resource use को अच्छी तरह handle करते हैं, लेकिन वे natively LLM token costs, prompt versioning, या agent-trace semantics को नहीं समझते। अधिकांश teams अपने existing APM के साथ एक agent-native observability tool (Langfuse, Arize Phoenix, LangSmith) pair करती हैं, या OpenLegion जैसा runtime adopt करती हैं जो अंतर्निहित telemetry ship करता है और जो भी APM वे पहले से operate करती हैं उसमें OpenTelemetry export कर सकता है।
+Datadog और similar APM tools latency, errors, और resource use को अच्छी तरह handle करते हैं, लेकिन वे natively LLM token costs, prompt versioning, या agent-trace semantics को नहीं समझते। अधिकांश teams अपने existing APM के साथ एक agent-native observability tool (Langfuse, Arize Phoenix, LangSmith) pair करती हैं, या OpenLegion जैसा प्लेटफ़ॉर्म adopt करती हैं जो अंतर्निहित telemetry ship करता है और जो भी APM वे पहले से operate करती हैं उसमें OpenTelemetry export कर सकता है।
 
 ### AI एजेंट cost observability के लिए मुझे क्या track करना चाहिए?
 
@@ -131,4 +131,4 @@ Datadog और similar APM tools latency, errors, और resource use को अ
 
 ### OpenLegion का observability LangSmith से कैसे तुलना करता है?
 
-LangSmith LangChain ecosystem के लिए एक managed observability service है — मजबूत tracing, evaluation, और prompt-management features। OpenLegion का dashboard runtime के साथ ही ship होता है, default रूप से self-hosted है, और आपके एजेंट code में instrumentation की आवश्यकता के बिना समान signals (traces, cost, prompts, security events) record करता है। LangSmith किसी भी framework में integrate करता है जो इसे adopt करता है; OpenLegion observability OpenLegion runtime के अंदर automatically काम करता है।
+LangSmith LangChain ecosystem के लिए एक managed observability service है — मजबूत tracing, evaluation, और prompt-management features। OpenLegion का dashboard प्लेटफ़ॉर्म के साथ ही ship होता है, default रूप से on है, और आपके एजेंट code में instrumentation की आवश्यकता के बिना समान signals (traces, cost, prompts, security events) record करता है। LangSmith किसी भी framework में integrate करता है जो इसे adopt करता है; OpenLegion observability OpenLegion के अंदर automatically काम करता है।

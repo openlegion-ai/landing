@@ -26,7 +26,7 @@ export function Security() {
     <SectionWrapper id="security" fade={false}>
       <AnimateIn>
         <div className="mb-12 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
+          <p className="sr-only">
             {t("sectionLabel")}
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
@@ -75,7 +75,7 @@ export function Security() {
           </StaggerContainer>
           <AnimateIn delay={0.2}>
             <p className="mt-6 text-center text-sm text-muted lg:text-left">
-              <Link href="/learn/ai-agent-security" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
+              <Link href="/security" className="text-accent-light underline underline-offset-2 hover:text-accent transition-colors">
                 {t("allLayersLink")}
               </Link>
             </p>
@@ -85,7 +85,7 @@ export function Security() {
         {/* Trust-zone diagram */}
         <div id="architecture">
           <AnimateIn>
-            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-accent">
+            <p className="sr-only">
               {ta("sectionLabel")}
             </p>
             <h3 className="mb-5 text-balance text-lg font-semibold text-foreground">

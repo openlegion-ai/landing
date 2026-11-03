@@ -68,7 +68,7 @@ Three agent memory types each require separate tenant isolation treatment:
 
 **Semantic memory (vector store)**: if using a shared vector store (Pinecone, Weaviate, pgvector, Chroma), every write must include `tenant_id` as a mandatory metadata field, and every query must include a metadata filter `{tenant_id: current_tenant_id}`. The filter must be injected at the **storage client layer**: a wrapper that always adds the filter before executing the query, not passed as a parameter from agent code. Agent code can be manipulated by prompt injection to omit or modify a parameter it controls; a storage client wrapper the agent cannot reach cannot be bypassed. For deployments with strict isolation requirements, per-tenant namespaces or separate indexes are preferable to metadata filtering: they enforce isolation at the storage-address layer rather than as a filterable query parameter.
 
-**Coordination state (blackboard)**: key-value state shared across agents in the same fleet. Must use tenant-scoped key prefixes, for example, `projects/{tenant_id}/*`, with ACL enforcement at the mesh layer that prevents any agent from reading or writing outside its project namespace. The ACL must be injected from the agent's authenticated session context, not from agent-supplied parameters. In OpenLegion, blackboard ACL patterns are enforced by the mesh supervisor using the project context from the authenticated session; an agent cannot claim a different project by modifying the key it writes to.
+**Coordination state (blackboard)**: key-value state shared across agents on the same team. Must use tenant-scoped key prefixes, for example, `projects/{tenant_id}/*`, with ACL enforcement at the control-plane layer that prevents any agent from reading or writing outside its project namespace. The ACL must be injected from the agent's authenticated session context, not from agent-supplied parameters. In OpenLegion, these namespace rules are enforced by the policy engine using the project context from the authenticated session; an agent cannot claim a different project by modifying the key it writes to.
 
 ## Credential Isolation: Per-Tenant Vault Scoping
 
@@ -86,7 +86,7 @@ The most common multi-tenancy credential mistake is using one LLM API key for al
 
 **Audit isolation broken**: the provider's usage logs show the shared key as the actor. SOC 2 CC6.1 requires that TenantA's auditor sees access records scoped to TenantA. A shared key produces one stream of access records that cannot be cleanly partitioned per tenant.
 
-Correct pattern: each tenant gets their own API key, or a sub-key/workspace where the provider supports them. Keys are stored in a per-tenant vault scope. Agents resolve the tenant-specific key via `$CRED{}` handle at execution time. For the full vault architecture: handle lifecycle, rotation, and per-project scope configuration, see [credential management and per-tenant vault scoping patterns](/learn/credential-management-ai-agents).
+Correct pattern: each tenant gets their own API key, or a sub-key/workspace where the provider supports them. Keys are stored in a per-tenant vault scope. Agents resolve the tenant-specific key via an opaque credential handle at execution time. For the full vault architecture: handle lifecycle, rotation, and per-project scope configuration, see [credential management and per-tenant vault scoping patterns](/learn/credential-management-ai-agents).
 
 ### JWT Anti-Pattern: Token Scope Without Revocation
 
@@ -100,11 +100,11 @@ Three mitigations, all required together:
 2. **Active revocation registry**: a per-tenant table of valid token IDs. Every tool call validates the token ID against the registry before execution. Compromised tokens can be revoked within seconds regardless of their TTL.
 3. **Per-task token rotation**: issue a new token for each agent task, bound to the task identifier. A token from a completed task cannot be reused for a new task even if it has not expired.
 
-### OpenLegion Vault Proxy: Project-Scoped Handle Resolution
+### OpenLegion Credential Vault: Project-Scoped Handle Resolution
 
-OpenLegion's `$CRED{}` handle resolution is scoped to the project (tenant) at the mesh layer. When an agent in ProjectA resolves `$CRED{openai_key}`, Zone 2 uses the authenticated project context from the mesh session to determine which credential to return: ProjectA's OpenAI key. If an agent in ProjectB resolves the same handle string, Zone 2 uses ProjectB's context and returns ProjectB's key, or returns a permission error if ProjectB has not provisioned that credential.
+OpenLegion's credential handle resolution is scoped to the project (tenant) by the policy engine. When an agent in ProjectA resolves its OpenAI key handle, the policy engine uses the authenticated project context to determine which credential to return: ProjectA's OpenAI key. If an agent in ProjectB resolves the same handle string, the policy engine uses ProjectB's context and returns ProjectB's key, or returns a permission error if ProjectB has not provisioned that credential.
 
-The critical isolation property: the project context is injected from the authenticated mesh session, not from agent-supplied parameters. An agent in ProjectA cannot claim ProjectB's context by modifying its tool call parameters or its handle string. Cross-project credential resolution is architecturally impossible, not just policy-prohibited, because the context injection happens at Zone 2 before the agent's parameters are evaluated.
+The critical isolation property: the project context is injected from the authenticated session, not from agent-supplied parameters. An agent in ProjectA cannot claim ProjectB's context by modifying its tool call parameters or its handle string. Cross-project credential resolution is architecturally impossible, not just policy-prohibited, because the context injection happens in the policy engine before the agent's parameters are evaluated.
 
 A fully compromised agent in ProjectA, one executing arbitrary attacker instructions, can only resolve handles within ProjectA's vault scope. ProjectB's credentials remain inaccessible regardless of what the compromised agent attempts.
 
@@ -120,7 +120,7 @@ Kubernetes namespace isolation (stable since v1.8, production-hardened in v1.29+
 
 **RBAC with namespace-scoped ServiceAccounts**: each tenant gets a dedicated ServiceAccount with RoleBindings scoped to its own namespace. A ServiceAccount in `namespace-tenantA` cannot read Secrets, ConfigMaps, or other resources in `namespace-tenantB`. This prevents a compromised agent pod from extracting another tenant's Kubernetes Secrets.
 
-**NetworkPolicy with deny-all default**: apply a deny-all ingress and egress policy to every tenant namespace by default. Allowlist only required egress paths: the LLM API endpoint, external tool APIs the tenant's agents are authorized to call, and the mesh host for coordination. This prevents a compromised agent in TenantA's namespace from initiating connections to TenantB's agent pods or to the platform's internal infrastructure.
+**NetworkPolicy with deny-all default**: apply a deny-all ingress and egress policy to every tenant namespace by default. Allowlist only required egress paths: the LLM API endpoint, external tool APIs the tenant's agents are authorized to call, and the control plane for coordination. This prevents a compromised agent in TenantA's namespace from initiating connections to TenantB's agent pods or to the platform's internal infrastructure.
 
 **ResourceQuota with LimitRange**: apply per-namespace CPU, memory, and pod count limits via ResourceQuota. LimitRange sets per-pod resource ceilings to prevent a single misbehaving pod from consuming the entire namespace quota. These controls address the noisy-neighbor compute dimension: one tenant's heavy workload cannot starve other tenants' pods of CPU or memory.
 
@@ -134,7 +134,7 @@ The noisy-neighbor problem in multi-tenant agent systems has two distinct dimens
 
 **LLM API quota noisy neighbor**: one tenant's agents consuming the shared LLM API rate limit, causing 429 errors for other tenants' agents. Kubernetes controls do not address this; it requires per-tenant API key isolation or per-tenant rate tracking at the LLM gateway layer. With a shared API key, no Kubernetes configuration prevents TenantA from exhausting the rate budget available to TenantB.
 
-Per-tenant budget caps complement per-tenant API keys: each tenant has a daily and monthly LLM spend cap enforced at the gateway layer before each inference call. When TenantA's cap is reached, only TenantA's agents are blocked; TenantB continues normally. In OpenLegion, per-project budget caps are enforced at Zone 2. A $50/day cap on ProjectA does not affect ProjectB's inference access even if ProjectA exhausts its cap at 09:00 UTC.
+Per-tenant budget caps complement per-tenant API keys: each tenant has a daily and monthly LLM spend cap enforced at the gateway layer before each inference call. When TenantA's cap is reached, only TenantA's agents are blocked; TenantB continues normally. In OpenLegion, per-project budget caps are enforced by the policy engine. A credit cap on ProjectA does not affect ProjectB's inference access even if ProjectA exhausts its cap at 09:00 UTC.
 
 ## SOC 2 Compliance for Multi-Tenant Agent Platforms
 
@@ -160,7 +160,7 @@ SOC 2 Type II CC6.6 (Logical Access Restriction for Privileged Users) requires t
 
 CC6.6 compliance for agent platforms requires:
 
-**Structural prevention of cross-tenant elevated-permission calls**: an agent configured with TenantA's Stripe write credential must be architecturally prevented from processing TenantB's requests. This requires that tool permission scopes are tied to the tenant identity at the infrastructure layer: Zone 2 in OpenLegion's model, not to a parameter the agent supplies at call time.
+**Structural prevention of cross-tenant elevated-permission calls**: an agent configured with TenantA's Stripe write credential must be architecturally prevented from processing TenantB's requests. This requires that tool permission scopes are tied to the tenant identity at the infrastructure layer: the policy engine in OpenLegion's model, not to a parameter the agent supplies at call time.
 
 **Auditable privileged agent permission definitions**: the SOC 2 auditor must be able to see a list of which agents have which elevated permissions for each tenant. This requires permission definitions to be stored in auditable, version-controlled configuration, not set as environment variables that can be changed without a record.
 
@@ -194,7 +194,7 @@ Recommended partition design for multi-tenant agent audit logs:
 
 **Per-tenant SIEM workspace**: in shared SIEM deployments (Splunk, Elastic), configure per-tenant indexes or workspaces. TenantA's security team queries only their own index. Cross-tenant queries require an elevated role that is itself logged.
 
-In OpenLegion, the blackboard namespace (`{project_id}/*`) serves as the native audit partition; all state changes are scoped to the project namespace by the mesh ACL. Per-project WORM export of the blackboard version history produces a tenant-partitioned immutable audit record suitable for CC6.1 evidence.
+In OpenLegion, the project namespace (`{project_id}/*`) serves as the native audit partition; all state changes are scoped to the project namespace by the policy engine. Per-project WORM export of the receipt history produces a tenant-partitioned immutable audit record suitable for CC6.1 evidence.
 
 ## Anti-Patterns: What Not to Do
 
@@ -212,7 +212,7 @@ This fails in three ways:
 
 **No infrastructure enforcement**: if the agent constructs tool call parameters that include TenantB's resource IDs, the infrastructure layer will execute the call; there is no enforcement boundary the tool call must cross. The tenant constraint is only as reliable as the agent's instruction-following, which is never 100%.
 
-Correct pattern: `tenant_id` is injected at Zone 2 from the authenticated session, not from the system prompt. Tool calls referencing resources outside the authenticated tenant's scope are rejected at Zone 2 before execution, regardless of what the agent code provides as parameters.
+Correct pattern: `tenant_id` is injected by the policy engine from the authenticated session, not from the system prompt. Tool calls referencing resources outside the authenticated tenant's scope are rejected by the policy engine before execution, regardless of what the agent code provides as parameters.
 
 ### Anti-Pattern 2: Shared Vector Store Without Tenant Filters
 
@@ -236,14 +236,14 @@ The distinction between infrastructure-enforced isolation and convention-enforce
 
 Convention-enforced isolation depends on developers remembering to add `tenant_id` filters to every query, to use the correct credential for each tenant, to flush agent memory between tenant requests, and to write audit records with the right tenant tag. This works until it doesn't: one missed filter, one cached credential reference, one agent instance shared across two tenant requests. In a platform with dozens of agent types and thousands of tenant interactions per hour, convention-enforced isolation produces cross-tenant bleed events at a frequency proportional to the number of convention-dependent call sites.
 
-Infrastructure-enforced isolation removes the tenant boundary from the list of things a developer can accidentally break. The `tenant_id` filter is injected by the storage client wrapper. Credentials are resolved from a tenant-scoped vault scope. Blackboard ACLs are enforced by the mesh supervisor. The agent cannot violate the tenant boundary even if it tries, because the enforcement point is outside the agent's address space.
+Infrastructure-enforced isolation removes the tenant boundary from the list of things a developer can accidentally break. The `tenant_id` filter is injected by the storage client wrapper. Credentials are resolved from a tenant-scoped vault scope. Memory namespace ACLs are enforced by the policy engine. The agent cannot violate the tenant boundary even if it tries, because the enforcement point is outside the agent's address space.
 
 | **Isolation control** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
 | **Per-tenant credential vault scope** | Infrastructure-enforced | Developer convention | Developer convention | Developer convention | Developer convention |
-| **Blackboard namespace ACLs** | Infrastructure-enforced | Not available | Not available | Not available | Not available |
+| **Memory namespace ACLs** | Infrastructure-enforced | Not available | Not available | Not available | Not available |
 | **Cross-project agent messaging blocked** | Default-blocked | Not available | Not available | Not available | Not available |
-| **Per-tenant budget cap (Zone 2)** | Infrastructure-enforced | Developer convention | Developer convention | Developer convention | Developer convention |
+| **Per-tenant budget cap (policy engine)** | Infrastructure-enforced | Developer convention | Developer convention | Developer convention | Developer convention |
 | **Per-tenant audit partition (WORM)** | Infrastructure-enforced | Developer convention | Developer convention | Developer convention | Developer convention |
 | **Kubernetes namespace + ResourceQuota** | Managed by platform | Self-managed | Self-managed | Self-managed | Self-managed |
 
@@ -279,7 +279,7 @@ Using a shared vector store without mandatory per-query tenant filters injected 
 
 ### How does OpenLegion enforce tenant isolation?
 
-OpenLegion enforces tenant isolation through three infrastructure-layer mechanisms that agent code cannot bypass: per-project credential vault scoping (Zone 2 resolves `$CRED{}` handles using the authenticated project context from the mesh session, not from agent-supplied parameters; cross-project credential resolution is architecturally impossible), blackboard namespace ACLs (agents have read and write permissions only for their project's key prefix, enforced by the mesh supervisor at the write layer), and cross-project agent messaging blocked by default (the agent roster is scoped to the project, preventing agents in ProjectA from communicating with agents in ProjectB without explicit inter-project permission). Per-project budget caps enforced at Zone 2 prevent any one tenant's agents from exhausting LLM quota in a way that affects other tenants. The architectural guarantee is that tenant isolation does not depend on agent instruction-following; it is enforced by the infrastructure the agents run on.
+OpenLegion enforces tenant isolation through three infrastructure-layer mechanisms that agent code cannot bypass: per-project credential vault scoping (the policy engine resolves credential handles using the authenticated project context, not agent-supplied parameters; cross-project credential resolution is architecturally impossible), memory namespace ACLs (agents have read and write permissions only for their project's key prefix, enforced by the policy engine at the write layer), and cross-project agent messaging blocked by default (the agent roster is scoped to the project, preventing agents in ProjectA from communicating with agents in ProjectB without explicit inter-project permission). Per-project budget caps enforced by the policy engine prevent any one tenant's agents from exhausting LLM quota in a way that affects other tenants. The architectural guarantee is that tenant isolation does not depend on agent instruction-following; it is enforced by the infrastructure the agents run on.
 
 ### What are the three multi-tenancy architecture models for agent platforms?
 

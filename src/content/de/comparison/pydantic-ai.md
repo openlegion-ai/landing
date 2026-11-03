@@ -24,7 +24,7 @@ related:
 
 # Pydantic AI Alternative: Von der typsicheren Bibliothek zur Produktionsplattform
 
-PydanticAI ist ein Python-Agent-Framework mit 17.362 GitHub-Stars, das auf Pydantic-v2-Validierung aufbaut. Es liefert exzellente typsichere strukturierte Ausgaben und Dependency-Injection für Agent-Kontext, wird aber ohne Credential-Vault, ohne Prozessisolierung zwischen Agenten und ohne Laufzeit-Budget-Enforcement ausgeliefert, sodass Produktionssicherheit vollständig dem Entwickler überlassen bleibt. OpenLegion ist eine sicherheitsorientierte KI-Agent-Plattform mit obligatorischer Docker-Container-Isolierung, Vault-Proxy-Credential-Management (Agenten sehen niemals API-Keys) und agentenspezifischem Budget-Enforcement mit harten Limits.
+PydanticAI ist ein Python-Agent-Framework mit 17.362 GitHub-Stars, das auf Pydantic-v2-Validierung aufbaut. Es liefert exzellente typsichere strukturierte Ausgaben und Dependency-Injection für Agent-Kontext, wird aber ohne Credential-Vault, ohne Prozessisolierung zwischen Agenten und ohne Laufzeit-Budget-Enforcement ausgeliefert, sodass Produktionssicherheit vollständig dem Entwickler überlassen bleibt. OpenLegion ist eine gehostete, sicherheitsorientierte KI-Agent-Plattform mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault (das Modell sieht sie niemals) und agentenspezifischen Credit-Budgets mit harten Limits.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -43,18 +43,18 @@ Diese Lücken lassen sich nicht mit einer einzelnen Bibliothek schließen. Sie e
 
 | Dimension | OpenLegion | PydanticAI |
 |---|---|---|
-| **Typ** | Ausführungsplattform (BSL 1.1) | Agent-Bibliothek (MIT) |
-| **Credential-Modell** | Vault-Proxy — Agenten sehen niemals rohe Keys | Dependency-Injection via RunContext — Keys im Prozess-Speicher |
-| **Agent-Isolierung** | Docker-Container pro Agent, Non-Root, no-new-privileges | Gemeinsamer Python-Prozess; keine Container-Isolierung |
-| **Budget-Kontrollen** | Agentenspezifisches tägliches/monatliches hartes Limit | Keine — nur nachträgliche result.usage()-Berichterstattung |
-| **Multi-Agent-Koordination** | Fleet-Modell — Blackboard + Pub/Sub + Handoff | Agent-als-Tool-Delegation; gemeinsamer Speicher |
+| **Typ** | Gehostete Ausführungsplattform (Engine PolyForm Perimeter 1.0.1) | Agent-Bibliothek (MIT) |
+| **Credential-Modell** | Im Vault — das Modell hält immer nur ein Handle | Dependency-Injection via RunContext — Keys im Prozess-Speicher |
+| **Agent-Isolierung** | Ein Sandbox-Lauf für jede Aufgabe, standardmäßig ohne Netzwerk | Gemeinsamer Python-Prozess; keine Container-Isolierung |
+| **Budget-Kontrollen** | Agentenspezifisches Credit-Budget mit hartem Limit | Keine — nur nachträgliche result.usage()-Berichterstattung |
+| **Multi-Agent-Koordination** | Ziele und Aufgaben — Ziele → Aufgaben → Agenten | Agent-als-Tool-Delegation; gemeinsamer Speicher |
 | **Strukturierte Ausgaben** | Tool-Call-Schema-Validierung | Pydantic-v2-typisierte Response-Modelle (wichtiges Alleinstellungsmerkmal) |
 | **Offline-Evals** | Nicht eingebaut | pydantic_evals (experimentell) |
-| **Graph/Workflow** | Fleet-Modell-Koordination | pydantic_graph (v2-Umschreibung in Arbeit, PR #5465) |
+| **Graph/Workflow** | Ziel-und-Aufgaben-Koordination | pydantic_graph (v2-Umschreibung in Arbeit, PR #5465) |
 | **v2-Migrationsrisiko** | Nicht zutreffend | Brechende API-Änderung am Graph-Builder in Arbeit (Mai 2026) |
-| **Bekannte CVEs** | 0 | 0 (keine sicherheitsrelevanten CVEs gemeldet) |
-| **GitHub-Stars** | ~59 | ~17.362 |
-| **Lizenz** | BSL 1.1 | MIT |
+| **Bekannte CVEs** | Keine veröffentlicht | 0 (keine sicherheitsrelevanten CVEs gemeldet) |
+| **GitHub-Stars** | Engine source-available | ~17.362 |
+| **Lizenz** | Engine PolyForm Perimeter 1.0.1; Plattform proprietär | MIT |
 
 ## OpenLegions Einschätzung
 
@@ -62,7 +62,7 @@ PydanticAI ist in dem, was es tut, wirklich ausgezeichnet. Pydantic-v2-Validieru
 
 Die Produktionslücke ist architektonisch, kein Bug. API-Keys, die als RunContext[MyDeps] übergeben werden, leben als Attribute einer Python-Dataclass im Prozess-Speicher. Jeder Code, der im selben Prozess läuft — einschließlich Inhalte, die per Prompt-Injection aus einem böswilligen Tool-Ergebnis eingeschleust werden (OWASP LLM02, 2025 Top 10) — hat denselben Prozess-Level-Zugriff auf diese Credential-Werte wie der Agent-Code. pydantic_graph (das Workflow-Rückgrat) befindet sich in der Umschreibung: PR #5465 führt eine brechende Änderung an der Graph-Builder-API ohne stabiles Fertigstellungsdatum ein (Stand Mai 2026).
 
-OpenLegion baut die Ausführungsschicht, die PydanticAI-Entwickler von Grund auf zusammensetzen: Vault-Proxy für Credentials (niemals im Prozess-Speicher), Docker-Container pro Agent (kein gemeinsamer Zustand zwischen Agenten), harte Budget-Limits (keine nachträgliche Nutzungsverfolgung) und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff) für beobachtbare Multi-Agent-Workflows.
+OpenLegion baut die Ausführungsschicht, die PydanticAI-Entwickler von Grund auf zusammensetzen: einen Vault für Credentials (niemals im Kontext des Modells), einen Sandbox-Lauf pro Aufgabe (kein gemeinsamer Zustand zwischen Agenten), harte Credit-Budgets (keine nachträgliche Nutzungsverfolgung) und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten) für beobachtbare Multi-Agent-Workflows.
 
 ## PydanticAI vs. OpenLegion: Vergleich
 
@@ -70,19 +70,19 @@ OpenLegion baut die Ausführungsschicht, die PydanticAI-Entwickler von Grund auf
 
 **PydanticAI** verwendet Dependency-Injection. Sie definieren eine Dataclass mit API-Keys als Felder und übergeben sie zur Laufzeit über RunContext[MyDeps]. Dies ist sauber und testbar. Der API-Key lebt jedoch als Python-Objekt-Attribut im Prozess-Heap, zugänglich für jeden Code im selben Prozess.
 
-**OpenLegion** verwendet einen Vault-Proxy. API-Keys werden im Mesh-Host-Credential-Vault gespeichert, niemals im Agent-Container. Wenn ein Agent einen authentifizierten API-Call macht, wird die Anfrage über den Vault-Proxy geleitet, der die Credential auf Netzwerkebene einfügt. Der Agent-Code empfängt, hält oder loggt den rohen Key niemals.
+**OpenLegion** verwendet einen Credential-Vault. API-Keys liegen im Vault, niemals im Kontext des Agenten. Wenn ein Agent einen authentifizierten API-Call macht, injiziert die Policy-Engine das Credential außerhalb des Modells, das immer nur ein Handle hält. Der Agent empfängt, hält oder loggt den rohen Key niemals.
 
 ### Agent-Isolierung
 
 **PydanticAI** führt alle Agenten im selben Python-Prozess aus. Ein Agent-als-Tool-Call bedeutet, dass Agent A Agent B als Funktionsaufruf im selben Laufzeitumgebung aufruft. Sie teilen den Heap, die Umgebung und den Interpreter. Ein Bug oder eine erfolgreiche Prompt-Injection in Agent B hat denselben Prozess-Level-Zugriff wie Agent A.
 
-**OpenLegion** führt jeden Agenten in seinem eigenen Docker-Container aus mit Non-Root-Ausführung (UID 1000), no-new-privileges, konfigurierbaren Speicherlimits, einem Read-Only-Root-Filesystem und ohne Docker-Socket. Agenten kommunizieren über den Mesh-Host-Blackboard, nicht durch direkte Prozessaufrufe.
+**OpenLegion** führt jede Aufgabe bei Bedarf aus und beendet sie danach, und Code, den der Agent schreibt, läuft in einer Sandbox ohne standardmäßigen Netzwerkzugriff. Agenten kommunizieren über das gemeinsame Verzeichnis aus Zielen und Aufgaben, nicht durch direkte Prozessaufrufe.
 
 ### Budget-Kontrollen
 
 **PydanticAI** bietet result.usage(), das Token-Zählungen und Anforderungszählungen nach Abschluss eines Runs zurückgibt. Das ist nachträgliche Berichterstattung. Es gibt keinen Mechanismus, einen Agenten automatisch zu stoppen, wenn er eine Kostenschwelle überschreitet.
 
-**OpenLegion** erzwingt agentenspezifische tägliche und monatliche Budget-Limits mit automatischem hartem Cutoff auf Orchestrator-Ebene.
+**OpenLegion** gibt jedem Agenten ein eigenes Credit-Budget, abgerechnet zu je $0,001, mit automatischem hartem Cutoff.
 
 ## Was PydanticAI gut macht
 
@@ -118,7 +118,7 @@ PydanticAI verfolgt die Nutzung über result.usage() (Token- und Anforderungszä
 
 ## OpenLegion als Pydantic AI Alternative
 
-OpenLegion bietet die Ausführungsschicht, die PydanticAI-Entwickler von Grund auf zusammensetzen: Vault-Proxy-Credential-Management ersetzt RunContext-Credential-Injection. Docker-Container pro Agent ersetzt Shared-Process-Ausführung. Agentenspezifisches Budget-Enforcement mit harten Limits ersetzt nachträgliche result.usage()-Berichterstattung. Fleet-Modell-Koordination ersetzt Agent-als-Tool-Delegation.
+OpenLegion bietet die Ausführungsschicht, die PydanticAI-Entwickler von Grund auf zusammensetzen: Credentials im Vault ersetzen RunContext-Credential-Injection. Ein Sandbox-Lauf pro Aufgabe ersetzt Shared-Process-Ausführung. Agentenspezifische Credit-Budgets mit harten Limits ersetzen nachträgliche result.usage()-Berichterstattung. Ziel-und-Aufgaben-Koordination ersetzt Agent-als-Tool-Delegation.
 
 Ehrlicher Trade-off: Sie verlieren typisierte Pydantic-v2-Response-Modelle und pydantic_evals. Das sind echte Verluste für Teams, die sich darauf stützen.
 
@@ -146,11 +146,11 @@ Erkunden Sie das [vollständige Agent-Framework-Vergleich](/learn/ai-agent-frame
 
 ### Was ist die beste PydanticAI-Alternative 2026?
 
-Für Teams, die eine vollständige Ausführungsplattform mit Credential-Isolierung, Container-Level-Agent-Trennung und harten Budget-Limits benötigen, ist OpenLegion dafür konzipiert. Für Teams, die primär typisierte LLM-Ausgabe-Pipelines mit starken Offline-Evals erstellen, bleibt PydanticAI die beste Python-Bibliothek für diese spezifische Aufgabe.
+Für Teams, die eine vollständige Ausführungsplattform mit Credential-Isolierung, gesandboxter Aufgabenausführung und harten Budget-Limits benötigen, ist OpenLegion dafür konzipiert. Für Teams, die primär typisierte LLM-Ausgabe-Pipelines mit starken Offline-Evals erstellen, bleibt PydanticAI die beste Python-Bibliothek für diese spezifische Aufgabe.
 
 ### Hat PydanticAI einen Credential-Vault?
 
-Nein. PydanticAI verwendet Dependency-Injection über RunContext — Sie definieren eine Dataclass mit API-Keys als Felder und übergeben sie zur Laufzeit. API-Keys leben als Python-Objekt-Attribute im Prozess-Speicher, zugänglich für jeden Code im selben Prozess. OpenLegion-Vault-Proxy injiziert Credentials auf Netzwerkebene, sodass Agent-Code den rohen Key-Wert niemals in irgendeiner Form hält.
+Nein. PydanticAI verwendet Dependency-Injection über RunContext — Sie definieren eine Dataclass mit API-Keys als Felder und übergeben sie zur Laufzeit. API-Keys leben als Python-Objekt-Attribute im Prozess-Speicher, zugänglich für jeden Code im selben Prozess. Der OpenLegion-Vault injiziert Credentials außerhalb des Modells, sodass der Agent den rohen Key-Wert niemals in irgendeiner Form hält.
 
 ### Ist PydanticAI 2026 produktionsreif?
 
@@ -166,7 +166,7 @@ pydantic_evals ist der PydanticAI Offline-Evaluierungs-Harness — Sie definiere
 
 ### Kann PydanticAI agentenspezifische Budget-Limits durchsetzen?
 
-Nein. PydanticAI hat keinen eingebauten Mechanismus, um Agent-API-Ausgaben zu begrenzen oder einen Agenten zu stoppen, der eine Kostenschwelle überschreitet. Nutzungsverfolgung ist über result.usage() verfügbar — nachträgliche Berichterstattung, kein präventives Enforcement. OpenLegion erzwingt harte agentenspezifische tägliche und monatliche Budget-Limits mit automatischem Cutoff auf Plattform-Ebene.
+Nein. PydanticAI hat keinen eingebauten Mechanismus, um Agent-API-Ausgaben zu begrenzen oder einen Agenten zu stoppen, der eine Kostenschwelle überschreitet. Nutzungsverfolgung ist über result.usage() verfügbar — nachträgliche Berichterstattung, kein präventives Enforcement. OpenLegion erzwingt ein hartes agentenspezifisches Credit-Budget mit automatischem Cutoff auf Plattform-Ebene.
 
 ### Was bedeutet die pydantic_graph v2-Umschreibung für PydanticAI-Nutzer?
 

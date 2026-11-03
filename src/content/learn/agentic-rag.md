@@ -78,7 +78,7 @@ The most production-ready agentic RAG architecture: a dedicated retriever agent 
 
 This split has two production advantages. First, retrieval and synthesis can be scaled independently — retriever agents can be parallelized across sub-questions while a single synthesizer aggregates results. Second, the schema-validated handoff is a security boundary: the synthesizer receives typed chunk objects, not arbitrary text, limiting the blast radius of a corpus injection attack. Malicious instructions embedded in retrieved chunks are data, not prompts, if the synthesizer is architected to treat handoff payload fields as content rather than instructions.
 
-OpenLegion implements this pattern natively: retriever agents log every vector DB query as a tool call on the shared blackboard, and the typed handoff to the synthesizer is schema-enforced at the mesh layer. See [AI agent tool use and access control](/learn/ai-agent-tool-use) for tool-level isolation patterns that apply to retriever agents.
+OpenLegion implements this pattern natively: retriever agents record every vector DB query as a tool call with a receipt, and the typed handoff to the synthesizer is a delegation the policy engine checks before it happens. See [AI agent tool use and access control](/learn/ai-agent-tool-use) for tool-level isolation patterns that apply to retriever agents.
 
 ## Retrieval Techniques: Beyond Dense Vector Search
 
@@ -180,7 +180,7 @@ Scrub before ingestion: run PII detection (spaCy NER, Amazon Comprehend, Presidi
 
 The typed handoff between retriever and synthesizer agents is not just an architectural pattern — it is a security boundary. The retriever's typed payload schema defines exactly what can be passed to the synthesizer: chunk text, source URL, relevance score, metadata fields. Arbitrary strings that look like instructions are `content`, not `instruction` fields, and the synthesizer prompt frames them accordingly.
 
-This schema enforcement limits the blast radius of corpus injection: even if a malicious chunk is retrieved, it enters the synthesizer's context as typed data in a structured field, not as free-form text that could be mistaken for a system instruction. OpenLegion's mesh-layer handoff validation enforces payload schema at transport time — the synthesizer cannot receive a payload that does not match the registered retrieval schema. See [AI agent security and threat model](/learn/ai-agent-security) for the full threat surface that corpus security addresses.
+This schema enforcement limits the blast radius of corpus injection: even if a malicious chunk is retrieved, it enters the synthesizer's context as typed data in a structured field, not as free-form text that could be mistaken for a system instruction. In OpenLegion the handoff is a delegation the policy engine checks before it happens, and acting on untrusted content is one of the three walls where work stops for an owner's approval. See [AI agent security and threat model](/learn/ai-agent-security) for the full threat surface that corpus security addresses.
 
 ## OpenLegion's Take: Every Retrieval Call Is a Logged Tool Call
 
@@ -188,16 +188,16 @@ Most RAG implementations treat retrieval as an invisible internal operation. Lan
 
 This invisibility creates three production problems. First, there is no audit trail for what documents were retrieved in response to which queries — impossible to answer "why did the agent say X?" after the fact. Second, there is no access control enforcement at the retrieval layer — an agent can query any document in the corpus regardless of whether the user is authorized to access that document. Third, latency degradation in the vector DB — a common production issue — is not visible as a discrete event; it appears as overall agent slowness.
 
-In OpenLegion, every vector DB query is a logged tool call: timestamp, agent_id, query text, retrieved document IDs and scores, metadata filters applied, latency in milliseconds. The blackboard audit trail enables query anomaly detection (an agent issuing 50 retrieval calls per session vs. a baseline of 5 is flagged), access control violation signals (a retriever agent querying outside its authorized corpus scope), and latency degradation monitoring (a retrieval tool call taking 800ms vs. a 150ms baseline triggers an alert).
+In OpenLegion, every vector DB query is a recorded tool call: timestamp, agent identity, query text, retrieved document IDs and scores, metadata filters applied, latency in milliseconds. The receipt trail enables query anomaly detection (an agent issuing 50 retrieval calls per session vs. a baseline of 5 is flagged), access control violation signals (a retriever agent querying outside its authorized corpus scope), and latency degradation monitoring (a retrieval tool call taking 800ms vs. a 150ms baseline triggers an alert).
 
 | **Dimension** | **OpenLegion** | **LangChain LCEL** | **LlamaIndex** | **AutoGen** | **CrewAI** |
 |---|---|---|---|---|---|
-| **Retrieval calls logged as tool calls** | Yes — blackboard audit log, every query | No — opt-in callbacks only | No — opt-in observability hooks | No — no native retrieval logging | No — no native retrieval logging |
-| **Retriever/synthesizer agent isolation** | Yes — typed handoff, schema-enforced at mesh | No — single LCEL chain, no agent boundary | Optional — requires explicit agent composition | No — single conversation context | No — single crew context |
-| **Embedding API credential vault** | Yes — `$CRED{embedding_key}` opaque handle, never in agent memory | No — API key in env or chain config | No — API key in env or service context | No — API key in agent config | No — API key in env |
+| **Retrieval calls logged as tool calls** | Yes — a receipt for every query | No — opt-in callbacks only | No — opt-in observability hooks | No — no native retrieval logging | No — no native retrieval logging |
+| **Retriever/synthesizer agent isolation** | Yes — delegation checked by the policy engine | No — single LCEL chain, no agent boundary | Optional — requires explicit agent composition | No — single conversation context | No — single crew context |
+| **Embedding API credential vault** | Yes — an opaque handle, the key never reaches the model | No — API key in env or chain config | No — API key in env or service context | No — API key in agent config | No — API key in env |
 | **Per-retrieval access control** | Configurable — corpus scope enforced per retriever agent | Not built-in | Not built-in | Not built-in | Not built-in |
 | **Corpus injection detection** | Chunk content logged; anomaly detection via audit trail | Not built-in | Not built-in | Not built-in | Not built-in |
-| **Blackboard audit trail for retrieved docs** | Yes — doc IDs, scores, filters per query | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Receipt audit trail for retrieved docs** | Yes — doc IDs, scores, filters per query | Not built-in | Not built-in | Not built-in | Not built-in |
 
 ## Evaluation: Measuring Agentic RAG Quality
 
@@ -256,4 +256,4 @@ Agentic RAG closes the quality gap on complex questions that single-pass RAG can
 
 For the broader agentic workflow context that retrieval fits into, see [agentic workflow execution patterns](/learn/agentic-workflows). For how retrieval integrates with agent long-term memory, see [AI agent memory and retrieval patterns](/learn/ai-agent-memory).
 
-[Build agentic RAG pipelines with vault-isolated embedding credentials, per-retrieval access control, and blackboard-logged retrieval audit trails on OpenLegion →](https://app.openlegion.ai)
+[Build agentic RAG pipelines with vault-isolated embedding credentials, per-retrieval access control, and receipt-logged retrieval audit trails on OpenLegion →](https://app.openlegion.ai)

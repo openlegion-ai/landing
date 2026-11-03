@@ -59,9 +59,9 @@ CVE-2024-5184 (Palo Alto Unit 42, Juni 2024, CVSS 9,1 KRITISCH) zeigte, dass Pro
 Die diagnostische Frage an jeden AaaS-Anbieter: **"Wenn das vollständige Kontext-Fenster meines Agenten durch Prompt-Injection extrahiert wird, welche Credentials sind gefährdet?"** Die korrekte Antwort lautet: keine.
 
 - **AWS Bedrock Agents**: IAM-Rollenübernahme pro Aufruf; der Agent führt unter einem temporären IAM-Rollen-Token aus und hält nie einen rohen API-Schlüssel
-- **OpenLegion**: `$CRED{}`-Handle-Auflösung in Zone 2; Agent-Code referenziert einen Credential nach Name; Zone 2 löst den Handle zum Ausführungszeitpunkt auf, ohne ihn an den Agenten zurückzugeben
+- **OpenLegion**: Credential-Handle-Auflösung in der Policy-Engine; ein Agent referenziert einen Credential nach Name; die Policy-Engine löst den Handle zum Ausführungszeitpunkt auf, ohne ihn an das Modell zurückzugeben
 
-Für das Vault-Proxy-Pattern und die `$CRED{}`-Handle-Architektur siehe [Credential-Management und mandantenspezifische API-Key-Bereiche für KI-Agenten](/learn/credential-management-ai-agents).
+Für das Credential-Vault-Pattern und die Handle-Architektur siehe [Credential-Management und mandantenspezifische API-Key-Bereiche für KI-Agenten](/learn/credential-management-ai-agents).
 
 ## Die AaaS-Anbieter-Landschaft 2026
 
@@ -144,7 +144,7 @@ AaaS-Plattformen müssen Prompt-Isolierung durchsetzen: der System-Prompt, der K
 **Infrastruktur-Ebenen-Isolierung (stärkste):**
 - AWS Bedrock Agents: separate IAM-Rollen pro Mandant
 - Google Agent Space: Isolierung über Google Cloud-Projektgrenzen
-- OpenLegion: Blackboard-Namespace-ACL pro Projekt
+- OpenLegion: ACL pro Workspace auf dem gemeinsamen Verzeichnis aus Zielen und Aufgaben
 
 **System-Prompt-Ebenen-Isolierung (schwächste):** Scheitert, wenn Prompt-Injection die Mandantenanweisung überschreibt (OWASP LLM06:2023).
 
@@ -207,14 +207,14 @@ Drei konkrete Zahlen:
 
 | **Sicherheitskontrolle** | **OpenLegion** | **AWS Bedrock Agents** | **Google Agent Space** | **OpenAI Operator** | **LangGraph (self-hosted)** |
 |---|---|---|---|---|---|
-| **Credential-Vault mit $CRED{}-Handle-Auflösung** | Zone 2, architektonisch | IAM-Rollenübernahme | Service-Account-Bereiche | Sitzungsisolierung | Entwickler-Verantwortung |
-| **Tagesbudget-Obergrenze pro Agent (Infrastruktur-Ebene)** | Zone 2, 0--50 USD/Tag | Nicht verfügbar | Nicht verfügbar | Nicht verfügbar | Entwickler-Verantwortung |
-| **Blackboard-ACL pro Mandanten-Projekt** | Architektonisch | IAM-basiert | Projektbasiert | Nicht zutreffend | Entwickler-Verantwortung |
+| **Credential-Vault mit Handle-Auflösung** | Vault-durchgesetzt, architektonisch | IAM-Rollenübernahme | Service-Account-Bereiche | Sitzungsisolierung | Entwickler-Verantwortung |
+| **Tagesbudget-Obergrenze pro Agent (Infrastruktur-Ebene)** | Policy-Engine, Credits pro Agent | Nicht verfügbar | Nicht verfügbar | Nicht verfügbar | Entwickler-Verantwortung |
+| **Shared-State-ACL pro Mandanten-Projekt** | Architektonisch | IAM-basiert | Projektbasiert | Nicht zutreffend | Entwickler-Verantwortung |
 | **Tool-Berechtigungsbereiche pro Agent** | Laufzeit-durchgesetzt | Aktionsgruppen-IAM | IAM-basiert | Nicht zutreffend | Entwickler-Verantwortung |
 | **WORM-Auditprotokoll pro Mandant (SOC 2 CC6.1)** | Nativ | CloudTrail | Cloud Audit Logs | Nicht zutreffend | Entwickler-Verantwortung |
-| **Agenten-Definition in Git** | INSTRUCTIONS.md | Konsole/API | Konsole/API | Nicht zutreffend | Entwickler-Verantwortung |
+| **Agenten-Definition in Git** | Nicht in Git — in der App, jede Änderung auditiert | Konsole/API | Konsole/API | Nicht zutreffend | Entwickler-Verantwortung |
 
-[Jetzt mit OpenLegion starten](https://app.openlegion.ai) -- Agenten mit architektonischer Credential-Isolierung, Pro-Agent-Tagesausgaben-Obergrenzen in Zone 2 und Blackboard-ACLs bereitstellen.
+[Jetzt mit OpenLegion starten](https://app.openlegion.ai) -- Agenten mit architektonischer Credential-Isolierung über Credential-Handles im Vault, Pro-Agent-Credit-Budgets in der Policy-Engine und ACLs pro Workspace bereitstellen.
 
 <!-- SCHEMA: FAQPage -->
 
@@ -238,7 +238,7 @@ OpenAI Operator, gestartet im Januar 2025, ist das erste Mainstream-Consumer-Aaa
 
 ### Wie funktioniert Credential-Isolierung in AaaS-Plattformen?
 
-Credential-Isolierung bedeutet, dass die Plattform die LLM-API-Schlüssel, Datenbank-Credentials oder Tool-Secrets des Kunden nie an Agent-Code oder andere Mandanten weitergibt. AWS Bedrock Agents erreicht dies durch IAM-Rollenübernahme. OpenLegion verwendet `$CRED{}`-Handle-Auflösung in Zone 2: Agent-Code referenziert einen Credential nach Name; Zone 2 löst den tatsächlichen Wert zur Ausführungszeit auf, ohne ihn an den Agenten zurückzugeben.
+Credential-Isolierung bedeutet, dass die Plattform die LLM-API-Schlüssel, Datenbank-Credentials oder Tool-Secrets des Kunden nie an Agent-Code oder andere Mandanten weitergibt. AWS Bedrock Agents erreicht dies durch IAM-Rollenübernahme. OpenLegion verwendet Credential-Handles im Vault: Ein Agent referenziert einen Credential nach Name; die Policy-Engine löst den tatsächlichen Wert zur Ausführungszeit auf, ohne ihn an das Modell zurückzugeben.
 
 ### Welche Sicherheitsrisiken sind spezifisch für AaaS-Plattformen?
 

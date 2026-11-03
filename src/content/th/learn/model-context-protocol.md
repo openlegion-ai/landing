@@ -3,7 +3,7 @@ title: Model Context Protocol (MCP) — วิธีที่ AI Agent ใช้
 description: >-
   Model Context Protocol (MCP) คือมาตรฐานเปิดของ Anthropic ที่ให้ AI agent
   ค้นพบและเรียกเครื่องมือภายนอก วิธีการทำงาน ข้อควรระวังด้านความปลอดภัย
-  และการรองรับ MCP ของ OpenLegion
+  และสิ่งที่ OpenLegion ทำแทน
 slug: /learn/model-context-protocol
 primary_keyword: model context protocol
 secondary_keywords:
@@ -74,14 +74,14 @@ MCP เป็นโปรโตคอล *capability-exposure* — ไม่ใ�
 
 ## วิธีที่ OpenLegion ผสาน MCP
 
-OpenLegion เป็น MCP client โดยค่าเริ่มต้น เอเจนต์ในรันไทม์ค้นพบ MCP server ที่ตั้งค่าสำหรับฝูงของตนอัตโนมัติ, เห็นรายการเครื่องมือใน context window ของตน และเรียกเครื่องมือ MCP ผ่าน path ผ่าน vault proxy, gate ด้วย ACL เหมือนกับ skill ในตัว Mesh บังคับชั้นระดับโปรดักชันที่ MCP ละไว้:
+MCP ยังไม่พร้อมใช้บน OpenLegion ตอนเปิดตัว เอเจนต์ใช้ชุดเครื่องมือในตัวของ OpenLegion เอง และทุกการเรียกใช้เส้นทางเดียวกัน: เป็นเจตนาที่ policy engine เดียวตรวจสอบก่อนเกิดขึ้น แล้วบันทึกเป็นใบเสร็จที่เจ้าของอ่านได้ นั่นคือชั้นระดับโปรดักชันที่ MCP จงใจละไว้:
 
-- MCP server แต่ละตัวรันใน namespace ที่ sandbox ของตัวเอง; เอเจนต์ไม่เคยได้รับการเข้าถึง stdio โดยตรงกับโพรเซส server
-- ACL รายเอเจนต์ gate ว่า MCP server ใดที่เอเจนต์ที่กำหนดได้รับอนุญาตให้เรียก
-- ทุก tool call นับเข้างบประมาณรายเอเจนต์ของเอเจนต์; เอเจนต์ที่เกินเพดานจะถูกตัดไม่ว่าการใช้จ่ายจะมาจาก LLM หรือ MCP tool
-- Mesh บันทึกการเรียก MCP ทุกครั้งลงใน trace log — telemetry เดียวกันที่ครอบคลุมใน[การ observe AI agent](/learn/ai-agent-observability)
+- โค้ดที่เอเจนต์เขียนรันในแซนด์บ็อกซ์ที่ไม่มีการเข้าถึงเครือข่ายเป็นค่าเริ่มต้น; เอเจนต์ไม่เคยได้รับการเข้าถึง stdio โดยตรงกับโพรเซสของโฮสต์
+- สิทธิ์รายเอเจนต์ gate ว่าเครื่องมือใดที่เอเจนต์ที่กำหนดได้รับอนุญาตให้เรียก
+- ทุก tool call นับเข้างบประมาณเครดิตของเอเจนต์เอง; เอเจนต์ที่ใช้หมดจะถูกตัดไม่ว่าการใช้จ่ายจะมาจากโมเดลหรือจากเครื่องมือ
+- ทุกการเรียกถูกบันทึกพร้อมตัวตนของเอเจนต์ เวลา และต้นทุนที่แน่นอน — telemetry เดียวกันที่ครอบคลุมใน[การ observe AI agent](/learn/ai-agent-observability)
 
-ผลลัพธ์: คุณได้ความกว้างของระบบนิเวศ MCP โดยไม่สืบทอดสมมติฐานความเชื่อใจค่าเริ่มต้นของมัน
+ผลลัพธ์: พื้นผิวเครื่องมือที่แคบกว่าระบบนิเวศ MCP และไม่สืบทอดสมมติฐานความเชื่อใจค่าเริ่มต้นของมันเลย
 
 ## มุมมองของ OpenLegion
 
@@ -120,4 +120,4 @@ OpenAI function calling เป็นรูปแบบผู้ขายเด�
 
 ### ฉันใช้ MCP กับผู้ให้บริการ LLM ใดก็ได้หรือไม่
 
-ได้ MCP ไม่ผูกกับ LLM — client render นิยาม tool MCP เป็นรูปแบบใดก็ตามที่ LLM พื้นฐานคาดหวัง (Anthropic tool use, OpenAI function calling, Gemini function declaration) รันไทม์อย่าง OpenLegion ที่รองรับผู้ให้บริการ 100+ รายผ่าน LiteLLM ปรับ MCP tool เข้ากับ convention การเรียกของผู้ให้บริการแต่ละรายอัตโนมัติ
+ได้ MCP ไม่ผูกกับ LLM — client render นิยาม tool MCP เป็นรูปแบบใดก็ตามที่ LLM พื้นฐานคาดหวัง (Anthropic tool use, OpenAI function calling, Gemini function declaration) รันไทม์ที่ซ่อนการเลือกผู้ให้บริการไว้หลังพรีเซ็ตโมเดล อย่างที่ OpenLegion เสนอ Smartest, Smart และ Normal ปรับนิยาม tool เข้ากับ convention การเรียกของผู้ให้บริการแต่ละรายให้คุณ

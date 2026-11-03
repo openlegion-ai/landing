@@ -164,16 +164,16 @@ Las llamadas de herramientas con efectos secundarios irreversibles — enviar co
 
 Cada proveedor principal de LLM tiene una API de llamada de herramientas diferente. La abstracción correcta: definir una herramienta una vez y dejar que el framework la traduzca a la convención correcta del proveedor en el momento de la llamada.
 
-El registro de herramientas de OpenLegion implementa esta abstracción. Definir `search_web` una vez. El mesh traduce la definición a OpenAI `tools`, Anthropic `tools` o Gemini `functionDeclarations` según el modelo configurado. La puerta ACL no es opcional. Cada llamada de herramienta — integrada, MCP o personalizada — pasa por la matriz de permisos por agente antes de la ejecución.
+El registro de herramientas de OpenLegion implementa esta abstracción. Definir `search_web` una vez. La plataforma traduce la definición a OpenAI `tools`, Anthropic `tools` o Gemini `functionDeclarations` según el modelo al que resuelva el preset del agente. La puerta ACL no es opcional. Cada llamada de herramienta — integrada, MCP o personalizada — pasa por la matriz de permisos por agente antes de la ejecución.
 
 | **Dimensión** | **OpenLegion** | **LangChain / LangGraph** | **OpenAI Agents SDK** | **CrewAI** | **Anthropic directo** |
 |---|---|---|---|---|---|
 | **Formato de definición de herramienta** | Esquema único traducido por proveedor | Wrappers específicos de proveedor requeridos | Solo formato OpenAI | Decorador de herramienta CrewAI | Solo formato Anthropic tool_use |
-| **Abstracción de proveedor** | Sí — GPT-4o, Claude, Gemini unificados | Parcial — vía integraciones LangChain | No — solo modelos OpenAI | Parcial | No — solo Anthropic |
+| **Abstracción de proveedor** | Sí — un preset, proveedor abstraído | Parcial — vía integraciones LangChain | No — solo modelos OpenAI | Parcial | No — solo Anthropic |
 | **Aplicación ACL** | Matriz de permisos por agente, estructural | No integrada | No integrada | No integrada | No integrada |
 | **Llamadas de herramientas paralelas** | Soportado | Soportado (dependiente del proveedor) | Sí — predeterminado en Responses API | Soportado | Sí — Claude soporta |
-| **Herramientas integradas** | Navegador, archivo, HTTP, shell, gen. imágenes | Vía herramientas de la comunidad LangChain | web_search, file_search, computer_use | No integrado | No integrado |
-| **Integración MCP** | Nativa — mismo pipeline ACL/presupuesto | Vía adaptadores LangChain MCP | Experimental | No nativa | No nativa |
+| **Herramientas integradas** | Archivo, HTTP, código en sandbox, Calendar, Drive | Vía herramientas de la comunidad LangChain | web_search, file_search, computer_use | No integrado | No integrado |
+| **Integración MCP** | No conectada en el lanzamiento | Vía adaptadores LangChain MCP | Experimental | No nativa | No nativa |
 
 Para la especificación MCP, arquitectura de servidores y requisitos de permisos por servidor, ver la [guía del protocolo Model Context](/learn/model-context-protocol).
 
@@ -181,7 +181,7 @@ Para la especificación MCP, arquitectura de servidores y requisitos de permisos
 
 ### Herramientas integradas del runtime
 
-Las herramientas integradas vienen reforzadas por el runtime: automatización del navegador, operaciones de archivos, solicitudes HTTP, comandos de shell, generación de imágenes. Usar primero las herramientas integradas.
+Las herramientas integradas vienen reforzadas por la plataforma: operaciones de archivos, solicitudes HTTP, código en un sandbox y los conectores de Google Calendar y Drive. Usar primero las herramientas integradas.
 
 ### Servidores de herramientas MCP
 
@@ -189,7 +189,7 @@ Las herramientas MCP son servidas por servidores Model Context Protocol que expo
 
 ### Registro de herramientas personalizadas
 
-Las herramientas personalizadas son funciones Python o TypeScript que se escriben y registran en el registro de herramientas del agente. Ofrecen flexibilidad total; la contrapartida es que se es responsable de la validación, el manejo de errores, la idempotencia y los controles de seguridad.
+Las herramientas personalizadas son funciones Python o TypeScript que se escriben y registran en el registro de herramientas del agente. Ofrecen flexibilidad total; la contrapartida es que se es responsable de la validación, el manejo de errores, la idempotencia y los controles de seguridad. Cualquier herramienta personalizada pasa por el mismo motor de políticas y presupuesto de créditos que las integradas.
 
 <!-- SCHEMA: FAQPage -->
 ## Preguntas frecuentes

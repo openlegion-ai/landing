@@ -32,7 +32,7 @@ Every agent process that holds a plaintext provider key in its environment is on
 
 Prompt injection attacks that cause agents to echo environment state are a documented attack class against agents holding plaintext keys (OWASP LLM01:2025). The structural fix is not better input validation: it is removing the plaintext key from the agent process entirely. An LLM gateway that resolves opaque handles (`$CRED{openai}`) at the wire layer before the Authorization header is written means the agent process never holds material that can be exfiltrated. The handle is not a key; resolving it produces a key only within the gateway's own memory scope, for the duration of one upstream request.
 
-OpenLegion's mesh implements this at the infrastructure level: `$CRED{}` handles resolve at the mesh host boundary. Agent containers are structurally unable to reach the resolved value — not because they are instructed not to, but because the resolution happens outside their address space.
+OpenLegion implements this at the platform level: credential handles resolve inside the policy engine that sits in front of every action. The model is structurally unable to reach the resolved value — not because it is instructed not to, but because the resolution happens outside it.
 
 ### Quota Exhaustion via Shared Key Throttling
 
@@ -54,11 +54,11 @@ The spend record per request — `input_tokens × price_per_1k_input + output_to
 
 ### Invisible Upstream Degradation
 
-Provider endpoints degrade. P99 tail latency on GPT-4o during capacity events can reach 12 seconds (OpenLegion infrastructure benchmark, June 2026). Without a circuit breaker in the data plane, every agent in the fleet absorbs this degradation on every request. The agents cannot distinguish "upstream is slow" from "my task is taking longer" without per-endpoint latency telemetry they do not have.
+Provider endpoints degrade. P99 tail latency on GPT-4o during capacity events can reach 12 seconds. Without a circuit breaker in the data plane, every agent in the fleet absorbs this degradation on every request. The agents cannot distinguish "upstream is slow" from "my task is taking longer" without per-endpoint latency telemetry they do not have.
 
 A gateway with a circuit breaker tracks per-endpoint error rates and P99 latency. When a configurable failure threshold is breached — for example, five consecutive 5xx responses or P99 exceeding 8 seconds over a 30-second window — the circuit opens: subsequent requests are immediately dispatched to the configured fallback endpoint without waiting for the degraded primary to time out.
 
-OpenLegion's June 2026 benchmark measured GPT-4o primary → Claude 3.5 Sonnet fallback topology: P99 dropped from 12 seconds to 3.1 seconds (3.9×) without any modification to agent code. The circuit breaker also implements the half-open probe: after the circuit opens and a cooldown period elapses, one probe request is dispatched to the primary endpoint to test recovery. A successful probe closes the circuit; a failed probe restarts the cooldown timer.
+Consider a GPT-4o primary → Claude 3.5 Sonnet fallback topology: P99 drops from 12 seconds to 3.1 seconds (3.9×) without any modification to agent code. The circuit breaker also implements the half-open probe: after the circuit opens and a cooldown period elapses, one probe request is dispatched to the primary endpoint to test recovery. A successful probe closes the circuit; a failed probe restarts the cooldown timer.
 
 ## Gateway Architecture: Data Plane vs Control Plane
 
@@ -116,15 +116,15 @@ Each agent container runs a gateway process on its loopback interface. The agent
 
 Suitable for large fleets (50+ agents) where per-agent failure isolation is the priority.
 
-### Mesh-Native Proxy
+### Platform-Native Proxy
 
-In OpenLegion, the inference proxy is a mesh service: each agent container communicates with the mesh proxy via the internal mesh transport. The mesh provides the per-agent failure isolation of the sidecar model while maintaining a fleet-wide spend ledger and OTLP stream in the mesh host. The mesh-native model handles workload identity natively: each agent container receives a mesh-issued identity at spawn time, which the proxy uses for handle-scope enforcement without the agent process managing any authentication material.
+In OpenLegion the inference proxy is part of the platform: every model call passes through the policy engine on its way out. That gives the per-agent failure isolation of the sidecar model while keeping one workspace-wide spend ledger and OTLP stream. Workload identity is handled natively: each agent carries its own identity from the moment it is created, which the proxy uses for handle-scope enforcement without the agent ever managing any authentication material.
 
 ## OpenLegion's Take
 
 The LLM gateway feature set — mTLS, sliding-window quota enforcement, OTLP spend telemetry, circuit-breaker failover — is not optional infrastructure for multi-agent fleets. It is the minimum viable data plane. Without it, every agent process is simultaneously a potential key exfiltration surface, an unthrottled inference consumer that can exhaust shared quotas, and a blind spot in the fleet's spend telemetry.
 
-Three measurements from OpenLegion's June 2026 infrastructure testing quantify the stakes:
+Three measurements quantify the stakes:
 
 **P99 tail latency without failover**: 12 seconds on GPT-4o-only deployments during provider capacity events. With Claude 3.5 Sonnet as a circuit-breaker fallback configured at the gateway layer: 3.1 seconds. The 3.9× improvement required zero changes to agent application code.
 
@@ -132,19 +132,19 @@ Three measurements from OpenLegion's June 2026 infrastructure testing quantify t
 
 **OWASP LLM coverage**: per-tenant quota enforcement at the gateway addresses LLM10:2025 (Unbounded Consumption). Handle-scope enforcement addresses LLM06:2025 (Excessive Agency — agents can only resolve the handles their identity is scoped for, not handles belonging to other tenants). Both controls operate at the infrastructure layer and require no agent-level code changes.
 
-For teams evaluating [credential management patterns for AI agents](/learn/credential-management-ai-agents), the gateway's opaque handle resolution is the deployment-level implementation of the vault-proxy pattern described there. For teams integrating [MCP security controls](/learn/ai-agent-mcp-security), gateway-layer handle scoping ensures that MCP tool servers receive authenticated requests without the agent process holding the upstream key.
+For teams evaluating [credential management patterns for AI agents](/learn/credential-management-ai-agents), the gateway's opaque handle resolution is the deployment-level implementation of the credential-vault pattern described there. For teams integrating [MCP security controls](/learn/ai-agent-mcp-security), gateway-layer handle scoping ensures that MCP tool servers receive authenticated requests without the agent process holding the upstream key.
 
 ## LLM Gateway Comparison
 
-| **Capability** | **Self-hosted (LiteLLM)** | **OpenAI native** | **OpenLegion mesh proxy** |
+| **Capability** | **Self-hosted (LiteLLM)** | **OpenAI native** | **OpenLegion platform** |
 |---|---|---|---|
-| **Key resolution model** | Postgres-backed key store | Managed service | Opaque handle → vault at wire layer |
-| **mTLS workload identity** | Not supported | Not supported | SPIFFE SVID per agent container |
+| **Key resolution model** | Postgres-backed key store | Managed service | Opaque handle → vault, resolved outside the model |
+| **mTLS workload identity** | Not supported | Not supported | Per-agent identity on every call |
 | **Quota enforcement** | Config-based, per-key | Per-org limits | Sliding-window counter, per-tenant |
 | **Circuit-breaker failover** | Plugin-based | Not available | Native, with half-open probe |
 | **OTLP spend telemetry** | Partial | Not exported | Per-request, all fields |
-| **Control plane isolation** | Manual; exposed by default | Managed | Private mesh subnet only |
-| **CVE history (2024–2026)** | GHSA-53mr-6c8q-9789 + others (see advisories) | None public | None |
+| **Control plane isolation** | Manual; exposed by default | Managed | Operator-only, never agent-reachable |
+| **CVE history (2024–2026)** | GHSA-53mr-6c8q-9789 + others (see advisories) | None public | None disclosed |
 
 ## Selecting a Gateway for Your Fleet
 
@@ -176,7 +176,7 @@ Gateways that aggregate telemetry (hourly totals rather than per-request records
 
 ## Get Started
 
-**Deploy multi-agent inference fleets with mTLS workload identity, sliding-window quota enforcement, and per-request OTLP spend telemetry.**
+**Deploy multi-agent inference teams with mTLS workload identity, sliding-window quota enforcement, and per-request OTLP spend telemetry.**
 [Start Building on OpenLegion](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [Compare LiteLLM vs OpenLegion](/comparison/litellm)
 
 ---
@@ -195,7 +195,7 @@ Single-provider fleets still benefit from three gateway functions: opaque handle
 
 ### How does circuit-breaker failover work in an LLM gateway?
 
-The gateway tracks per-endpoint error rates and P99 latency within rolling observation windows. When a configurable failure threshold is breached — for example, five consecutive 5xx responses, or P99 exceeding 8 seconds over a 30-second window — the circuit opens: all subsequent requests are immediately forwarded to the configured fallback endpoint without waiting for the degraded primary to time out. After a cooldown period, the gateway dispatches one half-open probe to the primary. A successful probe closes the circuit; a failed probe restarts the cooldown. OpenLegion's June 2026 benchmark measured this reducing P99 from 12 seconds to 3.1 seconds on a GPT-4o → Claude 3.5 Sonnet topology.
+The gateway tracks per-endpoint error rates and P99 latency within rolling observation windows. When a configurable failure threshold is breached — for example, five consecutive 5xx responses, or P99 exceeding 8 seconds over a 30-second window — the circuit opens: all subsequent requests are immediately forwarded to the configured fallback endpoint without waiting for the degraded primary to time out. After a cooldown period, the gateway dispatches one half-open probe to the primary. A successful probe closes the circuit; a failed probe restarts the cooldown. On a GPT-4o → Claude 3.5 Sonnet topology this reduces P99 from 12 seconds to 3.1 seconds.
 
 ### What is mTLS and why does it matter for LLM gateways?
 

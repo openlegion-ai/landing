@@ -43,7 +43,7 @@ Opus 4.8은 2026년 5월 이후 실질적인 에이전트 작업을 수행하는
 
 Anthropic의 발표는 9,650억 달러 포스트머니 가치의 650억 달러 시리즈 H와 같은 날에 있었습니다.
 
-OpenLegion은 전체 Anthropic API 모델 카탈로그를 지원합니다. `claude-opus-4-8-20260528`를 플리트 기본값으로 설정하는 것은 단일 구성 변경입니다. 볼트 격리 API 호출, 에이전트별 예산 한도, 컨테이너 격리 실행이 자동으로 적용됩니다. [예산 제어와 볼트 격리로 Opus 4.8을 실행하기 위해 AI 에이전트 플랫폼이 제공하는 것](/learn/ai-agent-platform).
+OpenLegion은 Anthropic의 모델을 자체 프리셋 뒤에서 실행합니다. 에이전트를 Smartest 프리셋으로 지정하는 것은 앱에서의 단일 선택입니다. 볼트에 보관되는 자격 증명, 에이전트별 크레딧 예산, 작업별 샌드박스 실행이 자동으로 적용됩니다. [예산 제어와 볼트 격리로 Opus 4.8을 실행하기 위해 AI 에이전트 플랫폼이 제공하는 것](/learn/ai-agent-platform).
 
 ## 벤치마크 성능: 수치가 보여주는 것
 
@@ -117,19 +117,19 @@ Opus 4.7에 머무르는 유일한 경우: 특정 장황성 패턴에 맞게 조
 
 ## OpenLegion과 Claude Opus 4.8
 
-OpenLegion은 `claude-opus-4-8-20260528`를 플리트 모델 옵션으로 지원합니다. 에이전트의 기본값으로 설정하는 것은 에이전트 구성의 단일 필드입니다:
+OpenLegion은 Opus급 모델을 Smartest 프리셋으로 실행합니다. 에이전트에 그 프리셋을 선택하는 것은 에이전트 구성의 단일 필드입니다:
 
 ```
-model: anthropic/claude-opus-4-8-20260528
+model_preset: smartest
 ```
 
-모든 OpenLegion 보안 제어가 Opus 4.8 호출에 자동으로 적용됩니다: 볼트 프록시 자격증명 주입(API 키가 에이전트 컨테이너에 진입하지 않음), 에이전트별 일간 및 월간 예산 한도, Docker 컨테이너 격리, 완전한 감사 로깅.
+모든 OpenLegion 보안 제어가 Opus 4.8 호출에 자동으로 적용됩니다: 모델 외부에서 주입되는 볼트 보관 자격증명(어떤 키도 에이전트에 도달하지 않음), 에이전트별 크레딧 예산(폭주하는 Opus 4.8 루프는 예산이 소진되면 멈춤), 작업별 샌드박스 실행, 완전한 감사 로깅.
 
 자세한 비교를 위해 [그래프 기반 vs 플랫 플리트 아키텍처에서 Opus 4.8 배포 시 OpenLegion vs LangGraph](/comparison/langgraph)와 [공유 프로세스 vs 격리 컨테이너 멀티 에이전트 시스템에서의 Opus 4.8에 대한 OpenLegion vs AutoGen](/comparison/autogen)을 참조하세요.
 
 ## OpenLegion에서 Claude Opus 4.8 시작하기
 
-**`claude-opus-4-8-20260528`를 플리트 기본값으로 설정하세요. 볼트 격리, 예산 상한, 프로덕션 준비 완료.**
+**Opus급 모델을 Smartest 프리셋으로 실행하세요. 볼트 격리, 예산 상한, 프로덕션 준비 완료.**
 [구축 시작](https://app.openlegion.ai) | [문서 읽기](https://docs.openlegion.ai) | [플랫폼 보기](/learn/ai-agent-platform)
 
 ---

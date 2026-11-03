@@ -1,8 +1,8 @@
 ---
 title: KI-Agenten-Orchestrierung — Agenten koordinieren
 description: >-
- Container-isolierte Multi-Agenten-Runtime mit Fleet-Modell-Koordination
- (Blackboard + Pub/Sub + Handoff), Credential-Vaulting und Pro-Agent-Budgets.
+ Gehostete Multi-Agenten-Orchestrierungs-Runtime mit Ziel-und-Aufgaben-Koordination,
+ Credentials im Vault, Pro-Agent-Credit-Budgets und policy-geprüften Aktionen.
 slug: /learn/ai-agent-orchestration
 primary_keyword: ki-agenten-orchestrierung
 secondary_keywords:
@@ -26,7 +26,7 @@ related:
 
 Wenn ein einzelner KI-Agent eine Aufgabe ausführt, ist Orchestrierung einfach — es gibt nichts zu koordinieren. Sobald Sie zwei oder mehr Agenten einsetzen, die Kontext teilen, Tasks übergeben oder auf denselben Daten arbeiten müssen, wird Orchestrierung zum zentralen Engineering-Problem. Und es geht nicht nur um Nachrichten-Routing.
 
-**KI-Agenten-Orchestrierung** ist das System, das entscheidet, welcher Agent läuft, wann, mit welchen Daten, unter welchen Beschränkungen und zu welchen Kosten. OpenLegion behandelt Orchestrierung als untrennbar von Sicherheit: Jede Routing-Entscheidung passiert Container-Isolation, Credential-Vaulting und Budgetdurchsetzung. Bringen Sie eigene LLM-API-Keys mit. Kein Aufschlag auf Modellnutzung.
+**KI-Agenten-Orchestrierung** ist das System, das entscheidet, welcher Agent läuft, wann, mit welchen Daten, unter welchen Beschränkungen und zu welchen Kosten. OpenLegion behandelt Orchestrierung als untrennbar von Sicherheit: Jede Aktion ist eine Absicht, die eine einzige Policy-Engine prüft, bevor sie geschieht, und die anschließend als Beleg festgehalten wird, den der Eigentümer lesen kann. Modelle werden per Preset gewählt — Smartest, Smart oder Normal.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -36,11 +36,11 @@ Wenn ein einzelner KI-Agent eine Aufgabe ausführt, ist Orchestrierung einfach �
 ## Auf einen Blick
 
 - **Orchestrierung = Koordination + Governance.** Agenten zu routen, ohne Credentials, Budgets und Isolation zu kontrollieren, ist keine Orchestrierung — es ist eine Haftung.
-- **Fleet-Modell-Koordination** — OpenLegion nutzt Blackboard-, Pub/Sub- und Handoff-Primitive für Task-Routing. Kein LLM-"CEO-Agent", der intransparente Routing-Entscheidungen trifft.
-- **Fleet-Modell-Orchestrierung** — Sequenzielle und parallele Ausführung via Fleet-Modell-Koordination mit Blackboard-Koordination und Pub/Sub-Messaging. Fleet-Modell, keine Hierarchie.
+- **Ziel-und-Aufgaben-Koordination** — OpenLegion routet Arbeit als Ziele → Aufgaben → Agenten, mit einem Assistenten, der delegiert. Kein LLM-"CEO-Agent", der intransparente Routing-Entscheidungen trifft.
+- **Zielgetriebene Orchestrierung** — Sequenzielle und parallele Ausführung aus einem gemeinsamen Verzeichnis aus Zielen und Aufgaben, mit Event-Wakes. Delegation, keine Hierarchie.
 - **Credential-Isolation ist eine Orchestrierungs-Sache** — Wenn Agent A an Agent B übergibt, sollte keiner die API-Keys des anderen sehen oder Berechtigungen eskalieren können.
-- **Kostenkontrollen pro Agent** — Jeder Agent in der Flotte hat sein eigenes tägliches/monatliches Budget mit Hartabschaltung. Ein außer Kontrolle geratener Agent leert nicht Ihr ganzes Konto.
-- **Gemeinsamer Zustand via Blackboard** — Agenten kommunizieren über ein zentrales SQLite-Blackboard mit PubSub-Messaging. Keine direkten Agent-zu-Agent-Verbindungen.
+- **Kostenkontrollen pro Agent** — Jeder Agent im Team trägt sein eigenes Credit-Budget mit harter Abschaltung. Ein außer Kontrolle geratener Agent leert nicht Ihr ganzes Konto.
+- **Gemeinsamer Zustand via Ziele und Aufgaben** — Agenten kommunizieren über ein gemeinsames Verzeichnis aus Zielen und Aufgaben, geweckt durch Events. Keine direkten Agent-zu-Agent-Verbindungen.
 
 ## Was KI-Agenten-Orchestrierung von Workflow-Automatisierung unterscheidet
 
@@ -64,18 +64,18 @@ Deshalb behandelt OpenLegion [KI-Agenten-Sicherheit](/learn/ai-agent-security) u
 Agenten führen einer nach dem anderen in definierter Reihenfolge aus. Die Ausgabe jedes Agenten wird zur Eingabe des nächsten. Geeignet für Pipelines mit klaren Übergabepunkten.
 
 **Beispiel: Content-Produktions-Pipeline.**
-Researcher-Agent → Writer-Agent → Editor-Agent. Der Researcher sammelt Quellen und erstellt ein Briefing. Der Writer produziert einen Entwurf aus dem Briefing. Der Editor prüft und gibt die finale Fassung aus. Jeder Agent läuft in seinem eigenen Container, sieht nur die eigenen Credentials und hat ein eigenes Token-Budget.
+Researcher-Agent → Writer-Agent → Editor-Agent. Der Researcher sammelt Quellen und erstellt ein Briefing. Der Writer produziert einen Entwurf aus dem Briefing. Der Editor prüft und gibt die finale Fassung aus. Jede Aufgabe läuft bei Bedarf in ihrem eigenen Sandbox-Lauf, sieht nur die eigenen Credentials und hat ein eigenes Credit-Budget.
 
 ### Parallele Orchestrierung
 
 Mehrere Agenten laufen simultan an unabhängigen Teilaufgaben. Ergebnisse werden an einem Synchronisationspunkt zusammengeführt. Geeignet für Aufgaben, die in unabhängige Arbeitsströme zerfallen.
 
 **Beispiel: Wettbewerbsanalyse.**
-Drei Research-Agenten laufen parallel — einer pro Wettbewerber — und scrapen jeweils öffentliche Doku, GitHub-Repos und Preisseiten. Ein Synthesis-Agent wartet auf alle drei und produziert einen einheitlichen Vergleich. Jeder parallele Agent operiert in seinem eigenen isolierten Container mit eigener Budget-Obergrenze.
+Drei Research-Agenten laufen parallel — einer pro Wettbewerber — und scrapen jeweils öffentliche Doku, GitHub-Repos und Preisseiten. Ein Synthesis-Agent wartet auf alle drei und produziert einen einheitlichen Vergleich. Jeder parallele Agent arbeitet über seinen eigenen gesandboxten Aufgabenlauf mit eigener Budget-Obergrenze.
 
-### Blackboard-Koordination und Pub/Sub-Messaging
+### Ziel-und-Aufgaben-Koordination und Event-Messaging
 
-OpenLegion nutzt ein Fleet-Modell, keine Hierarchie. Alle Agenten kommunizieren über ein zentrales Blackboard (SQLite-basierter gemeinsamer Zustand) mit Pub/Sub-Messaging, das vom Mesh Host gehandhabt wird. Es gibt keinen "CEO-Agenten" oder Supervisor-Agenten, der Routing-Entscheidungen trifft — die Fleet-Modell-Koordination definiert die Ausführungsreihenfolge, und das Blackboard liefert den gemeinsamen Kontext, den Agenten während der Ausführung lesen und beschreiben. Das macht Koordination auditierbar.
+OpenLegion organisiert Arbeit als Ziele → Aufgaben → Agenten, nicht als Hierarchie. Alle Agenten kommunizieren über ein gemeinsames Verzeichnis aus Zielen und Aufgaben, und jede Aufgabe ist ein Event-Wake, den die Policy-Engine prüft, bevor er läuft. Es gibt keinen "CEO-Agenten" oder Supervisor-Agenten, der Routing-Entscheidungen trifft — ein Assistent erstellt die nötigen Teammitglieder und delegiert an sie, und das gemeinsame Verzeichnis liefert den Kontext, den Agenten während der Ausführung lesen und beschreiben. Das macht Koordination auditierbar.
 
 ## Warum Isolation, Vault und Budget-Kontrollen Orchestrierungs-Sachen sind
 
@@ -87,17 +87,17 @@ Diese Trennung ist architektonisch falsch. Hier ist warum:
 
 Wenn Agent A eine Aufgabe abschließt und an Agent B übergibt, verwaltet die Orchestrierungsschicht den Übergang. Teilen beide Agenten denselben Prozessraum (wie in CrewAI-Crews oder LangGraph-Graphen, die in einem einzelnen Python-Prozess laufen), gibt es keinen Mechanismus, der Agent B daran hindert, auf Agent As Credentials über gemeinsamen Speicher zuzugreifen.
 
-OpenLegion erzwingt Credential-Isolation auf Orchestrierungsebene. Jeder Agent läuft in seinem eigenen Docker-Container. Der Vault-Proxy injiziert Credentials pro Agent — Agent As API-Keys sind nie in Agent Bs Container präsent. Die Orchestrierungsschicht routet den Handoff über den Mesh Host (Zone 2), nicht über direkte Agent-zu-Agent-Kommunikation.
+OpenLegion erzwingt Credential-Isolation auf Orchestrierungsebene. Jede Aufgabe läuft in ihrem eigenen Sandbox-Lauf. Der Vault injiziert Credentials pro Agent, außerhalb des Modells — Agent As API-Keys sind nie in Agent Bs Lauf präsent. Die Orchestrierungsschicht routet den Handoff über die Policy-Engine, nicht über direkte Agent-zu-Agent-Kommunikation.
 
 ### Budgetdurchsetzung als Orchestrierungslogik
 
 In einem Multi-Agenten-Workflow verteilen sich Token-Kosten ungleich. Ein Research-Agent kann das 10-fache eines Formatting-Agenten verbrauchen. Ohne Pro-Agent-Budgets können Sie nur ein globales Limit setzen — was bedeutet, dass ein "geschwätziger" Agent andere aushungern kann.
 
-OpenLegions Orchestrator verfolgt Token-Verbrauch pro Agent in Echtzeit. Wenn ein Agent sein tägliches oder monatliches Cap erreicht, hält der Orchestrator diesen spezifischen Agenten an und routet die Pipeline um oder pausiert sie — ohne die gesamte Pipeline zu killen. Das ist Orchestrierungslogik, nicht nur Monitoring.
+OpenLegion verfolgt Ausgaben pro Agent in Echtzeit, abgerechnet in Credits zu je $0,001. Wenn ein Agent sein Budget erschöpft, hält die Plattform diesen spezifischen Agenten an und routet die Pipeline um oder pausiert sie — ohne die gesamte Pipeline zu killen. Das ist Orchestrierungslogik, nicht nur Monitoring.
 
 ### Berechtigungsdurchsetzung über die Flotte
 
-In einer Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff) hat jeder Agent ein spezifisches Berechtigungs-Set. Die Pro-Agent-ACL-Matrix definiert, welche Tools jeder Agent aufrufen darf, welche Dateien er ansprechen kann und welche Mesh-Operationen er ausführen darf. Der Orchestrator setzt diese Beschränkungen an jedem Übergangspunkt durch.
+In der Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten) hat jeder Agent ein spezifisches Berechtigungs-Set. Pro-Agent-Berechtigungen definieren, welche Tools jeder Agent aufrufen darf, welche Dateien er ansprechen kann und welche Aktionen er ausführen darf. Eine einzige Policy-Engine setzt diese Beschränkungen vor jeder Aktion durch.
 
 Das bedeutet, Sie können den gesamten Workflow statisch auditieren — bevor irgendein Agent läuft — und verifizieren, dass kein Agent Berechtigungen hat, die er nicht haben sollte.
 
@@ -105,33 +105,33 @@ Das bedeutet, Sie können den gesamten Workflow statisch auditieren — bevor ir
 
 So sieht ein Dev-Team-Workflow in OpenLegion aus, von der Projekterstellung bis zum Deployment:
 
-**Schritt 1: Team in YAML definieren.**
+**Schritt 1: Team in der App definieren.**
 Drei Agenten: PM (Projektmanager), Engineer, Reviewer. Der PM zerlegt Tasks. Der Engineer schreibt Code. Der Reviewer prüft die Ausgabe.
 
 **Schritt 2: Berechtigungen pro Agent setzen.**
-Der PM kann Projektdateien lesen und auf das Blackboard schreiben. Der Engineer kann Code ausführen, den Browser ansprechen und Dateien schreiben. Der Reviewer kann alle Ausgaben lesen, aber keinen Code ausführen und keine externen API-Aufrufe machen.
+Der PM kann Projektdateien lesen und Aufgaben erstellen. Der Engineer kann Code in einer Sandbox ausführen und Dateien schreiben. Der Reviewer kann alle Ausgaben lesen, aber keinen Code ausführen und keine externen API-Aufrufe machen.
 
 **Schritt 3: Budgets pro Agent setzen.**
-PM: 2 $/Tag (meist Planung, niedriger Token-Verbrauch). Engineer: 15 $/Tag (intensive Code-Generierung). Reviewer: 5 $/Tag (Analyse und Feedback). Monatliche Caps verhindern kumulative Überschreitungen.
+PM: ein kleines Credit-Budget (meist Planung, niedriger Token-Verbrauch). Engineer: ein großes (intensive Code-Generierung). Reviewer: ein mittleres (Analyse und Feedback). Das Workspace-Guthaben verhindert kumulative Überschreitungen.
 
-**Schritt 4: Deployen.**
-`openlegion start` stellt drei isolierte Container bereit, injiziert die passenden Credentials per Vault-Proxy in jeden und startet die Flotte. Das Dashboard zeigt Token-Verbrauch in Echtzeit, Kosten-Tracking und Streaming-Output pro Agent.
+**Schritt 4: Team starten.**
+Die drei Agenten anzulegen geht sofort — sie sind dauerhafte Datensätze, keine Server — und der Vault injiziert die passenden Credentials außerhalb des Modells in jeden Lauf. Das Dashboard zeigt Token-Verbrauch in Echtzeit, Kosten-Tracking und Streaming-Output pro Agent.
 
 **Schritt 5: Monitoren und auditieren.**
-Auditierbare Fleet-Modell-Koordination bedeutet, dass jeder Workflow-Schritt explizit und nachvollziehbar ist. Das integrierte Request-Tracing-System zeichnet Task-Übergänge, Tool-Calls und Token-Ausgaben für Echtzeit-Observability auf — ohne intransparente LLM-Entscheidungslogs parsen zu müssen.
+Auditierbare Ziel-und-Aufgaben-Koordination bedeutet, dass jeder Workflow-Schritt explizit und nachvollziehbar ist. Jeder Tool-Aufruf, jede Delegation und jede Freigabe wird als Beleg mit der Identität des Agenten, einem Zeitstempel und den exakten Kosten festgehalten — ohne intransparente LLM-Entscheidungslogs parsen zu müssen.
 
 ## KI-Agenten-Orchestrierungs-Tools im Vergleich
 
 | Funktion | OpenLegion | LangGraph | CrewAI | AutoGen |
 |---|---|---|---|---|
-| **Orchestrierungsmodell** | Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff) | Programmatischer StateGraph | Rollenbasierte Crews + event-driven Flows | Konversationsbasierter Group Chat |
-| **Agenten-Isolation** | Docker-Container pro Agent (verpflichtend) | Nicht integriert | Gemeinsamer Python-Prozess | Docker nur für Code-Ausführung |
-| **Credential-Verwaltung** | Vault-Proxy — Blind-Injection | Umgebungsvariablen | Umgebungsvariablen | Umgebungsvariablen |
-| **Budget-Kontrollen** | Pro Agent täglich/monatlich mit Hartabschaltung | Keine | Keine | Keine |
-| **Task-Routing** | Fleet-Modell — Blackboard + Pub/Sub + Handoff (kein CEO-Agent) | Konditionale Kanten (code-definiert) | Hierarchischer Manager-Agent oder sequenziell | RoundRobin, Selector, Swarm, GraphFlow |
-| **Gemeinsamer Zustand** | Blackboard (SQLite) mit PubSub | StateGraph mit Checkpointing | Geteilte Crew-Memory | Message-Passing zwischen Agenten |
+| **Orchestrierungsmodell** | Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten) | Programmatischer StateGraph | Rollenbasierte Crews + event-driven Flows | Konversationsbasierter Group Chat |
+| **Agenten-Isolation** | Sandbox-Lauf für jede Aufgabe (verpflichtend) | Nicht integriert | Gemeinsamer Python-Prozess | Docker nur für Code-Ausführung |
+| **Credential-Verwaltung** | Credential-Vault — Blind-Injection | Umgebungsvariablen | Umgebungsvariablen | Umgebungsvariablen |
+| **Budget-Kontrollen** | Credit-Budget pro Agent mit Hartabschaltung | Keine | Keine | Keine |
+| **Task-Routing** | Ziele → Aufgaben → Agenten, Assistent delegiert (kein CEO-Agent) | Konditionale Kanten (code-definiert) | Hierarchischer Manager-Agent oder sequenziell | RoundRobin, Selector, Swarm, GraphFlow |
+| **Gemeinsamer Zustand** | Gemeinsames Verzeichnis aus Zielen und Aufgaben, Event-Wakes | StateGraph mit Checkpointing | Geteilte Crew-Memory | Message-Passing zwischen Agenten |
 | **Human-in-the-Loop** | Über Channel-Integrationen unterstützt | Natives `interrupt()`-API mit Time-Travel | Unterstützt | UserProxy-Agent |
-| **Multi-Channel** | CLI, Telegram, Discord, Slack, WhatsApp + Webhooks | Eigene Integration nötig | Eigene Integration nötig | Eigene Integration nötig |
+| **Multi-Channel** | Web-Chat, Telegram, Webhooks, Slack, eingehende E-Mail | Eigene Integration nötig | Eigene Integration nötig | Eigene Integration nötig |
 
 Für Teams, die agentische KI-Orchestrierungs-Frameworks bewerten, ist der entscheidende Unterscheider, ob die Orchestrierungsschicht die Agenten governiert oder nur Nachrichten zwischen ihnen routet. LangGraph bietet die flexibelste programmatische Kontrolle. CrewAI das intuitivste rollenbasierte Design. AutoGen liefert Konversationsmuster. OpenLegion fügt Governance — Isolation, Credentials und Kosten — als native Orchestrierungs-Primitive hinzu.
 
@@ -162,23 +162,23 @@ Eine KI-Agenten-Orchestrierungs-Plattform bietet verwaltete Infrastruktur für d
 
 ### Wie orchestriert man mehrere KI-Agenten in Produktion?
 
-In Produktion erfordert Multi-Agenten-Orchestrierung vier Dinge über einen funktionierenden Prototyp hinaus: Laufzeit-Isolation (jeder Agent in seinem eigenen Container), Credential-Trennung (keine geteilten API-Keys zwischen Agenten), Budgetdurchsetzung (Pro-Agent-Kostenlimits mit Hartabschaltungen) und auditierbares Task-Routing. OpenLegion erledigt alle vier über Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff), die über isolierte Docker-Container mit Vault-Proxy für Credential-Verwaltung ausgespielt wird.
+In Produktion erfordert Multi-Agenten-Orchestrierung vier Dinge über einen funktionierenden Prototyp hinaus: Laufzeit-Isolation (jeder Agent in seinem eigenen Container), Credential-Trennung (keine geteilten API-Keys zwischen Agenten), Budgetdurchsetzung (Pro-Agent-Kostenlimits mit Hartabschaltungen) und auditierbares Task-Routing. OpenLegion erledigt alle vier über Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten), einen Sandbox-Lauf für jede Aufgabe und einen Credential-Vault, der außerhalb des Modells injiziert.
 
 ### Wie funktionieren Kostenkontrollen in KI-Agenten-Orchestrierung?
 
-OpenLegion erzwingt tägliche und monatliche Token-Budgets pro Agent mit automatischer Hartabschaltung. Wenn ein Agent sein Limit erreicht, hält der Orchestrator diesen spezifischen Agenten an, ohne den Rest der Pipeline zu killen. Das verhindert, dass ein einzelner geschwätziger Agent das gesamte Projektbudget verbraucht. Kosten werden in Echtzeit erfasst und sind im Flotten-Dashboard sichtbar.
+OpenLegion erzwingt ein Credit-Budget pro Agent mit automatischer Hartabschaltung. Wenn ein Agent sein Limit erreicht, hält die Plattform diesen spezifischen Agenten an, ohne den Rest der Pipeline zu killen. Das verhindert, dass ein einzelner geschwätziger Agent das gesamte Projektbudget verbraucht. Kosten werden in Echtzeit erfasst, und die exakten Kosten pro Aufgabe sind sichtbar.
 
-### Was ist der Unterschied zwischen LLM-basierter und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff)?
+### Was ist der Unterschied zwischen LLM-basierter und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten)?
 
-LLM-basierte Orchestrierung nutzt ein KI-Modell (einen "CEO-Agenten"), um zur Laufzeit zu entscheiden, welcher Agent welche Aufgabe übernimmt. Das ist flexibel, aber intransparent — Sie können Routing-Entscheidungen nicht vorab vorhersagen oder auditieren. Auditierbare Fleet-Modell-Koordination nutzt vordefinierte Regeln (im Fall von OpenLegion Fleet-Modell-Koordination), die vor jedem Agentenlauf auditierbar sind. Sie wissen genau, welcher Agent was übernimmt, unter welchen Bedingungen, mit welchen Berechtigungen.
+LLM-basierte Orchestrierung nutzt ein KI-Modell (einen "CEO-Agenten"), um zur Laufzeit zu entscheiden, welcher Agent welche Aufgabe übernimmt. Das ist flexibel, aber intransparent — Sie können Routing-Entscheidungen nicht vorab vorhersagen oder auditieren. Auditierbare Ziel-und-Aufgaben-Koordination nutzt vordefinierte Regeln (im Fall von OpenLegion Ziele → Aufgaben → Agenten), die vor jedem Agentenlauf auditierbar sind. Sie wissen genau, welcher Agent was übernimmt, unter welchen Bedingungen, mit welchen Berechtigungen.
 
 ### Kann ich OpenLegion für Multi-Agenten-Orchestrierung mit jedem LLM nutzen?
 
-Ja. OpenLegion unterstützt 100+ LLM-Anbieter über LiteLLM, darunter OpenAI, Anthropic, Google, Mistral, Cohere und lokale Modelle. Sie können unterschiedlichen Agenten im selben Workflow unterschiedliche Modelle zuweisen — z. B. GPT-4o für komplexes Reasoning und ein leichteres Modell für hochvolumige Klassifizierung. Bringen Sie eigene LLM-API-Keys mit. Kein Aufschlag auf Modellnutzung.
+Sie wählen keinen Anbieter — Modelle werden per Preset gewählt, Smartest, Smart oder Normal, pro Agent oder pro Workspace. Sie können unterschiedlichen Agenten im selben Workflow unterschiedliche Presets zuweisen — z. B. Smartest für komplexes Reasoning und Normal für hochvolumige Klassifizierung. Es gibt keine API-Keys mitzubringen oder zu verwalten, und jede Aufgabe zeigt ihre exakten Kosten.
 
 ### Wie vergleicht sich OpenLegions Orchestrierung mit LangGraph?
 
-LangGraph nutzt einen programmatischen StateGraph, in dem Knoten Python-Funktionen sind und Kanten Übergänge definieren. Es bietet mächtige Kontrolle über Zustand und Fluss, aber keine integrierte Isolation, Credential-Verwaltung oder Kostenkontrollen. OpenLegion nutzt Fleet-Modell-Koordination — Blackboard + Pub/Sub + Handoff — mit Container-Isolation, Vault-Proxy-Credential-Injection und Pro-Agent-Budgets als native Orchestrierungs-Funktionen. LangGraph bietet mehr programmatische Flexibilität; OpenLegion ergänzt Governance als erstklassiges Orchestrierungs-Anliegen.
+LangGraph nutzt einen programmatischen StateGraph, in dem Knoten Python-Funktionen sind und Kanten Übergänge definieren. Es bietet mächtige Kontrolle über Zustand und Fluss, aber keine integrierte Isolation, Credential-Verwaltung oder Kostenkontrollen. OpenLegion nutzt Ziel-und-Aufgaben-Koordination — Ziele → Aufgaben → Agenten — mit einem Sandbox-Lauf für jede Aufgabe, Vault-Credentials außerhalb des Modells injiziert und Pro-Agent-Budgets als native Orchestrierungs-Funktionen. LangGraph bietet mehr programmatische Flexibilität; OpenLegion ergänzt Governance als erstklassiges Orchestrierungs-Anliegen.
 
 ---
 

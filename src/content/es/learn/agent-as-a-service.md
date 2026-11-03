@@ -44,7 +44,7 @@ Los precios de AaaS en 2026 han convergido en tres estructuras:
 
 **Tarifa por acción para integraciones de herramientas.** Consultas de AWS Bedrock Knowledge Base: $0,0004/consulta. Un agente que realiza 50 búsquedas KB por sesión paga $0,02/sesión en tarifas KB. A 100.000 consultas KB/día: $40/día solo en tarifas de acción.
 
-**Niveles de suscripción por hora de agente.** Algunas plataformas ofrecen niveles donde cada agente activo cuenta contra las horas incluidas. Este modelo proporciona previsibilidad de costos para flotas de agentes estables pero puede ser ineficiente para cargas de trabajo irregulares.
+**Niveles de suscripción con créditos incluidos.** Algunas plataformas (incluida OpenLegion) incluyen una asignación mensual de créditos que consume cada unidad de trabajo, así que un agente inactivo no cuesta nada. Este modelo proporciona previsibilidad de costos para equipos estables pero puede ser ineficiente para cargas de trabajo irregulares.
 
 Los precios por consumo alinean los incentivos del proveedor con el uso del cliente pero crean imprevisibilidad de costos para agentes de larga duración. Un bucle de agente descontrolado genera cargos tanto en la capa de orquestación como en la capa del modelo.
 
@@ -59,9 +59,9 @@ CVE-2024-5184 (Palo Alto Unit 42, junio 2024, CVSS 9,1 CRÍTICO) demostró que l
 La pregunta diagnóstica a hacer a cada proveedor AaaS: **"Si la ventana de contexto completa de mi agente es extraída por un atacante mediante inyección de prompts, ¿qué credenciales están en riesgo?"** La respuesta correcta es: ninguna.
 
 - **AWS Bedrock Agents**: asunción de rol IAM por invocación; el agente se ejecuta bajo un token de rol IAM temporal y nunca tiene claves de API sin procesar
-- **OpenLegion**: resolución de handle `$CRED{}` en Zona 2; el código del agente referencia una credencial por nombre; Zona 2 resuelve el valor real en el momento de la ejecución sin devolverlo al agente
+- **OpenLegion**: resolución de identificadores de credencial en el motor de políticas; el agente referencia una credencial por nombre; el motor resuelve el valor real en el momento de la ejecución sin devolverlo al modelo
 
-Para el patrón de proxy de vault y la arquitectura de handle `$CRED{}`, consulte [gestión de credenciales y alcance de clave API por inquilino para agentes de IA](/learn/credential-management-ai-agents).
+Para el patrón de bóveda de credenciales y la arquitectura de handles, consulte [gestión de credenciales y alcance de clave API por inquilino para agentes de IA](/learn/credential-management-ai-agents).
 
 ## El panorama de proveedores AaaS en 2026
 
@@ -138,7 +138,7 @@ CVE-2024-5184 (Palo Alto Unit 42, junio 2024, CVSS 9,1 CRÍTICO): inyección de 
 **Aislamiento a nivel de infraestructura (más fuerte):**
 - AWS Bedrock Agents: roles IAM separados por inquilino
 - Google Agent Space: aislamiento mediante límites de proyecto de Google Cloud
-- OpenLegion: ACL de espacio de nombres de tablero por proyecto
+- OpenLegion: ACL por espacio de trabajo sobre el registro compartido de objetivos y tareas
 
 **Aislamiento a nivel de prompt del sistema (más débil):** Falla cuando la inyección de prompts sobreescribe la instrucción del inquilino (OWASP LLM06:2023).
 
@@ -201,14 +201,14 @@ Tres cifras concretas:
 
 | **Control de seguridad** | **OpenLegion** | **AWS Bedrock Agents** | **Google Agent Space** | **OpenAI Operator** | **LangGraph (autoalojado)** |
 |---|---|---|---|---|---|
-| **Vault de credenciales con resolución de handle $CRED{}** | Zona 2, arquitectónico | Asunción de rol IAM | Alcance de cuenta de servicio | Aislamiento de sesión | Responsabilidad del desarrollador |
-| **Límite de gasto diario por agente (capa de infraestructura)** | Zona 2, $0-$50/día | No disponible | No disponible | No disponible | Responsabilidad del desarrollador |
-| **ACL de tablero por proyecto de inquilino** | Arquitectónico | Basado en IAM | Basado en proyecto | N/A | Responsabilidad del desarrollador |
+| **Vault de credenciales con resolución de identificadores** | Aplicado por la bóveda, arquitectónico | Asunción de rol IAM | Alcance de cuenta de servicio | Aislamiento de sesión | Responsabilidad del desarrollador |
+| **Límite de gasto diario por agente (capa de infraestructura)** | Motor de políticas, créditos por agente | No disponible | No disponible | No disponible | Responsabilidad del desarrollador |
+| **ACL de estado compartido por proyecto de inquilino** | Arquitectónico | Basado en IAM | Basado en proyecto | N/A | Responsabilidad del desarrollador |
 | **Alcance de permisos de herramientas por agente** | Aplicado por el entorno de ejecución | IAM del grupo de acciones | Basado en IAM | N/A | Responsabilidad del desarrollador |
 | **Registro de auditoría WORM por inquilino (SOC 2 CC6.1)** | Nativo | CloudTrail | Cloud Audit Logs | N/A | Responsabilidad del desarrollador |
-| **Definición de agente en git** | INSTRUCTIONS.md | Consola/API | Consola/API | N/A | Responsabilidad del desarrollador |
+| **Definición de agente en git** | No en git — en la app, con cada cambio auditado | Consola/API | Consola/API | N/A | Responsabilidad del desarrollador |
 
-[Empieza a construir en OpenLegion](https://app.openlegion.ai): despliega agentes con aislamiento arquitectónico de credenciales, límites de gasto diario por agente aplicados en Zona 2 y ACL de tablero que hacen que el acceso entre inquilinos sea arquitectónicamente imposible.
+[Empieza a construir en OpenLegion](https://app.openlegion.ai): despliega agentes con aislamiento arquitectónico de credenciales mediante identificadores de bóveda, presupuestos de créditos por agente aplicados por el motor de políticas y ACL por espacio de trabajo que hacen que el acceso entre inquilinos sea arquitectónicamente imposible.
 
 <!-- SCHEMA: FAQPage -->
 
@@ -232,7 +232,7 @@ OpenAI Operator, lanzado en enero de 2025, es el primer producto AaaS de consumi
 
 ### ¿Cómo funciona el aislamiento de credenciales en plataformas AaaS?
 
-El aislamiento de credenciales significa que la plataforma nunca expone las claves API LLM, credenciales de base de datos o secretos de herramientas del cliente al código del agente. AWS Bedrock Agents lo logra mediante la asunción de roles IAM. OpenLegion usa la resolución de handle `$CRED{}` en Zona 2: el código del agente referencia una credencial por nombre; Zona 2 resuelve el valor real en el momento de la ejecución sin devolverlo al agente.
+El aislamiento de credenciales significa que la plataforma nunca expone las claves API LLM, credenciales de base de datos o secretos de herramientas del cliente al código del agente. AWS Bedrock Agents lo logra mediante la asunción de roles IAM. OpenLegion usa identificadores de credencial guardados en bóveda: el agente referencia una credencial por nombre y el motor de políticas resuelve el valor real en el momento de la ejecución sin devolverlo al modelo.
 
 ### ¿Qué riesgos de seguridad son específicos de las plataformas AaaS?
 

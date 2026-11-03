@@ -127,7 +127,7 @@ For teams building agents, the xAI API is the relevant access path — subscript
 
 Grok 4's API pricing is per-token via console.x.ai. For agent orchestration and tool-use pipeline design, the relevant factor is that Grok 4's training efficiency (6x compute improvement) should allow competitive pricing relative to models with higher training costs. However, token pricing can change; always pull current rates from the provider's pricing page rather than cached values in agent configurations.
 
-The broader point for multi-provider agent architectures: OpenLegion's credential vault allows you to configure multiple provider API keys and route by task type, so Grok 4 can handle coding-heavy tasks while other models handle tasks where Grok 4's cost-per-token isn't justified. See [AI agent orchestration and tool-use pipeline design](/learn/ai-agent-orchestration) for routing patterns.
+The broader point for multi-provider agent architectures: OpenLegion picks models by preset — Smartest, Smart or Normal, set per agent or per workspace — so coding-heavy tasks get the strongest tier while routine work runs on a tier whose cost-per-token is justified. See [AI agent orchestration and tool-use pipeline design](/learn/ai-agent-orchestration) for routing patterns.
 
 ## Security Considerations for Multi-Agent Deployments
 
@@ -142,7 +142,7 @@ Mitigations:
 
 ### Credential Isolation When Using Grok 4 in Pipelines
 
-The Grok 4 API key grants access to xAI's entire API surface. In a multi-agent pipeline, each agent that needs Grok 4 access should receive a scoped credential — not a shared key. OpenLegion's credential vault assigns each agent its own `XAI_API_KEY` scope; if one agent is compromised, the compromised credential cannot be used to exfiltrate another agent's API access or billing scope.
+The Grok 4 API key grants access to xAI's entire API surface. In a multi-agent pipeline, each agent that needs Grok 4 access should receive a scoped credential — not a shared key. In OpenLegion credentials live in a vault and are injected outside the model, which only ever holds a handle; a compromised agent cannot exfiltrate another agent's credentials or spend against another agent's budget.
 
 Compare this to pipelines where a single API key is injected via environment variable at the orchestrator level — a common pattern that creates a single credential exposure point for the entire pipeline.
 
@@ -150,7 +150,7 @@ Compare this to pipelines where a single API key is injected via environment var
 
 Grok 4's native tool use generates tool call traces as part of the model's reasoning output. These traces should be logged with full fidelity — not just the final response — because the tool call sequence reveals the model's reasoning path and any anomalies in how it handled retrieved content.
 
-For teams using OpenLegion's mesh: the platform logs agent tool interactions at the orchestrator level, so Grok 4 tool traces flow into the same audit log as other agent actions. See the guide on [multi-agent system architecture and coordination patterns](/learn/multi-agent-systems) for how to structure agent isolation when one agent in a pipeline uses external data retrieval.
+For teams using OpenLegion: every tool call is recorded as a receipt carrying the agent's identity and the exact cost, so Grok 4 tool traces land in the same log as other agent actions. See the guide on [multi-agent system architecture and coordination patterns](/learn/multi-agent-systems) for how to structure agent isolation when one agent in a pipeline uses external data retrieval.
 
 ## Grok 4 vs. Claude Opus 4.8 vs. GPT-4o: Builder's Decision Matrix
 
@@ -195,14 +195,14 @@ Grok 4 can retrieve X posts via native tool calls, and those posts are untrusted
 
 ### Does OpenLegion support Grok 4 as a model provider?
 
-OpenLegion's credential vault and multi-agent mesh support any OpenAI-compatible API endpoint, including xAI's Grok 4 API at api.x.ai. Each agent in an OpenLegion pipeline receives an isolated `XAI_API_KEY` scope — a compromised agent cannot exfiltrate another agent's API credentials or access another agent's billing scope. This is the correct credential isolation pattern for production pipelines using externally-hosted frontier models.
+OpenLegion does not expose model providers directly: you pick a preset — Smartest, Smart or Normal — per agent or per workspace, and there are no provider API keys to bring or manage. The credentials an agent does use live in a vault and are injected outside the model, which only ever holds a handle, so a compromised agent cannot reach another agent's credentials or budget. That is the credential isolation pattern production pipelines need when they call externally-hosted frontier models.
 
-## Run Grok 4 in a Secure Agent Mesh
+## Run Grok 4 on a Secure Agent Platform
 
 Grok 4's native tool use and real-time X data access make it a capable foundation for social signal agents, coding workflows, and research pipelines that require live information retrieval. The architecture decision that matters most is not model selection — it is credential isolation and audit logging at the pipeline layer.
 
-OpenLegion's multi-agent mesh runs each agent in an isolated container with a scoped credential vault, so Grok 4 API keys never leak across agent boundaries. Audit logs capture full tool-use traces. Structured output constraints prevent prompt injection from retrieved X content from propagating into downstream agent actions.
+On OpenLegion every action is an intent checked by one policy engine before it happens, and credentials live in a vault, injected outside the model, which only ever holds a handle. Every tool call is recorded as a receipt. Acting on untrusted content — retrieved X posts included — is one of the three walls where work stops for an owner's approval.
 
-To start building with Grok 4 on OpenLegion: configure your xAI API key in the credential vault, assign it to the agents that need Grok 4 access, and let the mesh handle the isolation. See [AI agent orchestration and tool-use pipeline design](/learn/ai-agent-orchestration) for the full pipeline architecture guide, or review the [prompt injection and credential isolation in AI agent deployments](/learn/ai-agent-security) guide for the security model.
+To start building on OpenLegion: sign in with Google, pick the model preset each agent should run on, and let the policy engine handle the isolation. See [AI agent orchestration and tool-use pipeline design](/learn/ai-agent-orchestration) for the full pipeline architecture guide, or review the [prompt injection and credential isolation in AI agent deployments](/learn/ai-agent-security) guide for the security model.
 
 [Get started with OpenLegion →](https://openlegion.ai)

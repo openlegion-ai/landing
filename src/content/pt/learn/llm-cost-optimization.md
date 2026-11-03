@@ -34,7 +34,7 @@ Uma única chamada ao GPT-4o preenchendo um contexto de 128k custa $0,32 apenas 
 
 ## Perspectiva da OpenLegion: limites de orçamento são um primitivo de segurança, não apenas FinOps
 
-A OpenLegion trata os limites de orçamento por agente como um primitivo de segurança aplicado na camada de infraestrutura. Cada agente tem um limite `daily_usd` e `monthly_usd`. Quando um agente atinge seu limite, as chamadas LLM para esse agente são bloqueadas, não o pipeline inteiro. Isso é um corte rígido, não um aviso suave.
+A OpenLegion trata os limites de orçamento por agente como um primitivo de segurança aplicado na camada de infraestrutura. Cada agente carrega seu próprio orçamento, medido em créditos de US$ 0,001 cada. Quando um agente o esgota, as chamadas ao modelo para esse agente são recusadas, não o pipeline inteiro. Isso é um corte rígido, não um aviso suave.
 
 Para o contexto de segurança completo, ver [segurança de agentes IA e defesa contra negação de carteira](/learn/ai-agent-security).
 
@@ -70,7 +70,7 @@ A API Message Batches da Anthropic e a Batch API da OpenAI cobram cargas de trab
 
 ### Alavanca 5: Limites de Orçamento por Agente — aplicação na camada de infraestrutura
 
-A OpenLegion implementa `daily_usd` e `monthly_usd` por agente na camada mesh. Quando o limite é atingido: as chamadas LLM para esse agente são bloqueadas, o pipeline continua, o status do agente bloqueado é atualizado no blackboard.
+A OpenLegion dá a cada agente seu próprio orçamento em créditos, definido pelo dono no app e aplicado pelo motor de políticas. Quando o orçamento acaba: as chamadas ao modelo para esse agente são recusadas, o pipeline continua e o status do agente bloqueado é registrado no registro compartilhado.
 
 ### Alavanca 6: Controle de Tokens de Saída — saídas estruturadas e geração restrita
 
@@ -82,10 +82,10 @@ A OpenLegion implementa `daily_usd` e `monthly_usd` por agente na camada mesh. Q
 
 | **Dimensão** | **OpenLegion** | **LangGraph** | **CrewAI** | **AutoGen** |
 |---|---|---|---|---|
-| **Roteamento de modelo integrado** | Sim, campo modelo por agente | Não, manual no código | Não, manual no código | Não, manual no código |
-| **Limites de orçamento por agente** | Sim, daily_usd + monthly_usd | Não | Não | Não |
+| **Roteamento de modelo integrado** | Sim, um preset de modelo por agente | Não, manual no código | Não, manual no código | Não, manual no código |
+| **Limites de orçamento por agente** | Sim, um orçamento de créditos por agente, no motor de políticas | Não | Não | Não |
 | **Corte rígido de gastos** | Sim, chamadas LLM bloqueadas em excesso | Não | Não | Não |
-| **Rastreamento de custos em tempo real** | Sim, Cost Tracker na Zona 2 | Não integrado | Não integrado | Não integrado |
+| **Rastreamento de custos em tempo real** | Sim, custo exato por tarefa, por agente | Não integrado | Não integrado | Não integrado |
 
 <!-- SCHEMA: FAQPage -->
 ## Perguntas Frequentes
@@ -108,7 +108,7 @@ A API Message Batches da Anthropic processa solicitações de forma assíncrona 
 
 ### Como funcionam os limites de orçamento por agente na OpenLegion?
 
-Cada agente na OpenLegion tem limites `daily_usd` e `monthly_usd` aplicados na camada mesh pelo Cost Tracker na Zona 2. Quando um agente atinge seu limite, as chamadas LLM para esse agente são bloqueadas imediatamente. O restante do pipeline continua funcionando.
+Cada agente na OpenLegion carrega seu próprio orçamento em créditos, definido no app e aplicado pelo motor de políticas antes de cada chamada ao modelo. Quando um agente o esgota, as chamadas ao modelo para esse agente são recusadas imediatamente. O restante do pipeline continua funcionando.
 
 ### Como a compressão de contexto reduz os custos de tokens LLM?
 
@@ -116,7 +116,7 @@ A compressão de contexto remove tokens de chamadas de API que não contribuem p
 
 ### O que é negação de carteira e como os limites de orçamento a previnem?
 
-Negação de carteira é OWASP LLM10:2025, um ataque onde um agente é manipulado para consumir tokens ilimitados. Os limites de orçamento por agente com cortes rígidos em nível de infraestrutura previnem isso: quando o limite é atingido, as chamadas LLM são bloqueadas pela camada mesh, não pelo próprio agente.
+Negação de carteira é OWASP LLM10:2025, um ataque onde um agente é manipulado para consumir tokens ilimitados. Os limites de orçamento por agente com cortes rígidos em nível de infraestrutura previnem isso: quando o orçamento acaba, as chamadas ao modelo são recusadas pelo motor de políticas, não pelo próprio agente.
 
 ## Execute Agentes com Custos Integrados na Arquitetura
 

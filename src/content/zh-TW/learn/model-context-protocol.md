@@ -2,7 +2,7 @@
 title: Model Context Protocol (MCP) — AI 代理如何使用工具
 description: >-
   Model Context Protocol (MCP) 是 Anthropic 為讓 AI 代理探索與呼叫外部工具
-  所制定的開放標準。它如何運作、安全注意事項,以及 OpenLegion 對 MCP 的支援。
+  所制定的開放標準。它如何運作、安全注意事項,以及 OpenLegion 改採的做法。
 slug: /learn/model-context-protocol
 primary_keyword: model context protocol
 secondary_keywords:
@@ -73,14 +73,14 @@ MCP 是 *能力暴露* 協定 — 不是授權或稽核協定。生產部署需�
 
 ## OpenLegion 如何整合 MCP
 
-OpenLegion 預設是 MCP 客戶端。執行環境中的代理自動探索為其艦隊設定的 MCP 伺服器、在脈絡視窗中看到工具清單,並透過與內建技能相同的金庫代理、ACL 把關路徑呼叫 MCP 工具。網狀架構強制執行 MCP 略過的生產級層:
+MCP 在 OpenLegion 推出時並不提供。代理使用 OpenLegion 自己的內建工具組,而每次呼叫都走同一條路徑:一個在發生前由單一政策引擎檢查的意圖,接著記錄成擁有者可讀的收據。以下就是 MCP 刻意略過的生產級層:
 
-- 每個 MCP 伺服器在自己的沙箱化命名空間中執行;代理永遠無法直接 stdio 存取伺服器程序。
-- 每代理 ACL 把關特定代理被允許呼叫哪些 MCP 伺服器。
-- 每次工具呼叫都計入代理的每代理預算;代理超過上限時會被截斷,無論支出來自 LLM 或 MCP 工具。
-- 網狀架構將每次 MCP 呼叫記錄至追蹤日誌 — 與 [AI 代理可觀測性](/learn/ai-agent-observability) 涵蓋的相同遙測。
+- 代理所寫的程式碼在預設無網路存取的沙箱中執行;代理永遠無法直接 stdio 存取主機程序。
+- 每代理權限把關特定代理被允許呼叫哪些工具。
+- 每次工具呼叫都計入代理自己的點數預算;代理耗盡預算時會被截斷,無論支出來自模型或工具。
+- 每次呼叫都連同代理身分、時間戳記與精確成本一併記錄 — 與 [AI 代理可觀測性](/learn/ai-agent-observability) 涵蓋的相同遙測。
 
-結果:你能取得 MCP 生態圈的廣度,而不繼承其預設信任假設。
+結果:工具面比 MCP 生態圈更窄,但完全不繼承其預設信任假設。
 
 ## OpenLegion 的觀點
 
@@ -119,4 +119,4 @@ OpenAI function calling 是讓單一 LLM 呼叫 API 請求中定義的函式的�
 
 ### 我能將 MCP 與任何 LLM 供應商一起使用嗎?
 
-可以。MCP 與 LLM 無關 — 客戶端將 MCP 工具定義呈現為底層 LLM 期望的任何格式(Anthropic tool use、OpenAI function calling、Gemini function declarations)。像 OpenLegion 這類透過 LiteLLM 支援 100 多家供應商的執行環境,會自動將 MCP 工具適配為各供應商的呼叫慣例。
+可以。MCP 與 LLM 無關 — 客戶端將 MCP 工具定義呈現為底層 LLM 期望的任何格式(Anthropic tool use、OpenAI function calling、Gemini function declarations)。像 OpenLegion 這樣以 Smartest、Smart 與 Normal 模型預設隱藏供應商選擇的執行環境,會自動將工具定義適配為各供應商的呼叫慣例。

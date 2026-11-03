@@ -44,7 +44,7 @@ La tarification AaaS en 2026 a convergé vers trois structures :
 
 **Frais par action pour les intégrations d'outils.** Requêtes AWS Bedrock Knowledge Base : 0,0004 USD/requête. Un agent effectuant 50 recherches KB par session paie 0,02 USD/session en frais KB. À 100 000 requêtes KB/jour : 40 USD/jour en frais d'action uniquement.
 
-**Paliers d'abonnement par heure d'agent.** Certaines plateformes proposent des paliers où chaque agent actif est décompté des heures incluses. Ce modèle offre une prévisibilité des coûts pour les flottes d'agents stables mais peut être inefficace pour les charges de travail irrégulières.
+**Paliers d'abonnement à crédits inclus.** Certaines plateformes incluent une allocation mensuelle de crédits que chaque unité de travail consomme, de sorte qu'un agent inactif ne coûte rien. Ce modèle offre une prévisibilité des coûts pour les équipes stables mais peut être inefficace pour les charges de travail irrégulières.
 
 La tarification à la consommation aligne les incitations du fournisseur sur l'utilisation du client, mais crée une imprévisibilité des coûts pour les agents à longue durée d'exécution. Une boucle d'agent incontrôlée génère des frais à la fois sur la couche d'orchestration et sur la couche modèle.
 
@@ -59,9 +59,9 @@ CVE-2024-5184 (Palo Alto Unit 42, juin 2024, CVSS 9,1 CRITIQUE) a démontré que
 La question diagnostique à poser à tout fournisseur AaaS : **"Si la fenêtre de contexte complète de mon agent est extraite par un attaquant via injection de prompt, quels identifiants sont exposés ?"** La bonne réponse est : aucun.
 
 - **AWS Bedrock Agents** : prise de rôle IAM par invocation ; l'agent s'exécute sous un token de rôle IAM temporaire et ne détient jamais de clé API brute
-- **OpenLegion** : résolution de handle `$CRED{}` dans la Zone 2 ; le code de l'agent référence un identifiant par nom ; Zone 2 résout la valeur réelle au moment de l'exécution sans la renvoyer à l'agent
+- **OpenLegion** : résolution de référence d'identifiant par le moteur de politiques ; l'agent référence un identifiant par nom ; le moteur de politiques résout la valeur réelle au moment de l'exécution sans la renvoyer au modèle
 
-Pour le pattern de proxy vault et l'architecture de handle `$CRED{}`, voir [gestion des identifiants et portée des clés API par locataire pour les agents IA](/learn/credential-management-ai-agents).
+Pour le pattern de coffre-fort de credentials et l'architecture de référence, voir [gestion des identifiants et portée des clés API par locataire pour les agents IA](/learn/credential-management-ai-agents).
 
 ## Le paysage des fournisseurs AaaS en 2026
 
@@ -138,7 +138,7 @@ CVE-2024-5184 (Palo Alto Unit 42, juin 2024, CVSS 9,1 CRITIQUE) : injection de p
 **Isolation au niveau de l'infrastructure (la plus forte) :**
 - AWS Bedrock Agents : rôles IAM séparés par locataire
 - Google Agent Space : isolation via les limites de projet Google Cloud
-- OpenLegion : ACL de namespace de tableau de bord par projet
+- OpenLegion : ACL par espace de travail sur l'état partagé des agents
 
 **Isolation au niveau du prompt système (la plus faible) :** Échoue lorsque l'injection de prompt écrase l'instruction du locataire (OWASP LLM06:2023).
 
@@ -201,14 +201,14 @@ Trois chiffres concrets :
 
 | **Contrôle de sécurité** | **OpenLegion** | **AWS Bedrock Agents** | **Google Agent Space** | **OpenAI Operator** | **LangGraph (auto-hébergé)** |
 |---|---|---|---|---|---|
-| **Vault d'identifiants avec résolution de handle $CRED{}** | Zone 2, architectural | Prise de rôle IAM | Portée compte de service | Isolation de session | Responsabilité développeur |
-| **Plafond de dépenses journalières par agent (couche infrastructure)** | Zone 2, 0--50 USD/jour | Non disponible | Non disponible | Non disponible | Responsabilité développeur |
+| **Vault d'identifiants avec résolution de référence** | Appliqué par le coffre-fort, architectural | Prise de rôle IAM | Portée compte de service | Isolation de session | Responsabilité développeur |
+| **Plafond de dépenses journalières par agent (couche infrastructure)** | Moteur de politiques, crédits par agent | Non disponible | Non disponible | Non disponible | Responsabilité développeur |
 | **ACL de tableau de bord par projet locataire** | Architectural | Basé sur IAM | Basé sur projet | S.O. | Responsabilité développeur |
 | **Portée des permissions d'outils par agent** | Imposée par le runtime | IAM groupe d'actions | Basé sur IAM | S.O. | Responsabilité développeur |
 | **Journal d'audit WORM par locataire (SOC 2 CC6.1)** | Natif | CloudTrail | Cloud Audit Logs | S.O. | Responsabilité développeur |
-| **Définition d'agent dans git** | INSTRUCTIONS.md | Console/API | Console/API | S.O. | Responsabilité développeur |
+| **Définition d'agent dans git** | Pas dans git — dans l'app, chaque changement audité | Console/API | Console/API | S.O. | Responsabilité développeur |
 
-[Commencer à construire sur OpenLegion](https://app.openlegion.ai) -- déployez des agents avec une isolation architecturale des identifiants, des plafonds de dépenses journalières par agent appliqués en Zone 2 et des ACL de tableau de bord rendant l'accès cross-locataire architecturalement impossible.
+[Commencer à construire sur OpenLegion](https://app.openlegion.ai) -- déployez des agents avec une isolation architecturale des identifiants par références de coffre-fort, des budgets en crédits par agent appliqués par le moteur de politiques et des ACL par espace de travail rendant l'accès cross-locataire architecturalement impossible.
 
 <!-- SCHEMA: FAQPage -->
 
@@ -232,7 +232,7 @@ OpenAI Operator, lancé en janvier 2025, est le premier produit AaaS grand publi
 
 ### Comment fonctionne l'isolation des identifiants dans les plateformes AaaS ?
 
-L'isolation des identifiants signifie que la plateforme n'expose jamais les clés API LLM, les identifiants de base de données ou les secrets d'outils du client au code de l'agent. AWS Bedrock Agents y parvient via la prise de rôle IAM. OpenLegion utilise la résolution de handle `$CRED{}` en Zone 2 : le code de l'agent référence un identifiant par nom ; Zone 2 résout la valeur réelle au moment de l'exécution sans la renvoyer à l'agent.
+L'isolation des identifiants signifie que la plateforme n'expose jamais les clés API LLM, les identifiants de base de données ou les secrets d'outils du client au code de l'agent. AWS Bedrock Agents y parvient via la prise de rôle IAM. OpenLegion utilise des références d'identifiants en coffre-fort : l'agent référence un identifiant par nom, et le moteur de politiques résout la valeur réelle au moment de l'exécution sans la renvoyer au modèle.
 
 ### Quels risques de sécurité sont spécifiques aux plateformes AaaS ?
 

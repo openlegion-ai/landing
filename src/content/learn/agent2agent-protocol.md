@@ -119,7 +119,7 @@ Examples: an orchestrating agent delegating a research subtask to a web-research
 
 A production multi-agent system typically uses both. The orchestrating agent uses A2A to delegate to specialist agents. Each specialist agent uses MCP to call its tools. The layers compose: A2A handles agent-to-agent coordination; MCP handles agent-to-tool calls within each agent's reasoning loop.
 
-In OpenLegion's mesh architecture, inter-agent handoffs use a typed contract protocol that provides A2A-equivalent coordination with built-in authentication. Each agent's tool calls run through the credential vault — the MCP-equivalent layer — with per-agent ACL enforcement.
+In OpenLegion, delegation between agents uses a typed task contract that provides A2A-equivalent coordination with built-in authentication. Each agent's tool calls are intents checked by one policy engine, and credentials are injected from the vault outside the model.
 
 ## A2A Authentication and Security Model
 
@@ -145,9 +145,9 @@ Authentication is optional. Agent cards are unauthenticated by default. The refe
 
 OpenLegion's approach to inter-agent communication enforces what A2A's base profile leaves optional:
 
-1. **Every inter-agent call routes through the credential vault.** There is no anonymous delegation mode. Callers must authenticate before submitting tasks. The credential vault validates the caller identity and enforces per-agent ACL gates before the task reaches the receiving agent.
+1. **Every inter-agent call is an intent checked by the policy engine.** There is no anonymous delegation mode. Callers must authenticate before submitting tasks. The policy engine validates the caller identity and enforces per-agent ACL gates before the task reaches the receiving agent.
 
-2. **Task payload sanitization at 56 network choke points.** User-controlled content in handoff payloads — the A2A equivalent of task descriptions and input data — is sanitized for unicode attacks (bidi overrides U+202A–U+202E, tag characters U+E0000–U+E007F, zero-width characters) before reaching the LLM context. This runs at the mesh host, outside the agent's code.
+2. **Task payload sanitization before content reaches the model.** User-controlled content in handoff payloads — the A2A equivalent of task descriptions and input data — is sanitized for unicode attacks (bidi overrides U+202A–U+202E, tag characters U+E0000–U+E007F, zero-width characters) before reaching the LLM context. This runs in the platform, outside the agent's code.
 
 3. **Typed handoff contracts validated by the orchestrator.** Handoff payloads must match a declared schema. Relay injection that produces a malformed or anomalous payload is blocked at the handoff boundary before the downstream agent processes it.
 
@@ -272,7 +272,7 @@ A2A launched in April 2025 with 50+ contributing organizations, including Salesf
 
 ### How does OpenLegion implement agent-to-agent communication?
 
-OpenLegion's mesh architecture implements inter-agent coordination with mandatory authentication on every call — there is no anonymous delegation mode. Every agent-to-agent handoff routes through the credential vault, which validates caller identity and enforces per-agent ACL gates before the task reaches the receiving agent. Task payload content is sanitized at 56 network choke points for unicode attacks before reaching the LLM context. Typed handoff contracts are validated by the orchestrator, blocking relay injection payloads at the boundary. These controls run at the infrastructure layer outside the agent's code — an injected agent cannot disable them.
+OpenLegion implements inter-agent coordination with mandatory authentication on every call — there is no anonymous delegation mode. Every delegation is an intent checked by one policy engine, which validates caller identity and enforces per-agent ACL gates before the task reaches the receiving agent, and records the outcome as a receipt the owner can read. Task payload content is sanitized for unicode attacks before reaching the LLM context. Typed task contracts are validated before dispatch, blocking relay injection payloads at the boundary. These controls run in the platform outside the agent's code — an injected agent cannot disable them.
 
 ## Build Multi-Agent Systems With Authentication on Every Call
 

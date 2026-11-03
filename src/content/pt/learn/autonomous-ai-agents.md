@@ -50,11 +50,11 @@ Agentes L1 agem de forma autónoma dentro de um âmbito predefinido e fixo. Um b
 
 Agentes L2 recebem um objetivo e executam de forma autónoma um plano de múltiplos passos. OpenAI Operator (janeiro de 2025) é o primeiro L2 implantado comercialmente. L2 é o nível de autonomia onde os erros compostos se tornam o risco primário: um agente com 95 % de precisão por passo numa tarefa de 20 passos tem 36 % de probabilidade de completar corretamente todos os 20 passos (0,95^20).
 
-**Nível de autonomia predefinido do OpenLegion: L2 com supervisor mesh.** Os cinco portões de segurança são obrigatórios:
+**Nível de autonomia predefinido do OpenLegion: L2 com supervisão do motor de políticas.** Os cinco portões de segurança são obrigatórios:
 
 1. Inspeção do plano pré-execução antes de qualquer ação irreversível
 2. Portão HITL antes de chamadas de ferramentas irreversíveis (commit, enviar, POST)
-3. Limite orçamental diário por agente (não contornável pelo código do agente)
+3. Orçamento de créditos por agente aplicado pelo motor de políticas (não contornável pelo código do agente)
 4. Registo de auditoria append-only de cada chamada de ferramenta com argumentos
 5. Kill switch alcançável em 60 segundos a partir de qualquer estado
 
@@ -65,13 +65,13 @@ Agentes L3 recebem um objetivo de alto nível e geram a sua própria decomposiç
 **Portões de segurança necessários para L3** (todos os portões L2 mais):
 - Verificação automatizada de política de plano antes da execução
 - Memória de falhas por reflexão
-- Limite de capacidade explícito em INSTRUCTIONS.md
+- Limite de capacidade explícito nas instruções do agente
 - Deteção de deriva de objetivos
 - Limite de profundidade de revisão: máximo 3 ciclos antes de escalar
 
 ### L4: Agente automodificante, reescreve objetivos, código e configuração
 
-Agentes L4 podem modificar os seus próprios objetivos, reescrever o seu próprio código, criar novos agentes e adquirir recursos externos de forma autónoma. Nenhum sistema L4 implantado comercialmente existe em 2026. Propriedades de prevenção L4 do OpenLegion: acesso a credenciais apenas através de handles `$CRED{}` explicitamente registados, limite orçamental aplicado no proxy LLM da Zona 2.
+Agentes L4 podem modificar os seus próprios objetivos, reescrever o seu próprio código, criar novos agentes e adquirir recursos externos de forma autónoma. Nenhum sistema L4 implantado comercialmente existe em 2026. Propriedades de prevenção L4 do OpenLegion: acesso a credenciais apenas através de handles de cofre explicitamente registados, limite orçamental aplicado pelo motor de políticas fora do modelo.
 
 ## Portões de segurança por nível de autonomia
 
@@ -105,7 +105,7 @@ OWASP LLM06:2025 é a categoria de risco crítico para agentes autónomos. Quatr
 
 A generalização errónea de objetivos ocorre quando um agente aprendeu a otimizar para um objetivo proxy que funciona bem em treino mas diverge do objetivo pretendido em produção. Deteção: conjunto de teste projetado para expor a divergência proxy-objetivo.
 
-Mitigação em INSTRUCTIONS.md:
+Mitigação nas instruções do agente:
 
 ```markdown
 ## Verificação de alinhamento de objetivos
@@ -137,7 +137,7 @@ A Lei de IA da UE (em vigor desde agosto de 2024) classifica os agentes autónom
 
 ## A perspetiva do OpenLegion
 
-O espectro L0-L4 é uma ferramenta de planeamento, não uma categoria de marketing. A maioria das implantações em produção visam L2 com supervisão do supervisor mesh. Os agentes OpenLegion são implantados por defeito em L2.
+O espectro L0-L4 é uma ferramenta de planeamento, não uma categoria de marketing. A maioria das implantações em produção visam L2 com supervisão aplicada pela plataforma. Os agentes OpenLegion são implantados por defeito em L2: um único motor de políticas na frente de cada ação, orçamentos de créditos por agente e uma trilha de recibos append-only.
 
 L3 é alcançável mas requer trabalho adicional. O OpenLegion suporta implantações L3 para clientes empresariais que operaram agentes L2 em modo supervisionado durante pelo menos 30 dias.
 
@@ -145,7 +145,7 @@ Para o quadro de governação que cobre a política de agentes autónomos numa o
 
 ## Começar
 
-**Implantar agentes autónomos L2 com portões de segurança estruturais, supervisão mesh e kill switch em menos de 60 segundos.**
+**Implantar agentes autónomos L2 com portões de segurança estruturais, supervisão do motor de políticas e kill switch em menos de 60 segundos.**
 [Começar com OpenLegion](https://app.openlegion.ai) | [Ler a documentação](https://docs.openlegion.ai) | [O que é um agente IA?](/learn/what-is-an-ai-agent)
 
 ---
@@ -164,7 +164,7 @@ O espectro L0-L4 classifica os agentes pelo grau de ação autónoma. L0 requer 
 
 ### Que portões de segurança são necessários para um agente autónomo L2?
 
-Cinco portões de segurança são necessários para L2: inspeção do plano pré-execução antes de qualquer ação irreversível, portão de aprovação HITL para chamadas de ferramentas irreversíveis, limite orçamental diário por agente na camada de infraestrutura, registo de auditoria append-only de cada chamada de ferramenta, e kill switch alcançável em 60 segundos.
+Cinco portões de segurança são necessários para L2: inspeção do plano pré-execução antes de qualquer ação irreversível, portão de aprovação HITL para chamadas de ferramentas irreversíveis, orçamento de créditos por agente aplicado pela plataforma, registo de auditoria append-only de cada chamada de ferramenta, e kill switch alcançável em 60 segundos.
 
 ### O que é a Política de Escalamento Responsável da Anthropic e como se aplica a agentes autónomos?
 

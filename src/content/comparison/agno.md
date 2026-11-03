@@ -24,9 +24,9 @@ related:
 
 # Agno Alternative: Security-First Multi-Agent Platform
 
-Agno (formerly Phidata, rebranded 2025) is an open-source Python framework for building multi-modal agents with 40,678 GitHub stars, 5,520 forks, and 917 open issues as of June 2026. It ships a batteries-included approach with built-in storage, memory, knowledge retrieval, and a web UI (Agno Playground). Three security patches in 13 days (May 6-19 2026) - covering IDOR in MCP tools, WebSocket JWT binding, and path traversal - signal a reactive patching pattern that OpenLegion's vault-first, container-isolated architecture avoids by design.
+Agno (formerly Phidata, rebranded 2025) is an open-source Python framework for building multi-modal agents with 40,678 GitHub stars, 5,520 forks, and 917 open issues as of June 2026. It ships a batteries-included approach with built-in storage, memory, knowledge retrieval, and a web UI (Agno Playground). Three security patches in 13 days (May 6-19 2026) - covering IDOR in MCP tools, WebSocket JWT binding, and path traversal - signal a reactive patching pattern that OpenLegion's vault-first, sandboxed-run architecture avoids by design.
 
-OpenLegion is a security-first AI agent platform with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
+OpenLegion is a security-first AI agent platform with sandboxed task runs, vault-held credentials, per-agent credit budgets, and goal-and-task coordination (goals to tasks to agents).
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -38,16 +38,16 @@ OpenLegion is a security-first AI agent platform with mandatory Docker container
 | Dimension | OpenLegion | Agno |
 |---|---|---|
 | **Primary focus** | Production security infrastructure | Batteries-included agent building |
-| **Architecture** | Four-zone trust model, Docker container per agent | Single Python process, optional Playground UI |
-| **Agent isolation** | Docker container per agent, non-root, no-new-privileges | Shared Python process; no container isolation |
-| **Credential security** | Vault proxy - agents never see API keys | Environment variables accessible to all agents |
-| **Budget controls** | Per-agent daily/monthly hard cutoff | None built-in |
-| **Orchestration** | Fleet-model coordination - blackboard + pub/sub + handoff | Agent Teams with Coordinate/Route/Collaborate modes |
+| **Architecture** | One policy engine in front of every action, a sandboxed run per task | Single Python process, optional Playground UI |
+| **Agent isolation** | A sandboxed run per task, no network access by default | Shared Python process; no container isolation |
+| **Credential security** | Vault-held - agents never see API keys | Environment variables accessible to all agents |
+| **Budget controls** | Per-agent credit budget with hard cutoff | None built-in |
+| **Orchestration** | Goal-and-task coordination - goals, tasks, agents | Agent Teams with Coordinate/Route/Collaborate modes |
 | **Multi-modal** | Text + tool calls | Text, image, audio, video inputs |
-| **Known CVEs** | 0 | CVE-2025-64168 (CVSS 7.1); 3 patches May 2026 |
+| **Known CVEs** | n/a - hosted platform | CVE-2025-64168 (CVSS 7.1); 3 patches May 2026 |
 | **Security patch cadence** | N/A | 3 fixes in 13 days (May 6-19 2026) |
-| **License** | BSL 1.1 | Apache License 2.0 |
-| **GitHub stars** | ~59 | ~40,678 |
+| **License** | PolyForm Perimeter 1.0.1 (engine) | Apache License 2.0 |
+| **GitHub stars** | n/a | ~40,678 |
 | **Formerly known as** | - | Phidata (rebranded to Agno in 2025) |
 
 ## Choose Agno if...
@@ -60,21 +60,21 @@ OpenLegion is a security-first AI agent platform with mandatory Docker container
 
 **Multi-modal agent teams matter.** Agno's Team abstraction supports Coordinate mode (router delegates to specialists), Route mode (LLM-driven routing), and Collaborate mode (agents respond in sequence). This flexibility maps well to pipelines where different agents handle different content types.
 
-**The Apache License 2.0 fits your project.** Apache 2.0 allows proprietary products to use Agno as a dependency without sharing modifications, and includes an express patent grant. This is more permissive than OpenLegion's BSL 1.1 for embedding in commercial products.
+**The Apache License 2.0 fits your project.** Apache 2.0 allows proprietary products to use Agno as a dependency without sharing modifications, and includes an express patent grant. This is more permissive than the PolyForm Perimeter License 1.0.1 on OpenLegion's engine for embedding in commercial products.
 
 ## Choose OpenLegion if...
 
-**Your agents handle credentials.** Agno stores API keys in environment variables or configuration dictionaries accessible within the shared Python process. Every agent in an Agno team shares that process - a prompt injection that causes one agent to print its environment can expose credentials used by all agents. OpenLegion's vault proxy keeps credentials in Zone 2 (Mesh Host) and injects them at the network layer; agents never hold keys in any form.
+**Your agents handle credentials.** Agno stores API keys in environment variables or configuration dictionaries accessible within the shared Python process. Every agent in an Agno team shares that process - a prompt injection that causes one agent to print its environment can expose credentials used by all agents. OpenLegion's vault keeps credentials outside the model and injects them at the call boundary; the agent only ever holds a handle, never a key.
 
 **Three CVEs and patches in six months concern you.** CVE-2025-64168 (CVSS 7.1, October 2025) exposed one user's session state data to another under async concurrency. Three separate security fixes shipped in 13 days (May 6-19 2026) - IDOR in MCP tool routing, IDOR in WebSocket JWT binding, and path traversal hardening across FileGenerationTools, SlackTools, and FileTools. Fast patching is better than no patching, but the pattern reflects fixes to issues that OpenLegion's architecture prevents at the design level.
 
-**Multi-tenant isolation is a hard requirement.** The v2.6.5 and v2.6.6 IDOR vulnerabilities both involved requests accessing resources belonging to a different JWT subject. In a single-process shared model, one missing authorization check creates cross-tenant data exposure. OpenLegion's container-per-agent model scopes each agent to its own filesystem and network namespace - there is no shared state for a binding error to cross.
+**Multi-tenant isolation is a hard requirement.** The v2.6.5 and v2.6.6 IDOR vulnerabilities both involved requests accessing resources belonging to a different JWT subject. In a single-process shared model, one missing authorization check creates cross-tenant data exposure. OpenLegion runs every task as its own sandboxed run, scoped to one workspace by the policy engine - there is no shared state for a binding error to cross.
 
-**Cost control is non-negotiable.** Agno has no built-in budget enforcement. An agent that enters a reasoning loop or is manipulated into repeated tool calls will burn API tokens with no automatic ceiling. OpenLegion enforces per-agent daily and monthly budgets with hard cutoffs at the orchestrator level.
+**Cost control is non-negotiable.** Agno has no built-in budget enforcement. An agent that enters a reasoning loop or is manipulated into repeated tool calls will burn API tokens with no automatic ceiling. OpenLegion gives every agent its own credit budget, with a hard cutoff enforced before any work runs.
 
-**You need auditable, deterministic workflows.** Agno's Route mode uses LLM-driven delegation at runtime - the execution path is determined by the model, not your code. OpenLegion's fleet-model coordination defines execution order, tool permissions, and agent dependencies before any agent runs - the full flow is inspectable before execution.
+**You need auditable, deterministic workflows.** Agno's Route mode uses LLM-driven delegation at runtime - the execution path is determined by the model, not your code. OpenLegion's goal-and-task coordination defines execution order, tool permissions, and agent dependencies before any agent runs - the full flow is inspectable before execution.
 
-**Zero telemetry is required.** Agno collects anonymous usage telemetry by default. OpenLegion collects zero telemetry.
+**You want every action on the record.** Agno collects anonymous usage telemetry by default. OpenLegion records every action as a receipt the owner can read.
 
 ## OpenLegion's Take
 
@@ -82,7 +82,7 @@ Agno is a well-engineered framework for teams that want maximum feature breadth 
 
 The security track record warrants scrutiny before production deployment. CVE-2025-64168 (CVSS 7.1, CWE-362 race condition + CWE-668 exposure of resources to wrong sphere) exposed session state cross-user under async concurrency - a class of vulnerability that only surfaces under production load. The three May 2026 patches each touched authentication and authorization boundaries inside a two-week window: IDOR in MCP tool routing (v2.6.5, May 6), IDOR in WebSocket JWT binding (v2.6.6, May 14), path traversal hardening in FileGenerationTools/SlackTools/FileTools (v2.6.8, May 19). Fast patching is better than slow patching, but it reflects reactive fixes to issues OpenLegion's architecture prevents by design.
 
-Container isolation means there is no shared mutable state for a race condition to expose across users. Vault proxy means credentials have no presence in the agent process for an IDOR to reach. Framework-level path safety added from the start - not post-incident - means path traversal cannot occur regardless of which tool a developer uses. The tradeoff is real: Agno has 40,678 stars, a richer feature surface, and a larger community. For teams where security is a compliance requirement rather than a nice-to-have, OpenLegion provides the architectural guarantees; Agno provides the ecosystem.
+Run isolation means there is no shared mutable state for a race condition to expose across users. Vault-held credentials mean keys have no presence in the agent's run for an IDOR to reach. A policy check in front of every tool call - from the start, not post-incident - means path traversal cannot escape the run regardless of which tool a developer uses. The tradeoff is real: Agno has 40,678 stars, a richer feature surface, and a larger community. For teams where security is a compliance requirement rather than a nice-to-have, OpenLegion provides the architectural guarantees; Agno provides the ecosystem.
 
 ## Security Model Comparison
 
@@ -90,13 +90,13 @@ Container isolation means there is no shared mutable state for a race condition 
 
 **Agno** passes API keys via environment variables or configuration dictionaries. The agent process reads them directly; all agents in a team share the same Python process and have access to the same environment. There is no vault abstraction or blind injection proxy in the open-source tier.
 
-**OpenLegion** stores credentials in the Mesh Host Credential Vault (Zone 2). When an agent needs to call an external API, the request routes through the vault proxy, which injects the credential at the network layer. The agent never holds or sees the raw key. Even arbitrary code execution inside the agent container cannot extract credentials because none are present.
+**OpenLegion** stores credentials in a vault that the model never reaches. When an agent needs to call an external API, the credential is injected outside the model, which only ever holds a handle. The agent never holds or sees the raw key. Even arbitrary code execution inside the sandboxed run cannot extract credentials because none are present.
 
 ### Session isolation and CVE-2025-64168
 
 CVE-2025-64168 (CVSS 7.1 HIGH, published October 31 2025, patched in Agno 2.2.2) disclosed a race condition in the session_state management layer. Under high async concurrency, one user's session data could be exposed to a different user's request context. The root causes - CWE-362 (race condition) and CWE-668 (exposure of resource to wrong sphere) - affect any system where concurrent users share a single process with shared mutable state, which is the standard Agno architecture.
 
-OpenLegion avoids this class of vulnerability by design: each agent runs in an isolated Docker container with its own filesystem and network namespace. There is no shared mutable state between concurrent user sessions because each session's agent runs in its own container.
+OpenLegion avoids this class of vulnerability by design: each task runs on demand in its own sandboxed run and then stops. There is no shared mutable state between concurrent user sessions because every unit of work is a separate recorded wake.
 
 ### IDOR vulnerabilities (May 2026)
 
@@ -104,19 +104,19 @@ OpenLegion avoids this class of vulnerability by design: each agent runs in an i
 
 **v2.6.6 (May 14 2026):** A second IDOR on the WebSocket router (traces and approvals endpoints) similarly failed to validate that the requesting JWT subject matched the user_id on the request. Cross-tenant access to approval and trace data was possible. Patched in v2.6.6.
 
-Both IDORs affect multi-tenant deployments where multiple users share an Agno instance. OpenLegion's container-per-agent model means agent resources are scoped to individual containers - there is no shared state for a missing authorization check to cross.
+Both IDORs affect multi-tenant deployments where multiple users share an Agno instance. OpenLegion's per-task run model means agent resources are scoped to one workspace and one run - there is no shared state for a missing authorization check to cross.
 
 ### Path traversal hardening (May 2026)
 
 **v2.6.8 (May 19 2026):** Agno added a centralized path_safety module to FileGenerationTools, SlackTools, and FileTools, addressing path traversal, symlink escape, Windows MagicDot attack vectors, and Unicode normalization issues. This fix was introduced as a reactive hardening patch - the underlying tools previously lacked centralized path validation.
 
-OpenLegion agents run in Docker containers with their own isolated /data volume and a read-only root filesystem. Path traversal in a tool call cannot escape the container's filesystem boundary. The blast radius of a path traversal exploit is contained to that container's /data volume, with no access to the host system or other containers.
+Code an OpenLegion agent writes runs in a sandbox with no network access by default and its own scratch filesystem. Path traversal in a tool call cannot escape that sandbox boundary. The blast radius of a path traversal exploit is contained to the one task's run, with no access to the host system or to other agents.
 
 ### Budget controls
 
 **Agno** has no built-in budget enforcement. Agent teams that enter reasoning loops, make excessive tool calls, or are manipulated via prompt injection will consume API tokens without a ceiling.
 
-**OpenLegion** enforces per-agent daily and monthly budget limits with automatic hard cutoff at the orchestrator level. When an agent reaches its limit, it is halted. The rest of the workflow continues or pauses gracefully.
+**OpenLegion** gives every agent its own credit budget, enforced as an automatic hard cutoff by the policy engine. When an agent reaches its limit, it is halted. The rest of the workflow continues or pauses gracefully.
 
 ## Agno's Strengths: What It Does Well
 
@@ -150,7 +150,7 @@ Agno's Team abstraction supports three coordination modes. Coordinate mode uses 
 
 **Agno** is self-hosted via pip install with PostgreSQL, SQLite, or Redis backends. The Agno Cloud offering hosts agents with the Playground UI included. The framework runs without Docker - agents share the host Python process. For container-based deployments, developers provision their own containers around the Agno process.
 
-**OpenLegion** requires Python, SQLite, and Docker. The self-hosted option (BSL 1.1) includes all security features. The hosted platform offers per-user VPS instances with BYO API keys. Security features - vault proxy, container isolation, per-agent budgets - are available in both deployment modes, not gated behind a paid tier.
+**OpenLegion** requires none of that: sign in with Google, start free with 1,000 credits and no card, or go Pro at $29/month. The engine is published source-available under the PolyForm Perimeter License 1.0.1; the hosted platform is proprietary. Security properties - vault-held credentials, sandboxed runs, per-agent budgets - apply on every plan, not gated behind a paid tier.
 
 ## Who It's For
 
@@ -162,9 +162,9 @@ Agno's Team abstraction supports three coordination modes. Coordinate mode uses 
 
 Agno has 40,678 GitHub stars, multi-modal inputs, a rich storage layer, and a batteries-included developer experience. For teams prototyping fast or building products where the deployment environment handles security concerns separately, Agno's feature breadth is compelling.
 
-OpenLegion has 59 GitHub stars, mandatory Docker container isolation, vault proxy credentials, per-agent budget enforcement, and zero telemetry. These security properties are architectural - they cannot be toggled off or bypassed by a misconfigured environment variable. For teams that need to prove to a compliance auditor or security team that agents cannot leak credentials, cross user boundaries, or run up unlimited costs, OpenLegion provides guarantees that Agno does not.
+OpenLegion has one policy engine in front of every action, sandboxed task runs, vault-held credentials, per-agent credit budgets, and a receipt for every action. These security properties are architectural - they cannot be toggled off or bypassed by a misconfigured environment variable. For teams that need to prove to a compliance auditor or security team that agents cannot leak credentials, cross user boundaries, or run up unlimited costs, OpenLegion provides guarantees that Agno does not.
 
-The CVE-2025-64168 and the three May 2026 patches are not disqualifying - every actively maintained framework ships security patches. The pattern matters: all four issues involve shared-state authorization boundaries (session state, JWT-to-resource binding, path safety) that OpenLegion eliminates through container isolation and vault proxy. Different architectural choices, different risk surfaces.
+The CVE-2025-64168 and the three May 2026 patches are not disqualifying - every actively maintained framework ships security patches. The pattern matters: all four issues involve shared-state authorization boundaries (session state, JWT-to-resource binding, path safety) that OpenLegion eliminates through per-task run isolation and vault-held credentials. Different architectural choices, different risk surfaces.
 
 For the full security threat model for AI agents, see the [AI agent security guide](/learn/ai-agent-security). To compare across all major frameworks, see the [AI agent frameworks comparison](/learn/ai-agent-frameworks).
 
@@ -181,7 +181,7 @@ For the full security threat model for AI agents, see the [AI agent security gui
 
 ### What is Agno and how does it differ from OpenLegion?
 
-Agno (formerly Phidata, rebranded 2025) is an open-source Python framework for building multi-modal AI agents with built-in storage backends, knowledge retrieval, and a web-based Playground UI. It has 40,678 GitHub stars and supports text, image, audio, and video inputs. OpenLegion is a security-first AI agent platform with mandatory Docker container isolation, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination. Agno prioritizes feature breadth and developer speed; OpenLegion prioritizes production security and compliance.
+Agno (formerly Phidata, rebranded 2025) is an open-source Python framework for building multi-modal AI agents with built-in storage backends, knowledge retrieval, and a web-based Playground UI. It has 40,678 GitHub stars and supports text, image, audio, and video inputs. OpenLegion is a security-first AI agent platform with sandboxed task runs, vault-held credentials that agents never see, per-agent credit budgets, and goal-and-task coordination. Agno prioritizes feature breadth and developer speed; OpenLegion prioritizes production security and compliance.
 
 ### What security vulnerabilities has Agno had?
 
@@ -189,15 +189,15 @@ Agno (formerly Phidata) disclosed CVE-2025-64168 (CVSS 7.1 HIGH, October 31 2025
 
 ### Is Agno safe for multi-tenant production deployments?
 
-Agno's shared-process architecture means multiple concurrent users share the same Python process and mutable state. CVE-2025-64168 and the May 2026 IDOR fixes both demonstrate that authorization boundary errors in this architecture can expose one tenant's data to another. Agno patches these issues reactively; OpenLegion's container-per-agent model eliminates the shared-state surface where such errors occur, because each agent runs in an isolated Docker container with its own filesystem and network namespace.
+Agno's shared-process architecture means multiple concurrent users share the same Python process and mutable state. CVE-2025-64168 and the May 2026 IDOR fixes both demonstrate that authorization boundary errors in this architecture can expose one tenant's data to another. Agno patches these issues reactively; OpenLegion's per-task run model eliminates the shared-state surface where such errors occur, because each task runs on demand in its own sandboxed run and then stops.
 
 ### How does Agno handle API key security?
 
-Agno stores API keys in environment variables or configuration dictionaries accessible to the full agent process. All agents in an Agno team share that process, so any agent - including one under prompt injection attack - has access to all credentials. OpenLegion uses a vault proxy: API keys are stored in the Mesh Host's Credential Vault and injected at the network layer when an agent makes an authenticated call. Agents never see, log, or hold raw keys in any form.
+Agno stores API keys in environment variables or configuration dictionaries accessible to the full agent process. All agents in an Agno team share that process, so any agent - including one under prompt injection attack - has access to all credentials. OpenLegion uses a credential vault: API keys are held in the vault and injected outside the model when an agent makes an authenticated call. Agents never see, log, or hold raw keys in any form.
 
 ### Does Agno have budget controls for API usage?
 
-No. Agno has no built-in per-agent or per-team budget enforcement. Agent teams that enter reasoning loops, make excessive tool calls, or are manipulated into repeated API calls will consume tokens without an automatic ceiling. OpenLegion enforces per-agent daily and monthly budget limits with hard cutoffs at the orchestrator level - when an agent reaches its limit, it is halted automatically.
+No. Agno has no built-in per-agent or per-team budget enforcement. Agent teams that enter reasoning loops, make excessive tool calls, or are manipulated into repeated API calls will consume tokens without an automatic ceiling. OpenLegion gives every agent its own credit budget with a hard cutoff enforced by the policy engine - when an agent reaches its limit, it is halted automatically.
 
 ### What was Phidata and how does it relate to Agno?
 
@@ -209,7 +209,7 @@ Choose Agno when your primary requirements are multi-modal agent inputs (text, i
 
 ### Can I migrate from Agno to OpenLegion?
 
-Both frameworks use LiteLLM under the hood, so LLM provider configurations transfer directly. Agno's storage backends (PostgreSQL, SQLite, Redis) require rebuilding as OpenLegion per-agent isolated stores. Agno's multi-modal tool integrations need equivalent OpenLegion tool configurations. Agno's Team coordination modes (Coordinate, Route, Collaborate) map to OpenLegion fleet-model coordination with blackboard-based handoffs, sequential or parallel execution patterns. The main trade-off is losing Agno's multi-modal input handling and Playground UI in exchange for built-in security architecture.
+OpenLegion picks models by preset - Smartest, Smart or Normal - so provider settings do not transfer; you choose a preset per agent instead. Agno's storage backends (PostgreSQL, SQLite, Redis) require rebuilding as OpenLegion per-agent memory. Agno's multi-modal tool integrations need equivalent OpenLegion tool configurations. Agno's Team coordination modes (Coordinate, Route, Collaborate) map to OpenLegion's goals, tasks and agents with delegation in place of handoffs, sequential or parallel execution patterns. The main trade-off is losing Agno's multi-modal input handling and Playground UI in exchange for built-in security architecture.
 
 ---
 

@@ -43,7 +43,7 @@ Opus 4.8是我们从2026年5月起推荐给所有执行实质性代理工作的�
 
 Anthropic的公告与其965亿美元后估值的650亿美元H轮融资同日发布。
 
-OpenLegion支持完整的Anthropic API模型目录。将`claude-opus-4-8-20260528`设置为集群默认值只需一次配置更改。保险库隔离API调用、每代理预算上限和容器隔离执行自动应用。[AI代理平台为运行带预算控制和保险库隔离的Opus 4.8提供的服务](/learn/ai-agent-platform)。
+OpenLegion通过自己的预设运行Anthropic的模型。把某个代理指向"最智能"预设，在应用中只需一次选择。保险库托管的凭证、每代理积分预算和沙箱化的任务运行会自动应用。[AI代理平台为运行带预算控制和保险库隔离的Opus 4.8提供的服务](/learn/ai-agent-platform)。
 
 ## 基准性能：数字说明什么
 
@@ -117,19 +117,19 @@ Claude Opus 4.8使用与Opus 4.7相同的上下文窗口（200K tokens）和相�
 
 ## OpenLegion与Claude Opus 4.8
 
-OpenLegion将`claude-opus-4-8-20260528`作为集群模型选项支持。将其设置为代理的默认值只需代理配置中的一个字段：
+OpenLegion在"最智能"预设下运行 Opus 级别的模型。为某个代理选择该预设只需代理配置中的一个字段：
 
 ```
-model: anthropic/claude-opus-4-8-20260528
+model_preset: smartest
 ```
 
-所有OpenLegion安全控制自动应用于Opus 4.8调用：保险库代理凭证注入（API密钥从不进入代理容器）、每代理每日和每月预算上限、Docker容器隔离、完整审计日志记录。
+所有OpenLegion安全控制自动应用于Opus 4.8调用：保险库托管的凭证在模型之外注入（任何密钥都不会到达代理）、每代理一份积分预算（失控的 Opus 4.8 循环会在预算耗尽时停止）、沙箱化的任务运行，以及完整审计日志记录。
 
 有关多代理比较，请参见[在图形与平面集群架构中部署Opus 4.8的OpenLegion vs LangGraph](/comparison/langgraph)和[共享进程与隔离容器多代理系统中Opus 4.8的OpenLegion vs AutoGen](/comparison/autogen)。
 
 ## 在OpenLegion上开始使用Claude Opus 4.8
 
-**将`claude-opus-4-8-20260528`设置为您的集群默认值。保险库隔离、预算限制、生产就绪。**
+**在"最智能"预设上运行 Opus 级别的模型。保险库隔离、预算限制、生产就绪。**
 [开始构建](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai) | [查看平台](/learn/ai-agent-platform)
 
 ---

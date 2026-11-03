@@ -21,41 +21,41 @@ related:
 
 Google's Agent Development Kit (ADK) — самая архитектурно амбициозная запись в ландшафте агентных фреймворков. С ~17,600 GitHub-звёзд, тремя типами агентов (LLM, Workflow, Custom) и протоколом A2A (Agent-to-Agent), переданным в Linux Foundation с 150+ партнёрами, ADK позиционирует себя как стандарт интероперабельности для мульти-агентных систем. Он нативно разворачивается в Vertex AI Agent Engine Runtime и глубоко интегрируется с сервисами Google Cloud.
 
-OpenLegion (~59 звёзд) — security-first [AI-агентная платформа](/learn/ai-agent-platform), приоритизирующая изоляцию контейнеров, vault-проксированные учётные данные и бюджетный контроль на агента над шириной облачной экосистемы.
+OpenLegion — security-first [AI-агентная платформа](/learn/ai-agent-platform), приоритизирующая изолированные запуски задач в песочнице, учётные данные в vault и бюджетный контроль на агента над шириной облачной экосистемы.
 
 Это прямое сравнение **OpenLegion vs Google ADK**, основанное на публичной документации на момент написания.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **В чём разница между OpenLegion и Google ADK?**
-> Google ADK — event-driven async агентный фреймворк с тремя типами агентов и протоколом интероперабельности A2A, оптимизированный для развёртывания в Google Cloud. OpenLegion — security-first агентный фреймворк с обязательной изоляцией контейнеров, vault-прокси управлением учётными данными, принуждением бюджета на агента и координацией по модели флота (blackboard + pub/sub + handoff). ADK предлагает самую широкую агентную интероперабельность; OpenLegion предлагает самые сильные настройки production-безопасности по умолчанию.
+> Google ADK — event-driven async агентный фреймворк с тремя типами агентов и протоколом интероперабельности A2A, оптимизированный для развёртывания в Google Cloud. OpenLegion — security-first агентная платформа с изолированным запуском в песочнице для каждой задачи, учётными данными в vault, бюджетами в кредитах на агента и координацией целями и задачами (цели → задачи → агенты). ADK предлагает самую широкую агентную интероперабельность; OpenLegion предлагает самые сильные настройки production-безопасности по умолчанию.
 
 ## Кратко
 
 - **Google ADK** — правильный выбор, когда нужна интероперабельность через A2A-протокол, Google Cloud интеграция и tiered sandboxing с Vertex AI развёртыванием.
-- **OpenLegion** — правильный выбор, когда изоляция учётных данных, обязательный sandboxing агентов, контроль расходов на агента и cloud-agnostic развёртывание — жёсткие требования.
+- **OpenLegion** — правильный выбор, когда изоляция учётных данных, изолированные запуски задач, контроль расходов на агента и записанная квитанция на каждое действие — жёсткие требования.
 - **A2A-протокол**: ADK стал пионером Agent-to-Agent коммуникации, теперь Linux Foundation проект с 150+ партнёрами, включая Salesforce, SAP, Deloitte.
 - **Google ecosystem lock-in**: ADK работает в Vertex AI Agent Engine Runtime ($0.0864/vCPU-час + $0.25/1K событий). Self-hosted теряет managed sandboxing.
-- **Модель учётных данных**: ADK использует Google Secret Manager. OpenLegion использует vault-прокси, работающий на любой инфраструктуре.
-- **Sandbox tiers**: ADK предлагает три уровня (Vertex, Docker, Unsafe). OpenLegion обеспечивает обязательную Docker-изоляцию без unsafe-fallback.
+- **Модель учётных данных**: ADK использует Google Secret Manager. OpenLegion держит учётные данные в vault и подставляет их вне модели.
+- **Sandbox tiers**: ADK предлагает три уровня (Vertex, Docker, Unsafe). OpenLegion помещает в песочницу каждый запуск задачи, без unsafe-fallback.
 
 ## Side-by-side сравнение
 
 | Измерение | OpenLegion | Google ADK |
 |---|---|---|
 | **Основной фокус** | Безопасная мульти-агентная оркестрация | Event-driven агентный фреймворк с A2A-интероперабельностью |
-| **Архитектура** | Модель доверия из четырёх зон (плюс operator-or-internal tier) | Runner/Events с тремя типами агентов (LLM, Workflow, Custom) |
-| **Изоляция агентов** | Обязательный Docker-контейнер на агента, non-root | Tiered: Vertex sandbox (managed), Docker, Unsafe (нет изоляции) |
-| **Управление учётными данными** | Vault-прокси, слепое внедрение, агенты никогда не видят ключи | Интеграция с Google Secret Manager |
-| **Контроль бюджета / расходов** | Ежедневный и месячный на агента с жёстким cutoff | Не встроен; Vertex billing за vCPU-час и события |
-| **Оркестрация** | Координация по модели флота (blackboard + pub/sub + handoff) | Event-driven async с Sequential, Parallel и Loop workflow |
-| **Интероперабельность** | MCP-tool-серверы | A2A-протокол (Linux Foundation, 150+ партнёров) + MCP |
-| **Поддержка LLM** | 100+ через LiteLLM | Gemini нативно + LiteLLM для 100+ моделей |
-| **Развёртывание** | Cloud-agnostic (любой Docker-хост) | Vertex AI Agent Engine Runtime или self-hosted |
-| **Зависимости** | Ноль внешних, Python + SQLite + Docker | Google Cloud SDK + пакеты ADK |
-| **GitHub-звёзды** | ~59 | ~17,600 |
+| **Архитектура** | Единый движок политик перед каждым действием | Runner/Events с тремя типами агентов (LLM, Workflow, Custom) |
+| **Изоляция агентов** | Изолированный запуск в песочнице для каждой задачи, без сети по умолчанию | Tiered: Vertex sandbox (managed), Docker, Unsafe (нет изоляции) |
+| **Управление учётными данными** | Хранятся в vault, подставляются вне модели, агенты никогда не видят ключи | Интеграция с Google Secret Manager |
+| **Контроль бюджета / расходов** | Бюджет в кредитах на агента с жёстким cutoff | Не встроен; Vertex billing за vCPU-час и события |
+| **Оркестрация** | Координация целями и задачами (цели → задачи → агенты) | Event-driven async с Sequential, Parallel и Loop workflow |
+| **Интероперабельность** | Вебхуки, Slack, Telegram, коннекторы Google | A2A-протокол (Linux Foundation, 150+ партнёров) + MCP |
+| **Поддержка LLM** | Пресеты Smartest, Smart и Normal | Gemini нативно + LiteLLM для 100+ моделей |
+| **Развёртывание** | Hosted веб-приложение, устанавливать нечего | Vertex AI Agent Engine Runtime или self-hosted |
+| **Зависимости** | Никаких, вход через Google в браузере | Google Cloud SDK + пакеты ADK |
+| **GitHub-звёзды** | н/д | ~17,600 |
 | **Лицензия** | PolyForm Perimeter License 1.0.1 | Apache 2.0 |
-| **Лучше всего для** | Production-флотов, требующих security-first governance | Команд Google Cloud, нуждающихся в A2A-интероперабельности |
+| **Лучше всего для** | Production-команд, требующих security-first governance | Команд Google Cloud, нуждающихся в A2A-интероперабельности |
 
 ## Архитектурные различия
 
@@ -71,7 +71,7 @@ Sandboxing использует три уровня: Vertex (Google-managed из
 
 ### Архитектура OpenLegion
 
-OpenLegion использует модель доверия из четырёх зон (плюс operator-or-internal tier), где каждый агент работает в Docker-контейнере с non-root исполнением, без доступа к Docker-сокету и с лимитами ресурсов. Учётными данными занимается vault-прокси в Zone 2. Координация по модели флота определяет точный доступ к инструментам, разрешения и бюджеты на агента до исполнения.
+OpenLegion ставит единый движок политик перед каждым действием: каждая задача запускается по требованию в песочнице без доступа к сети по умолчанию и затем останавливается. Учётные данные живут в vault и подставляются вне модели. Координация целями и задачами определяет точный доступ к инструментам, разрешения и бюджеты на агента до исполнения.
 
 ## Когда выбирать Google ADK
 
@@ -79,35 +79,35 @@ OpenLegion использует модель доверия из четырёх 
 
 **Вы строите на Google Cloud.** Vertex AI Agent Engine Runtime обеспечивает managed-развёртывание, auto-scaling и Google-managed sandboxing. Если вы уже на GCP, ADK — путь наименьшего сопротивления.
 
-**Вам нужны несколько типов агентов.** Три типа агентов ADK (LLM, Workflow, Custom) обеспечивают архитектурную гибкость, с которой координация по модели флота не сравнится для сложных, mixed-pattern систем.
+**Вам нужны несколько типов агентов.** Три типа агентов ADK (LLM, Workflow, Custom) обеспечивают архитектурную гибкость, с которой координация целями и задачами не сравнится для сложных, mixed-pattern систем.
 
 **Вы цените чистый трек-рекорд безопасности.** ADK не имеет CVE на уровне фреймворка и выигрывает от security-инфраструктуры Google на Vertex.
 
 ## Когда выбирать OpenLegion
 
-**Вам нужно cloud-agnostic развёртывание.** ADK оптимизирован для Google Cloud. Запуск вне GCP означает потерю managed sandboxing, Secret Manager и Agent Engine. OpenLegion работает идентично на любой инфраструктуре с Python и Docker.
+**Вы вообще не хотите инфраструктуры.** ADK оптимизирован для Google Cloud. Запуск вне GCP означает потерю managed sandboxing, Secret Manager и Agent Engine. OpenLegion — hosted веб-приложение: вход через Google, и можно начинать, устанавливать нечего.
 
-**Безопасность учётных данных должна быть cloud-independent.** Управление учётными данными в ADK зависит от Google Secret Manager. Vault-прокси OpenLegion работает на любой инфраструктуре.
+**Безопасность учётных данных должна быть cloud-independent.** Управление учётными данными в ADK зависит от Google Secret Manager. OpenLegion держит учётные данные в vault и подставляет их вне модели.
 
 **Вам нужно принуждение бюджета на агента.** ADK не имеет встроенного контроля расходов. Vertex выставляет счёт за vCPU-час и за событие. OpenLegion применяет жёсткие лимиты бюджета на агента.
 
-**Вам нужна обязательная изоляция без unsafe-fallback.** Three-tier sandbox модель ADK включает опцию Unsafe. OpenLegion обеспечивает обязательную Docker-изоляцию без возможности её пропустить.
+**Вам нужна обязательная изоляция без unsafe-fallback.** Three-tier sandbox модель ADK включает опцию Unsafe. OpenLegion помещает в песочницу каждый запуск задачи, без возможности её пропустить.
 
-**Вам нужны нулевые внешние зависимости.** OpenLegion работает на Python + SQLite + Docker. ADK требует Google Cloud SDK и пакеты.
+**Вам нечего устанавливать.** OpenLegion работает в браузере: вход через Google, и можно начинать. ADK требует Google Cloud SDK и пакеты.
 
-Используйте свои LLM API-ключи. Никакой наценки на использование моделей.
+Модели выбираются пресетом: Smartest, Smart или Normal. Работа измеряется в кредитах по $0.001 за кредит.
 
 ## Честный trade-off
 
-У Google ADK есть A2A-протокол, Google Cloud интеграция и чистый трек-рекорд безопасности. У OpenLegion cloud-agnostic архитектура, обязательная изоляция и независимость учётных данных.
+У Google ADK есть A2A-протокол, Google Cloud интеграция и чистый трек-рекорд безопасности. У OpenLegion hosted-архитектура, изолированный запуск в песочнице для каждой задачи и независимость учётных данных.
 
-Если вам нужна агентная интероперабельность и Google Cloud развёртывание, ответ — ADK. Если вам нужна production-безопасность, работающая где угодно без cloud lock-in, ответ — OpenLegion.
+Если вам нужна агентная интероперабельность и Google Cloud развёртывание, ответ — ADK. Если вам нужна production-безопасность и при этом ничего своего запускать не нужно, ответ — OpenLegion.
 
 Для полного ландшафта см. наше [сравнение AI-агентных фреймворков](/learn/ai-agent-frameworks).
 
 ## CTA
 
-**Нужна production-уровневая безопасность для вашего флота агентов?**
+**Нужна production-уровневая безопасность для вашей команды агентов?**
 [Начать](https://app.openlegion.ai) | [Документация](https://docs.openlegion.ai)
 
 ---
@@ -118,7 +118,7 @@ OpenLegion использует модель доверия из четырёх 
 
 ### В чём разница между OpenLegion и Google ADK?
 
-Google ADK (~17,600 звёзд) — event-driven агентный фреймворк с A2A-интероперабельностью и Google Cloud интеграцией. OpenLegion — security-first [AI-агентный фреймворк](/learn/ai-agent-platform) с обязательной изоляцией контейнеров, vault-прокси учётными данными и принуждением бюджета на агента. ADK отлично подходит для cross-framework интероперабельности; OpenLegion отлично подходит для cloud-agnostic production-безопасности.
+Google ADK (~17,600 звёзд) — event-driven агентный фреймворк с A2A-интероперабельностью и Google Cloud интеграцией. OpenLegion — security-first [AI-агентный фреймворк](/learn/ai-agent-platform) с изолированным запуском в песочнице для каждой задачи, учётными данными в vault и бюджетами в кредитах на агента. ADK отлично подходит для cross-framework интероперабельности; OpenLegion отлично подходит для hosted production-безопасности.
 
 ### Что такое A2A-протокол?
 
@@ -126,19 +126,19 @@ A2A (Agent-to-Agent) — протокол интероперабельности
 
 ### Работает ли Google ADK вне Google Cloud?
 
-ADK поддерживает self-hosted развёртывание, но теряет managed sandboxing, интеграцию Secret Manager и Agent Engine Runtime вне GCP. OpenLegion работает идентично на любой инфраструктуре.
+ADK поддерживает self-hosted развёртывание, но теряет managed sandboxing, интеграцию Secret Manager и Agent Engine Runtime вне GCP. OpenLegion hosted, так что разворачивать нечего.
 
 ### Как sandboxing ADK сравнивается с OpenLegion?
 
-ADK предлагает три уровня: Vertex (Google-managed), Docker и Unsafe (нет изоляции). OpenLegion обеспечивает обязательную Docker-изоляцию для каждого агента без unsafe-опции. См. нашу страницу [AI-безопасности агентов](/learn/ai-agent-security) для полного сравнения.
+ADK предлагает три уровня: Vertex (Google-managed), Docker и Unsafe (нет изоляции). OpenLegion помещает в песочницу каждый запуск задачи для каждого агента, без unsafe-опции. См. нашу страницу [AI-безопасности агентов](/learn/ai-agent-security) для полного сравнения.
 
 ### Как цены ADK сравниваются с OpenLegion?
 
-ADK бесплатен (Apache 2.0). Vertex AI Agent Engine Runtime стоит $0.0864/vCPU-час плюс $0.25 за 1,000 событий. OpenLegion source-available (PolyForm Perimeter License 1.0.1) с моделью bring-your-own-API-keys и без наценки.
+ADK бесплатен (Apache 2.0). Vertex AI Agent Engine Runtime стоит $0.0864/vCPU-час плюс $0.25 за 1,000 событий. OpenLegion бесплатен для старта с 1,000 кредитов и без карты, далее $29/месяц на Pro с 10,000 кредитов.
 
 ### Могу ли я использовать A2A-агентов с OpenLegion?
 
-OpenLegion не реализует A2A нативно, но поддерживает MCP-tool-серверы для подключения внешних агентов. Команды, нуждающиеся и в A2A-интероперабельности, и в security-first [оркестрации](/learn/ai-agent-orchestration), могут запускать ADK для inter-agent коммуникации и OpenLegion для credential-sensitive нагрузок.
+OpenLegion не реализует A2A нативно, но достигает других систем через вебхуки и свои канальные коннекторы. Команды, нуждающиеся и в A2A-интероперабельности, и в security-first [оркестрации](/learn/ai-agent-orchestration), могут запускать ADK для inter-agent коммуникации и OpenLegion для credential-sensitive нагрузок.
 
 ---
 

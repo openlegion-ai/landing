@@ -39,7 +39,7 @@ Todas las afirmaciones sobre competidores a continuación se basan en documentac
 ## TL;DR
 
 - **Seis frameworks comparados**: OpenLegion, OpenClaw, LangGraph, CrewAI, AutoGen, Semantic Kernel
-- **Diferenciador clave**: Seguridad. Ningún framework importante proporciona aislamiento de credenciales integrado, sandboxing obligatorio por contenedor y aplicación de presupuesto por agente. OpenLegion sí.
+- **Diferenciador clave**: Seguridad. Ningún framework importante proporciona aislamiento de credenciales integrado, ejecución de tareas en sandbox y aplicación de presupuesto por agente. OpenLegion sí.
 - **LangGraph** tiene la mayor adopción (~6M de descargas mensuales en PyPI) y el control programático más flexible
 - **CrewAI** es el más fácil de aprender con su diseño de agentes basado en roles
 - **OpenClaw** tiene la mayor comunidad (~67K estrellas en GitHub) pero preocupaciones de seguridad documentadas
@@ -51,13 +51,13 @@ Todas las afirmaciones sobre competidores a continuación se basan en documentac
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
 | **Tipo** | Plataforma (PolyForm Perimeter License 1.0.1) | Agent OS (código abierto) | Framework + Plataforma | Framework + Plataforma | Framework | SDK Empresarial |
-| **Hosting** | Autoalojado o gestionado | Autoalojado o cloud | Autoalojado o LangSmith | Autoalojado o CrewAI AMP | Autoalojado | Autoalojado (integrado con Azure) |
-| **Aislamiento de agente** | Contenedor Docker por agente (obligatorio) | Contenedor Docker (opcional, requiere socket Docker) | Ninguno integrado | Docker solo para CodeInterpreter | Docker para ejecución de código | Ninguno (SDK embebido) |
-| **Gestión de credenciales** | Proxy de bóveda — inyección ciega | Secret Registry con enmascarado | Variables de entorno | Variables de entorno | Variables de entorno | Integración con Azure Key Vault |
-| **Soporte multi-agente** | Coordinación tipo flota (secuencial, paralela) con coordinación blackboard y mensajería pub/sub | Monoagente principal (el SDK soporta multi) | StateGraph con aristas condicionales, swarm | Crews (autónomos) + Flows (event-driven) | Group chat (RoundRobin, Selector, Swarm, GraphFlow) | ChatCompletionAgent, group chat, agent-as-plugin |
-| **Presupuesto / controles de coste** | Diario y mensual por agente con corte estricto | Ninguno | Ninguno | Ninguno | Ninguno | Ninguno |
-| **Lenguaje principal** | Python | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
-| **Soporte de LLM** | 100+ vía LiteLLM | 100+ vía LiteLLM | Cualquiera vía LangChain | Cualquiera vía LiteLLM | Cualquiera vía configuración | Azure OpenAI + otros |
+| **Hosting** | App web alojada — nada que instalar | Autoalojado o cloud | Autoalojado o LangSmith | Autoalojado o CrewAI AMP | Autoalojado | Autoalojado (integrado con Azure) |
+| **Aislamiento de agente** | Ejecución en sandbox para cada tarea (siempre activa) | Contenedor Docker (opcional, requiere socket Docker) | Ninguno integrado | Docker solo para CodeInterpreter | Docker para ejecución de código | Ninguno (SDK embebido) |
+| **Gestión de credenciales** | Bóveda de credenciales — inyectadas fuera del modelo | Secret Registry con enmascarado | Variables de entorno | Variables de entorno | Variables de entorno | Integración con Azure Key Vault |
+| **Soporte multi-agente** | Coordinación por objetivos y tareas (objetivos → tareas → agentes) con delegación y despertares por evento | Monoagente principal (el SDK soporta multi) | StateGraph con aristas condicionales, swarm | Crews (autónomos) + Flows (event-driven) | Group chat (RoundRobin, Selector, Swarm, GraphFlow) | ChatCompletionAgent, group chat, agent-as-plugin |
+| **Presupuesto / controles de coste** | Presupuesto de créditos por agente con corte estricto | Ninguno | Ninguno | Ninguno | Ninguno | Ninguno |
+| **Lenguaje principal** | Ninguno — los agentes se configuran en la app web | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
+| **Soporte de LLM** | Presets Smartest, Smart y Normal | 100+ vía LiteLLM | Cualquiera vía LangChain | Cualquiera vía LiteLLM | Cualquiera vía configuración | Azure OpenAI + otros |
 | **Estrellas en GitHub** | ~40 | ~67.300 | ~25.200 | ~33.400 | ~54.400 | ~26.900 |
 | **Licencia** | PolyForm Perimeter License 1.0.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
 | **Mejor para** | Producción con requisitos security-first | Desarrollo de software impulsado por IA | Flujos complejos con estado | Prototipado rápido, equipos basados en roles | Investigación, ecosistema Microsoft | Empresa .NET, tiendas Azure |
@@ -66,11 +66,11 @@ Todas las afirmaciones sobre competidores a continuación se basan en documentac
 
 ### Cuándo elegir OpenLegion
 
-Elija OpenLegion cuando su preocupación principal sea la seguridad y la gobernanza en producción. OpenLegion es la opción correcta si necesita agentes que nunca vean claves API en bruto (credenciales con proxy de bóveda vía proxy de bóveda), aislamiento obligatorio por contenedor por agente, aplicación de presupuesto por agente con cortes estrictos o coordinación tipo flota (blackboard + pub/sub + handoff) que es auditable antes de la ejecución.
+Elija OpenLegion cuando su preocupación principal sea la seguridad y la gobernanza en producción. OpenLegion es la opción correcta si necesita agentes que nunca vean claves API en bruto (las credenciales viven en una bóveda y se inyectan fuera del modelo), una ejecución en sandbox para cada tarea, aplicación de presupuesto por agente con cortes estrictos o coordinación por objetivos y tareas (objetivos → tareas → agentes) que es auditable antes de la ejecución.
 
 OpenLegion es un proyecto más joven con una comunidad más pequeña que las alternativas. Si necesita un ecosistema masivo de integraciones contribuidas por la comunidad, o está construyendo un prototipo rápido donde la seguridad no es prioridad, otros frameworks pueden ser más rápidos para empezar.
 
-Aporte sus propias claves API de LLM. Sin recargo en el uso del modelo.
+Los modelos se eligen por preset — Smartest, Smart o Normal — por agente o por espacio de trabajo.
 
 ### Cuándo elegir OpenClaw
 
@@ -112,12 +112,12 @@ La distinción entre un framework y una plataforma es cada vez más importante a
 
 | Preocupación operativa | Frameworks (DIY) | OpenLegion | LangSmith | CrewAI AMP |
 |---|---|---|---|---|
-| Aislamiento por contenedor | Usted lo construye | Integrado, obligatorio | No incluido | Solo CodeInterpreter |
-| Bóveda de credenciales | Usted lo construye | Integrado (proxy de bóveda) | No incluido | Nivel empresarial |
+| Aislamiento por contenedor | Usted lo construye | Ejecuciones en sandbox integradas | No incluido | Solo CodeInterpreter |
+| Bóveda de credenciales | Usted lo construye | Integrado (bóveda de credenciales) | No incluido | Nivel empresarial |
 | Aplicación de presupuesto | Usted lo construye | Integrado (por agente) | No incluido | No incluido |
 | Observabilidad | Usted la integra | Panel integrado | Integrado (tracing, evaluación) | Integrado (empresarial) |
-| Despliegue multi-canal | Usted lo construye | Integrado (5 canales + webhooks) | No incluido | No incluido |
-| Precios | Gratis (+ costes de infraestructura) | PolyForm Perimeter License 1.0.1 (+ opción alojada) | Gratis–39$/asiento/mes + uso | Gratis–25$/mes + empresarial |
+| Despliegue multi-canal | Usted lo construye | Integrado (4 canales + webhooks) | No incluido | No incluido |
+| Precios | Gratis (+ costes de infraestructura) | Gratis 0$ · Pro 29$/mes · Team 99$/mes | Gratis–39$/asiento/mes + uso | Gratis–25$/mes + empresarial |
 
 Para equipos evaluando los frameworks de agentes de IA principales, la respuesta honesta es: si seguridad y gobernanza son sus prioridades máximas, OpenLegion está construido para eso. Si la madurez del ecosistema y el tamaño de la comunidad importan más, LangGraph y CrewAI tienen ventajas significativas. Si está en el ecosistema Microsoft, Semantic Kernel (o el nuevo Microsoft Agent Framework) es la opción natural.
 
@@ -135,7 +135,7 @@ El panorama de frameworks de agentes de IA está evolucionando rápidamente. Var
 
 ## CTA
 
-**¿Necesita seguridad de grado producción para su flota de agentes?**
+**¿Necesita seguridad de grado producción para su equipo de agentes?**
 [Empezar](https://app.openlegion.ai) | [Leer la documentación](https://docs.openlegion.ai)
 
 ---
@@ -150,7 +150,7 @@ Los mejores frameworks de agentes de IA en 2026, basados en adopción y capacida
 
 ### Comparativa de frameworks de agentes de IA: ¿en qué se diferencian?
 
-Los frameworks de agentes de IA se diferencian en cinco dimensiones clave: modelo de orquestación (basado en grafos vs. basado en roles vs. basado en conversación), aislamiento (contenedores por agente vs. proceso compartido), gestión de credenciales (proxy de bóveda vs. variables de entorno), controles de coste (presupuestos por agente vs. ninguno) y hosting (autoalojado vs. plataforma gestionada). Consulte la tabla comparativa arriba para un desglose detallado lado a lado.
+Los frameworks de agentes de IA se diferencian en cinco dimensiones clave: modelo de orquestación (basado en grafos vs. basado en roles vs. basado en conversación), aislamiento (contenedores por agente vs. proceso compartido), gestión de credenciales (una bóveda de credenciales vs. variables de entorno), controles de coste (presupuestos por agente vs. ninguno) y hosting (autoalojado vs. plataforma gestionada). Consulte la tabla comparativa arriba para un desglose detallado lado a lado.
 
 ### ¿Cuál es el mejor framework de agentes de IA para producción?
 
@@ -158,11 +158,11 @@ El mejor framework de agentes de IA para producción depende de sus restriccione
 
 ### Código abierto vs plataformas gestionadas de agentes de IA: ¿cuál es la diferencia?
 
-Los frameworks de agentes de IA de código abierto (LangGraph core, CrewAI código abierto, AutoGen) proporcionan lógica de agente — usted construye la infraestructura. Las [plataformas de agentes de IA](/learn/ai-agent-platform) gestionadas añaden capas operativas: aprovisionamiento de contenedores, bóveda de credenciales, seguimiento de costes, observabilidad. OpenLegion cierra esta brecha como un proyecto con código disponible (PolyForm Perimeter License 1.0.1) con capacidades de plataforma gestionada integradas. LangSmith y CrewAI AMP son capas gestionadas de pago encima de sus respectivos frameworks de código abierto.
+Los frameworks de agentes de IA de código abierto (LangGraph core, CrewAI código abierto, AutoGen) proporcionan lógica de agente — usted construye la infraestructura. Las [plataformas de agentes de IA](/learn/ai-agent-platform) gestionadas añaden capas operativas: aprovisionamiento de contenedores, bóveda de credenciales, seguimiento de costes, observabilidad. OpenLegion cierra esta brecha: el motor se publica con código disponible bajo la PolyForm Perimeter License 1.0.1, y la plataforma alojada lo ejecuta por usted. LangSmith y CrewAI AMP son capas gestionadas de pago encima de sus respectivos frameworks de código abierto.
 
 ### ¿Dónde encaja OpenLegion vs OpenClaw/LangGraph/CrewAI/AutoGen?
 
-OpenLegion ocupa un nicho específico: la [plataforma de agentes de IA](/learn/ai-agent-platform) security-first. Basado en documentación pública, es el único framework que proporciona credenciales con proxy de bóveda integradas, aislamiento obligatorio por contenedor por agente y aplicación de presupuesto nativa. OpenClaw tiene la mayor comunidad y las capacidades más fuertes de codificación con IA. LangGraph tiene la mayor adopción y orquestación más flexible. CrewAI tiene la curva de aprendizaje más suave. AutoGen está en transición al Microsoft Agent Framework.
+OpenLegion ocupa un nicho específico: la [plataforma de agentes de IA](/learn/ai-agent-platform) security-first. Basado en documentación pública, es el único framework que proporciona credenciales guardadas en bóveda integradas, una ejecución en sandbox para cada tarea y aplicación de presupuesto por agente nativa. OpenClaw tiene la mayor comunidad y las capacidades más fuertes de codificación con IA. LangGraph tiene la mayor adopción y orquestación más flexible. CrewAI tiene la curva de aprendizaje más suave. AutoGen está en transición al Microsoft Agent Framework.
 
 ### ¿Cómo elijo entre frameworks de agentes de IA?
 
@@ -174,7 +174,7 @@ La mayoría de los frameworks son capaces de producción con ingeniería adicion
 
 ### ¿Cuál es el framework de agentes de IA más seguro?
 
-Basado en documentación pública al momento de escribir, OpenLegion proporciona la seguridad integrada más completa: credenciales con proxy de bóveda (los agentes nunca ven claves API en bruto), aislamiento obligatorio por contenedor Docker por agente, aplicación de presupuesto por agente con cortes estrictos, matrices de permisos por agente, saneamiento Unicode en múltiples puntos de control y orquestación de coordinación tipo flota para auditabilidad. Otros frameworks pueden lograr seguridad similar con ingeniería personalizada, pero ninguno proporciona estas funciones de fábrica.
+Basado en documentación pública al momento de escribir, OpenLegion proporciona la seguridad integrada más completa: credenciales guardadas en bóveda (los agentes nunca ven claves API en bruto), una ejecución en sandbox para cada tarea, aplicación de presupuesto por agente con cortes estrictos, matrices de permisos por agente, saneamiento Unicode en múltiples puntos de control y coordinación por objetivos y tareas para auditabilidad. Otros frameworks pueden lograr seguridad similar con ingeniería personalizada, pero ninguno proporciona estas funciones de fábrica.
 
 ---
 

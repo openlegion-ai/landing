@@ -68,9 +68,9 @@ Pattern นี้ลดอายุการใช้งานข้อมูล
 
 ### Pattern 3: Vault Proxy / การฉีด Opaque Handle (ความปลอดภัยสูงที่สุด)
 
-Pattern Vault-Proxy เก็บข้อมูลรับรองไว้นอกคอนเทนเนอร์ Agent ทั้งหมด Agent เก็บ Opaque Handle ซึ่งเป็นสตริงอ้างอิงเช่น `$CRED{stripe_key}` ที่ระบุข้อมูลรับรองโดยไม่ต้อง Resolve มัน เมื่อ Agent ทำ API Call ที่มี Handle Vault Proxy จะสกัดกั้น Request, Resolve Handle ไปยังข้อมูลรับรองจริง, ฉีดที่ Network Layer และส่ง Request ที่ผ่านการยืนยันตัวตนต่อไป Agent ไม่เคยเห็นข้อมูลรับรองในรูปแบบข้อความธรรมดา
+Pattern Vault-Proxy เก็บข้อมูลรับรองไว้นอกคอนเทนเนอร์ Agent ทั้งหมด Agent เก็บ Opaque Handle ซึ่งเป็นสตริงอ้างอิงเช่น `cred:stripe_key` ที่ระบุข้อมูลรับรองโดยไม่ต้อง Resolve มัน เมื่อ Agent ทำ API Call ที่มี Handle Vault Proxy จะสกัดกั้น Request, Resolve Handle ไปยังข้อมูลรับรองจริง, ฉีดที่ Network Layer และส่ง Request ที่ผ่านการยืนยันตัวตนต่อไป Agent ไม่เคยเห็นข้อมูลรับรองในรูปแบบข้อความธรรมดา
 
-นี่คือหลักการ Agent-Side Injection เดียวกับที่ HashiCorp Vault (35,763 ดาว, BSL, v2.0.2 เปิดตัว 5 มิถุนายน 2026) ใช้ สร้างโดยตรงใน Layer การ Orchestrate Agent ด้วยเซิร์ฟเวอร์ MCP มากกว่า 700 เซิร์ฟเวอร์ใน Ecosystem (มิถุนายน 2026) Pattern Handle `$CRED{}` ขจัดการแพร่กระจาย `.env` ต่อ Server: Reference Handle เดียวในการกำหนดค่า Agent ครอบคลุมความต้องการข้อมูลรับรองของ MCP Server ใดก็ได้
+นี่คือหลักการ Agent-Side Injection เดียวกับที่ HashiCorp Vault (35,763 ดาว, BSL, v2.0.2 เปิดตัว 5 มิถุนายน 2026) ใช้ สร้างโดยตรงใน Layer การ Orchestrate Agent ด้วยเซิร์ฟเวอร์ MCP มากกว่า 700 เซิร์ฟเวอร์ใน Ecosystem (มิถุนายน 2026) Pattern Opaque Handle ขจัดการแพร่กระจาย `.env` ต่อ Server: Reference Handle เดียวในการกำหนดค่า Agent ครอบคลุมความต้องการข้อมูลรับรองของ MCP Server ใดก็ได้
 
 คอนเทนเนอร์ Agent ที่ถูกโจมตีอย่างสมบูรณ์ซึ่ง Execute คำสั่งของผู้โจมตีได้ตามต้องการยังคงมีการเข้าถึงข้อมูลรับรองเป็นศูนย์ เนื่องจากไม่มีข้อมูลรับรองอยู่ใน Scope ของคอนเทนเนอร์
 
@@ -80,21 +80,21 @@ Workload Identity (OIDC Federation, SPIFFE/SPIRE, Cloud IAM Service Account) ข
 
 สำหรับสถาปัตยกรรม [Multi-Agent System](/learn/multi-agent-systems) ที่ครอบคลุม Cloud Account หรือ Provider หลายรายการ Workload Identity Federation เป็นโมเดลข้อมูลรับรองเดียวที่ Scale ได้
 
-## ทัศนคติของ OpenLegion: Pattern Handle $CRED{}
+## ทัศนคติของ OpenLegion: Pattern Opaque Handle
 
 Agent Framework AI ที่สำคัญทุกตัวจัดการการจัดการข้อมูลรับรองเป็นปัญหาของแอปพลิเคชัน Host LangChain และ LangGraph อ่านจาก `os.environ` CrewAI พึ่งพาการฉีด Environment OpenAI Agents SDK คาดหวังข้อมูลรับรองใน Process Environment AutoGen สืบทอด Python Process Environment ไม่มี Framework ใดเหล่านี้ให้การแยกส่วนข้อมูลรับรองโครงสร้าง ทั้งหมดปล่อยให้การจัดการข้อมูลรับรองขึ้นอยู่กับ Operator ซึ่งในทางปฏิบัติหมายถึงไฟล์ `.env` และ Environment Variable ที่ใช้ร่วมกัน
 
-Vault-Proxy ของ OpenLegion ถูกสร้างไว้ใน Layer การ Orchestrate Agent Agent อ้างถึงข้อมูลรับรองเป็น Opaque Handle `$CRED{name}` Mesh Host Resolve Handle ฝั่ง Server และฉีดข้อมูลรับรองที่ Network Boundary ไม่มีคอนเทนเนอร์ Agent ใดได้รับข้อมูลรับรองในรูปแบบข้อความธรรมดา Prompt Injection ไม่สามารถรั่วไหลสิ่งที่ไม่มีอยู่ได้
+Credential Vault ของ OpenLegion ถูกสร้างไว้ใน Layer การ Orchestrate Agent Agent อ้างถึงข้อมูลรับรองเป็น Opaque Handle และไม่เคยถือมากกว่านั้น Policy Engine Resolve Handle ฝั่ง Server และฉีดข้อมูลรับรองนอกโมเดล ไม่มีการรันของ Agent ใดได้รับข้อมูลรับรองในรูปแบบข้อความธรรมดา Prompt Injection ไม่สามารถรั่วไหลสิ่งที่ไม่มีอยู่ได้
 
 Infisical (27,296 ดาว, Open-Source TypeScript Secret Platform ที่มี MIT License Core) ระดมทุน $2.8M Seed ในปี 2023 OpenLegion บูรณาการฟังก์ชันเดียวกันโดยตรงใน Agent Runtime โดยไม่ต้องติดตั้ง Secret Management แยกต่างหาก
 
 | **มิติ** | **OpenLegion** | **LangChain/LangGraph** | **CrewAI** | **OpenAI Agents SDK** | **AutoGen** |
 |---|---|---|---|---|---|
 | **การจัดเก็บข้อมูลรับรอง** | Vault (Opaque Handle) | Environment / .env | Environment / .env | Environment / .env | Environment / .env |
-| **Pattern การเข้าถึงของ Agent** | Handle $CRED{} (ไม่เคย Resolve ในคอนเทนเนอร์) | อ่านโดยตรงจาก os.environ | อ่านโดยตรงจาก os.environ | อ่านโดยตรงจาก os.environ | อ่านโดยตรงจาก os.environ |
+| **Pattern การเข้าถึงของ Agent** | Opaque Handle (ไม่เคย Resolve ในการรันของ Agent) | อ่านโดยตรงจาก os.environ | อ่านโดยตรงจาก os.environ | อ่านโดยตรงจาก os.environ | อ่านโดยตรงจาก os.environ |
 | **ข้อความธรรมดาใน Context ของ Agent?** | ไม่มีเลย | ใช่ (เมื่ออ่าน os.environ) | ใช่ (เมื่ออ่าน os.environ) | ใช่ (เมื่ออ่าน os.environ) | ใช่ (เมื่ออ่าน os.environ) |
 | **การสนับสนุน Rotation** | Native ใน Vault; Hot Rotation โดยไม่ต้อง Restart | Manual; ต้อง Restart | Manual; ต้อง Restart | Manual; ต้อง Restart | Manual; ต้อง Restart |
-| **การกำหนดขอบเขตต่อ Agent** | บังคับใช้ที่ระดับ Mesh ผ่าน Allowlist | ไม่ได้บังคับใช้ | ไม่ได้บังคับใช้ | ไม่ได้บังคับใช้ | ไม่ได้บังคับใช้ |
+| **การกำหนดขอบเขตต่อ Agent** | บังคับใช้โดย Policy Engine ผ่าน Allowlist | ไม่ได้บังคับใช้ | ไม่ได้บังคับใช้ | ไม่ได้บังคับใช้ | ไม่ได้บังคับใช้ |
 | **Audit Trail** | Resolve Handle แต่ละครั้งบันทึกพร้อม Agent ID | ไม่มี Native | ไม่มี Native | ไม่มี Native | ไม่มี Native |
 
 สำหรับทีมที่ประเมินพื้นที่การเปิดเผยข้อมูลรับรองทั้งหมดใน Stack ปัจจุบัน [AI Agent Security Threat Model](/learn/ai-agent-security) ครอบคลุมการรั่วไหลของข้อมูลรับรองเป็นหนึ่งในหกหมวดหมู่ภัยคุกคามที่บันทึกไว้ ร่วมกับ Prompt Injection, การหลบหนีจาก Sandbox และการละเมิด Budget
@@ -109,9 +109,9 @@ Dynamic Secret Engine ของ HashiCorp Vault สร้างข้อมู�
 
 ### Hot Rotation โดยไม่ต้อง Restart Agent
 
-Hot Rotation ฉีดข้อมูลรับรองใหม่เข้า Vault โดยไม่แตะต้องคอนเทนเนอร์ Agent ที่กำลังทำงาน API Call ถัดไปของ Agent ผ่าน Vault Proxy ใช้ข้อมูลรับรองใหม่อย่างโปร่งใส จากมุมมองของ Agent Handle `$CRED{name}` ยังคง Resolve ได้ เพียงแต่ Secret พื้นฐานเปลี่ยนแปลงไป
+Hot Rotation ฉีดข้อมูลรับรองใหม่เข้า Vault โดยไม่แตะต้องคอนเทนเนอร์ Agent ที่กำลังทำงาน API Call ถัดไปของ Agent ผ่าน Vault Proxy ใช้ข้อมูลรับรองใหม่อย่างโปร่งใส จากมุมมองของ Agent Credential Handle ยังคง Resolve ได้ เพียงแต่ Secret พื้นฐานเปลี่ยนแปลงไป
 
-Hot Rotation ต้องการให้ Agent ไม่เคย Cache ข้อมูลรับรองในเครื่อง Pattern Handle `$CRED{}` บังคับใช้สิ่งนี้ตามโครงสร้าง: Handle จะ Resolve เมื่อ Call ไม่ใช่เมื่อ Startup ดังนั้นการ Cache ค่าที่ Resolve แล้วในเครื่องจึงไม่สามารถทำได้
+Hot Rotation ต้องการให้ Agent ไม่เคย Cache ข้อมูลรับรองในเครื่อง Pattern Opaque Handle บังคับใช้สิ่งนี้ตามโครงสร้าง: Handle จะ Resolve เมื่อ Call ไม่ใช่เมื่อ Startup ดังนั้นการ Cache ค่าที่ Resolve แล้วในเครื่องจึงไม่สามารถทำได้
 
 ### ขอบเขต Rotation ต่อ Agent
 
@@ -127,11 +127,11 @@ OWASP LLM06 ระบุอย่างชัดเจนว่า Agent Credent
 
 ### การกำหนดขอบเขต Credential ของ MCP Tool Server
 
-ใน OpenLegion Credential ของ MCP Server จะถูกเก็บไว้ใน Vault เดียวกันและฉีดผ่าน Proxy Pattern เดียวกัน MCP Tool Server ได้รับ Request ที่ผ่านการยืนยันตัวตนจาก Mesh Proxy ไม่ใช่ Credential ดิบจาก Agent สิ่งนี้ป้องกันไม่ให้ MCP Server ที่เป็นอันตรายถูกใช้เป็น Vector สำหรับการรวบรวม Credential สำหรับโมเดลการเสริมความแข็งแกร่งของ [Model Context Protocol Security](/learn/model-context-protocol) ทั้งหมด โปรดดูคู่มือเฉพาะ
+OpenLegion ไม่เชื่อมต่อ MCP Server ตอนเปิดตัว Credential ของเครื่องมือทุกตัวที่มันถือจะถูกเก็บไว้ใน Vault และฉีดนอกโมเดล เครื่องมือได้รับ Request ที่ผ่านการยืนยันตัวตนจาก Policy Engine ไม่ใช่ Credential ดิบจาก Agent สิ่งนี้ป้องกันไม่ให้ MCP Server ที่เป็นอันตรายถูกใช้เป็น Vector สำหรับการรวบรวม Credential สำหรับโมเดลการเสริมความแข็งแกร่งของ [Model Context Protocol Security](/learn/model-context-protocol) ทั้งหมด โปรดดูคู่มือเฉพาะ
 
 ### การเพิกถอน Credential เมื่อ Agent หยุดทำงาน
 
-Mesh ของ OpenLegion จัดการสิ่งนี้โดยอัตโนมัติ: เมื่อ Agent ถูก Archive Mesh จะเพิกถอน Credential Handle ทั้งหมดที่เกี่ยวข้องกับ Scope ของ Agent นั้น สำหรับระบบ [AI Agent Orchestration](/learn/ai-agent-orchestration) ที่จัดการ Lifecycle ของ Agent แบบ Programmatic การเพิกถอน Credential ควรเป็น First-Class Lifecycle Event ไม่ใช่ความคิดเพิ่มเติมในการดำเนินงาน
+OpenLegion จัดการสิ่งนี้โดยอัตโนมัติ: เมื่อ Agent ถูก Archive Policy Engine จะเพิกถอน Credential Handle ทั้งหมดที่เกี่ยวข้องกับ Scope ของ Agent นั้น สำหรับระบบ [AI Agent Orchestration](/learn/ai-agent-orchestration) ที่จัดการ Lifecycle ของ Agent แบบ Programmatic การเพิกถอน Credential ควรเป็น First-Class Lifecycle Event ไม่ใช่ความคิดเพิ่มเติมในการดำเนินงาน
 
 ## Audit Trail และการบันทึก Log การเข้าถึง Credential
 
@@ -178,7 +178,7 @@ OWASP Top 10 for LLM Applications v1.1 (ตุลาคม 2025) จัดอั
 
 ### OpenLegion จัดการ Credential สำหรับ Agent ที่ทำงาน MCP Server ได้อย่างไร?
 
-ใน OpenLegion Credential ของ MCP Tool Server จะถูกเก็บไว้ใน Vault เดียวกันและฉีดผ่าน Proxy Pattern เดียวกันกับ Agent Credential MCP Server ได้รับ Request ที่ผ่านการยืนยันตัวตนจาก Mesh Proxy ไม่ใช่ Raw Credential จาก Agent MCP Server ที่ถูกโจมตีไม่สามารถรวบรวม Raw Credential จาก Request ที่เข้ามาได้
+OpenLegion ไม่เชื่อมต่อ MCP Server ตอนเปิดตัว Credential ของเครื่องมือทุกตัวที่มันถือจะถูกเก็บไว้ใน Vault และฉีดนอกโมเดล เครื่องมือได้รับ Request ที่ผ่านการยืนยันตัวตนจาก Policy Engine ไม่ใช่ Raw Credential จาก Agent เครื่องมือที่ถูกโจมตีจึงไม่สามารถรวบรวม Raw Credential จาก Request ที่เข้ามาได้
 
 ### Secret Rotation คืออะไรและเหตุใด AI Agent จึงต้องการมัน?
 
@@ -188,6 +188,6 @@ Secret Rotation คือการปฏิบัติในการแทน�
 
 ปัญหาการจัดการ Credential ใน AI Agent Fleet เป็นเรื่องของสถาปัตยกรรม: ถ้า Credential มีอยู่ในคอนเทนเนอร์ Agent ก็สามารถรั่วไหลได้ CVE-2024-34359 และ CVE-2025-29927 แสดงให้เห็นว่าแม้แต่ทีมที่มีทรัพยากรดีที่ใช้งาน Framework หลักก็ยังสร้างการเปิดเผยนี้ Pattern Vault-Proxy แก้ไขสิ่งนี้ตามโครงสร้าง Credential ไม่เคยเข้าสู่คอนเทนเนอร์ Agent ดังนั้น Prompt Injection, การหลบหนีจากคอนเทนเนอร์ หรือการรั่วไหลของ Log จึงไม่สามารถดึงมันออกมาได้
 
-Vault-Proxy ของ OpenLegion ถูกสร้างไว้ใน Agent Mesh กำหนดค่า Credential ครั้งเดียวด้วย `$CRED{name}`, กำหนดให้กับ Agent ที่ต้องการ และ Mesh จัดการการฉีด, การต่ออายุ TTL, การกำหนดขอบเขตต่อ Agent และ Audit Logging โดยไม่ต้องใช้ Vault ที่แยกต่างหาก, การประสาน `.env` หรือขั้นตอน Rotation ด้วยตนเอง
+Credential Vault ของ OpenLegion ถูกสร้างไว้ในแพลตฟอร์ม กำหนดค่า Credential ครั้งเดียว, กำหนดให้กับ Agent ที่ต้องการ และ Policy Engine จัดการการฉีด, การต่ออายุ TTL, การกำหนดขอบเขตต่อ Agent และ Audit Logging โดยไม่ต้องใช้ Vault ที่แยกต่างหาก, การประสาน `.env` หรือขั้นตอน Rotation ด้วยตนเอง
 
 [รักษาความปลอดภัย Agent Fleet ของคุณด้วยการแยกส่วน Credential Vault-Proxy บน OpenLegion](https://openlegion.ai)

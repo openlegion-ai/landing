@@ -519,13 +519,13 @@ Three concrete facts about MCP tool security in production:
 
 | **MCP tool security control** | **OpenLegion** | **Claude Desktop** | **LangChain MCP** | **Custom runtime** | **Cursor** |
 |---|---|---|---|---|---|
-| **Host allowlist enforced before tool discovery: connection rejected if host not on explicit domain allowlist** | Yes: enforced at connection layer | No: any URL accepted | No: any URL accepted | Varies | No: any URL |
-| **Vault proxy injection: credentials injected at HTTP layer; never in invocation arguments, never in LLM context; OWASP LLM07 mitigated** | Yes: per-tool vault | No: env vars in system prompt | No: env vars in system prompt | Varies | No: env var |
-| **Per-tool OAuth 2.1 scope enforcement: read-only agent cannot invoke destructive tools regardless of LLM intent** | Yes: MCP auth RFC draft | Partial | No | Varies | No |
-| **Description sanitization: adversarial patterns rejected before reaching LLM context; OWASP LLM01:2025 mitigated at source** | Yes: pre-LLM scan | No | No | Varies | No |
-| **Immutable audit log per invocation: agent_id, tool_name, token_scopes, outcome, duration, tamper-detection hash** | Yes: every invocation | No | No | Varies | No |
-| **Sandbox isolation per invocation: ephemeral container, no filesystem access beyond workspace, egress allowlist blocks SSRF** | Yes: per-container | No: shared process | No: shared process | No | No: shared process |
-| **Human approval gate for destructive tools: delete/drop/purge/revoke require explicit human confirmation** | Yes: enforced | No | No | Varies | No |
+| **Host allowlist enforced before tool discovery: connection rejected if host not on explicit domain allowlist** | MCP not connected at launch | No: any URL accepted | No: any URL accepted | Varies | No: any URL |
+| **Vault proxy injection: credentials injected at HTTP layer; never in invocation arguments, never in LLM context; OWASP LLM07 mitigated** | Yes: vault-injected for its own tools | No: env vars in system prompt | No: env vars in system prompt | Varies | No: env var |
+| **Per-tool OAuth 2.1 scope enforcement: read-only agent cannot invoke destructive tools regardless of LLM intent** | MCP not connected at launch | Partial | No | Varies | No |
+| **Description sanitization: adversarial patterns rejected before reaching LLM context; OWASP LLM01:2025 mitigated at source** | MCP not connected at launch | No | No | Varies | No |
+| **Immutable audit log per invocation: agent_id, tool_name, token_scopes, outcome, duration, tamper-detection hash** | Yes: a receipt for every tool call | No | No | Varies | No |
+| **Sandbox isolation per invocation: ephemeral container, no filesystem access beyond workspace, egress allowlist blocks SSRF** | Yes: sandboxed run, no network | No: shared process | No: shared process | No | No: shared process |
+| **Human approval gate for destructive tools: delete/drop/purge/revoke require explicit human confirmation** | Yes: approval before destructive acts | No | No | Varies | No |
 
 <!-- SCHEMA: FAQPage -->
 
@@ -567,7 +567,7 @@ When a tool invocation triggers a security anomaly (an authorization denial, an 
 
 MCP tool security requires controls at four distinct points: the connection layer (host allowlisting before discovery), the authorization layer (OAuth 2.1 per-tool scope claims with PKCE), the execution layer (vault proxy injection, strict schema validation, sandbox isolation), and the observability layer (immutable audit logging with tamper detection). Securing only one layer while leaving others open is not defense-in-depth: it is a single control with three bypasses.
 
-[Start building on OpenLegion](https://app.openlegion.ai): host allowlisting before tool discovery, vault proxy credential injection (secrets never in invocation arguments), per-tool OAuth 2.1 scope enforcement, description sanitization before LLM presentation, human approval gates for destructive tools, and immutable per-invocation audit logging.
+[Start building on OpenLegion](https://app.openlegion.ai): every tool call checked by one policy engine before it happens, vault-held credentials injected outside the model, sandboxed runs with no network access by default, human approval gates before anything destructive, and an immutable receipt for every call — MCP tool hosts are not connected at launch.
 
 ## Sources
 

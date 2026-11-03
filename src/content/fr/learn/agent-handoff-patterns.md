@@ -46,7 +46,7 @@ Le dispatch pull réduit l'exposition des identifiants : le message de file ne c
 
 Dans le transfert par pointeur blackboard, l'appelant écrit sa sortie dans une clé nommée sur un store persistant partagé, par exemple `output/researcher/task_abc123`, et envoie à l'appelé uniquement le nom de la clé. L'appelé lit la clé et récupère exactement les champs dont il a besoin. Les identifiants bruts, les scratchpads intermédiaires et le contexte complet de l'appelant n'apparaissent jamais dans le message de transfert.
 
-La fonction `hand_off()` d'OpenLegion implémente ce pattern nativement : elle écrit les données de sortie dans `output/{agent_id}/{handoff_id}` sur le blackboard, crée une entrée de tâche dans la boîte de réception du destinataire avec un pointeur vers cette clé, et réveille le destinataire. Les identifiants stockés dans le vault sont injectés par le mesh au moment de l'exécution.
+OpenLegion applique le même principe par la délégation : l'appelant enregistre sa sortie sur le registre partagé d'objectifs et de tâches, crée une tâche pour le destinataire qui pointe dessus, et réveille le destinataire. Les identifiants stockés dans le coffre-fort sont injectés hors du modèle au moment de l'exécution.
 
 **Points forts** : isolation maximale des identifiants, l'appelé lit uniquement ce dont il a besoin, piste d'audit complète via l'historique des versions de clés.  
 **Risques** : ajoute une opération de lecture ; nécessite un store partagé fiable avec des contrôles d'accès appropriés.
@@ -78,7 +78,7 @@ La cause racine de la perte de contexte est le décalage entre ce que l'agent ap
 
 ### Le pattern pointeur blackboard comme valeur par défaut sécurisée
 
-Le pattern pointeur blackboard élimine l'exposition des identifiants au niveau du protocole plutôt que de s'appuyer sur le filtrage applicatif. Les identifiants stockés dans le vault d'OpenLegion ne sont jamais injectés dans le contexte de l'agent.
+Le pattern pointeur blackboard élimine l'exposition des identifiants au niveau du protocole plutôt que de s'appuyer sur le filtrage applicatif. Les identifiants stockés dans le coffre-fort d'OpenLegion ne sont jamais injectés dans le contexte de l'agent : ils sont injectés hors du modèle, qui ne détient jamais qu'une référence.
 
 ## Comment les principaux frameworks implémentent le transfert
 
@@ -117,12 +117,12 @@ def researcher_node(state: AgentState) -> Command:
     )
 ```
 
-### OpenLegion : hand_off() avec pointeur blackboard et livraison en boîte de réception
+### OpenLegion : délégation avec pointeur de tâche et livraison en boîte de réception
 
-La fonction `hand_off()` d'OpenLegion implémente le transfert par pointeur blackboard nativement.
+OpenLegion implémente nativement le transfert par pointeur via la délégation.
 
 ```python
-hand_off(
+delegate(
     to="writer",
     summary="Recherche terminée : langchain-alternative, 2847 mots de matériau source",
     data='{"topic": "langchain-alternative", "sources_key": "research/langchain-alt-sources", "word_count_target": 3000}'
@@ -144,7 +144,7 @@ Une charge utile de transfert bien conçue est une spécification structurée, p
 ### Ce qu'il faut exclure : identifiants bruts, fenêtres de contexte complètes, scratchpads intermédiaires
 
 Exclure des charges utiles de transfert :
-- **Clés API, jetons et identifiants** : ils doivent être injectés par le mesh au moment de l'exécution
+- **Clés API, jetons et identifiants** : ils doivent être injectés hors du modèle au moment de l'exécution
 - **Transcriptions complètes de conversation** : tronquer aux résumés pertinents
 - **Scratchpads de raisonnement intermédiaire** : le chaîne de pensée de l'appelant n'est pas utile à l'appelé
 - **Données que le rôle de l'appelé ne requiert pas** : appliquer le moindre privilège au contexte
@@ -199,7 +199,7 @@ Google ADK (20 100 étoiles GitHub, Apache-2.0) utilise transfer_to_agent(), qui
 
 ### Qu'est-ce que le pattern de transfert par pointeur blackboard et pourquoi est-il plus sécurisé ?
 
-Dans le transfert par pointeur blackboard, l'appelant écrit sa sortie dans une clé nommée sur un store partagé (comme output/agent-id/task-id), puis envoie à l'appelé uniquement le pointeur de clé, pas les données elles-mêmes. L'appelé lit uniquement les champs dont il a besoin. Les identifiants n'apparaissent jamais dans le message de transfert, éliminant le vecteur d'exfiltration OWASP LLM06:2025. La fonction hand_off() d'OpenLegion implémente ce pattern nativement.
+Dans le transfert par pointeur blackboard, l'appelant écrit sa sortie dans une clé nommée sur un store partagé (comme output/agent-id/task-id), puis envoie à l'appelé uniquement le pointeur de clé, pas les données elles-mêmes. L'appelé lit uniquement les champs dont il a besoin. Les identifiants n'apparaissent jamais dans le message de transfert, éliminant le vecteur d'exfiltration OWASP LLM06:2025. La délégation d'OpenLegion implémente ce pattern nativement.
 
 ### Quels risques de sécurité existent dans le transfert d'agents ?
 
@@ -217,7 +217,7 @@ Inclure : un résumé de tâche concis (moins de 200 mots), un pointeur vers la 
 
 La frontière de transfert est l'origine de la plupart des problèmes de fiabilité multi-agents. La perte de contexte dégrade la qualité des tâches en aval, et les fuites d'identifiants dans la charge utile créent un risque d'exfiltration qui croît avec la longueur du pipeline.
 
-Le transfert par pointeur blackboard d'OpenLegion résout les deux problèmes au niveau du protocole. `hand_off()` écrit les sorties dans une clé nommée, ne livre qu'un pointeur à la boîte de réception du destinataire et s'appuie sur l'injection d'identifiants proxifiée par vault. Le destinataire lit exactement ce dont il a besoin, rien de plus.
+Le transfert par pointeur d'OpenLegion résout les deux problèmes au niveau du protocole. La délégation écrit les sorties dans une clé nommée, ne livre qu'un pointeur dans la tâche du destinataire et s'appuie sur des identifiants en coffre-fort injectés hors du modèle. Le destinataire lit exactement ce dont il a besoin, rien de plus, et chaque délégation est enregistrée comme un reçu.
 
 Pour la couche de surveillance qui détecte les échecs que le protocole de transfert manque, voir [observabilité des agents : tracer les transferts à travers les étapes de pipeline](/learn/ai-agent-observability). Pour la couche de framework qui détermine quel pattern de transfert choisir, voir [comparaison des frameworks d'agents IA pour les déploiements en production](/learn/ai-agent-frameworks).
 

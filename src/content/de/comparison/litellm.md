@@ -1,6 +1,6 @@
 ---
 title: LiteLLM Alternative — Vault-Isolation vs. Credential Store
-description: "OpenLegion vs. LiteLLM: Vault-Proxy vs. zentralisierter Credential-Store. CVE-2026-42208 (CVSS 9.3) SQL-Injection legte LiteLLMs Credential-DB offen. Verteilte Isolation vs. Gateway-Aggregation."
+description: "OpenLegion vs. LiteLLM: Vault-Isolation vs. zentralisierter Credential-Store. CVE-2026-42208 (CVSS 9.3) SQL-Injection legte LiteLLMs Credential-DB offen. Verteilte Isolation vs. Gateway-Aggregation."
 slug: /comparison/litellm
 primary_keyword: litellm alternative
 secondary_keywords:
@@ -25,27 +25,27 @@ related:
 
 # LiteLLM Alternative: OpenLegion Distributed Vault vs. zentralisiertes Gateway
 
-OpenLegion vs. LiteLLM verkörpert den grundlegenden Sicherheitskompromiss zwischen verteilter Vault-Proxy-Architektur und zentralisierter LLM-Gateway-Credential-Aggregation. LiteLLM glänzt als einheitliches Provider-Gateway mit 47.997 GitHub-Stars, Kostenverfolgung und Unterstützung für über 100 LLM-Anbieter, litt jedoch unter CVE-2026-42208 (CVSS 9.3 KRITISCH), bei dem SQL-Injection die gesamte Credential-Datenbank für nicht authentifizierte Angreifer offenlegte. OpenLegions verteilter Vault-Proxy injiziert Credentials zum Aufrufzeitpunkt ohne zentrale Speicherung und eliminiert so das hochwertige Angriffsziel, das zentrale Gateways strukturell erzeugen.
+OpenLegion vs. LiteLLM verkörpert den grundlegenden Sicherheitskompromiss zwischen Credentials, die im Vault liegen und außerhalb des Modells injiziert werden, und zentralisierter LLM-Gateway-Credential-Aggregation. LiteLLM glänzt als einheitliches Provider-Gateway mit 47.997 GitHub-Stars, Kostenverfolgung und Unterstützung für über 100 LLM-Anbieter, litt jedoch unter CVE-2026-42208 (CVSS 9.3 KRITISCH), bei dem SQL-Injection die gesamte Credential-Datenbank für nicht authentifizierte Angreifer offenlegte. Bei OpenLegion liegen Credentials in einem Vault und werden zum Aufrufzeitpunkt injiziert, während das Modell immer nur ein Handle hält — es gibt keine Credential-Datenbank zum Auslesen.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Was ist LiteLLM und wie unterscheidet es sich von OpenLegion?**
-> LiteLLM ist ein zentralisiertes LLM-Gateway mit über 47.997 GitHub-Stars, das Provider-Credentials in einer Datenbank aggregiert für einheitlichen Zugang, Kostenverfolgung und Provider-Routing. OpenLegion ist eine sicherheitsorientierte Multi-Agent-Plattform mit verteiltem Vault-Proxy, der Credentials ohne zentrale Speicherung injiziert und Credential-Datenbanken als Angriffsziele eliminiert. LiteLLM bietet Gateway-Unifikation; OpenLegion bietet architektonische Sicherheitsisolierung.
+> LiteLLM ist ein zentralisiertes LLM-Gateway mit über 47.997 GitHub-Stars, das Provider-Credentials in einer Datenbank aggregiert für einheitlichen Zugang, Kostenverfolgung und Provider-Routing. OpenLegion ist eine sicherheitsorientierte Multi-Agent-Plattform, bei der Credentials in einem Vault liegen und außerhalb des Modells injiziert werden, was Credential-Datenbanken als Angriffsziele eliminiert. LiteLLM bietet Gateway-Unifikation; OpenLegion bietet architektonische Sicherheitsisolierung.
 
 ## TL;DR
 
 | **Dimension** | **LiteLLM** | **OpenLegion** |
 |---|---|---|
-| **Hauptzweck** | Zentralisiertes LLM-Gateway und Provider-Proxy | Sicherheitsorientierte Multi-Agent-Plattform mit Vault-Proxy |
-| **Architektur** | Zentralisierte Credential-DB mit API-Routing | Verteilte Vault-Injektion ohne zentrale Speicherung |
-| **Credential-Speicherung** | Alle Provider-Keys in zentralisierter Datenbank | Vault-Proxy injiziert Credentials zum Aufrufzeitpunkt |
-| **Aktuelle CVEs** | 5 CVEs in 2026, darunter kritische SQL-Injection | 0 gemeldete CVEs |
-| **Sicherheitsisolierung** | Geteiltes Gateway mit Zugriffskontrollen | Pro-Agent-Container mit Vault-Proxy-Isolation |
-| **Provider-Unterstützung** | 100+ LLMs mit einheitlichem API-Interface | 100+ LLMs via LiteLLM-Integration |
-| **Kostenverfolgung** | Eingebaut mit Ausgaben-Tracking und Budgetierung | Agent-Level Budget-Kontrollen |
-| **Bereitstellungsmodell** | Einzelner Gateway-Dienst | Verteilte Agent-Container |
-| **Container-Sicherheit** | Standardmäßige Root-Ausführung, kein Sandboxing | Pflichtmäßig Nicht-Root, no-new-privileges Isolation |
-| **Angriffsfläche** | Hochwertiges zentrales Credential-Ziel | Verteilter Vault ohne zentralen Store |
+| **Hauptzweck** | Zentralisiertes LLM-Gateway und Provider-Proxy | Sicherheitsorientierte Multi-Agent-Plattform mit Credentials im Vault |
+| **Architektur** | Zentralisierte Credential-DB mit API-Routing | Credentials im Vault, außerhalb des Modells injiziert |
+| **Credential-Speicherung** | Alle Provider-Keys in zentralisierter Datenbank | Vault injiziert Credentials zum Aufrufzeitpunkt; das Modell hält ein Handle |
+| **Aktuelle CVEs** | 5 CVEs in 2026, darunter kritische SQL-Injection | entfällt — gehostete Plattform |
+| **Sicherheitsisolierung** | Geteiltes Gateway mit Zugriffskontrollen | Sandbox-Lauf pro Aufgabe, Credentials im Vault |
+| **Provider-Unterstützung** | 100+ LLMs mit einheitlichem API-Interface | Modell-Presets Smartest, Smart und Normal |
+| **Kostenverfolgung** | Eingebaut mit Ausgaben-Tracking und Budgetierung | Pro-Agent-Credit-Budgets, Kosten pro Aufgabe sichtbar |
+| **Bereitstellungsmodell** | Einzelner Gateway-Dienst | Gehostete Web-App; Agenten sind dauerhafte Datensätze |
+| **Container-Sicherheit** | Standardmäßige Root-Ausführung, kein Sandboxing | Sandbox-Läufe, standardmäßig kein Netzwerkzugriff |
+| **Angriffsfläche** | Hochwertiges zentrales Credential-Ziel | Kein Credential-Store, den ein Agent erreichen kann |
 
 ## Zentralisiertes Gateway vs. Verteilter Vault
 
@@ -55,15 +55,15 @@ OpenLegion vs. LiteLLM verkörpert den grundlegenden Sicherheitskompromiss zwisc
 
 Die Datenbank speichert API-Keys, Authentifizierungstoken, Konfigurationseinstellungen und Nutzungsquoten in strukturierten Tabellen. Administrative Interfaces bieten Credential-Management, Kostenverfolgung, Provider-Routing-Regeln und Budget-Durchsetzung. Dieser umfassende Ansatz reduziert Integrationsaufwand, schafft aber einen zentralen Schwachpunkt für Credential-Exposition.
 
-**OpenLegion** verteilt den Credential-Zugang über Vault-Proxy-Injektion, die Credentials nie an einem agentenzugänglichen Ort speichert. Wenn Agenten LLM-Aufrufe tätigen, fängt der Mesh-Host Anfragen ab und injiziert geeignete Credentials auf Netzwerkebene. Agenten erhalten nie Klartext-API-Keys, wodurch Credential-Exposition durch kompromittierte Agenten strukturell unmöglich wird.
+**OpenLegion** hält den Credential-Zugang in einem Vault, der nie an einen agentenzugänglichen Ort gespiegelt wird. Wenn Agenten Aufrufe tätigen, wird das Credential außerhalb des Modells injiziert, und das Modell hält immer nur ein Handle. Agenten erhalten nie Klartext-API-Keys, wodurch Credential-Exposition durch kompromittierte Agenten strukturell unmöglich wird.
 
-Der Vault-Proxy unterstützt dieselben 100+ LLM-Provider via LiteLLM-Integration, eliminiert jedoch die zentralisierte Credential-Datenbank. Kein API-Endpunkt kann Credentials zurückgeben, weil keine Systemkomponente sie in abfragbarer Form speichert.
+Die Modellwahl ist ein Preset — Smartest, Smart oder Normal —, sodass es gar keinen aggregierten Provider-Credential-Store gibt. Kein API-Endpunkt kann Credentials zurückgeben, weil keine Systemkomponente sie in abfragbarer Form speichert.
 
 ### Hochwertiges Ziel vs. Verteiltes Risiko
 
 **Zentralisierte Gateways** werden zu hochwertigen Angriffszielen, weil erfolgreiche Kompromittierung alle organisatorischen Credentials gleichzeitig offenlegt. CVE-2026-42208 bewies dieses Risiko, als SQL-Injection die gesamte LiteLLM-Credential-Datenbank für nicht authentifizierte Angreifer offenlegte.
 
-**Verteilte Architekturen** verteilen das Credential-Risiko auf mehrere Vault-Instanzen und Agent-Container. Keine einzelne Kompromittierung legt alle organisatorischen Credentials offen, weil der Vault-Proxy Zugang verteilt, ohne Speicherung zu aggregieren.
+**Verteilte Architekturen** verteilen das Credential-Risiko auf Credential-Bereiche pro Agent statt auf einen gemeinsamen Store. Keine einzelne Kompromittierung legt alle organisatorischen Credentials offen, weil der Vault Zugang pro Agent gewährt, ohne ihn in einer abfragbaren Datenbank zu aggregieren.
 
 ## Der 2026-CVE-Cluster: Wenn Zentralisierung zur Haftung wird
 
@@ -95,13 +95,13 @@ Der Vault-Proxy unterstützt dieselben 100+ LLM-Provider via LiteLLM-Integration
 
 ### OpenLegions Pflichthafte Isolation
 
-**Nicht-Root-Ausführung** erzwingt UID/GID-Mapping für alle Agent-Container mit no-new-privileges Flag, das Privilege-Escalation verhindert.
+**Kurzlebige Ausführung** ersetzt den langlebigen Worker: Jede Aufgabe läuft bei Bedarf und endet dann, sodass es keinen stehenden Agentenprozess zum Eskalieren gibt.
 
-**Ressourcenbeschränkungen** gelten pro Agent-Container und verhindern Ressourcenerschöpfungsangriffe.
+**Budget-Beschränkungen** gelten als Credit-Budget pro Agent und verhindern ausufernde Ausgaben.
 
-**Dateisystem-Isolation** beschränkt jeden Agenten auf sein privates Workspace-Verzeichnis.
+**Sandbox-Isolation** bedeutet, dass Code, den der Agent schreibt, standardmäßig ohne Netzwerkzugriff läuft.
 
-**Netzwerksegmentierung** stellt jedem Agenten einen isolierten Netzwerk-Namespace bereit.
+**Vermittelte Koordination** bedeutet, dass Agenten nie direkt miteinander sprechen: Arbeit läuft Ziele → Aufgaben → Agenten.
 
 ## OpenLegions Einschätzung
 
@@ -109,7 +109,7 @@ LiteLLM vs. OpenLegion verkörpert den klassischen Sicherheits-vs.-Komfort-Kompr
 
 Aber der 2026-CVE-Cluster legt die systematischen Risiken der Credential-Aggregation offen. CVE-2026-42208 (CVSS 9.3 KRITISCH) bewies, dass SQL-Injection gesamte organisatorische Credential-Stores freilegen kann.
 
-OpenLegions verteilter Vault-Proxy eliminiert das Credential-Aggregationsrisiko vollständig. Keine Datenbank speichert API-Keys, wo sie durch SQL-Injection, Authentifizierungsumgehung oder Container-Escape freigelegt werden könnten.
+OpenLegions Credential-Vault eliminiert das Aggregationsrisiko vollständig. Keine Datenbank speichert API-Keys, wo sie durch SQL-Injection, Authentifizierungsumgehung oder einen Sandbox-Ausbruch freigelegt werden könnten.
 
 Wählen Sie LiteLLM für zentralisiertes Provider-Management mit einheitlicher Kostenverfolgung. Wählen Sie OpenLegion für sicherheitsorientierte Agent-Deployments, bei denen Credential-Isolation wesentlich ist.
 
@@ -127,11 +127,11 @@ Credential-Aggregation schafft inakzeptables Risiko, bei dem die Kompromittierun
 
 ### LiteLLM zu OpenLegion Migrationspfad
 
-**Provider-Konfigurationen** übertragen sich direkt, da OpenLegion 100+ LLMs via LiteLLM-Integration unterstützt.
+**Provider-Konfigurationen** entfallen: OpenLegion wählt Modelle per Preset — Smartest, Smart oder Normal.
 
-**Credential-Migration** verbessert die Sicherheit durch den Übergang von zentralisierter Datenbankspeicherung zu Vault-Proxy-Injektion.
+**Credential-Migration** verbessert die Sicherheit durch den Übergang von zentralisierter Datenbankspeicherung zu Credentials im Vault, die außerhalb des Modells injiziert werden.
 
-**Kostenverfolgung** läuft weiter durch agent-level Budget-Kontrollen.
+**Kostenverfolgung** läuft weiter durch Pro-Agent-Credit-Budgets und einen Beleg für jeden Lauf.
 
 Für einen umfassenderen Überblick über [KI-Agent-Sicherheitsarchitektur und wie Vault-Proxy-Isolation im Vergleich zu Frameworks abschneidet](/learn/ai-agent-security) ist das Credential-Isolationsmuster OpenLegions bedeutendster Sicherheitsunterschied.
 
@@ -141,7 +141,7 @@ Für einen umfassenderen Überblick über [KI-Agent-Sicherheitsarchitektur und w
 
 ### Was ist LiteLLM vs. OpenLegion?
 
-LiteLLM ist ein zentralisiertes LLM-Gateway mit 47.997+ GitHub-Stars, das Provider-Credentials in einer Datenbank aggregiert für einheitlichen Zugang zu 100+ LLM-Providern mit Kostenverfolgung. OpenLegion ist eine sicherheitsorientierte Multi-Agent-Plattform mit verteiltem Vault-Proxy, der Credentials ohne zentrale Speicherung injiziert.
+LiteLLM ist ein zentralisiertes LLM-Gateway mit 47.997+ GitHub-Stars, das Provider-Credentials in einer Datenbank aggregiert für einheitlichen Zugang zu 100+ LLM-Providern mit Kostenverfolgung. OpenLegion ist eine sicherheitsorientierte Multi-Agent-Plattform, bei der Credentials in einem Vault liegen und außerhalb des Modells injiziert werden.
 
 ### Was sind LiteLLMs aktuelle Sicherheitslücken?
 
@@ -149,19 +149,19 @@ CVE-2026-42208 (CVSS 9.3 KRITISCH) erlaubte SQL-Injection, die gesamte Credentia
 
 ### Wie gehen sie mit LLM-Provider-Credentials um?
 
-LiteLLM speichert alle Provider-Credentials in einer zentralisierten Datenbank, die über API-Endpunkte zugänglich ist. OpenLegions Vault-Proxy injiziert Credentials zum Aufrufzeitpunkt ohne sie an einem agentenzugänglichen Ort zu speichern.
+LiteLLM speichert alle Provider-Credentials in einer zentralisierten Datenbank, die über API-Endpunkte zugänglich ist. OpenLegions Vault injiziert Credentials zum Aufrufzeitpunkt außerhalb des Modells, das immer nur ein Handle hält.
 
 ### Was ist sicherer für die Produktion?
 
-LiteLLM aggregiert alle Credentials und schafft ein hochwertiges Angriffsziel, das als anfällig für KRITISCHE SQL-Injection bewiesen wurde. OpenLegion verteilt Vault-Injektion ohne zentralen Credential-Store und erzwingt pro-Agent Container-Isolation mit Nicht-Root-Ausführung.
+LiteLLM aggregiert alle Credentials und schafft ein hochwertiges Angriffsziel, das als anfällig für KRITISCHE SQL-Injection bewiesen wurde. OpenLegion hält Credentials in einem Vault, den das Modell nie liest, und gibt jeder Aufgabe ihren eigenen Sandbox-Lauf.
 
 ### Was sind die Unterschiede bei der Bereitstellung?
 
-LiteLLM läuft als Root im Standard-Docker-Image ohne Sandboxing oder Privilegientrennung. OpenLegion erzwingt pro-Agent Container mit Nicht-Root-Ausführung, no-new-privileges Flag, Ressourcenbeschränkungen und Dateisystem-Isolation.
+LiteLLM läuft als Root im Standard-Docker-Image ohne Sandboxing oder Privilegientrennung. OpenLegion ist eine gehostete Web-App ohne jede Installation: mit Google anmelden, und jede Aufgabe läuft bei Bedarf in einer Sandbox ohne standardmäßigen Netzwerkzugriff.
 
 ### Kann ich von LiteLLM zu OpenLegion migrieren?
 
-Ja, Provider-Konfigurationen übertragen sich direkt, da OpenLegion 100+ LLMs via LiteLLM-Integration ohne Funktionsverlust unterstützt. Credentials migrieren von zentralisierter Datenbankspeicherung zu Vault-Proxy-Injektion, was die Sicherheit verbessert.
+Ja. Es gibt keine Provider-Konfigurationen zu übernehmen, da Modelle per Preset gewählt werden — Smartest, Smart oder Normal. Credentials migrieren von zentralisierter Datenbankspeicherung in den Vault, was die Sicherheit verbessert.
 
 **Probieren Sie OpenLegion noch heute aus.**
 [Jetzt starten](https://app.openlegion.ai) | [Dokumentation lesen](https://docs.openlegion.ai) | [KI-Agent-Sicherheitsarchitektur vergleichen](/learn/ai-agent-security)

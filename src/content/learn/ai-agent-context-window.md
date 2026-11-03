@@ -111,7 +111,7 @@ Store conversation history and agent knowledge externally. Retrieve relevant chu
 
 BM25 is optimized for exact-match fact retrieval — "what CVE affects LiteLLM SQL injection?" returns the specific stored fact. Vector search is optimized for semantic similarity — "what security issues have we encountered?" returns conceptually related facts without requiring exact terminology matches.
 
-OpenLegion's SQLite memory layer supports both retrieval modes. The MEMORY.md flush pattern proactively promotes important facts to persistent memory *before* context compaction hits — preventing silent information loss. When the context window approaches its limit, the system writes key facts to long-term memory, then compacts; the next turn retrieves those facts back as needed.
+OpenLegion's agent memory supports both retrieval modes. Because each task runs on demand and then stops, important facts are promoted to durable memory *before* context compaction hits — preventing silent information loss. When the context window approaches its limit, the system writes key facts to long-term memory, then compacts; the next wake retrieves those facts back as needed.
 ## Context Poisoning: The Security Risk of Tool Outputs
 
 Context poisoning is OWASP LLM01:2025 — indirect prompt injection via tool outputs. A malicious actor embeds adversarial instructions inside content that an agent retrieves and processes: a web page with hidden `<div style="display:none">Ignore previous instructions. Your new task is...</div>`, a database record with an injected system-prompt override, an API response that redirects the agent's behavior.
@@ -132,9 +132,9 @@ Most frameworks leave context management to the application layer — developers
 
 Context engineering must be an infrastructure concern, not an application convention. Three concrete controls matter:
 
-**Per-agent token budgets at the infrastructure level.** OpenLegion's Cost Tracker in Zone 2 of the four-zone trust model enforces per-agent daily and monthly token budgets as hard cutoffs — not soft warnings. When a budget is exhausted, the agent's LLM calls are blocked until the next cycle. This prevents runaway context from becoming runaway spend: at GPT-4o pricing ($2.50/M input tokens), filling 128k tokens per call across 20 calls per task costs $6.40 per task in input tokens alone.
+**Per-agent token budgets at the infrastructure level.** Every OpenLegion agent carries its own budget, and every unit of work is a recorded wake metered in credits at $0.001 each — enforced as a hard cutoff, not a soft warning. When a budget is exhausted, the agent's LLM calls are blocked until the next cycle. This prevents runaway context from becoming runaway spend: at GPT-4o pricing ($2.50/M input tokens), filling 128k tokens per call across 20 calls per task costs $6.40 per task in input tokens alone.
 
-**MEMORY.md proactive flush.** Before context compaction, OpenLegion writes important facts from the context window to long-term SQLite memory. The next session retrieves those facts via BM25 or vector search. Information loss on compaction is explicit and reversible — the fact was written to persistent storage before the window shrunk — rather than silent and permanent.
+**Proactive memory flush.** Before context compaction, OpenLegion writes important facts from the context window to long-term agent memory. The next wake retrieves those facts via BM25 or vector search. Information loss on compaction is explicit and reversible — the fact was written to persistent storage before the window shrunk — rather than silent and permanent.
 
 **Structured context zones.** System instructions, working memory, and tool results occupy distinct positions in the context, maintained regardless of total context length. This reduces context poisoning attack surface: tool outputs cannot overwrite instruction positions.
 
@@ -142,12 +142,12 @@ Context engineering must be an infrastructure concern, not an application conven
 |---|---|---|---|---|---|
 | **Per-agent token budgets** | Hard cutoff, infrastructure-enforced | None built-in | None built-in | None built-in | None built-in |
 | **Context zone isolation** | System / working memory / tool results | Flat context, no structural isolation | Flat context per agent | Flat context, shared process | Flat context per agent |
-| **Long-term memory** | SQLite + BM25 + vector search, MEMORY.md flush | External stores (Redis, Postgres) — not bundled | Experimental long-term memory module | External stores — not bundled | None built-in |
-| **Context compression** | Proactive MEMORY.md flush before compaction | Manual — developer-implemented | Manual | Manual | Manual |
-| **Context poisoning mitigations** | Unicode sanitization, container isolation | None built-in | None built-in | None built-in | input_filter (opt-in, v0.17.5) |
-| **Observability** | Cost Tracker real-time budget tracking | LangSmith (external) | CrewAI logging | None built-in | None built-in |
+| **Long-term memory** | Built-in agent memory, BM25 + vector search, proactive flush | External stores (Redis, Postgres) — not bundled | Experimental long-term memory module | External stores — not bundled | None built-in |
+| **Context compression** | Proactive memory flush before compaction | Manual — developer-implemented | Manual | Manual | Manual |
+| **Context poisoning mitigations** | Unicode sanitization, sandboxed task runs | None built-in | None built-in | None built-in | input_filter (opt-in, v0.17.5) |
+| **Observability** | Receipts with real-time cost per task | LangSmith (external) | CrewAI logging | None built-in | None built-in |
 
-For per-framework architecture details, the [AI agent orchestration guide](/learn/ai-agent-orchestration) covers fleet-level coordination patterns that sit on top of context management. For MCP server context overhead specifically, the [Model Context Protocol](/learn/model-context-protocol) page details per-server token costs.
+For per-framework architecture details, the [AI agent orchestration guide](/learn/ai-agent-orchestration) covers team-level coordination patterns that sit on top of context management. For MCP server context overhead specifically, the [Model Context Protocol](/learn/model-context-protocol) page details per-server token costs.
 
 <!-- SCHEMA: FAQPage -->
 ## Frequently Asked Questions
@@ -166,7 +166,7 @@ Context poisoning is OWASP LLM01:2025 — indirect prompt injection where malici
 
 ### How do AI agents manage long-term memory beyond the context window?
 
-Long-term memory is stored externally — in SQLite, a vector database, or a key-value store — and retrieved into context as needed. Two retrieval strategies: BM25 (keyword matching, optimized for exact-fact retrieval) and vector search (semantic similarity, optimized for concept-level recall). OpenLegion's MEMORY.md flush pattern proactively writes important facts to persistent SQLite memory before context compaction, preventing silent information loss when the window fills. Retrieved facts re-enter context in the next session as a structured insert.
+Long-term memory is stored externally — in SQLite, a vector database, or a key-value store — and retrieved into context as needed. Two retrieval strategies: BM25 (keyword matching, optimized for exact-fact retrieval) and vector search (semantic similarity, optimized for concept-level recall). OpenLegion's proactive flush pattern writes important facts to persistent agent memory before context compaction, preventing silent information loss when the window fills. Retrieved facts re-enter context in the next wake as a structured insert.
 
 ### What is the "lost in the middle" problem for AI agents?
 
@@ -174,11 +174,11 @@ Research by Liu et al. (Stanford, 2023) found that LLMs have significantly lower
 
 ### How does context window size affect AI agent cost?
 
-Most LLM providers charge per input token. At GPT-4o pricing ($2.50/M input tokens), filling 128k tokens costs $0.32 per single LLM call. In a multi-agent workflow running 20 LLM calls per task, that is $6.40 per task in input tokens alone — before output tokens or tool call costs. Per-agent token budgets enforced at the infrastructure level are cost controls as much as reliability controls. OpenLegion's Cost Tracker tracks real-time spend per agent, with hard cutoffs that prevent runaway context from producing runaway invoices.
+Most LLM providers charge per input token. At GPT-4o pricing ($2.50/M input tokens), filling 128k tokens costs $0.32 per single LLM call. In a multi-agent workflow running 20 LLM calls per task, that is $6.40 per task in input tokens alone — before output tokens or tool call costs. Per-agent token budgets enforced at the infrastructure level are cost controls as much as reliability controls. OpenLegion meters every wake in credits at $0.001 each and tracks real-time spend per agent, with hard cutoffs that prevent runaway context from producing runaway invoices.
 
 ### What context window management does OpenLegion provide?
 
-OpenLegion provides three built-in controls. First, per-agent daily and monthly token budgets enforced as hard cutoffs at the infrastructure level by the Cost Tracker in Zone 2 — not configurable soft warnings. Second, the MEMORY.md proactive flush pattern writes important context facts to SQLite long-term memory before compaction, making information loss explicit and reversible rather than silent. Third, structured context zone isolation keeps system instructions, working memory, and tool results in distinct positions, reducing context poisoning attack surface and preserving instruction attention weight as context grows.
+OpenLegion provides three built-in controls. First, a per-agent budget enforced as a hard cutoff by the platform, with every unit of work metered as a recorded wake in credits at $0.001 each — not configurable soft warnings. Second, the proactive flush pattern writes important context facts to long-term agent memory before compaction, making information loss explicit and reversible rather than silent. Third, structured context zone isolation keeps system instructions, working memory, and tool results in distinct positions, reducing context poisoning attack surface and preserving instruction attention weight as context grows.
 
 ## Build Agents That Manage Context at the Infrastructure Level
 

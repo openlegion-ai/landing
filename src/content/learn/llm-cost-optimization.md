@@ -40,15 +40,15 @@ The good news: LLM costs are highly compressible. Unlike infrastructure costs (w
 
 Most frameworks treat LLM cost as a monitoring problem: set up a dashboard, get an alert when spend exceeds a threshold, investigate after the fact. The meter kept running while you were sleeping.
 
-OpenLegion treats per-agent budget caps as a security primitive enforced at the infrastructure layer. Each agent has a `daily_usd` and `monthly_usd` cap. When an agent hits its cap, LLM calls are blocked for that agent — not the whole pipeline, just the over-budget agent. Other agents in the fleet continue running. This is a hard cutoff, not a soft warning.
+OpenLegion treats per-agent budgets as a security primitive enforced at the infrastructure layer. Each agent carries its own budget, metered in credits at $0.001 each. When an agent exhausts it, model calls are refused for that agent — not the whole pipeline, just the over-budget agent. Other agents in the team continue running. This is a hard cutoff, not a soft warning.
 
 Three concrete implications:
 
-**Runaway loop prevention.** An agent caught in a recursive reasoning loop — whether from a prompt injection, a malformed task, or a model failure — hits its daily cap and stops. Without a hard cap, a recursive loop in a long-context agent can spend hundreds of dollars in minutes. With a cap of $2/day per agent, the worst case is $2.
+**Runaway loop prevention.** An agent caught in a recursive reasoning loop — whether from a prompt injection, a malformed task, or a model failure — exhausts its budget and stops. Without a hard cap, a recursive loop in a long-context agent can spend hundreds of dollars in minutes. With a 2,000-credit budget on that agent, the worst case is $2.
 
-**Denial-of-wallet defense.** OWASP LLM10:2025 names denial-of-wallet as a top LLM application risk: an attacker manipulates an agent into generating unbounded token output, burning the operator's budget. A hard cap enforced at the mesh layer cannot be bypassed by the agent, regardless of what the LLM requests.
+**Denial-of-wallet defense.** OWASP LLM10:2025 names denial-of-wallet as a top LLM application risk: an attacker manipulates an agent into generating unbounded token output, burning the operator's budget. A hard budget enforced by the policy engine cannot be bypassed by the agent, regardless of what the LLM requests.
 
-**Predictable cost modeling.** With per-agent caps, the maximum daily spend for a fleet of N agents is N × daily_cap. Cost becomes a bounded variable, not an open-ended exposure.
+**Predictable cost modeling.** With per-agent budgets, the maximum spend for a team of N agents is N × the per-agent budget. Cost becomes a bounded variable, not an open-ended exposure.
 
 For the full security context including prompt injection and credential protection, see [AI agent security and denial-of-wallet defense](/learn/ai-agent-security).
 
@@ -112,16 +112,16 @@ The compounding effect matters: a pipeline that applies all three compression te
 
 Per-agent budget caps are not just FinOps governance — they are the backstop that makes all other cost optimizations trustworthy in production. Without a hard cap, any routing misconfiguration, caching miss, or runaway reasoning loop can erase the savings from levers 1–4.
 
-OpenLegion implements `daily_usd` and `monthly_usd` per agent at the mesh layer. The Cost Tracker in Zone 2 of the four-zone trust model maintains a running spend total per agent in real time. When the cap is hit:
+OpenLegion gives every agent its own budget in credits, set by the owner in the app. The policy engine maintains a running spend total per agent in real time, and every task shows its exact cost. When the budget is spent:
 
-1. LLM calls for that agent are blocked — no new API calls until the cap resets
-2. The pipeline continues — other agents in the fleet are unaffected
-3. The blocked agent's status is updated to `blocked` on the blackboard
+1. Model calls for that agent are refused — no new calls until the budget is topped up or refreshed
+2. The pipeline continues — other agents in the team are unaffected
+3. The blocked agent's status is recorded as `blocked` in the shared record
 4. Orchestrator-level logic can trigger a reroute or a graceful shutdown for that agent's task
 
 This is structurally different from soft alerts. A soft alert fires when spend exceeds a threshold; the meter keeps running while a human investigates. A hard cutoff stops spend immediately, regardless of what is running.
 
-For a fleet of 20 agents each capped at $5/day, the maximum daily exposure is $100 — a bounded, predictable number that can go directly into a FinOps forecast.
+For a team of 20 agents each capped at 5,000 credits, the maximum exposure is $100 — a bounded, predictable number that can go directly into a FinOps forecast.
 
 ### Lever 6: Output Token Control — Structured Outputs and Constrained Generation
 
@@ -162,12 +162,12 @@ That is a **68% reduction** — from $0.082 to $0.026 per task. At 1,000 tasks/d
 
 | **Dimension** | **OpenLegion** | **LangGraph** | **CrewAI** | **AutoGen** |
 |---|---|---|---|---|
-| **Model routing built-in** | Yes — per-agent model field; each agent in a fleet can use a different model | No — manual in user code | No — manual in user code | No — manual in user code |
+| **Model routing built-in** | Yes — a model preset per agent; each agent in a team can run a different preset | No — manual in user code | No — manual in user code | No — manual in user code |
 | **Prompt caching integration** | Supported via Anthropic/OpenAI API pass-through | Supported via API pass-through | Supported via API pass-through | Supported via API pass-through |
-| **Per-agent budget caps** | Yes — daily_usd + monthly_usd at mesh layer | No | No | No |
+| **Per-agent budget caps** | Yes — a credit budget per agent, at the policy engine | No | No | No |
 | **Hard spend cutoff** | Yes — LLM calls blocked on overage, pipeline continues | No | No | No |
 | **Batch inference support** | Via API pass-through (Anthropic/OpenAI Batch APIs) | Via API pass-through | Via API pass-through | Via API pass-through |
-| **Real-time cost tracking** | Yes — Cost Tracker in Zone 2 per agent | No built-in | No built-in | No built-in |
+| **Real-time cost tracking** | Yes — exact cost per task, per agent | No built-in | No built-in | No built-in |
 
 For a full framework capability comparison including orchestration, security, and memory, see the [AI agent frameworks comparison](/learn/ai-agent-frameworks). For orchestration patterns that interact with budget enforcement, see the [AI agent orchestration guide](/learn/ai-agent-orchestration).
 
@@ -192,7 +192,7 @@ Anthropic's Message Batches API processes requests asynchronously at 50% of stan
 
 ### How do per-agent budget caps work in OpenLegion?
 
-Each agent in OpenLegion has a `daily_usd` and `monthly_usd` cap enforced at the mesh layer by the Cost Tracker in Zone 2. When an agent hits its cap, LLM calls for that agent are blocked immediately — the rest of the pipeline continues running. This is a hard cutoff, not a soft alert that fires while the meter keeps running. A fleet of 20 agents each capped at $5/day has a maximum daily exposure of $100, regardless of how many tasks run or whether any agent enters a loop.
+Each agent in OpenLegion carries its own budget in credits, set in the app and enforced by the policy engine before every model call. When an agent exhausts it, model calls for that agent are refused immediately — the rest of the pipeline continues running. This is a hard cutoff, not a soft alert that fires while the meter keeps running. A team of 20 agents each holding 5,000 credits has a maximum exposure of $100, regardless of how many tasks run or whether any agent enters a loop.
 
 ### How does context compression reduce LLM token costs?
 
@@ -200,7 +200,7 @@ Context compression removes tokens from API calls that do not contribute to outp
 
 ### What is denial-of-wallet and how do budget caps prevent it?
 
-Denial-of-wallet is OWASP LLM10:2025 — an attack where an agent is manipulated into consuming unlimited tokens, burning the operator's API budget. A compromised agent caught in a recursive reasoning loop can spend hundreds of dollars per hour before a human notices a dashboard alert. Per-agent budget caps with hard infrastructure-level cutoffs prevent this: when the cap is hit, LLM calls are blocked by the mesh layer, not by the agent itself, so a compromised agent cannot bypass the limit by ignoring application-level checks.
+Denial-of-wallet is OWASP LLM10:2025 — an attack where an agent is manipulated into consuming unlimited tokens, burning the operator's API budget. A compromised agent caught in a recursive reasoning loop can spend hundreds of dollars per hour before a human notices a dashboard alert. Per-agent budget caps with hard infrastructure-level cutoffs prevent this: when the budget is spent, model calls are refused by the policy engine, not by the agent itself, so a compromised agent cannot bypass the limit by ignoring application-level checks.
 
 ## Run Agents With Cost Baked Into the Architecture
 

@@ -27,7 +27,7 @@ related:
 
 Según analistas del sector, el mercado de IA agéntica alcanzó unos 7.600 millones de dólares en 2025 y se proyecta que llegue a 47.000-52.000 millones para 2030. Las firmas de análisis predicen que un porcentaje significativo de aplicaciones empresariales incorporará agentes de IA hacia finales de 2026. Con más de una docena de frameworks compitiendo por la adopción, elegir el adecuado depende de lo que realmente necesite: prototipado rápido, despliegue cloud-native, construcción visual o seguridad en producción.
 
-OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) con enfoque security-first, construido sobre aislamiento por contenedor, credenciales con proxy de bóveda y aplicación de presupuestos por agente. Esta página lo compara con todas las alternativas principales — incluyendo la explosión de proyectos del ecosistema OpenClaw — para que pueda decidir qué framework se ajusta a sus requisitos.
+OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) con enfoque security-first, construido sobre ejecuciones de tarea en sandbox, credenciales guardadas en bóveda y aplicación de presupuestos por agente. Esta página lo compara con todas las alternativas principales — incluyendo la explosión de proyectos del ecosistema OpenClaw — para que pueda decidir qué framework se ajusta a sus requisitos.
 
 ## Tabla Maestra de Comparación
 
@@ -43,7 +43,7 @@ OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) con enfo
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27.300 | MIT | Ninguno integrado | DefaultAzureCredential | Gratis (código abierto) | RCE crítico (CVSS 9.9) | Frecuencia de actualizaciones reducida |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19.200 | MIT | Ninguno (mismo proceso) | Clave API por variable de entorno | SDK gratis; API por uso | 0 | Activo |
 | [**Dify**](/comparison/dify) | 131.000 | Apache 2.0 modificada | Sandbox de plugins | Claves compartidas por workspace | Cloud 59-159$/mes | CVE-2025-3466 (CVSS 9.8) | Activo |
-| **OpenLegion** | nuevo | PolyForm Perimeter License 1.0.1 | Docker por agente (modo único y por defecto) | Proxy de bóveda (los agentes nunca ven las claves) | Corte automático diario/mensual por agente | Ninguno reportado (v0.1.0) | Activo |
+| **OpenLegion** | nuevo | PolyForm Perimeter License 1.0.1 (motor) | Ejecución en sandbox por tarea (modo único y por defecto) | Guardadas en bóveda (el modelo solo retiene un identificador) | Presupuesto de créditos por agente, corte estricto | n/d — plataforma alojada | Activo |
 
 ## La Brecha de Seguridad
 
@@ -51,7 +51,7 @@ Las encuestas del sector citan sistemáticamente la seguridad como requisito pri
 
 La investigación pública sobre seguridad ha documentado vulnerabilidades graves en todo el panorama de frameworks de agentes — cadenas de RCE en el ecosistema LangChain, escapes de sandbox que expusieron claves secretas, fugas de credenciales, ataques de inyección de prompt y comportamiento de bucles ilimitados. Los CVEs específicos y las puntuaciones de severidad varían; consulte los avisos de cada proveedor y la fuente primaria para detalles actuales.
 
-OpenLegion convierte la seguridad en una propuesta de valor primaria: defensa en profundidad mediante aislamiento por contenedor Docker por agente, gestión de credenciales con proxy de bóveda donde los agentes nunca ven las claves API en bruto, ACLs por agente y límites de recursos.
+OpenLegion convierte la seguridad en una propuesta de valor primaria: defensa en profundidad mediante una ejecución en sandbox para cada tarea, credenciales guardadas en bóveda que el modelo nunca ve en claro, un único motor de políticas delante de cada acción y presupuestos por agente.
 
 Para un análisis profundo, consulte nuestro análisis de [seguridad de agentes de IA](/learn/ai-agent-security).
 
@@ -101,15 +101,15 @@ OpenLegion se sitúa en la categoría orientada al desarrollador con un enfoque 
 
 ## Qué Hace OpenLegion de Forma Diferente
 
-**Proxy de bóveda**: Los agentes nunca ven las claves API en bruto. Las credenciales se inyectan a nivel de red mediante un proxy — si un agente se ve comprometido, no puede exfiltrar secretos. Pocos otros frameworks ofrecen esto.
+**Bóveda de credenciales**: Los agentes nunca ven las claves API en bruto. Las credenciales viven en una bóveda y se inyectan fuera del modelo, que solo llega a retener un identificador — si un agente se ve comprometido, no puede exfiltrar secretos. Pocos otros frameworks ofrecen esto.
 
-**Aislamiento obligatorio por contenedor**: Cada agente corre en su propio contenedor Docker con ejecución no-root, sin acceso al socket Docker y con límites de recursos. Este es el modo por defecto y único.
+**Ejecución de tareas en sandbox**: Cada tarea corre bajo demanda y luego se detiene, de modo que no hay proceso de agente de larga vida que comprometer, y el código que el agente escribe corre en un sandbox sin acceso a red por defecto. Este es el modo por defecto y único.
 
-**Aplicación de presupuesto por agente**: Límites de gasto diarios y mensuales por agente con corte automático estricto. Aborda los problemas documentados de bucles infinitos, iteración descontrolada y consumo impredecible de créditos que han surgido en otros frameworks.
+**Aplicación de presupuesto por agente**: Cada agente lleva su propio presupuesto de créditos, medido en créditos a $0.001 cada uno, con un corte automático estricto. Aborda los problemas documentados de bucles infinitos, iteración descontrolada y consumo impredecible de créditos que han surgido en otros frameworks.
 
-**Modelo de flota — blackboard + pub/sub + handoff (sin agente CEO)**: Coordinación mediante un blackboard respaldado por SQLite con compare-and-set atómico, un bus de eventos pub/sub y un protocolo de handoff estructurado. Los topes de iteración por agente y la detección de bucles de herramientas (advertencia a 2 repeticiones, bloqueo a 4, terminación a 9) detienen los bucles descontrolados. Auditable en YAML; bajo control de versiones.
+**Coordinación por objetivos y tareas (sin agente CEO)**: El trabajo se organiza objetivos → tareas → agentes, con un asistente que crea los compañeros de equipo que necesita y les delega, más despertares por evento para todo lo que deba reaccionar a algo. Los presupuestos por agente y los despertares registrados y reproducibles acotan los bucles descontrolados. Cada llamada a herramienta, delegación y aprobación queda registrada con la identidad del agente, una marca de tiempo y el coste exacto.
 
-**BYO claves API + créditos gestionados**: Soporte para más de 100 modelos vía LiteLLM sin recargo en el uso con BYOK. El hosting gestionado también ofrece créditos LLM prepagados como conveniencia. Sin lock-in con ningún proveedor de modelos.
+**Presets de modelo + créditos**: Los modelos se eligen por preset — Smartest, Smart o Normal — por agente o por espacio de trabajo, de modo que no hay cableado de proveedor que mantener. El trabajo se mide en créditos a $0.001 cada uno; los créditos incluidos se renuevan mensualmente y los packs comprados nunca caducan.
 
 Para detalles técnicos, consulte la página de [orquestación de agentes de IA](/learn/ai-agent-orchestration).
 
@@ -138,7 +138,7 @@ OpenLegion y LangGraph sirven a necesidades distintas. LangGraph ofrece flujos d
 
 ### ¿Cuál es el framework de agentes de IA más seguro?
 
-OpenLegion convierte la seguridad en un objetivo de diseño primario con defensa en profundidad: aislamiento obligatorio por contenedor, credenciales con proxy de bóveda, ACLs por agente, ejecución acotada, protección SSRF y saneamiento de entradas. La mayoría de los otros frameworks o carecen de configuración de seguridad por defecto o solo la ofrecen en niveles de pago. Consulte nuestro análisis de [seguridad de agentes de IA](/learn/ai-agent-security).
+OpenLegion convierte la seguridad en un objetivo de diseño primario con defensa en profundidad: una ejecución en sandbox para cada tarea, credenciales guardadas en bóveda, un único motor de políticas delante de cada acción, ejecución acotada, aprobación del propietario en tres muros y un recibo para todo. La mayoría de los otros frameworks o carecen de configuración de seguridad por defecto o solo la ofrecen en niveles de pago. Consulte nuestro análisis de [seguridad de agentes de IA](/learn/ai-agent-security).
 
 ### ¿Siguen mantenidos AutoGen y Semantic Kernel?
 

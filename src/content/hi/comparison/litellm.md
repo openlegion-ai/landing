@@ -1,6 +1,6 @@
 ---
 title: LiteLLM का विकल्प — Vault Isolation बनाम Credential Store
-description: "OpenLegion बनाम LiteLLM: vault proxy बनाम केंद्रीकृत credential store। CVE-2026-42208 (CVSS 9.3) SQL injection ने LiteLLM credential DB उजागर किया। वितरित isolation बनाम gateway aggregation।"
+description: "OpenLegion बनाम LiteLLM: vault isolation बनाम केंद्रीकृत credential store। CVE-2026-42208 (CVSS 9.3) SQL injection ने LiteLLM credential DB उजागर किया। वितरित isolation बनाम gateway aggregation।"
 slug: /comparison/litellm
 primary_keyword: litellm alternative
 secondary_keywords:
@@ -25,27 +25,27 @@ related:
 
 # LiteLLM विकल्प: OpenLegion Distributed Vault बनाम Centralized Gateway
 
-OpenLegion बनाम LiteLLM वितरित vault proxy आर्किटेक्चर और केंद्रीकृत LLM gateway credential aggregation के बीच मूलभूत सुरक्षा trade-off को दर्शाता है। LiteLLM 47,997 GitHub stars, cost tracking और 100+ LLM provider support के साथ unified provider gateway के रूप में उत्कृष्ट है, लेकिन CVE-2026-42208 (CVSS 9.3 CRITICAL) से ग्रस्त रहा जहां SQL injection ने पूरे credential database को unauthenticated attackers के लिए उजागर कर दिया। OpenLegion का distributed vault proxy central storage के बिना call time पर credentials inject करता है, जिससे वह high-value attack target समाप्त हो जाता है जो centralized gateways संरचनात्मक रूप से बनाते हैं।
+OpenLegion बनाम LiteLLM model के बाहर inject किए गए vault-held credentials और केंद्रीकृत LLM gateway credential aggregation के बीच मूलभूत सुरक्षा trade-off को दर्शाता है। LiteLLM 47,997 GitHub stars, cost tracking और 100+ LLM provider support के साथ unified provider gateway के रूप में उत्कृष्ट है, लेकिन CVE-2026-42208 (CVSS 9.3 CRITICAL) से ग्रस्त रहा जहां SQL injection ने पूरे credential database को unauthenticated attackers के लिए उजागर कर दिया। OpenLegion में credentials एक vault में रहते हैं और call time पर inject होते हैं, और model के पास सिर्फ़ एक handle रहता है — पढ़ने के लिए कोई credential database है ही नहीं।
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **LiteLLM क्या है और यह OpenLegion से कैसे तुलना करता है?**
-> LiteLLM 47,997+ GitHub stars वाला एक centralized LLM gateway है जो unified access, cost tracking और provider routing के लिए provider credentials को एक database में aggregate करता है। OpenLegion distributed vault proxy के साथ security-first multi-agent platform है जो central storage के बिना credentials inject करता है।
+> LiteLLM 47,997+ GitHub stars वाला एक centralized LLM gateway है जो unified access, cost tracking और provider routing के लिए provider credentials को एक database में aggregate करता है। OpenLegion एक security-first multi-agent platform है जहाँ credentials एक vault में रहते हैं और model के बाहर inject होते हैं, credential databases को attack targets के रूप में समाप्त करते हुए।
 
 ## संक्षेप
 
 | **आयाम** | **LiteLLM** | **OpenLegion** |
 |---|---|---|
-| **मुख्य उद्देश्य** | Centralized LLM gateway और provider proxy | Vault proxy के साथ security-first multi-agent platform |
-| **आर्किटेक्चर** | API routing के साथ centralized credential DB | Central storage के बिना distributed vault injection |
-| **Credential storage** | Centralized DB में सभी provider keys | Vault proxy call time पर credentials inject करता है |
-| **हालिया CVEs** | 2026 में 5 CVEs, CRITICAL SQL injection सहित | 0 CVEs रिपोर्ट |
-| **Security isolation** | Access controls के साथ shared gateway | Vault proxy isolation के साथ per-agent containers |
-| **Provider support** | Unified API interface के साथ 100+ LLMs | LiteLLM integration के माध्यम से 100+ LLMs |
-| **Cost tracking** | Built-in spend tracking और budgeting | Agent-level budget controls |
-| **Deployment model** | Single gateway service | Distributed agent containers |
-| **Container security** | Default root execution, no sandboxing | Mandatory non-root, no-new-privileges isolation |
-| **Attack surface** | High-value centralized credential target | No central store के साथ distributed vault |
+| **मुख्य उद्देश्य** | Centralized LLM gateway और provider proxy | Vault में रखे credentials के साथ security-first multi-agent platform |
+| **आर्किटेक्चर** | API routing के साथ centralized credential DB | Vault में credentials, model के बाहर inject |
+| **Credential storage** | Centralized DB में सभी provider keys | Vault call time पर inject करता है; model के पास handle |
+| **हालिया CVEs** | 2026 में 5 CVEs, CRITICAL SQL injection सहित | n/a — hosted platform |
+| **Security isolation** | Access controls के साथ shared gateway | प्रति task sandboxed run, vault में रखे credentials |
+| **Provider support** | Unified API interface के साथ 100+ LLMs | Smartest, Smart और Normal model presets |
+| **Cost tracking** | Built-in spend tracking और budgeting | प्रति-एजेंट credit budgets, प्रति task cost दिखता है |
+| **Deployment model** | Single gateway service | Hosted web app; एजेंट्स durable records हैं |
+| **Container security** | Default root execution, no sandboxing | Sandboxed runs, default पर कोई network access नहीं |
+| **Attack surface** | High-value centralized credential target | कोई credential store नहीं जिस तक कोई एजेंट पहुँचे |
 
 ## Centralized Gateway बनाम Distributed Vault
 
@@ -53,7 +53,7 @@ OpenLegion बनाम LiteLLM वितरित vault proxy आर्कि�
 
 **LiteLLM** सभी LLM provider credentials को API endpoints के माध्यम से accessible एकल database में centralize करता है। CVE-2026-42208 ने यह खतरा प्रदर्शित किया जब SQL injection ने unauthenticated attackers के लिए LiteLLM के पूरे credential database को उजागर किया।
 
-**OpenLegion** vault proxy injection के माध्यम से credential access distribute करता है जो agents के accessible किसी भी location पर credentials कभी store नहीं करता।
+**OpenLegion** credentials को एक vault में रखता है जिसे कोई एजेंट access नहीं कर सकता; credential model के बाहर inject होता है और model के पास सिर्फ़ एक handle रहता है।
 
 ## 2026 CVE Cluster: जब Centralization Liability बन जाती है
 
@@ -79,11 +79,11 @@ LiteLLM की official Docker image में **Root user deployment** default 
 
 ### OpenLegion की Mandatory Isolation
 
-**Non-root execution** सभी agent containers के लिए UID/GID mapping enforce करता है।
+**Ephemeral execution**: हर task on demand चलता है और फिर रुक जाता है, इसलिए escalate करने के लिए कोई standing एजेंट process नहीं है।
 
 ## OpenLegion का दृष्टिकोण
 
-CVE-2026-42208 (CVSS 9.3 CRITICAL) ने साबित किया कि SQL injection पूरे organizational credential stores को उजागर कर सकता है। OpenLegion का distributed vault proxy credential aggregation risk को पूरी तरह समाप्त करता है।
+CVE-2026-42208 (CVSS 9.3 CRITICAL) ने साबित किया कि SQL injection पूरे organizational credential stores को उजागर कर सकता है। OpenLegion का credential vault aggregation risk को पूरी तरह समाप्त करता है।
 
 ## LiteLLM बनाम OpenLegion चुनना
 
@@ -103,7 +103,7 @@ Credential aggregation अस्वीकार्य risk बनाता ह�
 
 ### LiteLLM बनाम OpenLegion क्या है?
 
-LiteLLM 47,997+ GitHub stars वाला centralized LLM gateway है जो 100+ LLM providers के unified access के लिए credentials aggregate करता है। OpenLegion distributed vault proxy के साथ security-first multi-agent platform है।
+LiteLLM 47,997+ GitHub stars वाला centralized LLM gateway है जो 100+ LLM providers के unified access के लिए credentials aggregate करता है। OpenLegion एक security-first multi-agent platform है जहाँ credentials एक vault में रहते हैं और model के बाहर inject होते हैं।
 
 ### LiteLLM की हालिया security vulnerabilities क्या हैं?
 
@@ -111,19 +111,19 @@ CVE-2026-42208 (CVSS 9.3 CRITICAL) crafted Authorization headers के मा�
 
 ### LLM provider credentials को कैसे handle करते हैं?
 
-LiteLLM सभी provider credentials को API endpoints के माध्यम से accessible centralized database में store करता है। OpenLegion का vault proxy agents-accessible किसी भी location में store किए बिना call time पर credentials inject करता है।
+LiteLLM सभी provider credentials को API endpoints के माध्यम से accessible centralized database में store करता है। OpenLegion का vault call time पर credentials model के बाहर inject करता है, जिसके पास सिर्फ़ एक handle रहता है।
 
 ### Production के लिए कौन अधिक secure है?
 
-LiteLLM सभी credentials aggregate करता है जो CRITICAL SQL injection के लिए proven vulnerable high-value attack target बनाता है। OpenLegion non-root execution के साथ mandatory per-agent container isolation enforce करते हुए central credential store के बिना vault injection distribute करता है।
+LiteLLM सभी credentials aggregate करता है जो CRITICAL SQL injection के लिए proven vulnerable high-value attack target बनाता है। OpenLegion credentials को एक ऐसे vault में रखता है जिसे model कभी नहीं पढ़ता, हर task को उसका अपना sandboxed run देता है, और compromise करने के लिए कोई long-lived एजेंट process नहीं छोड़ता।
 
 ### Deployment differences क्या हैं?
 
-LiteLLM default Docker image में sandboxing के बिना root के रूप में run करता है। OpenLegion non-root execution, no-new-privileges flag, resource constraints और filesystem isolation के साथ per-agent containers enforce करता है।
+LiteLLM default Docker image में sandboxing के बिना root के रूप में run करता है। OpenLegion एक hosted web app है: हर task on demand default पर बिना network access के एक sandbox में चलता है।
 
 ### क्या मैं LiteLLM से OpenLegion में migrate कर सकता हूँ?
 
-हाँ, provider configurations directly transfer होती हैं क्योंकि OpenLegion LiteLLM integration के माध्यम से 100+ LLMs को functionality loss के बिना support करता है।
+हाँ। ले जाने के लिए कोई provider configuration है ही नहीं, क्योंकि models preset से चुने जाते हैं — Smartest, Smart या Normal — प्रति एजेंट या प्रति workspace।
 
 **आज ही OpenLegion आज़माएँ।**
 [शुरू करें](https://app.openlegion.ai) | [दस्तावेज़ पढ़ें](https://docs.openlegion.ai) | [AI agent security architecture की तुलना करें](/learn/ai-agent-security)

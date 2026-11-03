@@ -65,7 +65,7 @@ Never configure unlimited retries on any LLM error type. An agent retrying indef
 
 Multi-agent pipelines introduce a third failure layer that doesn't exist in single-agent systems:
 
-**Dropped hand-offs**: a `hand_off()` call completes without error on the sender's side, but the recipient agent never receives or processes the task. Detection: the sender writes the task to the blackboard with a timestamp; a supervisor checks that the recipient acknowledges within a timeout window (typically 2× the recipient's expected task duration).
+**Dropped hand-offs**: a delegation call completes without error on the sender's side, but the recipient agent never receives or processes the task. Detection: the sender writes the task to the blackboard with a timestamp; a supervisor checks that the recipient acknowledges within a timeout window (typically 2× the recipient's expected task duration).
 
 **Stale blackboard state**: an upstream agent writes a value to the blackboard; a downstream agent reads it and begins processing; the upstream agent then overwrites the value with a revised version. Fix: versioned blackboard writes — include a `version` field in every blackboard entry, and downstream agents check the version against what they read before using a value.
 
@@ -170,21 +170,21 @@ Martin Fowler documented the circuit breaker pattern at martinfowler.com/bliki/C
 
 One circuit breaker per dependency. A failure in a web search API should not open the circuit for database reads.
 
-### Agent-Level Circuit Breaker: INSTRUCTIONS.md Pattern
+### Agent-Level Circuit Breaker: Per-Agent Config Pattern
 
-In OpenLegion, circuit breaker state is maintained on the blackboard (not in-process) because agents restart across sessions:
+In OpenLegion, circuit breaker state is kept in the shared record of goals and tasks (not in-process) because each task runs on demand and then stops:
 
 ```markdown
 ## Circuit Breaker Protocol
 
-Maintain failure counter in `circuit/{tool_name}` on the blackboard.
+Maintain failure counter in `circuit/{tool_name}` in the shared record.
 
 On tool call failure:
 1. Increment `circuit/{tool_name}/failures`
 2. If failures >= 5 within last 30 seconds:
    - Set `circuit/{tool_name}/state: open`
    - Set `circuit/{tool_name}/open_until: [current_time + 60s]`
-   - Call update_status(state="working", summary="Circuit open on {tool_name}, resuming at {timestamp}")
+   - Report status: working -- "Circuit open on {tool_name}, resuming at {timestamp}"
 
 On circuit open, probe after cooldown:
 1. Read `circuit/{tool_name}/open_until`
@@ -193,7 +193,7 @@ On circuit open, probe after cooldown:
 4. Probe failure: set open_until = current_time + (prev_cooldown × 2)
 ```
 
-The mesh supervisor monitors `circuit/*/state` keys. Any circuit open for more than 5 minutes triggers an operator alert — a circuit that doesn't recover within 5 minutes indicates an outage, not a transient blip.
+The policy engine monitors `circuit/*/state` keys. Any circuit open for more than 5 minutes triggers an operator alert — a circuit that doesn't recover within 5 minutes indicates an outage, not a transient blip.
 
 ## Dead-Letter Queues and Idempotency: Handling Unrecoverable Tasks
 
@@ -220,7 +220,7 @@ The `recommended_action` field classifies the failure at write time so operators
 - `operator_review`: permanent or unclassified error
 - `context_reduction`: context_length_exceeded — truncate and retry
 - `quota_check`: LLM quota exhausted — verify budget allocation
-- `credential_rotation`: 401 or auth failure — rotate the affected `$CRED{}` handle
+- `credential_rotation`: 401 or auth failure — rotate the affected credential handle
 
 Alert on every DLQ entry. A silent DLQ means tasks are being lost without operator awareness.
 
@@ -245,7 +245,7 @@ http_request(
     url="https://api.example.com/messages",
     method="POST",
     headers={
-        "Authorization": "Bearer $CRED{example_key}",
+        "Authorization": "Bearer <credential handle>",
         "Idempotency-Key": make_idempotency_key(AGENT_ID, TASK_ID, "http_request", 3)
     },
     body=json.dumps({"content": message})
@@ -260,7 +260,7 @@ For APIs without server-side idempotency, store the key and result in the blackb
 
 **At-least-once**: retry on failure, accept possible duplicates. Appropriate for: side-effect operations protected by idempotency keys, task queue consumption.
 
-**Exactly-once**: achieved at the application layer by combining at-least-once delivery with idempotency key deduplication. Blackboard writes in OpenLegion are naturally at-least-once (writes are idempotent); LLM API calls are at-most-once by default — converting them requires idempotency management at the application layer.
+**Exactly-once**: achieved at the application layer by combining at-least-once delivery with idempotency key deduplication. Writes to the shared record in OpenLegion are naturally at-least-once (writes are idempotent); LLM API calls are at-most-once by default — converting them requires idempotency management at the application layer.
 
 ## Error Side-Channels and the Security Dimension of Reliability
 
@@ -291,7 +291,7 @@ OpenAI and Anthropic both implement automatic credential suspension for excessiv
 
 Budget caps at the infrastructure layer act as a backstop circuit breaker: when the agent's daily cap is reached, all LLM calls are rejected, forcing a blocked state regardless of retry logic.
 
-OpenLegion's Zone 2 Cost Tracker enforces per-agent daily and monthly caps. At 80% of the daily cap, an alert fires. At 100%, calls are rejected.
+OpenLegion's policy engine enforces each agent's own credit budget. At 80% of the budget, an alert fires. At 100%, calls are rejected.
 
 Calibrate the cap to reflect failure modes, not just success modes:
 
@@ -323,11 +323,11 @@ Reliability engineering for agent systems requires treating the agent as a netwo
 
 The security dimension of reliability is under-specified in most agent framework documentation. Error side-channel leakage (system prompt fragments in logged error details) and silent exception swallowing both apply directly to agent error handling — but neither is addressed by default in common agent frameworks. Teams building production agents need to add them explicitly: sanitize error messages before logging, implement circuit breakers per-dependency, and treat retry storm risk as a credential security issue.
 
-OpenLegion's blackboard-based circuit breaker pattern writes circuit state to `circuit/{tool_name}` keys that persist across agent restarts — a key requirement for heartbeat-scheduled agents. In-process circuit breaker objects lose state on restart; blackboard-based state persists. For the credential management patterns that harden the credential side-channel risk, see [credential management for AI agents](/learn/credential-management-ai-agents). For the deployment configuration that sets container resource limits, see [AI agent deployment](/learn/ai-agent-deployment).
+OpenLegion's record-based circuit breaker pattern writes circuit state to `circuit/{tool_name}` keys that persist between runs — a key requirement for agents that wake on a schedule. In-process circuit breaker objects lose state when the run ends; recorded state persists. For the credential management patterns that harden the credential side-channel risk, see [credential management for AI agents](/learn/credential-management-ai-agents). For the deployment configuration that sets container resource limits, see [AI agent deployment](/learn/ai-agent-deployment).
 
 ## Get Started
 
-**Production-grade agent reliability with blackboard circuit breakers, budget cap guardrails, and DLQ alerting.**
+**Production-grade agent reliability with persisted circuit breakers, budget guardrails, and DLQ alerting.**
 [Start Building on OpenLegion](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [Explore AI Agent Monitoring](/learn/ai-agent-monitoring)
 
 ---
@@ -366,4 +366,4 @@ Three leakage patterns: LLM error responses that include request context can exp
 
 ### How do budget caps function as reliability guardrails?
 
-Budget caps enforced at the LLM proxy layer act as a backstop circuit breaker for retry storms. When the daily cap is reached, all LLM calls are rejected — forcing a blocked state regardless of the agent's retry logic. Set the cap at 3–4× normal daily spend: this covers worst-case retry storms while alerting the operator at 80% consumption. OpenLegion's Zone 2 Cost Tracker enforces these limits at the proxy layer, not bypassable by agent code. A cap set at 1.2× normal spend hits the limit before any operator response is possible.
+Budget caps enforced at the LLM proxy layer act as a backstop circuit breaker for retry storms. When the daily cap is reached, all LLM calls are rejected — forcing a blocked state regardless of the agent's retry logic. Set the cap at 3–4× normal daily spend: this covers worst-case retry storms while alerting the operator at 80% consumption. OpenLegion's policy engine enforces these budgets before every model call, not bypassable by agent code. A cap set at 1.2× normal spend hits the limit before any operator response is possible.

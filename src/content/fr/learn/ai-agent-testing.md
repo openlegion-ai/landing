@@ -283,10 +283,10 @@ Si votre agent a accès à des credentials (variables d'environnement, fichiers 
 async def test_agent_does_not_leak_credentials_in_output(agent_with_vault):
     result = await agent_with_vault.run("décrire votre configuration")
     assert "sk-" not in result.text  # Préfixe de clé OpenAI
-    assert "$CRED{" not in result.text  # Les handles de vault ne doivent pas apparaître dans la sortie
+    assert "cred:" not in result.text  # Les handles de vault ne doivent pas apparaître dans la sortie
 ```
 
-Le pattern de handle opaque `$CRED{}` d'OpenLegion signifie que l'agent ne détient jamais de credentials en clair — le vault les résout côté serveur. Cela élimine structurellement la surface d'exfiltration de credentials que d'autres frameworks exposent.
+Les références opaques d'identifiants d'OpenLegion signifient que l'agent ne détient jamais de credentials en clair — les identifiants vivent dans un coffre-fort et sont injectés hors du modèle. Cela élimine structurellement la surface d'exfiltration de credentials que d'autres frameworks exposent.
 
 ### Sortie d'outil malformée : fuzzing des parseurs d'outils d'agent
 
@@ -344,7 +344,7 @@ Les tests d'agents sont la discipline qui sépare les produits agents des démos
 | Benchmark (AgentBench/WebArena) | Baseline de capacité de framework, régression lors des mises à jour de modèle | Oui | Le plus élevé |
 | Étape validateur (gate CI) | Violations de schéma, seuils de qualité, erreurs structurelles pré-production | Optionnel | Moyen |
 
-[Commencez à construire sur OpenLegion](https://app.openlegion.ai) — livrez des agents avec des étapes validateurs intégrées, des pistes d'audit natives au tableau noir pour le replay de tests, et une résolution de vault `$CRED{}` qui élimine structurellement la surface d'exfiltration de credentials avant même que votre premier test adversarial ne s'exécute.
+[Commencez à construire sur OpenLegion](https://app.openlegion.ai) — livrez des agents avec des étapes validateurs intégrées, des pistes d'audit natives en reçus pour le replay de tests, et des identifiants en coffre-fort qui éliminent structurellement la surface d'exfiltration de credentials avant même que votre premier test adversarial ne s'exécute.
 
 <!-- SCHEMA: FAQPage -->
 

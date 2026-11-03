@@ -164,16 +164,16 @@ OpenAI的Responses API（2025年3月）将并行工具调用设为默认。在�
 
 每个主要LLM提供商都有不同的工具调用API。正确的抽象：定义一次工具，让框架在调用时将其转换为正确的提供商约定。
 
-OpenLegion的工具注册表实现了这种抽象。定义一次`search_web`。网格根据配置的模型将定义转换为OpenAI `tools`、Anthropic `tools`或Gemini `functionDeclarations`。ACL门不是可选的。每个工具调用 — 内置的、MCP的或自定义的 — 在执行前都要经过每智能体权限矩阵。
+OpenLegion的工具注册表实现了这种抽象。定义一次`search_web`。平台根据智能体预设解析到的模型，将定义转换为OpenAI `tools`、Anthropic `tools`或Gemini `functionDeclarations`。ACL门不是可选的。每个工具调用 — 内置的还是自定义的 — 在执行前都要经过每智能体权限矩阵。
 
 | **维度** | **OpenLegion** | **LangChain / LangGraph** | **OpenAI Agents SDK** | **CrewAI** | **Anthropic直接** |
 |---|---|---|---|---|---|
 | **工具定义格式** | 单一模式，提供商转换 | 需要特定于提供商的包装器 | 仅OpenAI格式 | CrewAI工具装饰器 | 仅Anthropic tool_use格式 |
-| **提供商抽象** | 是 — GPT-4o、Claude、Gemini统一 | 部分 — 通过LangChain集成 | 否 — 仅OpenAI模型 | 部分 | 否 — 仅Anthropic |
+| **提供商抽象** | 是 — 一档预设，屏蔽提供商 | 部分 — 通过LangChain集成 | 否 — 仅OpenAI模型 | 部分 | 否 — 仅Anthropic |
 | **ACL执行** | 每智能体权限矩阵，结构性 | 未内置 | 未内置 | 未内置 | 未内置 |
 | **并行工具调用** | 支持 | 支持（依赖提供商） | 是 — Responses API默认值 | 支持 | 是 — Claude支持 |
-| **内置工具** | 浏览器、文件、HTTP、Shell、图像生成 | 通过LangChain社区工具 | web_search、file_search、computer_use | 未内置 | 未内置 |
-| **MCP集成** | 原生 — 相同的ACL/预算管道 | 通过LangChain MCP适配器 | 实验性 | 非原生 | 非原生 |
+| **内置工具** | 文件、HTTP、沙箱内代码、日历、云端硬盘 | 通过LangChain社区工具 | web_search、file_search、computer_use | 未内置 | 未内置 |
+| **MCP集成** | 发布时未接入 | 通过LangChain MCP适配器 | 实验性 | 非原生 | 非原生 |
 
 有关MCP规范、服务器架构和每服务器权限要求，请参阅[模型上下文协议指南](/learn/model-context-protocol)。
 

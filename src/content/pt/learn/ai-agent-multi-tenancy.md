@@ -64,7 +64,7 @@ Três tipos de memória de agente requerem cada um tratamento de isolamento de i
 
 **Memória semântica (armazenamento vetorial)**: se usar um armazenamento vetorial compartilhado, cada escrita deve incluir `tenant_id` como campo de metadados obrigatório, e cada consulta deve incluir um filtro de metadados `{tenant_id: current_tenant_id}` injetado na camada do cliente de armazenamento.
 
-**Estado de coordenação (quadro negro)**: o estado chave-valor compartilhado entre agentes deve usar prefixos de chave com escopo de inquilino, por exemplo `projects/{tenant_id}/*`, com aplicação de ACL na camada mesh.
+**Estado de coordenação (quadro negro)**: o estado chave-valor compartilhado entre agentes deve usar prefixos de chave com escopo de inquilino, por exemplo `projects/{tenant_id}/*`, com aplicação de ACL pelo motor de políticas.
 
 ## Isolamento de Credenciais: Escopo do Vault por Inquilino
 
@@ -145,7 +145,7 @@ O OpenLegion aplica o isolamento de inquilinos por meio de três mecanismos a n�
 | **Escopo de vault de credenciais por inquilino** | Aplicado por infraestrutura | Convenção desenvolvedor | Convenção desenvolvedor | Convenção desenvolvedor | Convenção desenvolvedor |
 | **ACLs de namespace de quadro negro** | Aplicado por infraestrutura | Não disponível | Não disponível | Não disponível | Não disponível |
 | **Mensagens entre agentes de projetos bloqueadas** | Bloqueadas por padrão | Não disponível | Não disponível | Não disponível | Não disponível |
-| **Cap de orçamento por inquilino (Zona 2)** | Aplicado por infraestrutura | Convenção desenvolvedor | Convenção desenvolvedor | Convenção desenvolvedor | Convenção desenvolvedor |
+| **Cap de orçamento por inquilino (motor de políticas)** | Aplicado por infraestrutura | Convenção desenvolvedor | Convenção desenvolvedor | Convenção desenvolvedor | Convenção desenvolvedor |
 | **Partição de auditoria por inquilino (WORM)** | Aplicado por infraestrutura | Convenção desenvolvedor | Convenção desenvolvedor | Convenção desenvolvedor | Convenção desenvolvedor |
 | **Kubernetes namespace + ResourceQuota** | Gerenciado pela plataforma | Auto-gerenciado | Auto-gerenciado | Auto-gerenciado | Auto-gerenciado |
 
@@ -181,7 +181,7 @@ Usar um armazenamento vetorial compartilhado sem filtros de inquilino obrigatór
 
 ### Como o OpenLegion aplica o isolamento de inquilinos?
 
-O OpenLegion aplica o isolamento de inquilinos por meio de três mecanismos a nível de infraestrutura: escopo de vault de credenciais por projeto (Zone 2 resolve handles `$CRED{}` usando o contexto de projeto autenticado da sessão mesh, não de parâmetros fornecidos pelo agente; a resolução de credenciais entre projetos é arquiteturalmente impossível), ACLs de namespace de quadro negro (os agentes têm permissões de leitura e escrita apenas para o prefixo de chave de seu projeto, aplicadas pelo supervisor mesh) e mensagens entre agentes de projetos bloqueadas por padrão.
+O OpenLegion aplica o isolamento de inquilinos por meio de três mecanismos a nível de infraestrutura: escopo de cofre de credenciais por projeto (o motor de políticas resolve handles de credencial usando o contexto de projeto autenticado da sessão, não de parâmetros fornecidos pelo agente; a resolução de credenciais entre projetos é arquiteturalmente impossível), ACLs de namespace de memória (os agentes têm permissões de leitura e escrita apenas para o prefixo de chave de seu projeto, aplicadas pelo motor de políticas) e mensagens entre agentes de projetos bloqueadas por padrão.
 
 ### Quais são os três modelos de arquitetura de multi-tenancy para plataformas de agentes?
 

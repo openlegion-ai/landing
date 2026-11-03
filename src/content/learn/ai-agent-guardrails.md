@@ -75,7 +75,7 @@ OWASP LLM06 (Excessive Agency) describes agents with over-broad permissions or a
 
 Required guardrails for LLM06 mitigation:
 
-1. **Least-privilege tool scoping per agent role** enforced at the infrastructure layer, not by agent instruction. Each agent's permitted tool set is defined at Zone 2 and checked at dispatch — the agent cannot grant itself additional tools via task instructions or prompt injection.
+1. **Least-privilege tool scoping per agent role** enforced at the infrastructure layer, not by agent instruction. Each agent's permitted tool set is defined once and checked by the policy engine at dispatch — the agent cannot grant itself additional tools via task instructions or prompt injection.
 2. **Per-agent budget cap enforced at infrastructure layer** — not application code, not agent instruction. The cap must be enforced by infrastructure that the agent's LLM output cannot reach.
 3. **Iteration limit (max_turns)** enforced by the orchestrator — the agent terminates after N reasoning iterations regardless of task state.
 4. **Non-idempotent tool call-count limit** per task run — a tool that creates records, sends messages, or charges payment cannot be called more than N times in a single task.
@@ -199,9 +199,9 @@ A structural guardrail stack has three enforcement points in the agent loop:
 - Rejects or queues for human approval before the tool runs
 - Cannot be influenced by the LLM — it runs between the reasoning step and the execution step
 
-OpenLegion implements all three enforcement points at Zone 2: agent code receives tool results and final responses only after guardrails have been applied. The credential vault proxy is a pre-call enforcement point: `$CRED{}` handles are resolved at Zone 2 before each tool call, and the credential value is never returned to the agent's context window.
+OpenLegion implements all three enforcement points in one policy engine: agent code receives tool results and final responses only after guardrails have been applied. The credential vault is a pre-call enforcement point: credential handles are resolved outside the model before each tool call, and the credential value is never returned to the agent's context window.
 
-The credential vault proxy pattern — which makes CVE-2024-5184 credential exfiltration structurally impossible — is covered in [credential management and vault proxy architecture for AI agents](/learn/credential-management-ai-agents).
+The credential vault pattern — which makes CVE-2024-5184 credential exfiltration structurally impossible — is covered in [credential management and vault proxy architecture for AI agents](/learn/credential-management-ai-agents).
 
 ## CVE-2024-5184 and the Tool Response Guardrail Gap
 
@@ -318,22 +318,22 @@ This implementation convenience creates a false sense of security for the highes
 
 **OWASP LLM01 is the top-ranked LLM vulnerability in 2025 despite being the most discussed attack vector since 2023** — two years of industry awareness has not moved it off the top of the list. The reason is that most guardrail deployments are prompt-level, and prompt-level guardrails cannot reliably stop prompt injection because prompt injection is specifically an attack against prompt-level controls.
 
-OpenLegion's structural guardrail primitives — all enforced at Zone 2, all outside the LLM's context window:
-- `$CRED{}` handle resolution: credentials resolved at Zone 2 before tool dispatch, never in agent context. A CVE-2024-5184 injection that reaches the context window finds no credentials to exfiltrate.
-- Per-agent $50/day budget cap: enforced by the authenticated mesh session context at Zone 2, set in INSTRUCTIONS.md committed to git. The agent's LLM output cannot raise its own cap.
-- Blackboard ACL: agents cannot read keys outside their permission pattern regardless of what their task instructions contain. A prompt injection that instructs the agent to "read all blackboard keys" fails at the ACL check, not at the model's instruction-following.
-- Permitted-action list: tool calls not in the agent's permitted set are rejected at Zone 2 regardless of what the LLM generates. The rejection happens before the tool runs, not after.
+OpenLegion's structural guardrail primitives — all enforced by one policy engine, all outside the LLM's context window:
+- Credential handle resolution: credentials resolved outside the model before tool dispatch, never in agent context. A CVE-2024-5184 injection that reaches the context window finds no credentials to exfiltrate.
+- Per-agent credit budget: enforced by the policy engine before every model call, set by the owner in the app. The agent's LLM output cannot raise its own cap.
+- Shared-record permissions: agents cannot read goals or tasks outside their scope regardless of what their task instructions contain. A prompt injection that instructs the agent to "read everything in the workspace" fails at the permission check, not at the model's instruction-following.
+- Permitted-action list: tool calls not in the agent's permitted set are rejected by the policy engine regardless of what the LLM generates. The rejection happens before the tool runs, not after.
 
 | **Guardrail control** | **OpenLegion** | **NeMo Guardrails** | **AWS Bedrock Guardrails** | **Guardrails AI** | **LangChain** |
 |---|---|---|---|---|---|
-| **Structural pre-call input validator (before LLM call, outside context)** | Zone 2, code-enforced | LLM-based rail | LLM-classified topics | Validator stack | Not built-in |
-| **Tool response guardrail (validates tool output before context append)** | Zone 2, structural | Not named component | Not named component | Not named component | Not built-in |
-| **Structural action pre-validator (permitted-action allowlist at Zone 2)** | Zone 2, allowlist | Not available | Not available | Not available | Not built-in |
-| **Per-agent budget cap at infrastructure layer (not overridable by agent)** | Zone 2, $0-$50/day | Not available | Not available | Not available | Not built-in |
+| **Structural pre-call input validator (before LLM call, outside context)** | Policy engine, code-enforced | LLM-based rail | LLM-classified topics | Validator stack | Not built-in |
+| **Tool response guardrail (validates tool output before context append)** | Policy engine, structural | Not named component | Not named component | Not named component | Not built-in |
+| **Structural action pre-validator (permitted-action allowlist in the policy engine)** | Policy engine, allowlist | Not available | Not available | Not available | Not built-in |
+| **Per-agent budget cap at infrastructure layer (not overridable by agent)** | Policy engine, per-agent credits | Not available | Not available | Not available | Not built-in |
 | **Guardrail trigger audit log (raw content + sanitized diff, WORM)** | Native | Not available | CloudWatch | Not built-in | Not built-in |
-| **Credential vault proxy (no credentials in context — CVE-2024-5184 mitigated)** | $CRED{} at Zone 2 | Not available | IAM roles | Not available | Not built-in |
+| **Credential vault (no credentials in context — CVE-2024-5184 mitigated)** | Handle resolved outside the model | Not available | IAM roles | Not available | Not built-in |
 
-[Start building on OpenLegion](https://app.openlegion.ai) — structural guardrails enforced at Zone 2, not in system prompts.
+[Start building on OpenLegion](https://app.openlegion.ai) — structural guardrails enforced by one policy engine, not in system prompts.
 
 <!-- SCHEMA: FAQPage -->
 

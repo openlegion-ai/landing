@@ -29,6 +29,7 @@ const STATIC_TITLE_KEYS: Record<string, string> = {
   learn: "learnTitle",
   pricing: "pricingTitle",
   faq: "faqTitle",
+  security: "securityTitle",
   terms: "termsTitle",
   privacy: "privacyTitle",
   "money-back-guarantee": "moneyBackTitle",
@@ -102,8 +103,7 @@ export async function GET(
           justifyContent: "center",
           alignItems: "flex-start",
           padding: "80px",
-          background:
-            "linear-gradient(135deg, #08090c 0%, #12131d 50%, #0a0b10 100%)",
+          background: "#ffffff",
           fontFamily: "system-ui, sans-serif",
         }}
       >
@@ -114,7 +114,7 @@ export async function GET(
             left: 0,
             right: 0,
             height: "4px",
-            background: "linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6)",
+            background: "linear-gradient(90deg, #2563eb, #4f46e5)",
           }}
         />
 
@@ -131,7 +131,7 @@ export async function GET(
               width: "48px",
               height: "48px",
               borderRadius: "50%",
-              background: "#3b82f6",
+              background: "#2563eb",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -146,12 +146,12 @@ export async function GET(
             style={{
               fontSize: "28px",
               fontWeight: 700,
-              color: "#f0f0f3",
+              color: "#0a2540",
               letterSpacing: "-0.01em",
             }}
           >
             Open
-            <span style={{ color: "#3b82f6" }}>Legion</span>
+            <span style={{ color: "#2563eb" }}>Legion</span>
           </span>
         </div>
 
@@ -159,7 +159,7 @@ export async function GET(
           style={{
             fontSize: "52px",
             fontWeight: 800,
-            color: "#f0f0f3",
+            color: "#0a2540",
             lineHeight: 1.2,
             letterSpacing: "-0.02em",
             maxWidth: "900px",
@@ -172,7 +172,7 @@ export async function GET(
         <p
           style={{
             fontSize: "22px",
-            color: "#8b8fa3",
+            color: "#425466",
             marginTop: "24px",
             maxWidth: "700px",
           }}
@@ -186,7 +186,7 @@ export async function GET(
             bottom: "40px",
             right: "80px",
             fontSize: "18px",
-            color: "#3b82f6",
+            color: "#2563eb",
           }}
         >
           openlegion.ai

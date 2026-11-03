@@ -3,7 +3,7 @@ title: "Model Context Protocol (MCP) — Cómo los Agentes de IA Usan Herramient
 description: >-
   Model Context Protocol (MCP) es el estándar abierto de Anthropic para que los
   agentes de IA descubran y llamen herramientas externas. Cómo funciona,
-  consideraciones de seguridad y el soporte MCP de OpenLegion.
+  consideraciones de seguridad y lo que OpenLegion hace en su lugar.
 slug: /learn/model-context-protocol
 primary_keyword: model context protocol
 secondary_keywords:
@@ -74,14 +74,14 @@ La integración MCP de referencia de Claude Desktop monta servidores como subpro
 
 ## Cómo Integra OpenLegion MCP
 
-OpenLegion es un cliente MCP por defecto. Los agentes en el runtime auto-descubren servidores MCP configurados para su flota, ven la lista de herramientas en su ventana de contexto y llaman a herramientas MCP a través de la misma ruta con proxy de bóveda y compuerta ACL que las skills integradas. El mesh aplica las capas de grado producción que MCP deja fuera:
+MCP no está disponible en OpenLegion en el lanzamiento. Los agentes usan el conjunto de herramientas integrado de OpenLegion, y cada llamada toma la misma ruta: una intención verificada por un único motor de políticas antes de ocurrir, y luego registrada como un recibo que el propietario puede leer. Esas son las capas de grado producción que MCP deja fuera deliberadamente:
 
-- Cada servidor MCP corre en su propio namespace sandboxed; el agente nunca obtiene acceso stdio directo al proceso del servidor.
-- Las ACLs por agente controlan qué servidores MCP puede llamar un agente dado.
-- Cada llamada a herramienta cuenta contra el presupuesto por agente; un agente excediendo su tope es cortado tanto si el gasto vino de LLMs como de herramientas MCP.
-- El mesh registra cada llamada MCP en el log de trazas — la misma telemetría cubierta en [observabilidad de agentes de IA](/learn/ai-agent-observability).
+- El código que el agente escribe corre en un sandbox sin acceso a red por defecto; el agente nunca obtiene acceso stdio directo a un proceso anfitrión.
+- Los permisos por agente controlan qué herramientas puede llamar un agente dado.
+- Cada llamada a herramienta cuenta contra el propio presupuesto de créditos del agente; un agente que lo agota es cortado tanto si el gasto vino de modelos como de herramientas.
+- Cada llamada queda registrada con la identidad del agente, una marca de tiempo y el coste exacto — la misma telemetría cubierta en [observabilidad de agentes de IA](/learn/ai-agent-observability).
 
-El resultado: obtiene la amplitud del ecosistema MCP sin heredar sus supuestos de confianza por defecto.
+El resultado: una superficie de herramientas más estrecha que la del ecosistema MCP, y ninguno de sus supuestos de confianza por defecto.
 
 ## La Postura de OpenLegion
 
@@ -89,7 +89,7 @@ MCP es el estándar más importante del ecosistema de agentes desde OpenAPI — 
 
 ## CTA
 
-**Despliegue agentes compatibles con MCP con controles de grado producción integrados.**
+**Despliegue agentes con controles de grado producción integrados.**
 [Empezar](https://app.openlegion.ai) | [Leer la documentación](https://docs.openlegion.ai)
 
 ---
@@ -120,4 +120,4 @@ OpenAI function calling es un patrón de un único proveedor para permitir que u
 
 ### ¿Puedo usar MCP con cualquier proveedor de LLM?
 
-Sí. MCP es agnóstico al LLM — el cliente renderiza las definiciones de herramienta MCP a cualquier formato que el LLM subyacente espere (uso de herramienta Anthropic, function calling de OpenAI, declaraciones de función de Gemini). Los runtimes como OpenLegion que soportan más de 100 proveedores vía LiteLLM adaptan automáticamente las herramientas MCP a la convención de llamada de cada proveedor.
+Sí. MCP es agnóstico al LLM — el cliente renderiza las definiciones de herramienta MCP a cualquier formato que el LLM subyacente espere (uso de herramienta Anthropic, function calling de OpenAI, declaraciones de función de Gemini). Un runtime que oculta la elección de proveedor tras presets de modelo, como los Smartest, Smart y Normal de OpenLegion, adapta por usted las definiciones de herramienta a la convención de llamada de cada proveedor.

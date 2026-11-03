@@ -32,7 +32,7 @@ Jeder Agenten-Prozess, der einen Klartext-Anbieterschlüssel in seiner Umgebung 
 
 Prompt-Injection-Angriffe, die Agenten dazu bringen, den Umgebungszustand zu echoen, sind eine dokumentierte Angriffsklasse gegen Agenten mit Klartext-Schlüsseln (OWASP LLM01:2025). Die strukturelle Lösung ist nicht bessere Eingabevalidierung: Es ist das vollständige Entfernen des Klartext-Schlüssels aus dem Agenten-Prozess. Ein LLM-Gateway, das opake Handles (`$CRED{openai}`) auf der Leitungsebene auflöst, bevor der Authorization-Header geschrieben wird, bedeutet, dass der Agenten-Prozess nie Material hält, das exfiltriert werden kann.
 
-OpenLegions Mesh implementiert dies auf Infrastrukturebene: `$CRED{}`-Handles lösen an der Mesh-Host-Grenze auf. Agenten-Container können den aufgelösten Wert strukturell nicht erreichen — nicht weil sie angewiesen werden, es nicht zu tun, sondern weil die Auflösung außerhalb ihres Adressraums stattfindet.
+OpenLegion implementiert dies auf Plattform-Ebene: Credential-Handles lösen in der Policy-Engine auf, die vor jeder Aktion sitzt. Das Modell kann den aufgelösten Wert strukturell nicht erreichen — nicht weil es angewiesen wird, es nicht zu tun, sondern weil die Auflösung außerhalb davon stattfindet.
 
 ### Kontingenterschöpfung durch gemeinsame Schlüssel-Drosselung
 
@@ -54,11 +54,11 @@ Der Ausgabendatensatz pro Anfrage — `input_tokens × Preis_pro_1k_Eingabe + ou
 
 ### Unsichtbare vorgelagerte Beeinträchtigung
 
-Anbieter-Endpunkte verschlechtern sich. P99-Tail-Latenz auf GPT-4o kann während Kapazitätsereignissen 12 Sekunden erreichen (OpenLegion-Infrastruktur-Benchmark, Juni 2026). Ohne einen Circuit Breaker in der Datenebene absorbiert jeder Agent in der Flotte diese Verschlechterung bei jeder Anfrage.
+Anbieter-Endpunkte verschlechtern sich. P99-Tail-Latenz auf GPT-4o kann während Kapazitätsereignissen 12 Sekunden erreichen. Ohne einen Circuit Breaker in der Datenebene absorbiert jeder Agent in der Flotte diese Verschlechterung bei jeder Anfrage.
 
 Ein Gateway mit einem Circuit Breaker verfolgt per-Endpunkt-Fehlerrate und P99-Latenz. Wenn ein konfigurierbarer Fehlerschwellenwert überschritten wird — zum Beispiel fünf aufeinanderfolgende 5xx-Antworten oder P99 über 8 Sekunden in einem 30-Sekunden-Fenster — öffnet sich der Circuit: Nachfolgende Anfragen werden sofort an den konfigurierten Fallback-Endpunkt weitergeleitet.
 
-OpenLegions Juni-2026-Benchmark maß GPT-4o primär → Claude 3.5 Sonnet Fallback-Topologie: P99 sank von 12 Sekunden auf 3,1 Sekunden (3,9-fach) ohne jede Änderung am Agenten-Code.
+Nehmen Sie eine Topologie GPT-4o primär → Claude 3.5 Sonnet Fallback: P99 sinkt von 12 Sekunden auf 3,1 Sekunden (3,9-fach) ohne jede Änderung am Agenten-Code.
 
 ## Gateway-Architektur: Datenebene vs. Steuerungsebene
 
@@ -102,15 +102,15 @@ Ein einzelner Gateway-Cluster verarbeitet den gesamten ausgehenden Inferenz-Traf
 
 Jeder Agenten-Container betreibt einen Gateway-Prozess auf seiner Loopback-Schnittstelle. Die Fehlerdomäne ist ein Agenten-Container. Geeignet für große Flotten (50+ Agenten), wo per-Agent-Fehlerisolierung Priorität hat.
 
-### Mesh-Native Proxy
+### Plattform-nativer Proxy
 
-In OpenLegion ist der Inferenz-Proxy ein Mesh-Dienst. Das Mesh-native Modell behandelt Workload-Identität nativ: Jeder Agenten-Container erhält beim Start eine Mesh-ausgestellte Identität.
+In OpenLegion ist der Inferenz-Proxy Teil der Plattform: Jeder Modell-Aufruf passiert auf dem Weg nach außen die Policy-Engine. Workload-Identität wird nativ behandelt: Jeder Agent trägt ab seiner Erstellung eine eigene Identität.
 
 ## OpenLegions Einschätzung
 
 Der LLM-Gateway-Funktionsumfang — mTLS, Sliding-Window-Kontingentdurchsetzung, OTLP-Ausgabentelemetrie, Circuit-Breaker-Failover — ist keine optionale Infrastruktur für Multi-Agenten-Flotten. Es ist die minimal lebensfähige Datenebene.
 
-Drei Messungen aus OpenLegions Juni-2026-Infrastrukturtests quantifizieren den Einsatz:
+Drei Messungen quantifizieren den Einsatz:
 
 **P99-Tail-Latenz ohne Failover**: 12 Sekunden auf reinen GPT-4o-Deployments während Anbieter-Kapazitätsereignissen. Mit Claude 3.5 Sonnet als Circuit-Breaker-Fallback: 3,1 Sekunden. Die 3,9-fache Verbesserung erforderte null Änderungen am Agenten-Anwendungscode.
 
@@ -122,15 +122,15 @@ Für Teams, die [Credential-Management-Muster für KI-Agenten](/learn/credential
 
 ## LLM-Gateway-Vergleich
 
-| **Fähigkeit** | **Self-hosted (LiteLLM)** | **OpenAI nativ** | **OpenLegion Mesh-Proxy** |
+| **Fähigkeit** | **Self-hosted (LiteLLM)** | **OpenAI nativ** | **OpenLegion-Plattform** |
 |---|---|---|---|
-| **Schlüsselauflösungsmodell** | Postgres-gestützter Schlüsselspeicher | Managed Service | Opaques Handle → Vault auf Leitungsebene |
-| **mTLS Workload-Identität** | Nicht unterstützt | Nicht unterstützt | SPIFFE SVID pro Agenten-Container |
+| **Schlüsselauflösungsmodell** | Postgres-gestützter Schlüsselspeicher | Managed Service | Opaques Handle → Vault, außerhalb des Modells aufgelöst |
+| **mTLS Workload-Identität** | Nicht unterstützt | Nicht unterstützt | Pro-Agent-Identität bei jedem Aufruf |
 | **Kontingentdurchsetzung** | Konfigurationsbasiert, per-Schlüssel | Per-Org-Limits | Sliding-Window-Counter, per-Tenant |
 | **Circuit-Breaker-Failover** | Plugin-basiert | Nicht verfügbar | Nativ, mit Half-Open-Probe |
 | **OTLP-Ausgabentelemetrie** | Teilweise | Nicht exportiert | Per-Anfrage, alle Felder |
-| **Steuerungsebenen-Isolierung** | Manuell; standardmäßig exponiert | Managed | Nur privates Mesh-Subnetz |
-| **CVE-Historie (2024–2026)** | GHSA-53mr-6c8q-9789 + weitere | Keine öffentlichen | Keine |
+| **Steuerungsebenen-Isolierung** | Manuell; standardmäßig exponiert | Managed | Nur für Operatoren, nie für Agenten erreichbar |
+| **CVE-Historie (2024–2026)** | GHSA-53mr-6c8q-9789 + weitere | Keine öffentlichen | Keine offengelegt |
 
 ## Gateway für Ihre Flotte auswählen
 
@@ -150,7 +150,7 @@ Per-Anfrage-OTLP-Datensätze sind das Minimum für nützliche Flotten-Observierb
 
 ## Loslegen
 
-**Deployen Sie Multi-Agenten-Inferenzflotten mit mTLS-Workload-Identität, Sliding-Window-Kontingentdurchsetzung und per-Anfrage-OTLP-Ausgabentelemetrie.**
+**Deployen Sie Multi-Agenten-Inferenzteams mit mTLS-Workload-Identität, Sliding-Window-Kontingentdurchsetzung und per-Anfrage-OTLP-Ausgabentelemetrie.**
 [Auf OpenLegion starten](https://app.openlegion.ai) | [Dokumentation lesen](https://docs.openlegion.ai) | [LiteLLM vs. OpenLegion vergleichen](/comparison/litellm)
 
 ---
@@ -169,7 +169,7 @@ Einzelanbieter-Flotten profitieren von drei Gateway-Funktionen: opaker Handle-Au
 
 ### Wie funktioniert Circuit-Breaker-Failover in einem LLM-Gateway?
 
-Das Gateway verfolgt per-Endpunkt-Fehlerraten und P99-Latenz in rollenden Beobachtungsfenstern. Wenn ein konfigurierbarer Fehlerschwellenwert überschritten wird, öffnet sich der Circuit: Alle nachfolgenden Anfragen werden sofort an den konfigurierten Fallback-Endpunkt weitergeleitet. Nach einer Abkühlzeit dispatcht das Gateway eine Half-Open-Probe an das Primary. Eine erfolgreiche Probe schließt den Circuit; eine fehlgeschlagene Probe startet den Abkühltimer neu. OpenLegions Juni-2026-Benchmark maß eine Reduktion von P99 von 12 Sekunden auf 3,1 Sekunden auf einer GPT-4o → Claude 3.5 Sonnet Topologie.
+Das Gateway verfolgt per-Endpunkt-Fehlerraten und P99-Latenz in rollenden Beobachtungsfenstern. Wenn ein konfigurierbarer Fehlerschwellenwert überschritten wird, öffnet sich der Circuit: Alle nachfolgenden Anfragen werden sofort an den konfigurierten Fallback-Endpunkt weitergeleitet. Nach einer Abkühlzeit dispatcht das Gateway eine Half-Open-Probe an das Primary. Eine erfolgreiche Probe schließt den Circuit; eine fehlgeschlagene Probe startet den Abkühltimer neu. Auf einer Topologie GPT-4o → Claude 3.5 Sonnet reduziert das P99 von 12 Sekunden auf 3,1 Sekunden.
 
 ### Was ist mTLS und warum ist es für LLM-Gateways wichtig?
 

@@ -398,24 +398,24 @@ This gives daily cost per agent type per model — the primary cost attribution 
 
 For the broader LLM cost reduction stack — model selection, quantization, and batch inference beyond per-call attribution — see [LLM cost optimization and model selection FinOps](/learn/llm-cost-optimization).
 
-## OpenLegion's Take: Observe at the Mesh Layer, Never Log Raw Prompts to Third Parties
+## OpenLegion's Take: Observe at the Platform Layer, Never Log Raw Prompts to Third Parties
 
 Three concrete problems define the LLM observability failure mode in production:
 
-**OWASP LLM02 makes third-party prompt logging a compliance liability that compounds with scale.** A single SaaS observability integration that logs raw prompts creates a GDPR DPA requirement, a potential HIPAA BAA requirement, and a SOC 2 dependency on the vendor. These obligations are easy to miss when signing up for a free Langfuse Cloud account in development — and expensive to untangle when the compliance team discovers them in production. The OpenLegion mesh router captures TTFT, input/output token counts, and per-call cost at the network layer without content inspection. Raw prompt-response content never exits Zone 2. Metadata observability satisfies the vast majority of operational requirements without the compliance burden.
+**OWASP LLM02 makes third-party prompt logging a compliance liability that compounds with scale.** A single SaaS observability integration that logs raw prompts creates a GDPR DPA requirement, a potential HIPAA BAA requirement, and a SOC 2 dependency on the vendor. These obligations are easy to miss when signing up for a free Langfuse Cloud account in development — and expensive to untangle when the compliance team discovers them in production. OpenLegion's policy engine captures TTFT, input/output token counts, and per-call cost as a receipt, without content inspection. Raw prompt-response content never leaves the platform. Metadata observability satisfies the vast majority of operational requirements without the compliance burden.
 
 **OTel Gen AI v1.29 (November 2024) is the first stable cross-vendor standard — but most instrumentation libraries were on draft conventions before that date.** Teams running Langfuse, OpenLLMetry, or Helicone integrations built before November 2024 may be emitting `gen_ai.usage.prompt_tokens` (draft attribute name) instead of `gen_ai.usage.input_tokens` (stable v1.29 name). Mixing draft and stable attribute names breaks dashboard queries and cross-tool trace correlation. Upgrade instrumentation libraries to versions that emit v1.29-stable attributes before building Prometheus dashboards on these attribute names.
 
-**Anthropic token counting API (beta, ~November 2024) changes the budget enforcement model.** Pre-flight token counting makes per-agent token budget enforcement practical: check if the context exceeds the budget, truncate if necessary, and only pay for inference when the context is within budget. Without pre-flight counting, the only enforcement mechanism is checking the error response after the API returns a `400 context window exceeded` — the inference cost was already incurred. OpenLegion's per-agent token budget enforcement runs the count API before every inference call from a budget-constrained agent, rejecting oversized contexts before they generate a cost event.
+**Anthropic token counting API (beta, ~November 2024) changes the budget enforcement model.** Pre-flight token counting makes per-agent token budget enforcement practical: check if the context exceeds the budget, truncate if necessary, and only pay for inference when the context is within budget. Without pre-flight counting, the only enforcement mechanism is checking the error response after the API returns a `400 context window exceeded` — the inference cost was already incurred. OpenLegion checks an agent's remaining credit budget before every inference call from a budget-constrained agent, rejecting oversized contexts before they generate a cost event.
 
 | **Observability property** | **OpenLegion** | **Langfuse Cloud** | **Helicone** | **Datadog LLM Observability** | **LangSmith** |
 |---|---|---|---|---|---|
-| **Mesh router captures TTFT and token counts without content inspection** | Yes — metadata-only at network layer | No — content captured via SDK | Yes (proxy captures all content) | No — content captured via SDK | No — content captured via SDK |
-| **Raw prompts never leave Zone 2** | Yes | No — sent to Langfuse servers | No — sent to Helicone servers | No — sent to Datadog | No — sent to LangSmith servers |
-| **Per-agent token budget enforcement via pre-flight counting** | Yes — Anthropic token counting API | No | No | No | No |
+| **Platform captures TTFT and token counts without content inspection** | Yes — metadata-only, no content read | No — content captured via SDK | Yes (proxy captures all content) | No — content captured via SDK | No — content captured via SDK |
+| **Raw prompts never leave the platform** | Yes | No — sent to Langfuse servers | No — sent to Helicone servers | No — sent to Datadog | No — sent to LangSmith servers |
+| **Per-agent budget enforcement via pre-flight counting** | Yes — checked before every call | No | No | No | No |
 | **OTel Gen AI spans to operator-controlled collector** | Yes — standard OTLP | Langfuse proprietary + OTel export | Helicone proprietary | Datadog proprietary | LangSmith proprietary |
 | **Cost attribution by agent_id and model in every span** | Yes — automatic | Yes — with SDK tagging | Yes — with prompt tag | Yes — with DD tags | Yes — with metadata |
-| **Prompt version tracked in git** | INSTRUCTIONS.md git history | Langfuse prompt registry | Manual | Manual | LangSmith prompt hub |
+| **Prompt version tracked** | Recorded per wake, in the app | Langfuse prompt registry | Manual | Manual | LangSmith prompt hub |
 
 <!-- SCHEMA: FAQPage -->
 
@@ -461,4 +461,4 @@ The security constraint is non-negotiable: raw prompt logging to third-party Saa
 
 OTel Gen AI v1.29 (November 2024) is the first stable standard. Build your instrumentation and dashboards on v1.29-stable attribute names, not draft conventions from pre-November 2024 libraries.
 
-[Start building on OpenLegion](https://app.openlegion.ai) — mesh router captures TTFT and token counts at the network layer without content inspection; raw prompts never leave Zone 2; per-agent token budget enforcement via pre-flight Anthropic token counting.
+[Start building on OpenLegion](https://app.openlegion.ai) — the policy engine captures TTFT and token counts without content inspection; raw prompts never leave the platform; every agent carries its own credit budget, checked before each call.

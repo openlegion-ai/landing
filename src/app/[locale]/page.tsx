@@ -4,7 +4,6 @@ import { Hero } from "@/components/hero";
 import { UseCases } from "@/components/use-cases";
 import { PromptToTeam } from "@/components/prompt-to-team";
 import { SocialProof } from "@/components/social-proof";
-import { Testimonials } from "@/components/testimonials";
 import { Features } from "@/components/features";
 import { DashboardPreview } from "@/components/dashboard-preview";
 import { Quickstart } from "@/components/quickstart";
@@ -14,7 +13,7 @@ import { FAQ } from "@/components/faq";
 import { CTA } from "@/components/cta";
 import { TechnicalDefinition } from "@/components/technical-definition";
 import { Footer } from "@/components/footer";
-import { ALL_FAQ_ITEMS, ONBOARDING_URL } from "@/lib/constants";
+import { ALL_FAQ_ITEMS, WAITLIST_URL } from "@/lib/constants";
 import { getAllContentEntries } from "@/lib/markdown";
 import { normalizeDate, ogLocaleFor } from "@/lib/content-page-helpers";
 
@@ -22,7 +21,6 @@ import { normalizeDate, ogLocaleFor } from "@/lib/content-page-helpers";
 // Page-level JSON-LD schemas are defined inline below — they reference the
 // site-wide Organization / WebSite / SoftwareApplication entities (declared
 // in `[locale]/layout.tsx`) by stable @id rather than re-declaring them.
-const ORG_ID = "https://www.openlegion.ai/#organization";
 const WEBSITE_ID = "https://www.openlegion.ai/#website";
 const SOFTWARE_ID = "https://www.openlegion.ai/#software";
 
@@ -65,7 +63,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const t = await getTranslations("common");
   const tFaq = await getTranslations("faq");
   const tMeta = await getTranslations("metadata");
-  const tSchema = await getTranslations("schema");
 
   // Locale-aware FAQ items for the FAQPage JSON-LD payload below. The
   // canonical 14-item ordering comes from ALL_FAQ_ITEMS; each locale's
@@ -78,7 +75,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const canonicalUrl = `https://www.openlegion.ai/${locale}`;
   const WEBPAGE_ID = `${canonicalUrl}#webpage`;
   const FAQ_ID = `${canonicalUrl}#faq`;
-  const VIDEO_ID = `${canonicalUrl}#demo-video`;
   const dateModified = homepageDateModified();
 
   // Single @graph payload — page-level WebPage / FAQPage / VideoObject
@@ -114,8 +110,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         // Every sameAs has been verified to resolve to the correct entity.
         // See PAGE_MENTIONS doc for the validation policy.
         mentions: [
-          { "@type": "SoftwareApplication", name: "Docker",    sameAs: "https://www.wikidata.org/wiki/Q15206305" },
-          { "@type": "ProgrammingLanguage", name: "Python",    sameAs: "https://www.wikidata.org/wiki/Q28865" },
           { "@type": "SoftwareApplication", name: "LangGraph", sameAs: "https://github.com/langchain-ai/langgraph" },
           { "@type": "SoftwareApplication", name: "CrewAI",    sameAs: "https://github.com/crewAIInc/crewAI" },
           { "@type": "SoftwareApplication", name: "AutoGen",   sameAs: "https://github.com/microsoft/autogen" },
@@ -130,20 +124,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           name: item.question,
           acceptedAnswer: { "@type": "Answer", text: item.answer },
         })),
-      },
-      {
-        "@type": "VideoObject",
-        "@id": VIDEO_ID,
-        name: tSchema("videoName"),
-        description: tSchema("videoDescription"),
-        thumbnailUrl: "https://www.openlegion.ai/demo-poster.jpg",
-        uploadDate: "2026-02-18",
-        duration: "PT2M",
-        contentUrl: "https://www.openlegion.ai/demo.mp4",
-        // embedUrl is the page that *embeds* the video — not the .mp4 itself.
-        embedUrl: `${canonicalUrl}#hero`,
-        isPartOf: { "@id": WEBPAGE_ID },
-        publisher: { "@id": ORG_ID },
       },
     ],
   };
@@ -161,7 +141,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
             without interrupting the conversion path. */}
         <Hero />
         <SocialProof stars={stars} />
-        <Testimonials />
         <PromptToTeam />
         <UseCases />
         <Features />
@@ -169,7 +148,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <div className="px-5 py-10 text-center sm:px-6 md:px-8 md:py-14">
           <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
           <p className="mb-3 text-sm text-muted">{t("fleetLivePrompt")}</p>
-          <Link href={ONBOARDING_URL} className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
+          <Link href={WAITLIST_URL} className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
             {t("getStartedInMinutes")}
           </Link>
           <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />

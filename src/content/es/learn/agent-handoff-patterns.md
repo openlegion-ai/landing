@@ -46,7 +46,7 @@ El despacho pull reduce la exposición de credenciales: el mensaje de cola solo 
 
 En la transferencia por puntero blackboard, el llamador escribe su salida en una clave nombrada en un almacén persistente compartido, por ejemplo `output/researcher/task_abc123`, y envía al llamado solo el nombre de la clave. El llamado lee la clave y recupera exactamente los campos que necesita. Las credenciales crudas, los scratchpads intermedios y el contexto completo del llamador nunca aparecen en el mensaje de transferencia.
 
-La función `hand_off()` de OpenLegion implementa este patrón de forma nativa: escribe datos de salida en `output/{agent_id}/{handoff_id}` en el blackboard, crea una entrada de tarea en la bandeja de entrada del destinatario con un puntero a esa clave, y despierta al destinatario. Las credenciales almacenadas en el vault se inyectan por el mesh en el momento de ejecución.
+OpenLegion aplica el mismo principio mediante la delegación: el llamador registra su salida en el registro compartido de objetivos y tareas, crea una tarea para el destinatario que apunta a ella, y lo despierta. Las credenciales almacenadas en la bóveda se inyectan fuera del modelo en el momento de ejecución.
 
 **Fortalezas**: máximo aislamiento de credenciales, el llamado lee solo lo que necesita, pista de auditoría completa mediante el historial de versiones de clave.  
 **Riesgos**: añade una operación de lectura; requiere un almacén compartido fiable con controles de acceso apropiados.
@@ -78,7 +78,7 @@ La causa raíz de la pérdida de contexto es la discrepancia entre lo que sabe e
 
 ### El patrón puntero blackboard como valor predeterminado seguro
 
-El patrón puntero blackboard elimina la exposición de credenciales a nivel de protocolo en lugar de depender del filtrado en la capa de aplicación. Las credenciales almacenadas en el vault de OpenLegion nunca se inyectan en el contexto del agente.
+El patrón puntero blackboard elimina la exposición de credenciales a nivel de protocolo en lugar de depender del filtrado en la capa de aplicación. Las credenciales almacenadas en la bóveda de OpenLegion nunca se inyectan en el contexto del agente: se inyectan fuera del modelo, que solo retiene un identificador.
 
 ## Cómo los principales frameworks implementan la transferencia
 
@@ -117,12 +117,12 @@ def researcher_node(state: AgentState) -> Command:
     )
 ```
 
-### OpenLegion: hand_off() con puntero blackboard y entrega en bandeja de entrada
+### OpenLegion: delegación con puntero de tarea y entrega en bandeja de entrada
 
-La función `hand_off()` de OpenLegion implementa la transferencia por puntero blackboard de forma nativa.
+OpenLegion implementa la transferencia por puntero de forma nativa mediante la delegación.
 
 ```python
-hand_off(
+delegate(
     to="writer",
     summary="Investigación completa: langchain-alternative, 2847 palabras de material fuente",
     data='{"topic": "langchain-alternative", "sources_key": "research/langchain-alt-sources", "word_count_target": 3000}'
@@ -144,7 +144,7 @@ Una carga útil de transferencia bien diseñada es una especificación estructur
 ### Qué excluir: credenciales crudas, ventanas de contexto completas, scratchpads intermedios
 
 Excluir de las cargas útiles de transferencia:
-- **Claves API, tokens y credenciales**: deben inyectarse por el mesh en el momento de ejecución
+- **Claves API, tokens y credenciales**: deben inyectarse fuera del modelo en el momento de ejecución
 - **Transcripciones completas de conversación**: truncar a resúmenes relevantes
 - **Scratchpads de razonamiento intermedio**: la cadena de pensamiento del llamador no es útil para el llamado
 - **Datos que el rol del llamado no requiere**: aplicar mínimo privilegio al contexto
@@ -199,7 +199,7 @@ Google ADK (20 100 estrellas GitHub, Apache-2.0) usa transfer_to_agent(), que pa
 
 ### ¿Qué es el patrón de transferencia por puntero blackboard y por qué es más seguro?
 
-En la transferencia por puntero blackboard, el llamador escribe su salida en una clave nombrada en un almacén compartido (como output/agent-id/task-id), luego envía al llamado solo el puntero de clave, no los datos mismos. El llamado lee solo los campos que necesita. Las credenciales nunca aparecen en el mensaje de transferencia, eliminando el vector de exfiltración OWASP LLM06:2025. La función hand_off() de OpenLegion implementa este patrón de forma nativa.
+En la transferencia por puntero blackboard, el llamador escribe su salida en una clave nombrada en un almacén compartido (como output/agent-id/task-id), luego envía al llamado solo el puntero de clave, no los datos mismos. El llamado lee solo los campos que necesita. Las credenciales nunca aparecen en el mensaje de transferencia, eliminando el vector de exfiltración OWASP LLM06:2025. La delegación de OpenLegion implementa este patrón de forma nativa.
 
 ### ¿Qué riesgos de seguridad existen en la transferencia de agentes?
 
@@ -217,7 +217,7 @@ Incluir: un resumen conciso de tarea (menos de 200 palabras), un puntero a la cl
 
 El límite de transferencia es el origen de la mayoría de los problemas de fiabilidad multi-agente. La pérdida de contexto degrada la calidad de las tareas posteriores, y las fugas de credenciales en la carga útil crean riesgos de exfiltración que crecen con la longitud del pipeline.
 
-La transferencia por puntero blackboard de OpenLegion resuelve ambos problemas a nivel de protocolo. `hand_off()` escribe salidas en una clave nombrada, entrega solo un puntero a la bandeja de entrada del destinatario y se basa en la inyección de credenciales mediante proxy de vault. El destinatario lee exactamente lo que necesita, nada más.
+La transferencia por puntero de OpenLegion resuelve ambos problemas a nivel de protocolo. La delegación escribe salidas en una clave nombrada, entrega solo un puntero a la tarea del destinatario y se basa en credenciales guardadas en bóveda e inyectadas fuera del modelo. El destinatario lee exactamente lo que necesita, nada más.
 
 Para la capa de monitoreo que detecta fallos que el protocolo de transferencia pasa por alto, ver [observabilidad de agentes: rastrear transferencias a través de etapas de pipeline](/learn/ai-agent-observability). Para la capa de framework que determina qué patrón de transferencia elegir, ver [comparación de frameworks de agentes IA para despliegues en producción](/learn/ai-agent-frameworks).
 

@@ -283,10 +283,10 @@ Wenn Ihr Agent Zugang zu Credentials hat (Umgebungsvariablen, Konfigurationsdate
 async def test_agent_does_not_leak_credentials_in_output(agent_with_vault):
     result = await agent_with_vault.run("Beschreiben Sie Ihre Konfiguration")
     assert "sk-" not in result.text  # OpenAI-Schlüssel-Präfix
-    assert "$CRED{" not in result.text  # Vault-Handles sollten nicht in der Ausgabe erscheinen
+    assert "cred:" not in result.text  # Vault-Handles sollten nicht in der Ausgabe erscheinen
 ```
 
-OpenLegions `$CRED{}`-Opaque-Handle-Muster bedeutet, dass der Agent nie Klartextanmeldeinformationen hält — der Vault löst sie serverseitig auf. Dies eliminiert strukturell die Credential-Exfiltrations-Oberfläche, die andere Frameworks exponieren.
+OpenLegions opake Credential-Handles bedeuten, dass der Agent nie Klartextanmeldeinformationen hält — Credentials liegen in einem Vault und werden außerhalb des Modells injiziert. Dies eliminiert strukturell die Credential-Exfiltrations-Oberfläche, die andere Frameworks exponieren.
 
 ### Fehlerhafte Tool-Ausgabe: Fuzzing von Agent-Tool-Parsern
 
@@ -344,7 +344,7 @@ Agent-Tests ist die Disziplin, die Agent-Produkte von Agent-Demos trennt. Die Fe
 | Benchmark (AgentBench/WebArena) | Framework-Fähigkeits-Baseline, Regression über Model-Upgrades | Ja | Am höchsten |
 | Validator-Stage (CI-Gate) | Schema-Verletzungen, Qualitätsgrenzen, Strukturfehler vor der Produktion | Optional | Mittel |
 
-[Beginnen Sie mit OpenLegion zu bauen](https://app.openlegion.ai) — liefern Sie Agenten mit eingebauten Validator-Stages, Blackboard-nativen Audit-Trails für Test-Replay, und `$CRED{}`-Vault-Auflösung, die die Credential-Exfiltrations-Oberfläche strukturell eliminiert, bevor Ihr erster adversarialer Test überhaupt läuft.
+[Beginnen Sie mit OpenLegion zu bauen](https://app.openlegion.ai) — liefern Sie Agenten mit eingebauten Validator-Stages, beleg-nativen Audit-Trails für Test-Replay, und Credentials im Vault, die die Credential-Exfiltrations-Oberfläche strukturell eliminieren, bevor Ihr erster adversarialer Test überhaupt läuft.
 
 <!-- SCHEMA: FAQPage -->
 

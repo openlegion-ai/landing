@@ -9,8 +9,8 @@ type Alternates = { languages: Record<string, string> };
 type SitemapEntry = MetadataRoute.Sitemap[number];
 
 /**
- * Build hreflang alternates for nav-driven pages (home, pricing, faq, terms,
- * privacy). These are translated by next-intl message files which exist for
+ * Build hreflang alternates for nav-driven pages (home, pricing, faq, learn,
+ * security, terms, privacy). These are translated by next-intl message files which exist for
  * every supported locale, so we emit the full set.
  */
 function alternatesForNavPath(path: string): Alternates {
@@ -85,6 +85,7 @@ const NAV_PAGES: { path: string; changeFrequency: SitemapEntry["changeFrequency"
   { path: "/pricing", changeFrequency: "monthly", priority: 0.9 },
   { path: "/faq", changeFrequency: "monthly", priority: 0.8 },
   { path: "/learn", changeFrequency: "weekly", priority: 0.85 },
+  { path: "/security", changeFrequency: "monthly", priority: 0.7 },
   { path: "/money-back-guarantee", changeFrequency: "yearly", priority: 0.4 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },

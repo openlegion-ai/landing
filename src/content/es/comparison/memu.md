@@ -28,7 +28,7 @@ MemU no es un framework de agentes competidor — es un sistema especializado de
 
 MemU fue creado por NevaMind AI y ha crecido a aproximadamente 7.200-10.500 estrellas en GitHub. Trata la memoria como un sistema de archivos jerárquico con organización inteligente, cross-linking, evolución y poda. El producto compañero memUBot (167 estrellas) se posiciona como un "OpenClaw Enterprise-Ready" que combina la memoria de MemU con un runtime de agente.
 
-OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) security-first con aislamiento obligatorio por contenedor Docker, gestión de credenciales por proxy de bóveda, aplicación de presupuesto por agente, coordinación tipo flota (blackboard + pub/sub + handoff) y memoria persistente por agente integrada.
+OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) security-first con una ejecución en sandbox para cada tarea, credenciales guardadas en bóveda, presupuestos de créditos por agente, coordinación por objetivos y tareas (objetivos, luego tareas, luego agentes) y memoria persistente por agente integrada.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -41,19 +41,19 @@ OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) security
 |---|---|---|
 | **Categoría** | Framework de agente completo | Capa especializada de memoria |
 | **Construye agentes** | Sí | No (solo componente de memoria) |
-| **Orquestación de agente** | Coordinación tipo flota (blackboard + pub/sub + handoff) | N/D — sin runtime de agente |
-| **Aislamiento de agente** | Contenedor Docker por agente | N/D |
-| **Seguridad de credenciales** | Proxy de bóveda — los agentes nunca ven las claves | N/D (defiere al framework anfitrión) |
-| **Controles de presupuesto** | Corte estricto diario/mensual por agente | N/D |
+| **Orquestación de agente** | Objetivos, luego tareas, luego agentes, con delegación | N/D — sin runtime de agente |
+| **Aislamiento de agente** | Una ejecución en sandbox por tarea | N/D |
+| **Seguridad de credenciales** | Guardadas en bóveda — los agentes nunca ven las claves | N/D (defiere al framework anfitrión) |
+| **Controles de presupuesto** | Presupuesto de créditos por agente, corte estricto | N/D |
 | **Modelo de memoria** | Almacenamiento persistente por agente con búsqueda vectorial | Metáfora de sistema de archivos jerárquico con Organize, Link, Evolve, Forget |
 | **Recuperación de memoria** | Búsqueda de similitud vectorial por agente | Modo dual: Fast Context (vectorial) + Deep Reasoning (activado por LLM) |
 | **Evolución de memoria** | Actualizaciones manuales | Automática: auto-reflexión, cross-linking, poda inteligente |
-| **Base de datos** | SQLite (embebida) | PostgreSQL + pgvector (externa) |
+| **Base de datos** | Ninguna que operar — la gestiona la plataforma | PostgreSQL + pgvector (externa) |
 | **Integración** | Integrada | Python SDK + REST API (drop-in en cualquier framework) |
-| **Proveedores LLM** | 100+ vía LiteLLM | OpenAI, Anthropic, Gemini (para operaciones de memoria) |
-| **Precios** | BYO claves API, 19$/mes alojado | Gratis (30 llamadas), Pro (600 llamadas), Enterprise |
-| **Estrellas GitHub** | ~59 | ~7.200-10.500 |
-| **Licencia** | PolyForm Perimeter License 1.0.1 | AGPL-3.0 (servidor) |
+| **Proveedores LLM** | Presets Smartest, Smart y Normal | OpenAI, Anthropic, Gemini (para operaciones de memoria) |
+| **Precios** | Gratis 0$, Pro 29$/mes, Team 99$/mes | Gratis (30 llamadas), Pro (600 llamadas), Enterprise |
+| **Estrellas GitHub** | Pre-lanzamiento | ~7.200-10.500 |
+| **Licencia** | PolyForm Perimeter 1.0.1 (motor) | AGPL-3.0 (servidor) |
 | **Benchmark** | N/D | 92,09% de precisión en el benchmark Locomo |
 
 ## Elija MemU si...
@@ -68,13 +68,13 @@ OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) security
 
 ## Elija OpenLegion si...
 
-**Necesita un framework de agente completo, no un componente de memoria.** MemU no construye, despliega, aísla u orquesta agentes. Proporciona memoria para agentes construidos en otros frameworks. OpenLegion es una plataforma completa: ejecución de agente, aislamiento por contenedor Docker, credenciales por proxy de bóveda, aplicación de presupuesto, coordinación tipo flota, gestión de herramientas y memoria persistente integrada.
+**Necesita un framework de agente completo, no un componente de memoria.** MemU no construye, despliega, aísla u orquesta agentes. Proporciona memoria para agentes construidos en otros frameworks. OpenLegion es una plataforma completa: ejecución de agente, ejecuciones de tarea en sandbox, credenciales guardadas en bóveda, presupuestos de créditos, coordinación por objetivos y tareas, gestión de herramientas y memoria persistente integrada.
 
-**La simplicidad de infraestructura de memoria importa.** La memoria de OpenLegion usa SQLite embebido — sin base de datos externa requerida. MemU requiere PostgreSQL con la extensión pgvector, lo que añade complejidad operativa (aprovisionamiento de BD, backups, gestión de conexiones, escalado).
+**La simplicidad de infraestructura de memoria importa.** La memoria de OpenLegion forma parte de la plataforma alojada — sin ninguna base de datos que aprovisionar. MemU requiere PostgreSQL con la extensión pgvector, lo que añade complejidad operativa (aprovisionamiento de BD, backups, gestión de conexiones, escalado).
 
-**Necesita memoria con aislamiento de seguridad por agente.** La memoria de OpenLegion es por agente y aislada por límites de contenedor. El Agente A no puede acceder a la memoria del Agente B. La memoria de MemU es accesible a través de su API — el control de acceso depende de la implementación del framework anfitrión.
+**Necesita memoria con aislamiento de seguridad por agente.** La memoria de OpenLegion es por agente y aislada por el motor de políticas. El Agente A no puede acceder a la memoria del Agente B. La memoria de MemU es accesible a través de su API — el control de acceso depende de la implementación del framework anfitrión.
 
-**Necesita control de coste integrado entre memoria y ejecución.** El presupuesto por agente de OpenLegion abarca todos los costes (llamadas LLM, uso de herramientas, operaciones de memoria). MemU factura por separado del framework anfitrión — las llamadas de memoria consumen su propio pool de créditos, haciendo el seguimiento total de coste más complejo.
+**Necesita control de coste integrado entre memoria y ejecución.** El presupuesto de créditos por agente de OpenLegion abarca todos los costes (llamadas al modelo, uso de herramientas, operaciones de memoria). MemU factura por separado del framework anfitrión — las llamadas de memoria consumen su propio pool de créditos, haciendo el seguimiento total de coste más complejo.
 
 **Quiere un único proveedor para infraestructura de agente.** OpenLegion proporciona framework + memoria + seguridad + orquestación en un solo paquete. MemU requiere combinarlo con un framework de agente separado, capa de seguridad y sistema de orquestación.
 
@@ -82,7 +82,7 @@ OpenLegion es un [framework de agentes de IA](/learn/ai-agent-platform) security
 
 ### Memoria integrada de OpenLegion
 
-OpenLegion proporciona memoria persistente por agente usando SQLite embebido con búsqueda vectorial. Cada agente en un flujo de coordinación tipo flota tiene almacenamiento de memoria aislado que persiste entre ejecuciones. La memoria está limitada por agente — las memorias del Agente A son invisibles para el Agente B a menos que se compartan explícitamente a través de salidas de flujo. El sistema de memoria es funcional para casos de uso típicos de agente (historial de conversación, contexto de tarea, preferencias aprendidas) sin dependencias externas.
+OpenLegion proporciona memoria persistente por agente con búsqueda vectorial, operada por la plataforma alojada. Cada agente en un flujo de objetivos y tareas tiene almacenamiento de memoria aislado que persiste entre despertares. La memoria está limitada por agente — las memorias del Agente A son invisibles para el Agente B a menos que se compartan explícitamente a través de salidas de tarea. El sistema de memoria es funcional para casos de uso típicos de agente (historial de conversación, contexto de tarea, preferencias aprendidas) sin nada que usted deba operar.
 
 ### Memoria especializada de MemU
 
@@ -100,7 +100,7 @@ La recuperación de modo dual (Fast Context para monitorización, Deep Reasoning
 
 ### La compensación
 
-La memoria de MemU es objetivamente más sofisticada. La memoria de OpenLegion es más simple, integrada y aislada por agente sin dependencias externas. Para equipos que necesitan capacidades de memoria avanzadas, MemU puede potencialmente integrarse con OpenLegion como backend de memoria — reemplazando la memoria SQLite integrada con la API de MemU.
+La memoria de MemU es objetivamente más sofisticada. La memoria de OpenLegion es más simple, integrada y aislada por agente sin nada que usted deba operar. Para equipos que necesitan capacidades de memoria avanzadas, MemU puede potencialmente integrarse con OpenLegion como backend de memoria — reemplazando la memoria integrada con la API de MemU.
 
 ## El Ecosistema de MemU: Qué Hace Mejor
 
@@ -118,7 +118,7 @@ MemU ofrece una API alojada en memu.pro con precios basados en uso: Gratis (30 l
 
 ### Preocupaciones comunes en producción
 
-**Licencia AGPL-3.0.** La licencia del servidor es AGPL-3.0, que requiere distribuir el código fuente de cualquier versión modificada y cualquier software que interactúe con MemU a través de una red (dependiendo de la interpretación). Muchas empresas evitan AGPL. Esta es una licencia significativamente más restrictiva que PolyForm Perimeter License 1.0.1 de OpenLegion o las licencias MIT/Apache de la mayoría de los competidores.
+**Licencia AGPL-3.0.** La licencia del servidor es AGPL-3.0, que requiere distribuir el código fuente de cualquier versión modificada y cualquier software que interactúe con MemU a través de una red (dependiendo de la interpretación). Muchas empresas evitan AGPL. Esta es una licencia significativamente más restrictiva que la PolyForm Perimeter License 1.0.1 del motor de OpenLegion o las licencias MIT/Apache de la mayoría de los competidores.
 
 **Dependencia de base de datos externa.** PostgreSQL + pgvector añade complejidad operativa. Aprovisionamiento de BD, pooling de conexiones, backups y escalado son responsabilidades adicionales.
 
@@ -128,13 +128,13 @@ MemU ofrece una API alojada en memu.pro con precios basados en uso: Gratis (30 l
 
 ### Qué cubre OpenLegion de forma diferente
 
-OpenLegion integra la memoria en su modelo de seguridad: aislamiento de memoria por agente (aplicado por límites de contenedor), memoria incluida en la contabilidad de presupuesto por agente, sin dependencia de base de datos externa y sin datos saliendo del entorno de despliegue. La memoria es más simple pero asegurada por la misma arquitectura que protege credenciales y aplica límites de coste.
+OpenLegion integra la memoria en su modelo de seguridad: aislamiento de memoria por agente (aplicado por el motor de políticas), memoria incluida en la contabilidad de créditos por agente, sin base de datos que usted deba operar y sin datos de memoria saliendo de su espacio de trabajo. La memoria es más simple pero asegurada por la misma arquitectura que protege credenciales y aplica límites de coste.
 
 ## Compensaciones de Hosting vs Self-Host
 
 **MemU** ofrece una API cloud (memu.pro) o despliegue autoalojado que requiere PostgreSQL con pgvector. La API cloud es el camino más rápido pero envía datos de memoria a infraestructura externa. Autoalojarse requiere administración de base de datos.
 
-**OpenLegion** incluye memoria como SQLite embebido — sin servicios externos, sin administración de base de datos, sin datos saliendo del despliegue. La plataforma alojada incluye infraestructura de memoria.
+**OpenLegion** incluye la memoria en la plataforma alojada — sin servicios externos, sin administración de base de datos, sin datos de memoria saliendo de su espacio de trabajo. No hay opción autoalojada en el lanzamiento.
 
 ## Para Quién Es
 
@@ -146,7 +146,7 @@ OpenLegion integra la memoria en su modelo de seguridad: aislamiento de memoria 
 
 La memoria de MemU es más sofisticada que la memoria integrada de OpenLegion. El pipeline Organize-Link-Evolve-Forget, la recuperación de modo dual y la precisión Locomo del 92% representan innovación genuina en memoria de agente.
 
-Pero MemU es un componente, no una plataforma. No resuelve gestión de credenciales, aislamiento de agente, control de coste u orquestación de flujo. La memoria de OpenLegion es más simple pero existe dentro de un framework de seguridad que la protege — aislada por agente, incluida en la contabilidad de presupuesto y sin requerir dependencias externas.
+Pero MemU es un componente, no una plataforma. No resuelve gestión de credenciales, aislamiento de agente, control de coste u orquestación de flujo. La memoria de OpenLegion es más simple pero existe dentro de un framework de seguridad que la protege — aislada por agente, incluida en la contabilidad de créditos y sin requerir nada que usted deba operar.
 
 Para equipos que necesitan memoria avanzada en un framework existente, use MemU. Para equipos que necesitan un framework de agente completo y seguro con memoria integrada adecuada, use OpenLegion. Para equipos que quieren ambos, MemU podría potencialmente integrarse como backend de memoria de OpenLegion.
 
@@ -177,11 +177,11 @@ OpenLegion incluye memoria persistente integrada por agente, de modo que puede s
 
 ### ¿Cómo se compara el manejo de memoria entre OpenLegion y MemU?
 
-OpenLegion usa SQLite por agente con búsqueda vectorial — simple, embebido, aislado por contenedor, sin dependencias externas. MemU usa PostgreSQL + pgvector con organización jerárquica, linking de grafo de conocimiento, evolución autónoma y poda inteligente. MemU es más sofisticado; OpenLegion es más simple y más seguro (memoria aislada por límites de contenedor, sin salida de datos externa).
+OpenLegion usa memoria por agente con búsqueda vectorial — simple, alojada, aislada por agente, sin nada que usted deba operar. MemU usa PostgreSQL + pgvector con organización jerárquica, linking de grafo de conocimiento, evolución autónoma y poda inteligente. MemU es más sofisticado; OpenLegion es más simple y más seguro (memoria aislada por el motor de políticas, sin salida de datos externa).
 
 ### ¿Cuál es mejor para agentes de IA en producción?
 
-Sirven a necesidades diferentes. MemU es mejor para requisitos de memoria en producción (recuperación compleja, conocimiento evolutivo, cross-referencing). OpenLegion es mejor para requisitos de seguridad en producción (aislamiento de credenciales, aislamiento por contenedor, aplicación de presupuesto, coordinación tipo flota auditable). El stack de producción ideal puede usar ambos.
+Sirven a necesidades diferentes. MemU es mejor para requisitos de memoria en producción (recuperación compleja, conocimiento evolutivo, cross-referencing). OpenLegion es mejor para requisitos de seguridad en producción (aislamiento de credenciales, ejecuciones en sandbox, aplicación de presupuesto, coordinación auditable por objetivos y tareas). El stack de producción ideal puede usar ambos.
 
 ### ¿Proporciona MemU aislamiento de agente o seguridad?
 

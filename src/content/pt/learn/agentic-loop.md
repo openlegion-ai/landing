@@ -16,7 +16,7 @@ related:
 
 # Loop Agêntico: Como Agentes de IA Percebem, Pensam e Agem
 
-Um loop agêntico é o ciclo repetitivo perceber-pensar-agir que impulsiona um agente de IA do início da tarefa até a resposta final. Em cada iteração, o agente lê o contexto — observações, resultados de ferramentas, memória — chama um LLM para raciocinar sobre os próximos passos, executa uma ferramenta ou retorna uma resposta, e depois repete. Limites de iteração, condições de terminação e tratamento de erros determinam se um agente de produção é confiável ou um risco — OpenLegion impõe limites rígidos na camada mesh, transformando loops descontrolados em falhas determinísticas.
+Um loop agêntico é o ciclo repetitivo perceber-pensar-agir que impulsiona um agente de IA do início da tarefa até a resposta final. Em cada iteração, o agente lê o contexto — observações, resultados de ferramentas, memória — chama um LLM para raciocinar sobre os próximos passos, executa uma ferramenta ou retorna uma resposta, e depois repete. Limites de iteração, condições de terminação e tratamento de erros determinam se um agente de produção é confiável ou um risco — OpenLegion impõe limites rígidos no seu motor de políticas, transformando loops descontrolados em falhas determinísticas.
 
 ## O Que é um Loop Agêntico?
 
@@ -79,9 +79,9 @@ A terminação natural ocorre quando a etapa de pensar do LLM produz uma respost
 ### Terminação Baseada em Orçamento
 
 **Modelo de aplicação do OpenLegion:**
-- `daily_budget` ($50/dia padrão) e `monthly_budget` ($200/mês padrão) configurados por agente em `INSTRUCTIONS.md`
-- O roteador mesh rastreia gastos acumulados por ID de agente em tempo real
-- Quando uma iteração de loop excederia o orçamento diário restante, a solicitação é rejeitada na camada mesh antes de atingir o provedor LLM
+- Um orçamento de créditos por agente, medido em créditos de US$ 0,001 cada, configurado por agente no app
+- O motor de políticas rastreia gastos acumulados por ID de agente em tempo real
+- Quando uma iteração de loop excederia o orçamento restante, a intenção é recusada antes de acontecer, e o modelo nunca a vê
 
 ### Terminação Baseada em Erros
 
@@ -115,11 +115,11 @@ O controle de loops é uma propriedade de segurança, não apenas operacional. O
 
 | **Mecanismo de controle de loop** | **OpenLegion** | **LangChain AgentExecutor** | **LangGraph** | **OpenAI Agents SDK** |
 |---|---|---|---|---|
-| **Limite de iteração** | max_turns em INSTRUCTIONS.md, aplicado no mesh | max_iterations=15 (padrão) | recursion_limit=25 | max_turns=10 (padrão) |
-| **Terminação baseada em orçamento** | daily_budget + monthly_budget por agente, aplicado na camada mesh | Não integrado | Não integrado | Não integrado |
+| **Limite de iteração** | Teto de turnos por agente, aplicado pelo motor de políticas | max_iterations=15 (padrão) | recursion_limit=25 | max_turns=10 (padrão) |
+| **Terminação baseada em orçamento** | Orçamento de créditos por agente, aplicado pelo motor de políticas | Não integrado | Não integrado | Não integrado |
 | **Terminação de erro** | Erro estruturado retornado ao orquestrador | Lança AgentExecutorError | Lança GraphRecursionError | Lança MaxTurnsExceeded |
-| **Defesa contra injeção** | Chamadas de ferramentas proxificadas por vault; autoridade do prompt do sistema | handle_parsing_errors configurável | Não integrado | Não integrado |
-| **Trilha de auditoria de loop** | Cada iteração registrada com agent_id, modelo, chamada de ferramenta, custo | LangSmith (opcional) | LangSmith (opcional) | Painel OpenAI |
+| **Defesa contra injeção** | Credenciais guardadas em cofre; agir sobre conteúdo não confiável exige aprovação | handle_parsing_errors configurável | Não integrado | Não integrado |
+| **Trilha de auditoria de loop** | Cada despertar registrado como recibo: identidade do agente, modelo, chamada de ferramenta, custo | LangSmith (opcional) | LangSmith (opcional) | Painel OpenAI |
 
 Para os padrões que compõem múltiplos loops de agentes em sistemas de produção, ver [como os fluxos de trabalho agênticos compõem múltiplos loops em pipelines de produção](/learn/agentic-workflows) e [padrões de design de IA agêntica para orquestração de loops e coordenação de agentes](/learn/agentic-ai-design-patterns).
 
@@ -149,7 +149,7 @@ A injeção de prompt via conteúdo de resposta de ferramenta — demonstrada po
 
 ### Como o OpenLegion previne loops agênticos descontrolados?
 
-O OpenLegion aplica defesa em profundidade com duas camadas de aplicação. Os limites de iteração por agente configurados em INSTRUCTIONS.md são aplicados na camada de aplicação. Os daily_budget e monthly_budget por agente são aplicados na camada do roteador mesh antes de cada chamada LLM. Quando uma iteração de loop excederia o orçamento restante, a solicitação é rejeitada na camada de rede. Uma injeção de prompt que instrui o agente a ignorar limites de orçamento não pode substituir a verificação de orçamento do roteador mesh.
+O OpenLegion aplica defesa em profundidade com duas camadas de aplicação. Os limites de iteração por agente são aplicados na camada de aplicação. O orçamento de créditos de cada agente é verificado pelo motor de políticas antes de cada chamada ao modelo. Quando uma iteração de loop excederia o orçamento restante, a intenção é recusada antes de acontecer. Uma injeção de prompt que instrui o agente a ignorar limites de orçamento não pode substituir a verificação de orçamento do motor de políticas.
 
 ### Qual é a diferença entre um loop agêntico e um fluxo de trabalho?
 
@@ -159,7 +159,7 @@ Um loop agêntico é o ciclo de iteração por agente. Um fluxo de trabalho (ou 
 
 O loop agêntico é onde a confiabilidade do agente é ganha ou perdida. Padrões do framework — max_turns=10, recursion_limit=25 — são pontos de partida, não configurações de produção.
 
-OpenLegion impõe limites de orçamento e limites de iteração na camada mesh — fora de banda do raciocínio LLM do agente, não substituível por injeção de prompt.
+OpenLegion impõe limites de orçamento e limites de iteração no seu motor de políticas — fora de banda do raciocínio LLM do agente, não substituível por injeção de prompt.
 
 [Comece a construir no OpenLegion](https://app.openlegion.ai) — limites rígidos de loop e aplicação de orçamento por agente integrados.
 

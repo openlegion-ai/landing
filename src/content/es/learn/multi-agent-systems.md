@@ -54,13 +54,13 @@ El riesgo: un coordinador de nivel medio comprometido puede emitir instrucciones
 
 ### Topología plana/flota: agentes del mismo rango coordinando a través de un bus compartido
 
-La topología de flota plana utiliza agentes del mismo rango que se comunican exclusivamente a través de un bus de mensajes compartido (blackboard) sin llamadas directas de agente a agente. Este es el modelo de flota de OpenLegion: un agente comprometido solo puede afectar lo que escribe en el blackboard.
+La topología de flota plana utiliza agentes del mismo rango que se comunican exclusivamente a través de un bus de mensajes compartido (blackboard) sin llamadas directas de agente a agente. El modelo de OpenLegion es parecido: los agentes son registros duraderos que reciben trabajo como tareas y nunca se llaman entre sí; un agente comprometido solo puede afectar lo que escribe en el blackboard.
 
 ## Protocolos de comunicación inter-agente
 
 ### A2A: el estándar abierto de Google para comunicación de agentes entre frameworks
 
-A2A (Agent-to-Agent), lanzado por Google en abril de 2025, estandariza la comunicación inter-agente entre diferentes frameworks. A2A define tres primitivos: descubrimiento de capacidades, delegación de tareas y resultados en streaming. A mediados de 2026, A2A es compatible con más de 50 socios tecnológicos. OpenLegion soporta A2A para la coordinación de agentes entre frameworks.
+A2A (Agent-to-Agent), lanzado por Google en abril de 2025, estandariza la comunicación inter-agente entre diferentes frameworks. A2A define tres primitivos: descubrimiento de capacidades, delegación de tareas y resultados en streaming. A mediados de 2026, A2A es compatible con más de 50 socios tecnológicos. OpenLegion no implementa A2A en el lanzamiento; sus agentes se delegan trabajo de forma nativa.
 
 ### MCP: estandarización del acceso a herramientas entre agentes
 
@@ -68,13 +68,13 @@ Model Context Protocol (MCP), lanzado por Anthropic en noviembre de 2024, estand
 
 ### Patrón blackboard: estado persistente compartido como medio de comunicación
 
-El patrón blackboard enruta toda la comunicación inter-agente a través de un almacén de datos persistente compartido. OpenLegion implementa el patrón blackboard usando SQLite con modo WAL para acceso concurrente, combinado con mensajería pub/sub.
+El patrón blackboard enruta toda la comunicación inter-agente a través de un almacén de datos persistente compartido. OpenLegion no usa un blackboard: sus agentes coordinan sobre un registro compartido de objetivos y tareas, y un evento despierta al agente dueño de la siguiente tarea.
 
 ## Opinión de OpenLegion: por qué la arquitectura es una decisión de seguridad
 
 La mayoría de los fallos de sistemas multi-agente son fallos arquitectónicos. El estado compartido entre agentes crea condiciones de carrera: CVE-2025-64168 (Agno, CVSS 7.1, octubre 2025). El acoplamiento apretado amplifica el radio de explosión de la inyección de prompts: la investigación de COLM 2025 mostró una tasa de éxito de ataque del 97 % contra AutoGen Magentic-One.
 
-El modelo de confianza de cuatro zonas de OpenLegion: los agentes de Zona 1 (contenedores sandbox) no pueden comunicarse directamente. Todos los mensajes inter-agente se enrutan a través del Mesh Host de Zona 2.
+El motor de políticas único de OpenLegion: los agentes no pueden comunicarse directamente. Cada acción es una intención verificada por el motor de políticas antes de ocurrir y registrada como un recibo.
 
 ## Límites de confianza en sistemas multi-agente
 
@@ -94,7 +94,7 @@ La investigación publicada en COLM 2025 demostró una tasa de éxito de ataque 
 
 ## Sistemas multi-agente en OpenLegion
 
-OpenLegion implementa topología de flota plana con separación de confianza de cuatro zonas. Los agentes se ejecutan en contenedores Docker aislados (Zona 1), se comunican exclusivamente a través del blackboard del Mesh Host (Zona 2), acceden a credenciales a través del Vault Proxy (Zona 4) y nunca se comunican directamente entre sí.
+OpenLegion organiza el trabajo como objetivos → tareas → agentes con un único motor de políticas delante de cada acción. Los agentes son registros duraderos cuyas tareas corren bajo demanda en un sandbox, coordinan a través del registro compartido de objetivos y tareas y de despertares por evento, solo retienen identificadores de credencial resueltos desde la bóveda y nunca se comunican directamente entre sí.
 
 ## CTA
 
@@ -113,11 +113,11 @@ Una arquitectura de sistema multi-agente define cómo múltiples agentes de IA a
 
 ### ¿Cuál es la diferencia entre topología en estrella y topología de flota plana?
 
-En una topología en estrella, un agente supervisor central coordina a todos los demás, creando un único punto de falla. En una topología de flota plana (usada por OpenLegion), los agentes del mismo rango coordinan a través de un bus de mensajes compartido sin comunicación directa de agente a agente.
+En una topología en estrella, un agente supervisor central coordina a todos los demás, creando un único punto de falla. En una topología de flota plana (cercana al modelo de OpenLegion), los agentes del mismo rango coordinan a través de un bus de mensajes compartido sin comunicación directa de agente a agente.
 
 ### ¿Qué es el protocolo A2A para sistemas multi-agente?
 
-A2A (Agent-to-Agent) es un protocolo abierto de comunicación inter-agente lanzado por Google en abril de 2025. Estandariza cómo los agentes descubren las capacidades de otros, delegan tareas e intercambian resultados en streaming. OpenLegion soporta A2A para la coordinación de agentes entre frameworks.
+A2A (Agent-to-Agent) es un protocolo abierto de comunicación inter-agente lanzado por Google en abril de 2025. Estandariza cómo los agentes descubren las capacidades de otros, delegan tareas e intercambian resultados en streaming. OpenLegion no implementa A2A en el lanzamiento; sus agentes se delegan trabajo de forma nativa.
 
 ### ¿Qué causa condiciones de carrera en sistemas multi-agente?
 
@@ -129,4 +129,4 @@ En sistemas multi-agente fuertemente acoplados, una inyección de prompts exitos
 
 ### ¿Qué es el patrón blackboard en sistemas multi-agente?
 
-El patrón blackboard es una arquitectura de coordinación multi-agente donde los agentes se comunican leyendo y escribiendo en un almacén de datos persistente compartido en lugar de llamarse directamente. OpenLegion implementa el patrón blackboard usando SQLite con modo WAL, combinado con mensajería pub/sub.
+El patrón blackboard es una arquitectura de coordinación multi-agente donde los agentes se comunican leyendo y escribiendo en un almacén de datos persistente compartido en lugar de llamarse directamente. OpenLegion no usa un blackboard: sus agentes coordinan sobre un registro compartido de objetivos y tareas, con un evento que despierta al agente dueño de la siguiente tarea.

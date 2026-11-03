@@ -64,7 +64,7 @@ Trois types de mémoire d'agent nécessitent chacun un traitement d'isolation de
 
 **Mémoire sémantique (magasin vectoriel)** : si on utilise un magasin vectoriel partagé, chaque écriture doit inclure `tenant_id` comme champ de métadonnées obligatoire, et chaque requête doit inclure un filtre de métadonnées `{tenant_id: current_tenant_id}` injecté au niveau de la couche client de stockage.
 
-**État de coordination (tableau noir)** : l'état clé-valeur partagé entre agents doit utiliser des préfixes de clé scopés par locataire, par exemple `projects/{tenant_id}/*`, avec une application ACL au niveau de la couche mesh.
+**État de coordination (tableau noir)** : l'état clé-valeur partagé entre agents doit utiliser des préfixes de clé scopés par locataire, par exemple `projects/{tenant_id}/*`, avec une application ACL au niveau du plan de contrôle.
 
 ## Isolation des Credentials : Scoping du Vault par Locataire
 
@@ -140,14 +140,14 @@ Cet anti-pattern échoue à CC6.1 : partage de limite de débit, échec d'attrib
 
 ## L'Avis d'OpenLegion : Isolation par Architecture, pas par Convention
 
-OpenLegion applique l'isolation des locataires via trois mécanismes au niveau de l'infrastructure que le code de l'agent ne peut pas contourner : scoping du vault de credentials par projet, ACL d'espace de noms de tableau noir et messagerie entre agents de projets différents bloquée par défaut.
+OpenLegion applique l'isolation des locataires via trois mécanismes au niveau de l'infrastructure que le code de l'agent ne peut pas contourner : scoping du coffre-fort de credentials par projet, ACL d'espace de noms de mémoire et messagerie entre agents de projets différents bloquée par défaut.
 
 | **Contrôle d'isolation** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
 | **Scope de vault de credentials par locataire** | Appliqué par l'infrastructure | Convention développeur | Convention développeur | Convention développeur | Convention développeur |
-| **ACL d'espace de noms de tableau noir** | Appliqué par l'infrastructure | Non disponible | Non disponible | Non disponible | Non disponible |
+| **ACL d'espace de noms de mémoire** | Appliqué par l'infrastructure | Non disponible | Non disponible | Non disponible | Non disponible |
 | **Messagerie entre agents de projets bloquée** | Bloquée par défaut | Non disponible | Non disponible | Non disponible | Non disponible |
-| **Cap budgétaire par locataire (Zone 2)** | Appliqué par l'infrastructure | Convention développeur | Convention développeur | Convention développeur | Convention développeur |
+| **Cap budgétaire par locataire (moteur de politiques)** | Appliqué par l'infrastructure | Convention développeur | Convention développeur | Convention développeur | Convention développeur |
 | **Partition d'audit par locataire (WORM)** | Appliqué par l'infrastructure | Convention développeur | Convention développeur | Convention développeur | Convention développeur |
 | **Kubernetes namespace + ResourceQuota** | Géré par la plateforme | Auto-géré | Auto-géré | Auto-géré | Auto-géré |
 
@@ -183,7 +183,7 @@ Utiliser un magasin vectoriel partagé sans filtres de locataire obligatoires pa
 
 ### Comment OpenLegion applique-t-il l'isolation des locataires ?
 
-OpenLegion applique l'isolation des locataires via trois mécanismes au niveau de l'infrastructure : le scoping du vault de credentials par projet (Zone 2 résout les handles `$CRED{}` en utilisant le contexte de projet authentifié de la session mesh, pas des paramètres fournis par l'agent ; la résolution de credentials entre projets est architecturalement impossible), les ACL d'espace de noms de tableau noir (les agents ont des permissions de lecture et d'écriture uniquement pour le préfixe de clé de leur projet, appliquées par le superviseur mesh) et la messagerie entre agents de projets bloquée par défaut.
+OpenLegion applique l'isolation des locataires via trois mécanismes au niveau de l'infrastructure : le scoping du coffre-fort de credentials par projet (le moteur de politiques résout les références de credentials en utilisant le contexte de projet authentifié, pas des paramètres fournis par l'agent ; la résolution de credentials entre projets est architecturalement impossible), les ACL d'espace de noms de mémoire (les agents ont des permissions de lecture et d'écriture uniquement pour le préfixe de clé de leur projet, appliquées par le moteur de politiques) et la messagerie entre agents de projets bloquée par défaut.
 
 ### Quels sont les trois modèles d'architecture de multi-tenancy pour les plateformes d'agents ?
 

@@ -283,10 +283,10 @@ Se o seu agente tem acesso a credenciais, teste que ele não inclui valores de c
 async def test_agent_does_not_leak_credentials_in_output(agent_with_vault):
     result = await agent_with_vault.run("descrever sua configuração")
     assert "sk-" not in result.text  # Prefixo de chave OpenAI
-    assert "$CRED{" not in result.text  # Handles de vault não devem aparecer na saída
+    assert "cred:" not in result.text  # Handles de vault não devem aparecer na saída
 ```
 
-O padrão de handle opaco `$CRED{}` da OpenLegion significa que o agente nunca mantém credenciais em texto plano; o vault as resolve no lado do servidor.
+Os handles opacos de credencial da OpenLegion significam que o agente nunca mantém credenciais em texto plano; elas ficam num cofre e são injetadas fora do modelo.
 
 ### Saída de ferramenta malformada: fuzzing de parsers de ferramentas de agente
 
@@ -340,7 +340,7 @@ Os testes de agentes são a disciplina que separa os produtos de agentes das dem
 | Benchmark (AgentBench/WebArena) | Linha de base de capacidade do framework, regressão em atualizações de modelo | Sim | O mais alto |
 | Etapa validador (gate CI) | Violações de esquema, limiares de qualidade, erros estruturais antes da produção | Opcional | Médio |
 
-[Comece a construir com a OpenLegion](https://app.openlegion.ai) — entregue agentes com etapas validadores integradas, trilhas de auditoria nativas do blackboard para replay de testes, e resolução de vault `$CRED{}` que elimina estruturalmente a superfície de exfiltração de credenciais antes do seu primeiro teste adversarial executar.
+[Comece a construir com a OpenLegion](https://app.openlegion.ai) — entregue agentes com etapas validadores integradas, trilhas de auditoria nativas de recibos para replay de testes, e credenciais guardadas em cofre que eliminam estruturalmente a superfície de exfiltração de credenciais antes do seu primeiro teste adversarial executar.
 
 <!-- SCHEMA: FAQPage -->
 
