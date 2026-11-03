@@ -1,27 +1,21 @@
-"use client";
+/*
+ * Formerly framer-motion entrance wrappers. The letter world renders its
+ * content visible by default — an instrument does not fade in clause by
+ * clause. The components remain as plain containers so call sites keep
+ * their layout classNames; the page's one authored motion is the signature
+ * stroke in the execution blocks (see globals.css `sig-draw`).
+ */
 
-import { motion, useReducedMotion } from "framer-motion";
-
-interface AnimateInProps {
+export function AnimateIn({
+  children,
+  className = "",
+}: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
   scale?: boolean;
-}
-
-export function AnimateIn({ children, delay = 0, className = "", scale = false }: AnimateInProps) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.div
-      initial={reduce ? false : { opacity: 0, y: 32, ...(scale ? { scale: 0.97 } : {}) }}
-      whileInView={reduce ? undefined : { opacity: 1, y: 0, ...(scale ? { scale: 1 } : {}) }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={reduce ? { duration: 0 } : { duration: 0.55, delay, ease: "easeOut" }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+}) {
+  return <div className={className}>{children}</div>;
 }
 
 export function StaggerContainer({
@@ -31,21 +25,7 @@ export function StaggerContainer({
   children: React.ReactNode;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-      variants={{
-        hidden: {},
-        visible: { transition: { staggerChildren: reduce ? 0 : 0.1 } },
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }
 
 export function StaggerItem({
@@ -55,23 +35,5 @@ export function StaggerItem({
   children: React.ReactNode;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.div
-      variants={
-        reduce
-          ? {
-              hidden: { opacity: 1, y: 0 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0 } },
-            }
-          : {
-              hidden: { opacity: 0, y: 32 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
-            }
-      }
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }

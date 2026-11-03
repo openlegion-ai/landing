@@ -43,7 +43,7 @@ Third: fast mode at 3x lower cost. Databricks reported 61% cheaper token cost vs
 
 The Anthropic announcement came the same day as their $65B Series H at $965B post-money valuation.
 
-OpenLegion supports the full Anthropic API model roster. Setting `claude-opus-4-8-20260528` as your fleet default is a single config change. Vault-isolated API calls, per-agent budget caps, and container-isolated execution apply automatically - [what an AI agent platform provides for running Opus 4.8 with budget controls and vault isolation](/learn/ai-agent-platform).
+OpenLegion runs Anthropic's models behind its own presets. Pointing an agent at the Smartest preset is a single choice in the app. Vault-held credentials, a per-agent credit budget, and sandboxed task runs apply automatically - [what an AI agent platform provides for running Opus 4.8 with budget controls and vault isolation](/learn/ai-agent-platform).
 
 ## Benchmark Performance: What the Numbers Show
 
@@ -119,19 +119,19 @@ For [agentic workflow design and where Opus 4.8's judgment improvements change e
 
 ## OpenLegion and Claude Opus 4.8
 
-OpenLegion supports `claude-opus-4-8-20260528` as a fleet model option. Setting it as the default for an agent is a single field in the agent configuration:
+OpenLegion runs Opus-class models under its Smartest preset. Choosing that preset for an agent is a single field in the agent configuration:
 
 ```
-model: anthropic/claude-opus-4-8-20260528
+model_preset: smartest
 ```
 
-All OpenLegion security controls apply to Opus 4.8 calls automatically: vault proxy credential injection (the API key never enters the agent container), per-agent daily and monthly budget caps (a runaway Opus 4.8 loop cannot exhaust your API quota without hitting the cap), Docker container isolation, and full audit logging.
+All OpenLegion security controls apply to Opus 4.8 calls automatically: vault-held credentials injected outside the model (no key ever reaches the agent), a per-agent credit budget (a runaway Opus 4.8 loop stops when its budget does), sandboxed task runs, and full audit logging.
 
-For multi-agent comparisons, see [OpenLegion vs LangGraph - deploying Opus 4.8 in graph-based vs flat fleet architecture](/comparison/langgraph) and [OpenLegion vs AutoGen - Opus 4.8 in shared-process vs isolated-container multi-agent systems](/comparison/autogen).
+For multi-agent comparisons, see [OpenLegion vs LangGraph - deploying Opus 4.8 in graph-based vs flat team architecture](/comparison/langgraph) and [OpenLegion vs AutoGen - Opus 4.8 in shared-process vs per-task sandboxed multi-agent systems](/comparison/autogen).
 
 ## Get Started with Claude Opus 4.8 on OpenLegion
 
-**Set `claude-opus-4-8-20260528` as your fleet default. Vault-isolated, budget-capped, production-ready.**
+**Run Opus-class models on the Smartest preset. Vault-isolated, budget-capped, production-ready.**
 [Start Building](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See the Platform](/learn/ai-agent-platform)
 
 ---

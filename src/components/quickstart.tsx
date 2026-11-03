@@ -1,38 +1,27 @@
-import { UserPlus, CreditCard, Wrench, Rocket } from "lucide-react";
+import { UserPlus, MessageSquare, ShieldCheck, FileText } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { AnimateIn } from "@/components/ui/animate-in";
-import { QUICKSTART, ONBOARDING_URL, DOCS_URL } from "@/lib/constants";
+import { WAITLIST_URL, DOCS_URL } from "@/lib/constants";
 
-const STEP_ICONS = [UserPlus, CreditCard, Wrench, Rocket];
+const STEP_ICONS = [UserPlus, MessageSquare, ShieldCheck, FileText];
+const INCLUDED_KEYS = ["0", "1", "2"] as const;
 
-import { QuickstartClient } from "@/components/quickstart-client";
-import { codeToHtml } from "shiki";
-
+/**
+ * First-run section. v1 offered "two paths" — managed hosting beside a
+ * `git clone && ./install.sh` self-host path. v2 is a hosted web app with
+ * nothing to install, so the second column now states where agents work
+ * (channels, connectors, tools) instead of shipping install commands for a
+ * product you cannot buy.
+ */
 export async function Quickstart() {
   const t = await getTranslations("quickstart");
-
-  const highlighted = await Promise.all(
-    QUICKSTART.tabs.map((tab) =>
-      codeToHtml(tab.code, {
-        lang: tab.lang,
-        theme: "github-dark-default",
-      })
-    )
-  );
-
-  const tabs = QUICKSTART.tabs.map((tab, i) => ({
-    id: tab.id,
-    label: t(`tabs.${i}.label`),
-    code: tab.code,
-    highlightedHtml: highlighted[i],
-  }));
 
   return (
     <SectionWrapper id="quickstart" glow>
       <AnimateIn>
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
+          <p className="sr-only">
             {t("sectionLabel")}
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
@@ -45,7 +34,7 @@ export async function Quickstart() {
       <div className="mx-auto max-w-5xl">
         <AnimateIn delay={0.08}>
           <div className="grid gap-6 md:grid-cols-2">
-            {/* Left column — Managed hosting */}
+            {/* Left column — the first run */}
             <div className="gradient-border glass-shine flex min-w-0 flex-col rounded-xl border border-border/50 glass-card bg-gradient-to-b from-accent/[0.04] to-transparent p-6 md:p-8">
               <span className="mb-4 inline-flex w-fit items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1 text-xs font-medium text-accent-light">
                 {t("managedBadge")}
@@ -67,7 +56,7 @@ export async function Quickstart() {
                 {t("managedDescription")}
               </p>
               <a
-                href={ONBOARDING_URL}
+                href={WAITLIST_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group/btn btn-shine btn-glow btn-gradient flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white"
@@ -76,28 +65,33 @@ export async function Quickstart() {
               </a>
             </div>
 
-            {/* Right column — Self-hosted */}
+            {/* Right column — where the agents work */}
             <div className="gradient-border glass-shine flex min-w-0 flex-col rounded-xl border border-border/50 glass-card p-6 md:p-8">
               <span className="mb-4 inline-flex w-fit items-center rounded-full border border-border/40 bg-background/50 px-3 py-1 text-xs font-medium text-muted">
-                {t("selfHostedBadge")}
+                {t("included.badge")}
               </span>
-              <h3 className="mb-4 text-lg font-semibold text-foreground">
-                {t("selfHostedHeading")}
+              <h3 className="mb-5 text-lg font-semibold text-foreground">
+                {t("included.heading")}
               </h3>
-              <div className="mb-4 rounded-lg border border-border/40 bg-background/50 px-4 py-2.5 text-sm text-muted">
-                <span className="font-medium text-foreground/80">{t("requirementsLabel")}</span>{" "}
-                {t("requirements")}
-              </div>
-              <div className="mb-6 min-w-0 flex-1 overflow-hidden">
-                <QuickstartClient tabs={tabs} />
-              </div>
+              <dl className="mb-6 flex-1 space-y-4">
+                {INCLUDED_KEYS.map((key) => (
+                  <div key={key} className="border-t border-border/50 pt-4 first:border-t-0 first:pt-0">
+                    <dt className="text-[13px] font-semibold text-foreground">
+                      {t(`included.items.${key}.label`)}
+                    </dt>
+                    <dd className="mt-1 text-[13px] leading-relaxed text-muted">
+                      {t(`included.items.${key}.value`)}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
               <a
                 href={DOCS_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-2 rounded-xl border border-border px-6 py-3 text-sm font-semibold text-foreground transition-all hover:border-accent/40 hover:bg-accent/5"
               >
-                {t("selfHostedCta")}
+                {t("included.cta")}
               </a>
             </div>
           </div>

@@ -64,13 +64,13 @@ La topologie hiérarchique organise les agents en équipes imbriquées. Le risqu
 
 ### Topologie plate/flotte: agents de même rang coordonnant via un bus partagé
 
-La topologie de flotte plate utilise des agents de même rang qui communiquent exclusivement via un bus de messages partagé (blackboard) sans appels directs agent à agent. C'est le modèle de flotte d'OpenLegion: un agent compromis ne peut affecter que ce qu'il écrit sur le blackboard.
+La topologie de flotte plate utilise des agents de même rang qui communiquent exclusivement via un bus de messages partagé (blackboard) sans appels directs agent à agent. Le modèle d'OpenLegion en est proche: les agents sont des enregistrements durables qui reçoivent du travail sous forme de tâches sur un objectif partagé et ne s'appellent jamais directement. Un agent compromis ne peut affecter que ce qu'il écrit sur le blackboard.
 
 ## Protocoles de communication inter-agents
 
 ### A2A: le standard ouvert de Google pour la communication agent cross-framework
 
-A2A (Agent-to-Agent), publié par Google en avril 2025, standardise la communication inter-agents entre différents frameworks. A2A définit trois primitives: découverte de capacités, délégation de tâches et résultats en streaming. Fin 2026, A2A est pris en charge par plus de 50 partenaires technologiques. OpenLegion prend en charge A2A pour la coordination d'agents cross-framework.
+A2A (Agent-to-Agent), publié par Google en avril 2025, standardise la communication inter-agents entre différents frameworks. A2A définit trois primitives: découverte de capacités, délégation de tâches et résultats en streaming. Fin 2026, A2A est pris en charge par plus de 50 partenaires technologiques. OpenLegion n'implémente pas A2A au lancement ; ses agents se délèguent nativement le travail.
 
 ### MCP: standardisation de l'accès aux outils entre agents
 
@@ -78,13 +78,13 @@ Model Context Protocol (MCP), publié par Anthropic en novembre 2024, standardis
 
 ### Modèle blackboard: état persistant partagé comme support de communication
 
-Le modèle blackboard achemine toute la communication inter-agents via un magasin de données persistant partagé. OpenLegion implémente le modèle blackboard avec SQLite en mode WAL pour un accès concurrent, combiné à une messagerie pub/sub.
+Le modèle blackboard achemine toute la communication inter-agents via un magasin de données persistant partagé. OpenLegion n'utilise pas de blackboard: ses agents se coordonnent sur un registre partagé d'objectifs et de tâches, et un événement réveille l'agent propriétaire de la tâche suivante.
 
 ## Avis d'OpenLegion: pourquoi l'architecture est une décision de sécurité
 
 La plupart des défaillances des systèmes multi-agents sont des défaillances architecturales. L'état partagé entre agents crée des conditions de course: CVE-2025-64168 (Agno, CVSS 7.1, octobre 2025). Le couplage serré amplifie le rayon d'explosion des injections de prompt: la recherche COLM 2025 a montré un taux de réussite d'attaque de 97 % contre AutoGen Magentic-One.
 
-Le modèle de confiance à quatre zones d'OpenLegion est l'instanciation de production de ces principes: les agents de Zone 1 (conteneurs sandbox) ne peuvent pas communiquer directement. Tous les messages inter-agents passent par le Mesh Host de Zone 2.
+Le moteur de politiques unique d'OpenLegion est l'instanciation de production de ces principes: les agents ne peuvent pas communiquer directement. Chaque action est une intention vérifiée par le moteur de politiques avant qu'elle n'ait lieu, et enregistrée comme un reçu.
 
 ## Limites de confiance dans les systèmes multi-agents
 
@@ -94,7 +94,7 @@ Quand plusieurs agents s'exécutent dans le même processus Python, ils partagen
 
 ### Séparation structurelle de confiance: conteneurs, zones et portée des credentials par agent
 
-La séparation structurelle de confiance signifie que les limites de ce qu'un agent peut affecter sont appliquées par l'infrastructure. Le proxy vault d'OpenLegion applique les listes d'accès aux credentials par agent.
+La séparation structurelle de confiance signifie que les limites de ce qu'un agent peut affecter sont appliquées par l'infrastructure. Le coffre-fort d'identifiants d'OpenLegion applique les listes d'accès aux credentials par agent.
 
 ### Le problème de l'agent superviseur: quand le coordinateur est le maillon le plus faible
 
@@ -116,7 +116,7 @@ Un superviseur de topologie en étoile crée deux modes de défaillance: goulot 
 
 ## Systèmes multi-agents dans OpenLegion
 
-OpenLegion implémente une topologie de flotte plate avec une séparation de confiance à quatre zones. Les agents s'exécutent dans des conteneurs Docker isolés (Zone 1), communiquent exclusivement via le blackboard Mesh Host (Zone 2), accèdent aux credentials via le Vault Proxy (Zone 4) et ne communiquent jamais directement entre eux.
+OpenLegion organise le travail en objectifs → tâches → agents avec un moteur de politiques unique devant chaque action. Les agents sont des enregistrements durables dont les tâches s'exécutent à la demande dans un bac à sable, se coordonnent via le registre partagé d'objectifs et de tâches et des réveils sur événement, ne détiennent que des références d'identifiants résolues depuis le coffre-fort, et ne communiquent jamais directement entre eux.
 
 ## Appel à l'action
 
@@ -135,11 +135,11 @@ Une architecture de système multi-agent définit comment plusieurs agents IA au
 
 ### Quelle est la différence entre topologie en étoile et topologie de flotte plate?
 
-Dans une topologie en étoile, un agent superviseur central coordonne tous les autres agents, créant un point de défaillance unique. Dans une topologie de flotte plate (utilisée par OpenLegion), les agents de même rang coordonnent via un bus de messages partagé sans communication directe agent à agent.
+Dans une topologie en étoile, un agent superviseur central coordonne tous les autres agents, créant un point de défaillance unique. Dans une topologie de flotte plate (proche du modèle d'OpenLegion), les agents de même rang coordonnent via un bus de messages partagé sans communication directe agent à agent.
 
 ### Qu'est-ce que le protocole A2A pour les systèmes multi-agents?
 
-A2A (Agent-to-Agent) est un protocole ouvert de communication inter-agents publié par Google en avril 2025. Il standardise comment les agents découvrent les capacités des autres, délèguent des tâches et échangent des résultats en streaming. OpenLegion prend en charge A2A pour la coordination d'agents cross-framework.
+A2A (Agent-to-Agent) est un protocole ouvert de communication inter-agents publié par Google en avril 2025. Il standardise comment les agents découvrent les capacités des autres, délèguent des tâches et échangent des résultats en streaming. OpenLegion n'implémente pas A2A au lancement ; ses agents se délèguent nativement le travail.
 
 ### Qu'est-ce qui cause des conditions de course dans les systèmes multi-agents?
 
@@ -151,4 +151,4 @@ Dans les systèmes multi-agents fortement couplés, une injection de prompt réu
 
 ### Qu'est-ce que le modèle blackboard dans les systèmes multi-agents?
 
-Le modèle blackboard est une architecture de coordination multi-agent où les agents communiquent en lisant et écrivant un magasin de données persistant partagé plutôt qu'en s'appelant directement. OpenLegion implémente le modèle blackboard avec SQLite en mode WAL pour un accès concurrent, combiné à une messagerie pub/sub.
+Le modèle blackboard est une architecture de coordination multi-agent où les agents communiquent en lisant et écrivant un magasin de données persistant partagé plutôt qu'en s'appelant directement. OpenLegion n'utilise pas de blackboard: ses agents se coordonnent sur un registre partagé d'objectifs et de tâches, un événement réveillant l'agent propriétaire de la tâche suivante.

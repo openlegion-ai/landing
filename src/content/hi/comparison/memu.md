@@ -28,7 +28,7 @@ MemU एक competing एजेंट framework नहीं है — यह A
 
 MemU NevaMind AI द्वारा बनाया गया था और लगभग 7,200-10,500 GitHub stars तक बढ़ गया है। यह memory को intelligent organization, cross-linking, evolution, और pruning के साथ एक hierarchical file system के रूप में मानता है। Companion product memUBot (167 stars) स्वयं को "Enterprise-Ready OpenClaw" के रूप में position करता है जो MemU की memory को एक एजेंट runtime के साथ combine करता है।
 
-OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-platform) है अनिवार्य Docker कंटेनर isolation, vault proxy credential management, प्रति-एजेंट बजट enforcement, fleet-model coordination (blackboard + pub/sub + handoff), और अंतर्निहित प्रति-एजेंट persistent memory के साथ।
+OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-platform) है हर task के लिए एक sandboxed run, vault में रखे गए credentials, प्रति-एजेंट credit budgets, goal-and-task coordination (goals → tasks → एजेंट्स), और अंतर्निहित प्रति-एजेंट persistent memory के साथ।
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -41,19 +41,19 @@ OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-
 |---|---|---|
 | **Category** | Full एजेंट framework | Specialized memory layer |
 | **एजेंट्स build करता है** | हाँ | नहीं (केवल memory component) |
-| **एजेंट orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | N/A — कोई एजेंट runtime नहीं |
-| **एजेंट isolation** | प्रति एजेंट Docker कंटेनर | N/A |
-| **Credential security** | Vault proxy — एजेंट्स keys कभी नहीं देखते | N/A (host framework पर defers) |
-| **Budget controls** | प्रति-एजेंट दैनिक/मासिक hard cutoff | N/A |
+| **एजेंट orchestration** | Goals, फिर tasks, फिर एजेंट्स, delegation के साथ | N/A — कोई एजेंट runtime नहीं |
+| **एजेंट isolation** | प्रति task एक sandboxed run | N/A |
+| **Credential security** | Vault में रखे — एजेंट्स keys कभी नहीं देखते | N/A (host framework पर defers) |
+| **Budget controls** | प्रति-एजेंट credit बजट, hard cutoff | N/A |
 | **Memory model** | Vector search के साथ प्रति-एजेंट persistent storage | Organize, Link, Evolve, Forget के साथ hierarchical file-system metaphor |
 | **Memory retrieval** | प्रति एजेंट Vector similarity search | Dual-mode: Fast Context (vector) + Deep Reasoning (LLM-triggered) |
 | **Memory evolution** | Manual updates | Automatic: self-reflection, cross-linking, intelligent pruning |
-| **Database** | SQLite (embedded) | PostgreSQL + pgvector (external) |
+| **Database** | चलाने को कोई नहीं — प्लेटफ़ॉर्म द्वारा managed | PostgreSQL + pgvector (external) |
 | **Integration** | अंतर्निहित | किसी भी framework में Python SDK + REST API (drop-in) |
-| **LLM providers** | LiteLLM के माध्यम से 100+ | OpenAI, Anthropic, Gemini (memory operations के लिए) |
-| **Pricing** | BYO API keys, $19/mo hosted | Free (30 calls), Pro (600 calls), Enterprise |
-| **GitHub stars** | ~59 | ~7,200-10,500 |
-| **License** | PolyForm Perimeter License 1.0.1 | AGPL-3.0 (server) |
+| **LLM providers** | Smartest, Smart और Normal presets | OpenAI, Anthropic, Gemini (memory operations के लिए) |
+| **Pricing** | Free $0, Pro $29/mo, Team $99/mo | Free (30 calls), Pro (600 calls), Enterprise |
+| **GitHub stars** | Pre-release | ~7,200-10,500 |
+| **License** | PolyForm Perimeter 1.0.1 (engine) | AGPL-3.0 (server) |
 | **Benchmark** | N/A | Locomo benchmark पर 92.09% accuracy |
 
 ## MemU चुनें यदि...
@@ -68,13 +68,13 @@ OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-
 
 ## OpenLegion चुनें यदि...
 
-**आपको एक complete एजेंट framework चाहिए, memory component नहीं।** MemU एजेंट्स को build, deploy, isolate, या orchestrate नहीं करता। यह अन्य frameworks पर built एजेंट्स के लिए memory प्रदान करता है। OpenLegion एक complete प्लेटफ़ॉर्म है: एजेंट execution, Docker कंटेनर isolation, vault proxy credentials, बजट enforcement, fleet-model coordination, tool management, और अंतर्निहित persistent memory।
+**आपको एक complete एजेंट framework चाहिए, memory component नहीं।** MemU एजेंट्स को build, deploy, isolate, या orchestrate नहीं करता। यह अन्य frameworks पर built एजेंट्स के लिए memory प्रदान करता है। OpenLegion एक complete प्लेटफ़ॉर्म है: एजेंट execution, sandboxed task runs, vault में रखे credentials, credit budgets, goal-and-task coordination, tool management, और अंतर्निहित persistent memory।
 
-**Memory infrastructure की simplicity मायने रखती है।** OpenLegion की memory embedded SQLite का उपयोग करती है — कोई external database आवश्यक नहीं। MemU को pgvector extension के साथ PostgreSQL चाहिए, जो operational complexity (database provisioning, backups, connection management, scaling) जोड़ता है।
+**Memory infrastructure की simplicity मायने रखती है।** OpenLegion की memory hosted प्लेटफ़ॉर्म का हिस्सा है — provision करने के लिए कोई database ही नहीं। MemU को pgvector extension के साथ PostgreSQL चाहिए, जो operational complexity (database provisioning, backups, connection management, scaling) जोड़ता है।
 
-**आपको प्रति एजेंट security isolation के साथ memory चाहिए।** OpenLegion की memory प्रति-एजेंट है और container boundaries द्वारा isolated है। एजेंट A एजेंट B की memory access नहीं कर सकता। MemU की memory अपने API के माध्यम से accessible है — access control host framework के implementation पर निर्भर करता है।
+**आपको प्रति एजेंट security isolation के साथ memory चाहिए।** OpenLegion की memory प्रति-एजेंट है और policy engine द्वारा isolated है। एजेंट A एजेंट B की memory access नहीं कर सकता। MemU की memory अपने API के माध्यम से accessible है — access control host framework के implementation पर निर्भर करता है।
 
-**आपको memory और execution में integrated cost control चाहिए।** OpenLegion का प्रति-एजेंट बजट सभी costs (LLM calls, tool usage, memory operations) को encompass करता है। MemU host framework से अलग bill करता है — memory calls अपना credit pool consume करते हैं, total cost tracking को अधिक complex बनाते हुए।
+**आपको memory और execution में integrated cost control चाहिए।** OpenLegion का प्रति-एजेंट credit बजट सभी costs (model calls, tool usage, memory operations) को encompass करता है। MemU host framework से अलग bill करता है — memory calls अपना credit pool consume करते हैं, total cost tracking को अधिक complex बनाते हुए।
 
 **आप एजेंट infrastructure के लिए एक single vendor चाहते हैं।** OpenLegion framework + memory + security + orchestration को एक package में प्रदान करता है। MemU को एक अलग एजेंट framework, security layer, और orchestration system के साथ combine करने की आवश्यकता है।
 
@@ -82,7 +82,7 @@ OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-
 
 ### OpenLegion की अंतर्निहित memory
 
-OpenLegion vector search के साथ embedded SQLite का उपयोग करते हुए प्रति-एजेंट persistent memory प्रदान करता है। एक fleet-model coordination workflow में प्रत्येक एजेंट के पास isolated memory storage है जो executions के बीच persist करती है। Memory एजेंट द्वारा scoped है — एजेंट A की memories एजेंट B के लिए invisible हैं unless explicitly workflow outputs के माध्यम से shared। Memory system typical एजेंट use cases (conversation history, task context, learned preferences) के लिए external dependencies के बिना functional है।
+OpenLegion vector search के साथ प्रति-एजेंट persistent memory प्रदान करता है, जिसे hosted प्लेटफ़ॉर्म चलाता है। एक goal-and-task workflow में प्रत्येक एजेंट के पास isolated memory storage है जो wakes के बीच persist करती है। Memory एजेंट द्वारा scoped है — एजेंट A की memories एजेंट B के लिए invisible हैं unless explicitly task outputs के माध्यम से shared। Memory system typical एजेंट use cases (conversation history, task context, learned preferences) के लिए आपके लिए कुछ भी operate किए बिना functional है।
 
 ### MemU की specialized memory
 
@@ -100,7 +100,7 @@ Dual-mode retrieval (monitoring के लिए Fast Context, relevance detect 
 
 ### Trade-off
 
-MemU की memory objectively अधिक sophisticated है। OpenLegion की memory simpler, integrated, और कोई external dependencies के बिना प्रति एजेंट isolated है। उन teams के लिए जिन्हें advanced memory capabilities चाहिए, MemU को potentially OpenLegion के साथ एक memory backend के रूप में integrate किया जा सकता है — अंतर्निहित SQLite memory को MemU के API से replace करते हुए।
+MemU की memory objectively अधिक sophisticated है। OpenLegion की memory simpler, integrated, और आपके लिए कुछ भी operate किए बिना प्रति एजेंट isolated है। उन teams के लिए जिन्हें advanced memory capabilities चाहिए, MemU को potentially OpenLegion के साथ एक memory backend के रूप में integrate किया जा सकता है — अंतर्निहित memory को MemU के API से replace करते हुए।
 
 ## MemU का Ecosystem: यह सबसे अच्छा क्या करता है
 
@@ -118,7 +118,7 @@ MemU usage-based pricing के साथ memu.pro पर एक hosted API प�
 
 ### Common production concerns
 
-**AGPL-3.0 licensing।** Server license AGPL-3.0 है, जिसे किसी भी modified versions और किसी भी software जो MemU के साथ network पर interact करता है (interpretation के आधार पर) के लिए source code distribute करने की आवश्यकता है। कई enterprises AGPL से बचते हैं। यह OpenLegion के PolyForm Perimeter License 1.0.1 या अधिकांश competitors के MIT/Apache licenses की तुलना में एक significantly अधिक restrictive license है।
+**AGPL-3.0 licensing।** Server license AGPL-3.0 है, जिसे किसी भी modified versions और किसी भी software जो MemU के साथ network पर interact करता है (interpretation के आधार पर) के लिए source code distribute करने की आवश्यकता है। कई enterprises AGPL से बचते हैं। यह OpenLegion engine के PolyForm Perimeter License 1.0.1 या अधिकांश competitors के MIT/Apache licenses की तुलना में एक significantly अधिक restrictive license है।
 
 **External database dependency।** PostgreSQL + pgvector operational complexity जोड़ता है। Database provisioning, connection pooling, backups, और scaling additional जिम्मेदारियाँ हैं।
 
@@ -128,13 +128,13 @@ MemU usage-based pricing के साथ memu.pro पर एक hosted API प�
 
 ### OpenLegion अलग तरह से क्या cover करता है
 
-OpenLegion अपने security model में memory को integrate करता है: प्रति-एजेंट memory isolation (container boundaries द्वारा enforced), प्रति-एजेंट बजट accounting में included memory, कोई external database dependency नहीं, और deployment environment को छोड़ने वाला कोई data नहीं। Memory simpler है लेकिन समान architecture द्वारा secured जो credentials protect करता है और cost limits enforce करता है।
+OpenLegion अपने security model में memory को integrate करता है: प्रति-एजेंट memory isolation (policy engine द्वारा enforced), प्रति-एजेंट credit accounting में included memory, आपके चलाने के लिए कोई database नहीं, और आपके workspace को छोड़ने वाला कोई memory data नहीं। Memory simpler है लेकिन समान architecture द्वारा secured जो credentials protect करता है और cost limits enforce करता है।
 
 ## Hosting बनाम Self-Host Tradeoffs
 
 **MemU** एक cloud API (memu.pro) या pgvector के साथ PostgreSQL की आवश्यकता वाला self-hosted deployment प्रदान करता है। Cloud API सबसे तेज़ path है लेकिन memory data को external infrastructure पर भेजता है। Self-hosting को database administration चाहिए।
 
-**OpenLegion** embedded SQLite के रूप में memory include करता है — कोई external services नहीं, कोई database administration नहीं, deployment को छोड़ने वाला कोई data नहीं। Hosted platform memory infrastructure include करता है।
+**OpenLegion** hosted प्लेटफ़ॉर्म में memory include करता है — कोई external services नहीं, कोई database administration नहीं, आपके workspace को छोड़ने वाला कोई memory data नहीं। Launch पर कोई self-hosted option नहीं है।
 
 ## यह किसके लिए है
 
@@ -146,7 +146,7 @@ OpenLegion अपने security model में memory को integrate कर�
 
 MemU की memory OpenLegion की अंतर्निहित memory से अधिक sophisticated है। Organize-Link-Evolve-Forget pipeline, dual-mode retrieval, और 92% Locomo accuracy एजेंट memory में genuine innovation का प्रतिनिधित्व करते हैं।
 
-लेकिन MemU एक component है, प्लेटफ़ॉर्म नहीं। यह credential management, एजेंट isolation, cost control, या workflow orchestration solve नहीं करता। OpenLegion की memory simpler है लेकिन एक security framework के अंदर मौजूद है जो इसे protect करता है — प्रति एजेंट isolated, बजट accounting में included, और कोई external dependencies की आवश्यकता नहीं।
+लेकिन MemU एक component है, प्लेटफ़ॉर्म नहीं। यह credential management, एजेंट isolation, cost control, या workflow orchestration solve नहीं करता। OpenLegion की memory simpler है लेकिन एक security framework के अंदर मौजूद है जो इसे protect करता है — प्रति एजेंट isolated, credit accounting में included, और आपके लिए operate करने को कुछ नहीं।
 
 एक existing framework पर advanced memory की आवश्यकता वाली teams के लिए, MemU का उपयोग करें। पर्याप्त अंतर्निहित memory के साथ एक complete, secure एजेंट framework की आवश्यकता वाली teams के लिए, OpenLegion का उपयोग करें। दोनों चाहने वाली teams के लिए, MemU को potentially एक OpenLegion memory backend के रूप में integrate किया जा सकता है।
 
@@ -177,11 +177,11 @@ OpenLegion अंतर्निहित प्रति-एजेंट persis
 
 ### OpenLegion और MemU के बीच memory handling कैसे तुलना करता है?
 
-OpenLegion vector search के साथ प्रति-एजेंट SQLite का उपयोग करता है — simple, embedded, प्रति container isolated, कोई external dependencies नहीं। MemU hierarchical organization, knowledge graph linking, स्वायत्त evolution, और intelligent pruning के साथ PostgreSQL + pgvector का उपयोग करता है। MemU अधिक sophisticated है; OpenLegion simpler और अधिक secure है (memory container boundaries द्वारा isolated, कोई external data egress नहीं)।
+OpenLegion vector search के साथ प्रति-एजेंट memory का उपयोग करता है — simple, hosted, प्रति एजेंट isolated, आपके लिए operate करने को कुछ नहीं। MemU hierarchical organization, knowledge graph linking, स्वायत्त evolution, और intelligent pruning के साथ PostgreSQL + pgvector का उपयोग करता है। MemU अधिक sophisticated है; OpenLegion simpler और अधिक secure है (memory policy engine द्वारा isolated, कोई external data egress नहीं)।
 
 ### Production AI एजेंट्स के लिए कौन सा बेहतर है?
 
-वे विभिन्न needs serve करते हैं। MemU production memory requirements (complex retrieval, evolving knowledge, cross-referencing) के लिए बेहतर है। OpenLegion production security requirements (credential isolation, कंटेनर isolation, बजट enforcement, auditable fleet-model coordination) के लिए बेहतर है। Ideal production stack दोनों का उपयोग कर सकता है।
+वे विभिन्न needs serve करते हैं। MemU production memory requirements (complex retrieval, evolving knowledge, cross-referencing) के लिए बेहतर है। OpenLegion production security requirements (credential isolation, sandboxed runs, बजट enforcement, auditable goal-and-task coordination) के लिए बेहतर है। Ideal production stack दोनों का उपयोग कर सकता है।
 
 ### क्या MemU एजेंट isolation या security प्रदान करता है?
 

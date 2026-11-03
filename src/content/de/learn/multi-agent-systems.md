@@ -64,13 +64,13 @@ Hierarchische Topologie organisiert Agenten in verschachtelte Teams. Ein Koordin
 
 ### Flache/Flotten-Topologie: gleichrangige Agenten koordinieren über einen gemeinsamen Bus
 
-Flache Flotten-Topologie verwendet gleichrangige Agenten, die ausschließlich über einen gemeinsamen Message-Bus (Blackboard) ohne direkte Agent-zu-Agent-Aufrufe kommunizieren. Dies ist OpenLegions Flottenmodell: Jeder Agent arbeitet autonom, veröffentlicht auf der Blackboard und empfängt Arbeit über den Task-Eingang. Ein kompromittierter Agent kann nur beeinflussen, was er auf die Blackboard schreibt; er kann andere Agenten nicht direkt aufrufen oder auf deren Kontext zugreifen.
+Flache Flotten-Topologie verwendet gleichrangige Agenten, die ausschließlich über einen gemeinsamen Message-Bus (Blackboard) ohne direkte Agent-zu-Agent-Aufrufe kommunizieren. OpenLegions Modell kommt dem nahe: Agenten sind dauerhafte Datensätze, die Arbeit als Aufgaben zu einem gemeinsamen Ziel erhalten und sich nie direkt aufrufen. Ein kompromittierter Agent kann nur beeinflussen, was er auf die Blackboard schreibt; er kann andere Agenten nicht direkt aufrufen oder auf deren Kontext zugreifen.
 
 ## Agentenübergreifende Kommunikationsprotokolle
 
 ### A2A: Googles offener Standard für framework-übergreifende Agentenkommunikation
 
-A2A (Agent-to-Agent) Protokoll, von Google im April 2025 veröffentlicht, standardisiert die agentenübergreifende Kommunikation über verschiedene Frameworks und Laufzeiten hinweg. A2A definiert drei Primitive: Capability Discovery, Aufgabendelegation und Streaming-Ergebnisse. Bis Mitte 2026 wird A2A von 50+ Technologiepartnern unterstützt. OpenLegion unterstützt A2A für framework-übergreifende Agentenkoordination.
+A2A (Agent-to-Agent) Protokoll, von Google im April 2025 veröffentlicht, standardisiert die agentenübergreifende Kommunikation über verschiedene Frameworks und Laufzeiten hinweg. A2A definiert drei Primitive: Capability Discovery, Aufgabendelegation und Streaming-Ergebnisse. Bis Mitte 2026 wird A2A von 50+ Technologiepartnern unterstützt. OpenLegion implementiert A2A zum Start nicht; seine Agenten delegieren nativ aneinander.
 
 ### MCP: Standardisierung des Tool-Zugriffs über Agenten hinweg
 
@@ -80,13 +80,13 @@ MCP führt auch Sicherheitsrisiken ein: Tool-Beschreibungen können vergiftet we
 
 ### Blackboard-Muster: geteilter persistenter Zustand als Kommunikationsmedium
 
-Das Blackboard-Muster leitet die gesamte agentenübergreifende Kommunikation über einen gemeinsamen persistenten Datenspeicher. Agenten schreiben Aufgabenausgaben, Status-Updates und Koordinationssignale in benannte Schlüssel; andere Agenten lesen aus relevanten Schlüsseln. OpenLegion implementiert das Blackboard-Muster mit SQLite im WAL-Modus für gleichzeitigen Zugriff, kombiniert mit Pub/Sub-Messaging für ereignisgesteuerte Koordination.
+Das Blackboard-Muster leitet die gesamte agentenübergreifende Kommunikation über einen gemeinsamen persistenten Datenspeicher. Agenten schreiben Aufgabenausgaben, Status-Updates und Koordinationssignale in benannte Schlüssel; andere Agenten lesen aus relevanten Schlüsseln. OpenLegion nutzt kein Blackboard: Seine Agenten koordinieren über ein gemeinsames Verzeichnis aus Zielen und Aufgaben, und ein Event weckt den Agenten, dem die nächste Aufgabe gehört.
 
 ## OpenLegion-Bewertung: Warum Architektur eine Sicherheitsentscheidung ist
 
 Die meisten Multi-Agent-System-Fehler sind Architekturfehler, keine Anwendungsfehler. Gemeinsamer Zustand zwischen Agenten erzeugt Race Conditions: CVE-2025-64168 (Agno, CVSS 7.1, Oktober 2025), Sitzungsdaten eines Benutzers wurden einem anderen unter asynchroner Gleichzeitigkeit ausgesetzt, gepatcht in v2.2.2. Enge Kopplung zwischen Agenten verstärkt den Blast-Radius von Prompt-Injektionen: COLM 2025-Forschung zeigte eine 97-%ige Angriffserfolgsrate gegen AutoGen Magentic-One über bösartige Dateiinjektion.
 
-OpenLegions Vier-Zonen-Vertrauensmodell ist die Produktionsinstanziierung dieser Prinzipien: Zone-1-Agenten (Container in Sandboxen) können nicht direkt kommunizieren. Alle agentenübergreifenden Nachrichten werden über den Zone-2-Mesh-Host geleitet. Der Mesh-Host setzt agentenspezifische Schreibberechtigungen durch und pflegt das Audit-Log. Der Zone-4-Vault-Proxy stellt sicher, dass Credentials niemals Zone-1-Container betreten.
+OpenLegions einzelne Policy-Engine ist die Produktionsinstanziierung dieser Prinzipien: Agenten können nicht direkt kommunizieren. Jede Aktion ist eine Absicht, die die Policy-Engine prüft, bevor sie geschieht. Die Policy-Engine setzt agentenspezifische Berechtigungen durch und hält jede Aktion als Beleg fest. Credentials liegen in einem Vault und werden außerhalb des Modells injiziert, das immer nur ein Handle hält.
 
 ## Vertrauensgrenzen in Multi-Agent-Systemen
 
@@ -96,7 +96,7 @@ Wenn mehrere Agenten im selben Python-Prozess laufen, teilen sie den Heap, die U
 
 ### Strukturelle Vertrauenstrennung: Container, Zonen und Credential-Scoping pro Agent
 
-Strukturelle Vertrauenstrennung bedeutet, dass die Grenzen dessen, was ein Agent beeinflussen kann, durch die Infrastruktur durchgesetzt werden, nicht durch Anwendungscode. Agentenspezifisches Credential-Scoping erweitert dieses Prinzip: Jeder Agent hat nur Zugriff auf die Credentials, die er legitim benötigt. OpenLegions Vault-Proxy setzt agentenspezifische Credential-Zugriffslisten durch.
+Strukturelle Vertrauenstrennung bedeutet, dass die Grenzen dessen, was ein Agent beeinflussen kann, durch die Infrastruktur durchgesetzt werden, nicht durch Anwendungscode. Agentenspezifisches Credential-Scoping erweitert dieses Prinzip: Jeder Agent hat nur Zugriff auf die Credentials, die er legitim benötigt. OpenLegions Credential-Vault setzt agentenspezifische Credential-Zugriffslisten durch.
 
 ### Das Supervisor-Agenten-Problem: wenn der Koordinator das schwächste Glied ist
 
@@ -122,9 +122,9 @@ In Systemen ohne strenge agentenspezifische Tool-Berechtigungen können Agenten 
 
 ## Multi-Agent-Systemarchitektur in OpenLegion
 
-OpenLegion implementiert flache Flotten-Topologie mit Vier-Zonen-Vertrauenstrennung. Agenten laufen in isolierten Docker-Containern (Zone 1), kommunizieren ausschließlich über die Mesh-Host-Blackboard und den Pub/Sub-Bus (Zone 2), greifen auf Credentials über den Vault-Proxy zu (Zone 4) und kommunizieren nie direkt miteinander.
+OpenLegion organisiert Arbeit als Ziele → Aufgaben → Agenten mit einer einzigen Policy-Engine vor jeder Aktion. Agenten sind dauerhafte Datensätze, deren Aufgaben bei Bedarf in einer Sandbox laufen, koordinieren über das gemeinsame Verzeichnis aus Zielen und Aufgaben sowie über Event-Wakes, halten nur Credential-Handles aus dem Vault und kommunizieren nie direkt miteinander.
 
-OpenLegion unterstützt sowohl A2A (für framework-übergreifende Agentendelegation) als auch MCP (für standardisierten Tool-Zugriff). Sicherheitskontrollen gelten gleichermaßen für beide Protokolle: Vault-Proxy-Credential-Injektion für authentifizierte Aufrufe, Container-Isolation für Tool-Ausführung und Audit-Logging für die gesamte agentenübergreifende Kommunikation.
+OpenLegion unterstützt zum Start weder A2A noch MCP; Delegation und Tool-Zugriff sind nativ. Für jeden Aufruf gelten dieselben Kontrollen: Credentials im Vault, außerhalb des Modells injiziert, eine Sandbox ohne standardmäßigen Netzwerkzugriff für Code, den der Agent schreibt, und ein Beleg für jede Delegation.
 
 Für eine detaillierte Analyse von OpenLegions Sicherheitsmodell, siehe [was eine KI-Agent-Plattform für die Bereitstellung von Multi-Agent-Systemen bietet](/learn/ai-agent-platform). Für Laufzeit-Koordinationsprimitive, siehe [KI-Agent-Orchestrierung: Blackboard, Pub/Sub und Handoff-Primitive](/learn/ai-agent-orchestration).
 
@@ -145,11 +145,11 @@ Eine Multi-Agent-Systemarchitektur definiert, wie mehrere autonome KI-Agenten st
 
 ### Was ist der Unterschied zwischen Stern-Topologie und flacher Flotten-Topologie in Multi-Agent-Systemen?
 
-In einer Stern-Topologie koordiniert ein zentraler Supervisor-Agent alle anderen Agenten, was einen Single Point of Failure erzeugt: Wenn der Supervisor kompromittiert wird oder ausfällt, ist das gesamte System betroffen. In einer flachen Flotten-Topologie (von OpenLegion verwendet) koordinieren gleichrangige Agenten über einen gemeinsamen Message-Bus (Blackboard) ohne direkte Agent-zu-Agent-Kommunikation. Dies kombiniert Resilienz mit Auditierbarkeit, da die gesamte agentenübergreifende Kommunikation über den Bus geleitet wird.
+In einer Stern-Topologie koordiniert ein zentraler Supervisor-Agent alle anderen Agenten, was einen Single Point of Failure erzeugt: Wenn der Supervisor kompromittiert wird oder ausfällt, ist das gesamte System betroffen. In einer flachen Flotten-Topologie (nahe an OpenLegions Modell) koordinieren gleichrangige Agenten über einen gemeinsamen Message-Bus (Blackboard) ohne direkte Agent-zu-Agent-Kommunikation. Dies kombiniert Resilienz mit Auditierbarkeit, da die gesamte agentenübergreifende Kommunikation über den Bus geleitet wird.
 
 ### Was ist das A2A-Protokoll für Multi-Agent-Systeme?
 
-A2A (Agent-to-Agent) ist ein offenes agentenübergreifendes Kommunikationsprotokoll, das von Google im April 2025 veröffentlicht wurde. Es standardisiert, wie Agenten die Fähigkeiten der anderen entdecken, Aufgaben delegieren und Streaming-Ergebnisse austauschen. Bis Mitte 2026 wird A2A von 50+ Technologiepartnern unterstützt. OpenLegion unterstützt A2A für framework-übergreifende Agentenkoordination.
+A2A (Agent-to-Agent) ist ein offenes agentenübergreifendes Kommunikationsprotokoll, das von Google im April 2025 veröffentlicht wurde. Es standardisiert, wie Agenten die Fähigkeiten der anderen entdecken, Aufgaben delegieren und Streaming-Ergebnisse austauschen. Bis Mitte 2026 wird A2A von 50+ Technologiepartnern unterstützt. OpenLegion implementiert A2A zum Start nicht; seine Agenten delegieren nativ aneinander.
 
 ### Was verursacht Race Conditions in Multi-Agent-Systemen?
 
@@ -161,4 +161,4 @@ In eng gekoppelten Multi-Agent-Systemen, in denen Agenten einen Prozess teilen o
 
 ### Was ist das Blackboard-Muster in Multi-Agent-Systemen?
 
-Das Blackboard-Muster ist eine Multi-Agent-Koordinationsarchitektur, bei der Agenten kommunizieren, indem sie einen gemeinsamen persistenten Datenspeicher lesen und beschreiben, anstatt sich direkt aufzurufen. Agenten posten Ergebnisse, Status-Updates und Aufgabenausgaben auf die Blackboard; andere Agenten abonnieren relevante Schlüssel. OpenLegion implementiert das Blackboard-Muster mit SQLite im WAL-Modus für gleichzeitigen Zugriff, kombiniert mit Pub/Sub-Messaging.
+Das Blackboard-Muster ist eine Multi-Agent-Koordinationsarchitektur, bei der Agenten kommunizieren, indem sie einen gemeinsamen persistenten Datenspeicher lesen und beschreiben, anstatt sich direkt aufzurufen. Agenten posten Ergebnisse, Status-Updates und Aufgabenausgaben auf die Blackboard; andere Agenten abonnieren relevante Schlüssel. OpenLegion nutzt kein Blackboard: Seine Agenten koordinieren über ein gemeinsames Verzeichnis aus Zielen und Aufgaben, und ein Event weckt den Agenten, dem die nächste Aufgabe gehört.

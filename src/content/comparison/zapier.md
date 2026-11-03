@@ -51,7 +51,7 @@ None of steps 2, 3, or 4 were in the original "workflow." They're emergent decis
 
 For a complete treatment of how agentic workflows differ structurally from trigger-action automation, see [agentic workflows and how they differ from trigger-action automation](/learn/agentic-workflows).
 
-## Architecture: Connector Bus vs Agent Mesh
+## Architecture: Connector Bus vs Agent Team
 
 ### Zapier's Event-Driven Connector Bus
 
@@ -59,13 +59,13 @@ Zapier's infrastructure is a connector bus: it maintains authentication state fo
 
 Zapier's connector library is the product's primary moat: 7,000+ pre-built integrations mean an ops team can connect Salesforce, Jira, Stripe, and 6,997 other apps without writing a single line of code. For no-code teams routing structured data between known SaaS endpoints, this is the fastest path to production.
 
-### OpenLegion's Multi-Agent Mesh with Blackboard and Pub/Sub
+### OpenLegion's Multi-Agent Coordination with Goals, Tasks and Event Wakes
 
-OpenLegion's execution model is an agent mesh: multiple autonomous agents coordinate via a shared blackboard (persistent key-value store), pub/sub event channels, and direct hand-offs. Each agent has a role, a tool set, and a memory profile. Agents decide at runtime which tools to call based on the current task state.
+OpenLegion's execution model is goal-and-task coordination: work is organised goals → tasks → agents, with an assistant that creates the teammates it needs and delegates to them. Each agent has a role, a tool set, and a memory profile. Agents decide at runtime which tools to call based on the current task state.
 
-The blackboard is the coordination primitive. When a researcher agent completes a task, it writes results to `research/task_id`. A writer agent subscribed to that key pattern wakes up and processes the output. If the writer encounters ambiguity, it publishes a clarification event that a supervisor agent handles. No step sequence was pre-defined; the coordination emerges from agent decisions.
+The shared record of goals and tasks is the coordination primitive. When a researcher agent completes a task, its result is recorded against the goal. The writer agent that owns the next task wakes on that event and processes the output. If the writer encounters ambiguity, it raises a question that the assistant routes to a reviewer. No step sequence was pre-defined; the coordination emerges from agent decisions.
 
-Credentials are not stored in the platform. When a tool call requires an API key, the agent references a `$CRED{api_key_name}` handle. Zone 2 resolves the handle server-side at call time, injecting the plaintext credential into the outbound request. Agent code never holds a key. The vault scope is per-project — a credential provisioned for Project A is architecturally inaccessible to Project B.
+Credentials never reach the model. When a tool call requires an API key, the agent references a credential handle. The policy engine resolves the handle server-side at call time, injecting the credential into the outbound request outside the model. The model never holds a key. The vault scope is per-workspace — a credential provisioned for Workspace A is architecturally inaccessible to Workspace B.
 
 For LLM routing and load balancing across AI providers within this architecture, see [LLM gateway for routing and load balancing across AI providers](/learn/llm-gateway).
 
@@ -102,7 +102,7 @@ The Professional plan is priced for simple event routing. At LLM-agent scale, pe
 
 ### OpenLegion's Pricing Model
 
-OpenLegion prices per agent execution, not per tool call within that execution. An agent that makes 40 tool calls to complete a research task counts as one agent execution, not 40 billable items. This aligns incentives: you are not penalized for building agents that reason carefully across many tool calls to produce a quality output.
+OpenLegion meters work in credits at $0.001 each: every unit of work is a recorded wake with its exact cost visible. An agent that makes 40 tool calls to complete a research task is one recorded wake, not 40 items counted against a task quota. This aligns incentives: you are not penalized for building agents that reason carefully across many tool calls to produce a quality output.
 
 ## Security: Centralized OAuth Storage vs Vault Isolation
 
@@ -120,13 +120,13 @@ This is the inherent blast-radius of centralizing credentials: a single infrastr
 
 For the full framework on credential isolation in agent systems, see [credential management for AI agents and vault isolation patterns](/learn/credential-management-ai-agents). For OWASP LLM threat context, see [AI agent security and OWASP LLM Top 10 controls](/learn/ai-agent-security).
 
-### OpenLegion's Per-Agent Vault Proxy: Credentials Never in Agent Code
+### OpenLegion's Per-Agent Credential Vault: Credentials Never in Agent Code
 
-OpenLegion's `$CRED{}` handle system inverts the credential model. Agent code references an opaque handle string — `$CRED{stripe_api_key}` — not a literal credential value. When the agent executes a tool call referencing the handle, Zone 2 (the vault proxy layer) resolves the handle against the project's credential store, injects the plaintext value into the outbound request, and the request is dispatched. Agent code, logs, and blackboard state never contain the plaintext credential.
+OpenLegion's credential handle system inverts the credential model. An agent references an opaque handle — the credential's name — not a literal credential value. When the agent executes a tool call referencing the handle, the policy engine resolves it against the workspace's vault, injects the value into the outbound request outside the model, and the request is dispatched. The model, the receipts, and the shared record of goals and tasks never contain the plaintext credential.
 
-Per-project scope enforcement: a `$CRED{stripe_api_key}` handle provisioned in Project A resolves to Project A's Stripe key. If an agent in Project B attempts to resolve the same handle string, Zone 2 uses Project B's credential scope — either returning Project B's Stripe key (if provisioned) or returning a permission error. Cross-project credential resolution is architecturally blocked, not just policy-prohibited.
+Per-workspace scope enforcement: a Stripe key handle provisioned in Workspace A resolves to Workspace A's Stripe key. If an agent in Workspace B attempts to resolve the same handle name, the policy engine uses Workspace B's credential scope — either returning Workspace B's Stripe key (if provisioned) or returning a permission error. Cross-workspace credential resolution is architecturally blocked, not just policy-prohibited.
 
-A compromised agent in Project A can exfiltrate data it has already processed. It cannot exfiltrate credentials from the vault. The vault is not in the agent's address space.
+A compromised agent in Workspace A can exfiltrate data it has already processed. It cannot exfiltrate credentials from the vault. The vault is never in the model's context.
 
 ## OpenLegion's Take
 
@@ -142,34 +142,34 @@ Three concrete reasons the mismatch matters at production scale:
 
 **No agentic loop support**: Zap AI (launched October 2023) generates Zap definitions from natural language — a useful configuration assistant. It does not add agent loop capability. A Zapier workflow cannot retry with different reasoning on failure, spawn a sub-agent to handle a discovered edge case, or maintain state across sessions without external storage explicitly wired in as an action step.
 
-OpenLegion's vault proxy (`$CRED{}` handles), per-project ACL enforcement, and multi-agent blackboard coordination address each of these gaps structurally — not as add-on configuration, but as default behavior.
+OpenLegion's credential vault (handles resolved outside the model), per-workspace ACL enforcement, and multi-agent goal-and-task coordination address each of these gaps structurally — not as add-on configuration, but as default behavior.
 
 ## TL;DR: OpenLegion vs Zapier
 
 | **Dimension** | **Zapier** | **OpenLegion** |
 |---|---|---|
-| **Architecture** | Trigger-action connector bus | Multi-agent mesh with blackboard and pub/sub |
+| **Architecture** | Trigger-action connector bus | Multi-agent coordination: goals → tasks → agents |
 | **AI capability** | Zap AI generates step sequences; no agentic loops | Native multi-agent orchestration with reasoning, memory, planning |
-| **Credential storage** | OAuth tokens stored in Zapier's centralized cloud | Per-agent vault proxy — credentials never exposed to agent code |
-| **Pricing model** | Per-task (each Zap action = 1 task); 2,000 tasks/month on Professional ($29.99/mo) | Per-agent execution, not per-tool-call |
-| **Self-hosting** | SaaS only — no self-host option | Fully self-hostable or managed cloud |
-| **Code extensibility** | Code steps (JS/Python) sandboxed, no package imports on free tier | Code-native — agents run arbitrary code with full package access |
-| **Multi-agent orchestration** | Not supported — single Zap chain only | First-class — agents spawn sub-agents, hand off, coordinate via blackboard |
+| **Credential storage** | OAuth tokens stored in Zapier's centralized cloud | Per-agent credential vault — credentials never exposed to the model |
+| **Pricing model** | Per-task (each Zap action = 1 task); 2,000 tasks/month on Professional ($29.99/mo) | Per-task wakes metered in credits at $0.001 each |
+| **Self-hosting** | SaaS only — no self-host option | Hosted web app — sign in with Google, nothing to install |
+| **Code extensibility** | Code steps (JS/Python) sandboxed, no package imports on free tier | Agent-written code runs in a sandbox with no network access by default |
+| **Multi-agent orchestration** | Not supported — single Zap chain only | First-class — an assistant creates teammates, delegates, and coordinates on goals |
 | **Agent memory** | No persistent state between Zap runs | Short-term, long-term, semantic, and episodic memory per agent |
 | **Security certifications** | SOC 2 Type II, HIPAA BAA available | Vault isolation, per-tenant credential scoping, no shared key surfaces |
-| **App integrations** | 7,000+ pre-built app connectors | Any HTTP/API tool via code; MCP-compatible tool plugins |
+| **App integrations** | 7,000+ pre-built app connectors | Any HTTP/API tool via code; Google Calendar and Drive connectors |
 
 ## When to Choose Zapier
 
 Zapier is the right tool when:
 
-**You need no-code integration, fast.** Connecting two or three SaaS apps with a trigger-action rule takes minutes in Zapier with no engineering support required. OpenLegion requires developers — it is a code-native platform.
+**You need no-code integration, fast.** Connecting two or three SaaS apps with a trigger-action rule takes minutes in Zapier with no engineering support required. OpenLegion needs no install either — you sign in with Google — but it reasons about a goal rather than mapping one app's fields onto another's.
 
 **Your connector is already in Zapier's library.** 7,000+ pre-built integrations mean the app you need is almost certainly already supported, with OAuth handled and field mapping tested. Building an equivalent integration from scratch in OpenLegion requires reading the target API's documentation.
 
 **Your workflows are predictable and event-driven.** "When a new deal reaches Stage 4 in Salesforce, create a Jira ticket and send a Slack notification" is exactly the use case Zapier was built for. It runs reliably at scale, with a mature Zapier support organization behind it.
 
-**Your team is non-technical ops staff.** Zapier's UI is accessible to people who have never written code. OpenLegion's agent definitions are written in code.
+**Your team is non-technical ops staff.** Zapier's UI is accessible to people who have never written code. OpenLegion's agents are described in plain language, and an owner reviews the judgement calls they make.
 
 For teams that need self-hosted workflow automation with more flexibility than Zapier but still want a visual builder, see [OpenLegion vs n8n — the open-source self-hosted workflow builder comparison](/comparison/n8n).
 
@@ -179,11 +179,11 @@ OpenLegion is the right tool when:
 
 **Your task requires reasoning, not routing.** If the next step depends on the semantic content of the previous step's output — not a data field value — you need an agent runtime, not a connector bus.
 
-**You cannot centralize credentials in a third-party SaaS.** Teams in regulated industries, or with contractual data-handling requirements, need credential isolation at the infrastructure layer. OpenLegion's vault proxy keeps credentials out of agent code, logs, and the shared platform surface.
+**You need credentials isolated from the model.** Teams in regulated industries, or with contractual data-handling requirements, need credential isolation enforced by the platform, not by prompt discipline. OpenLegion's vault keeps credentials out of the model, the logs, and the shared platform surface.
 
-**You're building multi-agent pipelines.** Supervisor-worker orchestration, parallel agent execution, blackboard-coordinated handoffs — none of these map to Zapier's single-Zap-chain model. OpenLegion's mesh infrastructure supports them natively.
+**You're building multi-agent pipelines.** Supervisor-worker orchestration, parallel agent execution, delegated handoffs on a shared goal — none of these map to Zapier's single-Zap-chain model. OpenLegion's goals → tasks → agents model supports them natively.
 
-**Task complexity scales unpredictably.** When the number of tool calls an agent needs is determined at runtime by what it discovers, per-task pricing is the wrong model. OpenLegion's per-execution pricing doesn't penalize agents for being thorough.
+**Task complexity scales unpredictably.** When the number of tool calls an agent needs is determined at runtime by what it discovers, per-task pricing is the wrong model. OpenLegion meters each wake in credits at $0.001 each, so a thorough agent costs what it uses.
 
 **You need agent memory across sessions.** Zapier Zaps start stateless every time. OpenLegion agents maintain short-term context, long-term fact memory, semantic memory (vector-indexed), and episodic memory (task history) across runs.
 
@@ -199,7 +199,7 @@ Zapier supports AI steps via built-in ChatGPT and Claude app integrations, and Z
 
 ### What is the main difference between Zapier and OpenLegion?
 
-Zapier is a connector bus: it routes events between SaaS apps using pre-configured trigger-action rules defined at design time. OpenLegion is an agent mesh: autonomous agents reason over tasks, call tools dynamically based on runtime decisions, hand off work to other agents, and maintain persistent state across sessions. The core architectural difference is that Zapier executes fixed workflows where every branch must be anticipated at configuration time, while OpenLegion agents determine their execution path at runtime based on the task, available context, and tool results observed during execution. One is a static pipeline; the other is a dynamic reasoning loop.
+Zapier is a connector bus: it routes events between SaaS apps using pre-configured trigger-action rules defined at design time. OpenLegion runs goals → tasks → agents: autonomous agents reason over tasks, call tools dynamically based on runtime decisions, delegate work to teammates, and maintain persistent state across sessions. The core architectural difference is that Zapier executes fixed workflows where every branch must be anticipated at configuration time, while OpenLegion agents determine their execution path at runtime based on the task, available context, and tool results observed during execution. One is a static pipeline; the other is a dynamic reasoning loop.
 
 ### How does Zapier pricing compare to an agent platform at scale?
 
@@ -207,7 +207,7 @@ Zapier charges per "task," where each action step in a Zap execution counts as o
 
 ### Is Zapier secure for storing API keys and OAuth tokens?
 
-Zapier holds SOC 2 Type II certification and offers HIPAA Business Associate Agreements for eligible plans. However, Zapier's architecture stores OAuth tokens and API credentials for all connected apps in Zapier's own cloud infrastructure — a centralized credential store covering 7,000+ app integrations across all customers. Storing all customer credentials in a single infrastructure creates a threat model where any request-handling vulnerability has potential reach to the credential store. SOC 2 Type II certification attests that controls were designed and operating; it does not eliminate this architectural risk. Teams requiring per-connection credential isolation or the ability to revoke individual app credentials without affecting others should evaluate self-hosted alternatives with vault-proxy architectures.
+Zapier holds SOC 2 Type II certification and offers HIPAA Business Associate Agreements for eligible plans. However, Zapier's architecture stores OAuth tokens and API credentials for all connected apps in Zapier's own cloud infrastructure — a centralized credential store covering 7,000+ app integrations across all customers. Storing all customer credentials in a single infrastructure creates a threat model where any request-handling vulnerability has potential reach to the credential store. SOC 2 Type II certification attests that controls were designed and operating; it does not eliminate this architectural risk. Teams requiring per-connection credential isolation or the ability to revoke individual app credentials without affecting others should evaluate alternatives that hold credentials in a vault and inject them outside the model.
 
 ### Can Zapier run agentic loops that retry on failure?
 
@@ -215,4 +215,4 @@ Zapier Zaps execute linearly from trigger to final action. If a step fails, Zapi
 
 ### What are the best open-source Zapier alternatives?
 
-The most widely deployed open-source Zapier alternatives are n8n (self-hosted, TypeScript, 500+ connectors, AGPL-licensed with a commercial license for production use), Activepieces (open-source no-code automation builder), and Automatisch (MIT-licensed, Docker-first, smaller connector set). For teams that need agentic capabilities — autonomous reasoning, multi-agent coordination, vault-isolated credentials, persistent memory — rather than connector-based event routing, OpenLegion provides a code-native agent mesh under an open-source license with a managed cloud option. The distinction is the same as between Zapier and OpenLegion: connector-bus automation versus agent-mesh reasoning.
+The most widely deployed open-source Zapier alternatives are n8n (self-hosted, TypeScript, 500+ connectors, AGPL-licensed with a commercial license for production use), Activepieces (open-source no-code automation builder), and Automatisch (MIT-licensed, Docker-first, smaller connector set). For teams that need agentic capabilities — autonomous reasoning, multi-agent coordination, vault-isolated credentials, persistent memory — rather than connector-based event routing, OpenLegion provides a hosted agent platform whose separately published engine is source-available under the PolyForm Perimeter License 1.0.1. The distinction is the same as between Zapier and OpenLegion: connector-bus automation versus agent reasoning over goals and tasks.

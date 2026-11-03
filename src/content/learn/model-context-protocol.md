@@ -3,7 +3,7 @@ title: Model Context Protocol (MCP) — How AI Agents Use Tools
 description: >-
   Model Context Protocol (MCP) is Anthropic's open standard for letting AI
   agents discover and call external tools. How it works, security caveats,
-  and OpenLegion's MCP support.
+  and what OpenLegion does instead.
 slug: /learn/model-context-protocol
 primary_keyword: model context protocol
 secondary_keywords:
@@ -74,14 +74,14 @@ The reference Claude Desktop MCP integration mounts servers as host subprocesses
 
 ## How OpenLegion Integrates MCP
 
-OpenLegion is an MCP client by default. Agents in the runtime auto-discover MCP servers configured for their fleet, see the tool list in their context window, and call MCP tools through the same vault-proxied, ACL-gated path as built-in skills. The mesh enforces the production-grade layers MCP leaves out:
+MCP is not available on OpenLegion at launch. Agents use OpenLegion's own built-in tool set, and every call takes the same path: an intent checked by one policy engine before it happens, then recorded as a receipt the owner can read. Those are the production-grade layers MCP deliberately leaves out:
 
-- Each MCP server runs in its own sandboxed namespace; the agent never gets direct stdio access to the server process.
-- Per-agent ACLs gate which MCP servers a given agent is allowed to call.
-- Every tool call counts against the agent's per-agent budget; an agent exceeding its cap is cut off whether the spend came from LLMs or MCP tools.
-- The mesh records every MCP call into the trace log — the same telemetry covered in [AI agent observability](/learn/ai-agent-observability).
+- Code the agent writes runs in a sandbox with no network access by default; the agent never gets direct stdio access to a host process.
+- Per-agent permissions gate which tools a given agent is allowed to call.
+- Every tool call counts against the agent's own credit budget; an agent that exhausts it is cut off whether the spend came from models or from tools.
+- Every call is recorded with the agent's identity, a timestamp and the exact cost — the same telemetry covered in [AI agent observability](/learn/ai-agent-observability).
 
-The result: you get the MCP ecosystem's breadth without inheriting its default trust assumptions.
+The result: a narrower tool surface than the MCP ecosystem's, and none of its default trust assumptions.
 
 ## OpenLegion's Take
 
@@ -89,7 +89,7 @@ MCP is the most important agent-ecosystem standard since OpenAPI — it collapse
 
 ## CTA
 
-**Deploy MCP-compatible agents with production-grade controls built in.**
+**Deploy agents with production-grade controls built in.**
 [Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
@@ -120,4 +120,4 @@ OpenAI function calling is a single-vendor pattern for letting one LLM call func
 
 ### Can I use MCP with any LLM provider?
 
-Yes. MCP is LLM-agnostic — the client renders MCP tool definitions into whatever format the underlying LLM expects (Anthropic tool use, OpenAI function calling, Gemini function declarations). Runtimes like OpenLegion that support 100+ providers via LiteLLM automatically adapt MCP tools to each provider's calling convention.
+Yes. MCP is LLM-agnostic — the client renders MCP tool definitions into whatever format the underlying LLM expects (Anthropic tool use, OpenAI function calling, Gemini function declarations). A runtime that hides provider choice behind model presets, the way OpenLegion offers Smartest, Smart and Normal, adapts tool definitions to each provider's calling convention for you.

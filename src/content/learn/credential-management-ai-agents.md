@@ -68,9 +68,9 @@ This pattern reduces the credential's lifetime in memory but does not eliminate 
 
 ### Pattern 3: Vault Proxy / Opaque Handle Injection (Most Secure)
 
-The vault proxy pattern keeps credentials entirely out of agent containers. The agent holds an opaque handle — a reference string like `$CRED{stripe_key}` — that identifies a credential without resolving it. When the agent makes an API call that includes the handle, the vault proxy intercepts the request, resolves the handle to the actual credential, injects it at the network layer, and forwards the authenticated request. The agent never sees the plaintext credential.
+The vault proxy pattern keeps credentials entirely out of agent containers. The agent holds an opaque handle — a reference string like `cred:stripe_key` — that identifies a credential without resolving it. When the agent makes an API call that includes the handle, the vault proxy intercepts the request, resolves the handle to the actual credential, injects it outside the model, and forwards the authenticated request. The agent never sees the plaintext credential.
 
-This is the same principle as HashiCorp Vault's (35,763 stars, BSL, v2.0.2 released June 5, 2026) agent-side injection, embedded directly in the agent orchestration layer. With 700+ MCP servers in the ecosystem (June 2026), the `$CRED{}` handle pattern eliminates per-server `.env` sprawl: one handle reference in the agent configuration covers any MCP server's credential requirements.
+This is the same principle as HashiCorp Vault's (35,763 stars, BSL, v2.0.2 released June 5, 2026) agent-side injection, embedded directly in the agent orchestration layer. With 700+ MCP servers in the ecosystem (June 2026), the opaque handle pattern eliminates per-server `.env` sprawl: one handle reference in the agent configuration covers any MCP server's credential requirements.
 
 A fully compromised agent container — one executing arbitrary attacker instructions — has zero credential access because no credential exists within the container's reach.
 
@@ -80,21 +80,21 @@ Workload identity (OIDC federation, SPIFFE/SPIRE, cloud IAM service accounts) el
 
 Workload identity is the correct pattern for agent fleets running on cloud infrastructure where cloud provider credentials (AWS API keys, GCP service account keys) are required. It requires the orchestration platform to manage identity issuance and token refresh, but eliminates the static key rotation problem entirely. For [multi-agent system](/learn/multi-agent-systems) architectures that span multiple cloud accounts or providers, workload identity federation is the only scalable credential model.
 
-## OpenLegion's Take: The $CRED{} Handle Pattern
+## OpenLegion's Take: The Opaque Handle Pattern
 
 Every major AI agent framework treats credential management as the host application's problem. LangChain and LangGraph read from `os.environ`. CrewAI relies on environment injection. OpenAI Agents SDK expects credentials in the process environment. AutoGen inherits the Python process environment. None of these frameworks provide structural credential isolation — they leave credential management to the operator, which in practice means `.env` files and shared environment variables.
 
-OpenLegion's vault proxy is built into the agent orchestration layer. Agents reference credentials as opaque `$CRED{name}` handles. The mesh host resolves handles server-side and injects credentials at the network boundary. No agent container ever receives a plaintext credential. Prompt injection cannot exfiltrate what is not present.
+OpenLegion's credential vault is built into the agent orchestration layer. Agents reference credentials as opaque handles and never hold more. The policy engine resolves handles server-side and injects credentials outside the model. No agent run ever receives a plaintext credential. Prompt injection cannot exfiltrate what is not present.
 
 Infisical (27,296 stars, open-source TypeScript secrets platform with MIT-licensed core) raised $2.8M seed in 2023, signalling market demand for developer-native secret management. OpenLegion embeds the same capability directly in the agent runtime — no separate secret management deployment required.
 
 | **Dimension** | **OpenLegion** | **LangChain/LangGraph** | **CrewAI** | **OpenAI Agents SDK** | **AutoGen** |
 |---|---|---|---|---|---|
 | **Credential storage** | Vault (opaque handles) | Environment / .env | Environment / .env | Environment / .env | Environment / .env |
-| **Agent access pattern** | $CRED{} handle -- never resolved in container | os.environ direct read | os.environ direct read | os.environ direct read | os.environ direct read |
+| **Agent access pattern** | Opaque handle -- never resolved in the agent's run | os.environ direct read | os.environ direct read | os.environ direct read | os.environ direct read |
 | **Plaintext in agent context?** | Never | Yes -- at os.environ read | Yes -- at os.environ read | Yes -- at os.environ read | Yes -- at os.environ read |
 | **Rotation support** | Vault-native; hot rotation without restart | Manual; requires restart | Manual; requires restart | Manual; requires restart | Manual; requires restart |
-| **Per-agent scoping** | Enforced at mesh level per allowlist | Not enforced | Not enforced | Not enforced | Not enforced |
+| **Per-agent scoping** | Enforced by the policy engine per allowlist | Not enforced | Not enforced | Not enforced | Not enforced |
 | **Audit trail** | Every handle resolution logged with agent ID | None native | None native | None native | None native |
 
 For teams evaluating the full credential exposure surface of their current stack, the [AI agent security threat model](/learn/ai-agent-security) covers credential leakage as one of six documented threat categories alongside prompt injection, sandbox escape, and budget abuse.
@@ -113,9 +113,9 @@ HashiCorp Vault's dynamic secrets engine generates short-lived credentials for d
 
 Traditional application secret rotation requires restarting the process to pick up the new credential. Agent fleets cannot tolerate forced restarts: agents may be mid-task, holding working state that is lost on restart, or coordinating with other agents in a multi-step handoff.
 
-Hot rotation injects the new credential into the vault without touching the running agent container. The agent's next API call through the vault proxy uses the new credential transparently. From the agent's perspective, the `$CRED{name}` handle still resolves — only the underlying secret has changed.
+Hot rotation injects the new credential into the vault without touching the running agent container. The agent's next API call through the vault proxy uses the new credential transparently. From the agent's perspective, the credential handle still resolves — only the underlying secret has changed.
 
-Hot rotation requires that agents never cache credentials locally. The `$CRED{}` handle pattern enforces this structurally: handles are resolved at call time, not at startup, so local caching of the resolved value is never possible.
+Hot rotation requires that agents never cache credentials locally. The opaque handle pattern enforces this structurally: handles are resolved at call time, not at startup, so local caching of the resolved value is never possible.
 
 ### Per-Agent Rotation Scope
 
@@ -135,7 +135,7 @@ OWASP LLM06 (Sensitive Information Disclosure) specifically notes that over-prov
 
 ### Scoping MCP Tool Server Credentials
 
-Model Context Protocol tool servers often require their own credentials — API keys for the services they proxy. With 700+ MCP servers in the ecosystem (June 2026), the credential management problem at the MCP layer is no longer theoretical: each server is a potential `.env` sprawl vector. In OpenLegion, MCP server credentials are stored in the same vault and injected through the same proxy pattern. The MCP tool server receives authenticated requests from the mesh proxy rather than raw credentials from the agent.
+Model Context Protocol tool servers often require their own credentials — API keys for the services they proxy. With 700+ MCP servers in the ecosystem (June 2026), the credential management problem at the MCP layer is no longer theoretical: each server is a potential `.env` sprawl vector. OpenLegion does not connect MCP servers at launch, and every tool credential it does hold is stored in the vault and injected through the same pattern. The tool receives an authenticated request from the policy engine rather than a raw credential from the agent.
 
 This prevents a malicious MCP server from being used as a credential harvesting vector. A compromised MCP server finds only handle references in incoming requests, not raw keys. For the full [Model Context Protocol security](/learn/model-context-protocol) hardening model, see the dedicated guide.
 
@@ -143,7 +143,7 @@ This prevents a malicious MCP server from being used as a credential harvesting 
 
 When an agent completes its task or is archived, its credentials should be revoked immediately. Static credentials that outlive their associated agent create orphaned access — valid keys with no associated audit trail, owned by a process that no longer runs.
 
-Credential revocation on agent retirement requires the orchestration layer to track agent lifecycle events and trigger vault revocations. OpenLegion's mesh handles this automatically: when an agent is archived, the mesh revokes all credential handles associated with that agent's scope. For [AI agent orchestration](/learn/ai-agent-orchestration) systems that manage agent lifecycle programmatically, credential revocation should be a first-class lifecycle event — not an operational afterthought.
+Credential revocation on agent retirement requires the orchestration layer to track agent lifecycle events and trigger vault revocations. OpenLegion handles this automatically: when an agent is archived, the policy engine revokes all credential handles associated with that agent's scope. For [AI agent orchestration](/learn/ai-agent-orchestration) systems that manage agent lifecycle programmatically, credential revocation should be a first-class lifecycle event — not an operational afterthought.
 
 ## Audit Trails and Credential Access Logging
 
@@ -159,7 +159,7 @@ OpenLegion's orchestrator logs tool calls and credential resolutions in a unifie
 
 ### Audit Requirements for Regulated Environments
 
-For financial services, healthcare, and other regulated sectors, agent credential audit logs must meet specific requirements: immutability (logs cannot be altered after creation), tamper-evidence (log integrity is verifiable), retention period compliance (logs retained for the required duration), and access controls (only authorised personnel can read audit logs). These requirements map directly to the vault proxy architecture: the mesh host generates audit log entries as credentials are resolved, writes them to an append-only store, and signs entries for tamper-evidence. Agent containers never have access to the audit log store. For [AI agent platform](/learn/ai-agent-platform) decisions, audit log architecture is a key compliance consideration alongside the secrets backend choice.
+For financial services, healthcare, and other regulated sectors, agent credential audit logs must meet specific requirements: immutability (logs cannot be altered after creation), tamper-evidence (log integrity is verifiable), retention period compliance (logs retained for the required duration), and access controls (only authorised personnel can read audit logs). These requirements map directly to the vault proxy architecture: the policy engine generates audit log entries as credentials are resolved, writes them to an append-only store, and signs entries for tamper-evidence. Agents never have access to the audit log store. For [AI agent platform](/learn/ai-agent-platform) decisions, audit log architecture is a key compliance consideration alongside the secrets backend choice.
 
 ## Choosing a Secrets Backend for Your Agent Platform
 
@@ -194,7 +194,7 @@ CVE-2024-34359 (llama-cpp-python, CVSS 9.6) documented a Jinja2 server-side temp
 
 ### How does the vault-proxy pattern prevent credential leakage?
 
-The vault proxy intercepts agent API calls, resolves opaque credential handles to actual secrets at the network layer, and returns the authenticated response without the credential ever entering the agent's container or context window. The agent holds a handle like `$CRED{stripe_key}` that identifies the secret without resolving it. A fully compromised agent container executing arbitrary attacker instructions still has zero access to raw credentials, because no credential exists within the container's reach.
+The vault proxy intercepts agent API calls, resolves opaque credential handles to actual secrets outside the model, and returns the authenticated response without the credential ever entering the agent's container or context window. The agent holds a handle like `cred:stripe_key` that identifies the secret without resolving it. A fully compromised agent container executing arbitrary attacker instructions still has zero access to raw credentials, because no credential exists within the container's reach.
 
 ### Why is per-agent credential isolation important in multi-agent systems?
 
@@ -206,7 +206,7 @@ OWASP Top 10 for LLM Applications v1.1 (published October 2025) lists Sensitive 
 
 ### How does OpenLegion handle credentials for agents running MCP servers?
 
-In OpenLegion, MCP tool server credentials are stored in the vault and injected through the same proxy pattern as agent credentials. The MCP server receives authenticated requests from the mesh proxy rather than raw credentials from the agent — the agent never holds the MCP server's upstream API keys. With 700+ MCP servers in the ecosystem (June 2026), this eliminates per-server `.env` sprawl: one vault configuration covers all MCP credential requirements, and a compromised MCP server cannot harvest raw credentials from incoming requests.
+OpenLegion does not connect MCP servers at launch. Every tool credential it does hold is stored in the vault and injected outside the model, so the tool receives an authenticated request from the policy engine rather than a raw credential from the agent — the agent never holds an upstream API key. With 700+ MCP servers in the ecosystem (June 2026), that is the pattern that eliminates per-server `.env` sprawl: one vault configuration covers a workspace's credential requirements, and a compromised server cannot harvest raw credentials from incoming requests.
 
 ### What is secret rotation and why do AI agents need it?
 
@@ -216,6 +216,6 @@ Secret rotation is the practice of replacing a credential with a new one on a sc
 
 The credential management problem in AI agent fleets is architectural: if credentials exist in agent containers, they can leak. CVE-2024-34359 and CVE-2025-29927 demonstrate that even well-resourced teams running major frameworks ship this exposure. The vault-proxy pattern solves it structurally — credentials never enter agent containers, so prompt injection, container escape, or log exfiltration cannot recover them.
 
-OpenLegion's vault proxy is built into the agent mesh. Configure a credential once with `$CRED{name}`, assign it to the agents that need it, and the mesh handles injection, TTL refresh, per-agent scoping, and audit logging. No separate vault deployment, no `.env` file coordination, no manual rotation procedures.
+OpenLegion's credential vault is built into the platform. Configure a credential once, assign it to the agents that need it, and the policy engine handles injection, TTL refresh, per-agent scoping, and audit logging. No separate vault deployment, no `.env` file coordination, no manual rotation procedures.
 
 [Secure your agent fleet with vault-proxy credential isolation on OpenLegion](https://openlegion.ai)

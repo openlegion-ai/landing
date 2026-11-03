@@ -2,8 +2,8 @@
 title: "Software de Gestión de Redes Sociales con IA — Plataforma de Agentes Autónomos"
 description: >-
   Software de gestión de redes sociales con IA que ejecuta agentes autónomos
-  para publicar, responder y participar en X, LinkedIn, Instagram y TikTok —
-  multi-cuenta, con tus propias claves LLM.
+  para planificar, redactar y revisar publicaciones en X, LinkedIn, Instagram
+  y TikTok — multi-cuenta, con aprobaciones.
 slug: /ai-social-media-management
 primary_keyword: gestión de redes sociales con ia
 secondary_keywords:
@@ -31,7 +31,7 @@ related:
 
 # Software de Gestión de Redes Sociales con IA y Agentes Autónomos
 
-El **software de gestión de redes sociales con IA** ha superado las herramientas de "programar un tweet". Autonomía real significa agentes que inician sesión en cuentas, leen respuestas entrantes, redactan publicaciones con la voz de su marca y las envían según una cadencia — escalando a humanos solo cuando la política lo indica. OpenLegion es una plataforma de gestión de redes sociales con IA que ejecuta agentes autónomos en X, LinkedIn, Instagram, TikTok y cualquier servicio con API o interfaz navegable. Aporte sus propias claves API de LLM.
+El **software de gestión de redes sociales con IA** ha superado las herramientas de "programar un tweet". Autonomía real significa agentes que inician sesión en cuentas, leen respuestas entrantes, redactan publicaciones con la voz de su marca y las envían según una cadencia — escalando a humanos solo cuando la política lo indica. OpenLegion es una plataforma de gestión de redes sociales con IA: agentes duraderos que planifican y redactan para X, LinkedIn, Instagram y TikTok, y se detienen para su aprobación antes de que nada llegue a un tercero. Inicia sesión con Google — no hay nada que instalar.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -40,15 +40,15 @@ El **software de gestión de redes sociales con IA** ha superado las herramienta
 
 ## TL;DR
 
-- **La mayoría de herramientas de redes sociales con IA son programadores con un botón "Generar".** OpenLegion es una flota de agentes autónomos que realmente inician sesión, leen respuestas, redactan publicaciones, envían DMs e interactúan — 24/7.
-- **Un agente por cuenta.** Cada perfil social corre dentro de su propio contenedor Docker con memoria separada, presupuesto separado y credenciales en bóveda separadas. Un agente comprometido no puede filtrar la cookie ni el token OAuth de ninguna otra cuenta.
-- **Cobertura de todas las plataformas principales.** Soporte nativo para X (antes Twitter), LinkedIn, Instagram, TikTok, Threads, Bluesky, Mastodon, Facebook, YouTube, Pinterest, Reddit y cualquier plataforma con interfaz navegable mediante el navegador sigiloso integrado.
-- **Los inicios de sesión nunca tocan al agente.** Las cookies de sesión, los tokens OAuth de refresco y las claves API de plataforma viven en el proxy de bóveda en la zona de confianza. Los agentes envían peticiones; el proxy inyecta credenciales en la capa de red.
-- **Presupuestos mensuales estrictos** detienen las explosiones de coste por espirales de respuesta. Establezca un tope de 20$ o 200$ mensuales por agente y la plataforma lo apaga al céntimo.
-- **Cadencia de publicación determinista.** Un DAG en YAML define cuándo, qué tipo y a qué cuenta va cada publicación. Sin modos de fallo opacos del estilo "el LLM decidió publicar a las 3 de la mañana".
-- **La voz de marca persiste entre sesiones.** Cada agente mantiene su propia memoria vectorial de frases aprobadas, temas prohibidos, rendimiento previo de publicaciones y patrones de respuesta.
-- **Autoalojado o gestionado.** Código disponible bajo PolyForm Perimeter License 1.0.1 — ejecútelo en su propia infraestructura para cumplimiento de industrias reguladas, o use el plano gestionado con las mismas garantías de aislamiento.
-- **BYO claves API.** Conecte sus propias claves de OpenAI, Anthropic, Google o cualquiera de los más de 100 proveedores soportados por LiteLLM. Pague al proveedor del modelo a tarifas publicadas; pague a OpenLegion por la plataforma.
+- **La mayoría de herramientas de redes sociales con IA son programadores con un botón "Generar".** OpenLegion es un equipo de agentes duraderos que investigan temas, redactan publicaciones, trian respuestas y preparan DMs con la cadencia que usted fije — y luego se detienen para su aprobación.
+- **Un agente por cuenta.** Cada perfil social lo opera su propio registro de agente, con memoria separada, presupuesto de créditos separado y credenciales en bóveda separadas. Un agente comprometido no puede filtrar la cookie ni el token OAuth de ninguna otra cuenta.
+- **Cobertura de todas las plataformas principales.** Con un solo briefing los agentes escriben para X (antes Twitter), LinkedIn, Instagram, TikTok, Threads, Bluesky, Mastodon, Facebook, YouTube, Pinterest y Reddit, en el formato nativo de cada superficie.
+- **Los inicios de sesión nunca tocan al agente.** Las cookies de sesión, los tokens OAuth de refresco y las claves API de plataforma viven en una bóveda y se inyectan fuera del modelo, que solo llega a retener un identificador.
+- **Presupuestos de créditos estrictos** detienen las explosiones de coste por espirales de respuesta. Cada agente lleva su propio presupuesto, el trabajo se mide en créditos a $0.001 cada uno y la plataforma lo detiene al crédito.
+- **Cadencia de publicación determinista.** Un horario define cuándo despierta cada agente, en qué trabaja y para qué cuenta. Sin modos de fallo opacos del estilo "el LLM decidió publicar a las 3 de la mañana".
+- **La voz de marca persiste entre sesiones.** Cada agente mantiene su propia memoria de frases aprobadas, temas prohibidos, rendimiento previo de publicaciones y patrones de respuesta.
+- **Alojado, con un motor de código disponible.** El motor se publica bajo PolyForm Perimeter License 1.0.1; la plataforma en sí es alojada, así que no hay nada que instalar ni nada que operar.
+- **Modelos por preset.** Elija Smartest, Smart o Normal por agente o por espacio de trabajo. El trabajo se mide en créditos a $0.001 cada uno y el coste exacto de cada tarea es visible.
 
 ## Más Allá de los Programadores: Qué Debe Significar la Gestión de Redes Sociales con IA
 
@@ -58,25 +58,25 @@ Eso no es gestión. Es redacción con autocompletado.
 
 La gestión autónoma real de redes sociales significa que el software:
 
-- Inicia sesión en la cuenta por sí mismo (mediante sesión almacenada o clave API) — a través de un proxy de bóveda, nunca con credenciales en bruto en la memoria del agente.
+- Inicia sesión en la cuenta por sí mismo (mediante sesión almacenada o clave API) — con la credencial guardada en una bóveda e inyectada fuera del modelo, nunca en la memoria del agente.
 - Lee la bandeja de entrada: respuestas, DMs, menciones, citas.
 - Decide cuáles necesitan respuesta, cuáles escalar y cuáles ignorar.
 - Redacta la respuesta con la voz adecuada, la publica y la recuerda para la próxima vez.
 - Ejecuta una cadencia de publicación — hilos diarios, análisis profundos semanales, reposiciones perennes — sin que usted tenga que poner cada uno en cola.
 - Se detiene cuando algo parece fuera de lugar: respuesta fuera de política, cambio de sentimiento, tope de presupuesto o anomalía de rate limit.
 
-OpenLegion está construido para ser el runtime de ese bucle. La [plataforma de agentes de IA](/learn/ai-agent-platform) subyacente maneja el aprovisionamiento de contenedores, el bóvedado de credenciales, la aplicación de presupuesto y la observabilidad — para que pueda describir el trabajo del agente en YAML y dejarlo correr.
+OpenLegion está construido para ser el runtime de ese bucle. La [plataforma de agentes de IA](/learn/ai-agent-platform) subyacente maneja las ejecuciones de tarea en sandbox, las credenciales guardadas en bóveda, la aplicación de presupuesto y los recibos — para que pueda describir el trabajo del agente en lenguaje natural y dejarlo correr.
 
 ## Un Agente por Cuenta Social: Por Qué Importa el Aislamiento
 
 Un modo de fallo común en la automatización de redes sociales con IA es el patrón "un bot, muchas cuentas". Un único proceso retiene los tokens de Twitter, LinkedIn, Instagram y TikTok de cada marca. El proceso se cae, se ve comprometido o empieza a alucinar — y ahora todas las cuentas están en riesgo.
 
-El [modelo de orquestación](/learn/ai-agent-orchestration) de OpenLegion invierte eso. Cada cuenta social es operada por su propio agente, corriendo en su propio contenedor Docker con sus propios límites de recursos (por defecto 384MB RAM, 0,15 CPU), su propia memoria SQLite + vectorial y su propio ámbito de credenciales. El Mesh Host coordina la flota, pero ningún agente tiene visibilidad sobre los tokens, publicaciones o memoria de otro agente.
+El [modelo de orquestación](/learn/ai-agent-orchestration) de OpenLegion invierte eso. Cada cuenta social es operada por su propio agente — un registro duradero con su propia memoria, su propio presupuesto de créditos, su propio ámbito de credenciales y una ejecución en sandbox para cada tarea. El motor de políticas se sitúa delante de cada acción, pero ningún agente tiene visibilidad sobre los tokens, publicaciones o memoria de otro agente.
 
 Las consecuencias prácticas:
 
 - Una política de respuesta defectuosa en la cuenta de una marca no puede sangrar a otra.
-- Un agente comprometido — mediante inyección de prompt en un DM entrante, por ejemplo — expone solo las credenciales en bóveda de esa única cuenta, y aun esas están detrás de un proxy.
+- Un agente comprometido — mediante inyección de prompt en un DM entrante, por ejemplo — expone solo las credenciales en bóveda de esa única cuenta, y aun esas las retiene únicamente como identificador.
 - Puede ejecutar agentes separados por persona (voz de fundador vs. voz de empresa) en el mismo handle, cada uno con su propia memoria y tono.
 - Los topes de presupuesto se aplican por agente, de modo que un bucle de respuesta descontrolado en la cuenta de marketing no puede consumir el techo mensual de la cuenta de soporte.
 
@@ -88,20 +88,20 @@ La mayoría de plataformas sociales requieren alguna combinación de: un token O
 
 El modelo de credenciales de OpenLegion:
 
-- **Proxy de bóveda en la zona de confianza.** Todas las credenciales — tokens OAuth, claves API, cookies de sesión, perfiles de navegador — viven en el Mesh Host. El contenedor del agente no tiene variable de entorno, archivo ni socket que las exponga.
-- **Inyección ciega en la capa de red.** Cuando el agente realiza una petición saliente a un endpoint de plataforma, o carga una página en el navegador sigiloso Camoufox, el proxy de bóveda intercepta e inyecta la credencial. El agente recibe el cuerpo de la respuesta, nunca la cabecera de autenticación.
-- **Matriz de permisos por cuenta.** El Mesh Host decide qué agente puede usar qué paquete de credenciales. El agente de Twitter no puede pedir el token de LinkedIn; el agente de LinkedIn no puede pedir las claves de facturación.
-- **Rotación de cookies de sesión.** Las sesiones del navegador sigiloso se respaldan y restauran entre reinicios de contenedor — de modo que un agente que se cae a mitad de un hilo vuelve con la sesión iniciada, sin requerir credenciales de nuevo.
+- **Las credenciales viven en una bóveda.** Todas las credenciales — tokens OAuth, claves API, cookies de sesión, sesiones guardadas — permanecen en la bóveda, fuera del modelo. La ejecución del agente no tiene variable de entorno, archivo ni socket que las exponga.
+- **Inyectadas fuera del modelo.** Cuando el agente realiza una petición saliente a un endpoint de plataforma, la credencial se inyecta fuera del modelo, que solo llega a retener un identificador. El agente recibe el cuerpo de la respuesta, nunca la cabecera de autenticación.
+- **Matriz de permisos por cuenta.** El motor de políticas decide qué agente puede usar qué paquete de credenciales. El agente de Twitter no puede pedir el token de LinkedIn; el agente de LinkedIn no puede pedir las claves de facturación.
+- **Rotación de cookies de sesión.** Las sesiones guardadas se conservan en la bóveda y se reinyectan en el siguiente despertar — de modo que un agente que se detiene a mitad de un hilo vuelve con la sesión iniciada, sin requerir credenciales de nuevo.
 
-Esta es la capa de [seguridad de agentes de IA](/learn/ai-agent-security) que las herramientas sociales convencionales simplemente no tienen, porque confían en su propio backend SaaS para retener sus tokens. Con OpenLegion usted autoaloja la bóveda — o ejecuta el plano gestionado y se aplican las mismas garantías de aislamiento.
+Esta es la capa de [seguridad de agentes de IA](/learn/ai-agent-security) que las herramientas sociales convencionales simplemente no tienen, porque confían en su propio backend SaaS para retener sus tokens. Con OpenLegion la credencial nunca llega al modelo, y cada uso de una queda registrado como un recibo que puede leer.
 
 ## Interacción a Ritmo Humano, No a Ritmo de Spam
 
 Un patrón que hace que los productos de agente de redes sociales con IA sean baneados: diez respuestas por segundo, veinte likes por minuto, cien follows en una hora. Las plataformas lo detectan. Las cuentas son limitadas o suspendidas.
 
-La orquestación determinista de OpenLegion le permite escribir la cadencia como un DAG YAML: un agente Respondedor que se despierta cada 12 minutos, procesa las tres menciones no leídas principales, redacta respuestas y o bien las publica (si la confianza es alta) o las pone en cola para revisión humana. Un agente Publicador que envía un hilo al día en la franja de 9-11h. Un agente Engager que da like y responde a un máximo de 25 publicaciones al día de una lista de objetivos curada.
+La orquestación determinista de OpenLegion le permite fijar la cadencia como un horario: un agente Respondedor que se despierta cada 12 minutos, procesa las tres menciones no leídas principales, redacta respuestas y o bien las envía una vez aprobadas o las pone en cola para revisión humana. Un agente Publicador que envía un hilo al día en la franja de 9-11h. Un agente Engager que da like y responde a un máximo de 25 publicaciones al día de una lista de objetivos curada.
 
-Como la cadencia está en YAML, puede:
+Como la cadencia es un horario, puede:
 
 - Auditar el calendario antes de que se ejecute — sin "decisión" opaca del LLM de publicar a horas inusuales.
 - Cambiar el ritmo editando una línea.
@@ -112,66 +112,66 @@ Cada paso se registra con marcas de tiempo, IDs de agente y entradas — de modo
 
 ## Cobertura de Plataformas: Gestión con IA de Twitter, LinkedIn, Instagram y TikTok
 
-Una sola flota de OpenLegion puede ejecutar gestión de Twitter con IA, gestión de LinkedIn con IA, gestión de Instagram con IA, gestión de TikTok con IA y operaciones en cualquier otra superficie principal desde un único orquestador. Cada integración de plataforma corre dentro de su propio contenedor de agente — de modo que un cambio en la API de la plataforma o una cuenta baneada afecta exactamente a un agente, no a toda la flota.
+Un solo equipo de OpenLegion puede ejecutar gestión de Twitter con IA, gestión de LinkedIn con IA, gestión de Instagram con IA, gestión de TikTok con IA y operaciones en cualquier otra superficie principal desde un único espacio de trabajo. Cada superficie la posee su propio agente — de modo que un cambio en la API de la plataforma o una cuenta baneada afecta exactamente a un agente, no a todo el equipo.
 
 - **Gestión de Twitter / X con IA** — Publicar hilos según cadencia, responder menciones con voz, ejecutar bucles de interacción sobre una lista objetivo curada y enviar DMs a respondedores para cualificación entrante.
 - **Gestión de LinkedIn con IA** — Redacción de artículos de formato largo, interacción con comentarios en publicaciones del sector, triaje de solicitudes de conexión y respuestas InMail enrutadas por intención.
 - **Gestión de Instagram con IA** — Subtitulado de carruseles y Reels, respuesta automática de DM con contexto de reconocimiento de imágenes, respuestas a historias e iteración de estrategia de hashtags.
 - **Gestión de TikTok con IA** — Generación de captions y ganchos, triaje a escala de la sección de comentarios y monitorización de tendencias con marcado automático de oportunidades de reacción.
-- **Gestión de Threads, Bluesky, Mastodon y Facebook con IA** — Soporte API nativo en grafos sociales federados y consolidados.
+- **Gestión de Threads, Bluesky, Mastodon y Facebook con IA** — Redacción y programación en formato nativo a través de grafos sociales federados y consolidados.
 - **Operaciones en YouTube, Pinterest y Reddit** — Redacción de descripciones, respuestas de community management, ajuste de tono consciente del subreddit y curación de tableros.
 - **Sindicación multi-plataforma** — Un briefing produce salidas en formato nativo por superficie (hilo para X, artículo para LinkedIn, carrusel para Instagram, guion de gancho para TikTok) sin reformateo manual entre plataformas.
 
-Como la flota está definida en YAML, puede levantar una operación completa de marketing en redes sociales con IA — por ejemplo cinco plataformas en tres marcas — en un único archivo de configuración y versionar cada cambio de la política a partir de ahí.
+Como el equipo se describe en lenguaje natural, puede levantar una operación completa de marketing en redes sociales con IA — por ejemplo cinco plataformas en tres marcas — en una sola conversación, y cada cambio de política a partir de ahí queda registrado como un recibo.
 
 ## Herramientas de Gestión de Redes Sociales con IA, Comparadas con Honestidad
 
 | Capacidad | Buffer / Hootsuite / Sprout AI | Predis / FeedHive / Postwise | OpenLegion |
 |---|---|---|---|
 | **Autonomía** | Asistencia de redacción + programación | Variantes de post generadas por IA | Bucle de agente completo: leer, decidir, publicar, responder |
-| **Inicios de sesión** | El SaaS retiene sus tokens OAuth | El SaaS retiene sus tokens OAuth | Proxy de bóveda que puede autoalojar; los agentes nunca ven credenciales en bruto |
-| **Aislamiento por cuenta** | Infraestructura SaaS compartida | Infraestructura SaaS compartida | Un contenedor Docker por cuenta, memoria y presupuesto separados |
+| **Inicios de sesión** | El SaaS retiene sus tokens OAuth | El SaaS retiene sus tokens OAuth | Credenciales en bóveda; el modelo solo retiene un identificador |
+| **Aislamiento por cuenta** | Infraestructura SaaS compartida | Infraestructura SaaS compartida | Un agente por cuenta, memoria y presupuesto de créditos separados |
 | **Manejo de respuestas / DM** | UI manual de bandeja | UI manual de bandeja | Autónomo con guardarraíles de política y escalado humano |
-| **Controles de coste** | Plan por asiento | Plan por asiento | Presupuesto diario/mensual por agente con corte estricto |
-| **Cadencia de publicación** | Programador visual | Programador visual | DAG YAML — versionado, auditable |
+| **Controles de coste** | Plan por asiento | Plan por asiento | Presupuesto de créditos por agente con corte estricto |
+| **Cadencia de publicación** | Programador visual | Programador visual | Horarios — registrados, reproducibles, auditables |
 | **Multi-cuenta** | Sí, en un solo panel | Sí, en un solo panel | Sí, con aislamiento estricto entre cuentas |
-| **Elección de modelo** | LLM del proveedor | LLM del proveedor | BYO claves API en más de 100 proveedores vía LiteLLM |
-| **Autoalojable** | No | No | Sí, código disponible bajo PolyForm Perimeter License 1.0.1 |
+| **Elección de modelo** | LLM del proveedor | LLM del proveedor | Presets de modelo Smartest, Smart y Normal |
+| **Autoalojable** | No | No | No — alojado, con un motor de código disponible bajo PolyForm Perimeter License 1.0.1 |
 | **Mejor para** | Equipos cómodos con flujo de trabajo guiado por programación | Generación rápida de publicaciones | Equipos que ejecutan operaciones sociales autónomas y multi-cuenta |
 
 Para una lectura más profunda sobre cómo se compara OpenLegion con runtimes de agentes alternativos por debajo, consulte el [hub completo de comparación de frameworks](/comparison).
 
 ## Una Flota Práctica de Agentes Sociales, Desde un Único Prompt
 
-Dentro de OpenLegion, usted describe el equipo que quiere y la plataforma lo levanta. Una flota social típica podría verse así:
+Dentro de OpenLegion, usted describe el equipo que quiere y la plataforma lo levanta. Un equipo social típico podría verse así:
 
-- **Agente Editor** — propietario del calendario de contenido, escoge temas de una fuente de investigación, redacta hilos, hace handoff a especialistas.
+- **Agente Editor** — propietario del calendario de contenido, escoge temas de una fuente de investigación, redacta hilos, delega en especialistas.
 - **Agente Publicador** — recibe borradores aprobados, publica con cadencia en una plataforma específica, maneja el formato específico de la plataforma (hilo vs. tweet único vs. carrusel).
 - **Agente Respondedor** — observa el flujo de menciones y DMs, redacta respuestas, publica respuestas con umbral de confianza y escala el resto a un canal de Slack.
 - **Agente Engager** — trabaja una lista objetivo curada, da likes y responde de forma significativa a un ritmo limitado.
 - **Agente Analista** — extrae métricas cada noche, resume qué funcionó y actualiza el brief del Editor.
 
-Cada uno corre en su propio contenedor, con su propio presupuesto, sus propias credenciales en bóveda y memoria persistente de lo que funcionó. El Mesh Host los coordina mediante un blackboard compartido para que el Editor sepa lo que aprendió el Analista y el Publicador sepa qué hilo aprobó el Editor.
+Cada uno lleva su propio presupuesto, sus propias credenciales en bóveda y memoria persistente de lo que funcionó, y cada tarea corre en sandbox. El trabajo se organiza objetivos → tareas → agentes, para que el Editor sepa lo que aprendió el Analista y el Publicador sepa qué hilo aprobó el Editor.
 
-```bash
-git clone https://github.com/openlegion-ai/openlegion.git
-cd openlegion && ./install.sh
-openlegion start   # configuración en línea, luego despliegue su flota de agentes sociales en contenedores aislados
+```text
+1. Inicia sesión con Google en app.openlegion.ai — no hay nada que instalar.
+2. Describe el equipo social que quieres; el asistente crea los agentes.
+3. Empieza gratis: 0$, 1.000 créditos de una vez, sin tarjeta. Pro son 29$/mes.
 ```
 
 ## Construido para Agencias, Creadores y Equipos de Marketing In-House
 
-La gestión de redes sociales con IA para agencias es uno de los casos de uso más ruidosos en esta categoría. Una agencia que gestiona 30 cuentas de clientes no puede triar 30 bandejas manualmente ni escribir 30 calendarios de contenido — y los programadores SaaS imponen precios por asiento que escalan linealmente con los clientes. El aislamiento por agente de OpenLegion invierte esa economía: un contenedor por cuenta de cliente, presupuesto separado, memoria separada y un mesh compartido que permite a un estratega senior editar políticas en todos ellos en un único archivo YAML.
+La gestión de redes sociales con IA para agencias es uno de los casos de uso más ruidosos en esta categoría. Una agencia que gestiona 30 cuentas de clientes no puede triar 30 bandejas manualmente ni escribir 30 calendarios de contenido — y los programadores SaaS imponen precios por asiento que escalan linealmente con los clientes. El aislamiento por agente de OpenLegion invierte esa economía: un agente por cuenta de cliente, presupuesto separado, memoria separada y un único motor de políticas que permite a un estratega senior cambiar la política en todos ellos desde un solo lugar.
 
 Patrones comunes de despliegue por tipo de equipo:
 
-- **Agencias de marketing** — Una flota de agentes por cuenta de cliente, credenciales en bóveda separadas, topes de presupuesto por cliente, vista central de reporting. La plantilla integrada de Agencia de Marketing viene configurada para esto desde el primer día y es la ruta más rápida a la gestión de redes sociales con IA para agencias que operan diez o más marcas.
+- **Agencias de marketing** — Un equipo de agentes por cuenta de cliente, credenciales en bóveda separadas, presupuestos de créditos por cliente, vista central de reporting. Pida al asistente una configuración de agencia y creará los compañeros de equipo que necesita — la ruta más rápida a la gestión de redes sociales con IA para agencias que operan diez o más marcas.
 - **Creadores y marcas personales** — Un agente con voz de fundador que redacta hilos en estilo personal, un engager que mantiene relaciones en una lista objetivo y un respondedor de DM que cualifica consultas de negocio entrantes antes de hacer ping a su teléfono.
-- **Equipos de marketing in-house** — Una plantilla Content Studio que posee el calendario editorial, redacta formato largo y hace handoff a publicadores y respondedores específicos de plataforma — con puertas de aprobación humana en publicaciones de alto riesgo y comunicaciones de crisis.
+- **Equipos de marketing in-house** — Un agente editor que posee el calendario editorial, redacta formato largo y delega en publicadores y respondedores específicos de plataforma — con aprobación del propietario antes de que nada llegue a un tercero.
 - **Marcas de e-commerce** — Cobertura de lanzamiento de producto automatizada en X, Instagram y TikTok, con atención al cliente vía DM enrutada a través de un agente Respondedor que escala incidencias reales a un canal de Slack.
 - **Empresas SaaS** — Voz del fundador en X y LinkedIn, interacción de estilo growth en una lista objetivo curada de cuentas ICP y cualificación de leads entrantes mediante respuesta automática de DM con un handoff de calendario para prospects cálidos.
 
-Tanto si busca la mejor herramienta de gestión de redes sociales con IA para una agencia de cinco clientes, como un community manager IA completamente autoalojado y de código abierto para una industria regulada, la primitiva subyacente es la misma: agentes que se ejecutan a sí mismos bajo guardarraíles que usted escribió.
+Tanto si busca la mejor herramienta de gestión de redes sociales con IA para una agencia de cinco clientes, como un community manager IA auditable para una industria regulada, la primitiva subyacente es la misma: agentes que se ejecutan a sí mismos bajo guardarraíles que usted escribió.
 
 ## La Postura de OpenLegion
 
@@ -196,7 +196,7 @@ La gestión de redes sociales con IA es el uso de agentes de IA autónomos para 
 
 ### ¿En qué se diferencia esto de Buffer, Hootsuite o Sprout Social AI?
 
-Buffer, Hootsuite y Sprout Social ofrecen IA como asistente de escritura dentro de un producto de programación manual — un humano sigue operando la bandeja, escogiendo qué publicar y haciendo clic en Enviar. OpenLegion es una plataforma de agentes que ejecuta todo el bucle de forma autónoma: iniciando sesión en cuentas, leyendo menciones, redactando respuestas, publicando según calendario y respetando guardarraíles de presupuesto y política. Las dos categorías resuelven problemas diferentes.
+Buffer, Hootsuite y Sprout Social ofrecen IA como asistente de escritura dentro de un producto de programación manual — un humano sigue operando la bandeja, escogiendo qué publicar y haciendo clic en Enviar. OpenLegion es una plataforma de agentes que ejecuta el bucle: leyendo lo que llegó, redactando respuestas, trabajando un horario y deteniéndose para su aprobación antes de que nada llegue a un tercero. Las dos categorías resuelven problemas diferentes.
 
 ### ¿Puede la IA realmente gestionar una cuenta de redes sociales de principio a fin?
 
@@ -204,23 +204,23 @@ Para la mayoría de tareas operativas, sí — publicación con cadencia, genera
 
 ### ¿Es seguro dar a un agente de IA mi inicio de sesión de redes sociales?
 
-Depende enteramente de cómo se almacenan las credenciales. Con OpenLegion, sus inicios de sesión de redes sociales, tokens OAuth y cookies de sesión viven en un proxy de bóveda en el Mesh Host — el contenedor del agente en sí nunca tiene acceso a la credencial en bruto. Las peticiones salientes son interceptadas y la credencial se inyecta en la capa de red. Incluso un agente totalmente comprometido no puede exfiltrar la contraseña de la cuenta ni el token de refresco. Con herramientas SaaS que almacenan sus tokens en su backend, tiene que confiar en el proveedor; con OpenLegion puede autoalojar la bóveda.
+Depende enteramente de cómo se almacenan las credenciales. Con OpenLegion, sus inicios de sesión de redes sociales, tokens OAuth y cookies de sesión viven en una bóveda y se inyectan fuera del modelo, que solo llega a retener un identificador. Cada uso de una credencial queda registrado como un recibo que el propietario puede leer. Incluso un agente totalmente comprometido no puede exfiltrar la contraseña de la cuenta ni el token de refresco. Con herramientas SaaS que almacenan sus tokens en su backend, tiene que confiar en el proveedor; aquí el modelo nunca retiene el secreto.
 
 ### ¿Cuánto cuesta la gestión de redes sociales con IA?
 
-OpenLegion cobra una tarifa plana de plataforma sin recargo en el uso de LLM. Usted aporta sus propias claves API — OpenAI, Anthropic, Google o cualquiera de los más de 100 proveedores vía LiteLLM — y paga al proveedor del modelo directamente a sus tarifas publicadas. Los topes de presupuesto mensual por agente previenen costes descontrolados por respuestas en cadena o espirales de respuesta. La mayoría de equipos que ejecutan una flota social de cinco agentes en modelos de contexto pequeño gastan entre 30 y 120 dólares mensuales en tokens de modelo por cuenta.
+El trabajo se mide en créditos a $0.001 cada uno, y el coste exacto de cada tarea es visible. Gratis son 0$ con 1.000 créditos de una vez y sin tarjeta; Pro son 29$/mes con 10.000 créditos; Team son 99$/mes con 35.000. Cada agente lleva su propio presupuesto de créditos, que detiene costes descontrolados por respuestas en cadena o espirales de respuesta. Los modelos se eligen por preset — Smartest, Smart o Normal — por agente o por espacio de trabajo, así que un equipo social de cinco agentes puede vivir en Normal y costar muy poco.
 
 ### ¿Qué plataformas sociales soporta?
 
-Los agentes de OpenLegion pueden operar cualquier plataforma que exponga una API o una interfaz web navegable. Eso incluye X/Twitter, LinkedIn, Instagram, Threads, Bluesky, Mastodon, TikTok, Facebook, YouTube, Pinterest, Reddit y Discord. El navegador sigiloso Camoufox integrado maneja plataformas sin acceso robusto a API, mientras que el sistema de herramientas compatible con MCP conecta con cualquier API oficial. Cada integración de plataforma corre dentro de su propio contenedor de agente.
+Los agentes de OpenLegion pueden planificar, redactar y triar para cualquier plataforma en la que publique su equipo. Eso incluye X/Twitter, LinkedIn, Instagram, Threads, Bluesky, Mastodon, TikTok, Facebook, YouTube, Pinterest, Reddit y Discord. Los conectores en el lanzamiento son Google Calendar y los archivos de Google Drive que usted elija, y todo lo que alcance a un tercero en su nombre se detiene antes para la aprobación del propietario. Cada cuenta la posee su propio agente.
 
 ### ¿Cómo evita un agente de redes sociales con IA ser marcado como spam?
 
-Mediante límites de ritmo deterministas y cadencia a paso humano. Los flujos DAG YAML de OpenLegion le permiten definir tasas exactas de publicación e interacción por agente — por ejemplo, una respuesta cada 12 minutos, 25 likes al día, tres follows por hora. Estos límites se aplican en la capa de orquestación, no se le piden cortésmente al LLM. Los agentes que alcanzan un techo de ritmo se detienen y esperan; los agentes que detectan respuestas de rate limit de la plataforma retroceden automáticamente.
+Mediante límites de ritmo deterministas y cadencia a paso humano. Los horarios de OpenLegion le permiten definir tasas exactas de publicación e interacción por agente — por ejemplo, una respuesta cada 12 minutos, 25 likes al día, tres follows por hora. El motor de políticas verifica estos límites antes de que ocurra la acción, no se le piden cortésmente al LLM. Los agentes que alcanzan un techo de ritmo se detienen y esperan; los agentes que detectan respuestas de rate limit de la plataforma retroceden automáticamente.
 
 ### ¿Puedo mantener un humano en el bucle para publicaciones sensibles?
 
-Sí. Cualquier agente de la flota puede escalar a un canal designado — Slack, Discord, Telegram, email o un webhook — para aprobación humana antes de publicar. Patrones comunes incluyen escalado obligatorio de cualquier respuesta que mencione a un competidor, cualquier DM de una cuenta por encima de un umbral de seguidores o cualquier publicación que contenga palabras clave pre-marcadas. El agente espera la aprobación y luego procede con la versión editada por el humano, persistiendo el patrón de edición en memoria para que casos similares futuros se acerquen más al estilo aprobado.
+Sí. Cualquier agente del equipo puede escalar a un canal designado — chat web, Telegram, Slack o un webhook — para aprobación humana antes de publicar. Patrones comunes incluyen escalado obligatorio de cualquier respuesta que mencione a un competidor, cualquier DM de una cuenta por encima de un umbral de seguidores o cualquier publicación que contenga palabras clave pre-marcadas. El agente espera la aprobación y luego procede con la versión editada por el humano, persistiendo el patrón de edición en memoria para que casos similares futuros se acerquen más al estilo aprobado.
 
 ### ¿Cuál es la mejor herramienta de gestión de redes sociales con IA en 2026?
 
@@ -228,12 +228,12 @@ La mejor herramienta de gestión de redes sociales con IA depende de si su equip
 
 ### ¿Es OpenLegion software de gestión de redes sociales con IA de código abierto o gratuito?
 
-OpenLegion tiene código disponible bajo PolyForm Perimeter License 1.0.1, lo que significa que la base de código completa está en GitHub y puede autoalojarla gratis. El plano alojado en app.openlegion.ai es un producto de pago que ejecuta el mismo código con infraestructura gestionada. No hay una brecha de funcionalidades separada de "código abierto vs. enterprise" — las primitivas de seguridad (proxy de bóveda, aislamiento por contenedor, aplicación de presupuesto) vienen en ambos.
+El motor de OpenLegion se publica con código disponible bajo PolyForm Perimeter License 1.0.1; la plataforma alojada es propietaria y es la forma de ejecutarlo. Aun así hay nivel gratuito: 0$, 1.000 créditos de una vez, sin tarjeta. Las primitivas de seguridad — credenciales en bóveda, ejecuciones de tarea en sandbox, un único motor de políticas delante de cada acción, presupuestos por agente — son de la plataforma, no un extra de pago.
 
 ### ¿Funciona OpenLegion como gestión de redes sociales con IA para agencias que operan muchos clientes?
 
-Sí — las agencias son un caso de uso principal. La plantilla integrada de Agencia de Marketing viene configurada para operación multi-cliente: una flota de agentes aislada por cliente, credenciales en bóveda separadas, topes de presupuesto por cliente y una vista central de reporting sobre la cartera de negocio. La mayoría de despliegues de agencia levantan sus primeras tres flotas de cliente en menos de una hora.
+Sí — las agencias son un caso de uso principal. Pida al asistente una configuración multi-cliente y creará los compañeros de equipo que necesita: un equipo de agentes por cliente, credenciales en bóveda separadas, presupuestos de créditos por cliente y una vista central de reporting sobre la cartera de negocio. Crear un agente es instantáneo, así que los tres primeros equipos de cliente llevan minutos.
 
 ### ¿Cómo empiezo con la gestión de redes sociales con IA en OpenLegion?
 
-Regístrese en app.openlegion.ai y elija la plantilla Agencia de Marketing o Content Studio, o autoaloje clonando el repositorio de GitHub y ejecutando `./install.sh && openlegion start`. El asistente de configuración guiada configura su clave de proveedor de LLM, le pregunta qué cuentas sociales quiere operar y aprovisiona un contenedor de agente aislado para cada una. Desde la primera ejecución hasta la primera publicación lleva menos de diez minutos.
+Inicie sesión con Google en app.openlegion.ai — no hay nada que instalar, y Gratis son 0$ con 1.000 créditos de una vez y sin tarjeta. Dígale al asistente qué cuentas sociales quiere cubrir y creará un agente para cada una, elegirá un preset de modelo y fijará el presupuesto de créditos de cada uno. Desde la primera ejecución hasta el primer borrador lleva menos de diez minutos.

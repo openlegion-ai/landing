@@ -42,7 +42,7 @@ related:
 - **Agent observability is harder than app observability** because the agent's control flow is decided by an LLM at runtime, not by handwritten code.
 - **Four signals matter**: end-to-end traces, per-agent cost, prompt and model versioning, and security-event capture (prompt-injection attempts, ACL denies, budget cutoffs).
 - **Most agent frameworks ship with no built-in observability** — teams bolt on LangSmith, Langfuse, or Arize Phoenix and discover the gaps after their first production incident.
-- **OpenLegion's mesh dashboard records every tool call, LLM request, cost line, and security event by default** — no instrumentation code, no third-party agent integration.
+- **OpenLegion records every tool call, LLM request, cost line, and security event as a receipt by default** — no instrumentation code, no third-party agent integration.
 - **Cost observability is the budget you didn't know you were spending**: without per-agent caps, one stuck agent can burn hundreds of dollars in API calls overnight.
 
 ## Why AI Agent Observability Is Different
@@ -78,25 +78,25 @@ Prompt-injection attempts, ACL denies, SSRF blocks, budget cutoffs, unicode sani
 
 | Signal | What's captured | Where to see it |
 |---|---|---|
-| **Trace** | Every tool call, LLM request, agent handoff with timing | Mesh dashboard → Agent Runs |
+| **Trace** | Every tool call, LLM request, delegation with timing | Dashboard → Wakes |
 | **Cost** | Tokens in/out, dollar cost per provider per agent | Dashboard → Cost panel |
 | **Prompts** | System prompt hash, version, model, parameters per run | Per-run detail view |
 | **Security** | ACL denies, budget cutoffs, SSRF blocks, sanitizer hits | Dashboard → Security log |
-| **Health** | Container resource use, mesh latency, browser pool state | Dashboard → Fleet panel |
+| **Health** | Task success rate, wake latency, approval queue depth | Dashboard → Work panel |
 
-The dashboard is part of the open-source runtime — not a managed service you have to subscribe to. Self-hosted deployments keep all telemetry on your infrastructure.
+The dashboard is part of the platform — not a separate service you have to subscribe to and instrument. Every wake is recorded and replayable, with the exact cost of the task attached.
 
 ## Open-Source vs Managed Observability Stacks
 
 If you are running a different agent framework, the leading bolt-on tools are LangSmith (LangChain ecosystem, managed), Langfuse (open-source, self-hostable), Arize Phoenix (open-source, evaluation-focused), and Helicone (proxy-based, simple integration). Each requires instrumentation code in your agent — wrap LLM clients, add callback handlers, configure trace exporters. The integration burden scales with your fleet size.
 
-OpenLegion's mesh sits in the call path of every agent operation by design — credential vault, ACL gate, cost tracker, and trace recorder are all colocated in the trusted zone. There is no instrumentation step. The trade-off: you adopt the OpenLegion runtime, not just an observability layer.
+OpenLegion's policy engine sits in the call path of every agent operation by design — the credential vault, the permission check, the cost meter and the receipt are all part of the same step. There is no instrumentation step. The trade-off: you adopt the OpenLegion platform, not just an observability layer.
 
 See our [AI agent frameworks comparison](/learn/ai-agent-frameworks) for the full landscape, or the [vs LangGraph page](/comparison/langgraph) for a head-to-head on observability specifically.
 
 ## OpenLegion's Take
 
-Agent observability is the new APM — and the AI ecosystem is repeating every mistake APM took a decade to fix. Telemetry fragments across vendor-specific SDKs. Pricing scales with event volume so the busiest fleets pay the most to watch themselves. "Advanced" features like alerting and retention sit behind enterprise tiers. OpenLegion takes the opposite stance: the dashboard, traces, cost ledger, and security event log ship with the [AI agent platform](/learn/ai-agent-platform), not as an upsell. Every run records the full trace by default, you self-host the data, you own the retention, and you can export to OpenTelemetry if you want it forwarded to Datadog or Honeycomb anyway.
+Agent observability is the new APM — and the AI ecosystem is repeating every mistake APM took a decade to fix. Telemetry fragments across vendor-specific SDKs. Pricing scales with event volume so the busiest fleets pay the most to watch themselves. "Advanced" features like alerting and retention sit behind enterprise tiers. OpenLegion takes the opposite stance: the dashboard, traces, cost ledger, and security event log ship with the [AI agent platform](/learn/ai-agent-platform), not as an upsell. Every run records the full trace by default, the owner can read every receipt it produced, and you can export to OpenTelemetry if you want it forwarded to Datadog or Honeycomb anyway.
 
 ## CTA
 
@@ -119,7 +119,7 @@ LLM observability tracks individual model calls — prompt, response, latency, t
 
 ### Do I need a separate observability tool if I'm already on Datadog?
 
-Datadog and similar APM tools handle latency, errors, and resource use well, but they do not natively understand LLM token costs, prompt versioning, or agent-trace semantics. Most teams pair an agent-native observability tool (Langfuse, Arize Phoenix, LangSmith) with their existing APM, or adopt a runtime like OpenLegion that ships telemetry built in and can export OpenTelemetry to whatever APM they already operate.
+Datadog and similar APM tools handle latency, errors, and resource use well, but they do not natively understand LLM token costs, prompt versioning, or agent-trace semantics. Most teams pair an agent-native observability tool (Langfuse, Arize Phoenix, LangSmith) with their existing APM, or adopt a platform like OpenLegion that ships telemetry built in and can export OpenTelemetry to whatever APM they already operate.
 
 ### What should I track for AI agent cost observability?
 
@@ -131,4 +131,4 @@ At minimum: prompt-injection detection, ACL denies (an agent attempted an operat
 
 ### How does OpenLegion's observability compare to LangSmith?
 
-LangSmith is a managed observability service for the LangChain ecosystem — strong tracing, evaluation, and prompt-management features. OpenLegion's dashboard ships with the runtime itself, is self-hosted by default, and records the same signals (traces, cost, prompts, security events) without requiring instrumentation in your agent code. LangSmith integrates across any framework that adopts it; OpenLegion observability works automatically inside the OpenLegion runtime.
+LangSmith is a managed observability service for the LangChain ecosystem — strong tracing, evaluation, and prompt-management features. OpenLegion's dashboard ships with the platform itself, is on by default, and records the same signals (traces, cost, prompts, security events) without requiring instrumentation in your agent code. LangSmith integrates across any framework that adopts it; OpenLegion observability works automatically inside OpenLegion.

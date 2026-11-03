@@ -30,9 +30,9 @@ LLM Gateway คือ HTTP reverse proxy ที่วางอยู่ระห
 
 กระบวนการ agent ที่เก็บ key ผู้ให้บริการแบบ plaintext ไว้ใน environment ห่างจากการรั่วไหลเพียงคำสั่งเดียวที่เป็นปฏิปักษ์ พื้นผิวการโจมตีคือ environment ของกระบวนการเอง: `os.environ`, `/proc/self/environ` บน Linux host, error traceback แบบละเอียดที่ serialize สถานะกระบวนการ และการกำหนดค่า debug log ที่บันทึก HTTP header ขาออกรวมถึงฟิลด์ Authorization
 
-การโจมตี prompt injection ที่ทำให้ agent สะท้อนสถานะ environment เป็นคลาสการโจมตีที่มีเอกสารยืนยันต่อ agent ที่มี plaintext key (OWASP LLM01:2025) การแก้ไขเชิงโครงสร้างไม่ใช่การตรวจสอบ input ที่ดีขึ้น: แต่คือการลบ plaintext key ออกจากกระบวนการ agent โดยสมบูรณ์ LLM Gateway ที่แก้ไข opaque handle (`$CRED{openai}`) บนเลเยอร์เครือข่ายก่อนที่จะเขียน Authorization header หมายความว่ากระบวนการ agent ไม่เคยเก็บวัสดุที่อาจถูกขโมยได้
+การโจมตี prompt injection ที่ทำให้ agent สะท้อนสถานะ environment เป็นคลาสการโจมตีที่มีเอกสารยืนยันต่อ agent ที่มี plaintext key (OWASP LLM01:2025) การแก้ไขเชิงโครงสร้างไม่ใช่การตรวจสอบ input ที่ดีขึ้น: แต่คือการลบ plaintext key ออกจากกระบวนการ agent โดยสมบูรณ์ LLM Gateway ที่แก้ไข opaque handle (`cred:openai`) บนเลเยอร์เครือข่ายก่อนที่จะเขียน Authorization header หมายความว่ากระบวนการ agent ไม่เคยเก็บวัสดุที่อาจถูกขโมยได้
 
-OpenLegion mesh นำไปใช้ในระดับ infrastructure: `$CRED{}` handle แก้ไขที่ขอบเขต mesh host คอนเทนเนอร์ agent ไม่สามารถเข้าถึงค่าที่แก้ไขแล้วได้ในเชิงโครงสร้าง ไม่ใช่เพราะได้รับคำสั่งไม่ให้ทำ แต่เพราะการแก้ไขเกิดขึ้นนอก address space ของพวกมัน
+OpenLegion นำไปใช้ในระดับแพลตฟอร์ม: credential handle ถูกแก้ไขภายใน policy engine ที่อยู่หน้าทุกการกระทำ โมเดลไม่สามารถเข้าถึงค่าที่แก้ไขแล้วได้ในเชิงโครงสร้าง ไม่ใช่เพราะได้รับคำสั่งไม่ให้ทำ แต่เพราะการแก้ไขเกิดขึ้นนอกตัวมัน
 
 ### การหมดโควตาจากการจำกัด Key ที่แชร์
 
@@ -66,7 +66,7 @@ OpenLegion benchmark มิถุนายน 2026 วัดโทโพโล�
 
 2. **การแก้ไข Workload Identity**: gateway แมป workload ที่เชื่อมต่อกับ tenant identity ในการปรับใช้ mTLS, SPIFFE SVID ที่ฝังในใบรับรองไคลเอนต์นำ workload identity
 
-3. **การแก้ไข Opaque Handle**: gateway ตรวจสอบ Authorization header ขาออกสำหรับรูปแบบ `$CRED{}` handle handle ที่ตรงกันจะถูกแก้ไขกับ secret store ของ gateway
+3. **การแก้ไข Opaque Handle**: gateway ตรวจสอบ Authorization header ขาออกสำหรับรูปแบบ credential handle handle ที่ตรงกันจะถูกแก้ไขกับ secret store ของ gateway
 
 4. **การตรวจสอบโควตา**: gateway เพิ่มตัวนับ sliding window ของ tenant และเปรียบเทียบกับขีดจำกัดที่กำหนด หากตัวนับเกินขีดจำกัด gateway จะส่งคืน 429 พร้อม header `Retry-After` ไม่มีการเปิดการเชื่อมต่อ upstream
 
@@ -82,7 +82,7 @@ OpenLegion benchmark มิถุนายน 2026 วัดโทโพโล�
 
 Control plane ควบคุมพฤติกรรมของ data plane ความรับผิดชอบหลัก:
 
-**การกำหนดค่า Tenant Identity และโควตา**, **Endpoint Topology**, **Handle Permission Scope**: workload identity ใดได้รับอนุญาตให้แก้ไข handle ใด tenant ที่มีสโคป `openai:read` สามารถแก้ไข `$CRED{openai}` แต่ไม่ใช่ `$CRED{anthropic}` ซึ่งป้องกันการเคลื่อนที่ด้านข้างระหว่าง tenant
+**การกำหนดค่า Tenant Identity และโควตา**, **Endpoint Topology**, **Handle Permission Scope**: workload identity ใดได้รับอนุญาตให้แก้ไข handle ใด tenant ที่มีสโคป `openai:read` สามารถแก้ไข `cred:openai` แต่ไม่ใช่ `cred:anthropic` ซึ่งป้องกันการเคลื่อนที่ด้านข้างระหว่าง tenant
 
 **นโยบายการตรวจสอบ**: ฟิลด์ใดที่ปรากฏใน OTLP log record
 
@@ -98,9 +98,9 @@ Cluster gateway เดียวจัดการ inference traffic ขาออ
 
 Container agent แต่ละตัวรันกระบวนการ gateway บน loopback interface ของตัวเอง โดเมนความล้มเหลวคือ container agent หนึ่งตัว เหมาะสำหรับ fleet ขนาดใหญ่ (50+ agent) ที่การแยกความล้มเหลวต่อ agent มีความสำคัญ
 
-### Mesh-Native Proxy
+### Platform-Native Proxy
 
-ใน OpenLegion proxy inference เป็น mesh service โมเดล mesh-native จัดการ workload identity แบบ native: container agent แต่ละตัวได้รับ mesh-issued identity เมื่อ spawn
+ใน OpenLegion proxy inference เป็นส่วนหนึ่งของแพลตฟอร์ม: ทุกการเรียกโมเดลผ่าน policy engine ขาออก workload identity จัดการแบบ native: agent แต่ละตัวมี identity ของตัวเองตั้งแต่ถูกสร้าง
 
 ## ความเห็นของ OpenLegion
 
@@ -118,15 +118,15 @@ Container agent แต่ละตัวรันกระบวนการ gat
 
 ## การเปรียบเทียบ LLM Gateway
 
-| **ความสามารถ** | **Self-hosted (LiteLLM)** | **OpenAI Native** | **OpenLegion Mesh Proxy** |
+| **ความสามารถ** | **Self-hosted (LiteLLM)** | **OpenAI Native** | **แพลตฟอร์ม OpenLegion** |
 |---|---|---|---|
-| **โมเดลการแก้ไข Key** | Postgres-backed key store | Managed service | Opaque handle → vault บนเลเยอร์เครือข่าย |
-| **mTLS Workload Identity** | ไม่รองรับ | ไม่รองรับ | SPIFFE SVID ต่อ agent container |
+| **โมเดลการแก้ไข Key** | Postgres-backed key store | Managed service | Opaque handle → vault แก้ไขนอกโมเดล |
+| **mTLS Workload Identity** | ไม่รองรับ | ไม่รองรับ | identity ต่อ agent ในทุกการเรียก |
 | **การบังคับใช้โควตา** | กำหนดค่าได้, ต่อ key | ขีดจำกัดต่อ org | Sliding window counter, ต่อ tenant |
 | **Circuit Breaker Failover** | Plugin-based | ไม่มี | Native พร้อม half-open probe |
 | **OTLP Expense Telemetry** | บางส่วน | ไม่ export | ต่อคำขอ ทุกฟิลด์ |
-| **การแยก Control Plane** | Manual; เปิดเผยโดยค่าเริ่มต้น | Managed | Private mesh subnet เท่านั้น |
-| **ประวัติ CVE (2024-2026)** | GHSA-53mr-6c8q-9789 + อื่นๆ | ไม่มีสาธารณะ | ไม่มี |
+| **การแยก Control Plane** | Manual; เปิดเผยโดยค่าเริ่มต้น | Managed | ผู้ดำเนินการเท่านั้น agent เข้าถึงไม่ได้ |
+| **ประวัติ CVE (2024-2026)** | GHSA-53mr-6c8q-9789 + อื่นๆ | ไม่มีสาธารณะ | ไม่มีที่เปิดเผย |
 
 ## การเลือก Gateway สำหรับ Fleet ของคุณ
 
@@ -146,7 +146,7 @@ OTLP record ต่อคำขอคือขั้นต่ำสำหรั�
 
 ## เริ่มต้น
 
-**ปรับใช้ multi-agent inference fleet ด้วย mTLS workload identity, การบังคับใช้โควตา sliding window และ OTLP expense telemetry ต่อคำขอ**
+**ปรับใช้ทีม multi-agent inference ด้วย mTLS workload identity, การบังคับใช้โควตา sliding window และ OTLP expense telemetry ต่อคำขอ**
 [เริ่มต้นบน OpenLegion](https://app.openlegion.ai) | [อ่านเอกสาร](https://docs.openlegion.ai) | [เปรียบเทียบ LiteLLM กับ OpenLegion](/comparison/litellm)
 
 ---

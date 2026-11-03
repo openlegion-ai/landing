@@ -2,7 +2,7 @@
 title: OpenLegion vs LangGraph — 詳細比較(2026)
 description: >-
  OpenLegion vs LangGraph:比較安全架構、憑證隔離、CVE 紀錄、預算控制、
- 圖式 vs 艦隊模型協調,以及生產部署。
+ 圖式 vs 目標與任務協調,以及生產部署。
 slug: /comparison/langgraph
 primary_keyword: openlegion vs langgraph
 secondary_keywords:
@@ -26,40 +26,40 @@ related:
 
 LangGraph 是生產環境中採用最廣的代理編排框架。由 LangChain 團隊打造,它擁有約 25,200 個 GitHub 星、每月 617 萬 PyPI 下載,並於 2025 年 10 月 22 日達成 1.0 GA — 是首個達到穩定發布的主要代理框架。在 Uber、LinkedIn、Klarna 與 Replit 的企業部署證明了大規模的真實採用。
 
-OpenLegion 是一個安全優先的 [AI 代理框架](/learn/ai-agent-platform),具強制 Docker 容器隔離、金庫代理憑證管理、每代理預算強制執行,以及艦隊模型協調(黑板 + 發布訂閱 + 交棒)。
+OpenLegion 是一個安全優先的 [AI 代理框架](/learn/ai-agent-platform),每項任務都在沙箱中執行、憑證存放於金庫、每代理預算強制執行,以及目標與任務協調(目標 → 任務 → 代理)。
 
-LangGraph 與 OpenLegion 代表對同一問題的兩種不同答案:代理工作流程應如何編排?LangGraph 說:給開發者具最大彈性的圖形基礎元件。OpenLegion 說:給開發者具最大安全的可稽核艦隊模型協調。兩者都有效 — 選擇取決於你的瓶頸是編排複雜度,還是安全風險。
+LangGraph 與 OpenLegion 代表對同一問題的兩種不同答案:代理工作流程應如何編排?LangGraph 說:給開發者具最大彈性的圖形基礎元件。OpenLegion 說:給開發者具最大安全的可稽核目標與任務協調。兩者都有效 — 選擇取決於你的瓶頸是編排複雜度,還是安全風險。
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **OpenLegion 與 LangGraph 的差別是什麼?**
-> LangGraph 是一個圖式編排框架,用於以有向圖(含循環)、持久檢查點 / 重播執行,以及深度 LangChain 生態圈整合,建構有狀態、長時間執行的 AI 代理。OpenLegion 是一個安全優先的 AI 代理框架,具強制 Docker 容器隔離、代理永不見 API 金鑰的金庫代理憑證管理、每代理預算強制執行,以及艦隊模型協調(黑板 + 發布訂閱 + 交棒)。LangGraph 給你最大的編排彈性;OpenLegion 給你最大的生產安全。
+> LangGraph 是一個圖式編排框架,用於以有向圖(含循環)、持久檢查點 / 重播執行,以及深度 LangChain 生態圈整合,建構有狀態、長時間執行的 AI 代理。OpenLegion 是一個安全優先的 AI 代理框架,每項任務都在沙箱中執行、憑證存放於金庫且代理永不見 API 金鑰、每代理預算強制執行,以及目標與任務協調(目標 → 任務 → 代理)。LangGraph 給你最大的編排彈性;OpenLegion 給你最大的生產安全。
 
 ## 重點摘要
 
 | 面向 | OpenLegion | LangGraph |
 |---|---|---|
 | **主要焦點** | 生產安全基礎設施 | 圖式有狀態編排 |
-| **架構** | 四區信任模型(使用者 → Mesh Host → 代理容器,加上操作員或內部層) | StateGraph,具型別化狀態、節點、條件邊、checkpoint |
-| **代理隔離** | 每代理 Docker 容器、非 root、no-new-privileges | 無內建隔離;僅程式碼執行用 Pyodide/WASM 沙箱 |
-| **憑證安全** | 金庫代理 — 代理永不見金鑰 | 無內建系統;仰賴環境變數或外部金庫 |
-| **預算控制** | 每代理每日 / 每月硬性截止 | 無原生;LangSmith 僅提供成本追蹤 |
-| **編排** | 艦隊模型協調 — 黑板 + 發布訂閱 + 交棒(無 CEO 代理) | 具循環、條件邊與 Command 路由的有向圖 |
-| **持久執行** | 任務狀態存於 SQLite | 基於 checkpoint(PostgreSQL/SQLite),可在重啟後存活,具時間旅行 |
-| **人在迴圈** | 艦隊模型協調中的核可閘 | `interrupt` 基礎元件,可配置中斷點 |
-| **多代理** | 艦隊範本,具每代理 ACL | Supervisor、Swarm、圖中之圖(子圖組合) |
-| **LLM 支援** | 透過 LiteLLM 支援 100+ | 透過 LangChain 整合支援 100+ |
+| **架構** | 每個動作前都有單一政策引擎(意圖 → 檢查 → 收據) | StateGraph,具型別化狀態、節點、條件邊、checkpoint |
+| **代理隔離** | 每項任務一次沙箱執行,預設無網路 | 無內建隔離;僅程式碼執行用 Pyodide/WASM 沙箱 |
+| **憑證安全** | 憑證金庫 — 代理永不見金鑰 | 無內建系統;仰賴環境變數或外部金庫 |
+| **預算控制** | 每代理點數預算,具硬性截止 | 無原生;LangSmith 僅提供成本追蹤 |
+| **編排** | 目標與任務協調 — 目標 → 任務 → 代理(無 CEO 代理) | 具循環、條件邊與 Command 路由的有向圖 |
+| **持久執行** | 任務狀態持久保存;每次喚醒皆可重播 | 基於 checkpoint(PostgreSQL/SQLite),可在重啟後存活,具時間旅行 |
+| **人在迴圈** | 三道關卡上的核可閘,在應用程式中裁決 | `interrupt` 基礎元件,可配置中斷點 |
+| **多代理** | 代理團隊,具每代理權限 | Supervisor、Swarm、圖中之圖(子圖組合) |
+| **LLM 支援** | Smartest、Smart 與 Normal 預設 | 透過 LangChain 整合支援 100+ |
 | **可觀測性** | 內建儀表板 | LangSmith(追蹤、評估、監控) |
-| **相依性** | Python + SQLite + Docker(零外部) | LangChain 生態圈(langgraph、langchain-core、checkpoint) |
-| **GitHub 星數** | ~59 | ~25,200 |
-| **PyPI 下載** | 預發布 | 每月 ~617 萬 |
-| **已知 CVE** | 0 | LangChain 生態圈 4 個重大(CVSS 最高 9.3) |
-| **授權** | PolyForm Perimeter License 1.0.1 | MIT |
-| **定價** | 自帶 API 金鑰,代管 $19/月 | 免費(MIT);LangSmith Plus 用於驗證 / RBAC $39/席次/月 |
+| **相依性** | 無 — 代管網頁應用,無需安裝 | LangChain 生態圈(langgraph、langchain-core、checkpoint) |
+| **GitHub 星數** | 不適用(代管平台) | ~25,200 |
+| **PyPI 下載** | 不適用(無需安裝) | 每月 ~617 萬 |
+| **已知 CVE** | 代管平台,集中修補 | LangChain 生態圈 4 個重大(CVSS 最高 9.3) |
+| **授權** | 引擎 PolyForm Perimeter 1.0.1;平台專有 | MIT |
+| **定價** | 免費含 1,000 點數;Pro $29/月 | 免費(MIT);LangSmith Plus 用於驗證 / RBAC $39/席次/月 |
 
 ## 何時選擇 LangGraph
 
-**你需要具循環的複雜有狀態工作流程。** LangGraph 的圖形模型處理艦隊模型協調無法表達的分支、循環與條件路由。若你的代理工作流程需要根據中間結果動態分支 — 例如執行至品質門檻達成的研究代理,或重新路由失敗任務的監督者 — LangGraph 為此而生。
+**你需要具循環的複雜有狀態工作流程。** LangGraph 的圖形模型處理目標與任務協調無法表達的分支、循環與條件路由。若你的代理工作流程需要根據中間結果動態分支 — 例如執行至品質門檻達成的研究代理,或重新路由失敗任務的監督者 — LangGraph 為此而生。
 
 **你需要具 checkpoint/replay 的持久執行。** LangGraph 的 checkpoint 系統(PostgreSQL 或 SQLite 支援)讓工作流程能在伺服器重啟後存活、從任何歷史狀態啟用時間旅行除錯,並支援從任何 checkpoint 分支。這是其他框架無可匹敵的成熟能力。
 
@@ -71,15 +71,15 @@ LangGraph 與 OpenLegion 代表對同一問題的兩種不同答案:代理工作
 
 ## 何時選擇 OpenLegion
 
-**憑證安全是硬性需求。** LangGraph 無內建憑證管理,並具有序列化弱點可能暴露機密的歷史。一個序列化注入弱點(CVSS 9.3,2025 年 12 月)展示了 checkpoint 操弄可萃取機密並執行任意程式碼。OpenLegion 的金庫代理提供架構性保護 — 代理永不見 API 金鑰,即便代理程序被入侵。
+**憑證安全是硬性需求。** LangGraph 無內建憑證管理,並具有序列化弱點可能暴露機密的歷史。一個序列化注入弱點(CVSS 9.3,2025 年 12 月)展示了 checkpoint 操弄可萃取機密並執行任意程式碼。OpenLegion 的憑證金庫提供架構性保護 — 代理永不見 API 金鑰,即便代理程序被入侵。
 
-**你需要每代理預算強制執行。** LangGraph 透過 LangSmith 提供成本追蹤,但無機制能自動停止超出支出門檻的代理。陷入推理迴圈的代理會持續累積成本,直到手動終止。OpenLegion 強制執行每代理、每日與每月的硬性截止 — 預算耗盡時,代理停止。
+**你需要每代理預算強制執行。** LangGraph 透過 LangSmith 提供成本追蹤,但無機制能自動停止超出支出門檻的代理。陷入推理迴圈的代理會持續累積成本,直到手動終止。OpenLegion 為每個代理提供自己的點數預算 — 預算耗盡時,代理停止。
 
-**你想要內建、而非外掛的安全。** LangChain 生態圈在 18 個月內出現 4 個重大 CVE,展示了將安全加入未為其設計之框架的挑戰。AES checkpoint 加密與 Pyodide 沙箱是後續加入的。OpenLegion 的四區信任模型(加上操作員或內部層)是起始架構。
+**你想要內建、而非外掛的安全。** LangChain 生態圈在 18 個月內出現 4 個重大 CVE,展示了將安全加入未為其設計之框架的挑戰。AES checkpoint 加密與 Pyodide 沙箱是後續加入的。OpenLegion 在每個動作前都放上的單一政策引擎,就是它的起始架構。
 
-**你需要可稽核的艦隊模型協調。** 艦隊範本與 ACL 可在任何代理執行前進行程式碼審查、版本控制與合規稽核。協調由每代理工具迴圈偵測界限(重複 2 次警告、4 次封鎖、9 次終止)。具動態路由的圖式工作流程難以靜態稽核,且循環引入無界限偵測下的無限迴圈可能性。
+**你需要可稽核的目標與任務協調。** 目標、任務與每代理權限可在任何代理執行前審查、版本控制與合規稽核。協調由每個代理自己的點數預算,以及每個動作前的政策引擎所界限。具動態路由的圖式工作流程難以靜態稽核,且循環引入無界限偵測下的無限迴圈可能性。
 
-**你想要零外部相依。** OpenLegion 執行於 Python + SQLite + Docker。LangGraph 需要 LangChain 生態圈,且通常需要 LangSmith(Plus 每席次每月 $39)以支援驗證、RBAC 等生產功能。
+**你不想安裝任何東西。** OpenLegion 是代管網頁應用:以 Google 登入即可開始。LangGraph 需要 LangChain 生態圈,且通常需要 LangSmith(Plus 每席次每月 $39)以支援驗證、RBAC 等生產功能。
 
 ## 安全模型比較
 
@@ -87,13 +87,13 @@ LangGraph 與 OpenLegion 代表對同一問題的兩種不同答案:代理工作
 
 **LangGraph** 無內建機密或憑證管理。開發者通常使用環境變數、`.env` 檔或整合外部金庫方案(HashiCorp Vault、AWS Secrets Manager)。這意味著憑證存在於代理的程序環境中 — 可被該程序中執行的任何程式碼存取。一個序列化注入弱點展示了 checkpoint 資料可被操弄以萃取環境變數,包括 API 金鑰。
 
-**OpenLegion** 將憑證儲存於僅可透過代理存取的金庫中。代理透過金庫代理發出 API 呼叫;憑證在網路層注入。無含 API 金鑰的環境變數、無 `.env` 檔、代理記憶體中無機密物件。即便 checkpoint 資料或代理狀態被入侵,也無憑證可萃取。
+**OpenLegion** 將憑證儲存於模型無法觸及的金庫中。代理傳遞一個代號,憑證則在模型之外注入。無含 API 金鑰的環境變數、無 `.env` 檔、代理記憶體中無機密物件。即便 checkpoint 資料或代理狀態被入侵,也無憑證可萃取。
 
 ### 隔離模型
 
 **LangGraph** 作為 Python 函式庫於你的應用程式程序中執行。無內建代理隔離 — 所有代理、工具與工作流程共享同一程序空間。Pyodide/WebAssembly 沙箱(2025 年 5 月新增)專門隔離程式碼執行,但代理邏輯本身仍在主機程序中執行。驗證與 RBAC 僅在 LangSmith Plus 與 Enterprise 階層可用。
 
-**OpenLegion** 使用每代理 Docker 容器隔離。每個代理在獨立容器中執行,具非 root 執行、無 Docker socket、no-new-privileges,以及每容器資源上限。代理無法存取其他代理、主機系統或憑證儲存。這是由 Linux namespace 與 cgroup 強制執行的 OS 層級隔離。
+**OpenLegion** 以任務為單位隔離工作,而非以程序為單位。每項任務按需在預設無網路存取的沙箱中執行,結束後即停止,因此沒有長期存在的代理程序可供入侵。代理無法存取其他代理、主機系統或憑證儲存。隔離由平台強制執行,代理碰不到。
 
 ### CVE 紀錄
 
@@ -104,13 +104,13 @@ LangGraph 與 OpenLegion 代表對同一問題的兩種不同答案:代理工作
 - **序列化注入(CVSS 9.3,2025 年 12 月):** 序列化注入可萃取機密並執行任意程式碼。
 - **其他 checkpoint 弱點** 透過 AES 加密處理(2026 年 1 月)。
 
-**OpenLegion** 截至 v0.1.0 無 CVE 回報。其金庫代理架構意味著代理狀態中無憑證可透過序列化攻擊萃取。
+**OpenLegion** 是代管平台,由我們集中修補,而非由使用者修補。其金庫保管憑證的架構意味著代理狀態中無憑證可透過序列化攻擊萃取。
 
 ### 預算控制
 
 **LangGraph** 透過 LangSmith 提供成本追蹤與可觀測性,但無機制能強制執行支出上限。陷入推理迴圈的代理會持續累積成本。
 
-**OpenLegion** 強制執行每代理每日與每月預算上限,具自動硬性截止。
+**OpenLegion** 為每個代理提供自己的點數預算,具自動硬性截止。
 
 ## LangGraph 的生態圈:它做得最好的部分
 
@@ -142,25 +142,25 @@ LangSmith 新增追蹤、評估、監控,以及(在 Plus/Enterprise 階層)驗�
 
 ### OpenLegion 的不同涵蓋方式
 
-OpenLegion 包含 LangGraph 要求你從外部取得的安全基礎元件:金庫代理取代 HashiCorp Vault 整合、Docker 容器隔離取代 Kubernetes pod 隔離、每代理預算取代手動成本監控、艦隊模型協調以靜態可稽核性取代圖式工作流程,以及零外部相依取代 LangChain 生態圈堆疊。
+OpenLegion 包含 LangGraph 要求你從外部取得的安全基礎元件:憑證金庫取代 HashiCorp Vault 整合、沙箱任務執行取代 Kubernetes pod 隔離、每代理點數預算取代手動成本監控、目標與任務協調以靜態可稽核性取代圖式工作流程,以及代管平台取代 LangChain 生態圈堆疊。
 
 ## 託管 vs 自我託管的取捨
 
 **LangGraph** 是你自我託管的 Python 函式庫。LangSmith 提供可選的雲端平台用於可觀測性、驗證與 RBAC。LangSmith Enterprise 可在企業定價下自我託管。MIT 授權給予完整的部署彈性。
 
-**OpenLegion** 需要 Python、SQLite 與 Docker。代管平台(即將推出)為每使用者提供 VPS 實例,$19/月,具 BYO API 金鑰。自我託管部署完全自足,零外部服務相依。
+**OpenLegion** 不是你自行託管的函式庫。代管平台已上線,完全不需要這些:以 Google 登入,免費開始、享 1,000 點數且無需信用卡,或以 $29/月升級 Pro。沒有任何東西需要你自己安裝、修補或營運。
 
 ## 適合誰
 
 **LangGraph** 適合建構複雜、有狀態代理工作流程,需要對執行流程細緻控制、持久 checkpoint/replay 與深度生態圈整合的工程團隊。理想使用者是熟悉圖式抽象的後端工程師,具備存取既有安全基礎設施(機密管理員、容器編排、網路政策)的能力,並重視編排彈性勝過內建安全。
 
-**OpenLegion** 適合在憑證安全、成本控制與可稽核性為硬性需求的環境中部署代理艦隊的團隊 — 並希望這些能力內建於框架,而非從外部工具組裝。理想使用者需要向合規審查者展示安全姿態,且不能承擔憑證暴露或不受控成本的風險。
+**OpenLegion** 適合在憑證安全、成本控制與可稽核性為硬性需求的環境中部署代理的團隊 — 並希望這些能力內建於框架,而非從外部工具組裝。理想使用者需要向合規審查者展示安全姿態,且不能承擔憑證暴露或不受控成本的風險。
 
 ## 誠實的取捨
 
-LangGraph 具備編排能力、生產成熟度(1.0 GA)、企業採用與生態圈廣度。其圖式模型處理艦隊模型協調無法表達的工作流程。
+LangGraph 具備編排能力、生產成熟度(1.0 GA)、企業採用與生態圈廣度。其圖式模型處理目標與任務協調無法表達的工作流程。
 
-OpenLegion 具備內建的安全架構、憑證保護與成本治理。其艦隊模型協調比 LangGraph 的圖較不具表現力,但提供靜態可稽核性與結構性安全保證。
+OpenLegion 具備內建的安全架構、憑證保護與成本治理。其目標與任務協調比 LangGraph 的圖較不具表現力,但提供靜態可稽核性與結構性安全保證。
 
 若你的瓶頸是編排複雜度,選 LangGraph。若你的瓶頸是安全風險,選 OpenLegion。有些團隊同時使用兩者:LangGraph 用於複雜的內部工作流程、OpenLegion 用於處理敏感憑證的對外代理。
 
@@ -183,23 +183,23 @@ LangGraph 是由 LangChain 團隊打造的圖式代理編排框架。具約 25,2
 
 ### OpenLegion vs LangGraph:差別是什麼?
 
-LangGraph 是為具循環、checkpoint/replay 與 LangChain 生態圈整合的複雜有狀態工作流程而最佳化的圖式編排框架。OpenLegion 是安全優先框架,具 Docker 容器隔離、金庫代理憑證(代理永不見金鑰)、每代理預算,以及艦隊模型協調(黑板 + 發布訂閱 + 交棒)。LangGraph 提供更多編排彈性;OpenLegion 提供更強的安全保證。
+LangGraph 是為具循環、checkpoint/replay 與 LangChain 生態圈整合的複雜有狀態工作流程而最佳化的圖式編排框架。OpenLegion 是安全優先框架,具沙箱任務執行、金庫保管的憑證(代理永不見金鑰)、每代理預算,以及目標與任務協調(目標 → 任務 → 代理)。LangGraph 提供更多編排彈性;OpenLegion 提供更強的安全保證。
 
 ### OpenLegion 是 LangGraph 替代方案嗎?
 
-是。對於主要需求是內建安全而非編排彈性的團隊,OpenLegion 可作為 LangGraph 替代方案。它提供 LangGraph 原生缺乏的能力:強制容器隔離、金庫代理憑證管理、每代理預算強制執行,以及可稽核的艦隊模型協調。它不複製 LangGraph 的圖式循環、持久 checkpoint/replay,或 LangChain 生態圈整合。
+是。對於主要需求是內建安全而非編排彈性的團隊,OpenLegion 可作為 LangGraph 替代方案。它提供 LangGraph 原生缺乏的能力:每項任務一次沙箱執行、金庫保管的憑證、每代理預算強制執行,以及可稽核的目標與任務協調。它不複製 LangGraph 的圖式循環、持久 checkpoint/replay,或 LangChain 生態圈整合。
 
 ### OpenLegion 與 LangGraph 在憑證處理上如何比較?
 
-LangGraph 無內建憑證管理 — 開發者使用環境變數或外部金庫。四個 CVE 中有三個與序列化弱點相關,可能暴露機密。OpenLegion 的金庫代理透過代理路由 API 呼叫,代理在網路層注入憑證。代理不以任何形式持有金鑰,使基於序列化的憑證竊取在結構上不可能。
+LangGraph 無內建憑證管理 — 開發者使用環境變數或外部金庫。四個 CVE 中有三個與序列化弱點相關,可能暴露機密。OpenLegion 的金庫在模型之外注入憑證,模型只持有代號。代理不以任何形式持有金鑰,使基於序列化的憑證竊取在結構上不可能。
 
 ### 哪個更適合生產 AI 代理?
 
-LangGraph 具更強的生產成熟度(1.0 GA、企業採用)。OpenLegion 具更強的生產安全(金庫代理、容器隔離、每代理預算)。對於具既有安全基礎設施的複雜內部工作流程,選 LangGraph。對於處理敏感憑證、要求內建安全的代理艦隊,選 OpenLegion。
+LangGraph 具更強的生產成熟度(1.0 GA、企業採用)。OpenLegion 具更強的生產安全(憑證金庫、沙箱執行、每代理點數預算)。對於具既有安全基礎設施的複雜內部工作流程,選 LangGraph。對於處理敏感憑證、要求內建安全的代理團隊,選 OpenLegion。
 
 ### LangGraph 有每代理成本控制嗎?
 
-LangGraph 透過 LangSmith 提供成本追蹤,但無機制能強制執行支出上限或自動停止超出預算的代理。OpenLegion 強制執行每代理每日與每月上限,具自動硬性截止。
+LangGraph 透過 LangSmith 提供成本追蹤,但無機制能強制執行支出上限或自動停止超出預算的代理。OpenLegion 為每個代理提供自己的點數預算,具自動硬性截止。
 
 ### LangGraph 在生產部署上安全嗎?
 
@@ -207,7 +207,7 @@ LangChain 生態圈曾有 4 個重大 CVE(CVSS 最高 9.3),包括影響 LangGrap
 
 ### 我能同時使用 LangGraph 與 OpenLegion 嗎?
 
-可以。有些團隊使用 LangGraph 處理複雜內部編排,並使用 OpenLegion 處理對外、處理敏感憑證的代理。OpenLegion 的 MCP 工具伺服器支援意味著 LangGraph 代理可消費 OpenLegion 管理的工具。
+可以。有些團隊使用 LangGraph 處理複雜內部編排,並使用 OpenLegion 處理對外、處理敏感憑證的代理。OpenLegion 經核可的對外請求意味著 LangGraph 服務可作為外部工具被呼叫。
 
 ---
 

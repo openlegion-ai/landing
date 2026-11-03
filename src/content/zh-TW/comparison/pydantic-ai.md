@@ -24,7 +24,7 @@ related:
 
 # Pydantic AI 替代方案：從型別安全函式庫到生產平台
 
-PydanticAI 是一個擁有 17,362 個 GitHub Star 的 Python Agent 框架，圍繞 Pydantic v2 驗證構建。它提供出色的型別安全結構化輸出和 Agent 上下文的依賴注入，但未內建憑證 Vault、Agent 間進程隔離或執行時期預算執行，將生產安全責任完全交給開發者。OpenLegion 是一個安全優先的 AI Agent 平台，提供強制性 Docker 容器隔離、Vault Proxy 憑證管理（Agent 永遠無法看到 API 金鑰）和每個 Agent 的硬截止預算執行。
+PydanticAI 是一個擁有 17,362 個 GitHub Star 的 Python Agent 框架，圍繞 Pydantic v2 驗證構建。它提供出色的型別安全結構化輸出和 Agent 上下文的依賴注入，但未內建憑證 Vault、Agent 間進程隔離或執行時期預算執行，將生產安全責任完全交給開發者。OpenLegion 是一個代管、安全優先的 AI Agent 平台，每項任務都在沙箱中執行、憑證存放於金庫且模型從不看到金鑰，並為每個 Agent 提供具硬截止的點數預算。
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -41,17 +41,17 @@ PydanticAI 出色地解決了一個問題：從 LLM 獲取結構化、經過驗�
 
 | 維度 | OpenLegion | PydanticAI |
 |---|---|---|
-| **類型** | 執行平台 (BSL 1.1) | Agent 函式庫 (MIT) |
-| **憑證模型** | Vault Proxy — Agent 永遠看不到原始金鑰 | 透過 RunContext 注入 — 金鑰在進程記憶體中 |
-| **Agent 隔離** | 每個 Agent 獨立 Docker，Non-root，no-new-privileges | 共享 Python 進程；無容器隔離 |
-| **預算控制** | 每個 Agent 嚴格的日/月限額 | 無 — 僅事後 result.usage() 報告 |
-| **多 Agent 協調** | Fleet 模型 — blackboard + pub/sub + handoff | 工具式 Agent 委派；共享記憶體 |
+| **類型** | 代管執行平台（引擎 PolyForm Perimeter 1.0.1） | Agent 函式庫 (MIT) |
+| **憑證模型** | 金庫保管 — 模型只持有代號 | 透過 RunContext 注入 — 金鑰在進程記憶體中 |
+| **Agent 隔離** | 每項任務一次沙箱執行，預設無網路 | 共享 Python 進程；無容器隔離 |
+| **預算控制** | 每個 Agent 的點數預算，具硬截止 | 無 — 僅事後 result.usage() 報告 |
+| **多 Agent 協調** | 目標與任務 — 目標 → 任務 → Agent | 工具式 Agent 委派；共享記憶體 |
 | **結構化輸出** | 工具呼叫 Schema 驗證 | Pydantic v2 型別化回應模型（核心差異化） |
 | **離線 Eval** | 未內建 | pydantic_evals（實驗性） |
-| **圖/工作流程** | Fleet 模型協調 | pydantic_graph（v2 重寫進行中，PR #5465） |
-| **已知 CVE** | 0 | 0 |
-| **GitHub Star** | ~59 | ~17,362 |
-| **授權** | BSL 1.1 | MIT |
+| **圖/工作流程** | 目標與任務協調 | pydantic_graph（v2 重寫進行中，PR #5465） |
+| **已知 CVE** | 無公開回報 | 0 |
+| **GitHub Star** | 引擎原始碼可取得 | ~17,362 |
+| **授權** | 引擎 PolyForm Perimeter 1.0.1；平台專有 | MIT |
 
 ## OpenLegion 的觀點
 
@@ -65,19 +65,19 @@ PydanticAI 在其所做的事情上確實出色。應用於 LLM 輸出的 Pydant
 
 **PydanticAI** 使用依賴注入。定義一個以 API 金鑰為欄位的資料類別，並在執行時期通過 RunContext[MyDeps] 傳遞給 Agent。API 金鑰作為進程堆疊上的 Python 物件屬性存在，可被同一進程中的任何程式碼存取。
 
-**OpenLegion** 使用 Vault Proxy。API 金鑰儲存在 Mesh Host 憑證 Vault 中，永遠不在 Agent 容器中。當 Agent 進行經過驗證的 API 呼叫時，請求通過 Vault Proxy 路由，在網路層注入憑證。
+**OpenLegion** 使用憑證金庫。API 金鑰儲存在金庫中，永遠不會進入 Agent 的上下文。當 Agent 進行經過驗證的 API 呼叫時，政策引擎在模型之外注入憑證，模型只持有代號。Agent 從不接收、持有或記錄原始金鑰。
 
 ### Agent 隔離
 
 **PydanticAI** 在同一 Python 進程中執行所有 Agent。工具式 Agent 呼叫意味著 Agent A 在同一執行時期中作為函式呼叫呼叫 Agent B。它們共享堆疊、環境和直譯器。
 
-**OpenLegion** 在各自獨立的 Docker 容器中執行每個 Agent（UID 1000，no-new-privileges，唯讀根檔案系統，無 Docker Socket）。
+**OpenLegion** 讓每項任務按需執行後即停止，Agent 所寫的程式碼在預設無網路存取的沙箱中執行。Agent 透過共享的目標與任務紀錄溝通，而非直接的進程呼叫。
 
 ### 預算控制
 
 **PydanticAI** 提供 result.usage()，在執行完成後傳回 Token 和請求計數。事後報告，無自動停止超出成本閾值 Agent 的機制。
 
-**OpenLegion** 在編排器層級執行每個 Agent 的日/月預算限額，自動硬截止。
+**OpenLegion** 為每個 Agent 提供自己的點數預算，以點數計量、每點 $0.001，並自動硬截止。這是執行，不是報告。
 
 ## PydanticAI 擅長的方面
 
@@ -109,7 +109,7 @@ PydanticAI 工具式 Agent 作為同一 Python 直譯器中的函式呼叫執行
 
 ## 作為 Pydantic AI 替代方案的 OpenLegion
 
-OpenLegion 提供 PydanticAI 開發者從零開始組裝的執行層。Vault Proxy 憑證管理替代 RunContext 憑證注入。每個 Agent 的 Docker 替代共享進程執行。帶硬截止的每個 Agent 預算執行替代事後 result.usage() 報告。
+OpenLegion 提供 PydanticAI 開發者從零開始組裝的執行層。金庫保管的憑證（在模型之外注入，從不進入其上下文）替代 RunContext 憑證注入。每項任務一次沙箱執行替代共享進程執行。帶硬截止的每個 Agent 點數預算替代事後 result.usage() 報告。目標與任務協調（目標 → 任務 → Agent）替代多 Agent 工作流程中的工具式 Agent 委派。
 
 誠實的取捨：您失去了 Pydantic v2 型別化回應模型和 pydantic_evals。對於依賴它們的團隊來說，這是真實的損失。
 
@@ -137,11 +137,11 @@ OpenLegion 提供 PydanticAI 開發者從零開始組裝的執行層。Vault Pro
 
 ### 2026 年最佳的 PydanticAI 替代方案是什麼？
 
-對於需要具備憑證隔離、容器級 Agent 分離和嚴格預算限制的完整執行平台的團隊，OpenLegion 正是為此而構建的。對於主要構建型別化 LLM 輸出管道並具有強大離線 Eval 的團隊，PydanticAI 仍然是該特定工作的最佳 Python 函式庫。
+對於需要具備憑證隔離、沙箱化任務執行和嚴格預算限制的完整執行平台的團隊，OpenLegion 正是為此而構建的。對於主要構建型別化 LLM 輸出管道並具有強大離線 Eval 的團隊，PydanticAI 仍然是該特定工作的最佳 Python 函式庫。
 
 ### PydanticAI 有憑證 Vault 嗎？
 
-沒有。PydanticAI 通過 RunContext 使用依賴注入。API 金鑰作為 deps 物件的屬性存在於進程記憶體中，可被同一進程中的任何程式碼存取。OpenLegion 的 Vault Proxy 在網路層注入憑證，使 Agent 程式碼以任何形式都不持有原始金鑰值。
+沒有。PydanticAI 通過 RunContext 使用依賴注入。API 金鑰作為 deps 物件的屬性存在於進程記憶體中，可被同一進程中的任何程式碼存取。OpenLegion 的憑證金庫在模型之外注入憑證，使 Agent 以任何形式都不持有原始金鑰值。
 
 ### PydanticAI 在 2026 年是否可用於生產？
 
@@ -149,7 +149,7 @@ PydanticAI 在結構化 LLM 輸出管道的生產中得到積極維護和廣泛�
 
 ### PydanticAI 如何處理多 Agent 協調？
 
-PydanticAI 支援 Agent 委派，一個 Agent 可以將另一個 Agent 作為工具呼叫。所有 Agent 在共享記憶體的同一 Python 進程中執行；沒有內建的訊息匯流排、blackboard 或 pub/sub 原語。對於具有獨立生命週期的 10 個以上 Agent 的 Fleet，PydanticAI 需要大量的自訂架構。
+PydanticAI 支援 Agent 委派，一個 Agent 可以將另一個 Agent 作為工具呼叫。所有 Agent 在共享記憶體的同一 Python 進程中執行；沒有內建的訊息匯流排、blackboard 或 pub/sub 原語。對於具有獨立生命週期的 10 個以上 Agent 的團隊，PydanticAI 需要大量的自訂架構。OpenLegion 將目標與任務協調（目標 → 任務 → Agent）作為一級原語提供，且每項任務都在沙箱中執行。
 
 ### pydantic_evals 是什麼，它與生產監控有何比較？
 
@@ -157,7 +157,7 @@ pydantic_evals 是 PydanticAI 的離線評估工具。它不是生產監控工�
 
 ### PydanticAI 能執行每個 Agent 的預算限額嗎？
 
-不能。PydanticAI 沒有內建機制來限制 Agent 的 API 支出或停止超出成本閾值的 Agent。使用量追蹤可通過 result.usage() 取得，這是事後報告，而非預防性執行。OpenLegion 在平台層級自動截止的情況下執行每個 Agent 的嚴格日/月預算上限。
+不能。PydanticAI 沒有內建機制來限制 Agent 的 API 支出或停止超出成本閾值的 Agent。使用量追蹤可通過 result.usage() 取得，這是事後報告，而非預防性執行。OpenLegion 在平台層級以自動硬截止執行每個 Agent 的點數預算上限。
 
 ### pydantic_graph v2 重寫對 PydanticAI 使用者意味著什麼？
 

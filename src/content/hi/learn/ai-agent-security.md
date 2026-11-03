@@ -2,7 +2,7 @@
 title: 'AI एजेंट सुरक्षा — Threats, Isolation, Vaults'
 description: >-
  AI एजेंट सुरक्षा guide: credential leakage, prompt injection, sandbox escape,
- और कैसे container isolation, vault-proxied credentials, और budget controls
+ और कैसे run isolation, vault में रखे credentials, और budget controls
  प्रत्येक threat को mitigate करते हैं।
 slug: /learn/ai-agent-security
 primary_keyword: ai agent security
@@ -27,9 +27,9 @@ related:
 
 हर AI एजेंट framework आपको एजेंट्स build करने के लिए tools देता है। लगभग कोई भी आपको उन्हें contain करने के लिए tools नहीं देता। जब एक एजेंट APIs call कर सकता है, web browse कर सकता है, code execute कर सकता है, और databases access कर सकता है, सुरक्षा प्रश्न यह नहीं है कि क्या कुछ गलत हो सकता है — यह है कि blast radius कैसा दिखता है जब होता है।
 
-**AI एजेंट सुरक्षा** स्वायत्त एजेंट्स को constrain करने का practice है ताकि एक compromised, misconfigured, या misbehaving एजेंट credentials leak न करे, data exfiltrate न करे, budgets drain न करे, या privileges escalate न करे। OpenLegion इसे एक core architectural concern मानता है, add-on नहीं। हर एजेंट vault-proxied credentials, प्रति-एजेंट बजट controls, और एक permission matrix के साथ एक isolated कंटेनर में चलता है — सभी default रूप से enabled।
+**AI एजेंट सुरक्षा** स्वायत्त एजेंट्स को constrain करने का practice है ताकि एक compromised, misconfigured, या misbehaving एजेंट credentials leak न करे, data exfiltrate न करे, budgets drain न करे, या privileges escalate न करे। OpenLegion इसे एक core architectural concern मानता है, add-on नहीं। हर action एक intent है जिसे होने से पहले एक ही policy engine check करता है, credentials model के बाहर एक vault में रहते हैं, और हर एजेंट का अपना बजट होता है — सभी default रूप से enabled।
 
-अपनी खुद की LLM API keys लाएँ। Model usage पर कोई markup नहीं।
+Models preset से चुने जाते हैं — Smartest, Smart या Normal — प्रति एजेंट या प्रति workspace।
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -41,8 +41,8 @@ related:
 - **Threat real है।** Research दिखाता है कि AI deployments वाले 77% organizations ने 2024 में security incidents का अनुभव किया। केवल 5% अपने AI सुरक्षा measures में विश्वास व्यक्त करते हैं।
 - **चार primary threats**: Credential leakage, prompt injection, resource abuse (denial of wallet), और data exfiltration। प्रत्येक को एक भिन्न mitigation चाहिए।
 - **कोई बड़ा framework अंतर्निहित सुरक्षा प्रदान नहीं करता।** Public documentation के आधार पर, LangGraph, CrewAI, AutoGen, और OpenClaw सभी credentials के लिए environment variables पर rely करते हैं बिना native isolation या बजट enforcement के।
-- **OpenLegion का six-layer defense**: कंटेनर isolation, कंटेनर hardening, credential separation (vault proxy), permission enforcement, input validation, और unicode sanitization — सभी default रूप से enabled।
-- **Secure AI एजेंट्स BYO keys के साथ संभव हैं** — vault proxy model का अर्थ है आपकी keys trusted zone में रहती हैं और एजेंट्स एक proxy के माध्यम से interact करते हैं जो कच्चे secrets कभी expose नहीं करता।
+- **OpenLegion का layered defense**: हर action के आगे एक policy engine, sandboxed task runs, credential separation (model के बाहर एक vault), permission enforcement, input validation, और unicode sanitization — सभी default रूप से enabled।
+- **आपके अपने service credentials सुरक्षित रहते हैं** — credentials एक vault में रहते हैं और model के बाहर inject होते हैं, जिसके पास सिर्फ़ एक handle रहता है और जो कभी कोई कच्चा secret नहीं देखता।
 
 ## AI एजेंट्स के लिए Threat Model
 
@@ -52,7 +52,7 @@ related:
 
 **कितना common।** 2026 की शुरुआत में published research ने पाया कि 3,984 scanned एजेंट skills में से 283 (7.1%) में critical credential-handling flaws थे, plaintext में LLM context के माध्यम से API keys और passwords pass करते थे। अलग से, 76 skills में credential theft के लिए designed deliberately malicious payloads थे। High-profile incidents में शामिल हैं एक xAI employee द्वारा GitHub पर API key leak करना जो 60+ private LLMs तक दो महीने के लिए access प्रदान करती थी, और एक popular LLM platform में एक vulnerability जो एक unauthenticated endpoint के माध्यम से API keys expose करती थी।
 
-**OpenLegion इसे कैसे mitigate करता है।** OpenLegion एक vault proxy के माध्यम से vault-proxied credentials का उपयोग करता है। API keys Mesh Host (Zone 2) में stored हैं। जब एक एजेंट को एक external API call करने की आवश्यकता है, request vault proxy के माध्यम से route करती है, जो credential को network layer पर inject करती है। एजेंट कच्ची key को कभी नहीं देखता, log नहीं करता, या उसकी memory access नहीं रखता। एक पूरी तरह compromised एजेंट भी credentials extract नहीं कर सकता क्योंकि वे एजेंट के कंटेनर में कभी present नहीं होते।
+**OpenLegion इसे कैसे mitigate करता है।** Credentials एक vault में रहते हैं और model के बाहर inject होते हैं, जिसके पास सिर्फ़ एक handle रहता है। जब एक एजेंट को एक external API call करने की आवश्यकता है, प्लेटफ़ॉर्म call boundary पर credential inject करता है। एजेंट कच्ची key को कभी नहीं देखता, log नहीं करता, या उसकी memory access नहीं रखता। एक पूरी तरह compromised एजेंट भी credentials extract नहीं कर सकता क्योंकि वे उसके run में कभी present नहीं होते।
 
 ### Threat 2: Prompt injection
 
@@ -60,7 +60,7 @@ related:
 
 **कितना common।** Prompt injection security audits के दौरान assessed 73% से अधिक production AI deployments में दिखाई देता है। OpenAI ने December 2025 में कहा कि prompt injection "is unlikely to ever be fully solved।" OWASP इसे LLM applications के लिए #1 vulnerability rank करता है। Real-world incidents में शामिल हैं एक browser एजेंट जिसे hidden instructions के माध्यम से 150 seconds में credentials चुराने के लिए tricked किया गया, और enterprise RAG systems जहाँ public documents में malicious content ने एजेंट्स को proprietary data leak करने का कारण बनाया।
 
-**OpenLegion इसे कैसे mitigate करता है।** OpenLegion multiple layers में defense in depth apply करता है। Unicode sanitization invisible characters (bidi overrides, tag characters, zero-width characters) को 56 choke points पर strip करता है content के LLM context तक पहुँचने से पहले — इन characters का सामान्यतः injected instructions hide करने के लिए उपयोग किया जाता है। Input validation path traversal को रोकता है और safe condition evaluation enforce करता है। कंटेनर isolation blast radius सीमित करता है: यहाँ तक कि अगर एक एजेंट successfully injected है, यह केवल अपने sandboxed कंटेनर को अपनी scoped permissions के साथ access कर सकता है। यह अन्य एजेंट्स के data, credential vault, या host system को access नहीं कर सकता।
+**OpenLegion इसे कैसे mitigate करता है।** OpenLegion multiple layers में defense in depth apply करता है। Unicode sanitization invisible characters (bidi overrides, tag characters, zero-width characters) को content के LLM context तक पहुँचने से पहले strip करता है — इन characters का सामान्यतः injected instructions hide करने के लिए उपयोग किया जाता है। Input validation path traversal को रोकता है और safe condition evaluation enforce करता है। Untrusted content पर act करना उन तीन walls में से एक है जहाँ काम owner की approval के लिए रुकता है, जो blast radius सीमित करता है: एक injected एजेंट केवल अपनी scoped permissions के भीतर ही act कर सकता है। यह अन्य एजेंट्स के data, credential vault, या host system तक नहीं पहुँच सकता।
 
 कोई system prompt injection से पूर्ण immunity guarantee नहीं कर सकता। OpenLegion का approach attack surface को minimize करना और damage को contain करना है।
 
@@ -70,7 +70,7 @@ related:
 
 **कितना common।** यह OWASP LLM10:2025 (Unbounded Consumption) के रूप में listed है। अधिकांश cloud billing systems automatically charges नहीं रोकते जब budgets exceeded होते हैं — alerts fire करते हैं, लेकिन meter चलता रहता है। CrewAI और LangGraph users की community reports token-burning loops का वर्णन करती हैं जिन्होंने 10x expected budgets consume किए।
 
-**OpenLegion इसे कैसे mitigate करता है।** Hard cutoff के साथ प्रति-एजेंट दैनिक और मासिक बजट controls। Fleet में प्रत्येक एजेंट के पास real time में tracked अपना token बजट है। जब limit पहुँच जाती है, [orchestration layer](/learn/ai-agent-orchestration) उस specific एजेंट को halt करती है। बाकी workflow gracefully जारी रहता है या pause होता है। कोई "soft warning" नहीं जो ignore हो — cutoff infrastructure level पर enforced है।
+**OpenLegion इसे कैसे mitigate करता है।** Hard cutoff के साथ प्रति-एजेंट budgets। Team में प्रत्येक एजेंट का अपना बजट है, और काम की हर unit एक record किया गया wake है जो $0.001 प्रति credit पर metered है। जब limit पहुँच जाती है, [orchestration layer](/learn/ai-agent-orchestration) उस specific एजेंट को halt करती है। बाकी workflow gracefully जारी रहता है या pause होता है। कोई "soft warning" नहीं जो ignore हो — cutoff प्लेटफ़ॉर्म level पर enforced है।
 
 ### Threat 4: Data exfiltration
 
@@ -78,37 +78,37 @@ related:
 
 **कितना common।** Zero-click exfiltration techniques messaging platforms में operating एजेंट्स के विरुद्ध demonstrate किए गए हैं (जहाँ link previews automatically URLs fetch करते हैं), enterprise collaboration tools, और code repositories। Banking एजेंट्स पर research ने data exfiltration attacks के लिए लगभग 20% success rates दिखाए।
 
-**OpenLegion इसे कैसे mitigate करता है।** Container-level network isolation restrict करता है कि प्रत्येक एजेंट कौन से external endpoints पर पहुँच सकता है। Permission matrix प्रति एजेंट allowed tools, files, और mesh operations define करता है। Outbound requests controlled channels के माध्यम से route करते हैं। Credential isolation (एजेंट के पास exfiltrate करने के लिए कोई credentials नहीं) और fleet-model coordination (जो हर action log करता है) के साथ combined, exfiltration के लिए attack surface unrestricted network access के साथ shared process spaces में चलने वाले एजेंट्स की तुलना में significantly कम है।
+**OpenLegion इसे कैसे mitigate करता है।** एजेंट जो code लिखता है वह default पर बिना network access के एक sandbox में चलता है, और आपकी ओर से किसी third party तक पहुँचना owner की approval के लिए रुक जाता है। Permission matrix प्रति एजेंट allowed tools, files, और operations define करता है। Outbound requests controlled channels के माध्यम से route करते हैं। Credential isolation (एजेंट के पास exfiltrate करने के लिए कोई credentials नहीं) और हर action record करने वाली receipts के साथ combined, exfiltration के लिए attack surface unrestricted network access के साथ shared process spaces में चलने वाले एजेंट्स की तुलना में significantly कम है।
 
 ### Threat 5: Sandbox escape
 
 **क्या होता है।** एक एजेंट या इसका executed code अपने कंटेनर से बाहर निकलता है और host system, अन्य containers, या orchestration layer तक access प्राप्त करता है। Container escape vulnerabilities regularly discover होती हैं — November 2025 में कई high-severity runC CVEs disclosed किए गए जो बड़े cloud providers में Docker और Kubernetes को affect करते हैं।
 
-**OpenLegion इसे कैसे mitigate करता है।** कंटेनर hardening: non-root execution (UID 1000), `no-new-privileges` flag, configurable memory limits (384MB default), configurable CPU limits (0.15 default), और containers के बीच कोई shared filesystem नहीं। प्रत्येक एजेंट को अपना `/data` volume मिलता है। चार-zone trust model (plus एक operator-or-internal tier) का अर्थ है कि यहाँ तक कि अगर एक एजेंट अपने कंटेनर से escape करता है, यह एक zone में land करता है जिसकी credential vault या अन्य एजेंट्स के containers तक कोई direct access नहीं है। मजबूत isolation की आवश्यकता वाले environments के लिए, architecture Docker Sandbox microVMs को support करता है।
+**OpenLegion इसे कैसे mitigate करता है।** एजेंट जो code लिखता है वह default पर बिना network access के एक sandbox में चलता है, और हर task on demand चलकर रुक जाता है — compromise करने के लिए कोई long-lived एजेंट process नहीं है। प्रत्येक एजेंट को अपना storage मिलता है, कभी shared नहीं। हर action के आगे एक policy engine का अर्थ है कि यदि एक run subvert भी हो जाए, तो उसके पास credential vault या किसी अन्य एजेंट के data तक कोई direct path नहीं है। Credentials model के बाहर inject होते हैं, इसलिए एक subverted run के पास चुराने को कुछ नहीं है।
 
 ### Threat 6: Supply chain attacks
 
 **क्या होता है।** Malicious code एजेंट skills, MCP tool servers, shared configurations, या framework dependencies के माध्यम से introduce किया जाता है। Malicious MCP servers npm पर legitimate services को impersonate करते हुए पाए गए हैं। Crowdsourced configuration files hidden LLM-triggered prompts के साथ weaponize किए गए हैं।
 
-**OpenLegion इसे कैसे mitigate करता है।** OpenLegion zero external framework dependencies का उपयोग करता है — कोई LangChain नहीं, कोई Redis नहीं, कोई Kubernetes नहीं। Core pure Python + SQLite है। MCP tool servers supported हैं लेकिन permission matrix के माध्यम से sandboxed। Fleet-model coordination का अर्थ है कि tool calls workflow definition में explicitly declared हैं, runtime पर dynamically discovered नहीं — unexpected tool injection के लिए surface को कम करता है।
+**OpenLegion इसे कैसे mitigate करता है।** एजेंट जिस भी tool तक पहुँच सकता है वह owner द्वारा explicitly grant किया जाता है, runtime पर discover नहीं होता, और launch पर कोई third-party plugin surface है ही नहीं। Tool grants हर call पर policy engine द्वारा check होते हैं, और हर grant एक receipt के रूप में record होता है जिसे owner पढ़ सके। Goal-and-task coordination का अर्थ है कि tool calls task definition में explicit हैं, dynamically resolve नहीं होते — unexpected tool injection के लिए surface को कम करता है।
 
 ## OpenLegion में AI एजेंट Isolation कैसे काम करता है
 
-OpenLegion का चार-zone trust model plus एक operator-or-internal tier हर deployment को distinct security boundaries में separate करता है:
+OpenLegion हर action के आगे एक ही policy engine रखता है, और एक workspace को distinct security boundaries में separate करता है:
 
-**Zone 0 — Untrusted External Input।** Users या third parties से आने वाली कोई भी चीज़: CLI, Telegram, Discord, Slack, WhatsApp, और webhook endpoints। Inputs Zone 2 में प्रवेश करने से पहले prompt-injection guards के माध्यम से validated और sanitized होते हैं।
+**Untrusted input।** Users या third parties से आने वाली कोई भी चीज़: web chat, Telegram, Slack, inbound email, और webhook endpoints। Inputs prompt-injection guards के माध्यम से validated और sanitized होते हैं, और untrusted content पर act करना owner की approval के लिए रुक जाता है।
 
-**Zone 1 — Sandboxed Agent Containers (Untrusted)।** प्रत्येक एजेंट अपने स्वयं के Docker कंटेनर में एक isolated FastAPI instance के रूप में चलता है। प्रत्येक कंटेनर के पास अपना `/data` volume, अपना memory database (SQLite + vector search), configurable resource caps (384MB RAM / 0.15 CPU default), non-root execution (UID 1000), `cap_drop=ALL`, `no-new-privileges`, एक read-only root filesystem है, और Docker socket, credential vault, या अन्य एजेंट्स के containers तक कोई access नहीं है।
+**एजेंट का run।** प्रत्येक task on demand चलता है और फिर रुक जाता है। एजेंट जो code लिखता है वह default पर बिना network access के एक sandbox में चलता है, और run कोई credentials नहीं रखता — सिर्फ़ एक handle। एजेंट्स durable records हैं, servers नहीं, इसलिए compromise करने के लिए कोई long-lived process नहीं है, एक बनाना instant है, एक idle एजेंट कुछ खर्च नहीं करता, और एक workspace सैकड़ों चला सकता है।
 
-**Zone 2 — Mesh Host (Trusted)।** Credentials तक access वाला एकमात्र component। Blackboard (shared state + WAL), PubSub router, Credential Vault (blind injection proxy), ACL matrix, Container Manager, Cost Tracker, और Browser Service (:8500 पर प्रति-एजेंट Camoufox) चलाता है। यह zone hardened है और एजेंट code को expose नहीं है।
+**Policy engine।** हर action को होने से पहले एक intent के रूप में check किया जाता है: tool call, delegation, approval, cost। यह vault तक access वाला एकमात्र component है, यह credentials को model के बाहर inject करता है, और हर action को एक receipt के रूप में record करता है जिसे owner पढ़ सके।
 
-**Zone 2.5 — Operator-or-Internal।** Operator एजेंट या internal mesh tooling के लिए available reserved control-plane operations — fleet management, एजेंट edits, permission grants (Operator `can_spawn` या `can_use_wallet` grant नहीं कर सकता)।
+**Owner और admin decisions।** काम केवल तीन walls पर approval के लिए रुकता है: आपकी ओर से किसी third party तक पहुँचना, data delete करना, और untrusted content पर act करना। Approvals app में एक owner या admin तय करता है, कभी एजेंट खुद नहीं।
 
-**Zone 3 — Loopback-Only Internal।** सबसे-restricted tier: endpoints जिन्हें `x-mesh-internal: 1` header और एक loopback source IP दोनों चाहिए। केवल mesh-internal coordination calls के लिए उपयोग।
+**Workspace isolation।** एक workspace के एजेंट्स, tasks, memory और receipts उसी workspace तक scoped हैं, और प्रति-एजेंट permission grants इसे और संकीर्ण करते हैं। एजेंट जो कुछ करता है वह owner द्वारा दिए गए grants से बाहर नहीं जाता।
 
-इस architecture का अर्थ है कि Zone 1 में एक compromised एजेंट Zone 2 (credentials) या अन्य Zone 1 containers (अन्य एजेंट्स के data) तक नहीं पहुँच सकता। किसी भी single एजेंट compromise का blast radius उस एजेंट के sandbox तक contained है।
+इस architecture का अर्थ है कि एक compromised एजेंट vault या किसी अन्य एजेंट के data तक नहीं पहुँच सकता। किसी भी single एजेंट compromise का blast radius उस एजेंट के run और उसके अपने grants तक contained है।
 
-## AI एजेंट Credential Management: Vault Proxy बनाम Environment Variables
+## AI एजेंट Credential Management: Credential Vault बनाम Environment Variables
 
 [AI एजेंट frameworks](/learn/ai-agent-frameworks) में सबसे common credential management pattern environment variables है। आपकी API key एक `.env` file में बैठती है या `OAI_CONFIG_LIST` के माध्यम से pass होती है। एजेंट process इसे directly पढ़ता है। इसका अर्थ है:
 
@@ -117,9 +117,9 @@ OpenLegion का चार-zone trust model plus एक operator-or-internal ti
 - Logs, error messages, और debug output key contain कर सकते हैं
 - यदि एजेंट compromised है, attacker के पास सभी injected credentials तक direct access है
 
-OpenLegion का vault proxy इस architecture को fundamentally बदलता है। API keys Mesh Host के Credential Vault (Zone 2) में stored हैं। जब एक एजेंट को एक authenticated API call करनी है, यह vault proxy को request भेजता है। Proxy network layer पर credential inject करता है, authenticated call करता है, और एजेंट को result return करता है। एजेंट कच्ची key को कभी नहीं देखता, store करता है, या उसकी memory access नहीं रखता।
+OpenLegion का credential vault इस architecture को fundamentally बदलता है। API keys vault में, model के बाहर stored हैं। जब एक एजेंट को एक authenticated API call करनी है, प्लेटफ़ॉर्म call boundary पर credential inject करता है, authenticated call करता है, और एजेंट को result return करता है। Model के पास सिर्फ़ एक handle रहता है, और वह कच्ची key को कभी नहीं देखता, store करता है, या उसकी memory access नहीं रखता।
 
-यह **vault-proxied credentials** है — HashiCorp Vault जैसे enterprise secret management systems द्वारा उपयोग किया जाने वाला समान principle, लेकिन अलग infrastructure की आवश्यकता के बजाय [AI एजेंट orchestration](/learn/ai-agent-orchestration) layer में built।
+यह **vault में रखे credentials** हैं — HashiCorp Vault जैसे enterprise secret management systems द्वारा उपयोग किया जाने वाला समान principle, लेकिन अलग infrastructure की आवश्यकता के बजाय [AI एजेंट orchestration](/learn/ai-agent-orchestration) layer में built।
 
 ## Containerized AI एजेंट्स: Process-Level Isolation पर्याप्त क्यों नहीं है
 
@@ -127,13 +127,13 @@ OpenLegion का vault proxy इस architecture को fundamentally बदल
 
 | Framework | Isolation approach | वास्तव में क्या isolated है | क्या shared है |
 |---|---|---|---|
-| **OpenLegion** | प्रति एजेंट Docker कंटेनर (अनिवार्य) | Process, filesystem, network, memory, credentials | कुछ नहीं — एजेंट्स पूरी तरह isolated हैं |
+| **OpenLegion** | प्रति task sandboxed run (हमेशा on) | Process, filesystem, network, memory, credentials | कुछ नहीं — एजेंट्स पूरी तरह isolated हैं |
 | **OpenClaw** | Docker कंटेनर (optional) | Process, filesystem | Docker socket default रूप से mounted; host network accessible |
 | **LangGraph** | अंतर्निहित नहीं | N/A | सब कुछ — एजेंट्स Python process share करते हैं |
 | **CrewAI** | CodeInterpreter के लिए Docker | Code execution output | Agent processes Python runtime share करते हैं |
 | **AutoGen** | Code execution के लिए Docker | Code execution output | Agent processes Python runtime share करते हैं |
 
-Critical distinction: OpenLegion **एजेंट को ही** एक कंटेनर में isolate करता है। अन्य frameworks जो Docker isolation प्रदान करते हैं typically केवल **code execution output** को isolate करते हैं — एजेंट process, इसकी memory, और इसकी credential access shared रहती है। इसका अर्थ है कि एक prompt injection जो LangGraph या CrewAI में एक एजेंट को compromise करता है, shared process में सभी credentials और state तक access रखता है। OpenLegion में, समान compromise credential access के बिना एक single sandboxed कंटेनर तक contained है।
+Critical distinction: OpenLegion **task run को ही** isolate करता है। अन्य frameworks जो Docker isolation प्रदान करते हैं typically केवल **code execution output** को isolate करते हैं — एजेंट process, इसकी memory, और इसकी credential access shared रहती है। इसका अर्थ है कि एक prompt injection जो LangGraph या CrewAI में एक एजेंट को compromise करता है, shared process में सभी credentials और state तक access रखता है। OpenLegion में, समान compromise credential access के बिना एक single sandboxed run तक contained है।
 
 ## AI एजेंट Cost Controls: सुरक्षा के रूप में Budget Enforcement
 
@@ -141,11 +141,11 @@ Cost controls केवल financial governance नहीं हैं — व�
 
 OpenLegion का बजट enforcement orchestrator level पर काम करता है:
 
-- प्रत्येक एजेंट के पास एक configurable दैनिक और मासिक token बजट है
-- Token usage Zone 2 में Cost Tracker द्वारा real time में tracked है
+- प्रत्येक एजेंट का अपना configurable बजट है, $0.001 प्रति credit पर metered
+- Usage real time में tracked है, और हर task की exact cost दिखती है
 - जब एक एजेंट अपनी limit hit करता है, orchestrator एक hard cutoff issue करता है — एजेंट halted है
 - बाकी workflow pipeline gracefully जारी रहता है या pause होता है
-- Cost data प्रति-एजेंट breakdowns के साथ fleet dashboard में visible है
+- Cost data प्रति-एजेंट breakdowns के साथ dashboard में visible है
 
 कोई अन्य बड़ा AI एजेंट framework इस capability को अंतर्निहित प्रदान नहीं करता, लिखने के समय public documentation के आधार पर।
 
@@ -153,10 +153,10 @@ OpenLegion का बजट enforcement orchestrator level पर काम क�
 
 OpenLegion **उन environments के लिए designed है जिन्हें** compliance controls चाहिए, including:
 
-- **Request tracing**: Auditable fleet-model coordination का अर्थ है कि हर workflow step explicit और traceable है। अंतर्निहित request tracing system real-time observability के लिए task transitions, tool calls, और token expenditure record करता है। Blackboard (shared state) एजेंट्स के बीच coordination context प्रदान करता है।
-- **Auditable fleet-model coordination**: fleet-model coordination (blackboard + pub/sub + handoff) execution से पहले audit किया जा सकता है — आप system चलाए बिना data, permissions, और एजेंट interactions के complete flow को verify कर सकते हैं।
-- **Data isolation**: Dedicated `/data` volumes के साथ प्रति-एजेंट containers ensure करते हैं कि एक एजेंट द्वारा processed sensitive data अन्य एजेंट्स के लिए accessible नहीं है।
-- **Air-gap support**: कोई external services नहीं (कोई Redis नहीं, कोई Kubernetes नहीं, कोई cloud services आवश्यक नहीं) का अर्थ है OpenLegion on-premises environments में चल सकता है।
+- **Request tracing**: Auditable goal-and-task coordination का अर्थ है कि हर workflow step explicit और traceable है। हर tool call, delegation और approval एजेंट की identity, एक timestamp और task की exact cost के साथ record होता है। Goals और tasks का साझा record एजेंट्स के बीच coordination context प्रदान करता है।
+- **Auditable goal-and-task coordination**: goal-and-task coordination (goals → tasks → एजेंट्स) execution से पहले audit किया जा सकता है — आप system चलाए बिना data, permissions, और एजेंट interactions के complete flow को verify कर सकते हैं।
+- **Data isolation**: प्रति-एजेंट storage और प्रति-एजेंट permission grants ensure करते हैं कि एक एजेंट द्वारा processed sensitive data अन्य एजेंट्स के लिए accessible नहीं है।
+- **Least privilege**: हर एजेंट के tools, files, और operations owner द्वारा explicitly grant किए जाते हैं, और हर grant एक receipt के रूप में record होता है।
 
 **Important**: OpenLegion वर्तमान में SOC 2, ISO 27001, HIPAA, या अन्य compliance certifications नहीं रखता। Architecture इन आवश्यकताओं वाले environments को support करने के लिए built है, लेकिन certification आपके deployment, configuration, और organizational controls का function है — केवल framework का नहीं।
 
@@ -177,27 +177,27 @@ AI एजेंट सुरक्षा controls का set है जो स�
 
 ### आप API keys के साथ AI एजेंट्स को कैसे secure करते हैं?
 
-सबसे secure approach vault-proxied credentials है: API keys एक vault में store करें जिसे एजेंट्स directly access नहीं कर सकते। जब एक एजेंट को एक authenticated call करनी हो, request एक proxy के माध्यम से route करती है जो network layer पर credential inject करता है। एजेंट कच्ची key को कभी नहीं देखता। OpenLegion इसे चार-zone trust model (plus एक operator-or-internal tier) के Zone 2 में अपने vault proxy के माध्यम से implement करता है। सबसे कम secure (और सबसे common) approach environment variables है, जहाँ keys एजेंट की memory में मौजूद हैं और prompt injection, logging, या error output के माध्यम से leaked हो सकती हैं।
+सबसे secure approach vault में रखे credentials हैं: API keys एक vault में store करें जिसे एजेंट्स directly access नहीं कर सकते। जब एक एजेंट को एक authenticated call करनी हो, प्लेटफ़ॉर्म credential को model के बाहर inject करता है। एजेंट कच्ची key को कभी नहीं देखता। OpenLegion इसे एक credential vault के साथ implement करता है जिसे model केवल एक handle से reference कर सकता है। सबसे कम secure (और सबसे common) approach environment variables है, जहाँ keys एजेंट की memory में मौजूद हैं और prompt injection, logging, या error output के माध्यम से leaked हो सकती हैं।
 
 ### AI एजेंट isolation कैसे काम करता है?
 
-एजेंट isolation का अर्थ है प्रत्येक एजेंट को अपने sandboxed environment में चलाना — separate process, filesystem, network namespace, और memory space। OpenLegion में, प्रत्येक एजेंट configurable resource limits (384MB RAM, 0.15 CPU default), non-root execution, और कोई shared filesystem के साथ एक dedicated Docker कंटेनर में चलता है। इसका अर्थ है कि एक compromised एजेंट अन्य एजेंट्स के data, credential vault, या host system को access नहीं कर सकता। यह उन frameworks से भिन्न है जहाँ एजेंट्स एक Python process share करते हैं और एक-दूसरे की memory को access कर सकते हैं।
+एजेंट isolation का अर्थ है प्रत्येक एजेंट को अपने sandboxed environment में चलाना — separate process, filesystem, network namespace, और memory space। OpenLegion में, प्रत्येक task on demand चलकर रुक जाता है, एजेंट जो code लिखता है वह default पर बिना network access के एक sandbox में चलता है, और एजेंट्स कोई storage share नहीं करते। इसका अर्थ है कि एक compromised एजेंट अन्य एजेंट्स के data, credential vault, या host system को access नहीं कर सकता। यह उन frameworks से भिन्न है जहाँ एजेंट्स एक Python process share करते हैं और एक-दूसरे की memory को access कर सकते हैं।
 
 ### AI एजेंट्स को बजट / cost controls क्यों चाहिए?
 
-स्वायत्त एजेंट्स recursive loops में प्रवेश कर सकते हैं, अत्यधिक API calls कर सकते हैं, या जितना आवश्यक है उससे कहीं अधिक resources consume करने के लिए manipulated हो सकते हैं। बजट controls के बिना, एक single runaway एजेंट minutes में सैकड़ों dollars tokens में drain कर सकता है। Multi-agent systems में यह compounds करता है — प्रत्येक एजेंट risk को गुणा करता है। OpenLegion orchestrator level पर hard cutoffs के साथ प्रति-एजेंट दैनिक और मासिक budgets enforce करता है, किसी भी single एजेंट को unbounded cost का कारण बनने से रोकता है।
+स्वायत्त एजेंट्स recursive loops में प्रवेश कर सकते हैं, अत्यधिक API calls कर सकते हैं, या जितना आवश्यक है उससे कहीं अधिक resources consume करने के लिए manipulated हो सकते हैं। बजट controls के बिना, एक single runaway एजेंट minutes में सैकड़ों dollars tokens में drain कर सकता है। Multi-agent systems में यह compounds करता है — प्रत्येक एजेंट risk को गुणा करता है। OpenLegion हर एजेंट को उसका अपना बजट एक hard cutoff के साथ देता है, $0.001 प्रति credit पर metered, किसी भी single एजेंट को unbounded cost का कारण बनने से रोकता है।
 
 ### क्या secure AI एजेंट्स BYO keys के साथ संभव हैं?
 
-हाँ। BYO (Bring Your Own) key model वास्तव में proper architecture के साथ अधिक secure है। OpenLegion में, आपकी keys Mesh Host के Credential Vault में store हैं और network layer पर एक vault proxy के माध्यम से inject की जाती हैं। एजेंट्स कच्ची keys कभी नहीं देखते। यह आपको full cost transparency देता है (आप exactly देखते हैं कि प्रत्येक एजेंट प्रत्येक provider के साथ क्या खर्च करता है), provider flexibility (प्रति एजेंट models swap करें), और समान credential isolation guarantees इसकी परवाह किए बिना कि आप कौन सा provider उपयोग करते हैं। अपनी खुद की LLM API keys लाएँ। Model usage पर कोई markup नहीं।
+OpenLegion LLMs के लिए BYO (bring your own) key model का उपयोग नहीं करता — models preset से चुने जाते हैं, Smartest, Smart या Normal, प्रति एजेंट या प्रति workspace। जो service credentials आप लाते हैं, जैसे OAuth tokens और third-party API keys, एक vault में रखे जाते हैं और model के बाहर inject होते हैं, जिसके पास सिर्फ़ एक handle रहता है। आपको फिर भी full cost transparency मिलती है: काम की हर unit एक record किया गया wake है जो $0.001 प्रति credit पर metered है, और हर task की exact cost दिखती है।
 
 ### AI एजेंट्स के लिए OWASP Top 10 क्या है?
 
-OWASP ने December 2025 में Agentic Applications के लिए Top 10 publish किया। #1 risk Agent Goal Hijacking है — जहाँ एक attacker एक एजेंट को user के intended goals से भिन्न goals का पीछा करने के लिए manipulate करता है। अन्य top risks में शामिल हैं credential leakage, excessive agency (एजेंट्स अपने scope से परे actions ले रहे हैं), और supply chain vulnerabilities (malicious tools या plugins)। OpenLegion इन्हें vault-proxied credentials, कंटेनर isolation, permission matrices, और fleet-model coordination (blackboard + pub/sub + handoff) के माध्यम से address करता है।
+OWASP ने December 2025 में Agentic Applications के लिए Top 10 publish किया। #1 risk Agent Goal Hijacking है — जहाँ एक attacker एक एजेंट को user के intended goals से भिन्न goals का पीछा करने के लिए manipulate करता है। अन्य top risks में शामिल हैं credential leakage, excessive agency (एजेंट्स अपने scope से परे actions ले रहे हैं), और supply chain vulnerabilities (malicious tools या plugins)। OpenLegion इन्हें vault में रखे credentials, sandboxed task runs, permission matrices, और goal-and-task coordination (goals → tasks → एजेंट्स) के माध्यम से address करता है।
 
 ### OpenLegion सुरक्षा पर OpenClaw से कैसे तुलना करता है?
 
-Public documentation के आधार पर, OpenLegion कठोर security defaults प्रदान करता है। OpenClaw के default local deployment को Docker socket mounting (broad host access प्रदान करता है) की आवश्यकता है, इसके security analyzer में consistent activation के साथ reported issues हुए हैं, और यह एजेंट process के लिए accessible configuration में credentials store करता है। OpenLegion अनिवार्य isolated containers में एजेंट्स चलाता है, vault-proxied credentials के लिए एक vault proxy का उपयोग करता है, प्रति-एजेंट budgets enforce करता है, और कई choke points पर unicode sanitization apply करता है। विस्तृत comparison के लिए, [OpenLegion बनाम OpenClaw](/comparison/openclaw) देखें।
+Public documentation के आधार पर, OpenLegion कठोर security defaults प्रदान करता है। OpenClaw के default local deployment को Docker socket mounting (broad host access प्रदान करता है) की आवश्यकता है, इसके security analyzer में consistent activation के साथ reported issues हुए हैं, और यह एजेंट process के लिए accessible configuration में credentials store करता है। OpenLegion हर task को एक sandboxed run में चलाता है, credentials को एक vault में रखता है जो model के बाहर inject होते हैं, प्रति-एजेंट budgets enforce करता है, और कई choke points पर unicode sanitization apply करता है। विस्तृत comparison के लिए, [OpenLegion बनाम OpenClaw](/comparison/openclaw) देखें।
 
 ### AI एजेंट्स पर कौन से compliance frameworks apply होते हैं?
 

@@ -1,87 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import {
-  Bot,
   Check,
   ChevronDown,
   ChevronRight,
   Coins,
-  FolderOpen,
-  Globe,
   Mail,
   ShieldCheck,
+  Sparkles,
   Zap,
 } from "lucide-react";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
-import { Testimonials } from "@/components/testimonials";
-import { APP_URL } from "@/lib/constants";
-import { Link } from "@/i18n/navigation";
+import { WAITLIST_URL } from "@/lib/constants";
 import { trackCtaClick, trackEvent } from "@/lib/analytics";
 
-type Billing = "monthly" | "yearly";
-
 interface Plan {
+  /** Billing id, used in analytics events. */
   name: string;
-  /** Index into the locale `plans.*` catalog (Basic stays at 0 there). */
+  /** Index into the locale `plans.*` catalog. */
   localeIndex: number;
   popular?: boolean;
   monthlyPrice: number;
-  yearlyPrice: number;
-  yearlyMonthly: number;
-  agents: number;
-  credits: number;
-  teams: number;
-  browsers: number;
-  featureKeys: string[];
+  /** Number of feature bullets this plan's locale entry carries. */
+  featureCount: number;
 }
 
+// Pricing decision 5 (2026-08-27) + the 2a credit re-denomination: Free $0 with
+// 1,000 one-time credits and no card, Pro $29 with 10,000/month, Team $99 with
+// 35,000/month, Enterprise from $1,500. There is no yearly price and no anchor
+// price — inventing either would be inventing a number.
 const PLANS: Plan[] = [
-  {
-    name: "growth",
-    localeIndex: 1,
-    monthlyPrice: 62,
-    yearlyPrice: 557,
-    yearlyMonthly: 46,
-    agents: 5,
-    credits: 5000,
-    teams: 2,
-    browsers: 5,
-    featureKeys: ["planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
-  },
-  {
-    name: "pro",
-    localeIndex: 2,
-    popular: true,
-    monthlyPrice: 152,
-    yearlyPrice: 1367,
-    yearlyMonthly: 114,
-    agents: 15,
-    credits: 10000,
-    teams: 5,
-    browsers: 10,
-    featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
-  },
-  {
-    name: "pro_max",
-    localeIndex: 3,
-    monthlyPrice: 296,
-    yearlyPrice: 2663,
-    yearlyMonthly: 222,
-    agents: 30,
-    credits: 20000,
-    teams: 10,
-    browsers: 30,
-    featureKeys: ["planFeatures.4", "planFeatures.0", "planFeatures.1", "planFeatures.2", "planFeatures.3", "planFeatures.5"],
-  },
+  { name: "free", localeIndex: 0, monthlyPrice: 0, featureCount: 4 },
+  { name: "pro", localeIndex: 1, popular: true, monthlyPrice: 29, featureCount: 5 },
+  { name: "team", localeIndex: 2, monthlyPrice: 99, featureCount: 4 },
 ];
-
-// Self-serve tiers — Growth / Pro / Pro Max anchor the pricing narrative.
-// Basic ($19/1-agent) is intentionally hidden from the landing display so
-// it doesn't anchor new visitors' price expectations and make the real
-// plans feel expensive by comparison. (Basic still exists in billing.)
-const HERO_PLAN_INDICES = [0, 1, 2]; // Growth, Pro, Pro Max
 
 const ENTERPRISE_FEATURE_KEYS = [
   "enterprise.features.0",
@@ -90,32 +44,30 @@ const ENTERPRISE_FEATURE_KEYS = [
   "enterprise.features.3",
 ];
 
+const EVERY_PLAN_KEYS = ["0", "1", "2", "3", "4", "5", "6", "7"] as const;
+const BAND_KEYS = ["0", "1", "2", "3"] as const;
+const PRESET_KEYS = ["0", "1", "2"] as const;
 const PRICING_FAQ_INDICES = [0, 1, 2, 3, 4, 5, 6];
-
 const TRUST_KEYS = ["trust.cancel", "trust.switch"] as const;
 
 export function Pricing() {
-  const [billing, setBilling] = useState<Billing>("monthly");
   const t = useTranslations("pricing");
-  const tAnchors = useTranslations("pricingAnchors");
 
-  // GA4 ecommerce `view_item_list` — fires when the pricing list is
-  // visible. Re-fires on billing toggle because the items[] payload
-  // (with different prices) is meaningfully different, so subsequent
-  // select_item / begin_checkout events stitch to the correct list view.
+  // GA4 ecommerce `view_item_list` — fires when the pricing list is visible,
+  // so later select_item / begin_checkout events stitch to the list view.
   useEffect(() => {
     trackEvent("view_item_list", {
       item_list_id: "landing_pricing_tiers",
       item_list_name: "Landing /pricing — Tier List",
       items: PLANS.map((p) => ({
-        item_id: `${p.name}_${billing}`,
-        item_name: `${p.name} (${billing})`,
+        item_id: p.name,
+        item_name: p.name,
         item_category: "subscription",
-        price: billing === "monthly" ? p.monthlyPrice : p.yearlyPrice,
+        price: p.monthlyPrice,
         quantity: 1,
       })),
     });
-  }, [billing]);
+  }, []);
 
   return (
     <section
@@ -126,7 +78,7 @@ export function Pricing() {
         {/* Hero */}
         <AnimateIn>
           <div className="mb-12 text-center md:mb-14">
-            <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-accent">
+            <p className="sr-only">
               {t("sectionLabel")}
             </p>
             <h1
@@ -140,17 +92,14 @@ export function Pricing() {
             <p className="mx-auto max-w-xl text-balance text-base text-muted md:text-lg">
               {t("subtitle")}
             </p>
-            {/* Trust + time-to-value trio — risk reversal + speed reassurance.
-                These directly substitute for the "free trial" lever we can't use
-                (every signup provisions a real VPS + proxy at our cost). */}
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm">
+              <span className="inline-flex items-center gap-1.5 text-foreground/90">
+                <Zap className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
+                <span className="font-medium">{t("trustTrio.freeStart")}</span>
+              </span>
               <span className="inline-flex items-center gap-1.5 text-foreground/90">
                 <ShieldCheck className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
                 <span className="font-medium">{t("trustTrio.moneyBack")}</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-foreground/90">
-                <Zap className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
-                <span className="font-medium">{t("trustTrio.fastSetup")}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 text-foreground/90">
                 <Check className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
@@ -160,74 +109,11 @@ export function Pricing() {
           </div>
         </AnimateIn>
 
-        {/* Billing toggle */}
-        <AnimateIn delay={0.06}>
-          <div className="mb-10 flex items-center justify-center md:mb-12">
-            <div
-              className="inline-flex items-center rounded-full border border-border bg-card/50 p-1"
-              role="group"
-              aria-label={t("billingPeriodAriaLabel")}
-            >
-              <button
-                onClick={() => setBilling("monthly")}
-                aria-pressed={billing === "monthly"}
-                className={`min-h-[44px] cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                  billing === "monthly"
-                    ? "bg-accent text-white shadow-sm"
-                    : "text-muted hover:text-foreground"
-                }`}
-              >
-                {t("billingMonthly")}
-              </button>
-              <button
-                onClick={() => setBilling("yearly")}
-                aria-pressed={billing === "yearly"}
-                className={`min-h-[44px] cursor-pointer rounded-full px-5 py-2.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
-                  billing === "yearly"
-                    ? "bg-accent text-white shadow-sm"
-                    : "text-muted hover:text-foreground"
-                }`}
-              >
-                {t("billingYearly")}
-                <span className="ml-1.5 text-xs font-semibold text-emerald-400">
-                  {t("billingSaveLabel")}
-                </span>
-              </button>
-            </div>
-          </div>
-        </AnimateIn>
-
-        {/* Self-serve hero plans — Growth / Pro / Pro Max */}
+        {/* Self-serve plans — Free / Pro / Team */}
         <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {HERO_PLAN_INDICES.map((planIdx) => {
-            const plan = PLANS[planIdx];
+          {PLANS.map((plan) => {
             const planName = t(`plans.${plan.localeIndex}.name`);
-            const price =
-              billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice;
-            const suffix = billing === "monthly" ? t("priceSuffixMonthly") : t("priceSuffixYearly");
-            // plan.name uses snake_case (matches DB), anchor keys in locale
-            // files use camelCase. Normalize: pro_max → proMax.
-            const anchorPlanKey = plan.name.replace(/_([a-z])/g, (_, c: string) => c.toUpperCase());
-            const anchorKey = `${anchorPlanKey}${billing === "monthly" ? "Monthly" : "Yearly"}`;
-            const anchor = (() => {
-              try {
-                return tAnchors(anchorKey);
-              } catch {
-                return null;
-              }
-            })();
-            const anchorNum = anchor ? parseInt(anchor.replace(/,/g, ""), 10) : null;
-            const savingsAmount =
-              anchorNum && !Number.isNaN(anchorNum) ? anchorNum - price : null;
-            const savingsPercent =
-              anchorNum && !Number.isNaN(anchorNum) && anchorNum > 0
-                ? Math.round((1 - price / anchorNum) * 100)
-                : null;
-            const showSavings =
-              savingsAmount !== null &&
-              savingsAmount > 0 &&
-              savingsPercent !== null &&
-              savingsPercent > 0;
+            const isFree = plan.monthlyPrice === 0;
 
             return (
               <StaggerItem key={plan.name}>
@@ -243,22 +129,9 @@ export function Pricing() {
                       className="absolute -top-3 left-1/2 z-10 -translate-x-1/2"
                       aria-hidden="true"
                     >
-                      <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white shadow-md shadow-accent/30">
+                      <span className="rounded-full border border-accent/30 bg-background px-3 py-1 text-xs font-semibold text-accent">
                         {t("popularBadge")}
                       </span>
-                    </div>
-                  )}
-
-                  {/* Savings ribbon — top-right corner sticker. Small and
-                      tight so it doesn't compete with the Popular badge.
-                      Percent only; the dollar math is implicit in the
-                      strikethrough below. */}
-                  {showSavings && (
-                    <div
-                      className="absolute -right-2 -top-2 z-10 rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md shadow-amber-500/40"
-                      aria-label={t("savingsAriaLabel", { percent: savingsPercent! })}
-                    >
-                      -{savingsPercent}%
                     </div>
                   )}
 
@@ -272,47 +145,30 @@ export function Pricing() {
                     {t(`plans.${plan.localeIndex}.tagline`)}
                   </p>
 
-                  <div className="mt-4">
-                    {/* Price + strikethrough inline — reads "now / was" left-to-right */}
-                    <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-                      <span className="text-4xl font-bold tracking-tight text-foreground">
-                        ${price.toLocaleString()}
-                      </span>
-                      <span className="text-muted">/{suffix}</span>
-                      {anchor && (
-                        <s
-                          className="text-sm text-muted/60 line-through"
-                          aria-label={t("a11y.originalPriceAria", { price: anchor })}
-                        >
-                          ${anchorNum != null && !Number.isNaN(anchorNum) ? anchorNum.toLocaleString() : anchor}
-                        </s>
-                      )}
-                    </div>
+                  <div className="mt-4 flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+                    <span className="text-4xl font-bold tracking-tight text-foreground">
+                      ${plan.monthlyPrice}
+                    </span>
+                    <span className="text-muted">/{t("priceSuffixMonthly")}</span>
                   </div>
                   <p className="mt-2 min-h-[1.25rem] text-xs text-muted">
-                    {billing === "yearly"
-                      ? t("yearlyBilledNote", { monthlyEquivalent: plan.yearlyMonthly })
-                      : t("monthlyNote")}
+                    {isFree ? t("freePriceNote") : t("monthlyNote")}
                   </p>
 
                   <a
-                    href={`${APP_URL}/signin?plan=${plan.name}&billing=${billing}&callbackUrl=${encodeURIComponent(`/?plan=${plan.name}&billing=${billing}`)}`}
+                    href={WAITLIST_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => {
-                      // Fire both: custom cta_click for our own funnel
-                      // breakdown by location, and GA4-standard select_item
-                      // so the prebuilt Ecommerce funnel report stitches
-                      // landing → app correctly.
-                      trackCtaClick({ location: "pricing_card", plan: plan.name, billing });
+                      trackCtaClick({ location: "pricing_card", plan: plan.name });
                       trackEvent("select_item", {
                         item_list_id: "landing_pricing_tiers",
                         item_list_name: "Landing /pricing — Tier List",
                         items: [{
-                          item_id: `${plan.name}_${billing}`,
-                          item_name: `${plan.name} (${billing})`,
+                          item_id: plan.name,
+                          item_name: plan.name,
                           item_category: "subscription",
-                          price: billing === "monthly" ? plan.monthlyPrice : plan.yearlyPrice,
+                          price: plan.monthlyPrice,
                           quantity: 1,
                         }],
                       });
@@ -324,63 +180,34 @@ export function Pricing() {
                         : "border border-border text-foreground hover:border-accent/40 hover:bg-accent/5"
                     }`}
                   >
-                    {t("getStarted")}
+                    {isFree ? t("startFree") : t("getStarted")}
                     <ChevronRight className="h-4 w-4" aria-hidden="true" />
                   </a>
 
-                  {/* Risk reversal — muted, not emerald. The shield icon
-                      carries the trust semantic; loud color isn't needed
-                      after the hero trio already set the trust frame. */}
-                  <p className="mt-2 flex items-center justify-center gap-1.5 text-[11px] text-muted">
-                    <ShieldCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
-                    <span>{t("moneyBackDetail")}</span>
-                  </p>
+                  {!isFree && (
+                    <p className="mt-2 flex items-center justify-center gap-1.5 text-[11px] text-muted">
+                      <ShieldCheck className="h-3 w-3 shrink-0" aria-hidden="true" />
+                      <span>{t("moneyBackDetail")}</span>
+                    </p>
+                  )}
 
-                  <div className="mt-6 space-y-2.5 border-t border-border/50 pt-6 text-sm">
-                    <div className="flex items-center gap-2 text-muted">
-                      <Bot className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
-                      <span className="font-medium text-foreground">
-                        {plan.agents}
-                      </span>{" "}
-                      {t("agentsLabel", { count: plan.agents })}
-                    </div>
-                    <div className="flex items-center gap-2 text-muted">
-                      <Globe className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
-                      <span className="font-medium text-foreground">
-                        {plan.browsers}
-                      </span>{" "}
-                      {t("browsersLabel", { count: plan.browsers })}
-                    </div>
-                    <div className="flex items-center gap-2 text-muted">
-                      <Coins className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
-                      <span className="font-medium text-foreground">
-                        {plan.credits.toLocaleString()}
-                      </span>{" "}
-                      {t("creditsLabel")}
-                    </div>
-                    <div className="flex items-center gap-2 text-muted">
-                      <FolderOpen className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
-                      {plan.teams > 0 ? (
-                        <>
-                          <span className="font-medium text-foreground">
-                            {plan.teams}
-                          </span>{" "}
-                          {t("teamsLabel", { count: plan.teams })}
-                        </>
-                      ) : (
-                        <span className="text-muted/50">{t("noTeams")}</span>
-                      )}
-                    </div>
+                  <div className="mt-6 flex items-center gap-2 border-t border-border/50 pt-6 text-sm">
+                    <Coins className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
+                    <span className="font-medium text-foreground">
+                      {t(`plans.${plan.localeIndex}.credits`)}
+                    </span>
                   </div>
 
                   <ul className="mt-4 flex-1 space-y-3">
-                    {plan.featureKeys.map((key) => (
+                    {Array.from({ length: plan.featureCount }, (_, i) => (
                       <li
-                        key={key}
+                        key={i}
                         className="flex items-start gap-2.5 text-sm text-muted"
                       >
                         <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-                        <span className="break-words">{t(key)}</span>
+                        <span className="break-words">
+                          {t(`plans.${plan.localeIndex}.features.${i}`)}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -389,27 +216,12 @@ export function Pricing() {
             );
           })}
         </StaggerContainer>
-
       </div>
 
-      {/* Testimonial row — social proof immediately after the hero cards.
-          Voices substitute for the "free trial" we can't offer; non-tech
-          audience leans heavily on relatable outcomes to feel safe paying. */}
-      <Testimonials />
-
       <div className="mx-auto max-w-6xl">
-        {/* Trust strip — anchors trust signals to the self-serve plans */}
+        {/* Trust strip */}
         <AnimateIn delay={0.08}>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-sm text-muted">
-            <Link
-              href="/money-back-guarantee"
-              className="flex items-center gap-2 rounded-md transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            >
-              <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              <span className="underline decoration-border underline-offset-4 hover:decoration-foreground">
-                {t("trust.moneyBack")}
-              </span>
-            </Link>
             {TRUST_KEYS.map((key) => (
               <span key={key} className="flex items-center gap-2">
                 <Check className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
@@ -419,9 +231,77 @@ export function Pricing() {
           </div>
         </AnimateIn>
 
-        {/* Enterprise band */}
+        {/* In every plan */}
         <AnimateIn delay={0.1}>
           <div className="mt-12 rounded-2xl border border-border/50 glass-card p-6 md:p-8">
+            <h2 className="text-lg font-semibold text-foreground">{t("everyPlan.heading")}</h2>
+            <ul className="mt-4 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
+              {EVERY_PLAN_KEYS.map((key) => (
+                <li key={key} className="flex items-center gap-2 text-sm text-muted">
+                  <Check className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+                  <span className="break-words">{t(`everyPlan.items.${key}`)}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </AnimateIn>
+
+        {/* What a task costs (credit bands) + model presets */}
+        <div className="mt-6 grid gap-6 md:grid-cols-2">
+          <AnimateIn delay={0.12}>
+            <div className="h-full rounded-2xl border border-border/50 glass-card p-6 md:p-8">
+              <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
+                <Coins className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
+                {t("bands.heading")}
+              </h2>
+              <ul className="mt-4 space-y-2.5">
+                {BAND_KEYS.map((key) => (
+                  <li key={key} className="flex items-start gap-2.5 text-sm text-muted">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                    <span className="break-words">{t(`bands.items.${key}`)}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-4 text-[13px] leading-relaxed text-muted">
+                {t("bands.freeEquivalent")}
+              </p>
+              <p className="mt-3 border-t border-border/50 pt-3 text-xs leading-relaxed text-muted/80">
+                {t("bands.note")}
+              </p>
+              <p className="mt-2 text-xs leading-relaxed text-muted/80">
+                {t("bands.rate")}
+              </p>
+            </div>
+          </AnimateIn>
+
+          <AnimateIn delay={0.14}>
+            <div className="h-full rounded-2xl border border-border/50 glass-card p-6 md:p-8">
+              <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
+                <Sparkles className="h-4 w-4 shrink-0 text-accent-light" aria-hidden="true" />
+                {t("presets.heading")}
+              </h2>
+              <dl className="mt-4 space-y-3">
+                {PRESET_KEYS.map((key) => (
+                  <div key={key}>
+                    <dt className="text-sm font-semibold text-foreground">
+                      {t(`presets.items.${key}.name`)}
+                    </dt>
+                    <dd className="text-[13px] leading-relaxed text-muted">
+                      {t(`presets.items.${key}.description`)}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-4 border-t border-border/50 pt-3 text-xs leading-relaxed text-muted/80">
+                {t("presets.note")}
+              </p>
+            </div>
+          </AnimateIn>
+        </div>
+
+        {/* Enterprise band */}
+        <AnimateIn delay={0.16}>
+          <div className="mt-6 rounded-2xl border border-border/50 glass-card p-6 md:p-8">
             <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-center md:gap-10">
               <div>
                 <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -436,27 +316,6 @@ export function Pricing() {
                   </span>
                 </div>
                 <ul className="mt-4 grid grid-cols-1 gap-x-6 gap-y-2 sm:grid-cols-2">
-                  <li className="flex items-center gap-2 text-sm text-muted">
-                    <Bot className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
-                    <span className="font-medium text-foreground">
-                      {t("enterprise.unlimitedAgents")}
-                    </span>{" "}
-                    {t("enterprise.agents")}
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted">
-                    <Globe className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
-                    <span className="font-medium text-foreground">
-                      {t("enterprise.unlimitedAgents")}
-                    </span>{" "}
-                    {t("enterprise.browsers")}
-                  </li>
-                  <li className="flex items-center gap-2 text-sm text-muted">
-                    <FolderOpen className="h-3.5 w-3.5 shrink-0 text-accent-light" aria-hidden="true" />
-                    <span className="font-medium text-foreground">
-                      {t("enterprise.unlimitedAgents")}
-                    </span>{" "}
-                    {t("enterprise.teams")}
-                  </li>
                   {ENTERPRISE_FEATURE_KEYS.map((key) => (
                     <li key={key} className="flex items-center gap-2 text-sm text-muted">
                       <Check className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />

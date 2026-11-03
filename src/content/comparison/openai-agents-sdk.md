@@ -21,14 +21,14 @@ related:
 
 The OpenAI Agents SDK is the simplest path to building multi-agent systems. With ~19,200 GitHub stars and five clean primitives (Agents, Tools, Handoffs, Guardrails, Tracing), you can have a working agent in under an hour. It launched March 2025 as the production-ready successor to the experimental Swarm framework and has been adopted by Klarna (handling two-thirds of support tickets), Coinbase, and Box.
 
-OpenLegion (~59 stars) is a security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes credential isolation, agent sandboxing, and cost controls — the production concerns the SDK intentionally leaves to the developer.
+OpenLegion is a hosted, security-first [AI agent platform](/learn/ai-agent-platform) that prioritizes credential isolation, agent sandboxing, and cost controls — the production concerns the SDK intentionally leaves to the developer.
 
 This is a direct **OpenLegion vs OpenAI Agents SDK** comparison based on public documentation at the time of writing.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and the OpenAI Agents SDK?**
-> The OpenAI Agents SDK is a lightweight framework for building multi-agent workflows with five core primitives and built-in tracing. OpenLegion is a security-first agent framework with mandatory container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). The SDK optimizes for developer simplicity; OpenLegion optimizes for production safety.
+> The OpenAI Agents SDK is a lightweight framework for building multi-agent workflows with five core primitives and built-in tracing. OpenLegion is a security-first agent framework with a sandboxed run for every task, vault-held credentials, per-agent budget enforcement, and goal-and-task coordination (goals → tasks → agents). The SDK optimizes for developer simplicity; OpenLegion optimizes for production safety.
 
 ## TL;DR
 
@@ -36,7 +36,7 @@ This is a direct **OpenLegion vs OpenAI Agents SDK** comparison based on public 
 - **OpenLegion** is the right choice when you need vendor independence, credential isolation, agent sandboxing, and per-agent cost controls.
 - **Vendor lock-in**: The SDK supports 100+ models via LiteLLM, but hosted tools (web search, file search, code interpreter) only work with OpenAI models.
 - **No sandboxing**: Tools run in the same Python process as the agent. A compromised tool can access environment variables, filesystem, and network.
-- **Credential model**: API keys stored as environment variables accessible to the agent process. OpenLegion uses a vault proxy — agents never see raw keys.
+- **Credential model**: API keys stored as environment variables accessible to the agent process. OpenLegion uses a credential vault — agents never see raw keys.
 - **Cost risk**: Web search costs $25-30 per 1,000 queries. Code interpreter bills per token. No built-in spend limits.
 
 ## Side-by-Side Comparison
@@ -44,18 +44,18 @@ This is a direct **OpenLegion vs OpenAI Agents SDK** comparison based on public 
 | Dimension | OpenLegion | OpenAI Agents SDK |
 |---|---|---|
 | **Primary focus** | Secure multi-agent orchestration | Lightweight multi-agent workflows |
-| **Architecture** | Four-zone trust model (plus operator-or-internal tier) | Runner loop with 5 primitives |
-| **Agent isolation** | Mandatory Docker container per agent, non-root, no-new-privileges | None — tools run in same Python process |
-| **Credential management** | Vault proxy — blind injection, agents never see keys | Environment variable accessible to agent process |
-| **Budget / cost controls** | Per-agent daily and monthly with hard cutoff | None built-in |
-| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | LLM-driven routing via handoffs |
-| **Multi-agent** | Native fleet orchestration (sequential, parallel DAGs with blackboard coordination) | Handoffs between agents, agent-as-tool |
-| **LLM support** | 100+ via LiteLLM (full feature parity) | 100+ via LiteLLM (hosted tools OpenAI-only) |
+| **Architecture** | One policy engine in front of every action | Runner loop with 5 primitives |
+| **Agent isolation** | Sandboxed run per task, no network by default | None — tools run in same Python process |
+| **Credential management** | Vault-held — injected outside the model, agents never see keys | Environment variable accessible to agent process |
+| **Budget / cost controls** | Per-agent credit budget with hard cutoff | None built-in |
+| **Orchestration** | Goal-and-task coordination (goals → tasks → agents) | LLM-driven routing via handoffs |
+| **Multi-agent** | Native team delegation (an assistant creates and delegates to teammates) | Handoffs between agents, agent-as-tool |
+| **LLM support** | Smartest, Smart and Normal presets | 100+ via LiteLLM (hosted tools OpenAI-only) |
 | **Tracing** | Built-in dashboard with live streaming, cost charts | Built-in tracing UI, zero-config, free |
-| **Dependencies** | Zero external — Python + SQLite + Docker | openai Python package |
-| **GitHub stars** | ~59 | ~19,200 |
-| **License** | PolyForm Perimeter License 1.0.1 | MIT |
-| **Best for** | Production fleets requiring security-first governance | Rapid development with OpenAI models |
+| **Dependencies** | None — sign in with Google | openai Python package |
+| **GitHub stars** | Not published | ~19,200 |
+| **License** | Engine: PolyForm Perimeter License 1.0.1 | MIT |
+| **Best for** | Production teams requiring security-first governance | Rapid development with OpenAI models |
 
 ## Architecture Differences
 
@@ -69,7 +69,7 @@ The vendor lock-in concern is also real. Hosted tools (web search, file search, 
 
 ### OpenLegion's architecture
 
-OpenLegion uses a four-zone trust model (plus an operator-or-internal tier) where every agent runs in its own Docker container. Credentials are managed by a vault proxy. Orchestration uses fleet-model coordination — blackboard + pub/sub + handoff — where every tool access permission and budget limit is declared before execution.
+OpenLegion puts one policy engine in front of every action, and each task runs on demand in its own sandbox and then stops. Credentials live in a vault and are injected outside the model, which only ever holds a handle. Orchestration is goals → tasks → agents, where every tool grant and budget limit is declared before execution.
 
 ## When to Choose the OpenAI Agents SDK
 
@@ -83,17 +83,17 @@ OpenLegion uses a four-zone trust model (plus an operator-or-internal tier) wher
 
 ## When to Choose OpenLegion
 
-**Vendor independence is a requirement.** OpenLegion supports 100+ models with full feature parity — no tools restricted to a single provider.
+**Vendor independence is a requirement.** OpenLegion chooses models by preset — Smartest, Smart or Normal — with no tools restricted to a single provider.
 
-**You need agent sandboxing.** The SDK runs tools in the host process. OpenLegion isolates every agent in a container with restricted resources.
+**You need agent sandboxing.** The SDK runs tools in the host process. OpenLegion runs every task in its own sandbox, with no network access by default.
 
-**Credential security is a hard requirement.** The SDK stores API keys as environment variables accessible to all tools. OpenLegion's vault proxy means agents never see credentials.
+**Credential security is a hard requirement.** The SDK stores API keys as environment variables accessible to all tools. OpenLegion's credential vault means agents never see credentials.
 
 **You need per-agent budget enforcement.** Web search at $25-30 per 1,000 queries can accumulate without limit. OpenLegion enforces hard cutoffs.
 
-**You need fleet-model coordination (blackboard + pub/sub + handoff).** The SDK uses LLM-driven handoffs. OpenLegion's fleet-model coordination define the exact execution path before any agent runs.
+**You need goal-and-task coordination (goals → tasks → agents).** The SDK uses LLM-driven handoffs. OpenLegion's goals and tasks define the exact execution path before any agent runs.
 
-Bring your own LLM API keys. No markup on model usage.
+Work is metered in credits at $0.001 each, and the exact cost of a task is visible.
 
 ## The Honest Trade-off
 
@@ -105,7 +105,7 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ## CTA
 
-**Need production-grade security for your agent fleet?**
+**Need production-grade security for your agent team?**
 [Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
@@ -116,27 +116,27 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ### What is the difference between OpenLegion and the OpenAI Agents SDK?
 
-The OpenAI Agents SDK (~19,200 stars) is a lightweight framework for multi-agent workflows with five primitives and built-in tracing. OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory container isolation, vault proxy credentials, per-agent budgets, and fleet-model coordination (blackboard + pub/sub + handoff).
+The OpenAI Agents SDK (~19,200 stars) is a lightweight framework for multi-agent workflows with five primitives and built-in tracing. OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with a sandboxed run for every task, vault-held credentials, per-agent budgets, and goal-and-task coordination (goals → tasks → agents).
 
 ### Is the OpenAI Agents SDK vendor-locked to OpenAI?
 
-Partially. Basic agent logic works with 100+ models via LiteLLM. Hosted tools (web search, file search, code interpreter) only work with OpenAI models. OpenLegion supports 100+ models with full feature parity across all providers.
+Partially. Basic agent logic works with 100+ models via LiteLLM. Hosted tools (web search, file search, code interpreter) only work with OpenAI models. OpenLegion chooses models by preset — Smartest, Smart or Normal — with the same features on every one.
 
 ### Does the OpenAI Agents SDK sandbox agent tools?
 
-No. All tools run in the same Python process as the agent. A compromised tool can access the full host environment. OpenLegion isolates every agent in a Docker container. See our [AI agent security](/learn/ai-agent-security) page for details.
+No. All tools run in the same Python process as the agent. A compromised tool can access the full host environment. OpenLegion runs every task in a sandbox with no network access by default. See our [AI agent security](/learn/ai-agent-security) page for details.
 
 ### How do costs compare between the OpenAI SDK and OpenLegion?
 
-The SDK is free (MIT). API costs follow standard OpenAI pricing. Hosted tools add costs: web search at $25-30 per 1,000 queries, file search at $2.50 per 1,000 queries. No built-in spend limits. OpenLegion enforces per-agent hard budget cutoffs with a bring-your-own-API-keys model.
+The SDK is free (MIT). API costs follow standard OpenAI pricing. Hosted tools add costs: web search at $25-30 per 1,000 queries, file search at $2.50 per 1,000 queries. No built-in spend limits. OpenLegion enforces per-agent hard budget cutoffs and meters work in credits at $0.001 each.
 
 ### Can I use OpenAI models with OpenLegion?
 
-Yes. OpenLegion supports all OpenAI models via LiteLLM. The difference is that OpenLegion does not provide hosted tools — you bring your own tools via MCP or the tool permission system.
+Models are chosen by preset — Smartest, Smart or Normal — rather than by provider, so no agent is pinned to one vendor. The difference is that OpenLegion does not provide hosted tools — each agent gets exactly the tools you grant it.
 
 ### Which framework is better for multi-agent orchestration?
 
-The SDK uses LLM-driven handoffs — flexible but unpredictable. OpenLegion uses fleet-model coordination (blackboard + pub/sub + handoff) [orchestration](/learn/ai-agent-orchestration) — auditable and predictable. For well-defined production workflows, OpenLegion is more reliable. For exploratory multi-agent systems, the SDK is more flexible.
+The SDK uses LLM-driven handoffs — flexible but unpredictable. OpenLegion uses goal-and-task coordination (goals → tasks → agents) [orchestration](/learn/ai-agent-orchestration) — auditable and predictable. For well-defined production workflows, OpenLegion is more reliable. For exploratory multi-agent systems, the SDK is more flexible.
 
 ---
 

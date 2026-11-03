@@ -1,6 +1,6 @@
 ---
 title: "How to Build an AI Agent: Tools, Credentials, Deployment, and Scheduling"
-description: "Build an AI agent step by step: define the agent loop, register tools, configure vault credential injection, set budget caps, deploy to production, schedule with heartbeat cron, and add observability."
+description: "Build an AI agent step by step: define the agent loop, register tools, configure vault credential injection, set budget caps, deploy to production, schedule recurring runs, and add observability."
 slug: /learn/build-ai-agent
 primary_keyword: build ai agent
 last_updated: "2026-06-23"
@@ -20,7 +20,7 @@ Building an AI agent requires more than a system prompt and a tool list. Product
 
 <!-- SCHEMA: DefinitionBlock -->
 
-> **Building an AI agent** means defining the agent's reasoning loop, registering the tools it may call, isolating its credentials so raw secrets never enter the agent's context, setting budget caps that prevent runaway cost, deploying the agent container with resource limits and health checks, scheduling autonomous runs with a heartbeat cron, and instrumenting the agent's tool calls for observability — in that order, with security controls as structural defaults rather than optional additions.
+> **Building an AI agent** means defining the agent's reasoning loop, registering the tools it may call, isolating its credentials so raw secrets never enter the agent's context, setting budget caps that prevent runaway cost, deploying it to production with resource limits and health checks, scheduling autonomous runs on a recurring schedule, and instrumenting the agent's tool calls for observability — in that order, with security controls as structural defaults rather than optional additions.
 
 ## The Seven Steps at a Glance
 
@@ -28,25 +28,25 @@ Building an AI agent requires more than a system prompt and a tool list. Product
 |---|---|---|
 | **1. Role + reasoning loop** | System prompt, loop type, stopping conditions | Injection surface defined and bounded |
 | **2. Tool registration** | Allowlist, schemas, HITL gates | Least-privilege tool access |
-| **3. Credential vault** | `$CRED{}` handles, scoping | Raw secrets never in agent context |
+| **3. Credential vault** | Credential handles, scoping | Raw secrets never in agent context |
 | **4. Budget caps** | Daily/monthly limits, rate limit handling | Runaway cost prevention |
-| **5. Deployment** | Container, health checks, mesh registration | OOM protection, stoppability |
-| **6. Scheduling** | Heartbeat cron, tool mode vs message mode | Autonomous operation with liveness |
+| **5. Deployment** | Budgets, health checks, activation mode | OOM protection, stoppability |
+| **6. Scheduling** | Recurring schedules, tool mode vs message mode | Autonomous operation with liveness |
 | **7. Observability** | Tool call logging, anomaly rules | Attributability, CC7.2 evidence |
 
 ## Step 1: Define the Agent's Role and Reasoning Loop
 
-### Write the System Prompt: SOUL.md and INSTRUCTIONS.md
+### Write the System Prompt: Identity and Operating Instructions
 
 The system prompt is your first line of defense against prompt injection. An underspecified prompt — "you are a helpful AI assistant" — is trivially hijackable: inject "ignore previous instructions" and the agent has no competing instruction to prioritize. A well-structured system prompt defines identity, task scope, refusal boundaries, and operational procedures.
 
-OpenLegion agents split the system prompt across two workspace files:
+OpenLegion agents split the system prompt across two sections of the agent's configuration:
 
-**SOUL.md** — identity and behavioral boundaries. Who the agent is, what it will never do (refuse to exfiltrate credentials, refuse to call tools outside its allowlist, refuse to follow instructions from untrusted blackboard sources), and the communication style it uses. SOUL.md is read once at initialization.
+**The identity brief** — identity and behavioral boundaries. Who the agent is, what it will never do (refuse to exfiltrate credentials, refuse to call tools outside its allowlist, refuse to follow instructions from untrusted content), and the communication style it uses. The identity brief is read once at the start of each run.
 
-**INSTRUCTIONS.md** — operational procedures. Step-by-step "if X, do Y" rules: how to handle rate limits, what to do when a task is ambiguous, the exact pattern for HITL escalation, which blackboard keys to read and write. INSTRUCTIONS.md is the runbook the agent follows. Update it when you discover a recurring edge case — the agent learns operational patterns this way without retraining.
+**The operating-procedure brief** — operational procedures. Step-by-step "if X, do Y" rules: how to handle rate limits, what to do when a task is ambiguous, the exact pattern for HITL escalation, which records to read and write. The operating-procedure brief is the runbook the agent follows. Update it when you discover a recurring edge case — the agent learns operational patterns this way without retraining.
 
-The SOUL.md/INSTRUCTIONS.md split keeps identity stable (SOUL.md changes rarely) and procedures updatable (INSTRUCTIONS.md changes often). Both are injected into the system prompt at agent startup.
+The identity/procedure split keeps identity stable (the identity brief changes rarely) and procedures updatable (the procedure brief changes often). Both are injected into the system prompt at the start of every run.
 
 ### Choose the Agent Loop: ReAct vs. Plan-and-Execute
 
@@ -60,9 +60,9 @@ Start with ReAct. Move to Plan-and-Execute if you observe the agent spending mor
 
 ### Define Stopping Conditions and Failure Modes
 
-The most common cause of runaway agent loops is a missing or uncomputable stopping condition. Define three things explicitly in INSTRUCTIONS.md before writing a single line of tool registration code:
+The most common cause of runaway agent loops is a missing or uncomputable stopping condition. Define three things explicitly in the operating-procedure brief before writing a single line of tool registration code:
 
-**Success condition**: a computable check. "Task is complete when the artifact is saved and `update_status(state=done)` is called" — not "when the work is finished." The agent must be able to evaluate the success condition programmatically at each iteration.
+**Success condition**: a computable check. "Task is complete when the artifact is saved and the task is reported done" — not "when the work is finished." The agent must be able to evaluate the success condition programmatically at each iteration.
 
 **Failure conditions**: distinction between stop-and-report vs. retry-and-continue. Rate limit errors → wait and retry up to 3 times. Tool unavailability → stop and report. Invalid input data → stop immediately, do not retry. Each failure mode needs a documented response.
 
@@ -81,7 +81,7 @@ Tool risk categories, in ascending order:
 | **Read** | `web_search`, `read_blackboard`, `read_file` | None — low risk |
 | **Write** | `write_file`, `write_blackboard`, `memory_save` | None — reversible |
 | **Side-effect** | `http_request` (POST), `send_email`, `commit_file` | HITL recommended |
-| **Spawn** | `spawn_fleet_agent`, `spawn_subagent` | HITL required |
+| **Spawn** | `delegate`, `propose_agent` | HITL required |
 
 Any tool in the side-effect or spawn category should require a HITL gate before execution in production. The cost of a confirmation step is low; the cost of an unintended mass-email or erroneous repository commit is high.
 
@@ -97,7 +97,7 @@ tool_schema = {
     "description": "Commits a single file to a GitHub repository. Use after "
                    "content has been validated locally. Do NOT use for draft "
                    "content, experimental changes, or files containing "
-                   "$CRED{} handles.",
+                   "credential handles.",
     "parameters": {
         "repo": {"type": "string", "description": "owner/repo format"},
         "path": {"type": "string", "description": "File path within repo"},
@@ -112,47 +112,47 @@ The `"Do NOT use for..."` clause in the description is the field that reduces ha
 
 ### Irreversible Tool Gates: HITL Before Destructive Actions
 
-For any tool whose effects cannot be reversed — repository commits, external API POSTs, email sends, database writes — add an explicit HITL gate pattern in INSTRUCTIONS.md:
+For any tool whose effects cannot be reversed — repository commits, external API POSTs, email sends, database writes — add an explicit HITL gate pattern in the operating-procedure brief:
 
 ```markdown
 Before calling commit_file, send_email, or any http_request with method POST:
-1. Call update_status(state="working", summary="Proposed: [describe the action]")
-2. Wait 30 minutes for a steer message from the operator
-3. If no steer received: call update_status(state="blocked", summary="Awaiting approval for [action]")
-4. If steer says proceed: execute the tool call
-5. If steer says cancel: update_status(state="done", summary="Action cancelled by operator")
+1. Report status: working -- "Proposed: [describe the action]"
+2. Wait 30 minutes for the owner to approve in the app
+3. If no reply arrives: report status blocked -- "Awaiting approval for [action]"
+4. If the owner approves: execute the tool call
+5. If the owner declines: report status done -- "Action cancelled by operator"
 ```
 
-This pattern implements the [human-in-the-loop approval gate](/learn/human-in-the-loop-ai-agents) at the instruction level rather than requiring framework changes. The agent reads the pattern from INSTRUCTIONS.md and applies it autonomously.
+This pattern implements the [human-in-the-loop approval gate](/learn/human-in-the-loop-ai-agents) at the instruction level rather than requiring framework changes. The agent reads the pattern from its operating-procedure brief and applies it autonomously.
 
 ## Step 3: Configure Credential Vault — Zero Raw Secrets in Agent Context
 
-### Storing Credentials: vault_generate_secret and request_credential
+### Storing Credentials: Generated Secrets and Operator-Supplied Keys
 
-Two methods for getting credentials into the vault, both producing opaque `$CRED{name}` handles that never return the raw value:
+Two ways to get credentials into the vault, both producing an opaque credential handle that never returns the raw value:
 
-**`vault_generate_secret(name, length=32)`**: generates a cryptographically random secret and stores it in the vault. Use for internal secrets: webhook signing keys, inter-service tokens, database passwords the agent itself needs to provision. The generated secret is written to the vault and never returned to the agent or to any log.
+**Platform-generated secrets**: the platform generates a cryptographically random secret and stores it in the vault. Use for internal secrets: webhook signing keys, inter-service tokens, database passwords the agent itself needs to provision. The generated secret is written to the vault and never returned to the agent or to any log.
 
-**`request_credential(name, service, description)`**: prompts the operator to enter an existing API key through a secure input channel. The operator types the key into an encrypted UI field; the value goes directly to the vault. The agent receives the `$CRED{name}` handle. No log, no transcript, no blackboard entry contains the raw value.
+**Operator-supplied keys**: the owner pastes an existing API key into the app through a secure input field. The value goes straight to the vault, and the agent receives only a credential handle. No log, no transcript and no stored record contains the raw value.
 
-After either call, the credential is accessible only as a handle. `vault_list()` returns credential names, not values. There is no method to retrieve a raw secret once stored — by design.
+Either way, the credential is accessible only as a handle. The vault lists credential names, not values. There is no way to retrieve a raw secret once stored — by design.
 
-### Using $CRED{} in Tool Calls: Network-Layer Injection
+### Using Credential Handles in Tool Calls: Injection Outside the Model
 
-Pass `$CRED{name}` handles directly in tool call arguments anywhere a secret is needed:
+Pass credential handles directly in tool call arguments anywhere a secret is needed:
 
 ```python
 http_request(
     url="https://api.openai.com/v1/chat/completions",
     method="POST",
-    headers={"Authorization": "Bearer $CRED{openai_key}"},
+    headers={"Authorization": "Bearer vault://openai_key"},
     body=json.dumps({"model": "gpt-4o", "messages": [...]})
 )
 ```
 
-The mesh intercepts the outbound request before it leaves the agent's network namespace. It resolves `$CRED{openai_key}` from Zone 2 (credential vault), substitutes the actual key into the Authorization header, and forwards the request. The agent process sees only the handle string. The request log records the handle, not the resolved value.
+The policy engine intercepts the outbound request before it leaves the agent's run. It resolves the `vault://openai_key` handle from the credential vault, outside the model, substitutes the actual key into the Authorization header, and forwards the request. The agent's run sees only the handle string. The request log records the handle, not the resolved value.
 
-This is the SOC 2 CC6.1 control: credential access is restricted to authorized callers and not visible to the agent container that uses the credential. An agent compromised by prompt injection cannot exfiltrate a key it has never possessed.
+This is the SOC 2 CC6.1 control: credential access is restricted to authorized callers and not visible to the agent run that uses the credential. An agent compromised by prompt injection cannot exfiltrate a key it has never possessed.
 
 ### Credential Scoping: One Credential Per Service Per Role
 
@@ -163,7 +163,7 @@ Name credentials with the pattern `{service}_{role}_{env}`:
 
 One credential per service per role means: a compromise of the `researcher` agent role does not expose the `publisher` role's GitHub token. Rotation of the `publisher` token does not require touching the `researcher` configuration. Audit logs that include the credential name attribute actions to the specific role that made them, not just to "an agent."
 
-Fleet agents spawned by a parent agent inherit the parent's credential access by default. Override this explicitly: when spawning a sub-agent that should have narrower access, pass a `credential_scope` parameter limiting which handles it can resolve. This prevents a spawned agent from inheriting write credentials it doesn't need for its task.
+Delegated work should not inherit the delegating agent's credential access. Grant each agent only the handles its own task requires, and give a teammate doing narrower work a narrower set of handles to resolve. This keeps a delegated task from reaching write credentials it doesn't need.
 
 ## Step 4: Set Budget Caps and Rate Limits
 
@@ -180,15 +180,15 @@ Example: agent processes 20 tasks/day, each consuming ~50K tokens at gpt-4o pric
 - Expected daily cost: 20 × 50,000 × ($10 / 1,000,000) = $10/day
 - Cap: $30–50/day
 
-OpenLegion enforces $50/day and $200/month per agent at Zone 2 (Cost Tracker) by default. These limits are not bypassable by agent code — the LLM proxy rejects calls once the cap is reached. At 80% of the daily cap, an alert fires to the designated operator.
+In OpenLegion every agent carries its own budget, metered in credits at $0.001 each and set by the owner in the app. These limits are not bypassable by agent code — the policy engine rejects calls once the budget is reached. At 80% of the budget, an alert fires to the designated operator.
 
 Never set "unlimited." An agent that can spend without limit converts any runaway loop from an operational nuisance to an unbound financial liability.
 
-When the cap is hit, the agent suspends and calls `update_status(state="blocked", summary="Daily budget cap reached")`. The operator receives a notification and decides whether to reallocate budget or investigate the spend pattern before resuming.
+When the budget is spent, the agent suspends and reports a blocked status naming the exhausted budget. The operator receives a notification and decides whether to reallocate budget or investigate the spend pattern before resuming.
 
 ### LLM API Rate Limit Handling: Circuit Breaker Pattern
 
-Document the rate limit handling pattern explicitly in INSTRUCTIONS.md — the agent reads and follows it:
+Document the rate limit handling pattern explicitly in the operating-procedure brief — the agent reads and follows it:
 
 ```markdown
 ## Rate Limit Handling
@@ -197,34 +197,34 @@ If an LLM API call returns HTTP 429 (Too Many Requests):
 1. Check the Retry-After header. If present, wait that many seconds.
 2. If no Retry-After, wait 2^(attempt) seconds (2s, 4s, 8s for attempts 1, 2, 3).
 3. Maximum 3 retries. On the 3rd consecutive 429:
-   - Call update_status(state="blocked", summary="LLM API rate limit exhausted after 3 retries")
-   - Stop processing until operator steers to continue or wait period passes.
+   - Report status: blocked -- "LLM API rate limit exhausted after 3 retries"
+   - Stop processing until the operator resumes the agent or the wait period passes.
 4. Never retry non-rate-limit 4xx errors (400, 401, 403, 422) — these require operator intervention.
 ```
 
-This instruction-level circuit breaker complements the Zone 2 infrastructure circuit breaker (which trips after 5 consecutive 429s across all agents on the same API key). The instruction-level version catches rate limits at the single-agent level before they propagate to the infrastructure breaker.
+This instruction-level circuit breaker complements the platform circuit breaker (which trips after 5 consecutive 429s across all agents on the same API key). The instruction-level version catches rate limits at the single-agent level before they propagate to the infrastructure breaker.
 
-## Step 5: Deploy to Production — Container, Health Checks, and Mesh Registration
+## Step 5: Deploy to Production — Budgets, Health Checks, and Activation
 
-### Mesh Registration: spawn_fleet_agent vs. Heartbeat Agent
+### Activation: On-Demand Agent vs. Scheduled Agent
 
-Two deployment modes for production agents:
+Two activation modes for production agents:
 
-**`spawn_fleet_agent()`**: task-scoped ephemeral agent. Spawned on demand, runs to completion, auto-cleaned up at `ttl` expiry. Use for work that arrives irregularly — processing a document, running a research task, handling a webhook. The spawning agent passes task parameters and receives results when the fleet agent completes.
+**On-demand agent**: a task runs on demand and then stops. Nothing keeps running between tasks, and an idle agent costs nothing. Use for work that arrives irregularly — processing a document, running a research task, handling a webhook. The delegating agent passes the task parameters and receives the result when that task completes.
 
 ```python
-result = spawn_fleet_agent(
-    role="research-agent",
-    task="Research competitors for {company} and write findings to blackboard key research/{company}",
-    ttl=3600
+result = team.delegate(
+    agent="research-agent",
+    task="Research competitors for {company} and file the findings as a deliverable",
+    budget_credits=500
 )
 ```
 
-**Heartbeat agent**: persistent agent with a cron schedule. Registered once, wakes on schedule, runs its task, goes back to sleep. Use for recurring work — daily reports, monitoring checks, content pipeline steps. The heartbeat is the scheduling primitive for autonomous operation.
+**Scheduled agent**: a standing agent with a recurring schedule. Set once, it wakes on schedule, runs its task, and stops again. Use for recurring work — daily reports, monitoring checks, content pipeline steps. Schedules are the primitive behind autonomous operation.
 
 ### Container Resource Limits and Health Checks
 
-Every production agent container needs explicit resource limits. Without limits, a runaway loop consumes all available host memory and takes down co-located containers. Starting values from OpenLegion's default templates:
+Every production agent container needs explicit resource limits. Without limits, a runaway loop consumes all available host memory and takes down co-located containers. Starting values for a self-managed agent deployment:
 
 ```yaml
 resources:
@@ -261,53 +261,53 @@ livenessProbe:
   failureThreshold: 5
 ```
 
-OpenLegion agents achieve cold start (heartbeat trigger to first tool call) in under 500ms for dependency-light configurations. Model-loading agents will need a longer startup probe window — measure actual startup time before setting `failureThreshold`.
+OpenLegion agents have no container to warm: a task runs on demand and then stops, so there is no startup probe to tune. Model-loading agents in a self-managed container will need a longer startup probe window — measure actual startup time before setting `failureThreshold`.
 
 ### The Kill Switch: Documented and Tested
 
 Before deploying any agent to production, document and test the kill switch procedure. EU AI Act Article 14 requires the ability to intervene and stop AI systems. A kill switch that exists only in documentation does not satisfy the requirement.
 
-For OpenLegion: `steer(agent_id="...", message="HALT")` sends an immediate halt signal. The agent stops processing, logs its current state to the audit trail, and calls `update_status(state="done", summary="Halted by operator")`.
+For OpenLegion: an owner halts the agent from the app and the signal is immediate. The agent stops processing, its current state is written to the audit trail, and the run is recorded as halted by the operator.
 
 For Kubernetes: `kubectl delete pod <agent-pod-name>` with a SIGTERM handler that logs the halt event. Set `terminationGracePeriodSeconds` to at least the p95 task duration so in-flight work can complete.
 
 Test the kill switch monthly. A kill switch no one has exercised is not a kill switch.
 
-## Step 6: Schedule Autonomous Runs — Heartbeat Cron
+## Step 6: Schedule Autonomous Runs — Recurring Schedules
 
-### Three Scheduling Modes: Tool Mode, Message Mode, and Heartbeat Mode
+### Three Scheduling Modes: Tool Mode, Message Mode, and Schedule Mode
 
-OpenLegion's `set_cron` supports three modes for different scheduling patterns:
+OpenLegion schedules support three modes for different scheduling patterns:
 
-**Tool mode** (`tool_name` parameter): the scheduler calls a specific tool directly on each tick — no LLM inference, no token cost. Use for deterministic actions: polling a status endpoint, writing a heartbeat to the blackboard, sending a notification.
+**Tool mode** (`tool_name` parameter): the schedule calls a specific tool directly on each tick — no LLM inference, no token cost. Use for deterministic actions: polling a status endpoint, recording a liveness check, sending a notification.
 
 ```python
-set_cron(
-    schedule="every 5m",
-    tool_name="write_blackboard",
-    tool_params=json.dumps({"key": "heartbeat/monitor-agent", "value": "alive"})
+schedule(
+    every="5m",
+    tool_name="http_request",
+    tool_params=json.dumps({"url": "https://status.example.com/health", "method": "GET"})
 )
 ```
 
-**Message mode** (`message` parameter): the scheduler sends a message to the agent on each tick. The agent wakes, processes the message with full LLM reasoning, and goes back to sleep. Use for tasks that require judgment: "check if any new briefs need processing."
+**Message mode** (`message` parameter): the schedule sends a message to the agent on each tick. The agent wakes, processes the message with full LLM reasoning, and stops again. Use for tasks that require judgment: "check if any new briefs need processing."
 
 ```python
-set_cron(
-    schedule="every 4h",
-    message="Check briefs/ for unprocessed entries. Write any missing pages and hand off to page-validator."
+schedule(
+    every="4h",
+    message="Check briefs/ for unprocessed entries. Write any missing pages and delegate review to page-validator."
 )
 ```
 
-**Heartbeat mode** (`heartbeat=True`): updates the agent's own autonomous wakeup schedule. Change this only when the operator explicitly asks — each heartbeat call costs API credits.
+**Schedule mode** (`schedule` parameter): sets the agent's own recurring wake schedule. Change this only when the owner explicitly asks — every wake it triggers spends credits.
 
 ### Scheduling Patterns for Common Agent Types
 
 | **Agent type** | **Schedule** | **Mode** | **Rationale** |
 |---|---|---|---|
 | Daily content pipeline | `0 8 * * *` | Message | Needs judgment on task selection |
-| Status heartbeat | `every 5m` | Tool | Deterministic, zero inference cost |
+| Status liveness check | `every 5m` | Tool | Deterministic, zero inference cost |
 | Weekly report | `0 9 * * 1` | Message | Monday 9am, needs reasoning |
-| Monitoring alert check | `every 15m` | Tool | Write to blackboard if threshold exceeded |
+| Monitoring alert check | `every 15m` | Tool | Notify the owner if threshold exceeded |
 | Hourly task drain | `0 * * * *` | Message | Check inbox and process pending work |
 
 For message-mode schedules, write the message as a specific trigger with expected output. Vague messages ("do your work") produce inconsistent behavior because the agent must infer what work means at each tick.
@@ -316,9 +316,9 @@ For message-mode schedules, write the message as a specific trigger with expecte
 
 Scheduled agents must be idempotent: running the same task twice produces the same result without side effects. Design for this from the start:
 
-- Before processing a task, check if a result already exists in the blackboard. If yes, skip.
+- Before processing a task, check if a result already exists in the shared task record. If yes, skip.
 - Use a `run_id` derived from task content hash rather than timestamp. The same task gets the same `run_id`, and a dedup check prevents re-processing.
-- For side-effect tools (commits, emails, API POSTs), store a `sent_at` timestamp in the blackboard keyed by the action's content hash.
+- For side-effect tools (commits, emails, API POSTs), store a `sent_at` timestamp in the shared task record keyed by the action's content hash.
 
 Idempotency makes your agent safe to restart after a crash, safe to run at higher frequency for testing, and safe to replay during debugging.
 
@@ -343,7 +343,7 @@ log_entry = {
 }
 ```
 
-The `tool_args_sanitized` field is critical: log the argument structure but redact any field that might contain resolved credential values. An agent that logs its HTTP headers after credential injection would expose secrets in the log aggregator — the exact exposure the vault proxy prevents.
+The `tool_args_sanitized` field is critical: log the argument structure but redact any field that might contain resolved credential values. An agent that logs its HTTP headers after credential injection would expose secrets in the log aggregator — the exact exposure vault-held credentials prevent.
 
 OpenLegion automatically appends every tool call to the agent's append-only audit trail. The [AI agent observability guide](/learn/ai-agent-observability) covers querying audit trails and setting threshold-based anomaly alerts.
 
@@ -351,7 +351,7 @@ OpenLegion automatically appends every tool call to the agent's append-only audi
 
 Configure these three alert rules before your agent goes to production:
 
-**Rule 1 — Tool call rate spike**: alert when the agent makes more than 2× its baseline number of tool calls per hour. Cause: retry loop. Response: check the audit trail for the repeated call and fix the failure mode in INSTRUCTIONS.md.
+**Rule 1 — Tool call rate spike**: alert when the agent makes more than 2× its baseline number of tool calls per hour. Cause: retry loop. Response: check the audit trail for the repeated call and fix the failure mode in the operating-procedure brief.
 
 **Rule 2 — Unexpected tool category**: alert when the agent calls a tool outside its expected categories. Cause: prompt injection directing the agent to use tools outside its task scope. Response: check the full session transcript, rotate credentials if any side-effect tools were called.
 
@@ -363,9 +363,9 @@ All three rules require a log stream with per-tool-call cost attribution. Withou
 
 The seven steps above are sequential because the security properties are sequential: you cannot scope credentials before the tool allowlist exists, cannot set budget caps before knowing what tools cost, cannot configure health checks before knowing resource requirements. Teams that skip steps — typically credential management and budget caps — build agents that work in prototypes and fail in production when a retry loop or prompt injection occurs.
 
-The prototype-to-production gap is smaller than it looks. Installing `openlegion>=0.4.0`, configuring `$CRED{}` handles, and setting a daily budget cap takes under an hour for an existing agent. The SOUL.md/INSTRUCTIONS.md refactor of an existing system prompt takes another hour. Health check configuration and kill switch documentation add a third. A prototype that's been running for a week can be production-grade in a day.
+The prototype-to-production gap is smaller than it looks. Signing in with Google, moving your keys into the credential vault, and setting a credit budget takes under an hour for an existing agent. Splitting an existing system prompt into an identity brief and an operating-procedure brief takes another hour. Health check configuration and kill switch documentation add a third. A prototype that's been running for a week can be production-grade in a day.
 
-A TypeScript SDK is available for teams building agents in Node environments. The configuration model is identical — SOUL.md, INSTRUCTIONS.md, `$CRED{}` handles, same scheduling primitives — with TypeScript types for all tool call signatures.
+Agents can also write and run their own code. It executes in a sandbox with no network access by default, under the same configuration model — identity brief, operating-procedure brief, credential handles, same scheduling primitives — and every call it makes is checked and recorded like any other.
 
 For the framework selection decision that precedes this guide, see [AI agent frameworks](/learn/ai-agent-frameworks). For the tool use patterns that inform Step 2's allowlist design, see [AI agent tool use](/learn/ai-agent-tool-use). For the credential management patterns that back Step 3 in detail, see [credential management for AI agents](/learn/credential-management-ai-agents).
 
@@ -382,19 +382,19 @@ For the framework selection decision that precedes this guide, see [AI agent fra
 
 ### What do I need before I can build an AI agent?
 
-You need three things: a clear definition of what task the agent will perform (narrow beats broad), an API key for the LLM you plan to use, and a list of tools the agent needs to complete the task. Everything else — credential isolation, budget caps, health checks, scheduling — is configuration that follows from these three inputs. Install `openlegion>=0.4.0` (or equivalent framework), write a SOUL.md defining the agent's identity, and write an INSTRUCTIONS.md defining its task procedures before writing any tool registration code.
+You need three things: a clear definition of what task the agent will perform (narrow beats broad), a model preset to run it on — Smartest, Smart or Normal — and a list of tools the agent needs to complete the task. Everything else — credential isolation, budget caps, health checks, scheduling — is configuration that follows from these three inputs. OpenLegion is a hosted web app — sign in with Google, write the identity brief defining the agent's identity, and write the operating-procedure brief defining its task procedures before writing any tool registration code.
 
 ### How do I prevent my AI agent from spending too much money?
 
-Set a per-agent budget cap at the infrastructure layer before the agent makes its first production LLM call. Calculate expected daily spend (average tokens per task × tasks per day × price per token), then set the cap at 3–5× that estimate. In OpenLegion, the Zone 2 Cost Tracker enforces $50/day and $200/month per agent by default — these limits are not bypassable by agent code. When the cap is hit, the agent suspends and alerts the operator rather than continuing to spend.
+Set a per-agent budget cap at the infrastructure layer before the agent makes its first production LLM call. Calculate expected daily spend (average tokens per task × tasks per day × price per token), then set the cap at 3–5× that estimate. In OpenLegion, every agent carries its own credit budget, set in the app and checked by the policy engine — these limits are not bypassable by agent code. When the cap is hit, the agent suspends and alerts the operator rather than continuing to spend.
 
-### What is a $CRED{} handle and why should I use it instead of environment variables?
+### What is a credential handle and why use it instead of environment variables?
 
-A `$CRED{name}` handle is an opaque token that references a secret stored in the credential vault. The handle never contains the raw key value. When the agent passes a handle in an HTTP request header, the mesh resolves the handle to the actual key at the network layer before forwarding the request — the agent process never sees the plaintext secret. Environment variables are visible via `docker inspect`, logged by debugging statements, and exfiltrable through prompt injection. The `$CRED{}` pattern eliminates all three exposure vectors.
+A credential handle is an opaque token that references a secret stored in the credential vault. The handle never contains the raw key value. When the agent passes a handle in an HTTP request header, the platform resolves the handle to the actual key outside the model before forwarding the request — the agent's run never sees the plaintext secret. Environment variables are visible via `docker inspect`, logged by debugging statements, and exfiltrable through prompt injection. The credential handle pattern eliminates all three exposure vectors.
 
-### What is the difference between spawn_fleet_agent and a heartbeat agent?
+### What is the difference between an on-demand agent and a scheduled agent?
 
-`spawn_fleet_agent()` creates a task-scoped ephemeral agent: it runs to completion and auto-terminates at the configured TTL (default 3,600 seconds). Use it for on-demand work — processing a document, handling a webhook, running a research task. A heartbeat agent is a persistent scheduled agent with a cron expression. It wakes on schedule, runs its configured task, and sleeps until the next tick. Use heartbeat agents for recurring work: daily content pipeline, monitoring checks, periodic reports.
+An on-demand agent runs a task to completion and then stops — nothing stays running between tasks, and an idle agent costs nothing. Use it for on-demand work — processing a document, handling a webhook, running a research task. A scheduled agent is a standing agent with a recurring schedule. It wakes on schedule, runs its configured task, and stops until the next tick. Use scheduled agents for recurring work: daily content pipeline, monitoring checks, periodic reports.
 
 ### How do I choose between ReAct and plan-and-execute for my agent loop?
 
@@ -406,7 +406,7 @@ Register the minimum set that enables the task — nothing more. Write a one-sen
 
 ### How do I test a kill switch for my production agent?
 
-On OpenLegion, send a `steer(agent_id="...", message="HALT")` signal to a running agent during a scheduled test window. Verify the agent stops processing, logs its current state to the audit trail, and calls `update_status(state="done", summary="Halted by operator")`. On Kubernetes, verify `kubectl delete pod <name>` terminates the agent within the configured `terminationGracePeriodSeconds` and that the SIGTERM handler runs the drain procedure before exit. Run this test monthly. EU AI Act Article 14 requires tested, functional human oversight mechanisms — a documented but untested kill switch does not satisfy the requirement.
+On OpenLegion, halt a running agent from the app during a scheduled test window. Verify the agent stops processing, that its current state is written to the audit trail, and that the run is recorded as halted by the operator. On Kubernetes, verify `kubectl delete pod <name>` terminates the agent within the configured `terminationGracePeriodSeconds` and that the SIGTERM handler runs the drain procedure before exit. Run this test monthly. EU AI Act Article 14 requires tested, functional human oversight mechanisms — a documented but untested kill switch does not satisfy the requirement.
 
 ### How do I add observability to an agent I've already built?
 

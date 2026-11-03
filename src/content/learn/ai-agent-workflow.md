@@ -391,22 +391,22 @@ class StageCredentials:
     stage_name: str
     # Credentials are opaque handles — never raw values
     allowed_tools: frozenset[str]
-    credential_handles: dict[str, str]  # tool_name → $CRED{handle}
+    credential_handles: dict[str, str]  # tool_name → opaque vault handle
 
 STAGE_CREDENTIAL_POLICY: dict[str, StageCredentials] = {
     "research": StageCredentials(
         stage_name="research",
         allowed_tools=frozenset({"web_search", "read_url"}),
         credential_handles={
-            "web_search": "$CRED{tavily_api_key}",
-            "read_url": "$CRED{firecrawl_api_key}",
+            "web_search": "vault://tavily_api_key",
+            "read_url": "vault://firecrawl_api_key",
         }
     ),
     "draft": StageCredentials(
         stage_name="draft",
         allowed_tools=frozenset({"read_file"}),
         credential_handles={
-            "read_file": "$CRED{workspace_read_token}",
+            "read_file": "vault://workspace_read_token",
         }
         # No web access — draft stage cannot make outbound requests
     ),
@@ -425,13 +425,13 @@ async def run_stage_with_isolation(
 ) -> WorkflowState:
     creds = STAGE_CREDENTIAL_POLICY[stage_name]
 
-    # Vault proxy enforces: only tools in creds.allowed_tools
+    # Credential vault enforces: only tools in creds.allowed_tools
     # can be called during this stage's execution
     async with credential_scope(creds):
         return await stage_fn(state)
 ```
 
-**Why this matters:** a research agent that exfiltrates data through an injected tool call can only access tools in its `allowed_tools` set. If `delete_record` is not in the research stage's `allowed_tools`, the injected call fails at the vault proxy layer, before the credential is ever retrieved.
+**Why this matters:** a research agent that exfiltrates data through an injected tool call can only access tools in its `allowed_tools` set. If `delete_record` is not in the research stage's `allowed_tools`, the injected call fails at the credential vault, before the credential is ever retrieved.
 
 For the full credential architecture, see [AI agent access control and per-step credential scoping](/learn/ai-agent-access-control).
 
@@ -685,7 +685,7 @@ Three concrete facts about agent workflow security in production:
 
 **OpenAI Agents SDK's `HandoffValidationError` (March 2025) and LangGraph v0.2's `TypedDict` WorkflowState (June 2024) represent the current state of the art for typed handoffs in Python.** Both enforce schema validation before the target stage receives data. The difference: OpenAI Agents SDK's `Guardrails` run async validation functions that can veto a handoff based on content (injection pattern detection, PII presence, anomalous field values); LangGraph's validation is structural (type checking against the `TypedDict` definition). Production workflows need both: structural validation catches malformed data; content-aware guardrails catch structurally valid but semantically dangerous data.
 
-**Per-stage credential scoping reduces the blast radius of a compromised workflow stage from the full credential set to a single stage's credential subset.** A research stage with access to `web_search` and `read_url` can exfiltrate data through those two tools, but cannot call `delete_record` or `send_email`. The vault proxy enforces this at the HTTP request layer: any outbound request from the research stage container that requires a credential not in the research stage's `allowed_tools` set is rejected before the credential is retrieved. The per-stage credential policy in `STAGE_CREDENTIAL_POLICY` is declared at design time and is immutable at runtime.
+**Per-stage credential scoping reduces the blast radius of a compromised workflow stage from the full credential set to a single stage's credential subset.** A research stage with access to `web_search` and `read_url` can exfiltrate data through those two tools, but cannot call `delete_record` or `send_email`. The credential vault enforces this outside the model: any outbound request from the research stage that requires a credential not in the research stage's `allowed_tools` set is rejected before the credential is retrieved. The per-stage credential policy in `STAGE_CREDENTIAL_POLICY` is declared at design time and is immutable at runtime.
 
 | **Workflow security property** | **OpenLegion** | **OpenAI Agents SDK** | **LangGraph** | **Temporal.io** | **CrewAI** |
 |---|---|---|---|---|---|
@@ -718,7 +718,7 @@ LangGraph v0.2 (June 2024) introduced `PostgresSaver`, which persists the `Workf
 
 ### Why should credentials be scoped per workflow stage?
 
-A credential available across all workflow stages doubles or triples the exfiltration surface of a prompt injection attack targeting any single stage. If the research stage holds the `delete_record` credential, a successful injection attack against the research stage can execute deletions, even though the research stage should never call `delete_record`. Per-stage credential scoping (declaring an explicit `allowed_tools` set for each stage) limits each stage to only the credentials it needs. A vault proxy enforces this at the HTTP request layer: any outbound request from a stage that requires a credential not in that stage's `allowed_tools` is rejected before the credential is retrieved, the credential never reaches the compromised stage.
+A credential available across all workflow stages doubles or triples the exfiltration surface of a prompt injection attack targeting any single stage. If the research stage holds the `delete_record` credential, a successful injection attack against the research stage can execute deletions, even though the research stage should never call `delete_record`. Per-stage credential scoping (declaring an explicit `allowed_tools` set for each stage) limits each stage to only the credentials it needs. A credential vault enforces this outside the model: any outbound request from a stage that requires a credential not in that stage's `allowed_tools` is rejected before the credential is retrieved, the credential never reaches the compromised stage.
 
 ### How does Temporal.io provide durable execution for agent workflows?
 
@@ -736,4 +736,4 @@ Use Temporal when workflows are long-running (hours to days), require strict act
 
 Agent workflow security is an architecture decision, not a runtime feature. The choice to validate handoffs between stages, scope credentials per stage, enforce budget gates before each stage runs, and use persistent checkpointing for crash recovery must be made at design time, retrofitting these properties into an existing workflow requires rewriting the handoff interfaces. The four canonical patterns, OpenAI Agents SDK typed handoffs, and LangGraph StateGraph checkpointing give you the vocabulary to make those decisions explicitly.
 
-[Start building on OpenLegion](https://app.openlegion.ai), typed handoffs with injection-pattern guardrails, vault proxy per-stage credential scoping, pre-stage budget gates, persistent checkpointing, and human-in-the-loop approval at any workflow stage.
+[Start building on OpenLegion](https://app.openlegion.ai), typed handoffs with injection-pattern guardrails, vault-held per-stage credential scoping, pre-stage budget gates, persistent checkpointing, and human-in-the-loop approval at any workflow stage.

@@ -24,7 +24,7 @@ related:
 
 # Alternativa ao AgentOps: Plataforma de execução OpenLegion vs painel de monitoramento
 
-AgentOps é um SDK Python para observar agentes de IA, com replay de sessão, rastreamento de tokens e registro de chamadas LLM. É uma ferramenta puramente de monitoramento: os agentes continuam executando no seu processo, mantêm chaves API na memória e consomem sem limite. OpenLegion é uma plataforma de execução que inclui isolamento de credenciais via vault proxy, isolamento por contêiner Docker por agente e aplicação rígida de orçamento, com observabilidade integrada como produto natural da arquitetura.
+AgentOps é um SDK Python para observar agentes de IA, com replay de sessão, rastreamento de tokens e registro de chamadas LLM. É uma ferramenta puramente de monitoramento: os agentes continuam executando no seu processo, mantêm chaves API na memória e consomem sem limite. OpenLegion é uma plataforma de execução que inclui credenciais guardadas em cofre, uma execução em sandbox para cada tarefa e aplicação rígida de orçamento, com observabilidade integrada como produto natural da arquitetura.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -44,13 +44,13 @@ As equipes que buscam alternativas ao AgentOps normalmente esbarram em um de tr�
 | **Dimensão** | **OpenLegion** | **AgentOps** |
 |---|---|---|
 | **Categoria** | Plataforma de execução | SDK de monitoramento |
-| **Modelo de credenciais** | Vault proxy, agentes nunca veem chaves | Chaves API na memória do processo |
-| **Isolamento de agentes** | Contêiner Docker por agente | Sem contêiner, processo compartilhado |
-| **Aplicação do orçamento** | Limite diário/mensal rígido | Sem aplicação, apenas relatórios |
-| **Observabilidade** | Integrada via registro mesh | Caso de uso principal, painel hospedado |
-| **Replay de sessão** | Log de auditoria via entradas blackboard | Replay completo com chamadas LLM |
-| **Licença** | BSL 1.1 | MIT |
-| **GitHub stars** | ~59 | ~3.000 |
+| **Modelo de credenciais** | Cofre de credenciais, agentes nunca veem chaves | Chaves API na memória do processo |
+| **Isolamento de agentes** | Execução em sandbox por tarefa | Sem contêiner, processo compartilhado |
+| **Aplicação do orçamento** | Orçamento de créditos por agente, corte rígido | Sem aplicação, apenas relatórios |
+| **Observabilidade** | Integrada, com recibo de cada ação | Caso de uso principal, painel hospedado |
+| **Replay de sessão** | Trilha de auditoria de metas, tarefas e delegações | Replay completo com chamadas LLM |
+| **Licença** | PolyForm Perimeter License 1.0.1 | MIT |
+| **GitHub stars** | Em estágio inicial | ~3.000 |
 
 ## A perspectiva da OpenLegion
 
@@ -58,7 +58,7 @@ O AgentOps é honesto sobre o que é: uma ferramenta de observabilidade. O repla
 
 O limite é estrutural. Quando os agentes têm chaves API como variáveis de ambiente ou atributos RunContext, o AgentOps observa essa execução. Não a torna mais segura. Quando um agente em um loop chama ferramentas caras, o AgentOps registra o acúmulo. Não o interrompe. Quando o agente B lê a memória do agente A, o AgentOps vê a chamada LLM. Não bloqueia o acesso.
 
-A OpenLegion aborda a observabilidade pelo outro lado: o isolamento e a aplicação estão integrados na camada de execução, e o log de auditoria é um produto natural disso, não o contrário. Cada handoff entre agentes é registrado porque é roteado pelo mesh host. Cada chamada de API é registrada porque passa pelo vault proxy.
+A OpenLegion aborda a observabilidade pelo outro lado: o isolamento e a aplicação estão integrados na camada de execução, e o log de auditoria é um produto natural disso, não o contrário. Cada delegação entre agentes é registrada porque passa pelo motor de políticas. Cada chamada de API é registrada porque a credencial é resolvida fora do modelo.
 
 O compromisso honesto: o AgentOps oferece visualização mais rica de chamadas LLM e replay de sessão do que o log de auditoria integrado da OpenLegion. Equipes que precisam de replay detalhado para depuração encontrarão o AgentOps mais útil nessa dimensão.
 
@@ -70,13 +70,13 @@ O AgentOps envolve as chamadas de API LLM via integração SDK. Você importa o 
 
 ### Como a OpenLegion executa os agentes
 
-A OpenLegion executa cada agente em seu próprio contêiner Docker (UID 1000, no-new-privileges, sistema de arquivos somente leitura, sem socket Docker). As chaves API nunca são injetadas no contêiner; as chamadas autenticadas são roteadas pelo vault proxy no mesh host, que insere a credencial em tempo de execução. Cada handoff entre agentes passa pelo mesh host, fornecendo auditabilidade completa sem SDK separado.
+A OpenLegion executa cada tarefa em uma execução em sandbox sob demanda, que termina quando a tarefa acaba, e o código que o agente escreve roda sem acesso à rede por padrão. As chaves API nunca entram nessa execução; o agente carrega apenas um handle, e o motor de políticas resolve a credencial fora do modelo em tempo de execução. Cada delegação entre agentes passa pelo mesmo motor de políticas, fornecendo auditabilidade completa sem SDK separado.
 
 ## OpenLegion como alternativa ao AgentOps
 
-Se sua necessidade principal é observabilidade, a OpenLegion oferece registro de auditoria integrado via entradas blackboard e logs de handoff. É menos visual que o replay de sessão do AgentOps, mas está presente junto com isolamento e aplicação, não como camada separada.
+Se sua necessidade principal é observabilidade, a OpenLegion oferece registro de auditoria integrado, com um recibo para cada ação e registro de cada delegação. É menos visual que o replay de sessão do AgentOps, mas está presente junto com isolamento e aplicação, não como camada separada.
 
-Se sua necessidade principal é execução segura, a OpenLegion aborda o problema que o AgentOps não pode resolver: o código do agente nunca tem chaves API; os limites de contêiner impedem que um agente comprometido leia outros; a aplicação do orçamento interrompe custos fora de controle antes que se acumulem.
+Se sua necessidade principal é execução segura, a OpenLegion aborda o problema que o AgentOps não pode resolver: o código do agente nunca tem chaves API; os limites da execução em sandbox impedem que um agente comprometido leia outros; a aplicação do orçamento interrompe custos fora de controle antes que se acumulem.
 
 Explore a [comparação de observabilidade de agentes de IA](/learn/ai-agent-observability) para uma análise detalhada das opções de monitoramento. Para arquitetura de segurança, veja [Segurança de agentes de IA: isolamento de credenciais e fortalecimento contra injeções](/learn/ai-agent-security).
 
@@ -102,23 +102,23 @@ Explore a [comparação de observabilidade de agentes de IA](/learn/ai-agent-obs
 
 ### Qual é a diferença entre o AgentOps e uma plataforma de execução de agentes de IA?
 
-O AgentOps é um SDK de observabilidade: instrumenta chamadas LLM, registra sessões e exibe o uso de tokens. Não modifica como os agentes são executados. Uma plataforma de execução como a OpenLegion controla onde os agentes são executados (contêineres isolados), como as credenciais são gerenciadas (vault proxy) e aplica limites de gastos. A distinção é observar vs controlar.
+O AgentOps é um SDK de observabilidade: instrumenta chamadas LLM, registra sessões e exibe o uso de tokens. Não modifica como os agentes são executados. Uma plataforma de execução como a OpenLegion controla onde os agentes são executados (execuções em sandbox isoladas), como as credenciais são gerenciadas (um cofre) e aplica limites de gastos. A distinção é observar vs controlar.
 
 ### Posso usar OpenLegion e AgentOps juntos?
 
-Tecnicamente sim: o AgentOps pode instrumentar chamadas LLM dentro de agentes OpenLegion. Na prática, o registro de auditoria integrado da OpenLegion via mesh host reduz o valor agregado do AgentOps. Equipes que precisam de replay de sessão rico para depuração podem encontrar ambos úteis; equipes que buscam principalmente segurança e aplicação encontrarão a OpenLegion sozinha suficiente.
+Tecnicamente sim: o AgentOps pode instrumentar chamadas LLM dentro de agentes OpenLegion. Na prática, o registro de auditoria integrado da OpenLegion, com recibo de cada ação, reduz o valor agregado do AgentOps. Equipes que precisam de replay de sessão rico para depuração podem encontrar ambos úteis; equipes que buscam principalmente segurança e aplicação encontrarão a OpenLegion sozinha suficiente.
 
 ### O AgentOps oferece aplicação de orçamento?
 
-Não. O AgentOps rastreia o uso de tokens e custos e os exibe no painel. Não existe mecanismo que interrompa automaticamente um agente que ultrapassa um limite de custo. Isso é relatório posterior. A OpenLegion aplica limites rígidos de orçamento diário e mensal por agente com corte automático no nível da plataforma.
+Não. O AgentOps rastreia o uso de tokens e custos e os exibe no painel. Não existe mecanismo que interrompa automaticamente um agente que ultrapassa um limite de custo. Isso é relatório posterior. A OpenLegion aplica um orçamento de créditos por agente com corte rígido automático no nível da plataforma.
 
 ### Como o AgentOps lida com credenciais?
 
-O AgentOps não modifica o tratamento de credenciais: os agentes continuam tendo chaves API como antes (variáveis de ambiente, injeção de dependências, configuração direta). O AgentOps registra quais provedores LLM foram chamados, mas nunca isola chaves dos processos de agentes. O vault proxy da OpenLegion injeta credenciais no nível de rede, de modo que o código do agente nunca tem o valor bruto da chave.
+O AgentOps não modifica o tratamento de credenciais: os agentes continuam tendo chaves API como antes (variáveis de ambiente, injeção de dependências, configuração direta). O AgentOps registra quais provedores LLM foram chamados, mas nunca isola chaves dos processos de agentes. O cofre de credenciais da OpenLegion injeta as credenciais fora do modelo, de modo que o código do agente nunca tem o valor bruto da chave — só um handle.
 
 ### Qual é a verdadeira força do AgentOps?
 
-O replay de sessão. A capacidade de ver exatamente quais chamadas LLM foram feitas em uma sessão de agente, em que ordem e com quais prompts, é valiosa para depuração e análise comportamental. O log de auditoria da OpenLegion captura handoffs e gravações no blackboard, mas não é um sistema completo de replay de chamadas LLM. Para equipes que precisam de visão aprofundada das interações LLM, o AgentOps é mais forte nessa dimensão.
+O replay de sessão. A capacidade de ver exatamente quais chamadas LLM foram feitas em uma sessão de agente, em que ordem e com quais prompts, é valiosa para depuração e análise comportamental. O log de auditoria da OpenLegion captura delegações e recibos de cada ação, mas não é um sistema completo de replay de chamadas LLM. Para equipes que precisam de visão aprofundada das interações LLM, o AgentOps é mais forte nessa dimensão.
 
 ### Para quem a OpenLegion é a melhor escolha em relação ao AgentOps?
 

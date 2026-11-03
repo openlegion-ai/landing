@@ -34,15 +34,15 @@ Los presupuestos de IA empresarial siguieron un arco predecible: construir rápi
 
 ## Opinión de OpenLegion: los límites de presupuesto son un primitivo de seguridad, no solo FinOps
 
-OpenLegion trata los límites de presupuesto por agente como un primitivo de seguridad aplicado en la capa de infraestructura. Cada agente tiene un límite `daily_usd` y `monthly_usd`. Cuando un agente alcanza su límite, las llamadas LLM para ese agente se bloquean, no el pipeline completo. Esto es un corte estricto, no una advertencia suave.
+OpenLegion trata los presupuestos por agente como un primitivo de seguridad aplicado en la capa de infraestructura. Cada agente lleva su propio presupuesto, medido en créditos a $0.001 cada uno. Cuando un agente lo agota, las llamadas al modelo para ese agente se rechazan, no el pipeline completo. Esto es un corte estricto, no una advertencia suave.
 
 Tres implicaciones concretas:
 
-**Prevención de bucles descontrolados.** Un agente en un bucle de razonamiento recursivo alcanza su límite diario y se detiene. Con un límite de $2/día por agente, el peor caso es $2.
+**Prevención de bucles descontrolados.** Un agente en un bucle de razonamiento recursivo agota su presupuesto y se detiene. Con un presupuesto de 2.000 créditos en ese agente, el peor caso es $2.
 
-**Defensa contra denegación de cartera.** OWASP LLM10:2025 nombra la denegación de cartera como un riesgo principal de aplicaciones LLM. Un límite estricto aplicado en la capa mesh no puede ser evadido por el agente.
+**Defensa contra denegación de cartera.** OWASP LLM10:2025 nombra la denegación de cartera como un riesgo principal de aplicaciones LLM. Un presupuesto estricto aplicado por el motor de políticas no puede ser evadido por el agente.
 
-**Modelado predecible de costos.** Con límites por agente, el gasto diario máximo para una flota de N agentes es N multiplicado por el límite diario.
+**Modelado predecible de costos.** Con presupuestos por agente, el gasto máximo para un equipo de N agentes es N multiplicado por el presupuesto por agente.
 
 Para el contexto de seguridad completo, ver [seguridad de agentes IA y defensa contra denegación de cartera](/learn/ai-agent-security).
 
@@ -89,7 +89,7 @@ Tres técnicas de compresión en orden de prioridad:
 
 ### Palanca 5: Límites de presupuesto por agente — aplicación en la capa de infraestructura
 
-OpenLegion implementa `daily_usd` y `monthly_usd` por agente en la capa mesh. Cuando se alcanza el límite: las llamadas LLM para ese agente se bloquean, el pipeline continúa, el estado del agente bloqueado se actualiza en el blackboard.
+OpenLegion da a cada agente su propio presupuesto en créditos, fijado por el propietario en la app y aplicado por el motor de políticas. Cuando se agota: las llamadas al modelo para ese agente se rechazan, el pipeline continúa, el estado del agente bloqueado se registra en el registro compartido.
 
 ### Palanca 6: Control de tokens de salida — salidas estructuradas y generación restringida
 
@@ -101,10 +101,10 @@ OpenLegion implementa `daily_usd` y `monthly_usd` por agente en la capa mesh. Cu
 
 | **Dimensión** | **OpenLegion** | **LangGraph** | **CrewAI** | **AutoGen** |
 |---|---|---|---|---|
-| **Enrutamiento de modelos integrado** | Sí, campo modelo por agente | No, manual en código | No, manual en código | No, manual en código |
-| **Límites de presupuesto por agente** | Sí, daily_usd + monthly_usd | No | No | No |
-| **Corte estricto de gasto** | Sí, llamadas LLM bloqueadas en exceso | No | No | No |
-| **Seguimiento de costos en tiempo real** | Sí, Cost Tracker en Zona 2 | No integrado | No integrado | No integrado |
+| **Enrutamiento de modelos integrado** | Sí, un preset de modelo por agente | No, manual en código | No, manual en código | No, manual en código |
+| **Límites de presupuesto por agente** | Sí, un presupuesto de créditos por agente | No | No | No |
+| **Corte estricto de gasto** | Sí, llamadas al modelo rechazadas en exceso | No | No | No |
+| **Seguimiento de costos en tiempo real** | Sí, coste exacto por tarea y por agente | No integrado | No integrado | No integrado |
 
 <!-- SCHEMA: FAQPage -->
 ## Preguntas frecuentes
@@ -127,7 +127,7 @@ La API Message Batches de Anthropic procesa solicitudes de forma asíncrona al 5
 
 ### ¿Cómo funcionan los límites de presupuesto por agente en OpenLegion?
 
-Cada agente en OpenLegion tiene límites `daily_usd` y `monthly_usd` aplicados en la capa mesh por el Cost Tracker en Zona 2. Cuando un agente alcanza su límite, las llamadas LLM para ese agente se bloquean inmediatamente. El resto del pipeline continúa funcionando. Una flota de 20 agentes con límite de $5/día tiene una exposición diaria máxima de $100.
+Cada agente en OpenLegion lleva su propio presupuesto en créditos, fijado en la app y aplicado por el motor de políticas antes de cada llamada al modelo. Cuando un agente lo agota, las llamadas al modelo para ese agente se rechazan inmediatamente. El resto del pipeline continúa funcionando. Un equipo de 20 agentes con 5.000 créditos cada uno tiene una exposición máxima de $100.
 
 ### ¿Cómo reduce la compresión de contexto los costos de tokens LLM?
 
@@ -135,7 +135,7 @@ La compresión de contexto elimina tokens de las llamadas API que no contribuyen
 
 ### ¿Qué es la denegación de cartera y cómo la previenen los límites de presupuesto?
 
-La denegación de cartera es OWASP LLM10:2025, un ataque donde un agente es manipulado para consumir tokens ilimitados. Los límites de presupuesto por agente con cortes estrictos a nivel de infraestructura lo previenen: cuando se alcanza el límite, las llamadas LLM son bloqueadas por la capa mesh, no por el agente mismo.
+La denegación de cartera es OWASP LLM10:2025, un ataque donde un agente es manipulado para consumir tokens ilimitados. Los límites de presupuesto por agente con cortes estrictos a nivel de infraestructura lo previenen: cuando se agota el presupuesto, las llamadas al modelo las rechaza el motor de políticas, no el agente mismo.
 
 ## Ejecutar agentes con costos integrados en la arquitectura
 

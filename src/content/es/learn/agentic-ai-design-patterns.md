@@ -73,7 +73,7 @@ El modo de fallo de seguridad de ReAct apunta directamente al bloc de notas. Si 
 
 Tres mitigaciones requeridas juntas:
 1. Sanear cada Observacion antes de agregarla al bloc de notas
-2. Pre-registrar cada Accion en Zona 2 antes del despacho
+2. Pre-registrar cada Accion en el motor de politicas antes del despacho
 3. Tratar cada Observacion de herramienta como entrada no confiable
 
 ## Plan-and-Execute: Separar la planificacion de la ejecucion
@@ -104,7 +104,7 @@ Resultados de benchmark: HumanEval coding pass@1 -- 91% con Reflexion vs 80% (+1
 
 El modo de fallo de seguridad de Reflexion es distinto y mas persistente que el riesgo de inyeccion en el bloc de notas de ReAct. Si una Observacion contiene contenido adversarial, la reflexion generada puede codificar orientacion controlada por el atacante que se almacena indefinidamente.
 
-Cuatro mitigaciones requeridas en secuencia: saneamiento de reflexion antes del almacenamiento; almacenamiento versionado en blackboard con atribucion agent_id; TTL de reflexion; puerta de revision HITL para reflexiones que proponen cambios de comportamiento categoricos.
+Cuatro mitigaciones requeridas en secuencia: saneamiento de reflexion antes del almacenamiento; almacenamiento versionado con atribucion agent_id; TTL de reflexion; puerta de revision HITL para reflexiones que proponen cambios de comportamiento categoricos.
 
 ## Critic-Actor: Separar la evaluacion de la ejecucion
 
@@ -129,7 +129,7 @@ Supervisor-Worker tiene un agente Supervisor que descompone objetivos y despacha
 
 ### Propiedad de seguridad: Contencion del radio de impacto de Workers comprometidos
 
-La propiedad de seguridad principal de Supervisor-Worker es la contencion del radio de impacto: un Worker comprometido solo puede llamar herramientas dentro de su rol definido. Un ResearchWorker que recibe una instruccion inyectada para llamar `send_email()` fallara en la verificacion de permisos de Zona 2.
+La propiedad de seguridad principal de Supervisor-Worker es la contencion del radio de impacto: un Worker comprometido solo puede llamar herramientas dentro de su rol definido. Un ResearchWorker que recibe una instruccion inyectada para llamar `send_email()` fallara en la verificacion de permisos del motor de politicas.
 
 ## Mixture-of-Agents: Razonamiento de conjunto sobre instancias de modelos
 
@@ -152,11 +152,11 @@ Cada patron de diseno agentico en esta guia tiene un modo de fallo de seguridad 
 
 | **Control de seguridad** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Registro de Acciones pre-ejecucion** | Zona 2, nativo | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador |
-| **ACL de plan en Blackboard** | Aplicado por infraestructura | No disponible | No disponible | No disponible | No disponible |
-| **Memoria episodica versionada con atribucion agent_id** | Nativo | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador |
+| **Registro de Acciones pre-ejecucion** | Motor de politicas, nativo | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador |
+| **ACL de plan en el registro compartido** | Aplicado por infraestructura | No disponible | No disponible | No disponible | No disponible |
+| **Memoria episodica versionada con atribucion agent_id** | Nativo, versionado por recibos | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador |
 | **Modelo Critico separado con contexto independiente** | Aislamiento de agente nativo | Configuracion manual | Configuracion manual | Configuracion manual | Configuracion manual |
-| **Aplicacion de permisos de herramientas Zona 2 por Worker** | Aplicado por infraestructura | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador |
+| **Aplicacion de permisos de herramientas del motor de politicas por Worker** | Aplicado por infraestructura | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador | Convencion de desarrollador |
 
 [Comienza a construir en OpenLegion](https://app.openlegion.ai)
 
@@ -186,7 +186,7 @@ El patron Critic-Actor separa un modelo Critico (evaluando acciones propuestas a
 
 ### Que es el patron Supervisor-Worker para agentes de IA?
 
-Supervisor-Worker tiene un agente Supervisor que descompone objetivos y despacha tareas a agentes Worker especializados con roles definidos y conjuntos de herramientas restringidos, de modo que cada Worker opera bajo el principio de minimo privilegio. La contencion del radio de impacto es la principal ventaja de seguridad: un Worker inyectado que intente usar una herramienta fuera de su rol falla en la verificacion de permisos de Zona 2.
+Supervisor-Worker tiene un agente Supervisor que descompone objetivos y despacha tareas a agentes Worker especializados con roles definidos y conjuntos de herramientas restringidos, de modo que cada Worker opera bajo el principio de minimo privilegio. La contencion del radio de impacto es la principal ventaja de seguridad: un Worker inyectado que intente usar una herramienta fuera de su rol falla en la verificacion de permisos del motor de politicas.
 
 ### Que es Mixture-of-Agents (MoA)?
 

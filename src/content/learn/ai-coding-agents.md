@@ -2,8 +2,8 @@
 title: "AI Coding Agents - Deploy Secure Dev Agent Teams"
 description: >-
   AI coding agents that plan, write, test, and review code autonomously.
-  OpenLegion runs them in isolated containers with vaulted credentials and
-  per-agent budgets - a self-hostable dev agent team.
+  OpenLegion runs each task in a sandbox with vault-held credentials and
+  per-agent budgets - a hosted dev agent team.
 slug: /learn/ai-coding-agents
 primary_keyword: ai coding agents
 secondary_keywords:
@@ -28,7 +28,7 @@ related:
 
 # AI Coding Agents: Deploy a Secure Dev Agent Team
 
-Autocomplete suggests the next line. AI coding agents finish the ticket. They are autonomous agents that read an issue, plan the work, edit files across a repo, run the test suite, fix what breaks, and open a pull request - while you do something else. OpenLegion runs them the way you would run any code that executes untrusted commands: each agent in its own container, with credentials it never directly holds.
+Autocomplete suggests the next line. AI coding agents finish the ticket. They are autonomous agents that read an issue, plan the work, edit files across a repo, run the test suite, fix what breaks, and open a pull request - while you do something else. OpenLegion runs them the way you would run any code that executes untrusted commands: each task in its own sandbox, with credentials it never directly holds.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -40,8 +40,8 @@ Autocomplete suggests the next line. AI coding agents finish the ticket. They ar
 - AI coding agents do software work end to end: plan, write, test, review, and open a pull request. Not just suggest the next line.
 - A coding assistant augments a human in the editor. A coding agent runs the loop on its own toward a defined task.
 - The exciting capability and the dangerous one are the same: executing code and holding repo credentials. Isolation is not optional.
-- OpenLegion's Dev Team template ships a PM, an Engineer, and a Reviewer agent, each in its own container with its own budget.
-- It is self-hostable under PolyForm Perimeter License 1.0.1, so coding agents can run inside your own network for private repositories.
+- OpenLegion's assistant creates the team the work needs - a PM, an Engineer, and a Reviewer agent - each with its own budget.
+- The engine is source-available under PolyForm Perimeter License 1.0.1, and the hosted platform runs the agents, so there is nothing to install.
 
 ## What a Coding Agent Actually Does
 
@@ -67,17 +67,17 @@ When coding agents share a host or a process, the failure modes are not hypothet
 - One agent's runaway loop starves another of CPU and memory.
 - Repo tokens and cloud keys sit in plain environment variables the agent can simply read.
 
-OpenLegion closes each of these structurally. Every coding agent runs in its own Docker container with resource caps, a non-root user, and a read-only base filesystem. Repository tokens and API keys live in a vault proxy on the trusted host and are injected at the network layer, so a compromised agent never sees the raw credential. The full model is laid out in [AI agent security](/learn/ai-agent-security).
+OpenLegion closes each of these structurally. Code the agent writes runs in a sandbox with no network access by default, and each task runs on demand and then stops. Repository tokens and API keys live in a vault and are injected outside the model, so a compromised agent never sees the raw credential. The full model is laid out in [AI agent security](/learn/ai-agent-security).
 
 ## Multi-Agent Coding: The Dev Team Template
 
-One agent is fine for a small fix. Bigger work benefits from the same thing human teams rely on: separation of concerns. OpenLegion's Dev Team template runs three agents that each own a job:
+One agent is fine for a small fix. Bigger work benefits from the same thing human teams rely on: separation of concerns. In OpenLegion, the assistant creates three agents that each own a job:
 
 - **PM agent** turns a request into scoped tasks with acceptance criteria.
 - **Engineer agent** implements each task, writing code and running tests.
 - **Reviewer agent** checks the diff against the criteria, then approves or sends it back.
 
-They coordinate through OpenLegion's [orchestration model](/learn/ai-agent-orchestration) - a shared blackboard, a pub/sub event bus, and a structured handoff - with no language model sitting in the control plane deciding who does what. Each agent gets its own container, budget, and permissions, so the Engineer can execute code while the Reviewer cannot, and neither can blow past its spend ceiling.
+They coordinate through OpenLegion's [orchestration model](/learn/ai-agent-orchestration) - goals, tasks, and structured delegation - with every action checked by one policy engine before it happens. Each agent gets its own sandboxed runs, budget, and permissions, so the Engineer can execute code while the Reviewer cannot, and neither can blow past its credit budget.
 
 ## Coding Agents vs Coding Assistants
 
@@ -89,14 +89,14 @@ The two get conflated constantly, and they solve different problems.
 | Human role | Drives every keystroke | Sets the goal, reviews the result |
 | Scope | Line and function completion | Whole task: plan, edit, test, PR |
 | Executes code | No | Yes, in a sandbox |
-| Holds credentials | Editor session | Vault-proxied, agent never sees raw keys |
+| Holds credentials | Editor session | Vault-held, agent never sees raw keys |
 | Best for | Making a developer faster | Taking a whole task off the plate |
 
 An assistant makes you faster. An agent does a unit of work while you are busy with another. Most teams will run both, and the smart ones know which job to hand to which.
 
 ## OpenLegion's Take
 
-The race to ship "autonomous software engineers" keeps burying the unglamorous truth: the dangerous capability is code execution, and the dangerous asset is your repository credentials. An agent that can run shell commands and push to your repo is a production security boundary wearing a productivity costume. Treat it like a gadget - shared host, keys in environment variables, no budget ceiling - and a helpful agent becomes an incident report. Our position is simple: coding agents belong in the same isolation and credential model as any untrusted workload, and that should be the default, self-hostable, and auditable, not a feature you upgrade to buy.
+The race to ship "autonomous software engineers" keeps burying the unglamorous truth: the dangerous capability is code execution, and the dangerous asset is your repository credentials. An agent that can run shell commands and push to your repo is a production security boundary wearing a productivity costume. Treat it like a gadget - shared host, keys in environment variables, no budget ceiling - and a helpful agent becomes an incident report. Our position is simple: coding agents belong in the same isolation and credential model as any untrusted workload, and that should be the default, sandboxed, and auditable, not a feature you upgrade to buy.
 
 ## CTA
 
@@ -119,16 +119,16 @@ A coding assistant works inside your editor and speeds up a developer who is dri
 
 ### Is it safe to let an AI agent execute code and access my repository?
 
-Only with proper isolation. An agent that runs code is executing untrusted commands, and one that pushes to your repo holds sensitive credentials. OpenLegion runs each coding agent in its own container with resource limits and a read-only base filesystem, and keeps repository tokens and API keys in a vault proxy the agent never directly accesses. That containment is what makes autonomous code execution acceptable in production.
+Only with proper isolation. An agent that runs code is executing untrusted commands, and one that pushes to your repo holds sensitive credentials. OpenLegion runs the code an agent writes in a sandbox with no network access by default, and keeps repository tokens and API keys in a vault the agent never directly accesses. That containment is what makes autonomous code execution acceptable in production.
 
 ### Can AI coding agents work as a team rather than one agent?
 
-Yes. OpenLegion's Dev Team template runs a PM agent, an Engineer agent, and a Reviewer agent that coordinate through a shared blackboard and a structured handoff. Each has its own container, budget, and permission set, so responsibilities and risk stay separated: the Engineer runs code, the Reviewer checks the diff, and neither can exceed its spending limit.
+Yes. In OpenLegion an assistant creates a PM agent, an Engineer agent, and a Reviewer agent that coordinate through shared goals and tasks with structured delegation. Each has its own sandboxed runs, budget, and permission set, so responsibilities and risk stay separated: the Engineer runs code, the Reviewer checks the diff, and neither can exceed its credit budget.
 
 ### Can I run AI coding agents on my own infrastructure?
 
-Yes. OpenLegion is source-available under PolyForm Perimeter License 1.0.1 and runs on a single machine with Python and Docker, so coding agents can operate entirely inside your own network. That matters for private repositories and regulated environments where code and credentials cannot leave your infrastructure. A managed hosting option exists for teams that prefer not to run it themselves.
+Not at launch. OpenLegion is a hosted web app: you sign in with Google and there is nothing to install. The separately published engine is source-available under PolyForm Perimeter License 1.0.1, but the platform that runs the agents is hosted and proprietary. Code an agent writes runs in a sandbox with no network access by default, and repository credentials stay in the vault.
 
 ### What does it cost to run AI coding agents?
 
-OpenLegion charges a flat platform fee with no markup on model usage. You bring your own LLM API keys or use included credits and pay providers at their published rates. Per-agent daily and monthly budget caps stop a stuck agent from running up an unbounded bill. Managed plans start at $19/month with a 7-day money-back guarantee, and self-hosting the engine is available under PolyForm Perimeter License 1.0.1.
+OpenLegion meters work in credits at $0.001 each, and the exact cost of each task is visible. Models are chosen by preset - Smartest, Smart or Normal - so there are no provider keys to manage. Every agent carries its own budget, which stops a stuck agent from running up an unbounded bill. Free is $0 with 1,000 one-time credits and no card; Pro is $29/month with 10,000 credits; Team is $99/month with 35,000.

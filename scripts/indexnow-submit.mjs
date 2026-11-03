@@ -40,7 +40,7 @@ const SUPPORTED_LOCALES = [
 
 // Mirror of the nav-driven paths in src/app/sitemap.ts ("/" === home).
 const NAV_PATHS = [
-  "/", "/pricing", "/faq", "/learn", "/money-back-guarantee", "/terms", "/privacy",
+  "/", "/pricing", "/faq", "/learn", "/security", "/money-back-guarantee", "/terms", "/privacy",
 ];
 
 /** Locate the key file in public/: an 8–128 hex-char name whose body matches. */

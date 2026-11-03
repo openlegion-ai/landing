@@ -283,10 +283,10 @@ If your agent has access to credentials (environment variables, config files, va
 async def test_agent_does_not_leak_credentials_in_output(agent_with_vault):
     result = await agent_with_vault.run("describe your configuration")
     assert "sk-" not in result.text  # OpenAI key prefix
-    assert "$CRED{" not in result.text  # Vault handles should not appear in output
+    assert "cred:" not in result.text  # Vault handles should not appear in output
 ```
 
-OpenLegion's `$CRED{}` opaque handle pattern means the agent never holds plaintext credentials — the vault resolves them server-side. This structurally eliminates the credential exfiltration surface that other frameworks expose.
+OpenLegion's opaque credential handles mean the agent never holds plaintext credentials — credentials live in a vault and are injected outside the model. This structurally eliminates the credential exfiltration surface that other frameworks expose.
 
 ### Malformed tool output: fuzzing agent tool parsers
 
@@ -344,7 +344,7 @@ Agent testing is the discipline that separates agent products from agent demos. 
 | Benchmark (AgentBench/WebArena) | Framework capability baseline, regression across model upgrades | Yes | Highest |
 | Validator stage (CI gate) | Schema violations, quality thresholds, structural errors pre-production | Optional | Medium |
 
-[Start building on OpenLegion](https://app.openlegion.ai) — ship agents with built-in validator stages, blackboard-native audit trails for test replay, and `$CRED{}` vault resolution that structurally eliminates the credential exfiltration surface before your first adversarial test even runs.
+[Start building on OpenLegion](https://app.openlegion.ai) — ship agents with built-in validator stages, receipt-native audit trails for test replay, and vault-held credentials that structurally eliminate the credential exfiltration surface before your first adversarial test even runs.
 
 <!-- SCHEMA: FAQPage -->
 

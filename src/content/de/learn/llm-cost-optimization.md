@@ -40,15 +40,15 @@ Die gute Nachricht: LLM-Kosten lassen sich stark komprimieren. Im Gegensatz zu I
 
 Die meisten Frameworks behandeln LLM-Kosten als Überwachungsproblem: Dashboard einrichten, Alarm bei Überschreitung des Schwellenwerts, nachträglich untersuchen. Der Zähler lief weiter, während Sie schliefen.
 
-OpenLegion behandelt agentenspezifische Budgetobergrenzen als Sicherheitsprimitivum, das auf Infrastrukturebene durchgesetzt wird. Jeder Agent hat eine `daily_usd`- und `monthly_usd`-Obergrenze. Wenn ein Agent seine Obergrenze erreicht, werden LLM-Aufrufe für diesen Agenten blockiert, nicht für die gesamte Pipeline, nur für den über Budget liegenden Agenten. Andere Agenten in der Flotte laufen weiter. Dies ist ein harter Schnitt, keine weiche Warnung.
+OpenLegion behandelt agentenspezifische Budgets als Sicherheitsprimitivum, das auf Infrastrukturebene durchgesetzt wird. Jeder Agent trägt sein eigenes Budget, abgerechnet in Credits zu je $0,001. Wenn ein Agent es erschöpft, werden Modell-Aufrufe für diesen Agenten abgewiesen, nicht für die gesamte Pipeline, nur für den über Budget liegenden Agenten. Andere Agenten im Team laufen weiter. Dies ist ein harter Schnitt, keine weiche Warnung.
 
 Drei konkrete Implikationen:
 
-**Prävention von Endlosschleifen.** Ein Agent in einer rekursiven Schleifenanalogie, ob durch Prompt-Injektion, eine fehlerhafte Aufgabe oder einen Modellausfall, erreicht seine Tagesobergrenze und stoppt. Ohne harte Obergrenze kann eine rekursive Schleife in einem Long-Context-Agenten in wenigen Minuten Hunderte von Dollar kosten. Mit einer Obergrenze von $2/Tag pro Agent beträgt der Worst Case $2.
+**Prävention von Endlosschleifen.** Ein Agent in einer rekursiven Schleifenanalogie, ob durch Prompt-Injektion, eine fehlerhafte Aufgabe oder einen Modellausfall, erschöpft sein Budget und stoppt. Ohne harte Obergrenze kann eine rekursive Schleife in einem Long-Context-Agenten in wenigen Minuten Hunderte von Dollar kosten. Mit einem Budget von 2.000 Credits für diesen Agenten beträgt der Worst Case $2.
 
-**Denial-of-Wallet-Abwehr.** OWASP LLM10:2025 nennt Denial-of-Wallet als eines der größten LLM-Anwendungsrisiken: Ein Angreifer manipuliert einen Agenten zur Erzeugung unbegrenzter Token-Ausgabe und verbrennt das API-Budget des Betreibers. Eine harte Obergrenze, die auf Mesh-Ebene durchgesetzt wird, kann vom Agenten nicht umgangen werden.
+**Denial-of-Wallet-Abwehr.** OWASP LLM10:2025 nennt Denial-of-Wallet als eines der größten LLM-Anwendungsrisiken: Ein Angreifer manipuliert einen Agenten zur Erzeugung unbegrenzter Token-Ausgabe und verbrennt das API-Budget des Betreibers. Ein hartes Budget, das die Policy-Engine durchsetzt, kann vom Agenten nicht umgangen werden.
 
-**Planbare Kostenmodellierung.** Mit agentenspezifischen Obergrenzen sind die maximalen Tagesausgaben für eine Flotte von N Agenten N mal die Tagesobergrenze. Kosten werden zu einer begrenzten Variable, keinem offenen Risiko.
+**Planbare Kostenmodellierung.** Mit agentenspezifischen Budgets sind die maximalen Ausgaben für ein Team von N Agenten N mal das Budget pro Agent. Kosten werden zu einer begrenzten Variable, keinem offenen Risiko.
 
 Für den vollständigen Sicherheitskontext einschließlich Prompt-Injektion und Credential-Schutz, siehe [KI-Agent-Sicherheit und Denial-of-Wallet-Abwehr](/learn/ai-agent-security).
 
@@ -108,11 +108,11 @@ Drei Komprimierungstechniken in Prioritätsreihenfolge:
 
 Agentenspezifische Budgetobergrenzen sind nicht nur FinOps-Governance, sie sind die Absicherung, die alle anderen Kostenoptimierungen in der Produktion vertrauenswürdig macht. Ohne harte Obergrenze kann jede Routing-Fehlkonfiguration, jeder Cache-Fehler oder jede Endlosschleife die Einsparungen aus den Hebeln 1 bis 4 zunichte machen.
 
-OpenLegion implementiert `daily_usd` und `monthly_usd` pro Agent auf Mesh-Ebene. Der Cost Tracker in Zone 2 des Vier-Zonen-Vertrauensmodells führt eine laufende Ausgabensumme pro Agent in Echtzeit. Wenn die Obergrenze erreicht wird:
+OpenLegion gibt jedem Agenten ein eigenes Budget in Credits, vom Eigentümer in der App gesetzt. Die Policy-Engine führt eine laufende Ausgabensumme pro Agent in Echtzeit, und jede Aufgabe zeigt ihre exakten Kosten. Wenn das Budget aufgebraucht ist:
 
-1. LLM-Aufrufe für diesen Agenten werden blockiert
-2. Die Pipeline läuft weiter, andere Agenten in der Flotte sind nicht betroffen
-3. Der Status des blockierten Agenten wird auf der Blackboard auf `blocked` aktualisiert
+1. Modell-Aufrufe für diesen Agenten werden abgewiesen
+2. Die Pipeline läuft weiter, andere Agenten im Team sind nicht betroffen
+3. Der Status des blockierten Agenten wird im gemeinsamen Verzeichnis als `blocked` festgehalten
 4. Logik auf Orchestrator-Ebene kann eine Umleitung oder einen eleganten Abschluss für die Aufgabe dieses Agenten auslösen
 
 Dies unterscheidet sich strukturell von weichen Warnungen. Eine weiche Warnung löst aus, wenn die Ausgaben einen Schwellenwert überschreiten; der Zähler läuft weiter, während ein Mensch untersucht. Ein harter Schnitt stoppt die Ausgaben sofort.
@@ -156,12 +156,12 @@ Das ist eine **Reduzierung um 68 %**, von $0,082 auf $0,026 pro Aufgabe. Bei 1.0
 
 | **Dimension** | **OpenLegion** | **LangGraph** | **CrewAI** | **AutoGen** |
 |---|---|---|---|---|
-| **Modell-Routing eingebaut** | Ja, pro-Agent-Modellfeld; jeder Agent kann ein anderes Modell verwenden | Nein, manuell im Benutzercode | Nein, manuell im Benutzercode | Nein, manuell im Benutzercode |
+| **Modell-Routing eingebaut** | Ja, ein Modell-Preset pro Agent; jeder Agent kann ein anderes Preset nutzen | Nein, manuell im Benutzercode | Nein, manuell im Benutzercode | Nein, manuell im Benutzercode |
 | **Prompt-Caching-Integration** | Unterstützt über Anthropic/OpenAI-API | Unterstützt über API | Unterstützt über API | Unterstützt über API |
-| **Agentenspezifische Budgetobergrenzen** | Ja, daily_usd + monthly_usd auf Mesh-Ebene | Nein | Nein | Nein |
+| **Agentenspezifische Budgetobergrenzen** | Ja, ein Credit-Budget pro Agent, in der Policy-Engine | Nein | Nein | Nein |
 | **Harter Ausgabenstopp** | Ja, LLM-Aufrufe bei Überschreitung blockiert, Pipeline läuft weiter | Nein | Nein | Nein |
 | **Batch-Inferenz-Unterstützung** | Über API (Anthropic/OpenAI Batch APIs) | Über API | Über API | Über API |
-| **Echtzeit-Kosten-Tracking** | Ja, Cost Tracker in Zone 2 pro Agent | Nicht eingebaut | Nicht eingebaut | Nicht eingebaut |
+| **Echtzeit-Kosten-Tracking** | Ja, exakte Kosten pro Aufgabe und pro Agent | Nicht eingebaut | Nicht eingebaut | Nicht eingebaut |
 
 Für einen vollständigen Framework-Vergleich einschließlich Orchestrierung, Sicherheit und Speicher, siehe den [KI-Agent-Framework-Vergleich](/learn/ai-agent-frameworks). Für Orchestrierungsmuster, die mit der Budgetdurchsetzung interagieren, siehe den [KI-Agent-Orchestrierungsleitfaden](/learn/ai-agent-orchestration).
 
@@ -186,7 +186,7 @@ Anthropics Message Batches API verarbeitet Anfragen asynchron zu 50 % des Standa
 
 ### Wie funktionieren agentenspezifische Budgetobergrenzen in OpenLegion?
 
-Jeder Agent in OpenLegion hat eine `daily_usd`- und `monthly_usd`-Obergrenze, die auf Mesh-Ebene durch den Cost Tracker in Zone 2 durchgesetzt wird. Wenn ein Agent seine Obergrenze erreicht, werden LLM-Aufrufe für diesen Agenten sofort blockiert; der Rest der Pipeline läuft weiter. Eine Flotte von 20 Agenten, die jeweils auf $5/Tag begrenzt sind, hat ein maximales tägliches Risiko von $100.
+Jeder Agent in OpenLegion trägt sein eigenes Budget in Credits, in der App gesetzt und von der Policy-Engine vor jedem Modell-Aufruf durchgesetzt. Wenn ein Agent es erschöpft, werden Modell-Aufrufe für diesen Agenten sofort abgewiesen; der Rest der Pipeline läuft weiter. Ein Team von 20 Agenten mit je 5.000 Credits hat ein maximales Risiko von $100.
 
 ### Wie reduziert Kontextkomprimierung LLM-Token-Kosten?
 

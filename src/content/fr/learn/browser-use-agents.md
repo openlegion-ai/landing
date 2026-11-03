@@ -72,15 +72,15 @@ Les agents navigateur sont la catégorie d'outils la plus risquée dans l'IA age
 
 ### La démo de vol de credentials en 150 secondes
 
-Des recherches publiquement documentées en 2025 ont démontré qu'un agent navigateur pouvait être manipulé pour voler des credentials en 150 secondes via des instructions cachées sur une page web. La défense est architecturale : si le credential n'existe pas dans le contexte ou la mémoire de processus de l'agent, l'injection ne peut pas l'extraire. Le vault proxy d'OpenLegion garantit que les credentials de session sont injectés au niveau réseau et n'apparaissent jamais dans la fenêtre de contexte de l'agent.
+Des recherches publiquement documentées en 2025 ont démontré qu'un agent navigateur pouvait être manipulé pour voler des credentials en 150 secondes via des instructions cachées sur une page web. La défense est architecturale : si le credential n'existe pas dans le contexte ou la mémoire de processus de l'agent, l'injection ne peut pas l'extraire. Chez OpenLegion, les credentials vivent dans un coffre-fort et sont injectés hors du modèle, qui ne détient jamais qu'une référence : ils n'apparaissent jamais dans la fenêtre de contexte de l'agent.
 
 ### OWASP LLM08 Excessive Agency et permissions du navigateur
 
 Le top 10 LLM OWASP 2025 classe Excessive Agency (LLM08) comme catégorie de risque majeure. Les agents navigateur sont le risque canonique : un agent avec la permission de naviguer, lire, remplir des formulaires et cliquer sur des boutons peut effectuer des achats, envoyer des messages, supprimer des comptes et exfiltrer des données.
 
-### Comment OpenLegion sandboxe les agents navigateur (Camoufox + Zone 1)
+### Comment OpenLegion met les actions d'agents en bac à sable (bac à sable + approbations)
 
-OpenLegion exécute une instance de navigateur Camoufox par agent sur le port :8500, isolée dans le container Docker Zone 1 de chaque agent. Quatre propriétés en résultent : pas d'état de session partagé, résistance aux empreintes, credentials via vault proxy et routage réseau via Mesh Host.
+OpenLegion ne livre aucune automatisation de navigateur au lancement, et le code qu'un agent écrit tourne dans un bac à sable sans accès réseau par défaut. Quatre propriétés cadrent le confinement du travail : pas d'état de session partagé, la résistance aux empreintes comme propriété du navigateur, des credentials en coffre-fort et une approbation avant d'agir sur du contenu non fiable.
 
 ## Patterns d'architecture des agents navigateur
 
@@ -90,31 +90,31 @@ Le **mode headless** est plus rapide et fonctionne dans des environnements serve
 
 ### Gestion des CAPTCHA
 
-Trois approches : navigateurs comportementaux (résistance aux empreintes), services de résolution ($1–3 pour 1 000 résolutions) et fallback human-in-the-loop. OpenLegion supporte la délégation CAPTCHA human-in-the-loop via le tableau de bord.
+Trois approches : navigateurs comportementaux (résistance aux empreintes), services de résolution ($1–3 pour 1 000 résolutions) et fallback human-in-the-loop. L'équivalent chez OpenLegion est sa barrière d'approbation : le travail s'arrête dans l'application dès qu'un propriétaire ou un administrateur doit décider.
 
-### Injection de credentials : vault proxy vs. cookies codés en dur
+### Injection de credentials : coffre-fort vs. cookies codés en dur
 
-**Pire** : credentials directement dans les instructions. **Mauvais** : variables d'environnement (accessibles via `os.environ`). **Correct** : injection via vault proxy au niveau réseau.
+**Pire** : credentials directement dans les instructions. **Mauvais** : variables d'environnement (accessibles via `os.environ`). **Correct** : injection depuis un coffre-fort, hors du modèle.
 
 ## Agents Browser Use : comparaison d'architectures
 
 | **Dimension** | **OpenLegion** | **browser-use** | **Raw Playwright** | **Stagehand** |
 |---|---|---|---|---|
-| **Backend d'exécution** | Camoufox (Firefox, résistant aux empreintes) | Playwright (Chromium) | Playwright | Cloud Chromium |
-| **Isolation de session** | Container par agent | Processus partagé | Dépend de l'implémentation | Cloud managed |
-| **Gestion des credentials** | Injection vault proxy | Passe par la fenêtre de contexte | Implémentation manuelle | Managed |
-| **Support CAPTCHA** | Résistance Camoufox + human-in-loop | Aucun intégré | Aucun intégré | Service de résolution |
-| **Sandboxing container** | Zone 1 Docker, non-root | Aucun | Aucun | Cloud sandbox |
+| **Backend d'exécution** | Aucun au lancement — pas d'automatisation de navigateur | Playwright (Chromium) | Playwright | Cloud Chromium |
+| **Isolation de session** | Exécution en bac à sable par tâche — structurelle | Processus partagé | Dépend de l'implémentation | Cloud managed |
+| **Gestion des credentials** | Coffre-fort, injection hors du modèle | Passe par la fenêtre de contexte | Implémentation manuelle | Managed |
+| **Support CAPTCHA** | Sans objet — pas d'automatisation de navigateur | Aucun intégré | Aucun intégré | Service de résolution |
+| **Sandboxing container** | Exécution de tâche en bac à sable, sans réseau par défaut | Aucun | Aucun | Cloud sandbox |
 | **Étoiles GitHub** | — | 96 282 (mai 2026) | N/A | ~9 000 |
-| **Licence** | BSL 1.1 | MIT | Apache 2.0 | MIT |
+| **Licence** | PolyForm Perimeter 1.0.1 (moteur) | MIT | Apache 2.0 | MIT |
 
 ## Quand utiliser les agents navigateur (et quand éviter)
 
 **Cas d'usage légitimes** : recherche web et extraction de données, automatisation de formulaires pour vos propres services, monitoring et tests. **Cas d'usage nécessitant des contrôles supplémentaires** : sessions authentifiées, sites financiers. **Cas d'usage à éviter sans sandboxing strict** : URLs non fiables fournies par les utilisateurs.
 
-## Démarrer avec des agents navigateur sécurisés sur OpenLegion
+## Démarrer avec des actions d'agents sécurisées sur OpenLegion
 
-**Exécuter des agents navigateur dans des containers isolés avec des credentials via vault proxy et des contrôles réseau par agent.**
+**Exécuter des agents avec des credentials en coffre-fort, une exécution en bac à sable par tâche et des approbations avant d'agir.**
 [Commencer](https://app.openlegion.ai) | [Lire la documentation](https://docs.openlegion.ai) | [Voir la plateforme](/learn/ai-agent-platform)
 
 ---
@@ -137,11 +137,11 @@ Trois risques principaux : injection de prompt via le contenu web (une démo 202
 
 ### Comment exécuter des agents navigateur de façon sécurisée ?
 
-Quatre contrôles sont nécessaires : isolation des containers, credentials via vault proxy, contrôles d'egress réseau et limites de budget par agent. Le service navigateur Camoufox d'OpenLegion implémente les quatre par défaut dans des containers Docker Zone 1.
+Quatre contrôles sont nécessaires : isolation des containers, credentials en coffre-fort, contrôles d'egress réseau et limites de budget par agent. OpenLegion ne livre aucune automatisation de navigateur au lancement, mais applique ces quatre contrôles à chaque action d'agent : une exécution en bac à sable par tâche, des credentials en coffre-fort, aucun réseau depuis le code en bac à sable et un budget en crédits par agent.
 
-### Qu'est-ce que Camoufox et pourquoi OpenLegion l'utilise ?
+### Qu'est-ce que Camoufox et OpenLegion l'utilise-t-il ?
 
-Camoufox est un navigateur headless basé sur Firefox qui patche les APIs JavaScript pour présenter des profils matériels réalistes plutôt que des signatures headless. OpenLegion exécute une instance Camoufox par agent sur le port :8500 dans chaque container Docker Zone 1.
+Camoufox est un navigateur headless basé sur Firefox qui patche les APIs JavaScript pour présenter des profils matériels réalistes plutôt que des signatures headless. OpenLegion n'exécute ni Camoufox ni aucune autre automatisation de navigateur au lancement ; son isolation vient d'une exécution en bac à sable par tâche, sans accès réseau depuis le code en bac à sable.
 
 ### Quelle est la différence entre browser-use et Playwright pour les agents IA ?
 
@@ -149,8 +149,8 @@ Playwright est une bibliothèque d'automatisation bas niveau sans concept d'agen
 
 ### Les agents browser use peuvent-ils gérer les connexions et sessions authentifiées ?
 
-Oui, mais la gestion de sessions authentifiées est l'une des opérations les plus risquées. OpenLegion injecte les credentials de session via vault proxy au niveau réseau — l'agent navigue dans des sessions authentifiées sans que les credentials sous-jacents n'apparaissent jamais dans son contexte accessible.
+Oui, mais la gestion de sessions authentifiées est l'une des opérations les plus risquées. OpenLegion conserve les credentials dans un coffre-fort et les injecte hors du modèle — l'agent travaille dans des sessions authentifiées en ne détenant qu'une référence, sans que les credentials sous-jacents n'apparaissent jamais dans son contexte accessible.
 
 ### Comment les agents navigateur gèrent-ils les CAPTCHA ?
 
-Trois approches : navigateurs comportementaux (résistance aux empreintes), services de résolution ($1–3 pour 1 000, 10–60 secondes de latence) et fallback human-in-the-loop. OpenLegion supporte la délégation CAPTCHA human-in-the-loop via le tableau de bord.
+Trois approches : navigateurs comportementaux (résistance aux empreintes), services de résolution ($1–3 pour 1 000, 10–60 secondes de latence) et fallback human-in-the-loop. OpenLegion n'a aucune automatisation de navigateur au lancement ; son équivalent human-in-the-loop est une barrière d'approbation où un propriétaire ou un administrateur décide dans l'application.

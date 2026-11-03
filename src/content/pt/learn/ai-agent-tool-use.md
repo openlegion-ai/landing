@@ -164,16 +164,16 @@ Chamadas de ferramentas com efeitos colaterais irreversíveis — enviar e-mails
 
 Cada provedor principal de LLM tem uma API de chamada de ferramentas diferente. A abstração correta: definir uma ferramenta uma vez e deixar o framework traduzi-la para a convenção correta do provedor no momento da chamada.
 
-O registro de ferramentas da OpenLegion implementa essa abstração. Definir `search_web` uma vez. O mesh traduz a definição para OpenAI `tools`, Anthropic `tools` ou Gemini `functionDeclarations` dependendo do modelo configurado. A porta ACL não é opcional. Cada chamada de ferramenta — integrada, MCP ou personalizada — passa pela matriz de permissões por agente antes da execução.
+O registro de ferramentas da OpenLegion implementa essa abstração. Definir `search_web` uma vez. A plataforma traduz a definição para OpenAI `tools`, Anthropic `tools` ou Gemini `functionDeclarations` dependendo do modelo para o qual o preset do agente resolve. A porta ACL não é opcional. Cada chamada de ferramenta — integrada, MCP ou personalizada — passa pela matriz de permissões por agente antes da execução.
 
 | **Dimensão** | **OpenLegion** | **LangChain / LangGraph** | **OpenAI Agents SDK** | **CrewAI** | **Anthropic direto** |
 |---|---|---|---|---|---|
 | **Formato de definição de ferramenta** | Esquema único traduzido por provedor | Wrappers específicos de provedor necessários | Apenas formato OpenAI | Decorator de ferramenta CrewAI | Apenas formato Anthropic tool_use |
-| **Abstração de provedor** | Sim — GPT-4o, Claude, Gemini unificados | Parcial — via integrações LangChain | Não — apenas modelos OpenAI | Parcial | Não — apenas Anthropic |
+| **Abstração de provedor** | Sim — um preset, provedor abstraído | Parcial — via integrações LangChain | Não — apenas modelos OpenAI | Parcial | Não — apenas Anthropic |
 | **Aplicação ACL** | Matriz de permissões por agente, estrutural | Não integrada | Não integrada | Não integrada | Não integrada |
 | **Chamadas de ferramentas paralelas** | Suportado | Suportado (dependente do provedor) | Sim — padrão na Responses API | Suportado | Sim — Claude suporta |
-| **Ferramentas integradas** | Navegador, arquivo, HTTP, shell, gen. de imagens | Via ferramentas da comunidade LangChain | web_search, file_search, computer_use | Não integrado | Não integrado |
-| **Integração MCP** | Nativa — mesmo pipeline ACL/orçamento | Via adaptadores LangChain MCP | Experimental | Não nativa | Não nativa |
+| **Ferramentas integradas** | Arquivo, HTTP, código em sandbox, Calendar, Drive | Via ferramentas da comunidade LangChain | web_search, file_search, computer_use | Não integrado | Não integrado |
+| **Integração MCP** | Não conectada no lançamento | Via adaptadores LangChain MCP | Experimental | Não nativa | Não nativa |
 
 Para a especificação MCP, arquitetura de servidores e requisitos de permissões por servidor, ver o [guia do protocolo Model Context](/learn/model-context-protocol).
 

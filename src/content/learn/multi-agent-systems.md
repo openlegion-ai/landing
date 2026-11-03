@@ -64,13 +64,13 @@ Hierarchical topology organizes agents into nested teams. A top-level coordinato
 
 ### Flat/fleet topology: equal-rank agents coordinating through a shared bus
 
-Flat fleet topology uses equal-rank agents that communicate exclusively through a shared message bus (blackboard) with no direct agent-to-agent calls. This is OpenLegion's fleet model: each agent operates autonomously, publishes to the blackboard, and receives work via task inbox. A compromised agent can only affect what it writes to the blackboard - it cannot directly call other agents or access their context.
+Flat fleet topology uses equal-rank agents that communicate exclusively through a shared message bus (blackboard) with no direct agent-to-agent calls. OpenLegion's model is close: agents are durable records that receive work as tasks on a shared goal, and never call each other directly. A compromised agent can only affect what it writes to the blackboard - it cannot directly call other agents or access their context.
 
 ## Inter-Agent Communication Protocols
 
 ### A2A: Google's open standard for cross-framework agent communication
 
-A2A (Agent-to-Agent) protocol, released by Google in April 2025, standardizes inter-agent communication across different frameworks and runtimes. A2A defines three primitives: capability discovery, task delegation, and streaming results. As of mid-2026, A2A is supported by 50+ technology partners. OpenLegion supports A2A for cross-framework agent coordination.
+A2A (Agent-to-Agent) protocol, released by Google in April 2025, standardizes inter-agent communication across different frameworks and runtimes. A2A defines three primitives: capability discovery, task delegation, and streaming results. As of mid-2026, A2A is supported by 50+ technology partners. OpenLegion does not implement A2A at launch; its agents delegate to each other natively.
 
 ### MCP: standardizing tool access across agents
 
@@ -80,13 +80,13 @@ MCP also introduces security risks: tool descriptions can be poisoned to inject 
 
 ### Blackboard pattern: shared persistent state as communication medium
 
-The blackboard pattern routes all inter-agent communication through a shared persistent data store. Agents write task outputs, status updates, and coordination signals to named keys; other agents read from relevant keys. OpenLegion implements the blackboard pattern using SQLite with WAL mode for concurrent access, combined with pub/sub messaging for event-driven coordination.
+The blackboard pattern routes all inter-agent communication through a shared persistent data store. Agents write task outputs, status updates, and coordination signals to named keys; other agents read from relevant keys. OpenLegion does not use a blackboard: its agents coordinate on a shared record of goals and tasks, and an event wakes the agent that owns the next task.
 
 ## OpenLegion's Take: Why Architecture Is a Security Decision
 
 Most multi-agent system failures are architecture failures, not application bugs. Shared state between agents creates race conditions: CVE-2025-64168 (Agno, CVSS 7.1, October 2025) - one user's session data exposed to another under async concurrency, patched in v2.2.2. Tight coupling between agents amplifies prompt injection blast radius: COLM 2025 research showed a 97% attack success rate against AutoGen Magentic-One via malicious file injection, where tight coupling allowed injected instructions to affect the entire agent team.
 
-OpenLegion's four-zone trust model is the production instantiation of these principles: Zone 1 agents (sandboxed containers) cannot communicate directly. All inter-agent messages route through Zone 2 Mesh Host. The Mesh Host enforces per-agent write permissions and maintains the audit log. Zone 4 Vault Proxy ensures credentials never enter Zone 1 containers.
+OpenLegion's single policy engine is the production instantiation of these principles: agents cannot communicate directly. Every action is an intent checked by the policy engine before it happens. The policy engine enforces per-agent permissions and records each action as a receipt. Credentials live in a vault and are injected outside the model, which only ever holds a handle.
 
 ## Trust Boundaries in Multi-Agent Systems
 
@@ -96,7 +96,7 @@ When multiple agents run in the same Python process, they share the heap, the en
 
 ### Structural trust separation: containers, zones, and credential scoping per agent
 
-Structural trust separation means the limits of what one agent can affect are enforced by the infrastructure, not by application code. Per-agent credential scoping extends this principle: each agent has access only to the credentials it legitimately needs. OpenLegion's vault proxy enforces per-agent credential access lists.
+Structural trust separation means the limits of what one agent can affect are enforced by the infrastructure, not by application code. Per-agent credential scoping extends this principle: each agent has access only to the credentials it legitimately needs. OpenLegion's credential vault enforces per-agent credential access lists.
 
 ### The supervisor agent problem: when the coordinator is the weakest link
 
@@ -122,11 +122,11 @@ In systems without strict per-agent tool permissions, agents with broad tool acc
 
 ## Multi-Agent Systems Architecture in OpenLegion
 
-OpenLegion implements flat fleet topology with four-zone trust separation. Agents run in isolated Docker containers (Zone 1), communicate exclusively through the Mesh Host Blackboard and pub/sub bus (Zone 2), access credentials via the Vault Proxy (Zone 4), and never communicate directly with each other.
+OpenLegion organises work as goals → tasks → agents with one policy engine in front of every action. Agents are durable records whose tasks run on demand in a sandbox, coordinate through the shared record of goals and tasks and through event wakes, hold only credential handles resolved from the vault, and never communicate directly with each other.
 
-OpenLegion supports both A2A (for cross-framework agent delegation) and MCP (for standardized tool access). Security controls apply equally to both protocols: vault proxy credential injection for authenticated calls, container isolation for tool execution, and audit logging for all inter-agent communication.
+OpenLegion supports neither A2A nor MCP at launch; delegation and tool access are native. The same controls apply to every call: vault-held credentials injected outside the model, a sandbox with no network access by default for code the agent writes, and a receipt for every delegation.
 
-For a detailed analysis of OpenLegion's security model, see [what an AI agent platform provides for multi-agent system deployment](/learn/ai-agent-platform). For runtime coordination primitives, see [AI agent orchestration: blackboard, pub/sub, and handoff primitives](/learn/ai-agent-orchestration).
+For a detailed analysis of OpenLegion's security model, see [what an AI agent platform provides for multi-agent system deployment](/learn/ai-agent-platform). For runtime coordination primitives, see [AI agent orchestration: goal, task, and delegation primitives](/learn/ai-agent-orchestration).
 
 ## CTA
 
@@ -145,11 +145,11 @@ A multi-agent system architecture defines how multiple autonomous AI agents are 
 
 ### What is the difference between a star topology and a flat fleet topology in multi-agent systems?
 
-In a star topology, a central supervisor agent coordinates all other agents, creating a single point of failure: if the supervisor is compromised or fails, the entire system is affected. In a flat fleet topology (used by OpenLegion), equal-rank agents coordinate through a shared message bus (blackboard) with no direct agent-to-agent communication. This combines resilience with auditability, since all inter-agent communication passes through the bus and can be logged and inspected.
+In a star topology, a central supervisor agent coordinates all other agents, creating a single point of failure: if the supervisor is compromised or fails, the entire system is affected. In a flat fleet topology (close to OpenLegion's model), equal-rank agents coordinate through a shared message bus (blackboard) with no direct agent-to-agent communication. This combines resilience with auditability, since all inter-agent communication passes through the bus and can be logged and inspected.
 
 ### What is the A2A protocol for multi-agent systems?
 
-A2A (Agent-to-Agent) is an open inter-agent communication protocol released by Google in April 2025. It standardizes how agents discover each other's capabilities, delegate tasks, and exchange streaming results across different frameworks. As of mid-2026, A2A is supported by 50+ technology partners including frameworks, cloud providers, and agent platforms. OpenLegion supports A2A for cross-framework agent coordination.
+A2A (Agent-to-Agent) is an open inter-agent communication protocol released by Google in April 2025. It standardizes how agents discover each other's capabilities, delegate tasks, and exchange streaming results across different frameworks. As of mid-2026, A2A is supported by 50+ technology partners including frameworks, cloud providers, and agent platforms. OpenLegion does not implement A2A at launch; its agents delegate to each other natively.
 
 ### What causes race conditions in multi-agent systems?
 
@@ -161,4 +161,4 @@ In tightly coupled multi-agent systems where agents share a process or call each
 
 ### What is the blackboard pattern in multi-agent systems?
 
-The blackboard pattern is a multi-agent coordination architecture where agents communicate by reading from and writing to a shared persistent data store rather than calling each other directly. Agents post results, status updates, and task outputs to the blackboard; other agents subscribe to relevant keys. This decouples agents structurally and makes all inter-agent communication auditable since it passes through a single store. OpenLegion implements the blackboard pattern using SQLite with WAL mode for concurrent access, combined with pub/sub messaging for event-driven coordination.
+The blackboard pattern is a multi-agent coordination architecture where agents communicate by reading from and writing to a shared persistent data store rather than calling each other directly. Agents post results, status updates, and task outputs to the blackboard; other agents subscribe to relevant keys. This decouples agents structurally and makes all inter-agent communication auditable since it passes through a single store. OpenLegion does not use a blackboard: its agents coordinate on a shared record of goals and tasks, with an event waking the agent that owns the next task.

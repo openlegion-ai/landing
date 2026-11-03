@@ -27,36 +27,36 @@ related:
 
 OpenClaw is the fastest-growing open-source project in history. Launched in November 2025, it rocketed from 9,000 to 248,000+ GitHub stars in three months — pioneering the concept of a personal AI assistant that connects to 20+ messaging platforms and takes real actions on your machine. The project spawned an entire ecosystem of alternatives (ZeroClaw, NanoClaw, nanobot, PicoClaw, OpenFang) after its original creator departed the project in early 2026.
 
-OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
+OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with a sandboxed run for every task, vault-held credentials, per-agent budget enforcement, and goal-and-task coordination (goals → tasks → agents).
 
 OpenClaw and OpenLegion share a vision — AI agents that act autonomously — but their architectures reflect fundamentally different threat models. OpenClaw treats the agent as a trusted collaborator. OpenLegion treats the agent as an untrusted workload.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and OpenClaw?**
-> OpenClaw is a 248,000+ star personal AI agent OS with 20+ messaging channel support, a massive community, and the ClawHub skill marketplace. It runs agents with Docker socket access and stores secrets in a registry accessible to the agent process. OpenLegion is a security-first agent framework with mandatory Docker container isolation (no Docker socket), vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). OpenClaw optimizes for capability and community; OpenLegion optimizes for security and auditability.
+> OpenClaw is a 248,000+ star personal AI agent OS with 20+ messaging channel support, a massive community, and the ClawHub skill marketplace. It runs agents with Docker socket access and stores secrets in a registry accessible to the agent process. OpenLegion is a security-first agent framework with a sandboxed run for every task, vault-held credentials where agents never see API keys, per-agent budget enforcement, and goal-and-task coordination (goals → tasks → agents). OpenClaw optimizes for capability and community; OpenLegion optimizes for security and auditability.
 
 ## TL;DR
 
 | Dimension | OpenLegion | OpenClaw |
 |---|---|---|
 | **Primary focus** | Production security infrastructure | Personal AI agent OS |
-| **GitHub stars** | ~59 | ~248,000+ |
+| **GitHub stars** | Not published | ~248,000+ |
 | **Contributors** | Small team | 467+ |
 | **Funding** | Bootstrapped | $18.8M Series A |
-| **Agent isolation** | Docker container per agent, non-root, no-new-privileges | Docker container with Docker socket mounted |
-| **Docker socket** | Never mounted — agents cannot control Docker | Mounted by default (`-v /var/run/docker.sock`) |
-| **Credential security** | Vault proxy — agents never see keys | Secret Registry with `SecretStr` masking; accessible to agent |
-| **Budget controls** | Per-agent daily/monthly hard cutoff | None built-in |
-| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | SDK-based event-sourced state management |
-| **LLM support** | 100+ via LiteLLM | 100+ via LiteLLM |
-| **Messaging channels** | 5 | 20+ |
-| **Multi-agent** | Fleet templates with per-agent ACLs | Single-agent primary; SDK V1 multi-agent patterns |
-| **Prompt injection defense** | Unicode sanitization at 56 choke points | Invariant Labs guardrails (optional) |
-| **Known CVEs** | 0 | Critical RCE vulnerability (CVSS 8.8) + multiple others |
+| **Agent isolation** | Sandboxed run per task, no network by default | Docker container with Docker socket mounted |
+| **Docker socket** | None — nothing runs on your host | Mounted by default (`-v /var/run/docker.sock`) |
+| **Credential security** | Vault-held — agents never see keys | Secret Registry with `SecretStr` masking; accessible to agent |
+| **Budget controls** | Per-agent credit budget, hard cutoff | None built-in |
+| **Orchestration** | Goal-and-task coordination (goals → tasks → agents) | SDK-based event-sourced state management |
+| **LLM support** | Smartest, Smart and Normal presets | 100+ via LiteLLM |
+| **Messaging channels** | Web chat, Telegram, Slack, email | 20+ |
+| **Multi-agent** | Teams with per-agent permissions | Single-agent primary; SDK V1 multi-agent patterns |
+| **Prompt injection defense** | Untrusted content needs an owner approval | Invariant Labs guardrails (optional) |
+| **Known CVEs** | None disclosed | Critical RCE vulnerability (CVSS 8.8) + multiple others |
 | **Malicious skills** | N/A | 400+ malicious ClawHub skills discovered |
 | **Creator status** | Active | Original creator departed (early 2026) |
-| **License** | PolyForm Perimeter License 1.0.1 | MIT (core) |
+| **License** | Engine: PolyForm Perimeter License 1.0.1 | MIT (core) |
 
 ## Choose OpenClaw if...
 
@@ -72,15 +72,15 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 
 ## Choose OpenLegion if...
 
-**The Docker socket risk is unacceptable.** OpenClaw's default local deployment mounts the Docker socket: `-v /var/run/docker.sock:/var/run/docker.sock`. Security researchers note this is functionally equivalent to root access on the host machine — the agent can create, control, and destroy containers on the host. OpenLegion never mounts the Docker socket. The Mesh Host manages containers through the Docker API from a trusted zone; agents have zero Docker access.
+**The Docker socket risk is unacceptable.** OpenClaw's default local deployment mounts the Docker socket: `-v /var/run/docker.sock:/var/run/docker.sock`. Security researchers note this is functionally equivalent to root access on the host machine — the agent can create, control, and destroy containers on the host. OpenLegion never mounts the Docker socket, because nothing of yours runs at all. It is a hosted web app, and code the agent writes runs in a sandbox with no network access by default.
 
-**You need credential isolation, not just masking.** OpenClaw's Secret Registry uses Pydantic's `SecretStr` to mask secrets in log outputs. This prevents accidental logging but does not prevent a compromised agent from accessing secrets — the objects are in the agent's process memory. OpenLegion's vault proxy is architecturally different: agents call through a proxy that injects credentials at the network level. Keys never exist in the agent container.
+**You need credential isolation, not just masking.** OpenClaw's Secret Registry uses Pydantic's `SecretStr` to mask secrets in log outputs. This prevents accidental logging but does not prevent a compromised agent from accessing secrets — the objects are in the agent's process memory. OpenLegion's credential vault is architecturally different: credentials are injected outside the model, which only ever holds a handle. Keys never exist in the agent's run.
 
-**You cannot risk supply chain attacks.** Security researchers discovered 400+ malicious skills on ClawHub — community-contributed agent capabilities that contained hidden payloads. OpenClaw's ecosystem breadth is also its attack surface. OpenLegion's fleet-model coordination explicitly define which tools each agent can access, eliminating the supply chain risk from untrusted skill marketplaces.
+**You cannot risk supply chain attacks.** Security researchers discovered 400+ malicious skills on ClawHub — community-contributed agent capabilities that contained hidden payloads. OpenClaw's ecosystem breadth is also its attack surface. OpenLegion's per-agent tool grants explicitly define which tools each agent can access, and there is no third-party skill marketplace to audit.
 
-**You need per-agent budget enforcement.** OpenClaw has no built-in cost controls. Agents with broad LLM access can iterate in loops burning API budgets. OpenLegion enforces per-agent daily and monthly limits with automatic hard cutoff.
+**You need per-agent budget enforcement.** OpenClaw has no built-in cost controls. Agents with broad LLM access can iterate in loops burning API budgets. OpenLegion gives every agent its own credit budget with automatic hard cutoff.
 
-**Remote code execution vulnerabilities concern you.** OpenClaw has disclosed critical vulnerabilities including a CVSS 8.8 one-click remote code execution flaw via malicious links. Combined with Docker socket mounting, a compromised OpenClaw instance gives an attacker effective root access. OpenLegion's defense-in-depth model — where agents are an explicitly sandboxed (Trust Zone 1) workload behind a credential vault and per-agent ACLs — mitigates this class of attack by design.
+**Remote code execution vulnerabilities concern you.** OpenClaw has disclosed critical vulnerabilities including a CVSS 8.8 one-click remote code execution flaw via malicious links. Combined with Docker socket mounting, a compromised OpenClaw instance gives an attacker effective root access. OpenLegion's defense-in-depth model — where every action is an intent checked by one policy engine, behind a credential vault and per-agent permissions — mitigates this class of attack by design.
 
 ## Security Model Comparison
 
@@ -88,13 +88,13 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 
 **OpenClaw** stores secrets in a Secret Registry (introduced in SDK V1) with automatic masking in outputs using `SecretStr`. This prevents accidental logging of API keys. However, the secrets are accessible to the agent process — they exist as Python objects in the agent's memory space. A compromised agent (via prompt injection, malicious skill, or RCE) can access these objects.
 
-**OpenLegion** stores credentials in a vault that agents cannot access. All authenticated API calls route through a vault proxy in the trusted Mesh Host zone. The agent sends a request; the proxy injects the credential, makes the call, and returns the result. No credential files, environment variables, or secret objects exist in the agent's container.
+**OpenLegion** stores credentials in a vault that agents cannot access. Credentials are injected outside the model, which only ever holds a handle. The agent asks for the call; the platform injects the credential, makes the call, and returns the result. No credential files, environment variables, or secret objects exist in the agent's run.
 
 ### Isolation model
 
 **OpenClaw** runs agents in Docker containers but mounts the Docker socket by default for local deployment. This gives the agent container the ability to create and manage other containers on the host — which is functionally equivalent to root access. A GitHub issue (#9154) reported that the SecurityAnalyzer was not being called on tool calls by default.
 
-**OpenLegion** uses a four-zone trust model plus an operator-or-internal tier: Zone 0 (untrusted external input) → Zone 1 (sandboxed agent containers) → Zone 2 (trusted mesh host) → Zone 2.5 (operator-or-internal) → Zone 3 (loopback-only internal). Agents run in Docker containers with no Docker socket access, no shared filesystem, non-root execution (UID 1000), no-new-privileges, and configurable resource caps (384MB RAM, 0.15 CPU by default). Agents are *explicitly untrusted*.
+**OpenLegion** puts one policy engine in front of every action: each tool call, delegation, approval and cost is an intent checked before it happens and recorded as a receipt the owner can read. Each task runs on demand in its own sandbox and then stops, code the agent writes has no network access by default, and work halts for an owner's approval at three walls — reaching a third party on your behalf, deleting data, and acting on untrusted content. Agents are *explicitly untrusted*.
 
 ### The CVE record
 
@@ -104,13 +104,13 @@ OpenClaw and OpenLegion share a vision — AI agents that act autonomously — b
 - **400+ malicious ClawHub skills** discovered by security researchers.
 - Additional vulnerabilities in SDK, guardrails bypass, and session management.
 
-**OpenLegion** has no CVEs reported as of v0.1.0. Its architecture makes several of OpenClaw's vulnerability classes structurally impossible.
+**OpenLegion** is a hosted platform, so there is no agent runtime of yours to patch. Its architecture makes several of OpenClaw's vulnerability classes structurally impossible.
 
 ### Budget controls
 
 **OpenClaw** has no built-in spending limits.
 
-**OpenLegion** enforces per-agent daily and monthly budget limits with automatic hard cutoff.
+**OpenLegion** gives every agent its own credit budget with automatic hard cutoff.
 
 ## OpenClaw's Ecosystem: What It Does Best
 
@@ -142,25 +142,25 @@ The original creator's departure created uncertainty. The project is community-m
 
 ### What OpenLegion covers differently
 
-OpenLegion's four-zone trust model (plus an operator-or-internal tier) directly addresses OpenClaw's core risks: no Docker socket eliminates host escape, vault proxy eliminates credential exposure, fleet-model coordination with explicit tool grants eliminate supply chain attacks, per-agent budgets eliminate cost overruns, and mandatory container isolation eliminates the "security is optional" pattern.
+OpenLegion's single policy engine directly addresses OpenClaw's core risks: nothing runs on your host, so there is no socket to escape; vault-held credentials eliminate credential exposure; explicit per-agent tool grants eliminate supply chain attacks; per-agent budgets eliminate cost overruns; and a sandboxed run for every task eliminates the "security is optional" pattern.
 
 ## Hosting vs Self-Host Tradeoffs
 
 **OpenClaw** is designed for self-hosting with an optional cloud tier. Local deployment requires Docker with Docker socket mounting. Extensive community documentation and the $18.8M funding ensure long-term infrastructure.
 
-**OpenLegion** requires Python, SQLite, and Docker. The hosted platform (coming soon) offers per-user VPS instances at $19/month with BYO API keys. Self-hosted deployment does not require Docker socket mounting.
+**OpenLegion** has no self-hosted edition and nothing to install on your machine. The hosted platform is live and requires none of that: sign in with Google, start free with 1,000 credits and no card, or go Pro at $29/month. There is no Docker socket to mount and no host of yours to reach.
 
 ## Who It's For
 
 **OpenClaw** is for individual developers and small teams who want a powerful personal AI assistant with maximum capability and community. The ideal user runs OpenClaw as a coding assistant, automation tool, and messaging hub in a trusted environment where Docker socket access is an acceptable trade-off.
 
-**OpenLegion** is for engineering teams deploying agents where security incidents have business consequences. The ideal user manages agent fleets handling production credentials, needs demonstrable cost controls, and must explain security architecture to compliance reviewers.
+**OpenLegion** is for engineering teams deploying agents where security incidents have business consequences. The ideal user manages agent teams handling production credentials, needs demonstrable cost controls, and must explain security architecture to compliance reviewers.
 
 ## The Honest Trade-off
 
 OpenClaw has 248,000+ stars, 467+ contributors, $18.8M, 20+ channels, and the largest agent skill marketplace. For personal use and development productivity, it is the category leader.
 
-OpenLegion has ~59 stars and a small team. What it has that OpenClaw does not: architectural guarantees that a compromised agent cannot access credentials, escape its container, accumulate unbounded costs, or execute unaudited workflows.
+OpenLegion is a young product from a small team. What it has that OpenClaw does not: architectural guarantees that a compromised agent cannot access credentials, escape its sandbox, accumulate unbounded costs, or act without a recorded receipt.
 
 If you want the most capable personal AI agent, choose OpenClaw and configure guardrails carefully. If you need production agents where credentials, costs, and auditability are non-negotiable, choose OpenLegion.
 
@@ -168,7 +168,7 @@ For the full landscape, see our [AI agent frameworks comparison](/learn/ai-agent
 
 ## CTA
 
-**Production-grade security for your agent fleet.**
+**Production-grade security for your agent team.**
 [Get Started](https://app.openlegion.ai/onboarding) | [Read the Docs](https://docs.openlegion.ai) | [See All Comparisons](/comparison)
 
 ---
@@ -183,19 +183,19 @@ OpenClaw is a personal AI agent OS launched in November 2025. It is the fastest-
 
 ### OpenLegion vs OpenClaw: what's the difference?
 
-OpenClaw is a 248,000+ star personal AI agent OS optimized for capability and community. It mounts the Docker socket by default and stores secrets accessible to the agent process. OpenLegion is a security-first framework with no Docker socket access, vault proxy credentials (agents never see keys), per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
+OpenClaw is a 248,000+ star personal AI agent OS optimized for capability and community. It mounts the Docker socket by default and stores secrets accessible to the agent process. OpenLegion is a hosted security-first platform with nothing running on your machine, vault-held credentials (agents never see keys), per-agent budget enforcement, and goal-and-task coordination (goals → tasks → agents).
 
 ### Is OpenLegion an OpenClaw alternative?
 
-Yes. OpenLegion serves as an OpenClaw alternative for teams whose primary requirement is production security. It provides mandatory container isolation without Docker socket, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). It does not replicate OpenClaw's 20+ channels, ClawHub marketplace, or 248K-star community.
+Yes. OpenLegion serves as an OpenClaw alternative for teams whose primary requirement is production security. It provides a sandboxed run for every task, vault-held credentials, per-agent budget enforcement, and goal-and-task coordination (goals → tasks → agents). It does not replicate OpenClaw's 20+ channels, ClawHub marketplace, or 248K-star community.
 
 ### How does credential handling compare between OpenLegion and OpenClaw?
 
-OpenClaw's Secret Registry uses `SecretStr` masking to prevent logging, but secrets are accessible to the agent process. OpenLegion's vault proxy routes API calls through a proxy that injects credentials at the network level — agents never hold keys in any form.
+OpenClaw's Secret Registry uses `SecretStr` masking to prevent logging, but secrets are accessible to the agent process. OpenLegion's credential vault injects credentials outside the model, which only ever holds a handle — agents never hold keys in any form.
 
 ### Which is better for production AI agents?
 
-For personal use, OpenClaw offers unmatched capability and community. For production deployments where security incidents have consequences, OpenLegion provides stronger guarantees: no Docker socket, vault proxy, per-agent budgets, and auditable fleet-model coordination.
+For personal use, OpenClaw offers unmatched capability and community. For production deployments where security incidents have consequences, OpenLegion provides stronger guarantees: nothing running on your host, vault-held credentials, per-agent budgets, and auditable goal-and-task coordination.
 
 ### What are OpenClaw's known security vulnerabilities?
 
@@ -207,7 +207,7 @@ OpenClaw's original creator departed the project in early 2026. OpenClaw is now 
 
 ### Can I self-host OpenLegion like OpenClaw?
 
-Yes. Both self-host on Docker. OpenClaw requires Docker socket mounting; OpenLegion does not. OpenLegion also offers a hosted platform option at $19/month.
+No. OpenClaw self-hosts on Docker; OpenLegion is a hosted web app with no self-hosted edition. Sign in with Google and start free with 1,000 credits and no card, or go Pro at $29/month.
 
 ---
 

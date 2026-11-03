@@ -31,30 +31,30 @@ Then, within weeks of launch, security researchers disclosed a **critical vulner
 
 nanobot is a well-intentioned teaching tool that accidentally became a case study in why lightweight code alone does not equal secure code. OpenLegion exists to make this lesson structural.
 
-OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with mandatory Docker container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff).
+OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) with a sandboxed run for every task, vault-held credentials, per-agent budget enforcement, and goal-and-task coordination (goals → tasks → agents).
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is the difference between OpenLegion and nanobot?**
-> nanobot is a ~4,000-line Python reimplementation of OpenClaw focused on educational simplicity and readability. It supports 11+ LLM providers and 8+ messaging channels but has suffered critical WhatsApp bridge vulnerability (CVSS 10.0, unauthenticated WhatsApp session hijack), shell injection, path traversal, and LiteLLM RCE vulnerabilities. OpenLegion is a security-first Python framework with mandatory Docker container isolation per agent, vault proxy credential management where agents never see API keys, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). nanobot optimizes for learning and simplicity; OpenLegion optimizes for production security.
+> nanobot is a ~4,000-line Python reimplementation of OpenClaw focused on educational simplicity and readability. It supports 11+ LLM providers and 8+ messaging channels but has suffered critical WhatsApp bridge vulnerability (CVSS 10.0, unauthenticated WhatsApp session hijack), shell injection, path traversal, and LiteLLM RCE vulnerabilities. OpenLegion is a security-first hosted platform with a sandboxed run for every task, vault-held credentials where agents never see API keys, per-agent budget enforcement, and goal-and-task coordination (goals → tasks → agents). nanobot optimizes for learning and simplicity; OpenLegion optimizes for production security.
 
 ## TL;DR
 
 | Dimension | OpenLegion | nanobot |
 |---|---|---|
 | **Primary focus** | Production security infrastructure | Educational simplicity |
-| **Language** | Python | Python (~4,000 lines) |
-| **Agent isolation** | Docker container per agent, non-root | `restrict_to_workspace` flag (application-level) |
-| **Credential security** | Vault proxy — agents never see keys | Config file (`~/.nanobot/config.json`) |
-| **Budget controls** | Per-agent daily/monthly hard cutoff | None built-in |
-| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Single agent with background sub-agents |
-| **LLM providers** | 100+ via LiteLLM | 11+ (OpenRouter, Anthropic, OpenAI, DeepSeek, etc.) |
-| **Messaging channels** | 5 | 8+ (Telegram, Discord, WhatsApp, Feishu, DingTalk, etc.) |
-| **Multi-agent** | Fleet templates with per-agent ACLs | Sub-agent spawning (no fleet orchestration) |
-| **Memory** | Persistent per-agent with vector search | Grep-based retrieval (deliberately avoids RAG) |
-| **GitHub stars** | ~59 | ~20,000-26,000 |
+| **Language** | Hosted — nothing to install | Python (~4,000 lines) |
+| **Agent isolation** | Sandboxed run per task, no network by default | `restrict_to_workspace` flag (application-level) |
+| **Credential security** | Credential vault — agents never see keys | Config file (`~/.nanobot/config.json`) |
+| **Budget controls** | Per-agent credit budget, hard cutoff | None built-in |
+| **Orchestration** | Goal-and-task coordination (goals → tasks → agents) | Single agent with background sub-agents |
+| **LLM providers** | Smartest, Smart and Normal presets | 11+ (OpenRouter, Anthropic, OpenAI, DeepSeek, etc.) |
+| **Messaging channels** | Web, Telegram, Slack, email, webhooks | 8+ (Telegram, Discord, WhatsApp, Feishu, DingTalk, etc.) |
+| **Multi-agent** | Teams of agents with per-agent permissions | Sub-agent spawning (no fleet orchestration) |
+| **Memory** | Persistent per-agent memory | Grep-based retrieval (deliberately avoids RAG) |
+| **GitHub stars** | n/a (hosted platform) | ~20,000-26,000 |
 | **License** | PolyForm Perimeter License 1.0.1 | MIT |
-| **Known CVEs** | 0 | **critical WhatsApp bridge vulnerability (CVSS 10.0)** + 3 additional critical patches |
+| **Known CVEs** | Hosted, patched centrally | **critical WhatsApp bridge vulnerability (CVSS 10.0)** + 3 additional critical patches |
 | **Origin** | Independent | Academic research lab |
 
 ## Choose nanobot if...
@@ -65,21 +65,21 @@ OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) wi
 
 **You want to run agents on a Raspberry Pi.** nanobot is lightweight enough for single-board computers. Combined with Ollama for local inference, you get fully offline agent operation.
 
-**You value simplicity over infrastructure.** JSON config, grep-based memory (no vector database required), and pip install. No Docker, no fleet-model coordination, no vault setup. From install to running agent in under five minutes.
+**You value simplicity over infrastructure.** JSON config, grep-based memory (no vector database required), and pip install. No Docker, no goal-and-task coordination, no vault setup. From install to running agent in under five minutes.
 
 **Community momentum matters to you.** nanobot's 218-point HN launch, active Discord, DataCamp integration, and ~20,000+ stars represent significant community investment and a large pool of contributors fixing issues quickly (the CVSS 10.0 was patched within days).
 
 ## Choose OpenLegion if...
 
-**Security must be architectural, not optional.** nanobot's `restrict_to_workspace` flag is the primary isolation mechanism — a boolean that can be toggled off. Its API keys live in a plaintext JSON config file. Its WebSocket server shipped without authentication. These are not obscure edge cases; they are fundamental architectural decisions that produced a CVSS 10.0 within weeks. OpenLegion makes insecure configurations structurally impossible: container isolation is mandatory, vault proxy is the only credential path, and fleet-model coordination are bounded by per-agent tool-loop detection.
+**Security must be architectural, not optional.** nanobot's `restrict_to_workspace` flag is the primary isolation mechanism — a boolean that can be toggled off. Its API keys live in a plaintext JSON config file. Its WebSocket server shipped without authentication. These are not obscure edge cases; they are fundamental architectural decisions that produced a CVSS 10.0 within weeks. OpenLegion makes insecure configurations structurally impossible: every task runs sandboxed, the vault is the only credential path, and every action is an intent checked by one policy engine before it happens.
 
-**You cannot afford a CVSS 10.0 in production.** critical WhatsApp bridge vulnerability allowed unauthenticated network-adjacent attackers to hijack WhatsApp sessions by connecting to nanobot's unprotected WebSocket server on port 3001. The additional shell injection and path traversal vulnerabilities were found by a single security researcher in a single audit. OpenLegion's vault proxy architecture means there are no credentials to hijack — agents call through a proxy that injects keys at the network layer.
+**You cannot afford a CVSS 10.0 in production.** critical WhatsApp bridge vulnerability allowed unauthenticated network-adjacent attackers to hijack WhatsApp sessions by connecting to nanobot's unprotected WebSocket server on port 3001. The additional shell injection and path traversal vulnerabilities were found by a single security researcher in a single audit. OpenLegion's vault-held credentials mean there are no credentials to hijack — keys are injected outside the model, which only ever holds a handle.
 
-**You need per-agent cost control.** nanobot has no budget enforcement. With 11+ provider support and the ability to spawn background sub-agents, uncontrolled API spend accumulates silently. OpenLegion enforces per-agent daily and monthly limits with automatic hard cutoff.
+**You need per-agent cost control.** nanobot has no budget enforcement. With 11+ provider support and the ability to spawn background sub-agents, uncontrolled API spend accumulates silently. OpenLegion gives every agent its own credit budget with an automatic hard cutoff.
 
-**You need auditable multi-agent fleet coordination.** nanobot supports spawning sub-agents, but orchestration is LLM-driven and non-deterministic. OpenLegion's fleet-model coordination defines explicit handoff records, tool access, and dependencies per agent — auditable before deployment.
+**You need auditable multi-agent fleet coordination.** nanobot supports spawning sub-agents, but orchestration is LLM-driven and non-deterministic. OpenLegion's goal-and-task coordination defines explicit delegation records, tool access, and dependencies per agent — auditable before deployment.
 
-**You need to prove security posture to stakeholders.** nanobot's CVE history makes it a difficult sell to security teams, compliance reviewers, or enterprise procurement. OpenLegion's vault proxy architecture, mandatory container isolation, and per-agent ACLs provide demonstrable security controls.
+**You need to prove security posture to stakeholders.** nanobot's CVE history makes it a difficult sell to security teams, compliance reviewers, or enterprise procurement. OpenLegion's credential vault, sandboxed task runs, and per-agent permissions provide demonstrable security controls.
 
 ## Security Model Comparison
 
@@ -87,13 +87,13 @@ OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) wi
 
 **nanobot** stores API keys in `~/.nanobot/config.json` — a plaintext JSON file on disk. The config file was initially written with 0644 permissions (world-readable); this was later patched to 0600. At runtime, keys are loaded into the Python process memory. Any code executing within the agent's process can read them.
 
-**OpenLegion** stores credentials in a vault that agents cannot access. API calls route through a vault proxy that injects credentials at the network level. No config files with plaintext keys, no environment variables with secrets, no mounted credential files. The agent process never holds API keys.
+**OpenLegion** stores credentials in a vault that agents cannot access. Credentials are injected outside the model, which only ever holds a handle. No config files with plaintext keys, no environment variables with secrets, no mounted credential files. The agent process never holds API keys.
 
 ### Isolation model
 
 **nanobot** uses a `restrict_to_workspace` flag that limits file operations to the workspace directory. This is an application-level check in the Python code — if an agent achieves arbitrary code execution (which the shell injection vulnerability demonstrated was possible), the workspace restriction can be bypassed. No OS-level isolation is enforced.
 
-**OpenLegion** uses Docker container isolation per agent. Each agent runs in a separate container with non-root execution, no Docker socket access, no-new-privileges, and per-container resource caps. Even if an agent achieves arbitrary code execution inside its container, it cannot access other agents, the host system, or credential stores.
+**OpenLegion** isolates every task rather than every process. Each task runs on demand in a sandbox with no network access by default and then stops, so there is no long-lived agent process to compromise. Even if an agent achieves arbitrary code execution inside a run, it cannot reach other agents, the host system, or credential stores.
 
 ### The CVE record
 
@@ -105,13 +105,13 @@ OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) wi
 - **LiteLLM RCE via `eval()` (Critical):** Inherited from dependency. Remote code execution through crafted input.
 - **Session poisoning (patched Feb 26, 2026):** Message history manipulation.
 
-**OpenLegion** has no CVEs reported as of v0.1.0. Its architecture makes several of nanobot's vulnerability classes structurally impossible: vault proxy eliminates credential exposure, Docker isolation prevents path traversal escapes, and fleet-model coordination prevent arbitrary shell execution without explicit tool grants.
+**OpenLegion** is a hosted platform, patched centrally rather than by its users. Its architecture makes several of nanobot's vulnerability classes structurally impossible: vault-held credentials eliminate credential exposure, sandboxed runs prevent path traversal escapes, and per-agent tool grants prevent arbitrary shell execution.
 
 ### Budget controls
 
 **nanobot** has no built-in spending limits. Background sub-agents can make API calls with no caps.
 
-**OpenLegion** enforces per-agent daily and monthly limits with automatic hard cutoff.
+**OpenLegion** gives every agent its own credit budget with an automatic hard cutoff.
 
 ## nanobot's Ecosystem: What It Does Best
 
@@ -145,17 +145,17 @@ When the critical WhatsApp bridge vulnerability was disclosed, the nanobot team 
 
 OpenLegion's architecture prevents nanobot's vulnerability classes by design:
 
-- **critical WhatsApp bridge vulnerability (unauthenticated network service):** OpenLegion agents run in Docker containers with no exposed ports by default. Network access is explicitly granted per-agent.
-- **Shell injection:** OpenLegion's fleet-model coordination require explicit tool grants. Shell access is not available unless specifically enabled in the agent's ACL.
-- **Path traversal:** Docker container isolation with read-only mounts and no Docker socket eliminates path traversal as a meaningful attack vector.
-- **Credential exposure:** Vault proxy means no credentials exist in the agent's environment to steal.
-- **Dependency RCE:** Container isolation limits blast radius — even if a dependency has an RCE, the attacker is contained within a sandboxed container with no credentials.
+- **critical WhatsApp bridge vulnerability (unauthenticated network service):** OpenLegion agents never listen on a port; each task runs on demand and stops. Outbound reach is explicitly granted per-agent.
+- **Shell injection:** OpenLegion requires explicit tool grants, and code the agent writes runs in a sandbox with no network access by default.
+- **Path traversal:** each task runs in a throwaway sandbox with no access to the host, which eliminates path traversal as a meaningful attack vector.
+- **Credential exposure:** vault-held credentials mean none exist in the agent's environment to steal.
+- **Dependency RCE:** run isolation limits blast radius — even if a dependency has an RCE, the attacker is contained within a sandboxed run with no credentials.
 
 ## Hosting vs Self-Host Tradeoffs
 
 **nanobot** is designed for local self-hosting. pip install, JSON config, and a running agent in minutes. No hosted service exists. The lightweight nature means any Linux system, macOS, or even a Raspberry Pi can host it.
 
-**OpenLegion** requires Python, SQLite, and Docker. The hosted platform (coming soon) will offer per-user VPS instances at $19/month. The Docker requirement adds infrastructure overhead but provides the isolation layer that makes production deployment safe.
+**OpenLegion** is not something you install. The hosted platform is live and requires none of that: sign in with Google, start free with 1,000 credits and no card, or go Pro at $29/month. Sandboxed runs add no setup of your own but provide the isolation layer that makes production deployment safe.
 
 ## Who It's For
 
@@ -165,7 +165,7 @@ OpenLegion's architecture prevents nanobot's vulnerability classes by design:
 
 ## The Honest Trade-off
 
-nanobot proves that you can rebuild an AI agent runtime in 4,000 lines. That accomplishment is real and valuable for the ecosystem. But the critical WhatsApp bridge vulnerability proves that simplicity and security are not the same thing. A 4,000-line codebase with a CVSS 10.0 is less secure than a ~77,000-line codebase with architectural constraints that make that vulnerability class impossible.
+nanobot proves that you can rebuild an AI agent runtime in 4,000 lines. That accomplishment is real and valuable for the ecosystem. But the critical WhatsApp bridge vulnerability proves that simplicity and security are not the same thing. A 4,000-line codebase with a CVSS 10.0 is less secure than a hosted platform with architectural constraints that make that vulnerability class impossible.
 
 If you want to learn how agents work, read nanobot's source. If you want to deploy agents safely, use a framework where unsafe configurations cannot occur.
 
@@ -188,19 +188,19 @@ nanobot is a ~4,000-line Python reimplementation of OpenClaw created by an acade
 
 ### OpenLegion vs nanobot: what's the difference?
 
-nanobot is an educational teaching skeleton — minimal, readable, and designed for learning. OpenLegion is a production security framework. nanobot uses application-level workspace restriction and plaintext JSON config; OpenLegion uses Docker container isolation and vault proxy credentials. nanobot has suffered a critical WhatsApp bridge vulnerability (CVSS 10.0) plus three additional critical vulnerabilities; OpenLegion has no CVEs reported as of v0.1.0 and an architecture that makes those vulnerability classes structurally impossible.
+nanobot is an educational teaching skeleton — minimal, readable, and designed for learning. OpenLegion is a production security framework. nanobot uses application-level workspace restriction and plaintext JSON config; OpenLegion uses sandboxed task runs and vault-held credentials. nanobot has suffered a critical WhatsApp bridge vulnerability (CVSS 10.0) plus three additional critical vulnerabilities; OpenLegion is a hosted platform with an architecture that makes those vulnerability classes structurally impossible.
 
 ### Is OpenLegion a nanobot alternative?
 
-Yes. Both are Python-based AI agent frameworks, but they serve different purposes. nanobot is best for learning and local experimentation. OpenLegion is an alternative for teams that need production-grade security — vault proxy credential isolation, per-agent budget enforcement, Docker container isolation, and fleet-model coordination (blackboard + pub/sub + handoff).
+Yes. Both run AI agents, but they serve different purposes. nanobot is best for learning and local experimentation. OpenLegion is an alternative for teams that need production-grade security — vault-held credential isolation, per-agent budget enforcement, a sandboxed run for every task, and goal-and-task coordination (goals → tasks → agents).
 
 ### How does credential handling compare between OpenLegion and nanobot?
 
-nanobot stores API keys in `~/.nanobot/config.json` (initially world-readable until patched). Keys are loaded into the Python process memory at runtime. OpenLegion uses a vault proxy — agents make API calls through a proxy that injects credentials at the network level. Agents never hold, read, or have access to API keys in any form.
+nanobot stores API keys in `~/.nanobot/config.json` (initially world-readable until patched). Keys are loaded into the Python process memory at runtime. OpenLegion uses a credential vault — credentials are injected outside the model, which only ever holds a handle. Agents never hold, read, or have access to API keys in any form.
 
 ### Which is better for production AI agents?
 
-OpenLegion is significantly better suited for production. nanobot was designed as a teaching tool and has accumulated a critical WhatsApp bridge vulnerability (CVSS 10.0), shell injection, path traversal, and dependency RCE vulnerabilities within weeks of launch. OpenLegion's mandatory container isolation, vault proxy credentials, per-agent budgets, and auditable fleet-model coordination address the exact vulnerability classes that affected nanobot.
+OpenLegion is significantly better suited for production. nanobot was designed as a teaching tool and has accumulated a critical WhatsApp bridge vulnerability (CVSS 10.0), shell injection, path traversal, and dependency RCE vulnerabilities within weeks of launch. OpenLegion's sandboxed task runs, vault-held credentials, per-agent budgets, and auditable goal-and-task coordination address the exact vulnerability classes that affected nanobot.
 
 ### Is nanobot the same as nanobot (Obot AI)?
 
@@ -212,7 +212,7 @@ nanobot's WhatsApp bridge contained a critical vulnerability (CVSS 10.0) where t
 
 ### Can I migrate from nanobot to OpenLegion?
 
-nanobot's JSON config and agent setup would be restructured as fleet-model coordination with explicit tool grants, budget limits, and per-agent ACLs. LLM provider settings transfer directly since both use LiteLLM-compatible provider configurations. See our [AI agent orchestration](/learn/ai-agent-orchestration) page.
+nanobot's JSON config and agent setup would be restructured as goals, tasks and agents with explicit tool grants, budget limits, and per-agent permissions. Provider settings do not carry over: OpenLegion picks models by preset — Smartest, Smart or Normal. See our [AI agent orchestration](/learn/ai-agent-orchestration) page.
 
 ---
 

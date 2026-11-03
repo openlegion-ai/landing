@@ -729,7 +729,7 @@ Three concrete implementation facts:
 | **Shared circuit breaker state across all workers -- one probe closes breaker for all; per-process state not used** | Yes -- Redis-backed | No -- per-process | No -- per-process | Workflow-level only | No |
 | **Sanitized exception boundaries at hand-off layer -- internal context stripped; correlation_id for log lookup** | Yes -- enforced at transport | No -- raw exceptions | No -- raw exceptions | Partial -- workflow errors | No |
 | **Exception recovery store with trace_id -- operator alert, manual re-queue, no silent data loss** | Yes -- built-in store | No | No | Yes -- Temporal history | No |
-| **Fault-isolated containers -- one agent's crash loop cannot exhaust other agents' processes** | Yes -- per-container | No -- shared process | No -- shared process | No -- shared worker | No |
+| **Fault-isolated containers -- one agent's crash loop cannot exhaust other agents' processes** | Yes -- isolated per run | No -- shared process | No -- shared process | No -- shared worker | No |
 | **Durable retry counter across worker crashes -- count not reset on worker restart** | Yes -- platform-persisted | No -- in-process | No -- in-process | Yes -- Temporal's core feature | No |
 
 <!-- SCHEMA: FAQPage -->
@@ -772,4 +772,4 @@ Use span.set_status(StatusCode.ERROR, description) combined with span.record_exc
 
 Exception handling in multi-agent systems is not defensive programming. It is the code that determines whether failures stay local or cascade. Exponential backoff with jitter prevents retry bursts from amplifying provider outages. Circuit breakers prevent retry storms from hammering providers that cannot yet recover. Fallback chains keep task execution progressing when individual tool calls throw. Exception boundaries keep internal context out of cross-agent messages and HTTP responses. Together they produce 30-second recoveries instead of cascading failures that expose system internals to users.
 
-[Start building on OpenLegion](https://app.openlegion.ai) -- per-agent retry budgets enforced at the platform layer, Redis-backed circuit breakers shared across all worker instances, exception recovery stores with OTel trace correlation, exception boundary enforcement at the hand-off transport layer, and fault-isolated containers that prevent one agent's crash loop from exhausting another's thread pool.
+[Start building on OpenLegion](https://app.openlegion.ai) -- per-agent budgets enforced by the policy engine, circuit breaker state that survives between runs, exception recovery stores with OTel trace correlation, sanitized exception boundaries at the delegation layer, and tasks that run on demand and then stop, so one agent's crash loop cannot exhaust another's.

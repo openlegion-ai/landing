@@ -20,14 +20,14 @@ related:
 
 OpenAI Agents SDK 是建構多代理系統最簡單的路徑。具約 19,200 個 GitHub 星與五個乾淨的基礎元件(Agents、Tools、Handoffs、Guardrails、Tracing),你可在一小時內讓代理運作。它於 2025 年 3 月推出,作為實驗性 Swarm 框架的生產就緒繼承者,並被 Klarna(處理三分之二的支援工單)、Coinbase 與 Box 採用。
 
-OpenLegion(約 59 星)是一個安全優先的 [AI 代理平台](/learn/ai-agent-platform),優先考慮憑證隔離、代理沙箱與成本控制 — 即 SDK 刻意留給開發者處理的生產關切。
+OpenLegion 是一個代管、安全優先的 [AI 代理平台](/learn/ai-agent-platform),優先考慮憑證隔離、代理沙箱與成本控制 — 即 SDK 刻意留給開發者處理的生產關切。
 
 本文是根據撰寫當下公開文件的直接 **OpenLegion vs OpenAI Agents SDK** 比較。
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **OpenLegion 與 OpenAI Agents SDK 的差別是什麼?**
-> OpenAI Agents SDK 是一個用於建構具五個核心基礎元件與內建追蹤的多代理工作流程的輕量框架。OpenLegion 是一個安全優先的代理框架,具強制容器隔離、金庫代理憑證管理、每代理預算強制執行,以及艦隊模型協調(黑板 + 發布訂閱 + 交棒)。SDK 為開發者簡潔最佳化;OpenLegion 為生產安全最佳化。
+> OpenAI Agents SDK 是一個用於建構具五個核心基礎元件與內建追蹤的多代理工作流程的輕量框架。OpenLegion 是一個安全優先的代理框架,每項任務都在沙箱中執行、憑證存放於金庫、每代理預算強制執行,以及目標與任務協調(目標 → 任務 → 代理)。SDK 為開發者簡潔最佳化;OpenLegion 為生產安全最佳化。
 
 ## 重點摘要
 
@@ -35,7 +35,7 @@ OpenLegion(約 59 星)是一個安全優先的 [AI 代理平台](/learn/ai-agent
 - **OpenLegion** 適合在你需要供應商獨立性、憑證隔離、代理沙箱與每代理成本控制時選用。
 - **廠商鎖定**:SDK 透過 LiteLLM 支援 100+ 模型,但託管工具(網頁搜尋、檔案搜尋、code interpreter)僅與 OpenAI 模型運作。
 - **無沙箱**:工具在與代理相同的 Python 程序中執行。被入侵的工具可存取環境變數、檔案系統與網路。
-- **憑證模型**:API 金鑰以代理程序可存取的環境變數儲存。OpenLegion 使用金庫代理 — 代理永不見原始金鑰。
+- **憑證模型**:API 金鑰以代理程序可存取的環境變數儲存。OpenLegion 使用憑證金庫 — 代理永不見原始金鑰。
 - **成本風險**:網頁搜尋每 1,000 次查詢需 $25-30。Code interpreter 按 token 計費。無內建支出上限。
 
 ## 並列比較
@@ -43,18 +43,18 @@ OpenLegion(約 59 星)是一個安全優先的 [AI 代理平台](/learn/ai-agent
 | 面向 | OpenLegion | OpenAI Agents SDK |
 |---|---|---|
 | **主要焦點** | 安全多代理編排 | 輕量多代理工作流程 |
-| **架構** | 四區信任模型(加上操作員或內部層) | 具 5 個基礎元件的 Runner 迴圈 |
-| **代理隔離** | 每代理強制 Docker 容器、非 root、no-new-privileges | 無 — 工具在同一 Python 程序中執行 |
-| **憑證管理** | 金庫代理 — 盲注入、代理永不見金鑰 | 代理程序可存取的環境變數 |
-| **預算 / 成本控制** | 每代理每日與每月,具硬性截止 | 無內建 |
-| **編排** | 艦隊模型協調(黑板 + 發布訂閱 + 交棒) | 透過 handoff 的 LLM 驅動路由 |
-| **多代理** | 原生艦隊編排(循序、並行 DAG,具黑板協調) | 代理間 handoff、代理即工具 |
-| **LLM 支援** | 透過 LiteLLM 支援 100+(完整功能對等) | 透過 LiteLLM 支援 100+(託管工具僅 OpenAI) |
+| **架構** | 每個動作前都有單一政策引擎把關 | 具 5 個基礎元件的 Runner 迴圈 |
+| **代理隔離** | 每項任務一次沙箱執行,預設無網路 | 無 — 工具在同一 Python 程序中執行 |
+| **憑證管理** | 金庫保管 — 在模型之外注入、代理永不見金鑰 | 代理程序可存取的環境變數 |
+| **預算 / 成本控制** | 每代理點數預算,具硬性截止 | 無內建 |
+| **編排** | 目標與任務協調(目標 → 任務 → 代理) | 透過 handoff 的 LLM 驅動路由 |
+| **多代理** | 原生團隊委派(由助理建立隊友並委派) | 代理間 handoff、代理即工具 |
+| **LLM 支援** | Smartest、Smart 與 Normal 預設 | 透過 LiteLLM 支援 100+(託管工具僅 OpenAI) |
 | **追蹤** | 內建儀表板,具即時串流、成本圖表 | 內建追蹤 UI,零設定、免費 |
-| **相依性** | 零外部 — Python + SQLite + Docker | openai Python 套件 |
-| **GitHub 星數** | ~59 | ~19,200 |
-| **授權** | PolyForm Perimeter License 1.0.1 | MIT |
-| **最適合** | 需安全優先治理的生產艦隊 | 以 OpenAI 模型快速開發 |
+| **相依性** | 無 — 以 Google 登入 | openai Python 套件 |
+| **GitHub 星數** | 未公布 | ~19,200 |
+| **授權** | 引擎:PolyForm Perimeter License 1.0.1 | MIT |
+| **最適合** | 需安全優先治理的生產團隊 | 以 OpenAI 模型快速開發 |
 
 ## 架構差異
 
@@ -68,7 +68,7 @@ SDK 提供五個基礎元件:Agents(設定的 LLM)、Tools(函式、託管、代
 
 ### OpenLegion 的架構
 
-OpenLegion 使用四區信任模型(加上操作員或內部層),每個代理在自己的 Docker 容器中執行。憑證由金庫代理管理。編排使用艦隊模型協調 — 黑板 + 發布訂閱 + 交棒 — 其中每個工具存取權限與預算上限皆在執行前宣告。
+OpenLegion 在每個動作前都放上單一政策引擎,每項任務按需在自己的沙箱中執行後即停止。憑證存放於金庫,並在模型之外注入,模型只持有代號。編排是目標 → 任務 → 代理,其中每個工具存取權限與預算上限皆在執行前宣告。
 
 ## 何時選擇 OpenAI Agents SDK
 
@@ -82,17 +82,17 @@ OpenLegion 使用四區信任模型(加上操作員或內部層),每個代理在
 
 ## 何時選擇 OpenLegion
 
-**供應商獨立是需求。** OpenLegion 以完整功能對等支援 100+ 模型 — 無工具限於單一供應商。
+**供應商獨立是需求。** OpenLegion 以預設組合挑選模型 — Smartest、Smart 或 Normal — 無工具限於單一供應商。
 
-**你需要代理沙箱。** SDK 在主機程序中執行工具。OpenLegion 將每個代理隔離於資源受限的容器中。
+**你需要代理沙箱。** SDK 在主機程序中執行工具。OpenLegion 讓每項任務在自己的沙箱中執行,預設沒有網路存取。
 
-**憑證安全是硬性需求。** SDK 將 API 金鑰以所有工具可存取的環境變數儲存。OpenLegion 的金庫代理意味著代理永不見憑證。
+**憑證安全是硬性需求。** SDK 將 API 金鑰以所有工具可存取的環境變數儲存。OpenLegion 的憑證金庫意味著代理永不見憑證。
 
-**你需要每代理預算強制執行。** 網頁搜尋每 1,000 次查詢 $25-30 可無上限累積。OpenLegion 強制執行硬性截止。
+**你需要每代理預算強制執行。** 網頁搜尋每 1,000 次查詢 $25-30 可無上限累積。OpenLegion 為每個代理的點數預算強制執行硬性截止。
 
-**你需要艦隊模型協調(黑板 + 發布訂閱 + 交棒)。** SDK 使用 LLM 驅動的 handoff。OpenLegion 的艦隊模型協調在任何代理執行前定義精確的執行路徑。
+**你需要目標與任務協調(目標 → 任務 → 代理)。** SDK 使用 LLM 驅動的 handoff。OpenLegion 的目標與任務在任何代理執行前定義精確的執行路徑。
 
-自帶 LLM API 金鑰。模型用量零加價。
+工作以點數計量,每點 $0.001,且每項任務的精確成本可見。
 
 ## 誠實的取捨
 
@@ -104,7 +104,7 @@ OpenAI Agents SDK 具備簡潔性、開發者體驗,以及 OpenAI 模型整合�
 
 ## CTA
 
-**需要為代理艦隊提供生產級安全?**
+**需要為你的代理團隊提供生產級安全?**
 [立即開始](https://app.openlegion.ai) | [閱讀文件](https://docs.openlegion.ai)
 
 ---
@@ -115,27 +115,27 @@ OpenAI Agents SDK 具備簡潔性、開發者體驗,以及 OpenAI 模型整合�
 
 ### OpenLegion 與 OpenAI Agents SDK 的差別是什麼?
 
-OpenAI Agents SDK(約 19,200 星)是一個用於多代理工作流程的輕量框架,具五個基礎元件與內建追蹤。OpenLegion 是一個安全優先的 [AI 代理框架](/learn/ai-agent-platform),具強制容器隔離、金庫代理憑證、每代理預算,以及艦隊模型協調(黑板 + 發布訂閱 + 交棒)。
+OpenAI Agents SDK(約 19,200 星)是一個用於多代理工作流程的輕量框架,具五個基礎元件與內建追蹤。OpenLegion 是一個安全優先的 [AI 代理框架](/learn/ai-agent-platform),每項任務都在沙箱中執行、憑證存放於金庫、每代理點數預算,以及目標與任務協調(目標 → 任務 → 代理)。
 
 ### OpenAI Agents SDK 鎖定於 OpenAI 嗎?
 
-部分。基本代理邏輯透過 LiteLLM 與 100+ 模型運作。託管工具(網頁搜尋、檔案搜尋、code interpreter)僅與 OpenAI 模型運作。OpenLegion 跨所有供應商以完整功能對等支援 100+ 模型。
+部分。基本代理邏輯透過 LiteLLM 與 100+ 模型運作。託管工具(網頁搜尋、檔案搜尋、code interpreter)僅與 OpenAI 模型運作。OpenLegion 以預設組合挑選模型 — Smartest、Smart 或 Normal — 每一個都有相同功能。
 
 ### OpenAI Agents SDK 是否沙箱化代理工具?
 
-否。所有工具在與代理相同的 Python 程序中執行。被入侵的工具可存取完整主機環境。OpenLegion 將每個代理隔離於 Docker 容器中。詳情請參閱我們的 [AI 代理安全](/learn/ai-agent-security) 頁面。
+否。所有工具在與代理相同的 Python 程序中執行。被入侵的工具可存取完整主機環境。OpenLegion 讓每項任務在預設無網路存取的沙箱中執行。詳情請參閱我們的 [AI 代理安全](/learn/ai-agent-security) 頁面。
 
 ### OpenAI SDK 與 OpenLegion 的成本如何比較?
 
-SDK 免費(MIT)。API 成本依標準 OpenAI 定價。託管工具新增成本:網頁搜尋每 1,000 次查詢 $25-30、檔案搜尋每 1,000 次查詢 $2.50。無內建支出上限。OpenLegion 以自帶 API 金鑰模式強制執行每代理硬性預算截止。
+SDK 免費(MIT)。API 成本依標準 OpenAI 定價。託管工具新增成本:網頁搜尋每 1,000 次查詢 $25-30、檔案搜尋每 1,000 次查詢 $2.50。無內建支出上限。OpenLegion 為每個代理強制執行硬性預算截止,並以點數計量工作,每點 $0.001。
 
 ### 我能用 OpenLegion 連接 OpenAI 模型嗎?
 
-可以。OpenLegion 透過 LiteLLM 支援所有 OpenAI 模型。差別是 OpenLegion 不提供託管工具 — 你透過 MCP 或工具權限系統自帶工具。
+模型以預設組合挑選 — Smartest、Smart 或 Normal — 而非按供應商挑選,因此沒有代理被釘死在單一廠商上。差別是 OpenLegion 不提供託管工具 — 每個代理只取得你授予它的工具。
 
 ### 哪個框架更適合多代理編排?
 
-SDK 使用 LLM 驅動的 handoff — 有彈性但不可預測。OpenLegion 使用艦隊模型協調(黑板 + 發布訂閱 + 交棒)[編排](/learn/ai-agent-orchestration) — 可稽核且可預測。對於定義良好的生產工作流程,OpenLegion 更可靠。對於探索性多代理系統,SDK 更具彈性。
+SDK 使用 LLM 驅動的 handoff — 有彈性但不可預測。OpenLegion 使用目標與任務協調(目標 → 任務 → 代理)[編排](/learn/ai-agent-orchestration) — 可稽核且可預測。對於定義良好的生產工作流程,OpenLegion 更可靠。對於探索性多代理系統,SDK 更具彈性。
 
 ---
 

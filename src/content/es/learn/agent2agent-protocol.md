@@ -131,9 +131,9 @@ A2A está bien diseñado como formato de cable. El modelo de seguridad se queda 
 
 El enfoque de OpenLegion para la comunicación entre agentes aplica lo que el perfil base de A2A deja opcional:
 
-1. **Cada llamada entre agentes pasa por el vault de credenciales.** No hay modo de delegación anónima.
+1. **Cada llamada entre agentes es una intención verificada por el motor de políticas.** No hay modo de delegación anónima.
 
-2. **Saneamiento del payload de tarea en 56 puntos de estrangulamiento de red.** El contenido controlado por el usuario se sanea para ataques unicode antes de llegar al contexto LLM.
+2. **Saneamiento del payload de tarea antes de que el contenido llegue al modelo.** El contenido controlado por el usuario se sanea para ataques unicode antes de llegar al contexto LLM.
 
 3. **Contratos de handoff tipados validados por el orquestador.** Los payloads de inyección de relé se bloquean en el límite.
 
@@ -204,7 +204,7 @@ A2A fue lanzado en abril de 2025 con más de 50 organizaciones contribuyentes, i
 
 ### ¿Cómo implementa OpenLegion la comunicación entre agentes?
 
-La arquitectura mesh de OpenLegion implementa la coordinación entre agentes con autenticación obligatoria en cada llamada. Cada handoff entre agentes pasa por el vault de credenciales. El contenido del payload se sanea en 56 puntos de estrangulamiento de red. Los contratos de handoff tipados son validados por el orquestador. Estos controles se ejecutan en la capa de infraestructura, fuera del código del agente.
+OpenLegion implementa la coordinación entre agentes con autenticación obligatoria en cada llamada. Cada delegación es una intención verificada por un único motor de políticas, que la registra como un recibo. El contenido del payload se sanea antes de llegar al modelo. Los contratos de tarea tipados se validan antes del despacho. Estos controles se ejecutan en la plataforma, fuera del código del agente.
 
 ## Construir sistemas multi-agente con autenticación en cada llamada
 

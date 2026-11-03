@@ -1,9 +1,9 @@
 ---
 title: "Hospedagem Gerenciada de Agentes de IA: Implante Frotas Seguras"
 description: >-
-  Hospedagem gerenciada de agentes de IA da OpenLegion: implante frotas isoladas
-  por contêiner em um VPS dedicado, com credenciais em proxy de cofre e
-  orçamentos por agente.
+  Hospedagem gerenciada de agentes de IA da OpenLegion: rode times de agentes
+  seguros numa aplicação web hospedada, com credenciais em cofre, orçamentos por
+  agente e nenhum VPS dedicado.
 slug: /learn/managed-ai-agent-hosting
 primary_keyword: hospedagem gerenciada de agentes de IA
 secondary_keywords:
@@ -28,7 +28,7 @@ related:
 
 # Hospedagem Gerenciada de Agentes de IA para Frotas de Agentes Seguras
 
-Você queria uma força de trabalho de IA. O que ganhou foi um segundo emprego em DevOps. A hospedagem gerenciada de agentes de IA devolve esse emprego. Ela roda os servidores, contêineres, o cofre de credenciais e os orçamentos de que seus agentes precisam, para que você não provisione nada disso. A camada gerenciada da OpenLegion coloca cada agente no seu próprio contêiner isolado em um VPS dedicado, mantém suas chaves em um cofre que os agentes nunca tocam e limita o gasto por agente por padrão. Você traz um objetivo e uma chave; nós rodamos o chão por baixo.
+Você queria uma força de trabalho de IA. O que ganhou foi um segundo emprego em DevOps. A hospedagem gerenciada de agentes de IA devolve esse emprego. Ela roda os servidores, o isolamento, o cofre de credenciais e os orçamentos de que seus agentes precisam, para que você não provisione nada disso. A OpenLegion é uma aplicação web hospedada: basta entrar com o Google e começar, sem nada para instalar e sem VPS dedicado para alugar, com suas chaves num cofre que os agentes nunca tocam e um orçamento em cada agente por padrão. Você traz um objetivo; nós rodamos o chão por baixo.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -37,12 +37,12 @@ Você queria uma força de trabalho de IA. O que ganhou foi um segundo emprego e
 
 ## TL;DR
 
-- A hospedagem gerenciada de agentes de IA remove o trabalho entre você e uma frota rodando: sem configuração de servidor, sem ajuste de Docker, sem cofre para operar.
-- Cada agente roda no seu próprio contêiner em um VPS dedicado, não em um processo multi-inquilino compartilhado, então o raio de impacto de uma conta fica contido.
-- As credenciais ficam em um proxy de cofre no host confiável; os agentes enviam requisições e o proxy injeta as chaves na camada de rede, então um agente comprometido não consegue lê-las.
-- Limites de orçamento diários e mensais por agente interrompem o gasto descontrolado de LLM no centavo, sem markup sobre uso de modelo.
-- O mesmo motor é de código-fonte disponível sob a PolyForm Perimeter License 1.0.1, então você pode começar gerenciado e migrar para auto-hospedado depois sem reescrever nada.
-- Os planos começam em US$ 19/mês, pagos desde o primeiro dia, com uma garantia de reembolso de 7 dias.
+- A hospedagem gerenciada de agentes de IA remove o trabalho entre você e um time rodando: sem configuração de servidor, sem ajuste de Docker, sem cofre para operar.
+- Os agentes são registros duráveis, não servidores: criar um é instantâneo, um agente ocioso não custa nada e um workspace pode rodar centenas.
+- As credenciais ficam num cofre e são injetadas fora do modelo, que só guarda um handle, então um agente comprometido não consegue lê-las.
+- Cada agente carrega seu próprio orçamento, e cada unidade de trabalho é um despertar registrado e medido em créditos de US$ 0,001 cada.
+- O motor é publicado com código-fonte disponível sob a PolyForm Perimeter License 1.0.1; a plataforma hospedada é proprietária.
+- O Free é $0 com 1,000 créditos únicos e sem cartão; o Pro custa $29/mês com 10.000 créditos; o Team custa $99/mês com 35.000.
 
 ## O Custo Oculto de "Apenas Rode um Agente"
 
@@ -52,41 +52,41 @@ Em algum ponto entre o protótipo e a produção, o trabalho muda de forma silen
 
 A hospedagem gerenciada existe para absorver exatamente essa camada. Com a oferta hospedada da OpenLegion você ganha:
 
-- **Um VPS dedicado** provisionado por conta, para que sua frota nunca compartilhe um processo ou espaço de memória com a de mais ninguém.
-- **Isolamento por contêiner por agente** com limites de recurso, execução non-root, capacidades removidas e um filesystem somente leitura por padrão.
-- **Um proxy de cofre de credenciais** que mantém chaves de LLM, tokens OAuth e chaves privadas de carteira inteiramente fora dos contêineres dos agentes.
+- **Uma aplicação web hospedada** sem nada para instalar e sem VPS dedicado para alugar — basta entrar com o Google e começar.
+- **Uma execução em sandbox para cada tarefa** — cada tarefa roda sob demanda e depois para, e o código que o agente escreve não tem acesso à rede por padrão.
+- **Um cofre de credenciais** que mantém chaves de API e tokens OAuth inteiramente fora do modelo, que só guarda um handle.
 - **Imposição de orçamento por agente** com cortes rígidos, para que um agente em loop não gere uma fatura surpresa.
 - **Um dashboard de controle** para implantar templates, conversar com agentes, acompanhar custo e saúde ao vivo e pausar qualquer coisa que se comporte mal.
-- **Créditos de boas-vindas de LLM** em todo plano pago, além da opção de trazer suas próprias chaves entre mais de 100 provedores com zero markup.
+- **Créditos incluídos** em todo plano, renovados todo mês, com os modelos escolhidos por preset — Smartest, Smart ou Normal.
 
 ## Hospedagem Gerenciada vs Auto-Hospedagem: Como Escolher
 
-A OpenLegion entrega o mesmo motor de duas formas, então a decisão é sobre quem roda a máquina, não sobre qual versão é mais capaz.
+A plataforma da OpenLegion é apenas hospedada, e o motor por baixo é publicado com código-fonte disponível. A comparação abaixo é o trade-off geral entre rodar a infraestrutura de agentes você mesmo e tê-la rodando para você.
 
 | Consideração | Auto-hospedado (PolyForm Perimeter License 1.0.1) | Hospedagem gerenciada |
 |---|---|---|
 | Quem roda os servidores | Você | OpenLegion |
-| Tempo de setup | Três comandos na sua máquina | Cadastrar-se, escolher um template |
-| Cofre de credenciais | Você o opera | Operado para você no host confiável |
+| Tempo de setup | Três comandos na sua máquina | Entrar com o Google, nada para instalar |
+| Cofre de credenciais | Você o opera | Operado para você, fora do modelo |
 | Atualizações e correções | Você puxa e reimplanta | Aplicadas para você |
-| Residência de dados | Totalmente na sua infraestrutura | Em um VPS dedicado que provisionamos |
-| Melhor para | Regulado, air-gapped, controle total | Times que querem uma frota rodando hoje |
-| Modelo de custo | Seus próprios custos de servidor | Plano fixo a partir de US$ 19/mês |
+| Residência de dados | Totalmente na sua infraestrutura | Na plataforma hospedada que operamos |
+| Melhor para | Regulado, air-gapped, controle total | Times que querem um time rodando hoje |
+| Modelo de custo | Seus próprios custos de servidor | Free $0, Pro $29/mês, Team $99/mês |
 
-Escolha auto-hospedagem quando conformidade, residência de dados ou controle total sobre o host pesarem mais que o custo de operá-lo. Escolha hospedagem gerenciada quando você quer agentes trabalhando nesta tarde e prefere não ser dono de um cofre, de um runtime de contêiner e de uma cadência de atualizações. Como os dois rodam o mesmo código, começar gerenciado nunca te impede de auto-hospedar depois.
+Escolha auto-hospedagem quando conformidade, residência de dados ou controle total sobre o host pesarem mais que o custo de operá-lo. Escolha hospedagem gerenciada quando você quer agentes trabalhando nesta tarde e prefere não ser dono de um cofre, de um runtime e de uma cadência de atualizações. A OpenLegion oferece apenas a plataforma hospedada no lançamento, então não existe plataforma auto-hospedada para a qual migrar.
 
 ## O Que Acontece Quando Você Clica em Deploy
 
-Ative um plano pago e a OpenLegion provisiona um VPS dedicado e coloca o mesh host online. Um agente Operador é criado automaticamente como o capataz da sua frota. A partir daí você descreve o time que quer (uma mesa de pesquisa, um pipeline de vendas, um estúdio de conteúdo) e a plataforma implanta cada papel no seu próprio contêiner com sua própria memória, orçamento e permissões de ferramenta.
+Entre com o Google e seu workspace está pronto — não há nada para provisionar. Um assistente é criado junto, e ele cria os colegas de equipe necessários. A partir daí você descreve o time que quer (uma mesa de pesquisa, um pipeline de vendas, um estúdio de conteúdo) e a plataforma cria cada papel como um registro durável com sua própria memória, orçamento e permissões de ferramenta.
 
-Os agentes coordenam pela [camada de orquestração](/learn/ai-agent-orchestration): um blackboard com SQLite, um barramento de eventos pub/sub e um handoff estruturado. Nenhum modelo de linguagem fica no control plane decidindo roteamento, o que mantém o comportamento auditável e os custos previsíveis. Você fala com os agentes pelo dashboard, ou por Telegram, Discord, Slack, WhatsApp ou um webhook.
+Os agentes coordenam pela [camada de orquestração](/learn/ai-agent-orchestration): o trabalho é organizado em metas, tarefas e agentes, com despertares por evento e delegação entre colegas de equipe. Cada ação é uma intenção verificada por um único motor de políticas antes de acontecer, o que mantém o comportamento auditável e os custos previsíveis. Você fala com os agentes no chat web em todos os planos, por Telegram e webhooks a partir do Pro, ou por Slack e e-mail de entrada no Team e acima.
 
 ## Segurança Que Você Não Precisa Construir
 
 A parte mais difícil de hospedar agentes com segurança é a parte que os times mais costumam pular, porque ela é invisível até falhar. A camada gerenciada da OpenLegion impõe a mesma defesa em profundidade descrita no modelo de [segurança de agentes de IA](/learn/ai-agent-security), habilitada por padrão:
 
-- Isolamento por contêiner por agente, sem espaço de processo compartilhado.
-- Um proxy de cofre que injeta credenciais na camada de rede, então os agentes nunca seguram chaves cruas.
+- Uma execução em sandbox para cada tarefa, sem processo de agente de longa duração para comprometer.
+- Um cofre de credenciais que as injeta fora do modelo, então os agentes nunca seguram chaves cruas.
 - Uma matriz de permissões por agente que governa quais ferramentas, arquivos e operações cada agente pode usar.
 - Sanitização de entrada, proteção contra SSRF e endurecimento contra injeção de prompt em cada fronteira.
 - Tetos de orçamento por agente que falham de forma fechada.
@@ -95,15 +95,15 @@ Você herda tudo isso ao se cadastrar, não ao ler um guia de endurecimento e im
 
 ## Preços e Pelo Que Você Paga
 
-Os planos são taxas fixas mensais ou anuais, pagas desde o primeiro dia, a partir de US$ 19/mês. A taxa cobre o VPS dedicado, o proxy de cofre, o provisionamento de contêineres, o dashboard e um pacote de créditos de boas-vindas de LLM que nunca expiram. O uso de modelo é debitado desses créditos ou cobrado pelo seu próprio provedor nos preços de tabela, sem markup sobre tokens. Todo plano traz uma garantia de reembolso de 7 dias. Compare os limites dos planos na [página de preços](/pricing).
+O Free é $0 com 1,000 créditos únicos e sem cartão; o Pro custa $29/mês com 10.000 créditos; o Team custa $99/mês com 35.000; o Enterprise começa em $1.500. O trabalho é medido em créditos de US$ 0,001 cada, e o custo exato de cada tarefa fica visível. Os créditos incluídos renovam todo mês; os pacotes de créditos comprados nunca expiram. A cobrança roda no Stripe, e uma página de garantia de reembolso define os termos. Compare os limites dos planos na [página de preços](/pricing).
 
 ## A Visão do OpenLegion
 
-A maioria da "hospedagem de agentes de IA" no mercado é um processo compartilhado rodando os agentes de todo mundo, chaves jogadas na configuração, sem imposição de orçamento de verdade. Isso serve para uma demo e é perigoso em produção, porque os modos de falha que de fato te custam (uma credencial vazada, um loop de custo descontrolado, um agente comprometido alcançando outro inquilino) são exatamente os que a infraestrutura compartilhada piora. A hospedagem gerenciada só vale o pagamento se ela te comprar o isolamento e a segurança de credenciais que você teria, de outra forma, que construir à mão. Nossa posição é que essas garantias deveriam ser o padrão e idênticas nas versões hospedada e auto-hospedada, de modo que a única escolha real que resta é quem roda a máquina.
+A maioria da "hospedagem de agentes de IA" no mercado é um processo compartilhado rodando os agentes de todo mundo, chaves jogadas na configuração, sem imposição de orçamento de verdade. Isso serve para uma demo e é perigoso em produção, porque os modos de falha que de fato te custam (uma credencial vazada, um loop de custo descontrolado, um agente comprometido alcançando outro inquilino) são exatamente os que a infraestrutura compartilhada piora. A hospedagem gerenciada só vale o pagamento se ela te comprar o isolamento e a segurança de credenciais que você teria, de outra forma, que construir à mão. Nossa posição é que essas garantias deveriam ser o padrão em vez de um nível para o qual você faz upgrade, de modo que todo plano ganha o mesmo isolamento, o mesmo cofre e o mesmo motor de políticas na frente de cada ação.
 
 ## CTA
 
-**Implante uma frota de agentes segura sem rodar a infraestrutura.**
+**Implante um time de agentes seguro sem rodar a infraestrutura.**
 [Começar Agora](https://app.openlegion.ai) | [Ver Preços](/pricing) | [Ler a Documentação](https://docs.openlegion.ai)
 
 ---
@@ -114,28 +114,28 @@ A maioria da "hospedagem de agentes de IA" no mercado é um processo compartilha
 
 ### O que é hospedagem gerenciada de agentes de IA?
 
-Hospedagem gerenciada de agentes de IA é um serviço que provisiona e opera a infraestrutura de que os agentes de IA autônomos precisam (contêineres isolados, um cofre de credenciais, imposição de orçamento, rede e um dashboard de controle), para que um time possa implantar e rodar frotas de agentes sem construir ou manter essa infraestrutura. Com a OpenLegion você se cadastra, escolhe um template, adiciona uma chave de LLM, e seus agentes rodam em um VPS dedicado.
+Hospedagem gerenciada de agentes de IA é um serviço que provisiona e opera a infraestrutura de que os agentes de IA autônomos precisam (contêineres isolados, um cofre de credenciais, imposição de orçamento, rede e um dashboard de controle), para que um time possa implantar e rodar times de agentes sem construir ou manter essa infraestrutura. Com a OpenLegion você entra com o Google e começa — não há nada para instalar nem VPS dedicado para alugar.
 
 ### Como a hospedagem gerenciada é diferente de auto-hospedar o OpenLegion?
 
-Ambos rodam o motor idêntico do OpenLegion com os mesmos controles de segurança. Auto-hospedar significa que você roda os servidores, opera o cofre e aplica as atualizações por conta própria, o que serve para ambientes regulados ou air-gapped. Hospedagem gerenciada significa que a OpenLegion provisiona o VPS, opera o cofre e corrige a plataforma para você. Como o código é o mesmo, você pode começar gerenciado e migrar para auto-hospedado depois sem reconstruir sua frota.
+A OpenLegion é uma aplicação web hospedada, e não existe plataforma auto-hospedada no lançamento. Auto-hospedar, em geral, significa que você roda os servidores, opera o cofre e aplica as atualizações por conta própria, o que serve para ambientes regulados ou air-gapped. Hospedagem gerenciada significa que a OpenLegion roda a plataforma, opera o cofre e a corrige para você. O motor por baixo é publicado com código-fonte disponível sob a PolyForm Perimeter License 1.0.1; a plataforma hospedada é proprietária.
 
 ### É seguro hospedar agentes de IA que seguram minhas chaves de API e de carteira?
 
-Sim, quando as chaves nunca ficam dentro do agente. Na camada gerenciada da OpenLegion, chaves de API, tokens OAuth e chaves privadas de carteira ficam em um proxy de cofre no mesh host confiável. Os agentes enviam requisições e o proxy injeta a credencial na camada de rede, então mesmo um agente totalmente comprometido não consegue ler ou exfiltrar o segredo. As transações de carteira são assinadas no lado do servidor.
+Sim, quando as chaves nunca ficam dentro do agente. Na OpenLegion, chaves de API e tokens OAuth ficam num cofre e são injetados fora do modelo, que só guarda um handle, então mesmo um agente totalmente comprometido não consegue ler ou exfiltrar o segredo. A OpenLegion não guarda chaves de carteira nem fundos de agentes.
 
 ### Quanto custa a hospedagem gerenciada de agentes de IA?
 
-Os planos gerenciados da OpenLegion começam em US$ 19/mês, pagos desde o primeiro dia, com uma garantia de reembolso de 7 dias. A taxa fixa cobre o VPS dedicado, o proxy de cofre, o provisionamento de contêineres, o dashboard e um pacote de créditos de boas-vindas de LLM que nunca expiram. O uso de tokens de modelo é debitado desses créditos ou cobrado diretamente pelo seu próprio provedor, sem markup da OpenLegion.
+O Free é $0 com 1,000 créditos únicos e sem cartão; o Pro custa $29/mês com 10.000 créditos; o Team custa $99/mês com 35.000; o Enterprise começa em $1.500. A taxa cobre a plataforma hospedada, o cofre de credenciais, o dashboard e os créditos incluídos do plano — não há VPS dedicado para pagar. O trabalho é medido em créditos de US$ 0,001 cada, os créditos incluídos renovam todo mês e os pacotes comprados nunca expiram.
 
 ### Preciso saber Docker ou DevOps para usar hospedagem gerenciada?
 
-Não. A camada gerenciada cuida do provisionamento de contêineres, do armazenamento de credenciais, da rede e das atualizações. Você trabalha por um dashboard: escolha um template de time, adicione uma chave de LLM e implante. Docker, Python e administração de servidor só são necessários se você optar pela versão auto-hospedada.
+Não. A OpenLegion é uma aplicação web hospedada: basta entrar com o Google e começar — não há nada para instalar. Você trabalha por um dashboard: descreva o time que quer e o assistente cria os colegas de equipe necessários. Docker, Python e administração de servidor não fazem parte disso.
 
 ### Posso migrar de hospedagem gerenciada para auto-hospedado depois?
 
-Sim. A camada gerenciada e a distribuição auto-hospedada rodam o mesmo motor, de código-fonte disponível sob a PolyForm Perimeter License 1.0.1. Não há camada proprietária de lock-in que bloquearia a migração, então os times comumente começam na hospedagem gerenciada para avançar rápido e mudam para infraestrutura auto-hospedada quando conformidade ou custo tornam isso vantajoso.
+Não no lançamento. A plataforma hospedada é a única forma de rodar a OpenLegion hoje, e ela é proprietária; o motor por baixo é publicado com código-fonte disponível sob a PolyForm Perimeter License 1.0.1. Ainda não há distribuição auto-hospedada para a qual migrar, então conte com a plataforma hospedada por enquanto.
 
 ### Quantos agentes posso hospedar em um plano gerenciado?
 
-Os limites de agentes escalam com o nível do plano, de um único agente no plano de entrada até grandes frotas nos níveis mais altos, com limites customizados para empresas. Cada contêiner de agente implantado conta como um agente no limite, então um template de três papéis como um Dev Team conta como três agentes.
+Os limites de agentes escalam com o nível do plano, de um time pequeno no plano de entrada até times grandes nos níveis mais altos, com limites customizados para empresas. Os agentes são registros duráveis em vez de servidores, então criar um é instantâneo e um agente ocioso não custa nada — cada agente conta como um no limite, então um time de três papéis como um Dev Team conta como três agentes.

@@ -26,7 +26,7 @@ related:
 
 Ein agentischer Workflow ist ein mehrstufiger KI-Prozess, bei dem ein oder mehrere Agenten autonom entscheiden, welche Tools sie aufrufen, wann sie Teilaufgaben an andere Agenten delegieren und wie sie ihren Ansatz anhand von Zwischenergebnissen anpassen. Im Unterschied zu einer festen Pipeline, in der jeder Schritt hardcodiert ist und genau einmal ausgeführt wird, ist ein agentischer Workflow dynamisch: Der Agent liest seine Umgebung, denkt über den Zustand nach und wählt die nächste Aktion. Diese Autonomie ist das Merkmal. Sie ist auch die Angriffsfläche.
 
-OpenLegion ist eine sicherheitsorientierte KI-Agenten-Plattform, die das Design agentischer Workflows als Ingenieurdisziplin betrachtet: Jeder Schritt läuft in einem isolierten Container, Anmeldedaten sind im Agentenprozess nie vorhanden, und jede Iterationsschleife hat eine harte Abbruchbedingung, die auf Infrastrukturebene erzwungen wird.
+OpenLegion ist eine sicherheitsorientierte KI-Agenten-Plattform, die das Design agentischer Workflows als Ingenieurdisziplin betrachtet: Jede Aufgabe läuft bei Bedarf in ihrer eigenen Sandbox, Anmeldedaten sind im Modell nie vorhanden, und jede Iterationsschleife hat eine harte Abbruchbedingung, die von der Plattform erzwungen wird.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -39,7 +39,7 @@ OpenLegion ist eine sicherheitsorientierte KI-Agenten-Plattform, die das Design 
 - **ReAct** (Reason + Act, Yao et al. 2023) ist das am weitesten verbreitete Muster - eingesetzt in LangGraph, OpenAI Agents SDK, AutoGen und OpenLegion.
 - **Primärer Angriffsvektor**: Prompt-Injection über Tool-Ergebnisse (OWASP LLM Top 10 2025, LLM02). Eine bösartige Webseite oder ein Dokument kann die nächste Aktion des Agenten kapern.
 - **Unkontrollierte Schleifen sind keine Randfälle**: Eine Reflexions- oder ReAct-Schleife ohne harte Abbruchbedingung läuft, bis Ihr Budget erschöpft ist.
-- **OpenLegion-Maßnahmen**: Schrittbudget pro Agent (harte Iterationsbegrenzung), Container-Isolation (ein kompromittierter Schritt kann nicht auf Anmeldedaten anderer Agenten zugreifen), kein Telemetrie.
+- **OpenLegion-Maßnahmen**: Schrittbudget pro Agent (harte Iterationsbegrenzung), ein Sandbox-Lauf pro Aufgabe (ein kompromittierter Schritt kann nicht auf Anmeldedaten anderer Agenten zugreifen), ein Beleg für jede Aktion.
 - **Schrittbudget vs. Token-Budget**: Beide sind wichtig. Token-Budgets begrenzen Ausgaben; Schrittbudgets begrenzen unbegrenzte Reasoning-Schleifen.
 
 ## Was macht einen agentischen Workflow anders als eine Pipeline
@@ -63,7 +63,7 @@ Diese Unterscheidung hat direkte Sicherheitsauswirkungen. In einer festen Pipeli
 - **Prompt-Injection über Observation**: Der Observation-Schritt ist die primäre Angriffsfläche. OWASP LLM02 (Prompt Injection) ist das größte Risiko für ReAct-basierte Workflows.
 - **Kontextfenster-Inflation**: Lange ReAct-Ketten häufen Thought/Action/Observation-Tripel im Kontext an.
 
-**OpenLegion-Maßnahme**: Schrittbudget pro Agent (maximale Iterationsanzahl vom Orchestrator erzwungen) plus Container-Isolation.
+**OpenLegion-Maßnahme**: Schrittbudget pro Agent (maximale Iterationsanzahl vom Orchestrator erzwungen) plus ein Sandbox-Lauf für jede Aufgabe.
 
 ### Muster 2: Plan-und-Ausführung
 
@@ -76,7 +76,7 @@ Diese Unterscheidung hat direkte Sicherheitsauswirkungen. In einer festen Pipeli
 - **Einzelner Fehlerpunkt beim Planer**: Eine Prompt-Injection, die die Planer-Ausgabe korrumpiert, wirkt sich auf jeden nachfolgenden Ausführungsschritt aus.
 - **Kein adaptives Neuplanung**: Reine Plan-und-Ausführung kann keine Aufgaben bewältigen, bei denen Zwischenergebnisse wesentlich ändern, was nachfolgende Schritte tun sollen.
 
-**OpenLegion-Maßnahme**: Planer und Ausführer laufen in separaten Containern. Schadensradius auf die Planer-Container-Ausgabe begrenzt.
+**OpenLegion-Maßnahme**: Planer und Ausführer laufen als separate Agenten, jeder in seinem eigenen Aufgabenlauf. Schadensradius auf die Planer-Ausgabe begrenzt.
 
 ### Muster 3: Reflexionsschleife
 
@@ -98,7 +98,7 @@ Diese Unterscheidung hat direkte Sicherheitsauswirkungen. In einer festen Pipeli
 - **Synthese-Vergiftung**: Eine bösartige Zweig-Ausgabe kann das zusammengeführte Ergebnis korrumpieren.
 - **Nebenläufigkeits- und Shared-State-Konflikte**: CVE-2025-64168 (Agno, CVSS 7.1) demonstrierte dies: eine Race Condition im gemeinsamen Sitzungszustand unter asynchroner Nebenläufigkeit setzte Daten eines Benutzers einem anderen aus.
 
-**OpenLegion-Maßnahme**: Jeder parallele Agent läuft in seinem eigenen isolierten Docker-Container. Kein gemeinsamer veränderlicher Zustand zwischen Zweigen.
+**OpenLegion-Maßnahme**: Jeder parallele Agent läuft in seinem eigenen gesandboxten Aufgabenlauf. Kein gemeinsamer veränderlicher Zustand zwischen Zweigen.
 
 ## Sicherheitsdesign für agentische Workflows
 
@@ -106,29 +106,29 @@ Diese Unterscheidung hat direkte Sicherheitsauswirkungen. In einer festen Pipeli
 
 Tool-Ergebnisse sind der primäre Injektionsvektor in agentischen Workflows. OWASP LLM02 (Prompt Injection) ist das größte Risiko für LLM-Anwendungen in der Top 10 von 2025. Für agentische Workflows wird das Risiko verstärkt, weil Agenten Tool-Zugang haben - eine injizierte Anweisung kann reale Aktionen verursachen.
 
-OpenLegion wendet Unicode-Bereinigung bei der Tool-Ergebnis-Aufnahme an (56 Kontrollpunkte für bidi-Overrides, Tag-Zeichen und Zeichen mit Nullbreite) plus Container-Isolation, um den Schadensradius einer erfolgreichen Injection zu begrenzen.
+OpenLegion behandelt das Handeln auf ungeprüften Inhalten als eine von drei Stellen, an denen die Arbeit für eine Freigabe des Eigentümers stoppt, plus einen Sandbox-Lauf, um den Schadensradius einer erfolgreichen Injection zu begrenzen.
 
 ### Bedrohung 2: Tool-Aufruf-Verstärkung
 
 Ein Agent, der ein teures Tool in einer ReAct-Schleife ohne Schrittbudget aufruft, kann Hunderte von Tool-Aufrufen machen, bevor der Entwickler es bemerkt. Reale Vorfälle beinhalten nachtliche Agentenläufe, die Tausende von API-Aufrufen an Drittanbieter-Dienste generierten und unerwartete Rechnungen sowie Ratenbeschränkungssperrungen auslösten.
 
-OpenLegion erzwingt beides: Token-Budget pro Agent (Ausgabenobergrenze) und Schrittbudget pro Agent (Iterationsobergrenze). Jede Begrenzung stoppt den Agenten, wenn sie erreicht wird.
+OpenLegion erzwingt beides: ein Credit-Budget pro Agent (Ausgabenobergrenze) und ein Schrittbudget pro Agent (Iterationsobergrenze). Jede Begrenzung stoppt den Agenten, wenn sie erreicht wird.
 
 ### Bedrohung 3: Anmeldedaten-Exposition bei der Delegation
 
 In Frameworks, bei denen Agenten einen Python-Prozess teilen, hat Agent B standardmäßig Zugang zu den Umgebungsvariablen von Agent A. Ein kompromittierter Delegationsschritt kann alle dem Workflow verfügbaren Anmeldedaten preisgeben.
 
-OpenLegion verwendet Vault-Proxy-Anmeldedaten-Injektion über den Mesh Host. Der Container von Agent B erhält nur die Anmeldedaten, die ihm explizit in der Fleet-ACL-Matrix zugewiesen wurden - nicht die Anmeldedaten von Agent A.
+OpenLegion injiziert Anmeldedaten aus dem Vault außerhalb des Modells, das immer nur ein Handle hält. Agent B erhält nur die Anmeldedaten, die ihm explizit in seinen eigenen Berechtigungen zugewiesen wurden - nicht die Anmeldedaten von Agent A.
 
 ### Bedrohung 4: Unbegrenzte Rekursion und Selbst-Spawning
 
-Ein agentischer Workflow, der Agenten erlaubt, ohne Begrenzung Sub-Agenten zu erzeugen, kann zu exponentieller Rekursion manipuliert werden. OpenLegion begrenzt dies: Die Berechtigung `can_spawn` erfordert eine explizite Administratorgenehmigung, die Sub-Agent-Tiefe ist durch die Mesh-Konfiguration begrenzt, und Fleet-Vorlagen definieren eine maximale Agentenanzahl.
+Ein agentischer Workflow, der Agenten erlaubt, ohne Begrenzung Sub-Agenten zu erzeugen, kann zu exponentieller Rekursion manipuliert werden. OpenLegion begrenzt dies: Teammitglieder zu erstellen ist eine Berechtigung, die ein Eigentümer oder Admin gewährt, die Delegationstiefe ist von der Plattform begrenzt, und jeder Plan definiert eine maximale Agentenanzahl.
 
 ## Schrittbudget vs. Token-Budget: Warum Sie beides brauchen
 
 Token-Budgets begrenzen die Gesamtausgaben pro Agent pro Tag. Sie sind notwendig, aber nicht ausreichend. Ein Token-Budget verhindert nicht, dass eine ReAct-Schleife 500 Iterationen mit günstigen Tools ausführt. Ein Schrittbudget begrenzt die Anzahl der Reasoning-Iterationen oder Tool-Aufrufe, unabhängig von den Token-Kosten.
 
-OpenLegion implementiert beides: Token-Budget, erzwungen durch den Cost Tracker in Zone 2, und Schrittbudget, erzwungen durch den Orchestrator auf Infrastrukturebene.
+OpenLegion implementiert beides: ein Credit-Budget, erzwungen durch die Policy-Engine vor jeder Aktion, und ein Schrittbudget, erzwungen durch den Orchestrator auf Plattform-Ebene.
 
 ## Design von agentischen Workflows für die Produktion
 
@@ -148,17 +148,17 @@ Jede Schleife in einem agentischen Workflow benötigt eine explizite Abbruchbedi
 
 ### Ausgaben an Schrittgrenzen validieren
 
-Jede Schrittgrenze ist eine Möglichkeit, zu validieren, dass die Ausgabe dem erwarteten Schema entspricht, bevor sie an den nächsten Schritt weitergegeben wird. Die Fleet-Modell-Koordination von OpenLegion wendet Ausgabe-Validatoren an jedem Übergabepunkt an. Implementierungsdetails finden Sie im [KI-Agenten-Orchestrierungsleitfaden](/learn/ai-agent-orchestration).
+Jede Schrittgrenze ist eine Möglichkeit, zu validieren, dass die Ausgabe dem erwarteten Schema entspricht, bevor sie an den nächsten Schritt weitergegeben wird. Die Ziel-und-Aufgaben-Koordination von OpenLegion wendet Ausgabe-Validatoren an jedem Delegationspunkt an. Implementierungsdetails finden Sie im [KI-Agenten-Orchestrierungsleitfaden](/learn/ai-agent-orchestration).
 
 ### Berechtigungen auf das erforderliche Minimum beschränken
 
-Jeder Agent sollte nur die Tools und Berechtigungen haben, die er für seinen spezifischen Schritt benötigt. Zu weit berechtigte Agenten verstärken den Schadensradius jeder Kompromittierung. Die ACL-Matrix pro Agent in der OpenLegion-Fleet-Konfiguration erzwingt Mindestberechtigungen auf Orchestratorebene.
+Jeder Agent sollte nur die Tools und Berechtigungen haben, die er für seinen spezifischen Schritt benötigt. Zu weit berechtigte Agenten verstärken den Schadensradius jeder Kompromittierung. Berechtigungen pro Agent in OpenLegion erzwingen Mindestprivilegien in der Policy-Engine, vor jeder Aktion.
 
 ## Agentische Workflow-Frameworks: Muster-Unterstützungsvergleich
 
 | Framework | ReAct | Plan-und-Ausführung | Reflexion | Fan-Out | Schrittbudget | Container-Isolation |
 |---|---|---|---|---|---|---|
-| **OpenLegion** | Ja | Ja | Ja | Ja | Ja (hart) | Ja (obligatorisch) |
+| **OpenLegion** | Ja | Ja | Ja | Ja | Ja (hart) | Gesandboxte Aufgabenläufe |
 | **LangGraph** | Ja | Ja | Ja | Ja | Kein integriertes | Nein |
 | **CrewAI** | Ja (Flows) | Ja (Crews) | Begrenzt | Ja (parallel) | Nein | Nein (nur CodeInterpreter) |
 | **OpenAI Agents SDK** | Ja | Begrenzt | Begrenzt | Ja (handoffs) | Nein | Nein |
@@ -170,9 +170,9 @@ Für einen detaillierten Sicherheits- und Architekturvergleich dieser Frameworks
 
 Agentische Workflows sind der Punkt, an dem die Sicherheitsschulden der meisten Frameworks in der Produktion sichtbar werden. ReAct-Schleifen ohne Schrittbudgets haben fünf- und sechsstellige unerwartete API-Rechnungen erzeugt. CVE-2025-64168 (Agno, CVSS 7.1, Oktober 2025) zeigte, dass gleichzeitige agentische Workflows, die einen Python-Prozess teilen, den Sitzungszustand eines Benutzers unter hoher asynchroner Last einem anderen preisgeben können. OWASP LLM02 (Prompt Injection, Top 10 2025) identifiziert Tool-Ergebnis-Injection als den primären Angriffsvektor gegen ReAct-basierte agentische Workflows.
 
-OpenLegion adressiert drei Eigenschaften architektonisch: harte Schrittbudgets (maximale Iterationsanzahl vom Orchestrator erzwungen), Container-Isolation pro Agent (kein gemeinsamer veränderlicher Zustand zwischen parallelen Zweigen) und Vault-Proxy-Anmeldedaten-Injektion (Delegations-Übergaben werden durch Zone 2 geleitet). Diese sind keine Konfigurationsoptionen - sie sind die Standardarchitektur.
+OpenLegion adressiert drei Eigenschaften architektonisch: harte Schrittbudgets (maximale Iterationsanzahl vom Orchestrator erzwungen), einen Sandbox-Lauf pro Aufgabe (kein gemeinsamer veränderlicher Zustand zwischen parallelen Zweigen) und Anmeldedaten-Injektion aus dem Vault (jede Delegation wird von einer einzigen Policy-Engine geprüft). Diese sind keine Konfigurationsoptionen - sie sind die Standardarchitektur.
 
-Der Kompromiss: OpenLegion hat ca. 59 GitHub-Sterne gegenüber LangGraph ca. 25.200 und CrewAI ca. 44.600. Für einen Vergleich, wie diese Muster in verschiedenen Frameworks implementiert werden, siehe den [KI-Agenten-Frameworks-Vergleich](/learn/ai-agent-frameworks).
+Der Kompromiss: OpenLegion ist eine junge gehostete Plattform neben LangGraph mit ca. 25.200 GitHub-Sternen und CrewAI mit ca. 44.600. Für einen Vergleich, wie diese Muster in verschiedenen Frameworks implementiert werden, siehe den [KI-Agenten-Frameworks-Vergleich](/learn/ai-agent-frameworks).
 
 ## CTA
 
@@ -207,11 +207,11 @@ Der primäre Angriffsvektor ist Prompt-Injection über Tool-Ergebnisse (OWASP LL
 
 ### Wie funktioniert paralleles Fan-Out in agentischen Workflows?
 
-Paralleles Fan-Out lässt mehrere Agenten gleichzeitig an unabhängigen Teilaufgaben arbeiten und führt die Ergebnisse dann in einem Synthese-Schritt zusammen. Es reduziert die Wanduhrzeit für Aufgaben, die sich in unabhängige Arbeitsströme aufteilen lassen. Die Fehlerquellen sind Kostenverstärkung (N Agenten kosten N-mal mehr), Synthese-Vergiftung (eine bösartige Zweig-Ausgabe korrumpiert das zusammengeführte Ergebnis) und Shared-State-Konflikte in Frameworks, bei denen gleichzeitige Agenten veränderlichen Prozesszustand teilen. OpenLegion lässt jeden parallelen Agenten in einem isolierten Docker-Container mit eigenem Zustand laufen, verhindert Shared-State-Konflikte und begrenzt jeden Zweig unabhängig.
+Paralleles Fan-Out lässt mehrere Agenten gleichzeitig an unabhängigen Teilaufgaben arbeiten und führt die Ergebnisse dann in einem Synthese-Schritt zusammen. Es reduziert die Wanduhrzeit für Aufgaben, die sich in unabhängige Arbeitsströme aufteilen lassen. Die Fehlerquellen sind Kostenverstärkung (N Agenten kosten N-mal mehr), Synthese-Vergiftung (eine bösartige Zweig-Ausgabe korrumpiert das zusammengeführte Ergebnis) und Shared-State-Konflikte in Frameworks, bei denen gleichzeitige Agenten veränderlichen Prozesszustand teilen. OpenLegion lässt jeden parallelen Agenten in einem eigenen gesandboxten Aufgabenlauf mit eigenem Zustand laufen, verhindert Shared-State-Konflikte und begrenzt jeden Zweig unabhängig.
 
 ### Was ist Plandrift in agentischen Workflows?
 
-Plandrift tritt in Plan-und-Ausführungs-Workflows auf, wenn Ausführungs-Agenten auf unerwartete Zwischenergebnisse stoßen, aber den ursprünglichen Plan weiter ausführen, anstatt die Abweichung zu melden. Gegenmaßnahmen umfassen explizite Plan-Validierungsprüfpunkte, menschliche Genehmigungsstufen bei kritischen Planschritten und strukturierte Übergabeprotokolle, die Diskrepanzen vor dem Fortfahren aufzeigen. OpenLegion-Fleet-Modell-Koordination unterstützt menschliche Prüfpunkte über Kanal-Integrationen an jedem Übergabepunkt.
+Plandrift tritt in Plan-und-Ausführungs-Workflows auf, wenn Ausführungs-Agenten auf unerwartete Zwischenergebnisse stoßen, aber den ursprünglichen Plan weiter ausführen, anstatt die Abweichung zu melden. Gegenmaßnahmen umfassen explizite Plan-Validierungsprüfpunkte, menschliche Genehmigungsstufen bei kritischen Planschritten und strukturierte Übergabeprotokolle, die Diskrepanzen vor dem Fortfahren aufzeigen. OpenLegions Ziel-und-Aufgaben-Koordination unterstützt menschliche Freigaben in der App an jedem Delegationspunkt.
 
 ### Wie unterscheidet sich das agentische Workflow-Design von der KI-Agenten-Orchestrierung?
 

@@ -42,7 +42,7 @@ related:
 - **Agenten-Observability ist schwieriger als App-Observability**, weil der Kontrollfluss des Agenten zur Laufzeit von einem LLM entschieden wird, nicht von handgeschriebenem Code.
 - **Vier Signale zählen**: End-to-End-Traces, Kosten pro Agent, Prompt- und Modell-Versionierung sowie Erfassung von Sicherheitsereignissen (Prompt-Injection-Versuche, ACL-Denies, Budget-Cutoffs).
 - **Die meisten Agenten-Frameworks liefern keine integrierte Observability** — Teams schrauben LangSmith, Langfuse oder Arize Phoenix an und entdecken die Lücken nach dem ersten Produktionsvorfall.
-- **OpenLegions Mesh-Dashboard erfasst jeden Tool-Call, jede LLM-Anfrage, jede Kostenposition und jedes Sicherheitsereignis standardmäßig** — kein Instrumentierungscode, keine Drittanbieter-Agentenintegration.
+- **OpenLegion hält jeden Tool-Call, jede LLM-Anfrage, jede Kostenposition und jedes Sicherheitsereignis standardmäßig als Beleg fest** — kein Instrumentierungscode, keine Drittanbieter-Agentenintegration.
 - **Kosten-Observability ist das Budget, das Sie nicht wussten, dass Sie ausgaben**: Ohne Pro-Agent-Caps kann ein feststeckender Agent über Nacht hunderte Dollar in API-Aufrufen verbrennen.
 
 ## Warum KI-Agenten-Observability anders ist
@@ -78,25 +78,25 @@ Prompt-Injection-Versuche, ACL-Denies, SSRF-Blocks, Budget-Cutoffs, Unicode-Sani
 
 | Signal | Was erfasst wird | Wo es sichtbar ist |
 |---|---|---|
-| **Trace** | Jeder Tool-Call, jede LLM-Anfrage, jeder Agenten-Handoff mit Timing | Mesh-Dashboard → Agent Runs |
+| **Trace** | Jeder Tool-Call, jede LLM-Anfrage, jede Delegation mit Timing | Dashboard → Läufe |
 | **Kosten** | Tokens In/Out, Dollar-Kosten pro Provider pro Agent | Dashboard → Cost-Panel |
 | **Prompts** | System-Prompt-Hash, Version, Modell, Parameter pro Lauf | Per-Run-Detailansicht |
 | **Sicherheit** | ACL-Denies, Budget-Cutoffs, SSRF-Blocks, Sanitizer-Treffer | Dashboard → Security-Log |
-| **Health** | Container-Ressourcenverbrauch, Mesh-Latenz, Browser-Pool-Status | Dashboard → Fleet-Panel |
+| **Health** | Erfolgsquote der Aufgaben, Lauf-Latenz, Länge der Freigabe-Queue | Dashboard → Work-Panel |
 
-Das Dashboard ist Teil der Open-Source-Runtime — kein Managed Service mit Abo-Pflicht. Self-Hosted-Deployments halten alle Telemetrie auf Ihrer Infrastruktur.
+Das Dashboard ist Teil der Plattform — kein separater Dienst mit Abo-Pflicht und Instrumentierung. Jeder Lauf wird festgehalten und ist nachvollziehbar, mit den exakten Kosten der Aufgabe daran.
 
 ## Open-Source- vs. verwaltete Observability-Stacks
 
 Wenn Sie ein anderes Agenten-Framework betreiben, sind die führenden Bolt-On-Tools LangSmith (LangChain-Ökosystem, verwaltet), Langfuse (Open Source, selbst hostbar), Arize Phoenix (Open Source, evaluationsfokussiert) und Helicone (Proxy-basiert, einfache Integration). Jedes erfordert Instrumentierungscode in Ihrem Agenten — LLM-Clients wrappen, Callback-Handler ergänzen, Trace-Exporter konfigurieren. Der Integrationsaufwand skaliert mit der Flottengröße.
 
-OpenLegions Mesh sitzt designbedingt im Aufrufpfad jeder Agentenoperation — Credential-Vault, ACL-Gate, Kosten-Tracker und Trace-Recorder sind alle in der vertrauenswürdigen Zone kolokalisiert. Es gibt keinen Instrumentierungsschritt. Der Kompromiss: Sie adoptieren die OpenLegion-Runtime, nicht nur eine Observability-Schicht.
+OpenLegions Policy-Engine sitzt designbedingt im Aufrufpfad jeder Agentenoperation — Credential-Vault, Berechtigungsprüfung, Kostenzähler und Beleg gehören alle zu demselben Schritt. Es gibt keinen Instrumentierungsschritt. Der Kompromiss: Sie adoptieren die OpenLegion-Plattform, nicht nur eine Observability-Schicht.
 
 Siehe unseren [KI-Agenten-Frameworks-Vergleich](/learn/ai-agent-frameworks) für die gesamte Landschaft oder die [Vs.-LangGraph-Seite](/comparison/langgraph) für einen Head-to-Head speziell zu Observability.
 
 ## OpenLegions Standpunkt
 
-Agenten-Observability ist das neue APM — und das KI-Ökosystem wiederholt jeden Fehler, den APM ein Jahrzehnt brauchte, um zu beheben. Telemetrie fragmentiert über anbieterspezifische SDKs. Preise skalieren mit Eventvolumen, sodass die aktivsten Flotten am meisten zahlen, um sich selbst zu beobachten. "Erweiterte" Funktionen wie Alerting und Retention sitzen hinter Enterprise-Stufen. OpenLegion nimmt die Gegenposition: Das Dashboard, Traces, der Kosten-Ledger und das Security-Event-Log gehören zur [KI-Agenten-Plattform](/learn/ai-agent-platform), nicht zum Upsell. Jeder Lauf zeichnet standardmäßig den vollständigen Trace auf, Sie hosten die Daten selbst, Sie besitzen die Retention, und Sie können bei Bedarf nach OpenTelemetry an Datadog oder Honeycomb exportieren.
+Agenten-Observability ist das neue APM — und das KI-Ökosystem wiederholt jeden Fehler, den APM ein Jahrzehnt brauchte, um zu beheben. Telemetrie fragmentiert über anbieterspezifische SDKs. Preise skalieren mit Eventvolumen, sodass die aktivsten Flotten am meisten zahlen, um sich selbst zu beobachten. "Erweiterte" Funktionen wie Alerting und Retention sitzen hinter Enterprise-Stufen. OpenLegion nimmt die Gegenposition: Das Dashboard, Traces, der Kosten-Ledger und das Security-Event-Log gehören zur [KI-Agenten-Plattform](/learn/ai-agent-platform), nicht zum Upsell. Jeder Lauf zeichnet standardmäßig den vollständigen Trace auf, der Eigentümer kann jeden erzeugten Beleg lesen, und Sie können bei Bedarf nach OpenTelemetry an Datadog oder Honeycomb exportieren.
 
 ## CTA
 
@@ -119,7 +119,7 @@ LLM-Observability erfasst einzelne Modellaufrufe — Prompt, Response, Latenz, T
 
 ### Brauche ich ein separates Observability-Tool, wenn ich schon Datadog nutze?
 
-Datadog und ähnliche APM-Tools handhaben Latenz, Fehler und Ressourcenverbrauch gut, verstehen aber nicht nativ LLM-Token-Kosten, Prompt-Versionierung oder Agenten-Trace-Semantik. Die meisten Teams kombinieren ein agentennatives Observability-Tool (Langfuse, Arize Phoenix, LangSmith) mit ihrem bestehenden APM oder adoptieren eine Runtime wie OpenLegion, die Telemetrie integriert mitliefert und OpenTelemetry an das ohnehin betriebene APM weiterleiten kann.
+Datadog und ähnliche APM-Tools handhaben Latenz, Fehler und Ressourcenverbrauch gut, verstehen aber nicht nativ LLM-Token-Kosten, Prompt-Versionierung oder Agenten-Trace-Semantik. Die meisten Teams kombinieren ein agentennatives Observability-Tool (Langfuse, Arize Phoenix, LangSmith) mit ihrem bestehenden APM oder adoptieren eine Plattform wie OpenLegion, die Telemetrie integriert mitliefert und OpenTelemetry an das ohnehin betriebene APM weiterleiten kann.
 
 ### Was sollte ich für KI-Agenten-Kosten-Observability erfassen?
 
@@ -131,4 +131,4 @@ Mindestens: Prompt-Injection-Erkennung, ACL-Denies (ein Agent versuchte eine Ope
 
 ### Wie vergleicht sich OpenLegions Observability mit LangSmith?
 
-LangSmith ist ein verwalteter Observability-Dienst für das LangChain-Ökosystem — starkes Tracing, Evaluation und Prompt-Management. OpenLegions Dashboard kommt mit der Runtime selbst, ist standardmäßig selbst gehostet und erfasst dieselben Signale (Traces, Kosten, Prompts, Sicherheitsereignisse), ohne Instrumentierung im Agentencode zu verlangen. LangSmith integriert sich quer durch jedes Framework, das es adoptiert; OpenLegion-Observability funktioniert automatisch innerhalb der OpenLegion-Runtime.
+LangSmith ist ein verwalteter Observability-Dienst für das LangChain-Ökosystem — starkes Tracing, Evaluation und Prompt-Management. OpenLegions Dashboard kommt mit der Plattform selbst, ist standardmäßig aktiv und erfasst dieselben Signale (Traces, Kosten, Prompts, Sicherheitsereignisse), ohne Instrumentierung im Agentencode zu verlangen. LangSmith integriert sich quer durch jedes Framework, das es adoptiert; OpenLegion-Observability funktioniert automatisch innerhalb von OpenLegion.

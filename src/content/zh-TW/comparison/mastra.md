@@ -51,31 +51,31 @@ Mastra 的 Apache 2.0 許可證仅涵盖核心框架。ee/ 目錄包含 Auth 集
 **GHSA-wxw3-q3m9-c3jr（CVSS 5.3）**：better-auth 中的 OAuth CSRF。OAuth 回调处理中存在未修復的 CSRF 漏洞。
 ## OpenLegion 的观点：三个结构性安全缺口
 
-**设计导致凭据暴露。** Mastra 智能体通过环境变量接收凭据。CVE-2025-61685 表明，即使智能体代码本身干净，周边工具鏈也可到达凭据。OpenLegion 的金库代理在网络層注入凭据，智能体進程永远不会收到明文 API 密鑰。
+**设计导致凭据暴露。** Mastra 智能体通过环境变量接收凭据。CVE-2025-61685 表明，即使智能体代码本身干净，周边工具鏈也可到达凭据。OpenLegion 将凭据存放在金库中，並在模型之外注入：任何一次智能体执行都不会收到明文 API 密鑰。
 
-**安全功能需付费升级。** RBAC、适配器访问控制和 Auth 集成需要專有 ee/ 層。OpenLegion 的金库代理和黑板權限是所有用戶的核心功能。
+**安全功能需付费升级。** RBAC、适配器访问控制和 Auth 集成需要專有 ee/ 層。OpenLegion 的凭据金库、沙箱任务执行和每个智能体的工具授權是所有用戶的核心功能。
 
-**付费層存在未修復的 Auth 漏洞。** CVE-2026-42565 和 GHSA-wxw3-q3m9-c3jr 在企业 ee/ 目錄的 Auth 依赖项中。OpenLegion 的零 CVE 记录（2026 年 5 月）反映了智能体不持有凭据的架构。
+**付费層存在未修復的 Auth 漏洞。** CVE-2026-42565 和 GHSA-wxw3-q3m9-c3jr 在企业 ee/ 目錄的 Auth 依赖项中。OpenLegion 从根本上移除了这一类暴露：智能体从不持有凭据，金库在模型之外注入凭据。
 
 ## Mastra vs OpenLegion: 對比表
 
 | **維度** | **Mastra** | **OpenLegion** |
 |---|---|---|
-| **語言支援** | 仅 TypeScript | Python（智能体）；任意語言工具接口 |
-| **許可證** | Apache 2.0（核心）+ 專有 ee/ | PolyForm Perimeter License 1.0.1 |
+| **語言支援** | 仅 TypeScript | 无 — 智能体在网页应用中設定 |
+| **許可證** | Apache 2.0（核心）+ 專有 ee/ | PolyForm Perimeter License 1.0.1（引擎） |
 | **GitHub star** | 24,329（2026 年 5 月） | 預發佈 |
-| **憑證模型** | 环境变量 — 智能体持有密鑰 | 金库代理 — 智能体不持有密鑰 |
-| **智能体隢離** | 進程级别 | 强制 Docker 容器 |
-| **RBAC** | 仅專有 ee/ 層 | 每个智能体的黑板權限（所有用戶） |
-| **CVE 记录** | CVE-2025-61685（CVSS 6.5）+ 2 个未关闭 PR | 0 个 CVE |
-| **Auth** | WorkOS AuthKit / better-auth（仅 ee/） | 金库代理（无需 Auth 層） |
-| **預算控制** | 无 | 每个智能体日/月限额 |
-| **多智能体** | 工作流編排 | Blackboard + pub/sub + mesh handoff |
+| **憑證模型** | 环境变量 — 智能体持有密鑰 | 金库保管 — 智能体不持有密鑰 |
+| **智能体隢離** | 進程级别 | 每项任务一次沙箱执行 |
+| **RBAC** | 仅專有 ee/ 層 | 每个智能体的工具与金库授權（所有用戶） |
+| **CVE 记录** | CVE-2025-61685（CVSS 6.5）+ 2 个未关闭 PR | 預發佈 |
+| **Auth** | WorkOS AuthKit / better-auth（仅 ee/） | Google 登入；凭据留在金库中 |
+| **預算控制** | 无 | 每个智能体的点数預算 |
+| **多智能体** | 工作流編排 | 目标，接著任务，接著智能体，并可委派 |
 | **未關閉 Issue** | 433（2026 年 5 月 26 日） | 預發佈 |
 
 ## 仅支持 TypeScript：实务影响
 
-Mastra 是 TypeScript-first 设计，目前仅支持 TypeScript。需要 Python 的团队不适合使用。OpenLegion、LangGraph、CrewAI 和 AutoGen 均原生支持 Python。
+Mastra 是 TypeScript-first 设计，目前仅支持 TypeScript。需要 Python 的团队不适合使用。LangGraph、CrewAI 和 AutoGen 均原生支持 Python；OpenLegion 则完全不需要 SDK。
 
 TypeScript 全栈团队的開發体验非常好。工具模式類型推断、Node.js 生态笼紧密集成、熟悉的 async/await 模式提供了公蒸的開發体验。
 
@@ -83,13 +83,13 @@ TypeScript 全栈团队的開發体验非常好。工具模式類型推断、Nod
 
 Mastra 智能体通过 process.env 接收 LLM API 密鑰和服务凭据。CVE-2025-61685 表明 @mastra/mcp-docs-server 的目錄遍历可到达 ~/.aws/credentials。
 
-OpenLegion 的金库代理位于智能体与 LLM 提供商之间的网络層。智能体進程永远不会收到凭据字符串。详细分析请参阅 [AI 智能体安全：凭据隢離与容器加固](/learn/ai-agent-security)。
+OpenLegion 的凭据金库位于模型之外、智能体与其呼叫的服务之间。智能体的工具呼叫只携带一个代号，平台解析代号後将凭据注入对外请求。模型永远不会收到凭据字符串。详细分析请参阅 [AI 智能体安全：凭据隢離与容器加固](/learn/ai-agent-security)。
 
 ## 作为 Mastra 替代方案的 OpenLegion
 
-通过 Blackboard 状态、pub/sub 事件和 mesh handoff 进行多智能体协同。金库代理凭据注入。Docker 層隢離。每个智能体日/月预算限额。通过 LiteLLM 支持 100+ LLM 提供商。
+通过目标、任务与智能体进行多智能体协同，并具备事件唤醒与委派。金库在模型之外注入凭据。每项任务一次沙箱执行。每个智能体的点数預算，每点 $0.001。模型以預設組合挑选 — Smartest、Smart 或 Normal。
 
-**诚实的权衡**：没有 TypeScript SDK—仅支持 Python。社区规模小于 Mastra 的 24,329 star。
+**诚实的权衡**：没有任何 SDK 可匯入 — OpenLegion 是代管网页应用，而不是你建進自家服务的函式庫。社区规模小于 Mastra 的 24,329 star。
 
 [了解 AI 智能体平台超越框架的价值](/learn/ai-agent-platform)。另请参阅 [OpenLegion vs LangGraph](/comparison/langgraph)、[OpenLegion vs CrewAI](/comparison/crewai)、[OpenLegion vs AutoGen](/comparison/autogen)。[2026 年 AI 智能体框架对比](/learn/ai-agent-frameworks)提供全景视图。
 <!-- SCHEMA: FAQPage -->
@@ -106,7 +106,7 @@ CVE-2025-61685（CVSS 6.5，2025 年 9 月 24 日）是由 Liran Tal 发现的 @
 
 ### Mastra 免费層有 RBAC 吗？
 
-没有。RBAC、适配器權限和 Auth 集成均在 Mastra 專有 ee/ 目錄中， Apache 2.0 开源許可證下不可用。OpenLegion 将每个智能体的黑板權限和金库代理隢離作为核心平台功能向所有用戶提供。
+没有。RBAC、适配器權限和 Auth 集成均在 Mastra 專有 ee/ 目錄中， Apache 2.0 开源許可證下不可用。OpenLegion 将每个智能体的工具授權和金库保管的凭据作为核心平台功能向所有用戶提供。
 
 ### 2026 年 5 月，Mastra 有哪些未修復的安全问题？
 
@@ -114,7 +114,7 @@ Mastra 企业 Auth 堆栈中有两个安全 PR 仍未合併：CVE-2026-42565（C
 
 ### TypeScript 開發者能使用 OpenLegion 吗？
 
-OpenLegion 智能体仅支持 Python。TypeScript 团队需运行 Python 智能体或构建调用 OpenLegion API 的 TypeScript 工具——没有原生 TypeScript SDK。当安全隢離要求高于語言偏好时，OpenLegion 是合适的选择。
+OpenLegion 不是任何語言的 SDK。它是代管网页应用：以 Google 登入，並在浏览器中設定智能体——没有 TypeScript 套件需要匯入。当安全隢離要求高于語言偏好时，OpenLegion 是合适的选择。
 
 ### Mastra 生产环境够稳定吗？
 

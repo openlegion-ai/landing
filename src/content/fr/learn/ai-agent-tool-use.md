@@ -164,16 +164,16 @@ Les appels d'outils avec des effets secondaires irréversibles — envoyer des e
 
 Chaque fournisseur majeur de LLM a une API d'appel d'outils différente. La bonne abstraction : définir un outil une fois et laisser le framework le traduire vers la convention correcte du fournisseur au moment de l'appel.
 
-Le registre d'outils d'OpenLegion implémente cette abstraction. Définir `search_web` une fois. Le mesh traduit la définition vers OpenAI `tools`, Anthropic `tools` ou Gemini `functionDeclarations` selon le modèle configuré. La porte ACL est non optionnelle. Chaque appel d'outil — intégré, MCP ou personnalisé — passe par la matrice de permissions par agent avant exécution.
+Le registre d'outils d'OpenLegion implémente cette abstraction. Définir `search_web` une fois. La plateforme traduit la définition vers OpenAI `tools`, Anthropic `tools` ou Gemini `functionDeclarations` selon le modèle vers lequel le préréglage de l'agent se résout. La porte ACL est non optionnelle. Chaque appel d'outil — intégré, MCP ou personnalisé — passe par la matrice de permissions par agent avant exécution.
 
 | **Dimension** | **OpenLegion** | **LangChain / LangGraph** | **OpenAI Agents SDK** | **CrewAI** | **Anthropic direct** |
 |---|---|---|---|---|---|
 | **Format de définition d'outil** | Schéma unique traduit par fournisseur | Wrappers spécifiques au fournisseur requis | Format OpenAI uniquement | Décorateur d'outil CrewAI | Format Anthropic tool_use uniquement |
-| **Abstraction du fournisseur** | Oui — GPT-4o, Claude, Gemini unifiés | Partielle — via intégrations LangChain | Non — modèles OpenAI uniquement | Partielle | Non — Anthropic uniquement |
+| **Abstraction du fournisseur** | Oui — un préréglage, fournisseur abstrait | Partielle — via intégrations LangChain | Non — modèles OpenAI uniquement | Partielle | Non — Anthropic uniquement |
 | **Application ACL** | Matrice de permissions par agent, structurelle | Non intégrée | Non intégrée | Non intégrée | Non intégrée |
 | **Appels d'outils parallèles** | Supporté | Supporté (dépendant du fournisseur) | Oui — défaut dans Responses API | Supporté | Oui — Claude supporte |
-| **Outils intégrés** | Navigateur, fichier, HTTP, shell, génération d'images | Via outils communautaires LangChain | web_search, file_search, computer_use | Non intégré | Non intégré |
-| **Intégration MCP** | Native — même pipeline ACL/budget | Via adaptateurs LangChain MCP | Expérimental | Non natif | Non natif |
+| **Outils intégrés** | Fichier, HTTP, code en bac à sable, Agenda, Drive | Via outils communautaires LangChain | web_search, file_search, computer_use | Non intégré | Non intégré |
+| **Intégration MCP** | Non connectée au lancement | Via adaptateurs LangChain MCP | Expérimental | Non natif | Non natif |
 
 Pour la spécification MCP, l'architecture des serveurs et les exigences de permissions par serveur, voir le [guide du protocole Model Context](/learn/model-context-protocol).
 

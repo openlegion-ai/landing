@@ -26,33 +26,33 @@ related:
 
 NanoClaw OpenClaw alternative wave का security darling है। January 2026 के अंत में Claude Code का उपयोग करके बनाया गया, NanoClaw एक ~500-line TypeScript core है जो हर एजेंट को अपने OS-level Linux कंटेनर में चलाता है। यह Hacker News के front page पर hit हुआ, VentureBeat और The Register में coverage अर्जित की, और developers द्वारा "manageable, auditable, flexible" के रूप में praise किया गया। लगभग 7,200 GitHub stars के साथ, यह lightweight OpenClaw alternatives में सबसे security-focused है।
 
-OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-platform) है अनिवार्य Docker कंटेनर isolation, vault proxy credential management, प्रति-एजेंट बजट enforcement, और fleet-model coordination (blackboard + pub/sub + handoff) के साथ।
+OpenLegion एक security-first [AI एजेंट framework](/learn/ai-agent-platform) है हर task के लिए एक sandboxed run, vault में रखे गए credentials, प्रति-एजेंट बजट enforcement, और goal-and-task coordination (goals → tasks → एजेंट्स) के साथ।
 
-NanoClaw और OpenLegion इस space के दो frameworks हैं जो *दोनों* primary security boundary के रूप में OS-level कंटेनर isolation का उपयोग करते हैं। प्रश्न यह है कि उस foundation के ऊपर और क्या बैठता है।
+NanoClaw और OpenLegion इस space के दो frameworks हैं जो *दोनों* run isolation को एक primary security boundary मानते हैं। प्रश्न यह है कि उस foundation के ऊपर और क्या बैठता है।
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **OpenLegion और NanoClaw में क्या अंतर है?**
-> NanoClaw एक ultra-minimal (~500 lines core) TypeScript AI एजेंट assistant है Anthropic के Claude Agent SDK पर built। प्रत्येक एजेंट sensitive file blocking और stdin-based secret passing के साथ एक isolated Linux कंटेनर में चलता है। OpenLegion एक Python-based security-first framework है जो Docker कंटेनर isolation के ऊपर vault proxy credential management, प्रति-एजेंट बजट enforcement, fleet-model coordination (blackboard + pub/sub + handoff), 100+ LLM providers, और multi-agent fleet orchestration जोड़ता है। NanoClaw philosophy द्वारा minimal है; OpenLegion design द्वारा comprehensive है।
+> NanoClaw एक ultra-minimal (~500 lines core) TypeScript AI एजेंट assistant है Anthropic के Claude Agent SDK पर built। प्रत्येक एजेंट sensitive file blocking और stdin-based secret passing के साथ एक isolated Linux कंटेनर में चलता है। OpenLegion एक hosted security-first प्लेटफ़ॉर्म है जो हर task के लिए एक sandboxed run के ऊपर vault में रखे गए credentials, प्रति-एजेंट बजट enforcement, goal-and-task coordination (goals → tasks → एजेंट्स), Smartest, Smart और Normal model presets, और multi-agent teams जोड़ता है। NanoClaw philosophy द्वारा minimal है; OpenLegion design द्वारा comprehensive है।
 
 ## TL;DR
 
 | Dimension | OpenLegion | NanoClaw |
 |---|---|---|
 | **Primary focus** | Production security infrastructure | Radical minimalism + कंटेनर isolation |
-| **Language** | Python | TypeScript (~500 lines core) |
-| **Total codebase** | ~77,000 lines | ~3,900 lines (~15 files) |
-| **एजेंट isolation** | प्रति एजेंट Docker कंटेनर | प्रति एजेंट Linux कंटेनर (Apple Container/Docker) |
-| **Credential security** | Vault proxy — एजेंट्स keys कभी नहीं देखते | Stdin JSON injection; sensitive files के लिए blocklists |
-| **Budget controls** | प्रति-एजेंट दैनिक/मासिक hard cutoff | कोई अंतर्निहित नहीं |
-| **Orchestration** | Fleet-model coordination (blackboard + pub/sub + handoff) | Chat-driven; कोई workflow engine नहीं |
-| **LLM providers** | LiteLLM के माध्यम से 100+ | केवल Claude (Anthropic Agent SDK) |
-| **Messaging channels** | 5 | 4 (WhatsApp, Telegram, Discord, Slack) |
-| **Multi-agent** | प्रति-एजेंट ACLs के साथ Fleet templates | Agent Swarms (Claude Code teams) |
-| **Customization model** | Configuration + plugins | "Skills over Features" — AI source rewrite करता है |
-| **GitHub stars** | ~59 | ~7,200 |
-| **License** | PolyForm Perimeter License 1.0.1 | MIT |
-| **Known CVEs** | 0 | 0 |
+| **Language** | Hosted web app, install करने को कुछ नहीं | TypeScript (~500 lines core) |
+| **Total codebase** | Published नहीं | ~3,900 lines (~15 files) |
+| **एजेंट isolation** | प्रति task sandboxed run | प्रति एजेंट Linux कंटेनर (Apple Container/Docker) |
+| **Credential security** | Vault में रखे — एजेंट्स keys कभी नहीं देखते | Stdin JSON injection; sensitive files के लिए blocklists |
+| **Budget controls** | प्रति-एजेंट credit बजट, hard cutoff | कोई अंतर्निहित नहीं |
+| **Orchestration** | Goal-and-task coordination (goals → tasks → एजेंट्स) | Chat-driven; कोई workflow engine नहीं |
+| **LLM providers** | Smartest, Smart और Normal presets | केवल Claude (Anthropic Agent SDK) |
+| **Messaging channels** | Web chat, Telegram, Slack, email | 4 (WhatsApp, Telegram, Discord, Slack) |
+| **Multi-agent** | प्रति-एजेंट permissions के साथ Teams | Agent Swarms (Claude Code teams) |
+| **Customization model** | App में configured | "Skills over Features" — AI source rewrite करता है |
+| **GitHub stars** | Published नहीं | ~7,200 |
+| **License** | Engine: PolyForm Perimeter License 1.0.1 | MIT |
+| **Known CVEs** | कोई disclosed नहीं | 0 |
 
 ## NanoClaw चुनें यदि...
 
@@ -64,17 +64,17 @@ NanoClaw और OpenLegion इस space के दो frameworks हैं ज�
 
 **आपको WhatsApp को first-class channel के रूप में चाहिए।** Baileys library के माध्यम से NanoClaw का WhatsApp integration QR code pairing और प्रति-group memory files के साथ अंतर्निहित और well-tested है।
 
-**कंटेनर isolation मायने रखती है लेकिन simplicity अधिक मायने रखती है।** NanoClaw आपको Docker orchestration, fleet-model coordination, या multi-agent configuration सीखने की आवश्यकता के बिना OS-level isolation देता है। प्रति एजेंट एक कंटेनर, conversation के माध्यम से configured।
+**कंटेनर isolation मायने रखती है लेकिन simplicity अधिक मायने रखती है।** NanoClaw आपको Docker orchestration, workflow definitions, या multi-agent configuration सीखने की आवश्यकता के बिना OS-level isolation देता है। प्रति एजेंट एक कंटेनर, conversation के माध्यम से configured।
 
 ## OpenLegion चुनें यदि...
 
-**आपको file blocking से परे credential isolation चाहिए।** NanoClaw sensitive files (.ssh, .gnupg, .aws, .azure, .gcloud) तक access को block करता है और stdin JSON के माध्यम से secrets pass करता है। हालाँकि, Anthropic credentials mounted हैं ताकि Claude Code कंटेनर के अंदर authenticate कर सके — जिसका अर्थ है एजेंट *can* Bash या file operations के माध्यम से इन credentials को discover कर सकता है। OpenLegion का vault proxy architecturally भिन्न है: एजेंट्स एक proxy के माध्यम से API calls करते हैं जो network level पर credentials inject करता है। एजेंट के environment में discover करने के लिए कोई credentials मौजूद नहीं हैं।
+**आपको file blocking से परे credential isolation चाहिए।** NanoClaw sensitive files (.ssh, .gnupg, .aws, .azure, .gcloud) तक access को block करता है और stdin JSON के माध्यम से secrets pass करता है। हालाँकि, Anthropic credentials mounted हैं ताकि Claude Code कंटेनर के अंदर authenticate कर सके — जिसका अर्थ है एजेंट *can* Bash या file operations के माध्यम से इन credentials को discover कर सकता है। OpenLegion का credential vault architecturally भिन्न है: credentials model के बाहर inject होते हैं, जिसके पास सिर्फ़ एक handle रहता है। एजेंट के environment में discover करने के लिए कोई credentials मौजूद नहीं हैं।
 
-**आपको एक से अधिक LLM provider चाहिए।** NanoClaw design से Claude-only है। यदि आपके deployment को GPT-4, Gemini, Llama, Mistral, या कोई non-Anthropic model चाहिए, NanoClaw आपकी serve नहीं कर सकता। OpenLegion zero markup और BYO API keys के साथ LiteLLM के माध्यम से 100+ providers को support करता है।
+**आपको एक से अधिक LLM provider चाहिए।** NanoClaw design से Claude-only है। यदि आपके deployment को GPT-4, Gemini, Llama, Mistral, या कोई non-Anthropic model चाहिए, NanoClaw आपकी serve नहीं कर सकता। OpenLegion models को preset से चुनता है — Smartest, Smart या Normal — प्रति एजेंट या प्रति workspace।
 
-**आपको प्रति-एजेंट बजट enforcement चाहिए।** NanoClaw के पास प्रति एजेंट API spending सीमित करने का कोई mechanism नहीं है। Anthropic की per-token pricing पर Claude API calls के साथ, uncontrolled agent swarms significant costs accumulate कर सकते हैं। OpenLegion automatic hard cutoffs के साथ प्रति-एजेंट दैनिक और मासिक limits enforce करता है।
+**आपको प्रति-एजेंट बजट enforcement चाहिए।** NanoClaw के पास प्रति एजेंट API spending सीमित करने का कोई mechanism नहीं है। Anthropic की per-token pricing पर Claude API calls के साथ, uncontrolled agent swarms significant costs accumulate कर सकते हैं। OpenLegion हर एजेंट को उसका अपना credit बजट automatic hard cutoffs के साथ देता है।
 
-**आपको auditable multi-agent fleet coordination चाहिए।** NanoClaw के Agent Swarms chat-driven हैं — Claude Code conversations के अंदर specialized एजेंट्स को coordinate करता है। यह flexible है लेकिन non-deterministic। OpenLegion का fleet-model coordination प्रति एजेंट explicit handoff records, tool access, और dependencies define करता है। Coordination execution से पहले auditable है।
+**आपको auditable multi-agent team coordination चाहिए।** NanoClaw के Agent Swarms chat-driven हैं — Claude Code conversations के अंदर specialized एजेंट्स को coordinate करता है। यह flexible है लेकिन non-deterministic। OpenLegion का goal-and-task coordination प्रति एजेंट हर delegation, tool grant और dependency record करता है। Coordination execution से पहले एक ही policy engine द्वारा checked है।
 
 **आपको personal use से परे scale करने की आवश्यकता है।** NanoClaw एक personal AI assistant के रूप में designed है। इसका architecture — single-process Node.js, AI-rewritten source code, कोई configuration management नहीं — naturally role-based access, compliance requirements, या multi-tenant isolation वाले fleet deployments तक scale नहीं करता।
 
@@ -84,13 +84,13 @@ NanoClaw और OpenLegion इस space के दो frameworks हैं ज�
 
 **NanoClaw** stdin JSON के माध्यम से एजेंट्स को secrets pass करता है — वे process.env में कभी load नहीं होतीं। Sensitive file paths (.ssh, .gnupg, .aws, etc.) एक explicit blocklist के माध्यम से blocked हैं। Containers read-only project mounts के साथ non-root चलते हैं। **Known limitation:** Anthropic credentials mounted हैं ताकि Claude Code authenticate कर सके, जिसका अर्थ है एजेंट्स कंटेनर के अंदर Bash या file operations के माध्यम से इन credentials को discover कर सकते हैं।
 
-**OpenLegion** एक vault में credentials store करता है जिसे एजेंट्स access नहीं कर सकते। API calls एक vault proxy के माध्यम से route करती हैं जो network level पर credentials inject करता है। एजेंट कंटेनर के अंदर कोई credential files, environment variables, या mounted secrets मौजूद नहीं हैं। यहाँ तक कि अगर एजेंट arbitrary code execution achieve करता है, ढूँढने के लिए कोई credentials नहीं हैं।
+**OpenLegion** एक vault में credentials store करता है जिसे एजेंट्स access नहीं कर सकते। Credentials model के बाहर inject होते हैं, जिसके पास सिर्फ़ एक handle रहता है। एजेंट के run के अंदर कोई credential files, environment variables, या mounted secrets मौजूद नहीं हैं। यहाँ तक कि अगर एजेंट arbitrary code execution achieve करता है, ढूँढने के लिए कोई credentials नहीं हैं।
 
 ### Isolation model
 
-**दोनों frameworks OS-level कंटेनर isolation का उपयोग करते हैं।** NanoClaw Apple Container (macOS) या Docker (Linux) का उपयोग करता है प्रति एजेंट separate filesystem, IPC namespace, और process space के साथ। Mount allowlists control करते हैं कि एजेंट्स कौन सी directories access कर सकते हैं। OpenLegion Docker containers का उपयोग करता है non-root execution, no Docker socket, no-new-privileges, और प्रति-container resource caps (CPU, memory, network) के साथ।
+**दोनों frameworks हर एजेंट run को isolate करते हैं।** NanoClaw Apple Container (macOS) या Docker (Linux) का उपयोग करता है प्रति एजेंट separate filesystem, IPC namespace, और process space के साथ। Mount allowlists control करते हैं कि एजेंट्स कौन सी directories access कर सकते हैं। OpenLegion हर task को on demand अपने sandbox में चलाता है, default पर बिना network access के, और task पूरा होते ही run रुक जाता है।
 
-Isolation boundaries comparable हैं। अंतर यह है कि कंटेनर के *अंदर* क्या होता है: NanoClaw एजेंट्स को file-level blocklists के साथ broad capability (shell access, file read/write, web browsing, Chromium) देता है। OpenLegion एजेंट्स को YAML-defined tool access और प्रति-एजेंट ACLs के माध्यम से constrain करता है।
+Isolation boundaries comparable हैं। अंतर यह है कि उस boundary के *अंदर* क्या होता है: NanoClaw एजेंट्स को file-level blocklists के साथ broad capability (shell access, file read/write, web browsing, Chromium) देता है। OpenLegion एजेंट्स को policy-checked tool grants और प्रति-एजेंट permissions के माध्यम से constrain करता है।
 
 ### Budget controls
 
@@ -124,33 +124,33 @@ NanoClaw Agent Swarms को support करने वाला पहला pers
 
 ### OpenLegion अलग तरह से क्या cover करता है
 
-OpenLegion समान कंटेनर isolation foundation के ऊपर production infrastructure build करता है: vault proxy credential mounting problem को eliminate करता है, fleet-model coordination auditable multi-agent fleet coordination प्रदान करता है, प्रति-एजेंट budgets cost overruns रोकते हैं, 100+ provider support vendor lock-in को eliminate करता है, और प्रति-एजेंट ACLs role-based tool access enable करते हैं।
+OpenLegion समान isolation foundation के ऊपर production infrastructure build करता है: vault में रखे credentials credential mounting problem को eliminate करते हैं, goal-and-task coordination auditable multi-agent teamwork देता है, प्रति-एजेंट budgets cost overruns रोकते हैं, model presets vendor lock-in को eliminate करते हैं, और प्रति-एजेंट permissions role-based tool access enable करते हैं।
 
 ## Hosting बनाम Self-Host Tradeoffs
 
 **NanoClaw** को Node.js और या तो Apple Container (macOS) या Docker (Linux) चाहिए। Setup interactive है — आप config files edit करने के बजाय Claude Code conversation के माध्यम से configure करते हैं। Self-hosting एकमात्र option है; कोई hosted service नहीं है।
 
-**OpenLegion** को Python, SQLite, और Docker चाहिए। Hosted platform (आगामी) प्रति-user VPS instances प्रदान करेगा। Self-hosted deployment standard Docker tooling का उपयोग करता है।
+**OpenLegion** का कोई self-hosted edition नहीं है और आपके install करने को कुछ नहीं है। Hosted प्लेटफ़ॉर्म live है और इसके लिए इनमें से कुछ भी ज़रूरी नहीं: Google से sign in करें, 1,000 credits के साथ बिना card free शुरू करें, या $29/month पर Pro लें। खुद operate करने के लिए कोई runtime या server नहीं है।
 
 ## यह किसके लिए है
 
 **NanoClaw** उन individual developers के लिए है जो कंटेनर isolation, WhatsApp/Telegram connectivity, और radical code simplicity के साथ एक personal AI assistant चाहते हैं। Ideal user एक Claude power user है जो OpenClaw से बेहतर security के साथ अपना खुद का Claw-style एजेंट चाहता है — और जो एक AI-first customization model के साथ comfortable है जहाँ changes conversation के माध्यम से होते हैं, configuration नहीं।
 
-**OpenLegion** उन teams के लिए है जो production environments में multi-agent systems deploy कर रही हैं। Ideal user एजेंट fleets manage करता है जो sensitive credentials handle करते हैं, प्रति-एजेंट spending controls चाहते हैं, और compliance के लिए auditable workflow definitions की आवश्यकता रखते हैं।
+**OpenLegion** उन teams के लिए है जो production environments में multi-agent systems deploy कर रही हैं। Ideal user एजेंट teams manage करता है जो sensitive credentials handle करती हैं, प्रति-एजेंट spending controls चाहती हैं, और compliance के लिए हर action के auditable record की आवश्यकता रखती हैं।
 
 ## ईमानदार Trade-off
 
-NanoClaw और OpenLegion इस comparison में एकमात्र दो frameworks हैं जो *दोनों* OS-level कंटेनर isolation का उपयोग करते हैं। NanoClaw इसे ~500 lines of code में achieve करता है — एक remarkable engineering accomplishment जो prove करता है कि कंटेनर isolation को framework complexity की आवश्यकता नहीं है।
+NanoClaw और OpenLegion इस comparison में एकमात्र दो frameworks हैं जो *दोनों* run isolation को एक primary boundary बनाते हैं। NanoClaw इसे ~500 lines of code में achieve करता है — एक remarkable engineering accomplishment जो prove करता है कि कंटेनर isolation को framework complexity की आवश्यकता नहीं है।
 
-OpenLegion पूछता है: कंटेनर isolation से परे production deployment को और क्या चाहिए? उत्तर है credential separation (vault proxy), cost control (प्रति-एजेंट budgets), workflow determinism (fleet-model coordination), provider independence (100+ models), और fleet orchestration (multi-agent ACLs)। ये वे layers हैं जो एक personal assistant को एक production platform से अलग करते हैं।
+OpenLegion पूछता है: run isolation से परे production काम को और क्या चाहिए? उत्तर है credential separation (एक vault), cost control (प्रति-एजेंट budgets), coordination जिसे आप audit कर सकें (goals → tasks → एजेंट्स), provider independence (model presets), और team orchestration (प्रति-एजेंट permissions)। ये वे layers हैं जो एक personal assistant को एक production platform से अलग करते हैं।
 
-यदि आप 500 lines of code में एक container-isolated personal Claude एजेंट चाहते हैं, NanoClaw चुनें। यदि आपको कंटेनर isolation के ऊपर full production stack चाहिए, OpenLegion चुनें।
+यदि आप 500 lines of code में एक container-isolated personal Claude एजेंट चाहते हैं, NanoClaw चुनें। यदि आपको isolated runs के ऊपर full production stack चाहिए, OpenLegion चुनें।
 
 पूर्ण landscape के लिए, हमारा [AI एजेंट frameworks comparison](/learn/ai-agent-frameworks) देखें।
 
 ## CTA
 
-**कंटेनर isolation के ऊपर full production stack चाहिए?**
+**Isolated runs के ऊपर full production stack चाहिए?**
 [शुरू करें](https://app.openlegion.ai) | [Docs पढ़ें](https://docs.openlegion.ai) | [सभी Comparisons देखें](/comparison)
 
 ---
@@ -165,27 +165,27 @@ NanoClaw एक ultra-minimal (~500 lines core) TypeScript AI एजेंट as
 
 ### OpenLegion बनाम NanoClaw: अंतर क्या है?
 
-दोनों OS-level कंटेनर isolation का उपयोग करते हैं। NanoClaw exclusively Claude पर built AI-driven customization के साथ एक ~500-line personal assistant है। OpenLegion vault proxy credentials (एजेंट्स keys कभी नहीं देखते), प्रति-एजेंट बजट enforcement, fleet-model coordination (blackboard + pub/sub + handoff), 100+ LLM providers, और multi-agent fleet orchestration जोड़ता है। NanoClaw minimal और personal है; OpenLegion comprehensive और production-oriented है।
+दोनों हर एजेंट run को isolate करते हैं। NanoClaw exclusively Claude पर built AI-driven customization के साथ एक ~500-line personal assistant है। OpenLegion vault में रखे credentials (एजेंट्स keys कभी नहीं देखते), प्रति-एजेंट बजट enforcement, goal-and-task coordination (goals → tasks → एजेंट्स), model presets, और multi-agent teams जोड़ता है। NanoClaw minimal और personal है; OpenLegion comprehensive और production-oriented है।
 
 ### क्या OpenLegion एक NanoClaw विकल्प है?
 
-हाँ। दोनों एक security foundation के रूप में कंटेनर isolation का उपयोग करते हैं। OpenLegion इसे vault proxy credential management, प्रति-एजेंट cost controls, auditable fleet-model coordination, और 100+ LLM providers के लिए support के साथ extend करता है। NanoClaw के personal-assistant model से outgrow होने वाली teams या provider independence की आवश्यकता वाली OpenLegion को एक natural next step पाएँगी।
+हाँ। दोनों एक security foundation के रूप में run isolation का उपयोग करते हैं। OpenLegion इसे vault में रखे credentials, प्रति-एजेंट cost controls, auditable goal-and-task coordination, और preset से चुने गए models के साथ extend करता है। NanoClaw के personal-assistant model से outgrow होने वाली teams या provider independence की आवश्यकता वाली OpenLegion को एक natural next step पाएँगी।
 
 ### OpenLegion और NanoClaw के बीच credential handling कैसे तुलना करता है?
 
-NanoClaw stdin JSON के माध्यम से secrets pass करता है और sensitive file access को block करता है, लेकिन Anthropic credentials mount करता है ताकि Claude Code authenticate कर सके — एजेंट्स Bash के माध्यम से इन्हें discover कर सकते हैं। OpenLegion एक vault proxy का उपयोग करता है जहाँ एजेंट्स एक proxy के माध्यम से API calls करते हैं जो credentials inject करता है। एजेंट के कंटेनर में किसी भी form में कोई credentials मौजूद नहीं हैं।
+NanoClaw stdin JSON के माध्यम से secrets pass करता है और sensitive file access को block करता है, लेकिन Anthropic credentials mount करता है ताकि Claude Code authenticate कर सके — एजेंट्स Bash के माध्यम से इन्हें discover कर सकते हैं। OpenLegion एक credential vault का उपयोग करता है जहाँ credentials model के बाहर inject होते हैं, जिसके पास सिर्फ़ एक handle रहता है। एजेंट के run में किसी भी form में कोई credentials मौजूद नहीं हैं।
 
 ### Production AI एजेंट्स के लिए कौन सा बेहतर है?
 
-NanoClaw एक personal assistant के रूप में designed है, production प्लेटफ़ॉर्म नहीं। इसमें बजट enforcement, workflow determinism, multi-provider support, और fleet management की कमी है। OpenLegion production के लिए purpose-built है प्रति-एजेंट budgets, fleet-model coordination, vault proxy credentials, और 100+ provider support के साथ।
+NanoClaw एक personal assistant के रूप में designed है, production प्लेटफ़ॉर्म नहीं। इसमें बजट enforcement, workflow determinism, multi-provider support, और fleet management की कमी है। OpenLegion production के लिए purpose-built है प्रति-एजेंट budgets, goal-and-task coordination, vault में रखे credentials, और preset से चुने गए models के साथ।
 
 ### क्या NanoClaw कई LLM providers को support करता है?
 
-नहीं। NanoClaw exclusively Anthropic के Claude Agent SDK पर built है। यह केवल Claude models के साथ काम करता है। OpenLegion LiteLLM के माध्यम से 100+ providers को support करता है जिसमें OpenAI, Anthropic, Google, Meta, Mistral, और local models शामिल हैं।
+नहीं। NanoClaw exclusively Anthropic के Claude Agent SDK पर built है। यह केवल Claude models के साथ काम करता है। OpenLegion एक provider से बँधा नहीं है: models preset से चुने जाते हैं — Smartest, Smart या Normal — प्रति एजेंट या प्रति workspace।
 
 ### क्या मैं NanoClaw से OpenLegion में migrate कर सकता हूँ?
 
-NanoClaw के AI-rewritten source और chat-driven configuration को explicit एजेंट definitions, tool access controls, और बजट limits के साथ fleet-model coordination के रूप में restructure करना होगा। Claude-specific एजेंट logic transfer होती है क्योंकि OpenLegion LiteLLM के माध्यम से Anthropic को support करता है। हमारा [AI एजेंट orchestration](/learn/ai-agent-orchestration) page देखें।
+NanoClaw के AI-rewritten source और chat-driven configuration को explicit एजेंट definitions, tool access controls, और बजट limits के साथ goals, tasks और एजेंट्स के रूप में restructure करना होगा। Claude-specific एजेंट logic transfer होती है क्योंकि OpenLegion के presets कई providers के frontier models को cover करते हैं। हमारा [AI एजेंट orchestration](/learn/ai-agent-orchestration) page देखें।
 
 ---
 

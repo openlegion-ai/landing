@@ -27,14 +27,14 @@ related:
 
 AutoGen foi pioneiro em orquestração multiagente open source. Com aproximadamente 54.700 estrelas no GitHub e um Best Paper award no ICLR 2024, estabeleceu o padrão conversacional multiagente que influenciou todo framework que veio depois. Mas em março de 2026, AutoGen está em **modo de manutenção** — recebendo apenas correções de bug e patches de segurança. A Microsoft anunciou o Microsoft Agent Framework como seu sucessor, unindo AutoGen e Semantic Kernel em um SDK unificado, com status de Release Candidate atingido em 19 de fevereiro de 2026 e GA prevista para o fim do Q1 2026.
 
-OpenLegion é um [framework de agentes de IA](/learn/ai-agent-platform) security-first com isolamento por contêiner Docker obrigatório, gestão de credenciais via proxy de cofre, imposição de orçamento por agente e coordenação modelo de frota (blackboard + pub/sub + handoff).
+OpenLegion é um [framework de agentes de IA](/learn/ai-agent-platform) security-first com uma execução em sandbox para cada tarefa, credenciais guardadas em cofre, imposição de orçamento por agente e coordenação por metas e tarefas (metas → tarefas → agentes).
 
 Avaliar AutoGen em 2026 significa avaliar uma plataforma em transição. Times escolhendo AutoGen hoje enfrentam uma migração conhecida para o Microsoft Agent Framework dentro de 6 a 12 meses. OpenLegion oferece desenvolvimento ativo sem incerteza de transição de plataforma.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Qual a diferença entre OpenLegion e AutoGen?**
-> AutoGen é um framework multiagente conversacional da Microsoft Research com aproximadamente 54.700 estrelas no GitHub, agora entrando em modo de manutenção. Seu sucessor, o Microsoft Agent Framework, une AutoGen e Semantic Kernel com integração ao Azure AI Foundry. OpenLegion é um framework de agentes security-first com isolamento obrigatório por contêiner Docker, gestão de credenciais via proxy de cofre onde os agentes nunca veem chaves de API, imposição de orçamento por agente e coordenação modelo de frota (blackboard + pub/sub + handoff). AutoGen oferece padrões profundos de conversação multiagente e integração com o ecossistema Microsoft; OpenLegion oferece garantias de segurança em produção sem risco de migração.
+> AutoGen é um framework multiagente conversacional da Microsoft Research com aproximadamente 54.700 estrelas no GitHub, agora entrando em modo de manutenção. Seu sucessor, o Microsoft Agent Framework, une AutoGen e Semantic Kernel com integração ao Azure AI Foundry. OpenLegion é um framework de agentes security-first com uma execução em sandbox para cada tarefa, credenciais guardadas em cofre onde os agentes nunca veem chaves de API, imposição de orçamento por agente e coordenação por metas e tarefas (metas → tarefas → agentes). AutoGen oferece padrões profundos de conversação multiagente e integração com o ecossistema Microsoft; OpenLegion oferece garantias de segurança em produção sem risco de migração.
 
 ## TL;DR
 
@@ -42,24 +42,24 @@ Avaliar AutoGen em 2026 significa avaliar uma plataforma em transição. Times e
 |---|---|---|
 | **Foco primário** | Infraestrutura de segurança em produção | Padrões conversacionais multiagente / SDK unificado |
 | **Status** | Desenvolvimento ativo | AutoGen: modo de manutenção. Agent Framework: RC, GA Q1 2026 |
-| **Isolamento de agente** | Contêiner Docker por agente, non-root, no-new-privileges | Docker apenas para execução de código; agentes compartilham processo |
-| **Segurança de credenciais** | Proxy de cofre — agentes nunca veem chaves | Sem cofre embutido; variáveis de ambiente |
-| **Controles de orçamento** | Corte rígido diário/mensal por agente | Nenhum embutido |
-| **Orquestração** | Coordenação modelo de frota — blackboard + pub/sub + handoff (sem agente CEO) | Async message passing, group chat, GraphFlow; Agent Framework adiciona graph workflows |
-| **Suporte a linguagem** | Python | Python + .NET |
-| **Suporte a LLM** | 100+ via LiteLLM | Azure OpenAI, Anthropic, Ollama, Bedrock |
-| **Integração com nuvem** | Cloud-agnóstico | Azure profundo (Foundry, Entra ID, Key Vault) |
-| **Multiagente** | Templates de frota com ACLs por agente | Conversations, group chat, agentes aninhados, RoundRobin |
-| **Dependências** | Python + SQLite + Docker (zero externos) | Ecossistema AutoGen + serviços Azure opcionais |
-| **Estrelas no GitHub** | ~59 | ~54.700 (AutoGen) / ~5.700 (Agent Framework) |
-| **Vulnerabilidades conhecidas** | 0 CVEs | 97% de taxa de sucesso em ataque (pesquisa COLM 2025) |
-| **Licença** | PolyForm Perimeter License 1.0.1 | MIT (ambos) |
+| **Isolamento de agente** | Execução em sandbox por tarefa, sem rede por padrão | Docker apenas para execução de código; agentes compartilham processo |
+| **Segurança de credenciais** | Guardadas em cofre — agentes nunca veem chaves | Sem cofre embutido; variáveis de ambiente |
+| **Controles de orçamento** | Orçamento de créditos por agente, corte rígido | Nenhum embutido |
+| **Orquestração** | Metas → tarefas → agentes, conduzido por um assistente (sem agente CEO) | Async message passing, group chat, GraphFlow; Agent Framework adiciona graph workflows |
+| **Suporte a linguagem** | Aplicação web hospedada, nada para instalar | Python + .NET |
+| **Suporte a LLM** | Presets Smartest, Smart e Normal | Azure OpenAI, Anthropic, Ollama, Bedrock |
+| **Integração com nuvem** | Hospedado, nenhuma nuvem para operar | Azure profundo (Foundry, Entra ID, Key Vault) |
+| **Multiagente** | Times com permissões por agente | Conversations, group chat, agentes aninhados, RoundRobin |
+| **Dependências** | Nenhuma — basta entrar com o Google | Ecossistema AutoGen + serviços Azure opcionais |
+| **Estrelas no GitHub** | Não divulgado | ~54.700 (AutoGen) / ~5.700 (Agent Framework) |
+| **Vulnerabilidades conhecidas** | Nenhuma divulgada | 97% de taxa de sucesso em ataque (pesquisa COLM 2025) |
+| **Licença** | Engine: PolyForm Perimeter License 1.0.1 | MIT (ambos) |
 
 ## Escolha AutoGen / Microsoft Agent Framework se...
 
 **Você está profundamente investido no ecossistema Microsoft.** Azure AI Foundry, Entra ID, Azure Key Vault e suporte a .NET fazem do Agent Framework um encaixe natural para lojas Microsoft. Mais de 70.000 organizações usam Azure AI Foundry, e mais de 230.000 usam Copilot Studio. O Agent Framework estende esses investimentos.
 
-**Você precisa de suporte a .NET.** Tanto AutoGen quanto o Agent Framework suportam .NET junto com Python. OpenLegion é só Python. Para times corporativos com bases de código .NET, isso é um diferencial significativo.
+**Você precisa de suporte a .NET.** Tanto AutoGen quanto o Agent Framework suportam .NET junto com Python. OpenLegion é uma aplicação web hospedada, não uma biblioteca que você importa. Para times corporativos com bases de código .NET, isso é um diferencial significativo.
 
 **Você precisa dos padrões mais profundos de conversação multiagente.** O modelo conversacional do AutoGen — agentes falando entre si, group chat, conversas aninhadas, padrões de orquestração RoundRobin e GraphFlow — segue sendo o mais expressivo para sistemas multiagente orientados a pesquisa.
 
@@ -71,13 +71,13 @@ Avaliar AutoGen em 2026 significa avaliar uma plataforma em transição. Times e
 
 **Você precisa de estabilidade sem transições de plataforma.** AutoGen está entrando em modo de manutenção. O Agent Framework está pré-GA. Times escolhendo AutoGen hoje enfrentam migração obrigatória em meses. OpenLegion é ativamente desenvolvido sem depreciação ou exigências de migração agendadas.
 
-**Segurança de credenciais é requisito rígido.** Nem AutoGen nem o Microsoft Agent Framework têm cofre de segredos embutido. Credenciais ficam em variáveis de ambiente acessíveis ao processo do agente. O proxy de cofre do OpenLegion oferece isolamento arquitetural — os agentes nunca seguram chaves de API em forma alguma.
+**Segurança de credenciais é requisito rígido.** Nem AutoGen nem o Microsoft Agent Framework têm cofre de segredos embutido. Credenciais ficam em variáveis de ambiente acessíveis ao processo do agente. O cofre de credenciais do OpenLegion oferece isolamento arquitetural — as credenciais são injetadas fora do modelo, que só guarda um handle.
 
-**A taxa de sucesso em ataque de 97% te preocupa.** Pesquisa acadêmica publicada no COLM 2025 demonstrou uma taxa de sucesso em ataque de 97% contra o Magentic-One (o sistema multiagente do AutoGen com GPT-4o) usando arquivos locais maliciosos para sequestro de fluxo de controle. As restrições de ferramenta por agente, o isolamento por contêiner e os workflows definidos em YAML do OpenLegion reduzem essa superfície de ataque limitando o que cada agente pode acessar.
+**A taxa de sucesso em ataque de 97% te preocupa.** Pesquisa acadêmica publicada no COLM 2025 demonstrou uma taxa de sucesso em ataque de 97% contra o Magentic-One (o sistema multiagente do AutoGen com GPT-4o) usando arquivos locais maliciosos para sequestro de fluxo de controle. As permissões de ferramenta por agente, as execuções de tarefa em sandbox e o único motor de políticas na frente de cada ação do OpenLegion reduzem essa superfície de ataque limitando o que cada agente pode acessar.
 
-**Você precisa de imposição de orçamento por agente.** AutoGen não tem mecanismo para limitar o gasto do agente. Conversas multiagente podem iterar indefinidamente, acumulando custos de API. OpenLegion impõe limites rígidos por agente com corte automático.
+**Você precisa de imposição de orçamento por agente.** AutoGen não tem mecanismo para limitar o gasto do agente. Conversas multiagente podem iterar indefinidamente, acumulando custos de API. OpenLegion dá a cada agente seu próprio orçamento de créditos, com corte rígido automático.
 
-**Você precisa de deploy cloud-agnóstico.** OpenLegion roda em qualquer infraestrutura com Python e Docker. Sem lock-in de provedor de nuvem, sem dependência do Azure.
+**Você não quer operar infraestrutura.** OpenLegion é uma aplicação web hospedada: basta entrar com o Google e começar — não há nada para instalar. Sem lock-in de provedor de nuvem, sem dependência do Azure.
 
 ## Comparação do Modelo de Segurança
 
@@ -85,25 +85,25 @@ Avaliar AutoGen em 2026 significa avaliar uma plataforma em transição. Times e
 
 **AutoGen** armazena chaves de API em variáveis de ambiente ou configuração passada aos clientes de modelo. Todos os agentes em um group chat compartilham o mesmo processo Python, então qualquer agente pode acessar qualquer variável de ambiente. O Microsoft Agent Framework adiciona integração com Azure Key Vault — mas isso exige infraestrutura Azure.
 
-**OpenLegion** armazena credenciais em um cofre acessível apenas por um proxy. Os agentes fazem chamadas de API pelo proxy de cofre; as credenciais são injetadas na camada de rede. Não existem variáveis de ambiente com chaves de API nos contêineres de agente.
+**OpenLegion** armazena credenciais em um cofre que o modelo não consegue ler. As credenciais são injetadas fora do modelo, que só guarda um handle. Não existem variáveis de ambiente com chaves de API em nenhum ponto da execução do agente.
 
 ### Modelo de isolamento
 
 **AutoGen** introduziu Docker como sandbox padrão de execução de código no v0.2.8 (janeiro de 2024). O DockerCommandLineCodeExecutor roda código em contêineres isolados. Porém, os próprios processos de agente compartilham um processo Python — não estão isolados uns dos outros. AutoGen Studio é explicitamente rotulado como protótipo de pesquisa, não para uso em produção.
 
-**OpenLegion** usa isolamento por contêiner Docker por agente. Cada agente roda em um contêiner separado com execução non-root, sem Docker socket, no-new-privileges e limites de recurso por contêiner. Os agentes não podem acessar outros agentes, o sistema host ou armazenamentos de credenciais.
+**OpenLegion** coloca cada execução de tarefa em um sandbox. Cada tarefa roda sob demanda e depois para, e o código que o agente escreve roda em um sandbox sem acesso à rede por padrão. Os agentes não podem acessar outros agentes, o sistema host ou armazenamentos de credenciais.
 
 ### A taxa de sucesso em ataque de 97%
 
 Pesquisa acadêmica publicada no COLM 2025 demonstrou uma taxa de sucesso em ataque de 97% contra o Magentic-One (o sistema multiagente principal do AutoGen usando GPT-4o). Atacantes colocaram arquivos maliciosos no contexto de trabalho do agente para conseguir sequestro de fluxo de controle — direcionando agentes a tomar ações não intencionais. A Palo Alto Networks caracterizou isso como configurações erradas ou padrões de design inseguros em vez de bugs do framework. Mas o resultado destaca que a arquitetura de processo compartilhado do AutoGen não evita ataques de manipulação de ferramenta.
 
-A coordenação modelo de frota do OpenLegion define exatamente quais ferramentas cada agente pode acessar antes da execução. O isolamento por contêiner por agente significa que um agente comprometido não pode influenciar outros agentes. O fluxo de execução predefinido significa que o fluxo de controle não pode ser sequestrado por conteúdo adversarial.
+As permissões de ferramenta por agente do OpenLegion definem exatamente quais ferramentas cada agente pode acessar antes da execução. O sandbox por tarefa significa que um agente comprometido não pode influenciar outros agentes. Agir sobre conteúdo não confiável para para a aprovação do dono, então o fluxo de controle não pode ser sequestrado em silêncio.
 
 ### Controles de orçamento
 
 **AutoGen** não tem limites de gasto embutidos. Conversas multiagente podem iterar indefinidamente.
 
-**OpenLegion** impõe limites diários e mensais de orçamento por agente com corte rígido automático.
+**OpenLegion** dá a cada agente seu próprio orçamento de créditos, com corte rígido automático.
 
 ## O Ecossistema do AutoGen: O Que Ele Faz Melhor
 
@@ -137,25 +137,25 @@ Para empresas Microsoft-nativas, a integração do Agent Framework com Azure AI 
 
 ### O que o OpenLegion cobre de forma diferente
 
-OpenLegion endereça as lacunas centrais do AutoGen sem dependência do Azure: proxy de cofre substitui credenciais em variável de ambiente e integração com Key Vault, contêineres Docker substituem execução em processo compartilhado, orçamentos por agente evitam custos ilimitados de conversa, a coordenação modelo de frota evita sequestro de fluxo de controle definindo caminhos de execução antes do runtime, e desenvolvimento ativo substitui incerteza de migração.
+OpenLegion endereça as lacunas centrais do AutoGen sem dependência do Azure: credenciais guardadas em cofre substituem credenciais em variável de ambiente e integração com Key Vault, execuções de tarefa em sandbox substituem execução em processo compartilhado, orçamentos por agente evitam custos ilimitados de conversa, um único motor de políticas verifica cada ação antes que ela aconteça, e desenvolvimento ativo substitui incerteza de migração.
 
 ## Trade-offs de Hospedagem vs Auto-Hospedagem
 
 **AutoGen / Agent Framework** pode ser auto-hospedado como biblioteca Python. O Agent Framework adiciona agentes hospedados via Azure AI Foundry para times no Azure. Funcionalidades enterprise (Key Vault, Entra ID, agentes hospedados) exigem infraestrutura Azure.
 
-**OpenLegion** exige Python, SQLite e Docker em qualquer infraestrutura. A plataforma hospedada (em breve) oferece instâncias VPS por usuário a US$ 19/mês com chaves de API BYO. Sem lock-in de provedor de nuvem.
+**OpenLegion** não tem edição auto-hospedada e nada para instalar na sua infraestrutura. A plataforma hospedada já está no ar e não exige nada disso: basta entrar com o Google, começar grátis com 1,000 créditos e sem cartão, ou assinar o Pro por $29/mês. Sem conta Azure, sem conta de nuvem própria.
 
 ## Para Quem É
 
 **AutoGen / Microsoft Agent Framework** é para times corporativos Microsoft-nativos construindo sistemas multiagente com infraestrutura Azure. O usuário ideal tem bases de código .NET, usa Azure AI Foundry, precisa de autenticação Entra ID e consegue absorver a migração do AutoGen para o Agent Framework. Também valioso para times de pesquisa explorando padrões de conversação multiagente.
 
-**OpenLegion** é para times que precisam de infraestrutura de agente pronta para produção sem risco de transição de plataforma ou lock-in de provedor de nuvem. O usuário ideal implanta agentes lidando com credenciais sensíveis, precisa de controles de custo por agente e exige deploy cloud-agnóstico com segurança embutida.
+**OpenLegion** é para times que precisam de infraestrutura de agente pronta para produção sem risco de transição de plataforma ou lock-in de provedor de nuvem. O usuário ideal implanta agentes lidando com credenciais sensíveis, precisa de controles de custo por agente e quer segurança embutida sem operar nenhuma infraestrutura.
 
 ## O Trade-off Honesto
 
 AutoGen tem a pedigree de pesquisa, o respaldo da Microsoft, 54.700 estrelas e o modelo de conversação multiagente mais profundo. O Agent Framework é o futuro da estratégia de agentes da Microsoft. Para times Microsoft-nativos, esse ecossistema é difícil de igualar.
 
-OpenLegion tem desenvolvimento ativo sem risco de migração, credenciais via proxy de cofre, isolamento por contêiner, orçamentos por agente e independência de nuvem. Para times que precisam de segurança em produção agora, sem incerteza de plataforma, OpenLegion oferece estabilidade.
+OpenLegion tem desenvolvimento ativo sem risco de migração, credenciais guardadas em cofre, execuções de tarefa em sandbox, orçamentos por agente e nada para instalar. Para times que precisam de segurança em produção agora, sem incerteza de plataforma, OpenLegion oferece estabilidade.
 
 Se você precisa da integração Microsoft mais profunda, escolha AutoGen / Agent Framework. Se precisa de segurança em produção sem risco de migração ou lock-in de nuvem, escolha OpenLegion.
 
@@ -178,19 +178,19 @@ AutoGen é um framework multiagente conversacional da Microsoft Research com apr
 
 ### OpenLegion vs AutoGen: qual a diferença?
 
-AutoGen é um framework multiagente da Microsoft Research entrando em modo de manutenção, com um sucessor (Microsoft Agent Framework) em pré-GA. OpenLegion é um framework security-first com isolamento por contêiner Docker, credenciais via proxy de cofre (agentes nunca veem chaves), orçamentos por agente e coordenação modelo de frota (blackboard + pub/sub + handoff). AutoGen oferece integração com o ecossistema Microsoft e padrões profundos de conversação; OpenLegion oferece segurança em produção sem risco de migração.
+AutoGen é um framework multiagente da Microsoft Research entrando em modo de manutenção, com um sucessor (Microsoft Agent Framework) em pré-GA. OpenLegion é um framework security-first com execuções de tarefa em sandbox, credenciais guardadas em cofre (agentes nunca veem chaves), orçamentos por agente e coordenação por metas e tarefas (metas → tarefas → agentes). AutoGen oferece integração com o ecossistema Microsoft e padrões profundos de conversação; OpenLegion oferece segurança em produção sem risco de migração.
 
 ### OpenLegion é uma alternativa ao AutoGen?
 
-Sim. OpenLegion serve como alternativa ao AutoGen para times que precisam de segurança em produção sem a incerteza de migração da transição do AutoGen para o Microsoft Agent Framework. Oferece credenciais via proxy de cofre, isolamento por contêiner, orçamentos por agente e deploy cloud-agnóstico. Não replica os padrões conversacionais do AutoGen, suporte a .NET nem integração com Azure.
+Sim. OpenLegion serve como alternativa ao AutoGen para times que precisam de segurança em produção sem a incerteza de migração da transição do AutoGen para o Microsoft Agent Framework. Oferece credenciais guardadas em cofre, execuções de tarefa em sandbox, orçamentos por agente e uma plataforma hospedada sem nada para instalar. Não replica os padrões conversacionais do AutoGen, suporte a .NET nem integração com Azure.
 
 ### Como o tratamento de credenciais se compara entre OpenLegion e AutoGen?
 
-AutoGen armazena chaves de API em variáveis de ambiente acessíveis a todos os agentes em um processo compartilhado. O Agent Framework adiciona integração com Azure Key Vault (exige Azure). OpenLegion usa um proxy de cofre — os agentes fazem chamadas de API por um proxy que injeta credenciais na camada de rede. Sem chaves em variáveis de ambiente, arquivos de config ou memória de agente.
+AutoGen armazena chaves de API em variáveis de ambiente acessíveis a todos os agentes em um processo compartilhado. O Agent Framework adiciona integração com Azure Key Vault (exige Azure). OpenLegion usa um cofre de credenciais — as credenciais são injetadas fora do modelo, que só guarda um handle. Sem chaves em variáveis de ambiente, arquivos de config ou memória de agente.
 
 ### Qual é melhor para agentes de IA em produção?
 
-O status de modo de manutenção do AutoGen e o status pré-GA do Agent Framework criam risco em produção. Para times Microsoft-nativos dispostos a absorver migração, o roadmap do Agent Framework é forte. Para times que precisam de deploy em produção agora, com segurança embutida e sem risco de migração, OpenLegion oferece credenciais via proxy de cofre, orçamentos por agente e isolamento por contêiner hoje.
+O status de modo de manutenção do AutoGen e o status pré-GA do Agent Framework criam risco em produção. Para times Microsoft-nativos dispostos a absorver migração, o roadmap do Agent Framework é forte. Para times que precisam de deploy em produção agora, com segurança embutida e sem risco de migração, OpenLegion oferece credenciais guardadas em cofre, orçamentos por agente e execuções de tarefa em sandbox hoje.
 
 ### O AutoGen está sendo descontinuado?
 
@@ -202,7 +202,7 @@ O sucessor tanto do AutoGen quanto do Semantic Kernel, unindo suas capacidades e
 
 ### Posso migrar do AutoGen para o OpenLegion?
 
-Classes de agente do AutoGen mapeiam para configurações do OpenLegion. Configurações de provedor de LLM se traduzem de wrappers de modelo para strings LiteLLM. Padrões de group chat reestruturam como coordenação modelo de frota. Execução de código sai do DockerCommandLineCodeExecutor para contêineres por agente. Você ganha segurança e estabilidade; perde suporte a .NET e integração com Azure.
+Classes de agente do AutoGen mapeiam para agentes do OpenLegion. Configurações de provedor de LLM se traduzem de wrappers de modelo para os presets Smartest, Smart e Normal. Padrões de group chat reestruturam como metas, tarefas e agentes. Execução de código sai do DockerCommandLineCodeExecutor para execuções de tarefa em sandbox. Você ganha segurança e estabilidade; perde suporte a .NET e integração com Azure.
 
 ---
 

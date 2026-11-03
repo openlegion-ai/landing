@@ -52,7 +52,7 @@ L1-Sicherheitsgate: Die Umfangsdefinition muss strukturell und nicht durch Promp
 
 L2-Agenten erhalten ein Ziel und fuhren autonom einen mehrstufigen Plan aus, ohne bei jedem Schritt Bestatigung zu benotigen. OpenAI Operator (Januar 2025) ist der erste kommerziell eingesetzte L2-Agent. L2 ist die Autonomiestufe, bei der zusammengesetzte Fehler zum primaren Risiko werden: Ein Agent mit 95 % Genauigkeit pro Schritt bei einer 20-stufigen Aufgabe hat eine 36-%ige Chance, alle 20 Schritte korrekt abzuschliessen (0,95^20).
 
-**Standardautonomiestufe von OpenLegion: L2 mit Mesh-Supervisor.** Alle funf Sicherheitsgates sind erforderlich:
+**Standardautonomiestufe von OpenLegion: L2 mit Policy-Engine-Aufsicht.** Alle funf Sicherheitsgates sind erforderlich:
 
 1. Planprufung vor der Ausfuhrung vor jeder unumkehrbaren Aktion
 2. HITL-Gate vor unumkehrbaren Werkzeugaufrufen (Commit, Senden, POST)
@@ -67,13 +67,13 @@ L3-Agenten erhalten ein ubergeordnetes Ziel und generieren ihre eigene Aufgabenz
 **Erforderliche Sicherheitsgates fur L3** (alle L2-Gates plus):
 - Automatisierte Planrichtlinienprufung vor der Ausfuhrung
 - Reflexion-Fehlergedachtnis (vorherige Fehlerdiagnosen dem neuen Versuch vorangestellt)
-- Explizite Fahigkeitsgrenze in INSTRUCTIONS.md
+- Explizite Fahigkeitsgrenze in den Anweisungen des Agenten
 - Zieldrift-Erkennung
 - Revisionstiefenlimit: maximal 3 Revisionszyklen vor Eskalation
 
 ### L4: Selbstmodifizierender Agent, schreibt Ziele, Code und Konfiguration um
 
-L4-Agenten konnen ihre eigenen Ziele andern, eigenen Code umschreiben, neue Agenten erstellen und extern Ressourcen autonom akquirieren. Kein kommerziell eingesetztes L4-System existiert ab 2026. L4 ist Gegenstand von Anthropics ASL-3 und ASL-4 im Responsible Scaling Policy. OpenLegions L4-Praventionseigenschaften: Credential-Zugriff nur uber explizit registrierte `$CRED{}`-Handles, Budget-Cap auf Zone-2-LLM-Proxy durchgesetzt, `spawn_fleet_agent`-Aufrufe protokolliert und pro Sitzung begrenzt.
+L4-Agenten konnen ihre eigenen Ziele andern, eigenen Code umschreiben, neue Agenten erstellen und extern Ressourcen autonom akquirieren. Kein kommerziell eingesetztes L4-System existiert ab 2026. L4 ist Gegenstand von Anthropics ASL-3 und ASL-4 im Responsible Scaling Policy. OpenLegions L4-Praventionseigenschaften: Credential-Zugriff nur uber explizit registrierte Vault-Handles, Budget-Cap von der Policy-Engine durchgesetzt, das Erstellen von Teammitgliedern protokolliert und pro Sitzung begrenzt.
 
 ## Sicherheitsgates je Autonomiestufe
 
@@ -107,7 +107,7 @@ OWASP LLM06:2025 ist die kritische Risikokategorie fur autonome Agenten. Vier er
 
 Zielfehlverallgemeinerung tritt auf, wenn ein Agent gelernt hat, fur ein Proxy-Ziel zu optimieren, das in der Trainingsumgebung gut funktioniert, aber im Einsatz vom beabsichtigten Ziel abweicht. Erkennung: Testset mit Proxy-Ziel-Divergenz-Szenarien vor dem Produktiveinsatz.
 
-Milderung in INSTRUCTIONS.md:
+Milderung in den Anweisungen des Agenten:
 
 ```markdown
 ## Zielausrichtungsprufung
@@ -139,17 +139,17 @@ Das EU-KI-Gesetz (wirksam ab August 2024) klassifiziert autonome Agenten in Hoch
 
 ## Die Einschatzung von OpenLegion
 
-Das L0-L4-Spektrum ist ein Planungswerkzeug, keine Marketingkategorie. Die meisten Produktiveinsatze zielen auf L2 mit Mesh-Supervisor-Uberwachung ab. OpenLegion-Agenten werden standardmasig auf L2 eingesetzt: Mesh-Supervisor, Zone-2-Budget-Durchsetzung und Append-only-Prufprotokoll sind die strukturellen Sicherheitskontrollen, die L2 kommerziell lebensfahi machen.
+Das L0-L4-Spektrum ist ein Planungswerkzeug, keine Marketingkategorie. Die meisten Produktiveinsatze zielen auf L2 mit plattformseitiger Aufsicht ab. OpenLegion-Agenten werden standardmasig auf L2 eingesetzt: eine Policy-Engine vor jeder Aktion, Budget-Durchsetzung pro Agent und ein Append-only-Beleg-Protokoll sind die strukturellen Sicherheitskontrollen, die L2 kommerziell lebensfahi machen.
 
 L3 ist erreichbar, erfordert aber zusatzliche Arbeit. OpenLegion unterstutzt L3-Einsatze fur Unternehmenskunden, die L2-Agenten mindestens 30 Tage im uberwachten Modus betrieben haben.
 
-Die Autonomieobergrenze ist genauso wichtig wie die Autonomiestufe. L3-Autonomie ohne explizite Fahigkeitsgrenze in INSTRUCTIONS.md ist der primarste Konfigurationsfehler, der SAFE-Fehlermodi erzeugt.
+Die Autonomieobergrenze ist genauso wichtig wie die Autonomiestufe. L3-Autonomie ohne explizite Fahigkeitsgrenze in den Anweisungen des Agenten ist der primarste Konfigurationsfehler, der SAFE-Fehlermodi erzeugt.
 
 Zum Governance-Rahmen fur autonome Agenten in einer Organisation siehe [KI-Agenten-Governance](/learn/ai-agent-governance). Zu HITL-Mustern, die die L2- und L3-Genehmigungsgates implementieren, siehe [Human-in-the-Loop KI-Agenten](/learn/human-in-the-loop-ai-agents).
 
 ## Jetzt starten
 
-**L2-autonome Agenten mit strukturellen Sicherheitsgates, Mesh-Supervision und Kill-Switch in unter 60 Sekunden einsetzen.**
+**L2-autonome Agenten mit strukturellen Sicherheitsgates, Policy-Engine-Aufsicht und Kill-Switch in unter 60 Sekunden einsetzen.**
 [Mit OpenLegion starten](https://app.openlegion.ai) | [Dokumentation lesen](https://docs.openlegion.ai) | [Was ist ein KI-Agent?](/learn/what-is-an-ai-agent)
 
 ---

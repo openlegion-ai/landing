@@ -32,7 +32,7 @@ Cada proceso agente que mantiene una clave de proveedor en texto plano en su ent
 
 Los ataques de inyección de prompt que causan que los agentes hagan eco del estado del entorno son una clase de ataque documentada contra agentes que mantienen claves en texto plano (OWASP LLM01:2025). La corrección estructural no es una mejor validación de entrada: es eliminar completamente la clave en texto plano del proceso agente. Un LLM gateway que resuelve handles opacos (`$CRED{openai}`) en la capa de red antes de que se escriba la cabecera Authorization significa que el proceso agente nunca mantiene material que pueda ser exfiltrado.
 
-OpenLegion implementa esto a nivel de infraestructura: los handles `$CRED{}` se resuelven en el límite del host mesh. Los contenedores de agentes son estructuralmente incapaces de alcanzar el valor resuelto — no porque se les indique que no lo hagan, sino porque la resolución ocurre fuera de su espacio de direcciones.
+OpenLegion implementa esto a nivel de plataforma: los identificadores de credencial se resuelven dentro del motor de políticas que se sitúa delante de cada acción. El modelo es estructuralmente incapaz de alcanzar el valor resuelto — no porque se le indique que no lo haga, sino porque la resolución ocurre fuera de él.
 
 ### Agotamiento de cuotas por limitación de claves compartidas
 
@@ -50,11 +50,11 @@ El registro de gasto por solicitud — `tokens_entrada × precio_por_1k_entrada 
 
 ### Degradación aguas arriba invisible
 
-Los endpoints de proveedores se degradan. La latencia de cola P99 en GPT-4o durante eventos de capacidad puede alcanzar 12 segundos (benchmark de infraestructura de OpenLegion, junio de 2026). Sin un disyuntor en el plano de datos, cada agente de la flota absorbe esta degradación en cada solicitud.
+Los endpoints de proveedores se degradan. La latencia de cola P99 en GPT-4o durante eventos de capacidad puede alcanzar 12 segundos. Sin un disyuntor en el plano de datos, cada agente de la flota absorbe esta degradación en cada solicitud.
 
 Un gateway con un disyuntor rastrea tasas de error y latencia P99 por endpoint. Cuando se supera un umbral de fallo configurable — por ejemplo, cinco respuestas 5xx consecutivas o P99 superando 8 segundos en una ventana de 30 segundos — el circuito se abre: las solicitudes posteriores se redirigen inmediatamente al endpoint de respaldo configurado.
 
-El benchmark de junio de 2026 de OpenLegion midió la topología GPT-4o primario → Claude 3.5 Sonnet de respaldo: P99 bajó de 12 segundos a 3,1 segundos (3,9×) sin ninguna modificación del código del agente.
+Considere la topología GPT-4o primario → Claude 3.5 Sonnet de respaldo: P99 baja de 12 segundos a 3,1 segundos (3,9×) sin ninguna modificación del código del agente.
 
 ## Arquitectura del gateway: plano de datos vs. plano de control
 
@@ -98,15 +98,15 @@ Un único clúster de gateway maneja todo el tráfico de inferencia saliente de 
 
 Cada contenedor de agente ejecuta un proceso gateway en su interfaz loopback. El dominio de fallo es un contenedor de agente. Adecuado para flotas grandes (50+ agentes) donde el aislamiento de fallos por agente es la prioridad.
 
-### Proxy nativo al mesh
+### Proxy nativo a la plataforma
 
-En OpenLegion, el proxy de inferencia es un servicio mesh. El modelo nativo al mesh gestiona la identidad de carga de trabajo de forma nativa: cada contenedor de agente recibe una identidad emitida por el mesh en el momento del arranque.
+En OpenLegion, el proxy de inferencia es parte de la plataforma: cada llamada al modelo pasa por el motor de políticas al salir. La identidad de carga de trabajo se gestiona de forma nativa: cada agente lleva su propia identidad desde el momento en que se crea.
 
 ## La posición de OpenLegion
 
 El conjunto de características del LLM gateway — mTLS, aplicación de cuota de ventana deslizante, telemetría de gasto OTLP, conmutación por error con disyuntor — no es infraestructura opcional para flotas multi-agente. Es el plano de datos mínimo viable.
 
-Tres mediciones de las pruebas de infraestructura de OpenLegion de junio de 2026 cuantifican lo que está en juego:
+Tres mediciones cuantifican lo que está en juego:
 
 **Latencia de cola P99 sin conmutación por error**: 12 segundos en despliegues solo con GPT-4o durante eventos de capacidad del proveedor. Con Claude 3.5 Sonnet como respaldo de disyuntor: 3,1 segundos. La mejora de 3,9× no requirió ningún cambio en el código de aplicación del agente.
 
@@ -114,19 +114,19 @@ Tres mediciones de las pruebas de infraestructura de OpenLegion de junio de 2026
 
 **Cobertura OWASP LLM**: la aplicación de cuota por tenant en el gateway aborda LLM10:2025 (Consumo no acotado). La aplicación de ámbito de handle aborda LLM06:2025 (Agencia excesiva).
 
-Para equipos que evalúan [patrones de gestión de credenciales para agentes IA](/learn/credential-management-ai-agents), la resolución de handle opaco del gateway es la implementación a nivel de despliegue del patrón vault-proxy descrito allí.
+Para equipos que evalúan [patrones de gestión de credenciales para agentes IA](/learn/credential-management-ai-agents), la resolución de handle opaco del gateway es la implementación a nivel de despliegue del patrón de bóveda de credenciales descrito allí.
 
 ## Comparación de LLM gateways
 
-| **Capacidad** | **Auto-hospedado (LiteLLM)** | **OpenAI nativo** | **OpenLegion mesh proxy** |
+| **Capacidad** | **Auto-hospedado (LiteLLM)** | **OpenAI nativo** | **Plataforma OpenLegion** |
 |---|---|---|---|
-| **Modelo de resolución de claves** | Store de claves Postgres | Servicio gestionado | Handle opaco → vault en capa de red |
-| **Identidad de carga de trabajo mTLS** | No soportado | No soportado | SPIFFE SVID por contenedor agente |
+| **Modelo de resolución de claves** | Store de claves Postgres | Servicio gestionado | Handle opaco → bóveda, resuelto fuera del modelo |
+| **Identidad de carga de trabajo mTLS** | No soportado | No soportado | Identidad por agente en cada llamada |
 | **Aplicación de cuota** | Basado en configuración, por clave | Límites por org | Contador de ventana deslizante, por tenant |
 | **Conmutación por error con disyuntor** | Basado en plugin | No disponible | Nativo, con sonda half-open |
 | **Telemetría de gasto OTLP** | Parcial | No exportada | Por solicitud, todos los campos |
-| **Aislamiento del plano de control** | Manual; expuesto por defecto | Gestionado | Solo subred mesh privada |
-| **Historial CVE (2024–2026)** | GHSA-53mr-6c8q-9789 + otros | Ninguno público | Ninguno |
+| **Aislamiento del plano de control** | Manual; expuesto por defecto | Gestionado | Solo operador, nunca alcanzable por el agente |
+| **Historial CVE (2024–2026)** | GHSA-53mr-6c8q-9789 + otros | Ninguno público | Ninguno divulgado |
 
 ## Seleccionar un gateway para su flota
 
@@ -146,7 +146,7 @@ Los registros OTLP por solicitud son el mínimo para una observabilidad de flota
 
 ## Comenzar
 
-**Despliega flotas de inferencia multi-agente con identidad de carga de trabajo mTLS, aplicación de cuota de ventana deslizante y telemetría de gasto OTLP por solicitud.**
+**Despliega equipos de inferencia multi-agente con identidad de carga de trabajo mTLS, aplicación de cuota de ventana deslizante y telemetría de gasto OTLP por solicitud.**
 [Comenzar en OpenLegion](https://app.openlegion.ai) | [Leer la documentación](https://docs.openlegion.ai) | [Comparar LiteLLM vs OpenLegion](/comparison/litellm)
 
 ---
@@ -165,7 +165,7 @@ Las flotas de un solo proveedor se benefician de tres funciones del gateway: res
 
 ### ¿Cómo funciona la conmutación por error con disyuntor en un LLM gateway?
 
-El gateway rastrea tasas de error y latencia P99 por endpoint dentro de ventanas de observación deslizantes. Cuando se supera un umbral de fallo configurable — por ejemplo, cinco respuestas 5xx consecutivas, o P99 superando 8 segundos en una ventana de 30 segundos — el circuito se abre: todas las solicitudes posteriores se reenvían inmediatamente al endpoint de respaldo configurado. Después de un período de enfriamiento, el gateway despacha una sonda half-open al primario. Una sonda exitosa cierra el circuito; una sonda fallida reinicia el enfriamiento. El benchmark de junio de 2026 de OpenLegion midió una reducción de P99 de 12 segundos a 3,1 segundos en una topología GPT-4o → Claude 3.5 Sonnet.
+El gateway rastrea tasas de error y latencia P99 por endpoint dentro de ventanas de observación deslizantes. Cuando se supera un umbral de fallo configurable — por ejemplo, cinco respuestas 5xx consecutivas, o P99 superando 8 segundos en una ventana de 30 segundos — el circuito se abre: todas las solicitudes posteriores se reenvían inmediatamente al endpoint de respaldo configurado. Después de un período de enfriamiento, el gateway despacha una sonda half-open al primario. Una sonda exitosa cierra el circuito; una sonda fallida reinicia el enfriamiento. En una topología GPT-4o → Claude 3.5 Sonnet esto reduce el P99 de 12 segundos a 3,1 segundos.
 
 ### ¿Qué es mTLS y por qué importa para los LLM gateways?
 

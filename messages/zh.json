@@ -7,7 +7,7 @@
     "copyLabel": "复制",
     "copyToClipboard": "复制到剪贴板",
     "developersHeading": "面向开发者与技术评估者",
-    "fleetLivePrompt": "这就是你的编队，正在运行。",
+    "fleetLivePrompt": "这就是你的工作区，实时运行中。",
     "getStartedInMinutes": "几分钟即可上手 →",
     "selectLanguage": "选择语言",
     "skipToContent": "跳至正文"
@@ -16,44 +16,44 @@
     "columnAspect": "对比项",
     "columnOpenLegion": "OpenLegion",
     "columnThem": "OpenClaw 及其他",
-    "detailParagraph": "OpenLegion 默认提供经密钥库代理的凭证、容器隔离和按智能体的预算强制 — 自 v0.1.0 起未报告任何 CVE。",
+    "detailParagraph": "OpenLegion 把凭证密钥库、策略引擎和单智能体预算作为默认配置交付 — 而不是做成企业版的附加项。",
     "disclaimer": "基于公开安全披露和社区反馈。",
-    "footnote": "OpenLegion 于 2026 年 2 月发布。GitHub 星标数反映项目年龄，而非生产就绪度。",
+    "footnote": "GitHub star 数反映的是项目年龄，而非生产就绪程度。",
     "heading": "OpenLegion 与其他 AI 智能体框架有何不同？",
     "rows": {
       "0": {
         "aspect": "API 密钥存储",
-        "openlegion": "密钥库代理——智能体永远看不到密钥",
+        "openlegion": "密钥库 + 代理 — 模型始终只能看到句柄",
         "them": "存储在智能体配置文件中"
       },
       "1": {
-        "aspect": "智能体隔离",
-        "openlegion": "Docker 容器 / 微虚拟机",
-        "them": "进程级别"
+        "aspect": "代码执行",
+        "openlegion": "Firecracker 微虚拟机沙箱，默认拒绝一切出站流量",
+        "them": "你自己的进程"
       },
       "2": {
         "aspect": "成本控制",
-        "openlegion": "每智能体日度和月度预算",
+        "openlegion": "单智能体预算，每个动作都有回执",
         "them": "无"
       },
       "3": {
-        "aspect": "任务路由",
-        "openlegion": "编队模型 — blackboard + pub/sub + handoff (no CEO agent)",
-        "them": "由 LLM CEO 智能体决定"
+        "aspect": "协同方式",
+        "openlegion": "目标与任务同处一个数据库；助手负责分派，逾期自动升级",
+        "them": "由中间的一个 LLM 决定"
       },
       "4": {
-        "aspect": "测试覆盖率",
-        "openlegion": "5,800+ 个测试：单元 + 集成 + E2E",
-        "them": "很少"
+        "aspect": "不可逆操作",
+        "openlegion": "在三道关卡前停下，等待审批卡片",
+        "them": "先执行，再告诉你"
       },
       "5": {
-        "aspect": "代码库规模",
-        "openlegion": "~77,000 行（引擎，可审计）",
-        "them": "庞杂"
+        "aspect": "初始配置",
+        "openlegion": "使用 Google 登录 — 无需安装任何东西",
+        "them": "Python、Docker、配置文件"
       }
     },
     "sectionLabel": "方案对比",
-    "subtitle": "大多数 AI 智能体工具是为演示而生——OpenLegion 是为生产环境而生。",
+    "subtitle": "大多数 AI 智能体工具是为演示而生的 — OpenLegion 是为你必须负责的工作而生的。",
     "tableCaption": "典型 AI 智能体框架与 OpenLegion 的功能对比"
   },
   "consent": {
@@ -76,10 +76,10 @@
   "cta": {
     "heading": "你的 AI 团队只差一次",
     "headingEnd": "。",
-    "headingHighlight": "部署",
-    "primaryButton": "组建你的AI团队 →",
+    "headingHighlight": "简单描述",
+    "primaryButton": "加入候补名单 →",
     "secondaryButton": "加入我们的 Discord",
-    "subtitle": "试用7天 —— 不合适全额退款 · 随时取消 · 无需编程"
+    "subtitle": "封闭内测中 · 1,000 免费积分，无需绑卡 · 无需编程"
   },
   "dashboardPreview": {
     "activityLabel": "活动",
@@ -113,132 +113,132 @@
     "agentsCount": "{count} 个智能体",
     "chatButton": "对话",
     "costTodayLabel": "今日开销",
-    "degradedCount": "{count} 异常",
-    "heading": "实时监控你的 AI 智能体编队",
-    "headingHighlight": "运行状态",
-    "healthDegraded": "异常",
-    "healthOnline": "在线",
-    "heartbeatEvery": "每 {minutes} 分钟",
-    "heartbeatLabel": "心跳",
+    "degradedCount": "{count} 个待你处理",
+    "heading": "看清每个智能体、每项任务，以及",
+    "headingHighlight": "每一笔开销",
+    "healthDegraded": "需你处理",
+    "healthOnline": "就绪",
+    "heartbeatEvery": "{minutes} 分钟后",
+    "heartbeatLabel": "下次运行",
     "liveIndicator": "实时",
-    "onlineCount": "{count} 在线",
+    "onlineCount": "{count} 个就绪",
     "pauseButton": "暂停",
-    "sectionLabel": "编队控制台",
-    "stateIdle": "空闲",
-    "stateStreaming": "传输中",
+    "sectionLabel": "控制面板",
+    "stateIdle": "休眠中",
+    "stateStreaming": "撰写中",
     "stateThinking": "思考中",
     "stateTool": "工具调用",
-    "subtitle": "每个智能体、每笔开销、每个事件——实时呈现。与智能体对话、监控健康状态、从统一视图追踪支出。",
+    "subtitle": "每一次运行都会被记录：智能体做了什么、调用了哪些工具、产出了什么，以及花了多少积分。打开任意智能体的对话线程，就能直接和它交谈。",
     "todaySuffix": "今日",
     "tokensSuffix": "令牌",
-    "windowTitle": "编队概览"
+    "windowTitle": "工作区"
   },
   "enterprise": {
     "cta": "预约演示",
-    "description": "自托管的本地化部署、纵深防御的凭证隔离、确定性审计轨迹、按智能体的成本治理，以及按智能体的权限矩阵 — 全部默认强制执行。引擎约 77,000 行 Python 代码，超过 5,800 个测试，依赖面极小。",
-    "heading": "为重负载工作而生。",
+    "description": "每一张表都启用行级租户隔离，并由 CI 中的跨租户测试套件验证。每一次工具调用都是一个意图，先经同一个策略引擎检查，再记录为回执。审批是只有工作区所有者或管理员才能裁决的记录。企业版起价 $1,500/月。",
+    "heading": "为你必须负责的工作而生。",
     "signals": {
-      "0": "自托管本地化",
-      "1": "纵深防御",
-      "2": "确定性审计追踪",
-      "3": "受限执行",
-      "4": "每智能体成本治理",
-      "5": "按智能体的权限矩阵"
+      "0": "行级租户隔离",
+      "1": "每个动作都有回执",
+      "2": "审批只能由所有者裁决",
+      "3": "单智能体预算",
+      "4": "审计导出",
+      "5": "优先支持"
     }
   },
   "faq": {
-    "fullPageSubtitle": "关于使用 OpenLegion 部署、保护和扩展 AI 智能体编队，你需要了解的一切。",
+    "fullPageSubtitle": "把工作交给 AI 团队之前值得了解的一切 — 它做什么、花多少钱、拒绝做什么，以及目前还做不到什么。",
     "heading": "常见",
     "headingHighlight": "问题",
     "items": {
       "0": {
-        "answer": "不需要。app.openlegion.ai 上的托管服务无需编码——注册账户，选择模板，添加你的 LLM API 密钥，你的智能体几分钟内即可上线。自托管版本需要 Python 3.10+ 和 Docker。无论哪种方式，内置的团队模板（研发团队、销售管线、内容工作室）开箱即用，无需任何配置。",
+        "answer": "不需要。使用 Google 登录，用一句话说出你的需求，助手就会组建团队并开始工作。没有任何东西要安装，也没有配置文件要写。第一次有动作要伸向你的工作区之外时，系统会请你批准 — 那张卡片就是全部的学习成本。",
         "question": "使用 OpenLegion 需要开发经验吗？"
       },
       "1": {
-        "answer": "每个付费订阅都包含一份永不过期的 LLM 额度欢迎包 — 第一天即可使用，无需 API 密钥。你也可以使用自己的 Anthropic、OpenAI、Google 或 100 多家受支持厂商的 API 密钥，按使用量直接向这些厂商付费，模型用量零加价。",
+        "answer": "不需要。模型用量从积分中扣除，每个方案都包含一份额度：Free 一次性 1,000 积分，Pro 每月 10,000 积分，Team 每月 35,000 积分。1 积分为 $0.001。付费方案还可以自带模型密钥，零加价计费。以上为首发定价；目前通过候补名单注册。",
         "question": "订阅之外是否还需要支付 LLM 使用费用？"
       },
       "10": {
-        "answer": "AI 智能体框架是用于在生产环境中部署、协同和治理自治 AI 智能体的运行时和库层。与仅提供智能体逻辑原语的纯 SDK 库不同，像 OpenLegion 这样的框架会处理容器隔离、凭证密钥库化、按智能体的成本管控、可观测性和部署 — 团队无需从零搭建 DevOps 就能发布智能体。",
+        "answer": "AI 智能体框架是用来构建、协同和治理自主 AI 智能体的运行时与库层。它提供循环、工具调用、记忆和协同，而把安全、成本控制和运维留给你。OpenLegion 把这些直接做成产品，而不是留给你的作业：经策略检查的工具调用、单智能体预算、凭证密钥库、审批和回执。",
         "question": "什么是 AI 智能体框架？"
       },
       "11": {
-        "answer": "框架是用于构建和运行智能体逻辑（工具、提示、记忆、协同）的代码库与运行时。托管服务在其之上增加运维层：专属 VPS 预置、控制面板、计费、额度代理。OpenLegion 同时提供两者：用于编写和运行智能体的 Python 框架（容器隔离式多智能体运行时），以及面向不愿自行管理基础设施团队的可选托管服务。",
+        "answer": "框架是你用来做开发的库，托管平台是你登录就能用的产品。用框架，运行时、密钥、扩容和账单都归你自己管。OpenLegion 属于后者：智能体是托管数据库里的一行记录，每个任务按需运行，安全与成本控制由平台替你强制执行，而不用你自己拼装。",
         "question": "AI 智能体框架与托管服务有何区别？"
       },
       "12": {
-        "answer": "OpenLegion 采用编队模型 — blackboard + pub/sub + handoff (no CEO agent)。智能体通过基于 SQLite、支持原子 compare-and-set 的 blackboard、pub/sub 事件总线，以及结构化的 handoff 协议进行协同。每个智能体拥有独立的权限、预算和工具集。用户直接与智能体对话；控制面没有 LLM 决定任务路由。",
+        "answer": "工作以目标和任务的形式组织。助手会创建某个目标所需的智能体，并把带截止时间的任务分派给它们；被分派的任务可以派生出短生命周期的帮手，完成后把结果交回审阅。智能体之间不会互相阻塞 — 每一次交接都是一个带关联 id 和截止时间的事件，逾期就自动升级。这一切你都能以对话线程的形式看到，每个智能体一条。",
         "question": "OpenLegion 中智能体协同如何工作？"
       },
       "13": {
-        "answer": "AI 智能体安全针对自治智能体特有的威胁：凭证泄露、提示词注入、资源滥用和数据外泄。OpenLegion 的纵深防御 — 容器隔离、凭证密钥库代理、按智能体的权限矩阵、输入净化、SSRF 防护、Unicode/路径穿越加固 — 独立地缓解各类威胁，使得某一层被突破不会波及其他层。",
+        "answer": "它意味着把智能体当作一个可能被话术诱导犯错的对象来对待。真正有用的控制，是那些在模型出错时依然成立的：模型永远看不到的密钥、挡在每一次工具调用前的策略引擎、默认没有出站流量的沙箱、无法自行触发不可逆操作的不可信内容，以及任何伸向第三方或销毁数据的动作都需要的人工批准。",
         "question": "AI 智能体安全对自主智能体意味着什么？"
       },
       "2": {
-        "answer": "人类在计算机上通过浏览器或终端执行的任何任务。智能体可以浏览和交互任意网站、登录网络应用、填写表单、从任意页面提取数据、发送邮件和消息、管理文件和文件夹、编写和执行代码、处理文档、发布社交平台内容、监控页面变动、运行自定义自动化——全天候无需人工值守。常见部署场景包括销售外发管线、竞品调研、线索筛选、开发工作流、发票处理、内容制作和内部任务自动化。",
+        "answer": "调研与总结、起草与改写、盯住某个渠道并回复、按计划定时执行、在沙箱里运行代码，以及产出可用链接分享的交付物。所有方案都能在网页应用中使用智能体，Pro 增加 Telegram 和 webhook，Team 再增加 Slack 和入站邮件；所有方案中，它们都可以读取你的 Google Calendar，以及你指定的 Drive 文件。它们目前还做不到：以你的身份登录浏览网页、打电话，或代表你发送邮件。",
         "question": "OpenLegion 智能体可以自动化哪些类型的任务？"
       },
       "3": {
-        "answer": "OpenLegion 是一款生产级、容器隔离式的多智能体运行时，将自治智能体编队部署到隔离的 Docker 容器中。每个智能体拥有独立的预算、权限和凭证库 — 通过容器隔离、密钥库代理、按智能体的 ACL 和受限执行实现纵深防御。仅需 Python、Docker 和 API 密钥。无需 Redis、Kubernetes 或 LangChain。采用 PolyForm Perimeter License 1.0.1 许可（source-available）。",
+        "answer": "OpenLegion 是面向 AI 智能体团队的托管平台。你用一句话描述工作，助手就会创建所需的队友并把任务分派给它们。每个智能体都是一条持久化的记录，有事做时才运行，因此闲置的智能体不产生任何费用。每一次工具调用都由同一个策略引擎检查并留下回执；凡是要伸向第三方、删除数据或处理不可信内容的动作，都会停下来等你批准。",
         "question": "什么是 OpenLegion？"
       },
       "4": {
-        "answer": "OpenLegion 将每个智能体进行容器隔离，所有凭证均通过密钥库代理，并按智能体强制预算 — 大多数框架不会这样做。CrewAI 等类似框架在共享进程中运行智能体，没有隔离、没有成本管控，API 密钥保存在配置文件里。OpenLegion 采用编队模型（no CEO agent），通过 blackboard 协同和结构化 handoff 实现协作 — 控制面没有 LLM 决定任务路由。",
+        "answer": "框架给你零件，OpenLegion 给你一个已经在跑的产品。你不必自己拼装运行时、队列、密钥库和控制面板 — 登录，然后把工作描述出来就行。框架把权限和成本留给你，OpenLegion 则替你强制执行：每一次工具调用都是经过同一个策略引擎的意图，每个智能体都有预算，密钥留在模型永远看不到的密钥库里，不可逆的操作则要等人来定夺。",
         "question": "OpenLegion 与 CrewAI 或其他智能体框架有什么区别？"
       },
       "5": {
-        "answer": "通过 LiteLLM 支持 100+ LLM 提供商，包括 Anthropic (Claude)、OpenAI (GPT)、Google (Gemini)、Mistral、Moonshot 以及任何 OpenAI 兼容 API。你可以为同一编队中的不同智能体分配不同的模型——无厂商锁定。",
+        "answer": "你选择的是预设，而不是模型 id：Smartest 适合你会交给团队里最强的人去做的工作，Smart 适合日常推理，Normal 适合又快又省的杂活。预设对应当前的前沿模型，统一通过一个网关访问，并会在新模型发布时重新评估。你可以为每个智能体单独设置预设，也可以为整个工作区设置默认值。付费方案也可以改为自带模型密钥，零加价计费。经我们平台密钥发出的流量为零留存，并已退出模型训练。",
         "question": "OpenLegion 支持哪些 LLM 提供商？"
       },
       "6": {
-        "answer": "通过密钥库代理 — 智能体永远看不到 API 密钥。密钥保存在 mesh 主机上的 mesh 进程中。智能体调用 LLM 时，请求会经过密钥库代理，在网络层注入凭证、追踪 token 用量并强制预算上限。即便智能体被完全攻陷，也无法访问你的 API 密钥。",
+        "answer": "凭证保存在密钥库中，并在模型之外注入：智能体拿到的始终是句柄，而不是密钥。每一次工具调用都是一个意图，策略引擎会在任何东西真正执行之前完成检查，结果则记录为你能读懂的回执。被攻破的提示词，读不到一个从未进入过它上下文的密钥。",
         "question": "OpenLegion 如何保障 API 密钥安全？"
       },
       "7": {
-        "answer": "不需要。OpenLegion 可以在单台机器上运行，无需外部服务。你只需要 Python 3.10+、Docker 和一个 LLM API 密钥——无需 Redis、无需 Kubernetes、无需 LangChain、无需外部数据库。",
+        "answer": "不需要。OpenLegion 是一个托管的网页应用 — 使用 Google 登录就能开始。没有服务器要开通，没有 Docker，也没有属于你自己的基础设施需要维护。智能体是我们数据库中的记录，每个任务按需运行，因此有一百个智能体的工作区在闲置时的成本，和一个智能体都没有的工作区完全一样。",
         "question": "运行 OpenLegion 需要 Kubernetes 或云基础设施吗？"
       },
       "8": {
-        "answer": "可以 — OpenLegion 专为生产环境部署而设计。它提供本地化部署支持、采用 blackboard + pub/sub + handoff 协同的编队模型、按智能体的成本治理、按智能体的权限矩阵、通过密钥库代理的凭证隔离，以及约 77,000 行、5,800+ 测试的可审计代码库。纵深防御控制默认开启。",
+        "answer": "可以 — 它本来就是为此而造的。租户隔离是每一张表上的行级安全策略，并由 CI 中的跨租户测试套件验证。每一次工具调用都经过策略检查并留下回执，智能体在单智能体预算下运行，不可逆的操作会停下来等人处理。所有方案的工作区所有者都可以导出全部数据；Team 和企业版的导出还包含活动日志。",
         "question": "我可以在生产环境运行 OpenLegion 吗？"
       },
       "9": {
-        "answer": "可以。引擎仅需 Python + Docker 即可在单台机器上运行，无需任何外部服务。若需要完全本地推理，可将 LLM 提供方指向 Ollama；若使用托管模型（Anthropic、OpenAI、Google 等），mesh 代理会连接你配置的提供方。mesh 主机、智能体、密钥库和控制面板都运行在同一台机器上。",
+        "answer": "目前不行。OpenLegion v2 是托管平台，自托管并不是一个可以购买的选项。上一代引擎仍以 PolyForm Perimeter License 1.0.1 发布，可以在你自己的机器上运行，但那是另一个产品。如果私有化部署是硬性要求，那就属于企业版的洽谈范围。",
         "question": "OpenLegion 可以在本地部署吗？"
       }
     },
     "sectionLabel": "常见问题",
     "seeFullFaqLink": "查看完整常见问题 →",
-    "seeFullFaqPrefix": "更多问题解答 — 包括架构、LLM 提供方与智能体协同。"
+    "seeFullFaqPrefix": "更多问题的解答 — 包括模型、渠道、审批，以及 OpenLegion 目前还做不到什么。"
   },
   "features": {
-    "allFeaturesLink": "查看 AI 智能体框架的全部功能，包括浏览器自动化、持久记忆、MCP 可扩展性和多智能体协同 →",
+    "allFeaturesLink": "查看 OpenLegion 智能体能做的一切 — 渠道、连接器、记忆、定时任务、沙箱代码，以及可分享的交付物 →",
     "heading": "为不容",
     "headingEnd": "的团队而生。",
     "headingHighlight": "出错",
     "outcomes": {
       "0": {
-        "description": "每个智能体通过凭证代理调用。密钥和钱包私钥绝不存在于容器内部。六层独立安全防护默认开启。",
+        "description": "每一次工具调用都是一个意图，运行前先经策略检查，事后留下一份你能读懂的回执。密钥保存在密钥库中；凭证在模型之外注入，模型始终只能看到句柄。",
         "linkLabel": "了解安全机制 →",
         "title": "AI 智能体安全：你的密钥存储在智能体永远无法触及的密钥库中。"
       },
       "1": {
-        "description": "每个智能体的日度和月度上限，自动硬性截止。不会有意外账单，不会有凌晨三点的 API 失控循环。",
-        "linkLabel": "了解成本控制机制 →",
-        "title": "为每个智能体设定预算，超出即刻停止。"
+        "description": "工作以积分计量 — 1 积分为 $0.001。通常一条对话消息约 6 积分，一次后台任务运行约 3 积分，一件带帮手的分派工作 15–60 积分。为每个智能体设定预算，它就到此为止。",
+        "linkLabel": "积分怎么算 →",
+        "title": "每项任务的价格，你在花钱之前就能看到。"
       },
       "2": {
-        "description": "智能体可访问任何网站、操作任何工具、链上执行、运行任何任务。MCP 兼容，内置浏览器、文件、记忆、钱包等技能。Fleet model — blackboard + pub/sub + handoff (no CEO agent) — 配合受限执行和按智能体的权限矩阵。",
-        "linkLabel": "协同方式 →",
-        "title": "编队模型协同 — 你来决定谁做什么。"
+        "description": "助手会为一项工作创建所需的队友，并把活儿交给它们。每个智能体都有自己的对话线程，而工作会在三道关卡前停下来等你决定：代表你联系第三方、删除数据，以及处理不可信内容。",
+        "linkLabel": "分派如何运作 →",
+        "title": "一支看得见的常驻团队，而不是一个黑盒。"
       }
     },
     "sectionLabel": "功能特性",
-    "subtitle": "从第一天起内置安全、成本管控和智能体自动化的 AI 智能体框架。"
+    "subtitle": "从第一天起就内置安全、成本控制和审批的 AI 智能体。"
   },
   "footer": {
-    "brandDescription": "为生产环境打造的容器隔离式多智能体运行时。用安全、可控成本的智能体编队自动化任何计算机任务。",
+    "brandDescription": "承担日常重复业务工作的 AI 队友 — 在网页应用里，也在你的团队本来就在用的渠道里。审批、预算和回执一应俱全。",
     "columns": {
       "0": {
         "links": {
@@ -275,7 +275,7 @@
       },
       "3": {
         "links": {
-          "0": "文档",
+          "0": "v1 文档",
           "1": "GitHub",
           "2": "问题反馈",
           "3": "社区讨论"
@@ -298,44 +298,56 @@
         "title": "法律条款"
       }
     },
-    "license": "PolyForm Perimeter License 1.0.1 许可协议 © {year} OpenLegion 贡献者"
+    "license": "© {year} OpenLegion。开源引擎以 PolyForm Perimeter License 1.0.1 提供源码可用授权。",
+    "aiDisclosure": "OpenLegion 是一个 AI 系统。你的助手以及它创建的每一个智能体都是 AI，不是真人，它们的输出可能出错 — 重要的内容请自行核实。"
   },
   "hero": {
     "ariaLabel": "产品介绍",
     "badge": "从这里开始构建你的 AI 团队",
-    "ctaPrimary": "组建你的AI团队",
+    "ctaPrimary": "加入候补名单",
     "ctaSecondary": "预约演示",
     "headingHighlight": "AI 团队",
     "headingLine1": "构建你的",
     "headingLine2": "只需描述你想要的团队。",
-    "subtitle": "描述你的需求 —— 营销机构、销售团队、调研台 —— OpenLegion 几分钟内就能让一支AI员工团队投入工作。每个智能体都有独立的预算和权限，你的密码和 API 密钥保存在智能体永远无法接触的保险库中。",
-    "tagline": "AI员工在你的团队休息时，把琐碎工作全部做完。",
-    "terminalTitle": "openlegion 演示",
-    "videoCaptionBelow": "一句提示词，就是一支真正干活的AI团队 —— 来看实拍。",
-    "videoFallback": "您的浏览器不支持 HTML5 视频。",
-    "videoTitle": "OpenLegion 演示——部署 AI 智能体编队",
+    "subtitle": "说出你需要什么 — 一个调研小组、一套跟进流程、一份周报 — 助手就会配齐智能体，让它们开工。你会得到：每个智能体一条对话线程、任何要离开工作区的动作都有一张审批卡片，以及每个动作都有一份回执。",
+    "tagline": "在你睡觉时，替团队做完琐碎杂活的 AI 员工。",
+    "terminalTitle": "openlegion — #operations",
     "trustStrip": {
-      "0": "全天候运行",
+      "0": "1,000 免费积分，无需绑卡",
       "1": "智能体永远看不到你的密码",
       "2": "无需编程"
+    },
+    "frame": {
+      "youLabel": "你",
+      "prompt": "每周一上午 9 点，汇总我们三家竞品上周发布了什么。",
+      "assistantLabel": "助手",
+      "reply": "已把 Nora 加入你的工作区，并把首次运行安排在周一 09:00。",
+      "taskLabel": "任务",
+      "taskTitle": "每周竞品摘要",
+      "taskMeta": "Nora · 每周一 09:00 · 约 40 积分",
+      "approvalLabel": "需你处理",
+      "approvalBody": "把这份摘要发到 Slack 的 #general 频道吗？",
+      "approveLabel": "批准",
+      "denyLabel": "暂不",
+      "caption": "一个工作区建好当天的样子 — 输入一句话，得到一个常驻智能体。"
     }
   },
   "inlineCta": {
-    "getStarted": "立即开始",
-    "readTheDocs": "阅读文档"
+    "getStarted": "加入候补名单",
+    "readTheDocs": "阅读 v1 文档"
   },
   "launchPricing": {
-    "cta": "立即开始 →",
-    "message": "创始价格 — 早期客户锁定"
+    "cta": "加入候补名单 →",
+    "message": "首发定价：免费方案含 1,000 积分，无需绑卡"
   },
   "metadata": {
-    "faqDescription": "关于 OpenLegion 的常见问题解答 — 为生产环境打造的容器隔离式多智能体运行时。涵盖安全、定价、LLM 提供方、协同、生产部署等。",
-    "faqOgDescription": "关于 OpenLegion 的常见问题解答 — 安全、定价、LLM 提供方、协同与生产部署。",
+    "faqDescription": "关于 OpenLegion 常见问题的解答 — 面向 AI 智能体团队的托管平台。涵盖安全、积分与定价、模型、渠道、审批，以及它目前还做不到什么。",
+    "faqOgDescription": "关于 OpenLegion 常见问题的解答 — 安全、积分、模型、渠道、审批与限制。",
     "faqOgTitle": "常见问题 — OpenLegion",
     "faqTitle": "常见问题",
-    "faqTwitterDescription": "关于 OpenLegion 的常见问题解答 — 安全、定价、LLM 提供方、协同与生产部署。",
+    "faqTwitterDescription": "关于 OpenLegion 常见问题的解答 — 安全、积分、模型、渠道、审批与限制。",
     "faqTwitterTitle": "常见问题 — OpenLegion",
-    "homeDescription": "OpenLegion 是面向生产环境的AI智能体框架与平台。部署能自动完成任何电脑任务的AI员工 —— 浏览网页、填写表单、编写代码、客户触达、数据处理。无需编程，7天退款保证。",
+    "homeDescription": "OpenLegion 为你配齐承担日常重复业务工作的 AI 智能体 — 调研、起草、跟进、报告。审批、单智能体预算，以及每个动作的回执。封闭内测中。",
     "homeTitle": "AI 智能体平台与框架 - OpenLegion | 自动化一切，尽在掌控",
     "learnDescription": "运行生产级 AI 智能体的实用指南:运行时架构、协调模式、框架选型和智能体威胁模型。",
     "learnOgDescription": "运行生产级 AI 智能体的实用指南:运行时架构、协调模式、框架选型和智能体威胁模型。",
@@ -345,49 +357,55 @@
     "learnTwitterTitle": "学习 — AI 智能体框架、协调与安全",
     "moneyBackDescription": "如果 OpenLegion 不适合你，首月费用全额退款，无需任何理由。",
     "moneyBackTitle": "7 天退款保证",
-    "ogDescription": "部署AI智能体，自动完成人类在电脑上能做的一切。安全、可控预算、生产就绪。7天退款保证。",
+    "ogDescription": "承担日常重复业务工作的 AI 队友。任何离开工作区的动作都需审批，每个智能体都有预算，每个动作都有回执。封闭内测中。",
     "ogImageAlt": "OpenLegion — AI 智能体框架与平台",
     "ogTitle": "OpenLegion — AI 智能体框架与平台",
-    "pricingDescription": "每月$62起，含容器隔离、保险库安全与100+大模型供应商。随时取消，7天退款保证。",
-    "pricingOgDescription": "每月$62起。容器隔离、保险库安全、100+大模型供应商。7天退款保证。",
-    "pricingOgTitle": "AI智能体平台定价 — 每月$62起 | OpenLegion",
-    "pricingTitle": "AI智能体平台定价 — 每月$62起",
-    "pricingTwitterDescription": "方案起价 $62/月。7 天退款保证。",
-    "pricingTwitterTitle": "AI智能体平台定价 — 每月$62起 | OpenLegion",
-    "privacyDescription": "OpenLegion AI 智能体框架与托管服务的隐私政策。了解我们如何在托管服务及 openlegion.ai 网站上收集、使用和保护你的数据。",
+    "pricingDescription": "首发定价：Free 含 1,000 积分，Pro $29/月含 10,000 积分，Team $99/月含 35,000 积分，企业版 $1,500 起。加入候补名单。",
+    "pricingOgDescription": "首发定价：Free、Pro $29/月、Team $99/月。加入候补名单。",
+    "pricingOgTitle": "AI 智能体平台定价 — 方案起价 $29/月 | OpenLegion",
+    "pricingTitle": "AI 智能体平台定价 — 方案起价 $29/月",
+    "pricingTwitterDescription": "首发定价：Free、Pro $29/月、Team $99/月。加入候补名单。",
+    "pricingTwitterTitle": "AI 智能体平台定价 — 方案起价 $29/月 | OpenLegion",
+    "privacyDescription": "OpenLegion 隐私政策 — 我们如何在托管 AI 智能体平台和 openlegion.ai 网站上收集、使用并保护你的数据。",
     "privacyTitle": "隐私政策",
-    "termsDescription": "OpenLegion AI 智能体框架与托管服务的服务条款。涵盖托管服务、PolyForm Perimeter License 1.0.1 许可下的自托管部署以及 openlegion.ai 网站。",
+    "termsDescription": "OpenLegion 服务条款 — 托管 AI 智能体平台、通过 Stripe 以积分计费，以及 openlegion.ai 网站。",
     "termsTitle": "服务条款",
     "titleTemplate": "{title} | OpenLegion",
-    "twitterDescription": "部署AI智能体，自动完成人类在电脑上能做的一切。7天退款保证。",
-    "twitterTitle": "OpenLegion — AI 智能体框架与平台"
+    "twitterDescription": "承担日常重复业务工作的 AI 队友，带审批、预算和回执。封闭内测中 — 加入候补名单。",
+    "twitterTitle": "OpenLegion — AI 智能体框架与平台",
+    "securityTitle": "安全防护",
+    "securityDescription": "OpenLegion 如何保护你的工作区：经策略检查的工具调用、凭证密钥库、拒绝一切出站流量的沙箱、不可逆操作的审批 — 以及我们不宣称的事。",
+    "securityOgTitle": "安全防护 — OpenLegion",
+    "securityOgDescription": "经策略检查的工具调用、凭证密钥库、沙箱拒绝一切出站流量、不可逆操作的审批 — 以及我们拒绝作出的声明。",
+    "securityTwitterTitle": "安全防护 — OpenLegion",
+    "securityTwitterDescription": "经策略检查的工具调用、凭证密钥库、沙箱拒绝一切出站流量、不可逆操作的审批 — 以及我们拒绝作出的声明。"
   },
   "moneyBackPage": {
     "afterRefund": {
       "heading": "退款后账户的处理",
       "items": {
-        "0": "退款处理完成后不久，你的订阅会被取消，托管实例也会被取消配置。",
-        "1": "与订阅一同发放的欢迎积分会被收回，积分余额归零（与退款保持一致）。",
-        "2": "在后续订阅中你将不再有资格领取第二次退款或第二次欢迎积分。后续订阅按正常方式计费。"
+        "0": "你的订阅将被取消，工作区回到 Free 方案。你的智能体、对话线程和记忆都会原样保留。",
+        "1": "随该订阅发放的包含积分会与退款一并收回。你单独购买的积分包不受影响。",
+        "2": "你无权就未来的订阅再次申请退款保证。未来的订阅将正常计费。"
       }
     },
     "covered": {
       "heading": "退款覆盖范围",
       "items": {
-        "0": "你的首次订阅付款（实际扣款金额——例如 Growth 月付 $62）。",
-        "1": "全额退还该金额——无需说明理由，不按比例计算。"
+        "0": "你的首次订阅付款 — 实际扣款的金额（Pro 月付 $29，Team 月付 $99）。",
+        "1": "该金额全额退还 — 无需任何理由，也不按比例部分退款。"
       }
     },
     "email": "support@openlegion.ai",
     "howTo": {
-      "body": "发送邮件至 {email}，附上你的账户邮箱和订阅 ID。退款将在 5 个工作日内通过 Polar 处理（款项原路退回到你的支付方式）。",
+      "body": "发送邮件至 {email}，附上你的账户邮箱和工作区名称。退款通过 Stripe 在 5 个工作日内处理，款项原路退回你的付款方式。",
       "heading": "如何申请退款"
     },
-    "intro": "我们对 OpenLegion 充满信心。如果首月因任何原因不合适，请在首次订阅付款后 7 天内发送邮件至 {email}，我们会按你实际支付的金额全额退款（Polar 实际收取的发布期价格——不是旁边显示的更高锚定价格）。",
+    "intro": "本保证在付费方案开放后适用；目前通过候补名单注册。我们对 OpenLegion 有信心。如果首月因任何原因不合适，请在首次订阅付款后 7 天内发送邮件至 {email}，我们将全额退还你支付的金额。",
     "notCovered": {
       "heading": "不在退款范围内",
       "items": {
-        "0": "积分充值（已消费的积分不可退款——未消费积分会保留在账户中直到退款完成）。",
+        "0": "单独购买的积分包（已消耗的积分不予退款；未使用的已购积分继续保留在你的账户中）。",
         "1": "首 7 天之后的续费扣款。",
         "2": "存在滥用的订阅（违反可接受使用政策）。"
       }
@@ -400,7 +418,7 @@
     "billingPeriodAriaLabel": "计费周期",
     "bookDemo": "预约演示",
     "brandName": "OpenLegion",
-    "getStarted": "立即开始",
+    "getStarted": "加入候补名单",
     "githubAriaLabel": "GitHub 代码仓库",
     "homeAriaLabel": "OpenLegion 首页",
     "links": {
@@ -408,7 +426,7 @@
         "label": "技术架构"
       },
       "docs": {
-        "label": "文档"
+        "label": "v1 文档"
       },
       "features": {
         "label": "功能特性"
@@ -428,153 +446,163 @@
   },
   "notFound": {
     "backToHome": "返回首页",
-    "description": "页面不存在。编队尚未在此部署。",
+    "description": "此页面不存在。没有任何内容被分配到这个 URL。",
     "title": "404",
     "titleHighlight": "0"
   },
   "pricing": {
     "a11y": {
-      "ctaAria": "开始使用 — {plan}",
-      "mostPopular": "最受欢迎的方案",
-      "originalPriceAria": "原价 ${price}"
+      "ctaAria": "加入候补名单 — {plan}",
+      "mostPopular": "最受欢迎的方案"
     },
-    "agentsLabel": "{count, plural, one {个智能体} other {个智能体}}",
-    "basicTryFor": "用 {price} 试用 OpenLegion",
-    "billingMonthly": "月付",
-    "billingPeriodAriaLabel": "计费周期",
-    "billingSaveLabel": "省约 25%",
-    "billingYearly": "年付",
-    "browsersLabel": "{count, plural, one {个并发浏览器} other {个并发浏览器}}",
-    "creditsLabel": "欢迎赠送额度",
-    "enterprise": {
-      "agents": "个智能体",
-      "browsers": "个并发浏览器",
-      "cta": "联系我们",
-      "features": {
-        "0": "专属基础设施",
-        "1": "自定义 SLA",
-        "2": "优先支持",
-        "3": "本地部署"
-      },
-      "name": "企业版",
-      "price": "定制",
-      "subtitle": "根据你的需求量身定制",
-      "teams": "个团队",
-      "unlimitedAgents": "不限"
-    },
-    "faq": {
-      "0": {
-        "answer": "每个付费方案首日即包含欢迎额度礼包及完整功能访问权限——VPS、系统代理和运营商控制台。不合适？7 天内取消，我们将退还首月费用，无需任何理由。希望使用自己的 API 密钥？完全可以，欢迎额度依然归你所有。",
-        "question": "方案首日包含哪些内容？"
-      },
-      "1": {
-        "answer": "每个新订阅都包含永不过期的 LLM 额度欢迎奖励。立即使用它们驱动您的智能体——无需 API 密钥。需要更多？随时从 $5 起充值，或自带 Anthropic、OpenAI、Google 及 100 多个提供商的 API 密钥，完全跳过额度。",
-        "question": "方案价格之外是否还需支付 LLM 使用费用？"
-      },
-      "2": {
-        "answer": "可以 — 任何时候都能升级，新限额立即生效。降级在下一个计费周期开始时生效。",
-        "question": "可以切换方案吗？"
-      },
-      "3": {
-        "answer": "取消后，你将保留访问权限至当前计费周期结束。之后 VPS 会被注销，实例数据被移除。",
-        "question": "取消后我的智能体会怎样？"
-      },
-      "4": {
-        "answer": "可以。克隆仓库，运行三条命令，即可在你自己的基础设施上拥有完整的智能体编队。引擎采用 PolyForm Perimeter License 1.0.1 源码可见许可协议。托管服务起价 $62/月，适合不想管理基础设施的团队。",
-        "question": "可以自托管 OpenLegion 吗？"
-      },
-      "5": {
-        "answer": "每个部署的智能体容器计为方案限额中的一个智能体。例如研发团队模板（PM + 工程师 + 审查员）计为 3 个智能体。",
-        "question": "什么算作一个「智能体」？"
-      },
-      "6": {
-        "answer": "额度用于通过我们平台支付 LLM 调用费用（Claude、GPT、Gemini 等）。订阅时您会获得欢迎奖励——Growth 获得 $15、Pro 获得 $30。额度永不过期。用完后，从 $5 到 $500 随时充值任意金额，或添加您自己的 API 密钥直接使用提供商。",
-        "question": "什么是 LLM 额度？会过期吗？"
-      }
-    },
-    "faqHeading": "常见问题",
-    "getStarted": "立即开始",
-    "heading": "为您的",
-    "headingEnd": "定制方案。",
-    "headingHighlight": "AI 团队",
-    "moneyBackDetail": "7天退款 · 无需理由",
-    "monthlyNote": "7天退款保证",
-    "noTeams": "无团队",
-    "perAgent": "{amount}/智能体/月",
-    "perAgentYearlySuffix": " · 按年计费",
-    "planFeatures": {
-      "0": "每个智能体运行在独立的安全容器中",
-      "1": "支持 Claude、GPT、Gemini 及 100+ 种模型",
-      "2": "实时监控每个智能体、成本和事件",
-      "3": "专属部署 URL",
-      "4": "专属计算资源——无共享资源",
-      "5": "使用自己的 API 密钥 — 或使用额度"
-    },
-    "plans": {
-      "0": {
-        "monthlyPrice": "19",
-        "name": "基础版",
-        "tagline": "适合独立开发者",
-        "yearlyMonthly": "14",
-        "yearlyPrice": "170"
-      },
-      "1": {
-        "monthlyPrice": "62",
-        "name": "成长版",
-        "tagline": "适合成长中的团队",
-        "yearlyMonthly": "46",
-        "yearlyPrice": "557"
-      },
-      "2": {
-        "monthlyPrice": "152",
-        "name": "专业版",
-        "tagline": "适合代理机构与高级用户",
-        "yearlyMonthly": "114",
-        "yearlyPrice": "1367"
-      },
-      "3": {
-        "monthlyPrice": "296",
-        "name": "Pro Max",
-        "tagline": "适用于大规模运营",
-        "yearlyMonthly": "222",
-        "yearlyPrice": "2663"
-      }
-    },
-    "popularBadge": "热门",
-    "priceSuffixMonthly": "月",
-    "priceSuffixYearly": "年",
-    "savingsAriaLabel": "节省 {percent}%",
-    "savingsPill": "节省 ${amount}{suffix}（{percent}%）",
     "sectionLabel": "定价方案",
-    "subtitle": "定价简单透明，随时可取消。",
-    "teamsLabel": "{count, plural, one {个团队} other {个团队}}",
-    "trust": {
-      "cancel": "随时取消",
-      "moneyBack": "7 天退款保证",
-      "switch": "随时切换套餐"
-    },
+    "heading": "为您的",
+    "headingHighlight": "AI 团队",
+    "headingEnd": "定制方案。",
+    "subtitle": "首发定价。目前通过候补名单注册：先加入名单，收到邀请后再选择方案。付费方案是固定月费，包含一份积分额度，供你的智能体在工作中消耗。",
     "trustTrio": {
-      "fastSetup": "5分钟内启动第一个智能体",
-      "moneyBack": "7天退款保证",
+      "freeStart": "免费方案，无需绑卡",
+      "moneyBack": "首发定价",
       "noCoding": "无需编程"
     },
-    "yearlyBilledNote": "约 ${monthlyEquivalent}/月（按年计费）"
-  },
-  "pricingAnchors": {
-    "anchorLabel": "上线优惠价",
-    "basicMonthly": "29",
-    "basicYearly": "259",
-    "growthMonthly": "109",
-    "growthYearly": "989",
-    "proMaxMonthly": "899",
-    "proMaxYearly": "8990",
-    "proMonthly": "349",
-    "proYearly": "3099"
+    "getStarted": "加入候补名单",
+    "startFree": "加入候补名单",
+    "popularBadge": "热门",
+    "priceSuffixMonthly": "月",
+    "freePriceNote": "无需绑卡",
+    "monthlyNote": "首发定价，按月计费",
+    "moneyBackDetail": "首发定价。开放注册前价格可能调整。",
+    "plans": {
+      "0": {
+        "name": "Free",
+        "tagline": "先看看它能做什么",
+        "credits": "一次性 1,000 积分",
+        "features": {
+          "0": "在网页应用中与助手对话",
+          "1": "1 个席位，1 个常驻智能体",
+          "2": "网页搜索、文件、记忆和沙箱代码",
+          "3": "无需绑卡，不能充值，不升级就永不收费"
+        }
+      },
+      "1": {
+        "name": "Pro",
+        "tagline": "适合一个人带一支智能体团队",
+        "credits": "每月 10,000 积分",
+        "features": {
+          "0": "常驻智能体数量不限",
+          "1": "2 个席位",
+          "2": "除网页应用外，还有 Telegram 和 webhook",
+          "3": "定时任务与事件触发",
+          "4": "自带模型密钥，零加价计费"
+        }
+      },
+      "2": {
+        "name": "Team",
+        "tagline": "适合共同分担工作的团队",
+        "credits": "每月 35,000 积分",
+        "features": {
+          "0": "Pro 的全部内容，外加 Slack 和入站邮件",
+          "1": "5 个席位",
+          "2": "最多 10 个具名团队，每个团队有一名负责人和一个共同目标",
+          "3": "工作区导出中包含活动日志"
+        }
+      }
+    },
+    "enterprise": {
+      "name": "企业版",
+      "price": "$1,500 起",
+      "subtitle": "为你的组织量身定制",
+      "cta": "联系我们",
+      "features": {
+        "0": "席位、智能体和团队数量均不限",
+        "1": "我们支持的全部渠道，外加定制条款",
+        "2": "数据导出与优先支持",
+        "3": "定制条款与开票"
+      }
+    },
+    "bands": {
+      "heading": "一项任务通常花多少",
+      "items": {
+        "0": "一条对话消息 — 约 6 积分",
+        "1": "一次后台任务运行 — 约 3 积分",
+        "2": "一件带帮手的分派工作 — 15–60 积分",
+        "3": "每次网页搜索另加约 5 积分"
+      },
+      "freeEquivalent": "1,000 个免费积分大约相当于 150 条对话消息，或 15–60 件分派出去的工作。",
+      "note": "这是通常水平，并非保证：长文档或深度调研会更贵。以上数字以 Smart 预设为准 — Smartest 每一步更贵，Normal 更便宜。",
+      "rate": "1 积分 = $0.001。包含的积分每个计费月重置；你购买的积分保留在账户中，不受重置影响。"
+    },
+    "presets": {
+      "heading": "选择它思考的强度",
+      "note": "所有方案都能使用全部预设。可以为每个智能体单独设置，也可以为整个工作区设置默认值。",
+      "items": {
+        "0": {
+          "name": "Smartest",
+          "description": "最强的模型 — 适合你会交给团队里最强的人去做的工作。"
+        },
+        "1": {
+          "name": "Smart",
+          "description": "默认选项。不用你操心，就能一路推理着做完大多数工作。"
+        },
+        "2": {
+          "name": "Normal",
+          "description": "又快又便宜 — 适合分流、草稿和大批量杂活。"
+        }
+      }
+    },
+    "everyPlan": {
+      "heading": "所有方案均包含",
+      "items": {
+        "0": "网页搜索与抓取",
+        "1": "文件与长期记忆，在你的智能体之间共享",
+        "2": "沙箱中的代码执行",
+        "3": "可用链接分享的交付物",
+        "4": "不可逆操作前的审批卡片",
+        "5": "每个动作都有回执",
+        "6": "Google Calendar，以及你指定的 Drive 文件",
+        "7": "随时导出整个工作区"
+      }
+    },
+    "trust": {
+      "cancel": "随时取消",
+      "switch": "随时切换套餐"
+    },
+    "faqHeading": "常见问题",
+    "faq": {
+      "0": {
+        "question": "方案首日包含哪些内容？",
+        "answer": "从收到邀请的那天起，方案列出的一切都归你：你的助手、它为你创建的智能体，以及当月的积分。Free 无需绑卡。以上为首发定价；加入候补名单即可获得邀请。"
+      },
+      "1": {
+        "question": "方案价格之外是否还需支付 LLM 使用费用？",
+        "answer": "不需要。模型用量从你的积分中扣除 — 1 积分 = $0.001 — 方案价格已包含每月额度：Pro 10,000 积分，Team 35,000 积分。Pro 和 Team 还可以自带模型密钥，这部分调用零加价计费。用完了就按同样的价格买一个积分包；已购买的积分不受每月重置影响。"
+      },
+      "2": {
+        "question": "可以切换方案吗？",
+        "answer": "可以 — 随时升级，新的限额立即生效。降级则在下一个计费周期开始时生效。"
+      },
+      "3": {
+        "question": "取消后我的智能体会怎样？",
+        "answer": "在计费周期结束前你仍可继续使用。之后工作区会回到 Free 方案：你的智能体、对话线程和记忆都会原样保留，而定时任务、渠道等付费功能将停用，直到你再次升级。"
+      },
+      "4": {
+        "question": "可以自托管 OpenLegion 吗？",
+        "answer": "这个版本不行。OpenLegion 是一个托管的网页应用 — 正因如此，闲置的智能体不花钱，新建一个也只是一瞬间的事。如果你想读源码，上一代引擎仍以 PolyForm Perimeter License 1.0.1 发布。"
+      },
+      "5": {
+        "question": "什么算作一个「智能体」？",
+        "answer": "你工作区里的任何一个队友 — 由你创建的，或由助手提议、经你批准的。Pro 和 Team 对你保留的数量没有限制。你付费的是它们做的工作，以积分计量。"
+      },
+      "6": {
+        "question": "积分是什么？会过期吗？",
+        "answer": "积分是工作的计量方式：1 积分 = $0.001。你的方案每个计费月包含一份额度，Free 则一次性获得 1,000 积分。包含的积分随月重置；你购买的积分保留在账户中，不受该重置影响。通常一条对话消息约 6 积分，一次后台任务运行约 3 积分，一件带帮手的分派工作 15–40 积分，每次网页搜索另加约 5 积分。"
+      }
+    }
   },
   "privacy": {
-    "effectiveDate": "生效日期：2026 年 3 月 7 日 · 最后更新：2026 年 3 月 7 日",
+    "effectiveDate": "生效日期：2026 年 9 月 17 日 · 最后更新：2026 年 9 月 17 日",
     "section1": {
-      "p1": "本隐私政策描述了 OpenLegion（「我们」）在您访问 openlegion.ai（「网站」）或使用我们的托管服务、API 及相关服务（统称「服务」）时，如何收集、使用和披露信息。",
+      "p1": "本隐私政策说明 OpenLegion（「我们」）在您访问 openlegion.ai（「本网站」）或使用我们的托管 AI 智能体平台、API 及相关服务（统称「本服务」）时，如何收集、使用和披露信息。",
       "p2": "使用本服务即表示您同意本隐私政策中描述的做法。如果您不同意，请勿使用本服务。",
       "title": "1. 引言"
     },
@@ -607,10 +635,10 @@
     "section2": {
       "1": {
         "items": {
-          "0": "账户信息：创建账户时的电子邮件地址、姓名和密码。",
-          "1": "支付信息：由我们的第三方支付处理商（Polar）处理的账单详情。我们不会在自己的服务器上保存完整的信用卡号。",
-          "2": "通讯信息：您通过电子邮件、在线客服（Tawk.to）或 Discord 联系我们时提供的信息。",
-          "3": "客户数据：您提交至本服务的智能体配置、工作流定义及其他数据。"
+          "0": "账户信息：您登录时 Google 账号提供的姓名和电子邮箱地址。我们不会为您存储密码。",
+          "1": "支付信息：由我们的第三方支付处理商（Stripe）处理的账单信息。我们不会在服务器上存储银行卡号。",
+          "2": "通信信息：您通过电子邮件、在线聊天（Tawk.to）或 Discord 联系我们时提供的信息。",
+          "3": "客户数据：您发送给智能体的消息、您创建的智能体和任务、您上传或连接的文件，以及您的智能体写入的记忆。"
         },
         "title": "2.1 您提供的信息"
       },
@@ -636,7 +664,7 @@
         "5": "发送事务性邮件（账户确认、密码重置、账单收据）；",
         "6": "遵守法律义务。"
       },
-      "noSell": "我们不出售您的个人信息。我们不使用客户数据训练 AI 模型。",
+      "noSell": "我们不出售您的个人信息。我们不会使用客户数据训练 AI 模型，且经我们平台密钥发出的模型流量在提供商侧为零留存并已退出训练。",
       "title": "3. 我们如何使用您的信息"
     },
     "section4": {
@@ -645,8 +673,8 @@
         "0": "Google Analytics — 网站分析和流量统计。",
         "1": "Microsoft Clarity — 用于用户体验分析的会话录制和热力图。",
         "2": "Tawk.to — 客户支持在线聊天组件。",
-        "3": "Polar — 支付处理。",
-        "4": "LLM API 提供商（如 Anthropic、OpenAI、Google、Mistral）— AI 模型推理。发送至这些提供商的提示和智能体数据受其各自的隐私政策和数据处理条款约束。OpenLegion 不对第三方 LLM 提供商处理数据的方式承担责任。"
+        "3": "Stripe — 支付处理与订阅计费。",
+        "4": "模型提供商（如 Anthropic、OpenAI、Google），通过我们的模型网关访问 — AI 推理。经我们平台密钥发出的流量为零留存并已退出训练；除此之外，提示词和智能体数据受这些提供商的条款约束。"
       },
       "review": "我们建议您查阅这些第三方服务的隐私政策。",
       "title": "4. 第三方服务"
@@ -672,7 +700,7 @@
       "title": "6. Cookie 和追踪技术"
     },
     "section7": {
-      "text": "我们在您的账户处于活跃状态或提供本服务所需期间保留您的信息。我们还可能在遵守法律义务、解决争议和执行协议所需的期间保留信息。当数据不再需要时，我们将在合理的时间范围内删除或匿名化处理。",
+      "text": "只要您的工作区存在，我们就会保留客户数据。对话历史按方案保留：Free 14 天，Pro 180 天，Team 和企业版则在工作区存续期内一直保留。您可以随时在「设置」中导出或清除工作区；清除会删除该工作区的记录及随之存储的文件。备份按其自身的滚动周期到期，账单记录则在法律要求的期限内保留。",
       "title": "7. 数据保留"
     },
     "section8": {
@@ -695,58 +723,61 @@
     "title": "隐私政策"
   },
   "promptToTeam": {
-    "ctaLabel": "查看方案与价格 →",
-    "ctaNote": "准备好让你的 AI 团队开工了吗？",
-    "heading": "一句话，组建一支高效的 AI 团队",
     "sectionLabel": "工作原理",
+    "heading": "从一句话到一支能干活的 AI 团队",
+    "subtitle": "没有流程图，没有配置文件。描述你想要的团队 — OpenLegion 替你配齐人手，让它们待在你设定的预算之内，并在代表你行动之前先征求你的同意。",
     "steps": {
       "0": {
-        "description": "用大白话告诉 OpenLegion 要做什么——“一个销售团队”“一个内容工作室”“一支调研团队”。无需流程图、无需 YAML，也无需编写任何粘合代码。",
         "number": "01",
-        "title": "描述你需要的团队"
+        "title": "描述你需要的团队",
+        "description": "用大白话告诉助手要做什么 — 「一个调研小组」「跟进那些没了动静的线索」「一份周报」。没有流程图，没有 YAML，没有胶水代码。"
       },
       "1": {
-        "description": "OpenLegion 为每个智能体单独启动一个 Docker 容器，并配备你选择的角色、工具和 LLM——由编队模式统一协同，中间没有脆弱的“CEO 智能体”。",
         "number": "02",
-        "title": "智能体几分钟内上线"
+        "title": "助手替你配齐人手",
+        "description": "它会创建这项工作所需的队友，给每个队友一条自己的对话线程，并启动第一个任务。智能体是记录，不是服务器：你一开口，新的就存在了，闲置的则不产生任何费用。"
       },
       "2": {
-        "description": "每个智能体都在你设定的预算内运行，API 密钥被封存在它永远无法触及的密钥库中。在一个仪表盘上，全天候掌握整支编队的工作。",
         "number": "03",
-        "title": "一切尽在你的掌控"
+        "title": "一切尽在你的掌控",
+        "description": "在任何动作伸向第三方、删除数据或处理来自开放网络的内容之前，工作都会停下来，在对话线程里等一张卡片。每个动作都会留下回执，每个智能体都在你设定的预算内运行。"
       }
     },
-    "subtitle": "无需流程图，无需配置文件。只要描述你想要的团队，OpenLegion 就会为你预配、隔离并管控每一个智能体。"
+    "ctaNote": "准备好让你的 AI 团队开工了吗？",
+    "ctaLabel": "查看方案与价格 →"
   },
   "quickstart": {
-    "copiedLabel": "已复制",
-    "copyLabel": "复制",
-    "heading": "通往首个",
+    "heading": "从登录到你的第一个 ",
     "headingHighlight": "AI 智能体",
-    "managedBadge": "最简单——无需任何配置",
-    "managedCta": "立即开始 →",
-    "managedDescription": "我们为你管理容器、凭证和基础设施。 与 Operator 对话 — 你舰队的工头，在 VPS 启动后自动创建。",
-    "managedHeading": "无需终端，无需配置文件。",
-    "requirements": "Python 3.10+、Docker（运行中）、一个 LLM API 密钥（Anthropic / Moonshot / OpenAI）",
-    "requirementsLabel": "前置要求：",
     "sectionLabel": "快速开始",
-    "selfHostedBadge": "完全控制——支持本地部署",
-    "selfHostedCta": "阅读文档 →",
-    "selfHostedHeading": "三条命令，一台机器。",
+    "managedBadge": "无需任何配置",
+    "managedHeading": "无需终端，无需配置文件。",
+    "managedDescription": "助手会组建团队、开始工作，并把任何有风险的事情做成一张卡片，送回对话线程里交给你。",
+    "managedCta": "加入候补名单 →",
     "steps": {
-      "0": "创建你的账户",
-      "1": "选择方案",
-      "2": "配置你的智能体",
-      "3": "启动你的编队"
+      "0": "使用 Google 登录",
+      "1": "说出你的需求",
+      "2": "批准第一个动作",
+      "3": "查看交付物"
     },
-    "tabGroupLabel": "操作系统",
-    "tabs": {
-      "0": {
-        "label": "macOS / Linux"
+    "included": {
+      "badge": "包含内容",
+      "heading": "你的智能体，在你本来就在的地方工作。",
+      "items": {
+        "0": {
+          "label": "渠道",
+          "value": "所有方案都支持网页对话；Pro 起支持 Telegram 和 webhook；Team 及以上支持 Slack 和入站邮件。谁先回复，就以谁为准。"
+        },
+        "1": {
+          "label": "连接器",
+          "value": "Google Calendar，以及你选择共享的 Google Drive 文件，所有方案均可使用。"
+        },
+        "2": {
+          "label": "工具",
+          "value": "网页搜索与抓取、文件、记忆、定时任务、沙箱代码，以及可用链接分享的交付物。"
+        }
       },
-      "1": {
-        "label": "Windows (PowerShell)"
-      }
+      "cta": "v1 文档 →"
     }
   },
   "relatedPages": {
@@ -782,94 +813,99 @@
     }
   },
   "schema": {
-    "applicationSubCategory": "AI 智能体框架",
+    "applicationSubCategory": "AI 智能体平台",
     "areaServed": "全球",
-    "orgDescription": "容器隔离的多智能体运行时,提供托管服务 — Docker 隔离的智能体、密钥库代理凭证、单智能体预算。",
-    "serviceDescription": "在专用 VPS 实例上为 OpenLegion 智能体舰队提供托管服务 — 容器隔离、密钥库代理凭证和单智能体预算,无需自行管理 DevOps。",
-    "serviceName": "OpenLegion 托管服务",
-    "serviceType": "托管 AI 智能体宿主服务",
-    "softwareDescription": "容器隔离的多智能体运行时,具备密钥库代理凭证和单智能体预算控制。可自托管(PolyForm Perimeter License 1.0.1)或在专用 VPS 上使用托管服务。",
+    "orgDescription": "面向 AI 智能体团队的托管平台 — 经策略检查的工具调用、审批卡片、单智能体预算，以及每个动作的回执。",
+    "serviceDescription": "托管式 AI 智能体团队：助手配齐按任务运行的智能体，伸向第三方和删除数据的动作需经审批，每个智能体都有预算，工作以积分计量，每积分 $0.001。",
+    "serviceName": "OpenLegion 托管平台",
+    "serviceType": "AI 智能体平台",
+    "softwareDescription": "面向 AI 智能体团队的托管平台。智能体是按任务运行的持久化记录；每一次工具调用都经过策略检查并留下回执，密钥保存在模型永远看不到的密钥库中，代码则在隔离的沙箱里运行。",
     "softwareFeatureList": [
-      "单智能体容器隔离(Docker 或 Docker Desktop Sandbox 微虚拟机)",
-      "密钥库代理凭证 — 智能体永远看不到 API 密钥",
-      "单智能体每日和每月预算强制执行",
-      "舰队模型协调 — 黑板 + 发布/订阅 + 交接(无 CEO 智能体)",
-      "通过 LiteLLM 接入 100+ LLM 提供商",
-      "可自托管或在专用 VPS 上使用托管服务"
+      "按任务运行的智能体 — 没有服务器要维护",
+      "每一次工具调用都经策略检查，并留有回执",
+      "伸向第三方、删除数据和处理不可信内容均需审批",
+      "凭证密钥库 — 模型看到的是句柄，而不是密钥",
+      "沙箱中的代码执行",
+      "所有方案均支持网页聊天，付费方案提供更多渠道"
     ],
-    "sourceCodeName": "OpenLegion(源代码)",
-    "videoDescription": "观看 OpenLegion 部署具备容器隔离、凭证密钥库和实时成本追踪的自主 AI 智能体舰队。",
-    "videoName": "OpenLegion 演示 — AI 智能体舰队部署"
+    "sourceCodeName": "OpenLegion v1 引擎(源代码)"
   },
   "security": {
-    "allLayersLink": "详细了解全部六层安全防护 →",
+    "allLayersLink": "八项安全保障，用大白话讲清楚 →",
     "heading": "AI 智能体安全：假设智能体会",
     "headingEnd": "来设计。",
     "headingHighlight": "越界行事",
     "layers": {
       "0": {
-        "description": "每个智能体使用 Docker 容器或 Docker Sandbox 微虚拟机——无共享进程空间。",
-        "title": "每个智能体运行在独立的容器中"
+        "title": "每一次工具调用在运行前都会被检查",
+        "description": "每一次工具调用都是一个意图，执行前先经策略检查，并留下所有者可以查看的回执。"
       },
       "1": {
-        "description": "非 root 用户（UID 1000）、no-new-privileges 标志、内存和 CPU 资源限制强制执行。",
-        "title": "智能体无法提升权限或消耗你的资源"
+        "title": "密钥留在密钥库里",
+        "description": "密钥保存在密钥库中；经代理的凭证在模型之外注入，模型看到的是句柄。"
       },
       "2": {
-        "description": "保险库代理持有 API 密钥和钱包私钥 — 代理通过代理调用，永远看不到秘密。交易在服务器端签名。",
-        "title": "API 密钥和钱包密钥存放在代理永远无法触及的保险库中"
+        "title": "代码在封闭的沙箱中运行",
+        "description": "代码运行在 Firecracker 微虚拟机沙箱中，所持租约随任务结束而终止。"
       },
       "3": {
-        "description": "每智能体 ACL 矩阵控制允许使用的工具、文件和网格操作。",
-        "title": "每个智能体只能访问你明确允许的内容"
+        "title": "不可信内容无法自行采取行动",
+        "description": "来自工作区外部的内容会被标记为不可信，未经你的审批卡片，不能触发发送、删除或对智能体的更改。"
       },
       "4": {
-        "description": "路径穿越防护、SSRF 防护、安全条件评估、令牌预算执行。",
-        "title": "恶意输入在到达 LLM 之前即被拦截"
+        "title": "一个工作区永远读不到另一个",
+        "description": "租户隔离是每一张表上的行级安全策略，并由 CI 中的跨租户测试套件验证。"
       },
       "5": {
-        "description": "在 56 个关键节点进行不可见字符清理——双向覆盖、标签字符、零宽字符在进入 LLM 上下文前全部被拦截。",
-        "title": "隐藏字符在提示注入攻击前即被清除"
+        "title": "只有人才能批准",
+        "description": "审批是异步的记录，只能由工作区所有者或管理员裁决；智能体无法批准自己。"
+      },
+      "6": {
+        "title": "每一条入站消息都经过验证",
+        "description": "Stripe、Slack、Telegram 和通用 webhook 都会做签名验证；生产环境缺少密钥就拒绝启动。"
+      },
+      "7": {
+        "title": "你的对话不会成为训练数据",
+        "description": "经我们平台密钥发出的模型流量为零留存，并已退出训练。"
       }
     },
     "sectionLabel": "安全防护",
-    "subtitle": "默认启用纵深防御。下面展示六层架构。"
+    "subtitle": "这里是默认开启的控制措施中的四项。全部八项 — 以及我们不宣称的事 — 都在安全页面上。"
   },
   "architecture": {
     "sectionLabel": "技术架构",
-    "title": "纵深防御 — 每一层都有信任分区",
-    "summary": "你的多智能体舰队在四个信任层中运行 — 不可信的外部输入、沙箱化的智能体、可信的网格以及仅回环的内部层 — 外加一个操作员或内部权限层。智能体只通过网格相互通信，由每个智能体的 ACL 控制；密钥由网格持有。",
+    "title": "智能体是记录。工作按需运行，然后停止。",
+    "summary": "智能体是数据库里的一行记录，不是服务器：创建是瞬间完成的，闲置时除了存储不产生任何费用。当一条消息、一个定时任务或另一个智能体给它派活时，一次运行会在租约下启动，每一次工具调用都经过同一个策略引擎，写下回执，然后结束。任何来自外部的内容，都会带着不可信标签一路走到底。",
     "zones": {
       "0": {
-        "name": "用户区",
-        "trust": "不可信输入",
+        "name": "进来的东西",
+        "trust": "不可信",
         "items": {
-          "0": "CLI / Telegram / Discord",
-          "1": "Slack / WhatsApp / Webhooks",
-          "2": "通过提示注入防护进行清理"
+          "0": "Slack · Telegram · 邮件 · webhook",
+          "1": "网页与搜索结果",
+          "2": "文件与连接器数据",
+          "3": "全程标记为不可信"
         }
       },
       "1": {
-        "name": "网格主机",
-        "trust": "可信（区域 2）",
+        "name": "平台",
+        "trust": "策略与回执",
         "items": {
-          "0": "FastAPI :8420",
-          "1": "黑板（SQLite + WAL）",
-          "2": "发布/订阅 + 消息路由",
-          "3": "凭证密钥库 (API 代理)",
-          "4": "ACL 矩阵 + 车道路由器",
-          "5": "浏览器服务 :8500（每智能体独立 Camoufox）"
+          "0": "智能体、任务、记忆、回执 — 同一个数据库",
+          "1": "策略引擎 — 每一次工具调用都是一个意图",
+          "2": "凭证密钥库 + 代理",
+          "3": "审批卡片，由人裁决",
+          "4": "分钟级调度器与事件分发"
         }
       },
       "2": {
-        "name": "智能体容器",
-        "trust": "沙箱（区域 1）",
+        "name": "一次任务运行",
+        "trust": "沙箱内",
         "items": {
-          "0": "FastAPI :8400（每个容器）",
-          "1": "独立 /data 数据卷",
-          "2": "独立内存数据库 (SQLite + vec)",
-          "3": "默认 384MB RAM / 0.15 CPU",
-          "4": "UID 1000，cap_drop=ALL，no-new-privileges，只读文件系统"
+          "0": "按需启动，任务完成即结束",
+          "1": "整个运行期间持有隔离租约",
+          "2": "拒绝一切出站流量的代码沙箱",
+          "3": "第一步之前先预留预算"
         }
       }
     },
@@ -879,7 +915,7 @@
   "seoLinks": {
     "cards": {
       "0": {
-        "description": "OpenLegion 如何为生产环境的智能体编队处理容器隔离、凭证密钥库化、成本管控与编队协同。",
+        "description": "OpenLegion 如何处理凭证入库、沙箱执行、成本控制以及智能体之间的协同。",
         "links": {
           "0": "AI 智能体平台",
           "1": "AI 智能体编排",
@@ -888,7 +924,7 @@
         "title": "运行时与基础设施"
       },
       "1": {
-        "description": "了解 OpenLegion 在 AI 智能体框架领域的表现——安全、隔离、成本控制和编排的全面对比。",
+        "description": "看看 OpenLegion 在 AI 智能体框架版图中处于什么位置 — 安全、审批、成本控制与编排的全面对比。",
         "links": {
           "0": "所有对比",
           "1": "OpenClaw 替代方案",
@@ -917,32 +953,32 @@
     "githubWithStars": "GitHub ★ {stars}",
     "stats": {
       "0": {
-        "fallback": "5分钟",
-        "label": "首个智能体即可上线"
+        "fallback": "$0",
+        "label": "即可开始 — 1,000 积分，无需绑卡"
       },
       "1": {
-        "fallback": "100+",
-        "label": "支持的 LLM 提供商"
+        "fallback": "$0.001",
+        "label": "每积分；你购买的积分保留在账户中"
       },
       "2": {
         "fallback": "24/7",
-        "label": "智能体全天候工作"
+        "label": "智能体按定时任务和事件运行"
       },
       "3": {
-        "fallback": "$0",
-        "label": "LLM 使用加价"
+        "fallback": "3",
+        "label": "道关卡，工作在此停下等你审批"
       }
     }
   },
   "technicalDefinition": {
     "label": "技术定义",
     "srOnlyPrefix": "什么是 OpenLegion？",
-    "text": "OpenLegion 是一款容器隔离式的多智能体运行时，具备凭证密钥库代理、按智能体的预算，以及编队协同模型（blackboard + pub/sub + handoff, no CEO agent）— 为需要在生产环境中安全、可控成本地运行智能体编队的团队而设计。"
+    "text": "OpenLegion 是面向 AI 智能体团队的托管平台：你用一句话描述工作，助手就会配齐按任务运行的智能体；任何伸向工作区之外的动作都会停下来等待审批卡片，并留下一份你能读懂的回执。"
   },
   "terms": {
-    "effectiveDate": "生效日期：2026 年 3 月 7 日 · 最后更新：2026 年 3 月 7 日",
+    "effectiveDate": "生效日期：2026 年 9 月 17 日 · 最后更新：2026 年 9 月 17 日",
     "section1": {
-      "p1": "访问或使用 OpenLegion 网站 (openlegion.ai)、托管服务、自托管软件、API、文档或任何相关服务（统称「服务」），即表示您（「客户」）同意受本服务条款（「条款」）的约束。如果您不同意，请勿使用本服务。",
+      "p1": "访问或使用 OpenLegion 网站（openlegion.ai）、托管 AI 智能体平台、API、文档或任何相关服务（统称「本服务」），即表示您（「客户」「您」）同意受本服务条款（「本条款」）约束。如果您不同意，请勿使用本服务。",
       "p2": "如果您代表组织使用本服务，您声明您有权代表该组织作出约束性承诺，且「您」指该组织。",
       "title": "1. 条款同意"
     },
@@ -996,7 +1032,7 @@
       "title": "18. 联系方式"
     },
     "section2": {
-      "text": "OpenLegion 提供 AI 智能体框架和可选的托管平台，用于部署、编排和监控自主 AI 智能体。本服务可能包括 Web 控制台、API、容器编排、第三方 LLM 提供商集成及相关工具。",
+      "text": "OpenLegion 提供用于创建和运行自主 AI 智能体的托管平台。本服务可能包括网页应用、智能体执行、定时调度、渠道与连接器集成、沙箱化的代码执行环境、第三方模型提供商集成以及相关工具。",
       "title": "2. 服务描述"
     },
     "section3": {
@@ -1004,7 +1040,7 @@
       "title": "3. 使用资格"
     },
     "section4": {
-      "text": "您有责任维护账户凭证的机密性，并对账户下的所有活动负责。您同意在发现任何未经授权的访问时立即通知我们。我们保留自行决定暂停或终止账户的权利，无论是否通知，包括因违反本条款的情况。",
+      "text": "您通过第三方身份提供商（Google）登录。您有责任维护该账户的安全，并对您工作区内的所有活动负责，包括您或您的成员创建的智能体所采取的行动。如发生任何未经授权的访问，您同意立即通知我们。我们保留自行决定暂停或终止账户的权利，无论是否事先通知，原因包括但不限于违反本条款。",
       "title": "4. 账户与安全"
     },
     "section5": {
@@ -1023,46 +1059,24 @@
       "title": "5. 可接受的使用"
     },
     "section6": {
-      "p1": "本服务的某些功能可能需要付费。所有费用均在我们的定价页面上列明，并以预付方式按周期收取。除适用法律要求外，费用不予退还。我们保留在提前 30 天通知后随时调整定价的权利。在价格变更后继续使用即构成对新定价的接受。",
-      "p2": "您对因使用本服务而产生的所有第三方费用承担全部责任，包括但不限于 LLM API 提供商费用、云基础设施费用和域名注册费用。OpenLegion 不对任何第三方费用承担责任。",
+      "p1": "本服务的某些功能需要付费。订阅费用在我们的定价页面列明，并通过我们的支付处理商 Stripe 按周期预先扣费。本服务的使用以积分计量；每个方案均包含一份随计费周期刷新且不结转的积分额度，而单独购买的积分包不会过期。除适用法律要求或依据我们网站公布的退款保证外，费用概不退还。我们保留随时变更定价的权利，并提前 30 天通知；价格变更后继续使用即构成对新定价的接受。",
+      "p2": "如果您为智能体提供自有的第三方凭证或账户，您需自行承担与之相关的费用和条款。OpenLegion 不对您因此产生的第三方费用承担责任。",
       "title": "6. 费用、计费与退款"
     },
     "section7": {
-      "p1": "OpenLegion 框架源代码按照 PolyForm Perimeter License 1.0.1 授权。本条款不授予您超出该许可允许范围的任何权利。OpenLegion 的所有商标、标识和品牌元素均为 OpenLegion 项目的财产，未经事先书面同意不得使用。",
+      "p1": "托管服务及其软件、界面和品牌标识归 OpenLegion 所有，仅在本条款下许可您使用。单独发布的开源 OpenLegion 引擎依据 PolyForm Perimeter License 1.0.1 授权；本条款不授予您超出该许可允许范围的任何权利。OpenLegion 的所有商标、标识和品牌元素均为 OpenLegion 项目的财产，未经事先书面同意不得使用。",
       "p2": "您保留提交至本服务的所有数据、内容和配置（「客户数据」）的所有权。您授予我们有限的、非排他性的许可，仅用于托管和处理客户数据以提供本服务。",
       "title": "7. 知识产权"
     },
     "section8": {
-      "text": "本服务与第三方 LLM 提供商（如 Anthropic、OpenAI、Google、Mistral 及其他）集成。您对这些提供商的使用受其各自的服务条款和隐私政策约束。OpenLegion 不对任何第三方服务作出任何声明或保证，亦不对任何第三方 LLM 或 API 的输出、准确性、可用性或行为负责。",
+      "text": "本服务通过我们的模型网关向第三方提供商（如 Anthropic、OpenAI、Google）发送模型请求，并连接至您授权的第三方服务（如 Slack、Telegram、Google Calendar 和 Drive）。您对这些提供商的使用受其各自的条款和隐私政策约束。OpenLegion 不就任何第三方服务作出任何陈述或保证，亦不对任何第三方模型或 API 的输出、准确性、可用性或行为负责。",
       "title": "8. 第三方服务与 LLM 提供商"
     },
     "section9": {
-      "text": "通过本服务部署的 AI 智能体根据您的配置自主运行。您对使用本服务部署、配置或操作的任何 AI 智能体的行为、输出和后果承担全部责任。OpenLegion 不控制、审查或认可智能体输出，亦不对因智能体行为引起的损害承担任何责任，包括但不限于经济损失、数据损坏、错误信息或智能体采取的非预期行为。",
+      "text": "您工作区中的 AI 智能体在您配置的权限和预算范围内自主行动。代表您联系第三方、销毁数据或处理不可信内容的行为，须经工作区所有者或管理员批准；其他所有行为均会被执行并记录。您对您创建、配置或批准的智能体的行为、输出及后果承担全部责任。OpenLegion 不控制、审查或认可智能体的输出，亦不对因智能体行为引起的损害承担任何责任，包括但不限于财务损失、数据损坏、错误信息或非预期操作。",
       "title": "9. AI 智能体输出与自主行为"
     },
     "title": "服务条款"
-  },
-  "testimonials": {
-    "eyebrow": "客户反馈",
-    "heading": "真实团队,自动化运营",
-    "items": {
-      "0": {
-        "company": "营销代理公司",
-        "quote": "我们之前每月花 $2,800 雇虚拟助理团队做线索调研。三天之内全部换成五个 OpenLegion 智能体。它们 24/7 不停工、不请病假，老实说调研做得比真人还好。",
-        "role": "创始人"
-      },
-      "1": {
-        "company": "独立顾问",
-        "quote": "我完全不懂技术。我就用大白话写下想做的事 ——「五天没回的线索去跟进，语气友好不要太硬推」——剩下的智能体自己搞定了。光是这一个流程，本季度就成交了三单。",
-        "role": "销售教练"
-      },
-      "2": {
-        "company": "创意工作室",
-        "quote": "两个月下来，整支编队从开发票、内容草稿到客户调研全都端到端跑起来了。省下的外包费够付 Pro Max 两次还有富余。最难的反而是决定先自动化哪一块。",
-        "role": "运营负责人"
-      }
-    },
-    "starsAriaLabel": "5星好评"
   },
   "useCases": {
     "contentItems": {
@@ -1087,7 +1101,7 @@
     },
     "devEvents": {
       "0": "PM 创建了任务 #42",
-      "1": "工程师提交了 PR #18",
+      "1": "工程师起草了变更",
       "2": "审查员正在审查…"
     },
     "funnelBars": {
@@ -1111,7 +1125,7 @@
           "1": "工程师",
           "2": "审查员"
         },
-        "description": "OpenLegion 的研发团队模板可自动化任务规划、代码生成和 PR 审查 — 正是这些琐碎分派和模板化工作，每周耗掉每位工程师数小时。",
+        "description": "要一个交付小组，你就会得到这样一批智能体：分流进来的需求、规划工作、在沙箱中运行代码，并把结果交回审阅 — 正是那些每周吃掉工程师好几个小时的分流和样板活。",
         "name": "你的工程团队"
       },
       "1": {
@@ -1120,7 +1134,7 @@
           "1": "资格审核",
           "2": "外发拓展"
         },
-        "description": "OpenLegion 的销售管线模板全天候运行线索调研、评分和个性化外联 — 一整周的手动拓客工作，在你睡觉时就已完成。",
+        "description": "调研一份名单，按你写下的标准逐一打分，再起草跟进内容 — 在你睡觉时按计划自动运行。未经你的批准，任何内容都不会发给工作区之外的人。",
         "name": "你的销售团队"
       },
       "2": {
@@ -1128,34 +1142,39 @@
           "0": "调研员",
           "1": "写作者"
         },
-        "description": "OpenLegion 的 Content Studio 模板让研究员与撰稿人协作，保持一致的品牌声音 — 原本需要数天的从调研到成稿流程，几小时内交付。",
+        "description": "一名调研员和一名写作者，按你的要求和语气工作：收集素材、写出初稿，最后把成稿做成一个可用链接分享的文件交回给你。",
         "name": "你的内容团队"
       },
       "3": {
-        "agents": {
-          "0": "研究员",
-          "1": "执行者",
-          "2": "监控器"
-        },
-        "description": "钱包感知的智能体在链上执行 — 兑换、转账、DeFi 仓位 — 同时私钥锁定在保险库中并在服务器端签名。提供每个智能体的支出限额、每日上限以及 EVM + Solana 支持。",
-        "name": "你的财库团队"
-      },
-      "4": {
         "agents": {
           "0": "任意角色",
           "1": "任意工具",
           "2": "任意预算"
         },
-        "description": "没找到你的使用场景？自由定义任意角色、工具和预算组合。智能体拥有独立的容器、凭证和开销限额——满足任何业务需求。",
-        "name": "你的自定义团队"
+        "description": "没找到你的场景？描述任意角色、工具和预算的组合就行。每个智能体都有自己的对话线程、自己的权限和自己的支出上限 — 工作需要什么，就配什么。",
+        "name": "你的定制团队"
       }
     },
     "sectionLabel": "应用场景",
-    "subtitle": "选择内置的多智能体模板，或自定义你的自主智能体编队。每个智能体拥有独立的容器、预算和工具权限。",
-    "treasuryEvents": {
-      "0": "在 Base 上将 0.5 ETH 兑换为 USDC",
-      "1": "消费限额：今日 $48 / $500",
-      "2": "监控员检查仓位中…"
-    }
+    "subtitle": "用一句话说出你想要的团队。每个智能体都有自己的对话线程、自己的预算和自己的工具权限。"
+  },
+  "securityPage": {
+    "title": "安全防护",
+    "heading": "我们能承诺什么，以及",
+    "headingHighlight": "不能承诺什么",
+    "lede": "OpenLegion 运行的智能体会读取你的数据，并代表你行动。下面写的是这个产品今天真正强制执行的东西，写得足够直白，好让你拿它来要求我们 — 最后一节，则是我们并不宣称的那些事。",
+    "guaranteesHeading": "今天就已成立的八件事",
+    "approvalsHeading": "工作在哪里停下来等你",
+    "approvals": "只有三道关卡，不多不少，这样当一张卡片出现时，它才仍然有分量：代表你联系第三方、删除数据，以及处理来自你工作区之外的内容。其余的一切都会照常运行，并留下一份你事后可以查看的回执。决定在应用内做出，由工作区所有者或管理员做出 — 永远不由智能体，也永远不由我们；你的渠道可以提醒你有一张卡片在等着。",
+    "notClaimedHeading": "我们不宣称的事",
+    "notClaimed": "我们没有 SOC 2、ISO 27001 或 HIPAA 认证，也不会把产品描述为「符合 GDPR」或「符合 EU AI Act」 — 合规取决于你如何使用一个系统，而不是厂商自己颁给自己的徽章。任何会读取开放网络的系统，都无法对提示注入免疫；我们不公布攻击成功率数字，因为没有公开方法的数字只是营销。网页搜索和页面抓取运行在我们的服务器上，而不是代码沙箱内，所以说「完全沙箱化」是不对的。我们尚未委托第三方进行渗透测试。上述任何一点发生变化时，本页面也会随之更新。",
+    "dataHeading": "你的数据",
+    "data": "你可以随时在「设置」中清除工作区；清除会删除该工作区的数据行及随之存储的文件。所有方案的工作区所有者都可以导出工作区数据，Team 及以上方案的导出还包含活动日志。对话历史会一直保留，直到你删除它或清除工作区。我们不出售个人信息，也不会用你的数据训练模型。",
+    "contactHeading": "报告问题",
+    "contact": "发现了我们应该知道的问题？请发邮件到 {email}，我们会回复。",
+    "email": "support@openlegion.ai",
+    "updated": "最后审阅：2026 年 9 月",
+    "ctaNote": "加入候补名单，亲自看看这些审批卡片。",
+    "ctaLabel": "加入候补名单 →"
   }
 }

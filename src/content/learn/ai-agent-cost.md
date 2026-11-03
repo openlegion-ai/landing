@@ -180,7 +180,7 @@ Infrastructure-layer enforcement addresses all three failure modes: the control 
 
 ### Configuring Per-Agent Budget Caps
 
-Per-agent budget cap configuration in OpenLegion: $0–$50/day per agent, set in INSTRUCTIONS.md committed to git; enforced by Zone 2 (the mesh router) before each LLM call. When the cap is exhausted, Zone 2 rejects the call with `budget_exceeded` and the agent loop hard-stops. No application code change required.
+Per-agent budget configuration in OpenLegion: every agent carries its own credit budget, set by the owner in the app and checked by the policy engine before each model call. When the budget is exhausted, the call is refused and the agent's task hard-stops. No application code change required.
 
 Cap calibration guidelines:
 
@@ -190,7 +190,7 @@ Cap calibration guidelines:
 4. **Scheduled agents**: for agents running on a known schedule (daily reports, nightly processing), set the cap at `expected_per_run_cost × number_of_runs × 2`; a daily report agent costing $0.50/run should have a $5/day cap (10× single-task cost, covering retry attempts and variance)
 5. **Interactive agents**: for user-facing agents with unpredictable task complexity, combine a per-task iteration limit (`max_turns`) with the daily cap — the iteration limit stops individual runaway tasks; the daily cap stops cumulative drift across many tasks
 
-The cap is committed to git in INSTRUCTIONS.md — every cap change has a full audit trail with author, timestamp, and diff. The cap cannot be raised by agent code at runtime; changes require a git commit and deployment.
+Every budget change is recorded as a receipt — who changed it, when, and to what. The budget cannot be raised by agent code at runtime; changing it is an owner action in the app, checked like any other intent.
 
 ### Cost Attribution: Knowing What Each Agent Spent
 
@@ -203,7 +203,7 @@ Cost attribution requirements:
 3. **Iteration-level**: cost breakdown by loop iteration; if cost per iteration is growing, the loop is not converging — a precursor to a runaway event
 4. **Model-level**: cost split by model; validates that routing logic is correctly directing tasks to the intended model tier
 
-Implementation: every LLM call must carry metadata tags (`agent_id`, `task_id`, `iteration_number`, `model_name`) propagated to the billing event. The observability pipeline aggregates cost by tag. OpenLegion's Zone 2 tags every LLM call with agent_id and session context before dispatch; the audit log is exportable for cost analysis.
+Implementation: every LLM call must carry metadata tags (`agent_id`, `task_id`, `iteration_number`, `model_name`) propagated to the billing event. The observability pipeline aggregates cost by tag. OpenLegion's policy engine tags every model call with the agent's identity and wake context before dispatch; the receipt log is exportable for cost analysis.
 
 For the full telemetry stack — trace ingestion, span tagging, cost metric aggregation, and alert configuration — see [AI agent observability and cost monitoring pipelines](/learn/ai-agent-observability).
 
@@ -242,22 +242,22 @@ Three numbers that define why:
 
 **$25/day from one agent's system prompt alone.** A developer reads GPT-4o at $2.50/M input tokens and builds a mental model of "this will be cheap." Then the agent fleet deploys: a 2,000-token system prompt sent on every LLM call, across 1,000 daily tasks, across an average of 5 loop iterations = 10 million input tokens/day from the system prompt alone = $25/day before any task-specific content, output tokens, or tool calls. The model pricing table is the per-unit cost. The agent architecture is the multiplier.
 
-**$130 in minutes from a 100-agent storm.** A 20-iteration runaway loop at GPT-4o with 5 tool calls per iteration costs ≈$1.30/agent. At 100 concurrent agents in the same storm: $130 in minutes. Application-layer `max_iterations` may fire on each agent individually, but if the exception is swallowed by a broad handler or the agents are auto-restarted by a process manager, the storm continues. Infrastructure-layer enforcement — Zone 2 rejecting the call with `budget_exceeded` before the LLM API is reached — is not subject to exception handling in agent code.
+**$130 in minutes from a 100-agent storm.** A 20-iteration runaway loop at GPT-4o with 5 tool calls per iteration costs ≈$1.30/agent. At 100 concurrent agents in the same storm: $130 in minutes. Application-layer `max_iterations` may fire on each agent individually, but if the exception is swallowed by a broad handler or the agents are auto-restarted by a process manager, the storm continues. Infrastructure-layer enforcement — a policy engine refusing the call before the LLM API is ever reached — is not subject to exception handling in agent code.
 
 **$0 infrastructure-layer cost control in LangChain, CrewAI, or AutoGen.** None of these frameworks have native per-agent budget enforcement at the infrastructure layer. The only cost controls available are application conventions that break under load, edge cases, and framework updates.
 
-OpenLegion's per-agent budget cap: $0–$50/day configurable, enforced at Zone 2 before each LLM call. When the cap is exhausted, Zone 2 rejects with `budget_exceeded`. The loop hard-stops. No application code change required. The cap is set in INSTRUCTIONS.md committed to git — a full audit trail of every cap change. The cap cannot be raised by agent code at runtime.
+OpenLegion's per-agent budget: every agent carries its own, enforced by the policy engine before each model call. When the budget is exhausted, the call is refused. The task hard-stops. No application code change required. Work is metered in credits at $0.001 each and every task shows its exact cost, so each budget change has a receipt. The budget cannot be raised by agent code at runtime.
 
 | **Cost control** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Per-agent daily budget cap (infrastructure layer — Zone 2)** | $0–$50/day, hard stop | Not available | Not available | Not available | Not available |
-| **Hard stop on budget exhaustion (no application code required)** | Zone 2 reject | Not available | Not available | Not available | Not available |
-| **Cost attribution metadata (agent_id, task_id, iteration on every call)** | Native, Zone 2 tagged | Manual (LangSmith) | Manual | Manual | Manual |
+| **Per-agent budget cap (infrastructure layer — policy engine)** | Per-agent credits, hard stop | Not available | Not available | Not available | Not available |
+| **Hard stop on budget exhaustion (no application code required)** | Policy-engine refusal | Not available | Not available | Not available | Not available |
+| **Cost attribution metadata (agent_id, task_id, iteration on every call)** | Native, tagged on every call | Manual (LangSmith) | Manual | Manual | Manual |
 | **Budget alert at 80% utilization (before cap exhaustion)** | Native | Not available | Not available | Not available | Not available |
-| **Per-agent cap in git (INSTRUCTIONS.md — audit trail of cap changes)** | Native | Not available | Not available | Not available | Not available |
-| **Fleet-level daily cap (prevents collective cost incidents)** | Configurable | Not available | Not available | Not available | Not available |
+| **Per-agent cap change audit trail (who changed it, when, to what)** | Native | Not available | Not available | Not available | Not available |
+| **Fleet-level daily cap (prevents collective cost incidents)** | Native — workspace credit balance | Not available | Not available | Not available | Not available |
 
-[Start building on OpenLegion](https://app.openlegion.ai) — per-agent budget caps enforced at Zone 2, not in application code.
+[Start building on OpenLegion](https://app.openlegion.ai) — per-agent budgets enforced by the policy engine, not in application code.
 
 <!-- SCHEMA: FAQPage -->
 

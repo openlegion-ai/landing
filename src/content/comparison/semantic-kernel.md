@@ -20,7 +20,7 @@ related:
 
 # Semantic Kernel Alternative: OpenLegion vs Semantic Kernel (2026)
 
-Semantic Kernel is Microsoft's multi-language AI agent SDK with 27,979 GitHub stars across C#, Python, and Java. It reached v1.0 in March 2024; in May 2026, python-1.42.0 shipped a successor callout to the Microsoft Agent Framework RC (February 19, 2026). CVE-2026-26030 (CVSS 9.9, CWE-94) and CVE-2026-25592 (CVSS 9.9, CWE-22) are critical vulnerabilities in the Python SDK. OpenLegion is a security-first AI agent platform with container isolation, vault-proxied credentials, and per-agent budget enforcement.
+Semantic Kernel is Microsoft's multi-language AI agent SDK with 27,979 GitHub stars across C#, Python, and Java. It reached v1.0 in March 2024; in May 2026, python-1.42.0 shipped a successor callout to the Microsoft Agent Framework RC (February 19, 2026). CVE-2026-26030 (CVSS 9.9, CWE-94) and CVE-2026-25592 (CVSS 9.9, CWE-22) are critical vulnerabilities in the Python SDK. OpenLegion is a security-first AI agent platform with a sandboxed run for every task, vault-held credentials, and per-agent budget enforcement.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -30,24 +30,24 @@ Semantic Kernel is Microsoft's multi-language AI agent SDK with 27,979 GitHub st
 
 Semantic Kernel's maintenance mode is a concrete migration risk. The SequentialPlanner is gone. StepwisePlanner is deprecated. The Process Framework (experimental, May 2026) has no stable API guarantee. python-1.42.0 is signaling end-of-active-development. CVE-2026-26030 (CVSS 9.9, CWE-94) and CVE-2026-25592 (CVSS 9.9, CWE-22) are the highest-severity CVEs in any AI agent framework in 2026 — neither is mitigated by updating your dotnet build or NuGet restore pipeline, they require SDK patches.
 
-OpenLegion's vault proxy prevents the credential exposure CVE-2026-25592 (CWE-22 path traversal) enables. Container isolation prevents the code injection CVE-2026-26030 (CWE-94) enables. These are structural protections. If you're on .NET and migrating to the Process Framework, the Microsoft migration guide exists. If you need a cloud-agnostic framework with no Agent Framework RC deadline, OpenLegion is the cleaner path.
+OpenLegion's credential vault prevents the credential exposure CVE-2026-25592 (CWE-22 path traversal) enables: credentials are injected outside the model, which only ever holds a handle. A sandboxed run for every task prevents the code injection CVE-2026-26030 (CWE-94) enables. These are structural protections. If you're on .NET and migrating to the Process Framework, the Microsoft migration guide exists. If you need a hosted platform with no Agent Framework RC deadline, OpenLegion is the cleaner path.
 
 ## Side-by-Side Comparison
 
 | **Dimension** | OpenLegion | Semantic Kernel |
 |---|---|---|
 | **Status** | Active development | Maintenance mode; Microsoft Agent Framework RC (Feb 2026) |
-| **Critical CVEs** | 0 | CVE-2026-26030 CVSS 9.9 CWE-94; CVE-2026-25592 CVSS 9.9 CWE-22 |
-| **Language support** | Python | C# (most mature), Python, Java |
-| **Agent isolation** | Docker container per agent, non-root | None built-in; host process |
-| **Credential management** | Vault proxy — agents never see keys | DefaultAzureCredential / environment variables |
-| **Budget controls** | Per-agent daily/monthly hard cutoff | None |
-| **Orchestration** | Fleet-model: blackboard + pub/sub + handoff | KernelPlugin composition; Process Framework (experimental) |
-| **Prompt templates** | Jinja2 via LiteLLM | Handlebars (deprecated); Liquid (recommended) |
-| **Dependency chain** | Python + Docker + SQLite | NuGet (C#) / PyPI (Python) — large transitive surface |
+| **Critical CVEs** | None disclosed | CVE-2026-26030 CVSS 9.9 CWE-94; CVE-2026-25592 CVSS 9.9 CWE-22 |
+| **Language support** | Hosted web app, nothing to install | C# (most mature), Python, Java |
+| **Agent isolation** | Sandboxed run per task, no network by default | None built-in; host process |
+| **Credential management** | Vault-held — agents never see keys | DefaultAzureCredential / environment variables |
+| **Budget controls** | Per-agent credit budget, hard cutoff | None |
+| **Orchestration** | Goals → tasks → agents, run by an assistant | KernelPlugin composition; Process Framework (experimental) |
+| **Prompt templates** | Handled by the platform; models chosen by preset | Handlebars (deprecated); Liquid (recommended) |
+| **Dependency chain** | None — sign in with Google | NuGet (C#) / PyPI (Python) — large transitive surface |
 | **Migration risk** | None | SK → Microsoft Agent Framework RC (breaking API changes) |
-| **GitHub stars** | ~59 | 27,979 |
-| **License** | PolyForm Perimeter License 1.0.1 | MIT |
+| **GitHub stars** | Not published | 27,979 |
+| **License** | Engine: PolyForm Perimeter License 1.0.1 | MIT |
 
 ## Why Teams Are Looking for a Semantic Kernel Alternative
 
@@ -61,11 +61,11 @@ For teams that cannot absorb a migration mid-project, OpenLegion provides stable
 
 CVE-2026-26030 (CVSS 9.9, CWE-94) is a code injection vulnerability in the Semantic Kernel Python SDK. CVE-2026-25592 (CVSS 9.9, CWE-22) is a path traversal vulnerability enabling credential file exposure. Both are the highest-severity CVEs recorded for any AI agent framework in 2026.
 
-OpenLegion's container isolation prevents code injection from escaping the container boundary. The vault proxy means credential files are never written to the agent's filesystem — CVE-2026-25592's path traversal attack vector finds nothing to read.
+OpenLegion's sandboxed task runs prevent code injection from escaping the run: code the agent writes runs with no network access by default. Vault-held credentials mean credential files are never written to the agent's filesystem — CVE-2026-25592's path traversal attack vector finds nothing to read.
 
 ### NuGet dependency chain surface
 
-A dotnet build / NuGet restore for a Semantic Kernel C# project pulls a large transitive dependency graph. OpenLegion's zero-external-dependency design (Python + SQLite + Docker) keeps the attack surface minimal.
+A dotnet build / NuGet restore for a Semantic Kernel C# project pulls a large transitive dependency graph. OpenLegion is a hosted web app: sign in with Google and start — there is no build step and no dependency graph on your side at all.
 
 ## When to Choose Semantic Kernel
 
@@ -77,11 +77,11 @@ A dotnet build / NuGet restore for a Semantic Kernel C# project pulls a large tr
 
 ## When to Choose OpenLegion
 
-**You need structural protection against CVE-2026-26030 and CVE-2026-25592.** Container isolation and vault proxy eliminate the attack vectors structurally, not just the specific CVE payloads.
+**You need structural protection against CVE-2026-26030 and CVE-2026-25592.** A sandboxed run for every task and vault-held credentials eliminate the attack vectors structurally, not just the specific CVE payloads.
 
 **You cannot absorb the SK to Agent Framework migration.** OpenLegion has no deprecation timeline and no breaking migration in progress.
 
-**You need cloud-agnostic deployment.** OpenLegion runs on any infrastructure. SK enterprise features require Azure.
+**You do not want to run infrastructure.** OpenLegion is a hosted web app: sign in with Google and start. SK enterprise features require Azure.
 
 **You need per-agent budget enforcement.** SK has no cost controls.
 
@@ -102,7 +102,7 @@ Semantic Kernel is in maintenance mode as of 2026. Microsoft released the Micros
 
 ### What are CVE-2026-26030 and CVE-2026-25592?
 
-CVE-2026-26030 (CVSS 9.9, CWE-94) is a code injection vulnerability in the Semantic Kernel Python SDK. CVE-2026-25592 (CVSS 9.9, CWE-22) is a path traversal vulnerability enabling credential file exposure. Both are the highest-severity CVEs recorded for any AI agent framework in 2026. Structural mitigation requires container isolation and vault-proxied credentials.
+CVE-2026-26030 (CVSS 9.9, CWE-94) is a code injection vulnerability in the Semantic Kernel Python SDK. CVE-2026-25592 (CVSS 9.9, CWE-22) is a path traversal vulnerability enabling credential file exposure. Both are the highest-severity CVEs recorded for any AI agent framework in 2026. Structural mitigation requires sandboxed execution and vault-held credentials.
 
 ### What replaced SequentialPlanner in Semantic Kernel?
 
@@ -110,12 +110,12 @@ SequentialPlanner was removed in Semantic Kernel v1.0 (March 2024). StepwisePlan
 
 ### How does Semantic Kernel handle credentials compared to OpenLegion?
 
-Semantic Kernel relies on DefaultAzureCredential or environment variables. The credential chain is accessible within the agent's process memory. CVE-2026-25592 demonstrates that path traversal can expose credential files from the filesystem. OpenLegion's vault proxy injects credentials at the network layer — agents never hold keys in process memory or on the filesystem.
+Semantic Kernel relies on DefaultAzureCredential or environment variables. The credential chain is accessible within the agent's process memory. CVE-2026-25592 demonstrates that path traversal can expose credential files from the filesystem. OpenLegion's credential vault injects credentials outside the model — agents never hold keys in process memory or on the filesystem.
 
 ### Can I migrate from Semantic Kernel to OpenLegion?
 
-Yes. OpenLegion supports 100+ LLM providers via LiteLLM, including Azure OpenAI. Migration involves replacing KernelPlugin and KernelFunction definitions with OpenLegion tool permissions, replacing the DI container with fleet-model coordination, and routing credentials through the vault proxy instead of DefaultAzureCredential.
+Yes. OpenLegion picks models by preset — Smartest, Smart or Normal — so there is no provider to wire up. Migration involves replacing KernelPlugin and KernelFunction definitions with OpenLegion tool permissions, replacing the DI container with goal-and-task coordination, and routing credentials through the vault instead of DefaultAzureCredential.
 
 ### What is the Handlebars deprecation in Semantic Kernel?
 
-Semantic Kernel's Handlebars prompt template format was deprecated in the v1.x series. Liquid templates are the recommended replacement. Teams that invested in Handlebars-based prompt engineering face a template migration in addition to the SK to Agent Framework API migration. OpenLegion uses Jinja2-style templating via LiteLLM with no planned deprecations.
+Semantic Kernel's Handlebars prompt template format was deprecated in the v1.x series. Liquid templates are the recommended replacement. Teams that invested in Handlebars-based prompt engineering face a template migration in addition to the SK to Agent Framework API migration. OpenLegion has no prompt template format to migrate: models are chosen by preset.

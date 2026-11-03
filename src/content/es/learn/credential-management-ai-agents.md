@@ -68,9 +68,9 @@ Este patrón reduce la vida útil de la credencial en memoria pero no elimina la
 
 ### Patrón 3: Vault Proxy / Inyección de handle opaco (Más seguro)
 
-El patrón vault-proxy mantiene las credenciales completamente fuera de los contenedores de agentes. El agente mantiene un handle opaco, una cadena de referencia como `$CRED{stripe_key}`, que identifica una credencial sin resolverla. Cuando el agente hace una llamada API que incluye el handle, el vault proxy intercepta la solicitud, resuelve el handle a la credencial real, la inyecta en la capa de red y reenvía la solicitud autenticada. El agente nunca ve la credencial en texto plano.
+El patrón vault-proxy mantiene las credenciales completamente fuera de los contenedores de agentes. El agente mantiene un handle opaco, una cadena de referencia como `cred:stripe_key`, que identifica una credencial sin resolverla. Cuando el agente hace una llamada API que incluye el handle, el vault proxy intercepta la solicitud, resuelve el handle a la credencial real, la inyecta fuera del modelo y reenvía la solicitud autenticada. El agente nunca ve la credencial en texto plano.
 
-Este es el mismo principio que la inyección del lado del agente de HashiCorp Vault (35.763 estrellas, BSL, v2.0.2 lanzado el 5 de junio de 2026), integrado directamente en la capa de orquestación del agente. Con 700+ servidores MCP en el ecosistema (junio de 2026), el patrón de handle `$CRED{}` elimina la proliferación de `.env` por servidor: una referencia de handle en la configuración del agente cubre los requisitos de credenciales de cualquier servidor MCP.
+Este es el mismo principio que la inyección del lado del agente de HashiCorp Vault (35.763 estrellas, BSL, v2.0.2 lanzado el 5 de junio de 2026), integrado directamente en la capa de orquestación del agente. Con 700+ servidores MCP en el ecosistema (junio de 2026), el patrón de handle opaco elimina la proliferación de `.env` por servidor: una referencia de handle en la configuración del agente cubre los requisitos de credenciales de cualquier servidor MCP.
 
 Un contenedor de agente completamente comprometido, ejecutando instrucciones arbitrarias del atacante, tiene acceso cero a credenciales porque ninguna credencial existe dentro del alcance del contenedor.
 
@@ -80,21 +80,21 @@ La identidad de carga de trabajo (federación OIDC, SPIFFE/SPIRE, cuentas de ser
 
 La identidad de carga de trabajo es el patrón correcto para flotas de agentes que se ejecutan en infraestructura cloud donde se requieren credenciales del proveedor cloud (claves API de AWS, claves de cuenta de servicio de GCP). Requiere que la plataforma de orquestación gestione la emisión de identidad y la renovación de tokens, pero elimina completamente el problema de rotación de claves estáticas. Para las arquitecturas de [sistemas multi-agente](/learn/multi-agent-systems) que abarcan múltiples cuentas o proveedores cloud, la federación de identidad de carga de trabajo es el único modelo de credenciales escalable.
 
-## La perspectiva de OpenLegion: el patrón de handle $CRED{}
+## La perspectiva de OpenLegion: el patrón de handle opaco
 
 Cada framework importante de agentes IA trata la gestión de credenciales como el problema de la aplicación anfitriona. LangChain y LangGraph leen desde `os.environ`. CrewAI depende de la inyección de entorno. OpenAI Agents SDK espera credenciales en el entorno del proceso. AutoGen hereda el entorno del proceso Python. Ninguno de estos frameworks proporciona aislamiento estructural de credenciales; dejan la gestión de credenciales al operador, lo que en la práctica significa archivos `.env` y variables de entorno compartidas.
 
-El vault-proxy de OpenLegion está integrado en la capa de orquestación del agente. Los agentes referencian las credenciales como handles opacos `$CRED{nombre}`. El host mesh resuelve los handles del lado del servidor e inyecta credenciales en el límite de red. Ningún contenedor de agente recibe jamás una credencial en texto plano. La inyección de prompt no puede exfiltrar lo que no está presente.
+La bóveda de credenciales de OpenLegion está integrada en la capa de orquestación del agente. Los agentes referencian las credenciales como handles opacos y nunca retienen más. El motor de políticas resuelve los handles del lado del servidor e inyecta credenciales fuera del modelo. Ninguna ejecución de agente recibe jamás una credencial en texto plano. La inyección de prompt no puede exfiltrar lo que no está presente.
 
 Infisical (27.296 estrellas, plataforma de secretos TypeScript open source con núcleo bajo licencia MIT) recaudó $2,8M en financiación inicial en 2023, señalando la demanda del mercado de gestión de secretos nativa para desarrolladores. OpenLegion integra la misma capacidad directamente en el agente runtime, sin necesidad de despliegue separado de gestión de secretos.
 
 | **Dimensión** | **OpenLegion** | **LangChain/LangGraph** | **CrewAI** | **OpenAI Agents SDK** | **AutoGen** |
 |---|---|---|---|---|---|
 | **Almacenamiento de credenciales** | Vault (handles opacos) | Entorno / .env | Entorno / .env | Entorno / .env | Entorno / .env |
-| **Patrón de acceso del agente** | Handle $CRED{} -- nunca resuelto en contenedor | os.environ lectura directa | os.environ lectura directa | os.environ lectura directa | os.environ lectura directa |
+| **Patrón de acceso del agente** | Handle opaco -- nunca resuelto en la ejecución del agente | os.environ lectura directa | os.environ lectura directa | os.environ lectura directa | os.environ lectura directa |
 | **Texto plano en contexto del agente?** | Nunca | Sí -- en lectura de os.environ | Sí -- en lectura de os.environ | Sí -- en lectura de os.environ | Sí -- en lectura de os.environ |
 | **Soporte de rotación** | Nativo vault; rotación en caliente sin reinicio | Manual; requiere reinicio | Manual; requiere reinicio | Manual; requiere reinicio | Manual; requiere reinicio |
-| **Alcance por agente** | Aplicado a nivel mesh por lista de permitidos | No aplicado | No aplicado | No aplicado | No aplicado |
+| **Alcance por agente** | Aplicado por el motor de políticas por lista de permitidos | No aplicado | No aplicado | No aplicado | No aplicado |
 | **Rastro de auditoría** | Cada resolución de handle registrada con ID de agente | Ninguno nativo | Ninguno nativo | Ninguno nativo | Ninguno nativo |
 
 Para los equipos que evalúan la superficie total de exposición de credenciales de su stack actual, el [modelo de amenazas de seguridad de agentes IA](/learn/ai-agent-security) cubre la fuga de credenciales como una de las seis categorías de amenazas documentadas, junto con inyección de prompt, escape de sandbox y abuso de presupuesto.
@@ -113,9 +113,9 @@ El motor de secretos dinámicos de HashiCorp Vault genera credenciales de corta 
 
 La rotación tradicional de secretos de aplicaciones requiere reiniciar el proceso para adoptar la nueva credencial. Las flotas de agentes no pueden tolerar reinicios forzados: los agentes pueden estar en medio de una tarea, manteniendo estado de trabajo que se pierde al reiniciar, o coordinando con otros agentes en una transferencia de múltiples pasos.
 
-La rotación en caliente inyecta la nueva credencial en el vault sin tocar el contenedor de agente en ejecución. La siguiente llamada API del agente a través del vault proxy usa la nueva credencial de forma transparente. Desde la perspectiva del agente, el handle `$CRED{nombre}` sigue resolviendo; solo el secreto subyacente ha cambiado.
+La rotación en caliente inyecta la nueva credencial en el vault sin tocar el contenedor de agente en ejecución. La siguiente llamada API del agente a través del vault proxy usa la nueva credencial de forma transparente. Desde la perspectiva del agente, el handle de credencial sigue resolviendo; solo el secreto subyacente ha cambiado.
 
-La rotación en caliente requiere que los agentes nunca almacenen credenciales en caché localmente. El patrón de handle `$CRED{}` aplica esto estructuralmente: los handles se resuelven en el momento de la llamada, no al inicio, por lo que el almacenamiento en caché local del valor resuelto nunca es posible.
+La rotación en caliente requiere que los agentes nunca almacenen credenciales en caché localmente. El patrón de handle opaco aplica esto estructuralmente: los handles se resuelven en el momento de la llamada, no al inicio, por lo que el almacenamiento en caché local del valor resuelto nunca es posible.
 
 ### Alcance de rotación por agente
 
@@ -135,7 +135,7 @@ OWASP LLM06 (Divulgación de información sensible) señala específicamente que
 
 ### Alcance de credenciales del servidor de herramientas MCP
 
-Los servidores de herramientas del Model Context Protocol a menudo requieren sus propias credenciales, claves API para los servicios que proxy. Con 700+ servidores MCP en el ecosistema (junio de 2026), el problema de gestión de credenciales en la capa MCP ya no es teórico: cada servidor es un vector potencial de proliferación de `.env`. En OpenLegion, las credenciales del servidor MCP se almacenan en el mismo vault y se inyectan a través del mismo patrón proxy. El servidor de herramientas MCP recibe solicitudes autenticadas del proxy mesh en lugar de credenciales sin procesar del agente.
+Los servidores de herramientas del Model Context Protocol a menudo requieren sus propias credenciales, claves API para los servicios que proxy. Con 700+ servidores MCP en el ecosistema (junio de 2026), el problema de gestión de credenciales en la capa MCP ya no es teórico: cada servidor es un vector potencial de proliferación de `.env`. OpenLegion no conecta servidores MCP en el lanzamiento, y toda credencial de herramienta que sí guarda vive en la bóveda y se inyecta con el mismo patrón. La herramienta recibe una solicitud autenticada del motor de políticas en lugar de una credencial sin procesar del agente.
 
 Esto evita que un servidor MCP malicioso se use como vector de recolección de credenciales. Un servidor MCP comprometido solo encuentra referencias de handles en las solicitudes entrantes, no claves sin procesar. Para el modelo completo de refuerzo de la [seguridad del Model Context Protocol](/learn/model-context-protocol), consulte la guía dedicada.
 
@@ -143,7 +143,7 @@ Esto evita que un servidor MCP malicioso se use como vector de recolección de c
 
 Cuando un agente completa su tarea o es archivado, sus credenciales deben revocarse inmediatamente. Las credenciales estáticas que sobreviven a su agente asociado crean accesos huérfanos: claves válidas sin rastro de auditoría asociado, pertenecientes a un proceso que ya no se ejecuta.
 
-La revocación de credenciales al retirar al agente requiere que la capa de orquestación rastree los eventos del ciclo de vida del agente y active revocaciones en el vault. El mesh de OpenLegion maneja esto automáticamente: cuando un agente es archivado, el mesh revoca todos los handles de credenciales asociados con el ámbito de ese agente. Para los sistemas de [orquestación de agentes IA](/learn/ai-agent-orchestration) que gestionan el ciclo de vida del agente de forma programática, la revocación de credenciales debe ser un evento de ciclo de vida de primera clase, no una reflexión operativa posterior.
+La revocación de credenciales al retirar al agente requiere que la capa de orquestación rastree los eventos del ciclo de vida del agente y active revocaciones en el vault. OpenLegion maneja esto automáticamente: cuando un agente es archivado, el motor de políticas revoca todos los handles de credenciales asociados con el ámbito de ese agente. Para los sistemas de [orquestación de agentes IA](/learn/ai-agent-orchestration) que gestionan el ciclo de vida del agente de forma programática, la revocación de credenciales debe ser un evento de ciclo de vida de primera clase, no una reflexión operativa posterior.
 
 ## Rastros de auditoría y registro de acceso a credenciales
 
@@ -159,7 +159,7 @@ El orquestador de OpenLegion registra las llamadas de herramientas y las resoluc
 
 ### Requisitos de auditoría para entornos regulados
 
-Para servicios financieros, sanidad y otros sectores regulados, los registros de auditoría de credenciales de agentes deben cumplir requisitos específicos: inmutabilidad (los registros no pueden ser alterados después de su creación), resistencia a la manipulación (la integridad de los registros es verificable), cumplimiento del período de retención (registros retenidos durante la duración requerida) y controles de acceso (solo el personal autorizado puede leer los registros de auditoría). Estos requisitos se mapean directamente a la arquitectura vault-proxy: el host mesh genera entradas de registro de auditoría a medida que se resuelven las credenciales, las escribe en un almacén de solo adición y firma las entradas para resistencia a la manipulación. Los contenedores de agentes nunca tienen acceso al almacén de registros de auditoría. Para las decisiones de [plataforma de agentes IA](/learn/ai-agent-platform), la arquitectura del registro de auditoría es una consideración de cumplimiento clave junto con la elección del backend de secretos.
+Para servicios financieros, sanidad y otros sectores regulados, los registros de auditoría de credenciales de agentes deben cumplir requisitos específicos: inmutabilidad (los registros no pueden ser alterados después de su creación), resistencia a la manipulación (la integridad de los registros es verificable), cumplimiento del período de retención (registros retenidos durante la duración requerida) y controles de acceso (solo el personal autorizado puede leer los registros de auditoría). Estos requisitos se mapean directamente a la arquitectura vault-proxy: el motor de políticas genera entradas de registro de auditoría a medida que se resuelven las credenciales, las escribe en un almacén de solo adición y firma las entradas para resistencia a la manipulación. Los agentes nunca tienen acceso al almacén de registros de auditoría. Para las decisiones de [plataforma de agentes IA](/learn/ai-agent-platform), la arquitectura del registro de auditoría es una consideración de cumplimiento clave junto con la elección del backend de secretos.
 
 ## Elegir un backend de secretos para su plataforma de agentes
 
@@ -194,7 +194,7 @@ CVE-2024-34359 (llama-cpp-python, CVSS 9,6) documentó una vulnerabilidad de iny
 
 ### ¿Cómo previene el patrón vault-proxy la fuga de credenciales?
 
-El vault proxy intercepta las llamadas API de los agentes, resuelve los handles de credenciales opacos a secretos reales en la capa de red y devuelve la respuesta autenticada sin que la credencial entre jamás en el contenedor o la ventana de contexto del agente. El agente mantiene un handle como `$CRED{stripe_key}` que identifica el secreto sin resolverlo. Un contenedor de agente completamente comprometido que ejecuta instrucciones arbitrarias del atacante todavía tiene acceso cero a credenciales sin procesar, porque ninguna credencial existe dentro del alcance del contenedor.
+El vault proxy intercepta las llamadas API de los agentes, resuelve los handles de credenciales opacos a secretos reales fuera del modelo y devuelve la respuesta autenticada sin que la credencial entre jamás en el contenedor o la ventana de contexto del agente. El agente mantiene un handle como `cred:stripe_key` que identifica el secreto sin resolverlo. Un contenedor de agente completamente comprometido que ejecuta instrucciones arbitrarias del atacante todavía tiene acceso cero a credenciales sin procesar, porque ninguna credencial existe dentro del alcance del contenedor.
 
 ### ¿Por qué es importante el aislamiento de credenciales por agente en los sistemas multi-agente?
 
@@ -206,7 +206,7 @@ OWASP Top 10 para aplicaciones LLM v1.1 (publicado en octubre de 2025) lista la 
 
 ### ¿Cómo gestiona OpenLegion las credenciales para agentes que ejecutan servidores MCP?
 
-En OpenLegion, las credenciales del servidor de herramientas MCP se almacenan en el vault y se inyectan a través del mismo patrón proxy que las credenciales de agentes. El servidor MCP recibe solicitudes autenticadas del proxy mesh en lugar de credenciales sin procesar del agente; el agente nunca mantiene las claves API upstream del servidor MCP. Con 700+ servidores MCP en el ecosistema (junio de 2026), esto elimina la proliferación de `.env` por servidor: una configuración vault cubre todos los requisitos de credenciales MCP, y un servidor MCP comprometido no puede recolectar credenciales sin procesar de las solicitudes entrantes.
+OpenLegion no conecta servidores MCP en el lanzamiento. Toda credencial de herramienta que sí guarda vive en la bóveda y se inyecta fuera del modelo, así que la herramienta recibe una solicitud autenticada del motor de políticas en lugar de una credencial sin procesar del agente; el agente nunca mantiene una clave API upstream. Con 700+ servidores MCP en el ecosistema (junio de 2026), ese es el patrón que elimina la proliferación de `.env` por servidor: una configuración de bóveda cubre los requisitos de credenciales de un espacio de trabajo, y un servidor comprometido no puede recolectar credenciales sin procesar de las solicitudes entrantes.
 
 ### ¿Qué es la rotación de secretos y por qué la necesitan los agentes IA?
 
@@ -216,6 +216,6 @@ La rotación de secretos es la práctica de reemplazar una credencial con una nu
 
 El problema de gestión de credenciales en las flotas de agentes IA es arquitectónico: si las credenciales existen en los contenedores de agentes, pueden filtrarse. CVE-2024-34359 y CVE-2025-29927 demuestran que incluso equipos bien dotados que ejecutan frameworks importantes entregan esta exposición. El patrón vault-proxy lo resuelve estructuralmente: las credenciales nunca entran en los contenedores de agentes, por lo que la inyección de prompt, el escape del contenedor o la exfiltración de registros no pueden recuperarlas.
 
-El vault-proxy de OpenLegion está integrado en el mesh de agentes. Configure una credencial una vez con `$CRED{nombre}`, asígnela a los agentes que la necesiten y el mesh gestiona la inyección, la renovación TTL, el alcance por agente y el registro de auditoría. Sin despliegue de vault separado, sin coordinación de archivos `.env`, sin procedimientos de rotación manual.
+La bóveda de credenciales de OpenLegion está integrada en la plataforma. Configure una credencial una vez, asígnela a los agentes que la necesiten y el motor de políticas gestiona la inyección, la renovación TTL, el alcance por agente y el registro de auditoría. Sin despliegue de vault separado, sin coordinación de archivos `.env`, sin procedimientos de rotación manual.
 
 [Asegure su flota de agentes con aislamiento de credenciales vault-proxy en OpenLegion](https://openlegion.ai)

@@ -16,7 +16,7 @@ related:
 
 # Boucle Agentique : Comment les Agents IA Perçoivent, Pensent et Agissent
 
-Une boucle agentique est le cycle répétitif percevoir-penser-agir qui propulse un agent IA du début de la tâche jusqu'à la réponse finale. À chaque itération, l'agent lit le contexte — observations, résultats d'outils, mémoire — appelle un LLM pour raisonner sur les prochaines étapes, exécute un outil ou retourne une réponse, puis recommence. Les limites d'itération, les conditions de terminaison et la gestion des erreurs déterminent si un agent de production est fiable ou un risque — OpenLegion impose des plafonds stricts au niveau du mesh, transformant les boucles incontrôlées en échecs déterministes.
+Une boucle agentique est le cycle répétitif percevoir-penser-agir qui propulse un agent IA du début de la tâche jusqu'à la réponse finale. À chaque itération, l'agent lit le contexte — observations, résultats d'outils, mémoire — appelle un LLM pour raisonner sur les prochaines étapes, exécute un outil ou retourne une réponse, puis recommence. Les limites d'itération, les conditions de terminaison et la gestion des erreurs déterminent si un agent de production est fiable ou un risque — OpenLegion impose des plafonds stricts dans son moteur de politiques, transformant les boucles incontrôlées en échecs déterministes.
 
 ## Qu'est-ce qu'une Boucle Agentique ?
 
@@ -101,9 +101,9 @@ La terminaison naturelle se produit lorsque l'étape de réflexion du LLM produi
 La terminaison basée sur le budget arrête la boucle lorsque l'agent a consommé un montant en dollars configuré.
 
 **Modèle d'application d'OpenLegion :**
-- `daily_budget` (50 $/jour par défaut) et `monthly_budget` (200 $/mois par défaut) sont configurés par agent dans `INSTRUCTIONS.md`
-- Le routeur mesh suit les dépenses cumulées par ID d'agent en temps réel
-- Lorsqu'une itération de boucle dépasserait le budget journalier restant, la demande est rejetée au niveau du mesh avant d'atteindre le fournisseur LLM
+- Chaque agent porte son propre budget, fixé par agent dans l'application et mesuré en crédits valant $0,001 l'unité
+- Le moteur de politiques suit les dépenses cumulées par agent en temps réel
+- Lorsqu'une itération de boucle dépasserait le budget restant, le moteur de politiques refuse l'intention avant qu'elle n'atteigne le modèle
 - L'agent reçoit une erreur structurée d'épuisement du budget
 
 ### Terminaison Basée sur les Erreurs
@@ -148,11 +148,11 @@ Le contrôle des boucles est une propriété de sécurité, pas seulement opéra
 
 | **Mécanisme de contrôle de boucle** | **OpenLegion** | **LangChain AgentExecutor** | **LangGraph** | **OpenAI Agents SDK** |
 |---|---|---|---|---|
-| **Limite d'itération** | max_turns dans INSTRUCTIONS.md, appliqué au mesh | max_iterations=15 (par défaut) | recursion_limit=25 | max_turns=10 (par défaut) |
-| **Terminaison basée sur le budget** | daily_budget + monthly_budget par agent, appliqué au niveau du mesh | Non intégré | Non intégré | Non intégré |
+| **Limite d'itération** | Plafond de tours par agent, appliqué par le moteur de politiques | max_iterations=15 (par défaut) | recursion_limit=25 | max_turns=10 (par défaut) |
+| **Terminaison basée sur le budget** | Budget en crédits par agent, appliqué par le moteur de politiques avant l'appel au modèle | Non intégré | Non intégré | Non intégré |
 | **Terminaison d'erreur** | Erreur structurée retournée à l'orchestrateur | Lève AgentExecutorError | Lève GraphRecursionError | Lève MaxTurnsExceeded |
-| **Défense contre l'injection** | Appels d'outils proxifiés par vault ; autorité du prompt système | handle_parsing_errors configurable | Non intégré | Non intégré |
-| **Piste d'audit de boucle** | Chaque itération journalisée avec agent_id, modèle, appel d'outil, coût | LangSmith (optionnel) | LangSmith (optionnel) | Tableau de bord OpenAI |
+| **Défense contre l'injection** | Identifiants en coffre-fort ; agir sur du contenu non fiable exige une approbation | handle_parsing_errors configurable | Non intégré | Non intégré |
+| **Piste d'audit de boucle** | Chaque réveil enregistré comme un reçu : identité de l'agent, modèle, appel d'outil, coût | LangSmith (optionnel) | LangSmith (optionnel) | Tableau de bord OpenAI |
 
 Pour les patterns qui composent plusieurs boucles d'agents en systèmes de production, voir [comment les workflows agentiques composent plusieurs boucles en pipelines de production](/learn/agentic-workflows) et [les patterns de conception IA agentique pour l'orchestration de boucles et la coordination d'agents](/learn/agentic-ai-design-patterns).
 
@@ -182,7 +182,7 @@ L'injection de prompt via le contenu de réponse d'outil — démontrée par CVE
 
 ### Comment OpenLegion prévient-il les boucles agentiques incontrôlées ?
 
-OpenLegion applique la défense en profondeur avec deux couches d'application. Les limites d'itération par agent sont appliquées au niveau de l'application. Les daily_budget et monthly_budget par agent sont appliqués au niveau du routeur mesh avant chaque appel LLM. Lorsqu'une itération de boucle dépasserait le budget restant, la demande est rejetée au niveau réseau. Une injection de prompt qui demande à l'agent d'ignorer les limites de budget ne peut pas remplacer la vérification de budget du routeur mesh.
+OpenLegion applique la défense en profondeur avec deux couches d'application. Les limites d'itération par agent sont appliquées au niveau de l'application. Chaque agent porte son propre budget en crédits, que le moteur de politiques vérifie avant chaque appel au modèle. Lorsqu'une itération de boucle dépasserait le budget restant, l'intention est refusée avant d'avoir lieu. Une injection de prompt qui demande à l'agent d'ignorer les limites de budget ne peut pas remplacer la vérification de budget du moteur de politiques.
 
 ### Quelle est la différence entre une boucle agentique et un workflow ?
 
@@ -192,7 +192,7 @@ Une boucle agentique est le cycle d'itération par agent — le cycle d'exécuti
 
 La boucle agentique est là où la fiabilité de l'agent se gagne ou se perd. Les valeurs par défaut du framework — max_turns=10, recursion_limit=25 — sont des points de départ, pas des configurations de production.
 
-OpenLegion applique les plafonds de budget et les limites d'itération au niveau du mesh — hors bande du raisonnement LLM de l'agent, non remplaçable par injection de prompt.
+OpenLegion applique les plafonds de budget et les limites d'itération dans son moteur de politiques — hors bande du raisonnement LLM de l'agent, non remplaçable par injection de prompt.
 
 [Commencer avec OpenLegion](https://app.openlegion.ai) — limites de boucle strictes et application du budget par agent intégrées.
 

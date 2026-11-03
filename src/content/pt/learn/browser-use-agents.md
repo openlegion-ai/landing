@@ -68,15 +68,15 @@ Os agentes navegador são a categoria de ferramentas de maior risco na IA agênt
 
 ### A demo de roubo de credenciais em 150 segundos
 
-Pesquisa documentada publicamente em 2025 demonstrou que um agente navegador pode ser manipulado para roubar credenciais em 150 segundos via instruções ocultas em uma página web. A defesa é arquitetural: se a credencial não existe no contexto ou memória do processo do agente, a injeção não pode extraí-la. O vault proxy da OpenLegion garante que as credenciais de sessão são injetadas na camada de rede e nunca aparecem na janela de contexto do agente.
+Pesquisa documentada publicamente em 2025 demonstrou que um agente navegador pode ser manipulado para roubar credenciais em 150 segundos via instruções ocultas em uma página web. A defesa é arquitetural: se a credencial não existe no contexto ou memória do processo do agente, a injeção não pode extraí-la. Na OpenLegion as credenciais ficam num cofre e são injetadas fora do modelo, que só guarda um handle, então nunca aparecem na janela de contexto do agente.
 
 ### OWASP LLM08 Excessive Agency e permissões do navegador
 
 O top 10 LLM OWASP 2025 classifica Excessive Agency (LLM08) como categoria de risco principal. Os agentes navegador são o risco canônico: um agente com permissão para navegar, ler, preencher formulários e clicar pode fazer compras, enviar mensagens, excluir contas e exfiltrar dados.
 
-### Como a OpenLegion sandboxa agentes navegador (Camoufox + Zona 1)
+### Como a OpenLegion sandboxa as ações dos agentes (sandbox + aprovações)
 
-A OpenLegion executa uma instância do navegador Camoufox por agente na porta :8500, isolada dentro do container Docker Zona 1 de cada agente. Quatro propriedades resultam: sem estado de sessão compartilhado, resistência a fingerprints, credenciais via vault proxy e roteamento de rede pelo Mesh Host.
+A OpenLegion não entrega automação de navegador no lançamento, e o código que um agente escreve roda em um sandbox sem acesso à rede por padrão. Quatro propriedades enquadram como o trabalho do agente é contido: sem estado de sessão compartilhado, credenciais guardadas em cofre, aprovações antes de agir sobre conteúdo não confiável e uma execução em sandbox por tarefa.
 
 ## Padrões de arquitetura para agentes navegador
 
@@ -86,31 +86,31 @@ O **modo headless** é mais rápido e funciona em ambientes de servidor, mas é 
 
 ### Tratamento de CAPTCHA
 
-Três abordagens: navegadores comportamentais (resistência a fingerprints), serviços de resolução ($1–3 por 1.000 resoluções) e fallback human-in-the-loop. A OpenLegion suporta delegação de CAPTCHA human-in-the-loop pelo painel de controle.
+Três abordagens: navegadores comportamentais (resistência a fingerprints), serviços de resolução ($1–3 por 1.000 resoluções) e fallback human-in-the-loop. O equivalente na OpenLegion é a sua barreira de aprovação: o trabalho para no app sempre que um dono ou administrador precisa decidir.
 
-### Injeção de credenciais: vault proxy vs. cookies hardcoded
+### Injeção de credenciais: cofre de credenciais vs. cookies hardcoded
 
-**Pior**: credenciais diretamente nas instruções. **Ruim**: variáveis de ambiente (acessíveis via `os.environ`). **Correto**: injeção via vault proxy na camada de rede.
+**Pior**: credenciais diretamente nas instruções. **Ruim**: variáveis de ambiente (acessíveis via `os.environ`). **Correto**: injeção a partir de um cofre, fora do modelo, que só guarda um handle.
 
 ## Agentes Browser Use: comparação de arquiteturas
 
 | **Dimensão** | **OpenLegion** | **browser-use** | **Raw Playwright** | **Stagehand** |
 |---|---|---|---|---|
-| **Backend de execução** | Camoufox (Firefox, resistente a fingerprints) | Playwright (Chromium) | Playwright | Cloud Chromium |
-| **Isolamento de sessão** | Container por agente | Processo compartilhado | Depende da implementação | Cloud managed |
-| **Tratamento de credenciais** | Injeção vault proxy | Passa pela janela de contexto | Implementação manual | Managed |
-| **Suporte CAPTCHA** | Resistência Camoufox + human-in-loop | Nenhum integrado | Nenhum integrado | Serviço de resolução |
-| **Sandboxing container** | Zona 1 Docker, non-root | Nenhum | Nenhum | Cloud sandbox |
+| **Backend de execução** | Nenhum no lançamento — sem automação de navegador | Playwright (Chromium) | Playwright | Cloud Chromium |
+| **Isolamento de sessão** | Execução em sandbox por tarefa — estrutural | Processo compartilhado | Depende da implementação | Cloud managed |
+| **Tratamento de credenciais** | Guardadas em cofre, injetadas fora do modelo | Passa pela janela de contexto | Implementação manual | Managed |
+| **Suporte CAPTCHA** | Não se aplica — sem automação de navegador | Nenhum integrado | Nenhum integrado | Serviço de resolução |
+| **Sandboxing container** | Execução de tarefa em sandbox, sem rede por padrão | Nenhum | Nenhum | Cloud sandbox |
 | **Estrelas GitHub** | — | 96.282 (maio 2026) | N/A | ~9.000 |
-| **Licença** | BSL 1.1 | MIT | Apache 2.0 | MIT |
+| **Licença** | PolyForm Perimeter 1.0.1 (engine) | MIT | Apache 2.0 | MIT |
 
 ## Quando usar agentes navegador (e quando não usar)
 
 **Casos de uso legítimos**: pesquisa web e extração de dados, automação de formulários para seus próprios serviços, monitoramento e testes. **Casos de uso que requerem controles extras**: sessões autenticadas, sites financeiros. **Casos de uso a evitar sem sandboxing rigoroso**: URLs não confiáveis fornecidas por usuários.
 
-## Comece com agentes navegador seguros na OpenLegion
+## Comece com ações de agente seguras na OpenLegion
 
-**Execute agentes navegador em containers isolados com credenciais via vault proxy e controles de rede por agente.**
+**Execute agentes com credenciais guardadas em cofre, uma execução em sandbox por tarefa e aprovações antes de agirem.**
 [Começar](https://app.openlegion.ai) | [Ler a documentação](https://docs.openlegion.ai) | [Ver a plataforma](/learn/ai-agent-platform)
 
 ---
@@ -133,11 +133,11 @@ Três riscos principais: injeção de prompt via conteúdo web (uma demo de 2025
 
 ### Como executar agentes navegador com segurança?
 
-Quatro controles são necessários: isolamento de containers, credenciais via vault proxy, controles de egress de rede e limites de orçamento por agente. O serviço de navegador Camoufox da OpenLegion implementa os quatro por padrão em containers Docker Zona 1.
+Quatro controles são necessários: isolamento de containers, credenciais guardadas em cofre, controles de egress de rede e limites de orçamento por agente. A OpenLegion não entrega automação de navegador no lançamento, mas aplica os mesmos quatro controles a cada ação de agente: uma execução em sandbox por tarefa, credenciais em cofre, nenhuma rede a partir de código em sandbox e um orçamento de créditos por agente.
 
-### O que é Camoufox e por que a OpenLegion o usa?
+### O que é Camoufox e a OpenLegion o usa?
 
-Camoufox é um navegador headless baseado em Firefox que corrige APIs JavaScript para apresentar perfis de hardware realistas em vez de assinaturas headless. A OpenLegion executa uma instância Camoufox por agente na porta :8500 em cada container Docker Zona 1.
+Camoufox é um navegador headless baseado em Firefox que corrige APIs JavaScript para apresentar perfis de hardware realistas em vez de assinaturas headless. A OpenLegion não executa Camoufox, nem nenhuma outra automação de navegador, no lançamento; seu isolamento vem de uma execução em sandbox por tarefa, sem acesso à rede a partir de código em sandbox por padrão.
 
 ### Qual é a diferença entre browser-use e Playwright para agentes de IA?
 
@@ -145,8 +145,8 @@ Playwright é uma biblioteca de automação de baixo nível sem conceito de agen
 
 ### Os agentes browser use podem gerenciar login e sessões autenticadas?
 
-Sim, mas o gerenciamento de sessão autenticada é uma das operações de maior risco. A OpenLegion injeta credenciais de sessão via vault proxy na camada de rede.
+Sim, mas o gerenciamento de sessão autenticada é uma das operações de maior risco. A OpenLegion mantém as credenciais num cofre e as injeta fora do modelo — o agente trabalha guardando apenas um handle.
 
 ### Como os agentes navegador tratam CAPTCHAs?
 
-Três abordagens: navegadores comportamentais (resistência a fingerprints), serviços de resolução ($1–3 por 1.000, latência 10–60 segundos) e fallback human-in-the-loop. A OpenLegion suporta delegação CAPTCHA human-in-the-loop pelo painel de controle.
+Três abordagens: navegadores comportamentais (resistência a fingerprints), serviços de resolução ($1–3 por 1.000, latência 10–60 segundos) e fallback human-in-the-loop. A OpenLegion não tem automação de navegador no lançamento; seu equivalente human-in-the-loop é uma barreira de aprovação decidida no app.

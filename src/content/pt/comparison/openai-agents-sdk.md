@@ -21,14 +21,14 @@ related:
 
 O OpenAI Agents SDK é o caminho mais simples para construir sistemas multiagente. Com ~19.200 estrelas no GitHub e cinco primitivas limpas (Agents, Tools, Handoffs, Guardrails, Tracing), você consegue ter um agente funcional em menos de uma hora. Lançou em março de 2025 como sucessor pronto para produção do framework experimental Swarm e foi adotado pela Klarna (lidando com dois terços dos tickets de suporte), Coinbase e Box.
 
-OpenLegion (~59 estrelas) é uma [plataforma de agentes de IA](/learn/ai-agent-platform) security-first que prioriza isolamento de credenciais, sandbox de agente e controles de custo — as preocupações de produção que o SDK intencionalmente deixa para o desenvolvedor.
+OpenLegion é uma [plataforma de agentes de IA](/learn/ai-agent-platform) hospedada e security-first que prioriza isolamento de credenciais, sandbox de agente e controles de custo — as preocupações de produção que o SDK intencionalmente deixa para o desenvolvedor.
 
 Esta é uma comparação direta **OpenLegion vs OpenAI Agents SDK** baseada em documentação pública no momento da escrita.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Qual a diferença entre OpenLegion e o OpenAI Agents SDK?**
-> O OpenAI Agents SDK é um framework leve para construir workflows multiagente com cinco primitivas centrais e tracing embutido. OpenLegion é um framework de agentes security-first com isolamento por contêiner obrigatório, gestão de credenciais via proxy de cofre, imposição de orçamento por agente e coordenação modelo de frota (blackboard + pub/sub + handoff). O SDK otimiza para simplicidade do desenvolvedor; OpenLegion otimiza para segurança em produção.
+> O OpenAI Agents SDK é um framework leve para construir workflows multiagente com cinco primitivas centrais e tracing embutido. OpenLegion é um framework de agentes security-first com uma execução em sandbox para cada tarefa, credenciais guardadas em cofre, imposição de orçamento por agente e coordenação por metas e tarefas (metas → tarefas → agentes). O SDK otimiza para simplicidade do desenvolvedor; OpenLegion otimiza para segurança em produção.
 
 ## TL;DR
 
@@ -36,7 +36,7 @@ Esta é uma comparação direta **OpenLegion vs OpenAI Agents SDK** baseada em d
 - **OpenLegion** é a escolha certa quando você precisa de independência de fornecedor, isolamento de credenciais, sandbox de agente e controles de custo por agente.
 - **Vendor lock-in**: O SDK suporta mais de 100 modelos via LiteLLM, mas ferramentas hospedadas (web search, file search, code interpreter) só funcionam com modelos OpenAI.
 - **Sem sandbox**: As ferramentas rodam no mesmo processo Python do agente. Uma ferramenta comprometida pode acessar variáveis de ambiente, filesystem e rede.
-- **Modelo de credenciais**: Chaves de API armazenadas como variáveis de ambiente acessíveis ao processo do agente. OpenLegion usa um proxy de cofre — os agentes nunca veem chaves cruas.
+- **Modelo de credenciais**: Chaves de API armazenadas como variáveis de ambiente acessíveis ao processo do agente. OpenLegion usa um cofre de credenciais — os agentes nunca veem chaves cruas.
 - **Risco de custo**: Web search custa US$ 25-30 por 1.000 consultas. Code interpreter cobra por token. Sem limites de gasto embutidos.
 
 ## Comparação Lado a Lado
@@ -44,18 +44,18 @@ Esta é uma comparação direta **OpenLegion vs OpenAI Agents SDK** baseada em d
 | Dimensão | OpenLegion | OpenAI Agents SDK |
 |---|---|---|
 | **Foco primário** | Orquestração multiagente segura | Workflows multiagente leves |
-| **Arquitetura** | Modelo de quatro zonas de confiança (mais camada operador-ou-interna) | Loop Runner com 5 primitivas |
-| **Isolamento de agente** | Contêiner Docker por agente obrigatório, non-root, no-new-privileges | Nenhum — ferramentas rodam no mesmo processo Python |
-| **Gestão de credenciais** | Proxy de cofre — injeção cega, agentes nunca veem chaves | Variável de ambiente acessível ao processo do agente |
-| **Controles de orçamento / custo** | Diário e mensal por agente com corte rígido | Nenhum embutido |
-| **Orquestração** | Coordenação modelo de frota (blackboard + pub/sub + handoff) | Roteamento LLM-driven via handoffs |
-| **Multiagente** | Orquestração nativa de frota (DAGs sequenciais e paralelos com blackboard) | Handoffs entre agentes, agent-as-tool |
-| **Suporte a LLM** | 100+ via LiteLLM (paridade completa de funcionalidades) | 100+ via LiteLLM (ferramentas hospedadas apenas OpenAI) |
+| **Arquitetura** | Um único motor de políticas na frente de cada ação | Loop Runner com 5 primitivas |
+| **Isolamento de agente** | Execução em sandbox por tarefa, sem rede por padrão | Nenhum — ferramentas rodam no mesmo processo Python |
+| **Gestão de credenciais** | Guardadas em cofre — injetadas fora do modelo, agentes nunca veem chaves | Variável de ambiente acessível ao processo do agente |
+| **Controles de orçamento / custo** | Orçamento de créditos por agente com corte rígido | Nenhum embutido |
+| **Orquestração** | Coordenação por metas e tarefas (metas → tarefas → agentes) | Roteamento LLM-driven via handoffs |
+| **Multiagente** | Delegação nativa em time (um assistente cria colegas e delega) | Handoffs entre agentes, agent-as-tool |
+| **Suporte a LLM** | Presets Smartest, Smart e Normal | 100+ via LiteLLM (ferramentas hospedadas apenas OpenAI) |
 | **Tracing** | Dashboard embutido com streaming ao vivo, gráficos de custo | UI de tracing embutida, zero-config, gratuita |
-| **Dependências** | Zero externas — Python + SQLite + Docker | Pacote Python openai |
-| **Estrelas no GitHub** | ~59 | ~19.200 |
-| **Licença** | PolyForm Perimeter License 1.0.1 | MIT |
-| **Melhor para** | Frotas em produção exigindo governança security-first | Desenvolvimento rápido com modelos OpenAI |
+| **Dependências** | Nenhuma — basta entrar com o Google | Pacote Python openai |
+| **Estrelas no GitHub** | Não divulgadas | ~19.200 |
+| **Licença** | Engine: PolyForm Perimeter License 1.0.1 | MIT |
+| **Melhor para** | Times em produção exigindo governança security-first | Desenvolvimento rápido com modelos OpenAI |
 
 ## Diferenças de Arquitetura
 
@@ -69,7 +69,7 @@ A preocupação com vendor lock-in também é real. Ferramentas hospedadas (web 
 
 ### Arquitetura do OpenLegion
 
-OpenLegion usa um modelo de quatro zonas de confiança (mais uma camada operador-ou-interna) onde cada agente roda no seu próprio contêiner Docker. Credenciais são gerenciadas por um proxy de cofre. A orquestração usa coordenação modelo de frota — blackboard + pub/sub + handoff — onde cada permissão de acesso a ferramenta e limite de orçamento é declarada antes da execução.
+OpenLegion coloca um único motor de políticas na frente de cada ação, e cada tarefa roda sob demanda no seu próprio sandbox e depois para. As credenciais ficam num cofre e são injetadas fora do modelo, que só guarda um handle. A orquestração é metas → tarefas → agentes, onde cada permissão de acesso a ferramenta e limite de orçamento é declarada antes da execução.
 
 ## Quando Escolher o OpenAI Agents SDK
 
@@ -83,17 +83,17 @@ OpenLegion usa um modelo de quatro zonas de confiança (mais uma camada operador
 
 ## Quando Escolher OpenLegion
 
-**Independência de fornecedor é requisito.** OpenLegion suporta mais de 100 modelos com paridade completa de funcionalidades — sem ferramentas restritas a um único provedor.
+**Independência de fornecedor é requisito.** OpenLegion escolhe modelos por preset — Smartest, Smart ou Normal — sem ferramentas restritas a um único provedor.
 
-**Você precisa de sandbox de agente.** O SDK roda ferramentas no processo host. OpenLegion isola cada agente em um contêiner com recursos restritos.
+**Você precisa de sandbox de agente.** O SDK roda ferramentas no processo host. OpenLegion roda cada tarefa no seu próprio sandbox, sem acesso à rede por padrão.
 
-**Segurança de credenciais é requisito rígido.** O SDK armazena chaves de API como variáveis de ambiente acessíveis a todas as ferramentas. O proxy de cofre do OpenLegion significa que os agentes nunca veem credenciais.
+**Segurança de credenciais é requisito rígido.** O SDK armazena chaves de API como variáveis de ambiente acessíveis a todas as ferramentas. O cofre de credenciais do OpenLegion significa que os agentes nunca veem credenciais.
 
-**Você precisa de imposição de orçamento por agente.** Web search a US$ 25-30 por 1.000 consultas pode acumular sem limite. OpenLegion impõe cortes rígidos.
+**Você precisa de imposição de orçamento por agente.** Web search a US$ 25-30 por 1.000 consultas pode acumular sem limite. OpenLegion dá a cada agente um orçamento de créditos com corte rígido.
 
-**Você precisa de coordenação modelo de frota (blackboard + pub/sub + handoff).** O SDK usa handoffs LLM-driven. A coordenação modelo de frota do OpenLegion define o caminho exato de execução antes de qualquer agente rodar.
+**Você precisa de coordenação por metas e tarefas (metas → tarefas → agentes).** O SDK usa handoffs LLM-driven. As metas e tarefas do OpenLegion definem o caminho exato de execução antes de qualquer agente rodar.
 
-Traga suas próprias chaves de API de LLM. Sem markup sobre uso de modelo.
+O trabalho é medido em créditos de US$ 0,001 cada, e o custo exato de uma tarefa fica visível.
 
 ## O Trade-off Honesto
 
@@ -105,7 +105,7 @@ Para o cenário completo, veja nossa [comparação de frameworks de agentes de I
 
 ## CTA
 
-**Precisa de segurança grau de produção para sua frota de agentes?**
+**Precisa de segurança grau de produção para o seu time de agentes?**
 [Começar Agora](https://app.openlegion.ai) | [Ler a Documentação](https://docs.openlegion.ai)
 
 ---
@@ -116,27 +116,27 @@ Para o cenário completo, veja nossa [comparação de frameworks de agentes de I
 
 ### Qual a diferença entre OpenLegion e o OpenAI Agents SDK?
 
-O OpenAI Agents SDK (~19.200 estrelas) é um framework leve para workflows multiagente com cinco primitivas e tracing embutido. OpenLegion é um [framework de agentes de IA](/learn/ai-agent-platform) security-first com isolamento por contêiner obrigatório, credenciais via proxy de cofre, orçamentos por agente e coordenação modelo de frota (blackboard + pub/sub + handoff).
+O OpenAI Agents SDK (~19.200 estrelas) é um framework leve para workflows multiagente com cinco primitivas e tracing embutido. OpenLegion é um [framework de agentes de IA](/learn/ai-agent-platform) security-first com uma execução em sandbox para cada tarefa, credenciais guardadas em cofre, orçamentos por agente e coordenação por metas e tarefas (metas → tarefas → agentes).
 
 ### O OpenAI Agents SDK tem vendor lock-in à OpenAI?
 
-Parcialmente. A lógica básica de agente funciona com mais de 100 modelos via LiteLLM. Ferramentas hospedadas (web search, file search, code interpreter) só funcionam com modelos OpenAI. OpenLegion suporta mais de 100 modelos com paridade completa de funcionalidades em todos os provedores.
+Parcialmente. A lógica básica de agente funciona com mais de 100 modelos via LiteLLM. Ferramentas hospedadas (web search, file search, code interpreter) só funcionam com modelos OpenAI. OpenLegion escolhe modelos por preset — Smartest, Smart ou Normal — com as mesmas funcionalidades em todos eles.
 
 ### O OpenAI Agents SDK faz sandbox das ferramentas de agente?
 
-Não. Todas as ferramentas rodam no mesmo processo Python do agente. Uma ferramenta comprometida pode acessar o ambiente host completo. OpenLegion isola cada agente em um contêiner Docker. Veja nossa página de [segurança de agentes de IA](/learn/ai-agent-security) para detalhes.
+Não. Todas as ferramentas rodam no mesmo processo Python do agente. Uma ferramenta comprometida pode acessar o ambiente host completo. OpenLegion roda cada tarefa em um sandbox sem acesso à rede por padrão. Veja nossa página de [segurança de agentes de IA](/learn/ai-agent-security) para detalhes.
 
 ### Como os custos se comparam entre o SDK da OpenAI e o OpenLegion?
 
-O SDK é gratuito (MIT). Custos de API seguem o preço padrão da OpenAI. Ferramentas hospedadas adicionam custos: web search a US$ 25-30 por 1.000 consultas, file search a US$ 2,50 por 1.000 consultas. Sem limites de gasto embutidos. OpenLegion impõe cortes rígidos de orçamento por agente com um modelo bring-your-own-API-keys.
+O SDK é gratuito (MIT). Custos de API seguem o preço padrão da OpenAI. Ferramentas hospedadas adicionam custos: web search a US$ 25-30 por 1.000 consultas, file search a US$ 2,50 por 1.000 consultas. Sem limites de gasto embutidos. OpenLegion impõe cortes rígidos de orçamento por agente e mede o trabalho em créditos de US$ 0,001 cada.
 
 ### Posso usar modelos OpenAI com o OpenLegion?
 
-Sim. OpenLegion suporta todos os modelos OpenAI via LiteLLM. A diferença é que OpenLegion não oferece ferramentas hospedadas — você traz suas próprias ferramentas via MCP ou pelo sistema de permissão de ferramentas.
+Os modelos são escolhidos por preset — Smartest, Smart ou Normal — em vez de por provedor, então nenhum agente fica preso a um fornecedor. A diferença é que OpenLegion não oferece ferramentas hospedadas — cada agente recebe exatamente as ferramentas que você concede a ele.
 
 ### Qual framework é melhor para orquestração multiagente?
 
-O SDK usa handoffs LLM-driven — flexível, mas imprevisível. OpenLegion usa coordenação modelo de frota (blackboard + pub/sub + handoff) na [orquestração](/learn/ai-agent-orchestration) — auditável e previsível. Para workflows de produção bem definidos, OpenLegion é mais confiável. Para sistemas multiagente exploratórios, o SDK é mais flexível.
+O SDK usa handoffs LLM-driven — flexível, mas imprevisível. OpenLegion usa coordenação por metas e tarefas (metas → tarefas → agentes) na [orquestração](/learn/ai-agent-orchestration) — auditável e previsível. Para workflows de produção bem definidos, OpenLegion é mais confiável. Para sistemas multiagente exploratórios, o SDK é mais flexível.
 
 ---
 

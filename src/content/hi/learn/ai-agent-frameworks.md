@@ -38,7 +38,7 @@ related:
 ## TL;DR
 
 - **छह frameworks की तुलना**: OpenLegion, OpenClaw, LangGraph, CrewAI, AutoGen, Semantic Kernel
-- **मुख्य differentiator**: सुरक्षा। कोई बड़ा framework अंतर्निहित credential isolation, अनिवार्य कंटेनर sandboxing, और प्रति-एजेंट बजट enforcement प्रदान नहीं करता। OpenLegion करता है।
+- **मुख्य differentiator**: सुरक्षा। कोई बड़ा framework अंतर्निहित credential isolation, sandboxed task execution, और प्रति-एजेंट बजट enforcement प्रदान नहीं करता। OpenLegion करता है।
 - **LangGraph** का सबसे ऊँचा adoption है (~6M मासिक PyPI downloads) और सबसे flexible programmatic control
 - **CrewAI** अपने role-आधारित एजेंट design के साथ सीखने में सबसे आसान है
 - **OpenClaw** का सबसे बड़ा community है (~67K GitHub stars) लेकिन documented security concerns
@@ -50,13 +50,13 @@ related:
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
 | **प्रकार** | Platform (PolyForm Perimeter License 1.0.1) | Agent OS (open source) | Framework + Platform | Framework + Platform | Framework | Enterprise SDK |
-| **Hosting** | Self-hosted या managed | Self-hosted या cloud | Self-hosted या LangSmith | Self-hosted या CrewAI AMP | Self-hosted | Self-hosted (Azure-integrated) |
-| **एजेंट isolation** | प्रति एजेंट Docker कंटेनर (अनिवार्य) | Docker कंटेनर (optional, Docker socket आवश्यक) | अंतर्निहित नहीं | केवल CodeInterpreter के लिए Docker | Code execution के लिए Docker | कोई नहीं (embedded SDK) |
-| **Credential management** | Vault proxy — blind injection | Masking के साथ Secret Registry | Environment variables | Environment variables | Environment variables | Azure Key Vault integration |
-| **Multi-agent support** | blackboard coordination और pub/sub messaging के साथ fleet-model coordination (sequential, parallel) | Single-agent primary (SDK multi को support करता है) | StateGraph conditional edges, swarm के साथ | Crews (स्वायत्त) + Flows (event-driven) | Group chat (RoundRobin, Selector, Swarm, GraphFlow) | ChatCompletionAgent, group chat, agent-as-plugin |
-| **Budget / cost controls** | Hard cutoff के साथ प्रति-एजेंट दैनिक और मासिक | कोई नहीं | कोई नहीं | कोई नहीं | कोई नहीं | कोई नहीं |
-| **Primary भाषा** | Python | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
-| **LLM support** | LiteLLM के माध्यम से 100+ | LiteLLM के माध्यम से 100+ | LangChain के माध्यम से कोई भी | LiteLLM के माध्यम से कोई भी | Config के माध्यम से कोई भी | Azure OpenAI + others |
+| **Hosting** | Hosted web app — install करने को कुछ नहीं | Self-hosted या cloud | Self-hosted या LangSmith | Self-hosted या CrewAI AMP | Self-hosted | Self-hosted (Azure-integrated) |
+| **एजेंट isolation** | हर task के लिए एक sandboxed run (हमेशा on) | Docker कंटेनर (optional, Docker socket आवश्यक) | अंतर्निहित नहीं | केवल CodeInterpreter के लिए Docker | Code execution के लिए Docker | कोई नहीं (embedded SDK) |
+| **Credential management** | Credential vault — model के बाहर inject | Masking के साथ Secret Registry | Environment variables | Environment variables | Environment variables | Azure Key Vault integration |
+| **Multi-agent support** | delegation और event wakes के साथ goal-and-task coordination (goals → tasks → एजेंट्स) | Single-agent primary (SDK multi को support करता है) | StateGraph conditional edges, swarm के साथ | Crews (स्वायत्त) + Flows (event-driven) | Group chat (RoundRobin, Selector, Swarm, GraphFlow) | ChatCompletionAgent, group chat, agent-as-plugin |
+| **Budget / cost controls** | Hard cutoff के साथ प्रति-एजेंट credit बजट | कोई नहीं | कोई नहीं | कोई नहीं | कोई नहीं | कोई नहीं |
+| **Primary भाषा** | कोई नहीं — एजेंट web app में configure होते हैं | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
+| **LLM support** | Smartest, Smart और Normal presets | LiteLLM के माध्यम से 100+ | LangChain के माध्यम से कोई भी | LiteLLM के माध्यम से कोई भी | Config के माध्यम से कोई भी | Azure OpenAI + others |
 | **GitHub stars** | ~40 | ~67,300 | ~25,200 | ~33,400 | ~54,400 | ~26,900 |
 | **License** | PolyForm Perimeter License 1.0.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
 | **Best for** | Security-first आवश्यकताओं के साथ Production | AI-driven software development | Complex stateful workflows | Rapid prototyping, role-based teams | Research, Microsoft ecosystem | .NET enterprise, Azure shops |
@@ -65,11 +65,11 @@ related:
 
 ### OpenLegion कब चुनें
 
-OpenLegion तब चुनें जब आपकी primary चिंता production security और governance हो। OpenLegion right fit है यदि आपको ऐसे एजेंट्स चाहिए जो कच्ची API keys कभी नहीं देखें (vault proxy के माध्यम से vault-proxied credentials), प्रति एजेंट अनिवार्य कंटेनर isolation, hard cutoffs के साथ प्रति-एजेंट बजट enforcement, या fleet-model coordination (blackboard + pub/sub + handoff) जो execution से पहले auditable हो।
+OpenLegion तब चुनें जब आपकी primary चिंता production security और governance हो। OpenLegion right fit है यदि आपको ऐसे एजेंट्स चाहिए जो कच्ची API keys कभी नहीं देखें (credentials एक vault में रहते हैं और model के बाहर inject होते हैं), हर task के लिए एक sandboxed run, hard cutoffs के साथ प्रति-एजेंट बजट enforcement, या goal-and-task coordination (goals → tasks → एजेंट्स) जो execution से पहले auditable हो।
 
 OpenLegion विकल्पों की तुलना में एक छोटे community के साथ younger project है। यदि आपको community-contributed integrations का massive ecosystem चाहिए, या आप एक quick prototype build कर रहे हैं जहाँ सुरक्षा प्राथमिकता नहीं है, तो अन्य frameworks शुरू करने में faster हो सकते हैं।
 
-अपनी खुद की LLM API keys लाएँ। Model usage पर कोई markup नहीं।
+Models preset से चुने जाते हैं — Smartest, Smart या Normal — प्रति एजेंट या प्रति workspace।
 
 ### OpenClaw कब चुनें
 
@@ -111,12 +111,12 @@ Framework और platform के बीच अंतर तेजी से म�
 
 | Operational concern | Frameworks (DIY) | OpenLegion | LangSmith | CrewAI AMP |
 |---|---|---|---|---|
-| कंटेनर isolation | आप build करते हैं | अंतर्निहित, अनिवार्य | Included नहीं | केवल CodeInterpreter |
-| Credential vaulting | आप build करते हैं | अंतर्निहित (vault proxy) | Included नहीं | Enterprise tier |
+| कंटेनर isolation | आप build करते हैं | अंतर्निहित sandboxed runs | Included नहीं | केवल CodeInterpreter |
+| Credential vaulting | आप build करते हैं | अंतर्निहित (credential vault) | Included नहीं | Enterprise tier |
 | Budget enforcement | आप build करते हैं | अंतर्निहित (प्रति-एजेंट) | Included नहीं | Included नहीं |
 | Observability | आप integrate करते हैं | अंतर्निहित dashboard | अंतर्निहित (tracing, evaluation) | अंतर्निहित (enterprise) |
-| Multi-channel deploy | आप build करते हैं | अंतर्निहित (5 channels + webhooks) | Included नहीं | Included नहीं |
-| Pricing | Free (+ infra costs) | PolyForm Perimeter License 1.0.1 (+ hosted option) | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
+| Multi-channel deploy | आप build करते हैं | अंतर्निहित (4 channels + webhooks) | Included नहीं | Included नहीं |
+| Pricing | Free (+ infra costs) | Free $0 · Pro $29/mo · Team $99/mo | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
 
 Top AI एजेंट frameworks का मूल्यांकन करने वाली teams के लिए, ईमानदार उत्तर है: यदि सुरक्षा और governance आपकी top priorities हैं, OpenLegion उसके लिए purpose-built है। यदि ecosystem maturity और community size सबसे अधिक मायने रखते हैं, LangGraph और CrewAI के पास significant advantages हैं। यदि आप Microsoft ecosystem में हैं, Semantic Kernel (या नया Microsoft Agent Framework) natural choice है।
 
@@ -134,7 +134,7 @@ AI एजेंट framework landscape तेजी से विकसित �
 
 ## CTA
 
-**अपने एजेंट fleet के लिए production-grade सुरक्षा चाहिए?**
+**अपनी एजेंट team के लिए production-grade सुरक्षा चाहिए?**
 [शुरू करें](https://app.openlegion.ai) | [Docs पढ़ें](https://docs.openlegion.ai)
 
 ---
@@ -149,7 +149,7 @@ AI एजेंट framework landscape तेजी से विकसित �
 
 ### AI एजेंट frameworks comparison: वे कैसे भिन्न हैं?
 
-AI एजेंट frameworks पाँच key dimensions में भिन्न हैं: orchestration model (graph-आधारित बनाम role-आधारित बनाम conversation-आधारित), isolation (प्रति-एजेंट containers बनाम shared process), credential management (vault proxy बनाम environment variables), cost controls (प्रति-एजेंट budgets बनाम कोई नहीं), और hosting (self-hosted बनाम managed platform)। विस्तृत side-by-side breakdown के लिए ऊपर comparison तालिका देखें।
+AI एजेंट frameworks पाँच key dimensions में भिन्न हैं: orchestration model (graph-आधारित बनाम role-आधारित बनाम conversation-आधारित), isolation (प्रति-एजेंट containers बनाम shared process), credential management (एक credential vault बनाम environment variables), cost controls (प्रति-एजेंट budgets बनाम कोई नहीं), और hosting (self-hosted बनाम managed platform)। विस्तृत side-by-side breakdown के लिए ऊपर comparison तालिका देखें।
 
 ### Production के लिए सबसे अच्छा AI एजेंट framework क्या है?
 
@@ -157,11 +157,11 @@ Production के लिए सबसे अच्छा AI एजेंट fram
 
 ### Open source बनाम managed AI एजेंट platforms: अंतर क्या है?
 
-Open-source AI एजेंट frameworks (LangGraph core, CrewAI open source, AutoGen) एजेंट logic प्रदान करते हैं — आप infrastructure build करते हैं। Managed [AI एजेंट platforms](/learn/ai-agent-platform) operational layers जोड़ते हैं: container provisioning, credential vaulting, cost tracking, observability। OpenLegion इस gap को एक source-available project (PolyForm Perimeter License 1.0.1) के रूप में bridge करता है managed platform capabilities के साथ अंतर्निहित। LangSmith और CrewAI AMP अपने respective open-source frameworks के ऊपर paid managed layers हैं।
+Open-source AI एजेंट frameworks (LangGraph core, CrewAI open source, AutoGen) एजेंट logic प्रदान करते हैं — आप infrastructure build करते हैं। Managed [AI एजेंट platforms](/learn/ai-agent-platform) operational layers जोड़ते हैं: container provisioning, credential vaulting, cost tracking, observability। OpenLegion इस gap को bridge करता है: engine PolyForm Perimeter License 1.0.1 के तहत source-available प्रकाशित है, और hosted प्लेटफ़ॉर्म इसे आपके लिए चलाता है। LangSmith और CrewAI AMP अपने respective open-source frameworks के ऊपर paid managed layers हैं।
 
 ### OpenLegion OpenClaw/LangGraph/CrewAI/AutoGen के सापेक्ष कहाँ fit होता है?
 
-OpenLegion एक specific niche occupy करता है: security-first [AI एजेंट प्लेटफ़ॉर्म](/learn/ai-agent-platform)। Public documentation के आधार पर, यह एकमात्र framework है जो अंतर्निहित vault-proxied credentials, प्रति एजेंट अनिवार्य कंटेनर isolation, और native बजट enforcement प्रदान करता है। OpenClaw के पास सबसे बड़ा community और सबसे मजबूत AI coding क्षमताएँ हैं। LangGraph के पास सबसे ऊँचा adoption और सबसे flexible orchestration है। CrewAI के पास सबसे gentle learning curve है। AutoGen Microsoft Agent Framework में transition कर रहा है।
+OpenLegion एक specific niche occupy करता है: security-first [AI एजेंट प्लेटफ़ॉर्म](/learn/ai-agent-platform)। Public documentation के आधार पर, यह एकमात्र framework है जो अंतर्निहित vault में रखे credentials, हर task के लिए एक sandboxed run, और native प्रति-एजेंट बजट enforcement प्रदान करता है। OpenClaw के पास सबसे बड़ा community और सबसे मजबूत AI coding क्षमताएँ हैं। LangGraph के पास सबसे ऊँचा adoption और सबसे flexible orchestration है। CrewAI के पास सबसे gentle learning curve है। AutoGen Microsoft Agent Framework में transition कर रहा है।
 
 ### मैं AI एजेंट frameworks के बीच कैसे चुनूँ?
 
@@ -173,7 +173,7 @@ OpenLegion एक specific niche occupy करता है: security-first [AI 
 
 ### सबसे सुरक्षित AI एजेंट framework क्या है?
 
-लिखने के समय public documentation के आधार पर, OpenLegion सबसे comprehensive अंतर्निहित सुरक्षा प्रदान करता है: vault-proxied credentials (एजेंट्स कच्ची API keys कभी नहीं देखते), प्रति एजेंट अनिवार्य Docker कंटेनर isolation, hard cutoffs के साथ प्रति-एजेंट बजट enforcement, प्रति एजेंट permission matrices, कई choke points पर unicode sanitization, और auditability के लिए fleet-model coordination orchestration। अन्य frameworks custom engineering के साथ समान सुरक्षा प्राप्त कर सकते हैं, लेकिन कोई भी इन features को out of the box प्रदान नहीं करता।
+लिखने के समय public documentation के आधार पर, OpenLegion सबसे comprehensive अंतर्निहित सुरक्षा प्रदान करता है: vault में रखे credentials (एजेंट्स कच्ची API keys कभी नहीं देखते), हर task के लिए एक sandboxed run, hard cutoffs के साथ प्रति-एजेंट बजट enforcement, प्रति एजेंट permission matrices, कई choke points पर unicode sanitization, और auditability के लिए goal-and-task coordination। अन्य frameworks custom engineering के साथ समान सुरक्षा प्राप्त कर सकते हैं, लेकिन कोई भी इन features को out of the box प्रदान नहीं करता।
 
 ---
 

@@ -4,6 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { FOOTER_COLUMNS } from "@/lib/constants";
 import { linkLocaleFor } from "@/lib/markdown";
+import { PreferredSourceButton } from "@/components/preferred-source-button";
 import { CookieSettingsButton } from "@/components/consent-manager";
 
 export function Footer() {
@@ -38,12 +39,18 @@ export function Footer() {
             <p className="mt-4 text-sm leading-relaxed text-muted">
               {t("brandDescription")}
             </p>
-            <p className="mt-4 text-xs text-muted/70">
+            {/* EU AI Act Art. 50 — people must be told they are interacting
+                with an AI system. Stated site-wide rather than per surface. */}
+            <p className="mt-4 text-xs leading-relaxed text-muted/70">
+              {t("aiDisclosure")}
+            </p>
+            <p className="mt-3 text-xs text-muted/70">
               {t("license", { year: new Date().getFullYear() })}
             </p>
             <p className="mt-2">
               <CookieSettingsButton label={tc("settings")} />
             </p>
+            <PreferredSourceButton className="mt-5" />
           </AnimateIn>
 
           {/* Link columns */}

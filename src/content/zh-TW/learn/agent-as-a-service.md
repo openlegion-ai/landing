@@ -59,9 +59,9 @@ CVE-2024-5184（Palo Alto Unit 42，2024 年 6 月，CVSS 9.1 CRITICAL）證明�
 向每個 AaaS 供應商提出的診斷問題：**「如果攻擊者透過提示注入提取了我代理的完整上下文視窗，哪些憑證面臨風險？」** 正確答案是：無，憑證不在代理的上下文視窗中。
 
 - **AWS Bedrock Agents**：每次呼叫的 IAM 角色承擔；代理在臨時 IAM 角色令牌下執行，從不持有原始 API 金鑰
-- **OpenLegion**：Zone 2 的 `$CRED{}` 句柄解析；代理程式碼按名稱引用憑證；Zone 2 在執行時解析實際值而不將其返回給代理
+- **OpenLegion**：金庫保管的憑證句柄；代理按名稱引用憑證；政策引擎在執行時解析實際值而不將其返回給模型
 
-有關 Vault 代理模式和 `$CRED{}` 句柄架構，請參閱 [AI 代理的憑證管理和每租戶 API 金鑰範圍](/learn/credential-management-ai-agents)。
+有關憑證金庫模式和句柄架構，請參閱 [AI 代理的憑證管理和每租戶 API 金鑰範圍](/learn/credential-management-ai-agents)。
 
 ## 2026 年 AaaS 供應商格局
 
@@ -138,7 +138,7 @@ CVE-2024-5184（Palo Alto Unit 42，2024 年 6 月，CVSS 9.1 CRITICAL）：透�
 **基礎設施級隔離（最強）：**
 - AWS Bedrock Agents：每個租戶獨立的 IAM 角色
 - Google Agent Space：透過 Google Cloud 專案邊界隔離
-- OpenLegion：每個專案的黑板命名空間 ACL
+- OpenLegion：每個工作區對共享代理狀態的 ACL
 
 **系統提示級隔離（最弱）：** 當提示注入覆蓋租戶指令時失敗（OWASP LLM06:2023）。
 
@@ -201,14 +201,14 @@ Agent as a Service 是 2026 年成長最快的企業 AI 採購類別，也是安
 
 | **安全控制** | **OpenLegion** | **AWS Bedrock Agents** | **Google Agent Space** | **OpenAI Operator** | **LangGraph（自架設）** |
 |---|---|---|---|---|---|
-| **具有 $CRED{} 句柄解析的憑證 Vault** | Zone 2，架構級 | IAM 角色承擔 | 服務帳戶範圍 | 會話隔離 | 開發者責任 |
-| **每代理每日支出上限（基礎設施層）** | Zone 2，$0-$50/天 | 不可用 | 不可用 | 不可用 | 開發者責任 |
-| **每租戶專案的黑板 ACL** | 架構級 | 基於 IAM | 基於專案 | 不適用 | 開發者責任 |
+| **具有句柄解析的憑證 Vault** | 金庫強制，架構級 | IAM 角色承擔 | 服務帳戶範圍 | 會話隔離 | 開發者責任 |
+| **每代理每日支出上限（基礎設施層）** | 政策引擎，每代理點數預算 | 不可用 | 不可用 | 不可用 | 開發者責任 |
+| **每租戶專案的共享狀態 ACL** | 架構級 | 基於 IAM | 基於專案 | 不適用 | 開發者責任 |
 | **每代理工具權限範圍** | 執行環境強制 | 操作群組 IAM | 基於 IAM | 不適用 | 開發者責任 |
 | **每租戶 WORM 稽核日誌（SOC 2 CC6.1）** | 原生 | CloudTrail | Cloud Audit Logs | 不適用 | 開發者責任 |
-| **git 中的代理定義** | INSTRUCTIONS.md | 控制台/API | 控制台/API | 不適用 | 開發者責任 |
+| **git 中的代理定義** | 不在 git 中 — 在應用程式內，每次變更皆稽核 | 控制台/API | 控制台/API | 不適用 | 開發者責任 |
 
-[開始在 OpenLegion 上建構](https://app.openlegion.ai) -- 透過 Zone 2 的 `$CRED{}` Vault 代理解析部署具有架構級憑證隔離、Zone 2 強制的每代理每日支出上限以及使跨租戶狀態存取在架構上不可能的黑板 ACL 的代理。
+[開始在 OpenLegion 上建構](https://app.openlegion.ai) -- 透過金庫保管的憑證句柄部署具有架構級憑證隔離、由政策引擎強制的每代理點數預算，以及使跨租戶狀態存取在架構上不可能的每工作區 ACL 的代理。
 
 <!-- SCHEMA: FAQPage -->
 
@@ -232,7 +232,7 @@ AWS Bedrock Agents 是亞馬遜的托管 AaaS 平台，在基於 IAM 角色的�
 
 ### AaaS 平台中的憑證隔離如何運作？
 
-AaaS 中的憑證隔離意味著平台從不將客戶的 LLM API 金鑰、資料庫憑證或工具密鑰暴露給代理程式碼。AWS Bedrock Agents 透過 IAM 角色承擔實現這一點。OpenLegion 使用 Zone 2 的 `$CRED{}` 句柄解析：代理程式碼按名稱引用憑證；Zone 2 在執行時解析實際值而不將其返回給代理。
+AaaS 中的憑證隔離意味著平台從不將客戶的 LLM API 金鑰、資料庫憑證或工具密鑰暴露給代理程式碼。AWS Bedrock Agents 透過 IAM 角色承擔實現這一點。OpenLegion 使用金庫保管的憑證句柄：代理按名稱引用憑證；政策引擎在執行時解析實際值而不將其返回給模型。
 
 ### AaaS 平台特有的安全風險是什麼？
 

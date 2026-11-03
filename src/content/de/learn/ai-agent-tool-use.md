@@ -164,16 +164,16 @@ Tool-Aufrufe mit irreversiblen Seiteneffekten — E-Mails senden, Datensätze l�
 
 Jeder große LLM-Anbieter hat eine andere Tool-Calling-API. Die richtige Abstraktion: Ein Tool einmal definieren und das Framework es zur korrekten Anbieterkonvention zur Aufrufzeit übersetzen lassen.
 
-OpenLegions Tool-Registrierung implementiert diese Abstraktion. `search_web` einmal definieren. Das Mesh übersetzt die Definition zu OpenAI `tools`, Anthropic `tools` oder Gemini `functionDeclarations` je nach konfiguriertem Modell. Das ACL-Gate ist nicht optional. Jeder Tool-Aufruf — eingebaut, MCP oder benutzerdefiniert — läuft durch die per-Agenten-Berechtigungsmatrix vor der Ausführung.
+OpenLegions Tool-Registrierung implementiert diese Abstraktion. `search_web` einmal definieren. Die Plattform übersetzt die Definition zu OpenAI `tools`, Anthropic `tools` oder Gemini `functionDeclarations` je nach dem Modell, auf das das Preset des Agenten auflöst. Das ACL-Gate ist nicht optional. Jeder Tool-Aufruf — eingebaut, MCP oder benutzerdefiniert — läuft durch die per-Agenten-Berechtigungsmatrix vor der Ausführung.
 
 | **Dimension** | **OpenLegion** | **LangChain / LangGraph** | **OpenAI Agents SDK** | **CrewAI** | **Anthropic direkt** |
 |---|---|---|---|---|---|
 | **Tool-Definitions-Format** | Einzelnes Schema, anbieterübersetzt | Anbieterspezifische Wrapper erforderlich | Nur OpenAI-Format | CrewAI-Tool-Decorator | Nur Anthropic-tool_use-Format |
-| **Anbieter-Abstraktion** | Ja — GPT-4o, Claude, Gemini vereint | Partiell — über LangChain-Integrationen | Nein — nur OpenAI-Modelle | Partiell | Nein — nur Anthropic |
+| **Anbieter-Abstraktion** | Ja — ein Preset, Anbieter abstrahiert | Partiell — über LangChain-Integrationen | Nein — nur OpenAI-Modelle | Partiell | Nein — nur Anthropic |
 | **ACL-Durchsetzung** | Per-Agenten-Berechtigungsmatrix, strukturell | Nicht eingebaut | Nicht eingebaut | Nicht eingebaut | Nicht eingebaut |
 | **Parallele Tool-Aufrufe** | Unterstützt | Unterstützt (anbieterabhängig) | Ja — Standard in Responses API | Unterstützt | Ja — Claude unterstützt |
-| **Eingebaute Tools** | Browser, Datei, HTTP, Shell, Bildgen | Über LangChain-Community-Tools | web_search, file_search, computer_use | Nicht eingebaut | Nicht eingebaut |
-| **MCP-Integration** | Nativ — gleiche ACL/Budget-Pipeline | Über LangChain-MCP-Adapter | Experimentell | Nicht nativ | Nicht nativ |
+| **Eingebaute Tools** | Datei, HTTP, gesandboxter Code, Calendar, Drive | Über LangChain-Community-Tools | web_search, file_search, computer_use | Nicht eingebaut | Nicht eingebaut |
+| **MCP-Integration** | Zum Start nicht angebunden | Über LangChain-MCP-Adapter | Experimentell | Nicht nativ | Nicht nativ |
 
 Für die MCP-Spezifikation, Server-Architektur und per-Server-Berechtigungsanforderungen, siehe den [Model Context Protocol-Leitfaden](/learn/model-context-protocol).
 
@@ -181,7 +181,7 @@ Für die MCP-Spezifikation, Server-Architektur und per-Server-Berechtigungsanfor
 
 ### Eingebaute Laufzeit-Tools
 
-Eingebaute Tools werden vom Agenten-Runtime bereitgestellt — Browser-Automatisierung, Dateioperationen, HTTP-Anfragen, Shell-Befehle, Bildgenerierung — mit bereits angewandter ACL-Durchsetzung und Budget-Tracking. Eingebaute Tools zuerst verwenden.
+Eingebaute Tools werden von der Plattform bereitgestellt — Dateioperationen, HTTP-Anfragen, gesandboxte Code-Ausführung sowie die Google-Calendar- und Drive-Connectors — mit bereits angewandter ACL-Durchsetzung und Budget-Tracking. Eingebaute Tools zuerst verwenden.
 
 ### MCP-Tool-Server
 
@@ -189,7 +189,7 @@ MCP-Tools werden von Model Context Protocol-Servern bereitgestellt, die Tools ü
 
 ### Benutzerdefinierte Tool-Registrierung
 
-Benutzerdefinierte Tools sind Python- oder TypeScript-Funktionen, die man schreibt und in der Tool-Registrierung des Agenten registriert. Sie geben volle Flexibilität; der Kompromiss ist, dass man Validierung, Fehlerbehandlung, Idempotenz und Sicherheitskontrollen selbst besitzt.
+Benutzerdefinierte Tools sind Python- oder TypeScript-Funktionen, die man schreibt und in der Tool-Registrierung des Agenten registriert. Sie geben volle Flexibilität; der Kompromiss ist, dass man Validierung, Fehlerbehandlung, Idempotenz und Sicherheitskontrollen selbst besitzt. Jedes benutzerdefinierte Tool läuft über dieselbe Policy-Engine und dasselbe Credit-Budget wie eingebaute Tools.
 
 <!-- SCHEMA: FAQPage -->
 ## Häufig gestellte Fragen

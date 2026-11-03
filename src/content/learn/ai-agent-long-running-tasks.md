@@ -98,7 +98,7 @@ An agent injected with an OAuth access token at task start and running for 61+ m
 
 The correct fix is architectural: per-call vault injection. Covered in the Credential Management section below.
 
-For the full credential management architecture, vault proxy patterns, secret rotation, and OWASP LLM06 defenses, see [credential management for AI agents and vault proxy architecture](/learn/credential-management-ai-agents).
+For the full credential management architecture, vault injection patterns, secret rotation, and OWASP LLM06 defenses, see [credential management for AI agents and vault proxy architecture](/learn/credential-management-ai-agents).
 
 ## Task Queue Architecture: Celery and Persistent Workers
 
@@ -329,7 +329,7 @@ class AgentWithVaultCredential:
 
     async def call_api(self, endpoint: str, data: dict):
         # Vault: checks expiry -> refreshes if <5 min remaining -> injects fresh token
-        return await vault_proxy.call_api(
+        return await vault.call_api(
             endpoint=endpoint,
             data=data,
             credential=self.credential_name
@@ -341,7 +341,7 @@ class AgentWithVaultCredential:
 1. Agent sends tool call with `credential: "google_calendar_oauth"` reference
 2. Vault checks `expires_at`; refreshes if less than 5 minutes remaining
 3. Vault updates the stored access token and `expires_at` with the refreshed value
-4. Vault injects the fresh token into the outgoing HTTP request at the network layer
+4. Vault injects the fresh token into the outgoing HTTP request, outside the model
 5. Agent never sees the token value, only the API call result
 
 **What this eliminates:**
@@ -498,7 +498,7 @@ The production failure that catches teams off-guard is not the 5-minute timeout,
 
 Three concrete facts about long-running agent task infrastructure in production:
 
-**Per-call vault injection is the only OAuth pattern that works at 60+ minutes.** RFC 6749 specifies that Google OAuth2, Microsoft Entra ID, and GitHub Apps all issue access tokens with 1-hour TTL. An agent that injects the token at task start will fail at minute 61. The agent-side refresh alternative puts the refresh token in the agent's context window, a security gap far more serious than the original 401, because refresh tokens have indefinitely long or multi-month TTLs. OpenLegion's vault resolves the token at the network layer for every tool call. The agent never holds the token value; refresh happens transparently; a 6-hour task never hits a 401.
+**Per-call vault injection is the only OAuth pattern that works at 60+ minutes.** RFC 6749 specifies that Google OAuth2, Microsoft Entra ID, and GitHub Apps all issue access tokens with 1-hour TTL. An agent that injects the token at task start will fail at minute 61. The agent-side refresh alternative puts the refresh token in the agent's context window, a security gap far more serious than the original 401, because refresh tokens have indefinitely long or multi-month TTLs. OpenLegion's vault resolves the token outside the model for every tool call. The agent never holds the token value; refresh happens transparently; a 6-hour task never hits a 401.
 
 **`task_acks_late=True` on Celery workers prevents task loss on crash.** With the default `task_acks_early=True`, Celery acknowledges the task message when the worker picks it up, before execution. If the worker crashes at step 47 of a 100-step task, the task is gone: the broker already acknowledged it. `task_acks_late=True` defers acknowledgment until the task function returns. Combined with LangGraph's PostgresSaver checkpointing, the redelivered task resumes from step 47, not from step 1.
 
@@ -506,12 +506,12 @@ Three concrete facts about long-running agent task infrastructure in production:
 
 | **Long-running task capability** | **OpenLegion** | **LangGraph + Celery** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Vault per-call credential injection: OAuth token refresh at network layer; agent never holds token value; no 61-minute 401 failure** | Yes, vault per-call | No, user-defined | No, env var | No, env var | No, env var |
-| **Heartbeat-driven autonomous wakeup: native multi-day task; agent terminates between steps; zero resource usage during waits** | Yes, cron native | Celery Beat (user config) | No | No | No |
-| **Blackboard as task state store: persistent state survives process termination; next wakeup reads progress** | Yes, hierarchical blackboard | Postgres/SQLite (user setup) | No, in-memory | No, in-memory | No, in-memory |
-| **task_id propagated to all writes, tool calls, and LLM spans: full task state reconstructable post-hoc** | Yes, mesh-layer propagation | Manual (thread_id discipline) | No | No | No |
+| **Vault per-call credential injection: OAuth token refresh outside the model; agent never holds token value; no 61-minute 401 failure** | Yes, vault per-call | No, user-defined | No, env var | No, env var | No, env var |
+| **Heartbeat-driven autonomous wakeup: native multi-day task; agent terminates between steps; zero resource usage during waits** | Yes, native schedules | Celery Beat (user config) | No | No | No |
+| **Durable task state store: persistent state survives process termination; next wakeup reads progress** | Yes, goals and tasks as durable rows | Postgres/SQLite (user setup) | No, in-memory | No, in-memory | No, in-memory |
+| **task_id propagated to all writes, tool calls, and LLM spans: full task state reconstructable post-hoc** | Yes, policy-engine propagation | Manual (thread_id discipline) | No | No | No |
 | **Progressive summarization every 20-30 steps: context budget stays constant for tasks of arbitrary length** | Yes, documented + cost data | User-defined | Not built-in | Not built-in | Not built-in |
-| **Graceful checkpoint-before-kill on mesh timeout** | Yes, pre-kill checkpoint hook | task_soft_time_limit (user handler) | No | No | No |
+| **Graceful checkpoint-before-kill on wake timeout** | Yes, pre-kill checkpoint hook | task_soft_time_limit (user handler) | No | No | No |
 
 <!-- SCHEMA: FAQPage -->
 
@@ -555,4 +555,4 @@ Long-running agent tasks expose three failure modes that short tasks never encou
 
 The production stack: Celery 5.3 with `task_acks_late=True` for timeout-free execution and crash-safe requeue; LangGraph PostgresSaver for crash-resume without full restart; progressive summarization every 25 steps for context budget control; per-call vault injection for credential freshness independent of task duration.
 
-[Start building on OpenLegion](https://app.openlegion.ai): vault per-call credential injection, heartbeat-driven autonomous wakeup with native cron scheduling, blackboard task state persisting across process restarts, and `task_id` propagated to every tool call and LLM span.
+[Start building on OpenLegion](https://app.openlegion.ai): vault per-call credential injection, schedules that wake an agent for each unit of work, durable task state persisting across restarts, and `task_id` propagated to every tool call and LLM span.

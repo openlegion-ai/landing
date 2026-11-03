@@ -66,7 +66,7 @@ Drei Agenten-Speichertypen erfordern jeweils separate Tenant-Isolationsbehandlun
 
 **Semantischer Speicher (Vektorspeicher)**: Wenn ein gemeinsamer Vektorspeicher verwendet wird, muss jeder Schreibvorgang `tenant_id` als obligatorisches Metadaten-Feld enthalten, und jede Abfrage muss einen Metadaten-Filter `{tenant_id: current_tenant_id}` enthalten. Der Filter muss auf der **Speicher-Client-Ebene** eingefügt werden, nicht als Parameter aus dem Agenten-Code übergeben werden.
 
-**Koordinationsstatus (Blackboard)**: Key-Value-Status, der über Agenten in derselben Flotte hinweg geteilt wird, muss tenant-bezogene Key-Präfixe verwenden, zum Beispiel `projects/{tenant_id}/*`, mit ACL-Durchsetzung auf der Mesh-Ebene.
+**Koordinationsstatus (Blackboard)**: Key-Value-Status, der über Agenten desselben Teams hinweg geteilt wird, muss tenant-bezogene Key-Präfixe verwenden, zum Beispiel `projects/{tenant_id}/*`, mit ACL-Durchsetzung auf der Control-Plane-Ebene.
 
 ## Credential-Isolation: Tenant-spezifisches Vault-Scoping
 
@@ -162,14 +162,14 @@ Dieses Anti-Pattern schlägt bei CC6.1 fehl: Rate-Limit-Teilen, Kostenzuordnungs
 
 ## OpenLegions Einschätzung: Isolation durch Architektur, nicht durch Konvention
 
-OpenLegion erzwingt Tenant-Isolation durch drei Infrastruktur-Ebenen-Mechanismen, die Agenten-Code nicht umgehen kann: pro-Projekt-Credential-Vault-Scoping, Blackboard-Namespace-ACLs und cross-Projekt-Agent-Messaging, das standardmäßig blockiert ist.
+OpenLegion erzwingt Tenant-Isolation durch drei Infrastruktur-Ebenen-Mechanismen, die Agenten-Code nicht umgehen kann: pro-Projekt-Credential-Vault-Scoping, Gedächtnis-Namespace-ACLs und cross-Projekt-Agent-Messaging, das standardmäßig blockiert ist.
 
 | **Isolationskontrolle** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
 | **Tenant-spezifischer Credential-Vault-Scope** | Infrastruktur-erzwungen | Entwicklerkonvention | Entwicklerkonvention | Entwicklerkonvention | Entwicklerkonvention |
-| **Blackboard-Namespace-ACLs** | Infrastruktur-erzwungen | Nicht verfügbar | Nicht verfügbar | Nicht verfügbar | Nicht verfügbar |
+| **Gedächtnis-Namespace-ACLs** | Infrastruktur-erzwungen | Nicht verfügbar | Nicht verfügbar | Nicht verfügbar | Nicht verfügbar |
 | **Cross-Projekt-Agent-Messaging blockiert** | Standardmäßig blockiert | Nicht verfügbar | Nicht verfügbar | Nicht verfügbar | Nicht verfügbar |
-| **Tenant-spezifischer Budget-Cap (Zone 2)** | Infrastruktur-erzwungen | Entwicklerkonvention | Entwicklerkonvention | Entwicklerkonvention | Entwicklerkonvention |
+| **Tenant-spezifischer Budget-Cap (Policy-Engine)** | Infrastruktur-erzwungen | Entwicklerkonvention | Entwicklerkonvention | Entwicklerkonvention | Entwicklerkonvention |
 | **Tenant-spezifische Audit-Partition (WORM)** | Infrastruktur-erzwungen | Entwicklerkonvention | Entwicklerkonvention | Entwicklerkonvention | Entwicklerkonvention |
 | **Kubernetes-Namespace + ResourceQuota** | Plattformseitig verwaltet | Selbst verwaltet | Selbst verwaltet | Selbst verwaltet | Selbst verwaltet |
 
@@ -205,7 +205,7 @@ Die Verwendung eines gemeinsamen Vektorspeichers ohne obligatorische pro-Abfrage
 
 ### Wie erzwingt OpenLegion Tenant-Isolation?
 
-OpenLegion erzwingt Tenant-Isolation durch drei Infrastruktur-Ebenen-Mechanismen: pro-Projekt-Credential-Vault-Scoping (Zone 2 löst `$CRED{}`-Handles unter Verwendung des authentifizierten Projektkontexts aus der Mesh-Sitzung auf, nicht aus agenten-gelieferten Parametern; cross-Projekt-Credential-Auflösung ist architektonisch unmöglich), Blackboard-Namespace-ACLs (Agenten haben Lese- und Schreibberechtigungen nur für den Key-Präfix ihres Projekts, durchgesetzt vom Mesh-Supervisor) und cross-Projekt-Agent-Messaging, das standardmäßig blockiert ist.
+OpenLegion erzwingt Tenant-Isolation durch drei Infrastruktur-Ebenen-Mechanismen: pro-Projekt-Credential-Vault-Scoping (die Policy-Engine löst Credential-Handles unter Verwendung des authentifizierten Projektkontexts auf, nicht aus agenten-gelieferten Parametern; cross-Projekt-Credential-Auflösung ist architektonisch unmöglich), Gedächtnis-Namespace-ACLs (Agenten haben Lese- und Schreibberechtigungen nur für den Key-Präfix ihres Projekts, durchgesetzt von der Policy-Engine) und cross-Projekt-Agent-Messaging, das standardmäßig blockiert ist.
 
 ### Was sind die drei Multi-Tenancy-Architekturmodelle für Agentenplattformen?
 

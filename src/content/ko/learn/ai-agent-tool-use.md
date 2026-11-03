@@ -164,16 +164,16 @@ HTTP 200을 반환하는 도구가 올바르고 유용한 결과를 반환하는
 
 모든 주요 LLM 프로바이더는 서로 다른 도구 호출 API를 가지고 있다. 올바른 추상화: 도구를 한 번 정의하고 프레임워크가 호출 시 올바른 프로바이더 규칙으로 변환하도록 한다.
 
-OpenLegion의 도구 레지스트리는 이 추상화를 구현한다. `search_web`을 한 번 정의한다. 메시는 설정된 모델에 따라 OpenAI `tools`, Anthropic `tools` 또는 Gemini `functionDeclarations`로 변환한다. ACL 게이트는 선택 사항이 아니다. 모든 도구 호출 — 내장형, MCP, 커스텀 — 은 실행 전에 에이전트별 권한 매트릭스를 통과한다.
+OpenLegion의 도구 레지스트리는 이 추상화를 구현한다. `search_web`을 한 번 정의한다. 플랫폼은 에이전트의 프리셋이 가리키는 모델에 따라 OpenAI `tools`, Anthropic `tools` 또는 Gemini `functionDeclarations`로 변환한다. ACL 게이트는 선택 사항이 아니다. 모든 도구 호출 — 내장형, MCP, 커스텀 — 은 실행 전에 에이전트별 권한 매트릭스를 통과한다.
 
 | **차원** | **OpenLegion** | **LangChain / LangGraph** | **OpenAI Agents SDK** | **CrewAI** | **Anthropic 직접** |
 |---|---|---|---|---|---|
 | **도구 정의 형식** | 단일 스키마, 프로바이더 변환 | 프로바이더별 래퍼 필요 | OpenAI 형식만 | CrewAI 도구 데코레이터 | Anthropic tool_use 형식만 |
-| **프로바이더 추상화** | 예 — GPT-4o, Claude, Gemini 통합 | 부분적 — LangChain 통합 경유 | 아니오 — OpenAI 모델만 | 부분적 | 아니오 — Anthropic만 |
+| **프로바이더 추상화** | 예 — 하나의 프리셋, 프로바이더 추상화 | 부분적 — LangChain 통합 경유 | 아니오 — OpenAI 모델만 | 부분적 | 아니오 — Anthropic만 |
 | **ACL 적용** | 에이전트별 권한 매트릭스, 구조적 | 내장 없음 | 내장 없음 | 내장 없음 | 내장 없음 |
 | **병렬 도구 호출** | 지원 | 지원(프로바이더 의존) | 예 — Responses API 기본값 | 지원 | 예 — Claude 지원 |
-| **내장 도구** | 브라우저, 파일, HTTP, 쉘, 이미지 생성 | LangChain 커뮤니티 도구 경유 | web_search, file_search, computer_use | 내장 없음 | 내장 없음 |
-| **MCP 통합** | 네이티브 — 동일한 ACL/예산 파이프라인 | LangChain MCP 어댑터 경유 | 실험적 | 네이티브 아님 | 네이티브 아님 |
+| **내장 도구** | 파일, HTTP, 샌드박스 코드, Calendar, Drive | LangChain 커뮤니티 도구 경유 | web_search, file_search, computer_use | 내장 없음 | 내장 없음 |
+| **MCP 통합** | 출시 시점에는 연결 없음 | LangChain MCP 어댑터 경유 | 실험적 | 네이티브 아님 | 네이티브 아님 |
 
 MCP 사양, 서버 아키텍처, 서버별 권한 요구 사항은 [Model Context Protocol 가이드](/learn/model-context-protocol)를 참조.
 

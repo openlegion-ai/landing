@@ -1,7 +1,7 @@
 ---
 title: 模型上下文协议（MCP） — AI 智能体如何使用工具
 description: >-
-  模型上下文协议（MCP）是 Anthropic 推出的开放标准，让 AI 智能体能发现并调用外部工具。它的工作原理、安全注意事项以及 OpenLegion 的 MCP 支持。
+  模型上下文协议（MCP）是 Anthropic 推出的开放标准，让 AI 智能体能发现并调用外部工具。它的工作原理、安全注意事项，以及 OpenLegion 采取的替代做法。
 slug: /learn/model-context-protocol
 primary_keyword: 模型上下文协议
 secondary_keywords:
@@ -72,14 +72,14 @@ MCP 是 *能力暴露* 协议——不是授权或审计协议。生产部署需
 
 ## OpenLegion 如何集成 MCP
 
-OpenLegion 默认就是一个 MCP 客户端。运行时中的智能体会自动发现为其舰队配置的 MCP 服务器，在上下文窗口中看到工具列表，并通过与内置技能相同的密钥库代理、ACL 关卡路径调用 MCP 工具。Mesh 负责执行 MCP 留白的生产级各层：
+OpenLegion 在发布时不提供 MCP。智能体使用 OpenLegion 自己的内置工具集，而每一次调用都走同一条路径：先由统一的策略引擎把它当作意图校验，再记录成所有者可读的回执。这些正是 MCP 刻意留白的生产级各层：
 
-- 每个 MCP 服务器在自己的沙箱命名空间中运行；智能体永远无法直接获得对服务器进程的 stdio 访问。
-- 单智能体 ACL 控制某个智能体被允许调用哪些 MCP 服务器。
-- 每次工具调用都计入该智能体的单智能体预算；无论开销来自 LLM 还是 MCP 工具，超出上限的智能体都会被切断。
-- Mesh 把每次 MCP 调用记录到追踪日志中——也就是 [AI 智能体可观测性](/learn/ai-agent-observability) 中所涵盖的同一份遥测。
+- 智能体编写的代码默认运行在无网络访问的沙箱中；智能体永远无法直接获得对宿主进程的 stdio 访问。
+- 单智能体权限控制某个智能体被允许调用哪些工具。
+- 每次工具调用都计入该智能体自己的积分预算；无论开销来自模型还是工具，把预算耗尽的智能体都会被切断。
+- 每一次调用都会连同智能体身份、时间戳和确切成本一起记录——也就是 [AI 智能体可观测性](/learn/ai-agent-observability) 中所涵盖的同一份遥测。
 
-结果：你获得了 MCP 生态的广度，而无需继承它的默认信任假设。
+结果：工具面比 MCP 生态更窄，但完全不继承它的默认信任假设。
 
 ## OpenLegion 的看法
 
@@ -87,7 +87,7 @@ MCP 是自 OpenAPI 以来最重要的智能体生态标准——它把原本是 
 
 ## CTA
 
-**部署 MCP 兼容、且内置生产级控制的智能体。**
+**部署内置生产级控制的智能体。**
 [立即开始](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai)
 
 ---
@@ -118,4 +118,4 @@ OpenAI 函数调用是单一厂商的模式，用于让某一个 LLM 调用 API 
 
 ### 我可以在任意 LLM 提供商上使用 MCP 吗？
 
-可以。MCP 与 LLM 无关——客户端会把 MCP 工具定义渲染为底层 LLM 所期望的任何格式（Anthropic tool use、OpenAI function calling、Gemini function declarations）。像 OpenLegion 这样通过 LiteLLM 支持 100+ 家提供商的运行时，会自动把 MCP 工具适配到每家提供商的调用约定。
+可以。MCP 与 LLM 无关——客户端会把 MCP 工具定义渲染为底层 LLM 所期望的任何格式（Anthropic tool use、OpenAI function calling、Gemini function declarations）。像 OpenLegion 那样用最智能、智能与普通三档模型预设把提供商选择隐藏起来的运行时，会替你把工具定义适配到每家提供商的调用约定。

@@ -27,7 +27,7 @@ related:
 
 According to industry analysts, the agentic AI market reached an estimated $7.6 billion in 2025 and is projected to hit $47-52 billion by 2030. Analyst firms predict a significant percentage of enterprise applications will embed AI agents by end of 2026. With over a dozen frameworks competing for adoption, choosing the right one depends on what you actually need: rapid prototyping, cloud-native deployment, visual building, or production security.
 
-OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) built around container isolation, vault-proxied credentials, and per-agent budget enforcement. This page compares it against every major alternative — including the explosion of OpenClaw ecosystem projects — so you can decide which framework fits your requirements.
+OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) built around sandboxed task runs, vault-held credentials, and per-agent budget enforcement. This page compares it against every major alternative — including the explosion of OpenClaw ecosystem projects — so you can decide which framework fits your requirements.
 
 ## Master Comparison Table
 
@@ -43,7 +43,7 @@ OpenLegion is a security-first [AI agent framework](/learn/ai-agent-platform) bu
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27,300 | MIT | None built-in | DefaultAzureCredential | Free (open source) | Critical RCE (CVSS 9.9) | Reduced update frequency |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19,200 | MIT | None (same process) | Env var API key | Free SDK; API usage-based | 0 | Active |
 | [**Dify**](/comparison/dify) | 131,000 | Modified Apache 2.0 | Plugin sandbox | Workspace-shared keys | Cloud $59-159/mo | CVE-2025-3466 (CVSS 9.8) | Active |
-| **OpenLegion** | new | PolyForm Perimeter License 1.0.1 | Docker per-agent (default and only mode) | Vault proxy (agents never see keys) | Per-agent daily/monthly hard cutoff | None reported (v0.1.0) | Active |
+| **OpenLegion** | new | PolyForm Perimeter License 1.0.1 (engine) | Sandboxed run per task (default and only mode) | Vault-held (the model only holds a handle) | Per-agent credit budget, hard cutoff | n/a — hosted platform | Active |
 
 ## The Security Gap
 
@@ -51,7 +51,7 @@ Industry surveys consistently cite security as a top requirement for enterprise 
 
 Public security research has documented serious vulnerabilities across the agent framework landscape — RCE chains in the LangChain ecosystem, sandbox escapes that exposed secret keys, credential leaks, prompt-injection attacks, and unbounded loop behavior. The specific CVEs and severity scores vary; see each vendor's advisories and primary reporting for current details.
 
-OpenLegion makes security a primary value proposition: defense-in-depth via Docker container isolation per agent, vault-proxied credential management where agents never see raw API keys, per-agent ACLs, and resource caps.
+OpenLegion makes security a primary value proposition: defense-in-depth via a sandboxed run for every task, vault-held credentials the model never sees in the clear, one policy engine in front of every action, and per-agent budgets.
 
 For a deep dive, see our [AI agent security](/learn/ai-agent-security) analysis.
 
@@ -101,15 +101,15 @@ OpenLegion sits in the developer-first category with a unique focus on productio
 
 ## What OpenLegion Does Differently
 
-**Vault proxy**: Agents never see raw API keys. Credentials are injected at the network level through a proxy — if an agent is compromised, it cannot exfiltrate secrets. Few other frameworks offer this.
+**Credential vault**: Agents never see raw API keys. Credentials live in a vault and are injected outside the model, which only ever holds a handle — if an agent is compromised, it cannot exfiltrate secrets. Few other frameworks offer this.
 
-**Mandatory container isolation**: Every agent runs in its own Docker container with non-root execution, no Docker socket access, and resource caps. This is the default and only mode.
+**Sandboxed task execution**: Each task runs on demand and then stops, so there is no long-lived agent process to compromise, and code the agent writes runs in a sandbox with no network access by default. This is the default and only mode.
 
-**Per-agent budget enforcement**: Daily and monthly spending limits per agent with automatic hard cutoff. Addresses the documented infinite-loop, uncontrolled-iteration, and unpredictable-credit-drain problems other frameworks have surfaced.
+**Per-agent budget enforcement**: Every agent carries its own credit budget, metered in credits at $0.001 each, with an automatic hard cutoff. Addresses the documented infinite-loop, uncontrolled-iteration, and unpredictable-credit-drain problems other frameworks have surfaced.
 
-**Fleet model — blackboard + pub/sub + handoff (no CEO agent)**: Coordination via a SQLite-backed blackboard with atomic compare-and-set, a pub/sub event bus, and a structured handoff protocol. Per-agent iteration caps and tool-loop detection (warn at 2 repeats, block at 4, terminate at 9) terminate runaway loops. Auditable in YAML; version-controllable.
+**Goal-and-task coordination (no CEO agent)**: Work is organised goals → tasks → agents, with an assistant that creates the teammates it needs and delegates to them, plus event wakes for anything that has to react to something. Per-agent budgets and recorded, replayable wakes bound runaway loops. Every tool call, delegation and approval is recorded with the agent's identity, a timestamp and the exact cost.
 
-**BYO API keys + managed credits**: 100+ model support via LiteLLM with zero markup on BYOK usage. Managed hosting also offers prepaid LLM credits as a convenience. No vendor lock-in to any model provider.
+**Model presets + credits**: Models are chosen by preset — Smartest, Smart or Normal — per agent or per workspace, so there is no provider wiring to maintain. Work is metered in credits at $0.001 each; included credits refresh monthly and purchased packs never expire.
 
 For technical details, see the [AI agent orchestration](/learn/ai-agent-orchestration) page.
 
@@ -138,7 +138,7 @@ OpenLegion and LangGraph serve different needs. LangGraph offers graph-based sta
 
 ### What is the most secure AI agent framework?
 
-OpenLegion makes security a primary design goal with defense-in-depth: mandatory container isolation, vault-proxied credentials, per-agent ACLs, bounded execution, SSRF protection, and input sanitization. Most other frameworks either lack built-in security defaults or offer them only in paid tiers. See our [AI agent security](/learn/ai-agent-security) analysis.
+OpenLegion makes security a primary design goal with defense-in-depth: a sandboxed run for every task, vault-held credentials, one policy engine in front of every action, bounded execution, owner approval at three walls, and a receipt for everything. Most other frameworks either lack built-in security defaults or offer them only in paid tiers. See our [AI agent security](/learn/ai-agent-security) analysis.
 
 ### Are AutoGen and Semantic Kernel still maintained?
 

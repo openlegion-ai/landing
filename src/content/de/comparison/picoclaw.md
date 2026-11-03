@@ -27,35 +27,35 @@ related:
 
 PicoClaw repräsentiert etwas wirklich Neues im Agenten-Bereich: KI-Agenten auf 10-$-RISC-V-Boards. Von einem Embedded-Hardware-Unternehmen gebaut, ist PicoClaw ein Go-getriebener Single-Binary-KI-Assistent, der weniger als 10 MB RAM mit Sub-Sekunden-Startzeit anvisiert. Sein bemerkenswertester Anspruch: 95 % des Core-Codes wurden in einem einzigen Tag von KI-Agenten generiert. Es startete am 9. Februar 2026 und ist auf ca. 20.000–21.000 GitHub-Stars angewachsen, mit 900+ in drei Wochen eingereichten Issues.
 
-OpenLegion ist ein sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agent-platform) mit verpflichtender Docker-Container-Isolation, Vault-Proxy-Credential-Verwaltung, Pro-Agent-Budgetdurchsetzung und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff).
+OpenLegion ist ein sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agent-platform) mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault, Pro-Agent-Budgetdurchsetzung und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten).
 
 PicoClaw und OpenLegion besetzen entgegengesetzte Enden des Deployment-Spektrums. PicoClaw bringt Agenten auf die günstigstmögliche Hardware. OpenLegion stellt sicher, dass Agenten mit den stärkstmöglichen Sicherheits-Garantien arbeiten. Das sind grundlegend unterschiedliche Wetten darüber, woher KI-Agenten-Wert kommt.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Was ist der Unterschied zwischen OpenLegion und PicoClaw?**
-> PicoClaw ist ein Go-basierter, ultraleichter KI-Agenten-Assistent, kompiliert zu einem ~8-MB-Binary, das auf 10-$-RISC-V- und ARM64-Hardware abzielt. Es nutzt Workspace-Sandboxing und Channel-Level-Allowlists, hat aber dokumentierte Sicherheitslücken, darunter Slack-Allowlist-Bypass, weltlesbare Config-Dateien mit API-Keys und keinen SECURITY.md- oder formalen CVE-Prozess. OpenLegion ist ein Python-basiertes, sicherheitsorientiertes Framework mit verpflichtender Docker-Container-Isolation, Vault-Proxy-Credential-Verwaltung (Agenten sehen nie API-Keys), Pro-Agent-Budgetdurchsetzung und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff). PicoClaw optimiert auf Hardware-Effizienz; OpenLegion optimiert auf Produktions-Sicherheit.
+> PicoClaw ist ein Go-basierter, ultraleichter KI-Agenten-Assistent, kompiliert zu einem ~8-MB-Binary, das auf 10-$-RISC-V- und ARM64-Hardware abzielt. Es nutzt Workspace-Sandboxing und Channel-Level-Allowlists, hat aber dokumentierte Sicherheitslücken, darunter Slack-Allowlist-Bypass, weltlesbare Config-Dateien mit API-Keys und keinen SECURITY.md- oder formalen CVE-Prozess. OpenLegion ist eine gehostete, sicherheitsorientierte Plattform mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault, die Agenten nie sehen, Pro-Agent-Budgetdurchsetzung und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten). PicoClaw optimiert auf Hardware-Effizienz; OpenLegion optimiert auf Produktions-Sicherheit.
 
 ## Auf einen Blick
 
 | Dimension | OpenLegion | PicoClaw |
 |---|---|---|
 | **Primärer Fokus** | Produktions-Sicherheitsinfrastruktur | Edge-Hardware-Effizienz |
-| **Sprache** | Python | Go |
-| **Binary/Footprint** | Python + Docker | ~8 MB Single-Binary |
-| **Zielhardware** | Standard-Server, VPS, Cloud | 10-$-RISC-V, ARM64, x86_64 |
-| **RAM-Verbrauch** | Pro Container (konfigurierbare Caps) | Unter 10 MB |
-| **Cold-Start** | Docker-Container (~2–5 s) | Sub-Sekunde |
-| **Agenten-Isolation** | Docker-Container pro Agent, Non-Root | Workspace-Sandboxing (`restrict_to_workspace`) |
-| **Credential-Sicherheit** | Vault-Proxy — Agenten sehen keine Keys | Config-Datei (war 0644 weltlesbar) |
-| **Budget-Kontrollen** | Pro Agent tägliche/monatliche Hartabschaltung | Keine integriert |
-| **Orchestrierung** | Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff) | Sub-Agenten + Cron-Scheduling |
-| **LLM-Anbieter** | 100+ über LiteLLM | 8+ (OpenRouter, Anthropic, OpenAI, DeepSeek usw.) |
+| **Sprache** | Gehostet — nichts zu installieren | Go |
+| **Binary/Footprint** | Keins — gehostete Web-App | ~8 MB Single-Binary |
+| **Zielhardware** | Jeder Browser — nichts auszuführen | 10-$-RISC-V, ARM64, x86_64 |
+| **RAM-Verbrauch** | Keiner auf Ihrer eigenen Hardware | Unter 10 MB |
+| **Cold-Start** | Sofort — Agenten sind Datensätze | Sub-Sekunde |
+| **Agenten-Isolation** | Sandbox-Lauf pro Aufgabe, standardmäßig kein Netzwerk | Workspace-Sandboxing (`restrict_to_workspace`) |
+| **Credential-Sicherheit** | Credential-Vault — Agenten sehen keine Keys | Config-Datei (war 0644 weltlesbar) |
+| **Budget-Kontrollen** | Pro-Agent-Credit-Budget, harte Abschaltung | Keine integriert |
+| **Orchestrierung** | Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten) | Sub-Agenten + Cron-Scheduling |
+| **LLM-Anbieter** | Presets Smartest, Smart und Normal | 8+ (OpenRouter, Anthropic, OpenAI, DeepSeek usw.) |
 | **Offline-fähig** | Nein (Cloud-LLM erforderlich) | Ja (PicoLM-Companion-1B-Modell) |
-| **Messaging-Kanäle** | 5 | 8+ (Telegram, Discord, QQ, DingTalk, LINE usw.) |
-| **GitHub-Stars** | ~59 | ~20.000–21.000 |
+| **Messaging-Kanäle** | Web, Telegram, Slack, E-Mail, Webhooks | 8+ (Telegram, Discord, QQ, DingTalk, LINE usw.) |
+| **GitHub-Stars** | entfällt (gehostete Plattform) | ~20.000–21.000 |
 | **Lizenz** | PolyForm Perimeter License 1.0.1 | MIT |
-| **Bekannte CVEs** | 0 | 0 formale CVEs; mehrere dokumentierte Sicherheitslücken |
+| **Bekannte CVEs** | Gehostet, zentral gepatcht | 0 formale CVEs; mehrere dokumentierte Sicherheitslücken |
 | **Hersteller** | Unabhängig | Embedded-Hardware-Unternehmen |
 | **KI-generierter Code** | Nein | 95 %-KI-generiert-Anspruch |
 
@@ -75,13 +75,13 @@ PicoClaw und OpenLegion besetzen entgegengesetzte Enden des Deployment-Spektrums
 
 **Sie keine bekannten Sicherheitslücken ausliefern können.** PicoClaw hat dokumentierte, ungepatchte Sicherheitsprobleme, die sein eigenes README anerkennt. Der Slack-Allowlist-Bypass (Issue #179) bedeutet, dass `handleSlashCommand` und `handleAppMention` die Nutzer-Autorisierungsprüfung nicht aufrufen — jeder Slack-Nutzer im Workspace kann PicoClaw-Agenten aufrufen. Config-Dateien wurden mit 0644-Rechten geschrieben, was API-Keys auf Multi-User-Systemen weltlesbar machte. Issue #782 katalogisiert fehlende Schutzmaßnahmen: kein SSRF-Schutz, kein Audit-Logging, kein Rate-Limiting, keine Credential-Verschlüsselung und keine Prompt-Injection-Abwehr. Das README selbst warnt davor, vor v1.0 in Produktion zu deployen.
 
-**Ihre Credentials brauchen mehr als eine Config-Datei.** PicoClaw speichert API-Keys in YAML-Config-Dateien. Der Dateirechte-Bug (0644 statt 0600) legte Keys gegenüber jedem Nutzer auf dem System offen. Selbst nach Behebung der Rechte hält der Agentenprozess Klartext-Keys im Speicher. OpenLegions Vault-Proxy bedeutet, dass Agenten nie Credentials halten — API-Aufrufe gehen über einen Proxy, der Keys auf Netzwerkebene injiziert.
+**Ihre Credentials brauchen mehr als eine Config-Datei.** PicoClaw speichert API-Keys in YAML-Config-Dateien. Der Dateirechte-Bug (0644 statt 0600) legte Keys gegenüber jedem Nutzer auf dem System offen. Selbst nach Behebung der Rechte hält der Agentenprozess Klartext-Keys im Speicher. OpenLegions Credential-Vault bedeutet, dass Agenten nie Credentials halten — Keys werden außerhalb des Modells injiziert, das immer nur ein Handle hält.
 
-**Sie Agenten-Isolation brauchen.** PicoClaws `restrict_to_workspace` ist ein Anwendungs-Level-Flag, das über Hauptagent, Sub-Agenten und geplante Tasks angewendet wird. Wenn ein Agent Code-Ausführung jenseits der Kontrolle der Go-Runtime erreicht, bietet Workspace-Beschränkung keine Eindämmung. OpenLegion nutzt Docker-Container — OS-Level-Isolation mit separaten Namespaces, cgroups und ohne Host-Dateisystem-Zugriff.
+**Sie Agenten-Isolation brauchen.** PicoClaws `restrict_to_workspace` ist ein Anwendungs-Level-Flag, das über Hauptagent, Sub-Agenten und geplante Tasks angewendet wird. Wenn ein Agent Code-Ausführung jenseits der Kontrolle der Go-Runtime erreicht, bietet Workspace-Beschränkung keine Eindämmung. OpenLegion führt jede Aufgabe in ihrer eigenen Sandbox aus — standardmäßig ohne Netzwerk, ohne Host-Dateisystem und ohne dass danach etwas weiterläuft.
 
-**Sie Kostenkontrolle brauchen.** PicoClaw hat keine Pro-Agent-Budgetdurchsetzung. Cron-geplante Agenten, die auf 10-$-Hardware API-Aufrufe machen, können stillschweigend Kosten anhäufen, die das Hardware-Investment in den Schatten stellen. OpenLegion erzwingt tägliche und monatliche Pro-Agent-Limits mit Hartabschaltung.
+**Sie Kostenkontrolle brauchen.** PicoClaw hat keine Pro-Agent-Budgetdurchsetzung. Cron-geplante Agenten, die auf 10-$-Hardware API-Aufrufe machen, können stillschweigend Kosten anhäufen, die das Hardware-Investment in den Schatten stellen. OpenLegion gibt jedem Agenten ein eigenes Credit-Budget mit harter Abschaltung.
 
-**Sie auditierbare Fleet-Modell-Koordination brauchen.** PicoClaw nutzt LLM-getriebene Tool-Auswahl. OpenLegions Fleet-Modell-Koordination definiert Ausführungsreihenfolge vor der Laufzeit — auditierbar, azyklisch, wiederholbar.
+**Sie auditierbare Ziel-und-Aufgaben-Koordination brauchen.** PicoClaw nutzt LLM-getriebene Tool-Auswahl. OpenLegions Ziele und Aufgaben definieren die Ausführungsreihenfolge vor der Laufzeit — auditierbar, azyklisch, wiederholbar.
 
 ## Vergleich der Sicherheitsmodelle
 
@@ -89,13 +89,13 @@ PicoClaw und OpenLegion besetzen entgegengesetzte Enden des Deployment-Spektrums
 
 **PicoClaw** speichert API-Keys in YAML-Konfigurationsdateien. Ein Dateirechte-Bug (0644 statt 0600) machte diese anfangs weltlesbar. Selbst nach dem Fix liegen Keys auf der Festplatte in Klartext-YAML und werden zur Laufzeit in den Go-Prozessspeicher geladen. Die umfassende Sicherheits-Framework-Anfrage (Issue #782) listet "Credential-Verschlüsselung" explizit als fehlend.
 
-**OpenLegion** speichert Credentials in einem Vault, der nur über einen Proxy zugänglich ist. Agenten machen API-Aufrufe über den Proxy; Credentials werden auf Netzwerkebene injiziert. Keine Config-Dateien enthalten Keys. Kein Prozessspeicher hält Keys. Keine Dateirechte-Fehlkonfiguration kann sie offenlegen.
+**OpenLegion** speichert Credentials in einem Vault, den das Modell nicht erreicht. Agenten reichen ein Handle weiter, und das Credential wird außerhalb des Modells injiziert. Keine Config-Dateien enthalten Keys. Kein Prozessspeicher hält Keys. Keine Dateirechte-Fehlkonfiguration kann sie offenlegen.
 
 ### Isolationsmodell
 
 **PicoClaw** nutzt `restrict_to_workspace: true` über Hauptagent, Sub-Agenten und geplante Tasks. Das Gateway bindet standardmäßig an localhost. Channel-Level-Nutzer-Allowlists filtern, wer mit Agenten interagieren kann. Das ist Anwendungs-Level-Isolation, durchgesetzt von der Go-Runtime — wirksam gegen wohlverhaltende Agenten, umgehbar durch Code-Ausführungs-Exploits.
 
-**OpenLegion** nutzt Docker-Container-Isolation pro Agent mit Non-Root-Ausführung, ohne Docker-Socket, no-new-privileges und konfigurierbaren Ressourcen-Caps. OS-Level-Isolation, durchgesetzt vom Linux-Kernel.
+**OpenLegion** führt jede Aufgabe bei Bedarf in einer Sandbox ohne standardmäßigen Netzwerkzugriff aus und beendet sie, wenn die Aufgabe endet. Die Isolation setzt die Plattform durch, außerhalb der Reichweite des Agenten.
 
 ### Bekannte Sicherheitslücken (PicoClaw)
 
@@ -107,13 +107,13 @@ PicoClaws eigener Issue-Tracker dokumentiert bedeutende Lücken:
 - **Kein SECURITY.md:** Kein formaler Vulnerability-Disclosure-Prozess.
 - **README-Warnung:** "PicoClaw ist in früher Entwicklung und kann ungelöste Netzwerk-Sicherheitsprobleme haben. Nicht vor v1.0 in Produktionsumgebungen ausspielen."
 
-**OpenLegion** hat null CVEs und null dokumentierte Sicherheitslücken. Der Vault-Proxy eliminiert Credential-Exposition, Docker-Container bieten OS-Level-Isolation, Fleet-Modell-Koordination verhindert beliebige Ausführung, und Pro-Agent-ACLs erzwingen Tool-Zugriff.
+**OpenLegion** ist eine gehostete Plattform, die zentral gepatcht wird statt von ihren Nutzern. Credentials im Vault eliminieren Credential-Exposition, Sandbox-Läufe begrenzen die Ausführung, Freigaben schützen vor ungeprüften Inhalten, und Pro-Agent-Berechtigungen erzwingen Tool-Zugriff.
 
 ### Budget-Kontrollen
 
 **PicoClaw** hat keine integrierte Budgetdurchsetzung. Cron-geplante Tasks können unbegrenzt laufen.
 
-**OpenLegion** erzwingt tägliche und monatliche Pro-Agent-Limits mit automatischer Hartabschaltung.
+**OpenLegion** gibt jedem Agenten ein eigenes Credit-Budget mit automatischer Hartabschaltung.
 
 ## PicoClaws Ökosystem: Was es am besten kann
 
@@ -143,25 +143,25 @@ PicoClaw nutzt das SKILL.md-Dokumentationsformat, das im Claw-Ökosystem geteilt
 
 ### Was OpenLegion anders abdeckt
 
-OpenLegion adressiert jeden Punkt auf PicoClaws fehlendem Sicherheits-Framework (#782): Credential-Isolation (Vault-Proxy), Audit-Logging (Blackboard-Audit-Trail), Rate-Limiting (Pro-Agent-Budgets plus Mesh-Rate-Limits), SSRF-Schutz (DNS-Pinning + Browser-Container-Egress-Filter) und Prompt-Injection-Abwehr (`sanitize_for_prompt` an jeder Input-Grenze). Das sind keine optionalen Add-ons — sie sind architektonisch.
+OpenLegion adressiert jeden Punkt auf PicoClaws fehlendem Sicherheits-Framework (#782): Credential-Isolation (ein Vault außerhalb des Modells), Audit-Logging (ein Beleg für jede Aktion), Rate-Limiting (Pro-Agent-Credit-Budgets), SSRF-Schutz (Sandbox-Läufe standardmäßig ohne Netzwerk) und Prompt-Injection-Abwehr (eine Freigabe, bevor auf ungeprüfte Inhalte gehandelt wird). Das sind keine optionalen Add-ons — sie sind architektonisch.
 
 ## Hosting- vs. Self-Host-Kompromisse
 
 **PicoClaw** kompiliert zu einem einzelnen ~8-MB-Binary, das auf jedem RISC-V-, ARM64- oder x86_64-System läuft. Keine Runtime-Abhängigkeiten. Der Gateway-Modus übernimmt Webhooks. Offline-Betrieb ist mit PicoLM möglich. Der Deployment-Footprint ist der kleinste aller Agenten-Frameworks.
 
-**OpenLegion** benötigt Python, SQLite und Docker. Kann nicht auf 10-$-RISC-V-Boards laufen. Die gehostete Plattform (kommt bald) zielt auf Standard-VPS-Infrastruktur zu 19 $/Monat ab. Die Docker-Abhängigkeit begrenzt Hardware-Ziele, ermöglicht aber die Sicherheits-Isolation, die PicoClaw fehlt.
+**OpenLegion** ist kein Binary, das Sie ausrollen. Es kann nicht auf 10-$-RISC-V-Boards laufen. Die gehostete Plattform ist live und verlangt nichts davon: mit Google anmelden, kostenlos mit 1,000 Credits und ohne Kreditkarte starten oder für $29/Monat zu Pro wechseln. Der Betrieb innerhalb der Plattform schließt Edge-Hardware aus, ermöglicht aber die Sicherheits-Isolation, die PicoClaw fehlt.
 
 ## Für wen
 
 **PicoClaw** ist für Embedded-Entwickler, IoT-Engineers und Edge-Computing-Teams, die KI-Agenten auf minimaler Hardware brauchen. Der ideale Nutzer spielt Agenten auf RISC-V-Boards, Raspberry Pis oder günstigen VPS-Instanzen aus — und operiert in vertrauenswürdigen Netzwerkumgebungen, in denen die dokumentierten Sicherheitslücken akzeptable Risiken sind. Auch wertvoll für Teams, die chinesische Messaging-Plattformen anvisieren.
 
-**OpenLegion** ist für Teams, die Agenten ausspielen, bei denen Sicherheitsvorfälle geschäftliche Konsequenzen haben. Der ideale Nutzer verwaltet Agenten-Flotten, die sensible Credentials verarbeiten, verifizierbare Kostenkontrollen brauchen und Stakeholdern oder Compliance-Frameworks eine Sicherheitslage nachweisen müssen.
+**OpenLegion** ist für Teams, die Agenten ausspielen, bei denen Sicherheitsvorfälle geschäftliche Konsequenzen haben. Der ideale Nutzer verwaltet Agenten-Teams, die sensible Credentials verarbeiten, verifizierbare Kostenkontrollen brauchen und Stakeholdern oder Compliance-Frameworks eine Sicherheitslage nachweisen müssen.
 
 ## Der ehrliche Kompromiss
 
 PicoClaw tut etwas, was kein anderes Framework kann: Es betreibt KI-Agenten auf 10-$-Hardware mit voller Offline-Fähigkeit. Das ist kein Gimmick — Edge-KI-Agenten-Deployment ist ein realer und wachsender Anwendungsfall für industrielle Automatisierung, IoT und datenschutzsensible Umgebungen.
 
-Aber PicoClaws eigene Dokumentation sagt, dass es nicht produktionsreif ist, und seine Liste an Sicherheitslücken ist lang. OpenLegion kann nicht auf RISC-V-Boards laufen, aber es kann Credentials schützen, Budgets erzwingen und OS-Level-Agenten-Isolation bieten.
+Aber PicoClaws eigene Dokumentation sagt, dass es nicht produktionsreif ist, und seine Liste an Sicherheitslücken ist lang. OpenLegion kann nicht auf RISC-V-Boards laufen, aber es kann Credentials schützen, Budgets erzwingen und gesandboxte Agenten-Isolation bieten.
 
 Wenn Ihre Agenten auf einem Chip in einer Fabrik laufen müssen, wählen Sie PicoClaw (nach v1.0). Wenn Ihre Agenten API-Keys handhaben, die mehr wert sind als die Hardware, auf der sie laufen, wählen Sie OpenLegion.
 
@@ -169,7 +169,7 @@ Für die gesamte Landschaft siehe unseren [KI-Agenten-Frameworks-Vergleich](/lea
 
 ## CTA
 
-**Sicherheitsinfrastruktur für Agenten-Flotten, die echte Credentials handhaben.**
+**Sicherheitsinfrastruktur für Agenten-Teams, die echte Credentials handhaben.**
 [Loslegen](https://app.openlegion.ai) | [Dokumentation lesen](https://docs.openlegion.ai) | [Alle Vergleiche ansehen](/comparison)
 
 ---
@@ -184,7 +184,7 @@ PicoClaw ist ein Go-getriebener, ultraleichter KI-Agenten-Assistent, gebaut von 
 
 ### OpenLegion vs. PicoClaw: Was ist der Unterschied?
 
-PicoClaw zielt auf 10-$-Edge-Hardware mit minimalem Ressourcen-Verbrauch und Offline-Fähigkeit. OpenLegion zielt auf Produktionsumgebungen mit verpflichtender Docker-Container-Isolation, Vault-Proxy-Credential-Verwaltung, Pro-Agent-Budgetdurchsetzung und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff). PicoClaw hat dokumentierte Sicherheitslücken, vor denen sein README warnt; OpenLegion hat seit v0.1.0 keine CVEs gemeldet und architektonische Sicherheits-Constraints.
+PicoClaw zielt auf 10-$-Edge-Hardware mit minimalem Ressourcen-Verbrauch und Offline-Fähigkeit. OpenLegion zielt auf Produktionsumgebungen mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault, Pro-Agent-Budgetdurchsetzung und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten). PicoClaw hat dokumentierte Sicherheitslücken, vor denen sein README warnt; OpenLegion ist eine gehostete Plattform mit architektonischen Sicherheits-Constraints.
 
 ### Ist OpenLegion eine PicoClaw-Alternative?
 
@@ -192,15 +192,15 @@ Ja, für Teams, die von Edge-Experimentieren zu Produktions-Deployment wechseln.
 
 ### Wie vergleicht sich Credential-Handling zwischen OpenLegion und PicoClaw?
 
-PicoClaw speichert API-Keys in YAML-Config-Dateien (anfangs aufgrund eines 0644-Rechte-Bugs weltlesbar). Keys werden zur Laufzeit in den Go-Prozessspeicher geladen. Seine eigene Issue #782 listet "Credential-Verschlüsselung" als fehlend. OpenLegion nutzt einen Vault-Proxy — Agenten rufen über einen Proxy, der Credentials auf Netzwerkebene injiziert. Keine Keys auf Festplatte, in Config oder im Speicher.
+PicoClaw speichert API-Keys in YAML-Config-Dateien (anfangs aufgrund eines 0644-Rechte-Bugs weltlesbar). Keys werden zur Laufzeit in den Go-Prozessspeicher geladen. Seine eigene Issue #782 listet "Credential-Verschlüsselung" als fehlend. OpenLegion nutzt einen Credential-Vault — Credentials werden außerhalb des Modells injiziert, das immer nur ein Handle hält. Keine Keys auf Festplatte, in Config oder im Speicher.
 
 ### Welches ist besser für Produktions-KI-Agenten?
 
-PicoClaws eigenes README warnt vor Produktions-Deployment vor v1.0. OpenLegion ist zweckgebaut für die Produktion mit verpflichtender Container-Isolation, Vault-Proxy-Credentials, Pro-Agent-Budgets und auditierbarer Fleet-Modell-Koordination. Für Edge-Experimentieren PicoClaw; für Produktions-Agenten-Flotten OpenLegion.
+PicoClaws eigenes README warnt vor Produktions-Deployment vor v1.0. OpenLegion ist zweckgebaut für die Produktion mit Sandbox-Läufen pro Aufgabe, Credentials im Vault, Pro-Agent-Budgets und auditierbarer Ziel-und-Aufgaben-Koordination. Für Edge-Experimentieren PicoClaw; für Produktions-Agenten-Teams OpenLegion.
 
 ### Kann PicoClaw offline laufen?
 
-Ja. PicoLM, ein Companion-1-Milliarden-Parameter-Modell, ermöglicht vollständig On-Premises arbeitenden Betrieb. OpenLegion benötigt Cloud-LLM-Konnektivität (OpenAI, Anthropic etc.) und kann nicht offline operieren. Wenn On-Premises-Deployment erforderlich ist, ist PicoClaw eine der sehr wenigen Optionen.
+Ja. PicoLM, ein Companion-1-Milliarden-Parameter-Modell, ermöglicht vollständig On-Premises arbeitenden Betrieb. OpenLegion ist eine gehostete Web-App, die Netzwerkverbindung benötigt und nicht offline operieren kann. Wenn On-Premises-Deployment erforderlich ist, ist PicoClaw eine der sehr wenigen Optionen.
 
 ### Was sind PicoClaws bekannte Sicherheitsprobleme?
 

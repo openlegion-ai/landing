@@ -42,7 +42,7 @@ La mémoire des agents IA permet un contexte persistant, l'apprentissage et la c
 
 **Les implications de coût** évoluent linéairement avec la longueur du contexte car chaque appel LLM retraite l'intégralité de la fenêtre de contexte. Un contexte de 100K tokens coûte environ 10x plus qu'un contexte de 10K tokens.
 
-**La compression de mémoire** inclut des techniques comme la summarisation des anciennes conversations, l'extraction de faits vers un stockage structuré et la rétention sélective du contexte à haute valeur. OpenLegion compacte automatiquement le contexte en approchant des limites de tokens.
+**La compression de mémoire** inclut des techniques comme la summarisation des anciennes conversations, l'extraction de faits vers un stockage structuré et la rétention sélective du contexte à haute valeur. OpenLegion compacte automatiquement le contexte en approchant des limites de tokens, en préservant l'essentiel dans la mémoire de l'agent.
 
 ### Mémoire Sémantique : Récupération par Vector Store
 
@@ -60,7 +60,7 @@ La mémoire des agents IA permet un contexte persistant, l'apprentissage et la c
 
 **Les modèles de permission** contrôlent quels agents peuvent lire et écrire dans des régions de mémoire spécifiques.
 
-**Les garanties de persistance** assurent que la mémoire structurée survit aux redémarrages des agents et aux mises à jour du système. SQLite fournit des garanties ACID pour le tableau noir d'OpenLegion.
+**Les garanties de persistance** assurent que la mémoire structurée survit aux redémarrages des agents et aux mises à jour du système. Chez OpenLegion, les agents sont des enregistrements durables : chaque tâche s'exécute à la demande puis s'arrête, tandis que le registre partagé survit à chaque exécution.
 
 ### Mémoire Épisodique : Journaux d'Événements et Procédures
 
@@ -92,13 +92,13 @@ La mémoire des agents IA permet un contexte persistant, l'apprentissage et la c
 
 La mémoire des agents IA est fondamentale pour les systèmes autonomes, mais les implications de sécurité de la mémoire persistante créent des risques significatifs que de nombreuses implémentations ignorent. CVE-2025-67732 a exposé le risque systématique d'exposition des credentials. Les attaques de memory poisoning documentées dans arXiv cs.AI 2025 montrent comment de faux faits injectés dans un stockage persistant peuvent corrompre le comportement des agents entre sessions.
 
-L'architecture d'OpenLegion adresse ces risques par l'isolation plutôt que par des contrôles d'accès. Le proxy vault assure que les credentials n'entrent jamais dans les systèmes de mémoire. L'isolation de l'espace de travail par agent empêche la contamination de la mémoire entre agents.
+L'architecture d'OpenLegion adresse ces risques par l'isolation plutôt que par des contrôles d'accès. Les credentials vivent dans un coffre-fort et sont injectés hors du modèle : ils n'entrent jamais dans les systèmes de mémoire. L'isolation de la mémoire par agent empêche la contamination entre agents.
 
-### Architecture à Quatre Zones : Mémoire Protégée par Vault
+### Architecture à Moteur de Politiques : Mémoire Protégée par Vault
 
-**L'architecture à quatre zones** sépare complètement la gestion des credentials des opérations de mémoire. Zone 1 (Internet Public), Zone 2 (Réseau Mesh), Zone 3 (Conteneurs d'Agents), Zone 4 (Proxy Vault) garantissent que les credentials ne persistent jamais dans les systèmes de mémoire des agents.
+**Un moteur de politiques unique** sépare complètement la gestion des credentials des opérations de mémoire. Chaque action est une intention vérifiée avant qu'elle n'ait lieu et enregistrée comme un reçu, et les credentials vivent dans un coffre-fort injecté hors du modèle, si bien qu'ils ne persistent jamais dans la mémoire des agents.
 
-**Le tableau noir natif** fournit une coordination de mémoire structurée sans bases de données vectorielles externes. Il fonctionne sur SQLite avec des garanties ACID.
+**Les objectifs et les tâches** fournissent une coordination de mémoire structurée sans bases de données vectorielles externes. Les agents se coordonnent via un registre partagé d'objectifs et de tâches et des réveils sur événement.
 
 ### Isolation de l'Espace de Travail par Agent
 
@@ -124,9 +124,9 @@ Le memory poisoning injecte de faux faits dans les systèmes de mémoire persist
 
 CVE-2025-67732 a démontré l'exposition des credentials lorsque des stores de mémoire partagée contiennent des clés API accessibles à tout utilisateur authentifié. Les recherches de similarité vectorielle peuvent récupérer accidentellement des informations sensibles lorsque les termes de requête correspondent sémantiquement aux métadonnées de credentials.
 
-### Qu'est-ce que le tableau noir OpenLegion ?
+### Qu'est-ce que le registre partagé OpenLegion ?
 
-Un store clé-valeur persistant partagé natif permettant la coordination agent-à-agent sans bases de données vectorielles externes ni services. Il fonctionne sur SQLite avec des garanties ACID et des contrôles de permission basés sur des patterns. Le proxy vault empêche l'exposition des credentials en assurant que les agents ne reçoivent jamais de credentials en clair.
+Le registre durable d'objectifs, de tâches et de résultats qui permet la coordination agent-à-agent sans bases de données vectorielles externes ni services. Le travail s'organise en objectifs → tâches → agents, avec un assistant qui délègue aux coéquipiers qu'il crée. Le coffre-fort empêche l'exposition des credentials en assurant que les agents ne reçoivent jamais de credentials en clair.
 
 ### Quelles bibliothèques de mémoire sont les plus populaires ?
 
@@ -134,4 +134,4 @@ mem0ai/mem0 en tête avec 56 445 étoiles GitHub et 23,5 M$ de financement Séri
 
 ### Comment sécuriser la mémoire des agents en production ?
 
-Utilisez l'isolation architecturale des credentials via des systèmes de proxy vault plutôt que des contrôles au niveau applicatif. Implémentez l'isolation de l'espace de travail par agent pour prévenir la contamination de la mémoire. Appliquez des permissions basées sur des patterns suivant le principe du moindre privilège. Ne stockez jamais les credentials dans aucun système de mémoire d'agent.
+Utilisez l'isolation architecturale des credentials via un coffre-fort de credentials plutôt que des contrôles au niveau applicatif. Implémentez l'isolation de l'espace de travail par agent pour prévenir la contamination de la mémoire. Appliquez des permissions basées sur des patterns suivant le principe du moindre privilège. Ne stockez jamais les credentials dans aucun système de mémoire d'agent.

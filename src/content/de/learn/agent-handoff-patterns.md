@@ -46,7 +46,7 @@ Pull-Dispatch reduziert die Exponierung von Zugangsdaten: Die Warteschlangennach
 
 Beim Blackboard-Pointer-Übergabe schreibt der Aufrufer seine Ausgabe in einen benannten Schlüssel auf einem gemeinsam genutzten persistenten Speicher, zum Beispiel `output/researcher/task_abc123`, und sendet dem Aufgerufenen nur den Schlüsselnamen. Der Aufgerufene liest den Schlüssel und ruft genau die benötigten Felder ab. Rohe Zugangsdaten, zwischengespeicherte Scratchpad-Inhalte und der vollständige Kontext des Aufrufers erscheinen nie in der Übergabenachricht.
 
-OpenLegions `hand_off()`-Funktion implementiert dieses Muster nativ: Sie schreibt Ausgabedaten in `output/{agent_id}/{handoff_id}` auf dem Blackboard, erstellt einen Aufgabeneintrag im Posteingang des Empfängers mit einem Pointer auf diesen Schlüssel und weckt den Empfänger. Zugangsdaten, die im Vault gespeichert sind, werden vom Mesh zur Ausführungszeit injiziert.
+OpenLegion wendet dasselbe Prinzip über Delegation an: Der Aufrufer hält seine Ausgabe im gemeinsamen Verzeichnis aus Zielen und Aufgaben fest, erstellt für den Empfänger eine Aufgabe, die darauf zeigt, und weckt ihn. Zugangsdaten liegen in einem Vault und werden zur Ausführungszeit außerhalb des Modells injiziert.
 
 **Stärken**: Höchste Zugangsdatenisolation, Aufgerufener liest nur was er braucht, vollständiger Prüfpfad über Schlüssel-Versionsverlauf, entkoppeltes Timing.  
 **Risiken**: Fügt einen Lesevorgang hinzu; erfordert einen zuverlässigen gemeinsamen Speicher mit entsprechenden Zugangskontrollen.
@@ -78,7 +78,7 @@ Google ADKs `transfer_to_agent()` übergibt das vollständige Session-Objekt ein
 
 ### Das Blackboard-Pointer-Muster als sicherer Standard
 
-Das Blackboard-Pointer-Muster eliminiert die Zugangsdatenexponierung auf Protokollebene, anstatt sich auf Filterung auf Anwendungsebene zu verlassen. Zugangsdaten, die im Vault von OpenLegion gespeichert sind, werden nie in den Agenten-Kontext injiziert.
+Das Blackboard-Pointer-Muster eliminiert die Zugangsdatenexponierung auf Protokollebene, anstatt sich auf Filterung auf Anwendungsebene zu verlassen. Zugangsdaten im Vault von OpenLegion werden nie in den Agenten-Kontext injiziert — sie werden außerhalb des Modells injiziert, das immer nur ein Handle hält.
 
 ## Wie große Frameworks Übergabe implementieren
 
@@ -117,12 +117,12 @@ def researcher_node(state: AgentState) -> Command:
     )
 ```
 
-### OpenLegion: hand_off() mit Blackboard-Pointer und Posteingang-Lieferung
+### OpenLegion: Delegation mit Aufgaben-Pointer und Posteingang-Lieferung
 
-OpenLegions `hand_off()`-Funktion implementiert Blackboard-Pointer-Übergabe nativ.
+OpenLegion implementiert Pointer-Übergabe nativ über Delegation.
 
 ```python
-hand_off(
+delegate(
     to="writer",
     summary="Recherche abgeschlossen: langchain-alternative, 2847 Wörter Quellmaterial",
     data='{"topic": "langchain-alternative", "sources_key": "research/langchain-alt-sources", "word_count_target": 3000}'
@@ -199,7 +199,7 @@ Google ADK (20.100 GitHub-Sterne, Apache-2.0) verwendet transfer_to_agent(), das
 
 ### Was ist das Blackboard-Pointer-Übergabemuster und warum ist es sicherer?
 
-Beim Blackboard-Pointer-Übergabe schreibt der Aufrufer seine Ausgabe in einen benannten Schlüssel auf einem gemeinsamen Speicher (wie output/agent-id/task-id) und sendet dem Aufgerufenen nur den Schlüssel-Pointer, nicht die Daten selbst. Der Aufgerufene liest nur die Felder, die er benötigt. Zugangsdaten erscheinen nie in der Übergabenachricht, was den OWASP LLM06:2025 (Sensitive Information Disclosure) Exfiltrationsvektor eliminiert. OpenLegions hand_off() implementiert dieses Muster nativ.
+Beim Blackboard-Pointer-Übergabe schreibt der Aufrufer seine Ausgabe in einen benannten Schlüssel auf einem gemeinsamen Speicher (wie output/agent-id/task-id) und sendet dem Aufgerufenen nur den Schlüssel-Pointer, nicht die Daten selbst. Der Aufgerufene liest nur die Felder, die er benötigt. Zugangsdaten erscheinen nie in der Übergabenachricht, was den OWASP LLM06:2025 (Sensitive Information Disclosure) Exfiltrationsvektor eliminiert. OpenLegions Delegation implementiert dieses Muster nativ.
 
 ### Welche Sicherheitsrisiken bestehen bei der Agenten-Übergabe?
 
@@ -217,7 +217,7 @@ Einschließen: eine präzise Aufgabenzusammenfassung (unter 200 Wörter), einen 
 
 Die Übergabegrenze ist der Ursprung der meisten Multi-Agenten-Zuverlässigkeitsprobleme. Kontextverlust beeinträchtigt die Qualität nachgelagerter Aufgaben, und Zugangsdatenlecks in der Payload erzeugen Exfiltrationrisiken, die mit der Pipeline-Länge wachsen.
 
-OpenLegions Blackboard-Pointer-Übergabe löst beide Probleme auf Protokollebene. `hand_off()` schreibt Ausgaben in einen benannten Schlüssel, liefert nur einen Pointer an den Posteingang des Empfängers und verlässt sich auf vault-proxied Zugangsdaten-Injektion. Der Empfänger liest genau das, was er braucht, nicht mehr.
+OpenLegions Pointer-Delegation löst beide Probleme auf Protokollebene. Die Delegation schreibt Ausgaben in einen benannten Schlüssel, liefert nur einen Pointer an die Aufgabe des Empfängers und verlässt sich auf Zugangsdaten aus dem Vault, die außerhalb des Modells injiziert werden. Der Empfänger liest genau das, was er braucht, nicht mehr.
 
 Für die Monitoring-Schicht, die Fehler erkennt, die das Übergabe-Protokoll verpasst, siehe [Agenten-Observability: Übergaben über Pipeline-Stufen verfolgen](/learn/ai-agent-observability). Für die Framework-Schicht, die bestimmt, welches Übergabemuster zu wählen ist, siehe [Vergleich von KI-Agenten-Frameworks für Produktionseinsätze](/learn/ai-agent-frameworks).
 

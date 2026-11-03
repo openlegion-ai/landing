@@ -144,28 +144,28 @@ Hierarchical prefixes let any agent list all keys under a namespace (`tasks/pend
 
 Compare-and-swap (CAS) atomically reads the current value, compares it to an expected value, and writes a new value only if the comparison succeeds — otherwise returning a failure. Two agents that simultaneously attempt to claim the same pending task by writing `claimed_by: agent-1` and `claimed_by: agent-2` to the same key cannot both succeed: one CAS wins, the other detects the conflict and retries on a different key.
 
-OpenLegion's `claim_task()` implements CAS on the blackboard as the canonical pattern for distributed task assignment without a central coordinator. No lock manager, no queue service, no coordinator agent required.
+OpenLegion applies the same compare-and-swap to its shared record of goals and tasks, so a task is claimed by exactly one agent without a central coordinator. No lock manager, no queue service, no coordinator agent required.
 
 ### Watch Notifications vs. Polling
 
 Polling for state changes is wasteful: each agent must call `read_blackboard()` on a timer, burning API calls even when nothing changed. At 100 agents polling every second, that's 100 read operations per second of pure overhead.
 
-Watch notifications push a message to the watching agent when a matching key changes — no polling required. OpenLegion's `watch_blackboard(pattern)` delivers change notifications in under 100ms. Glob pattern matching (`tasks/pending/*`) notifies any watching agent of a new pending task regardless of its specific key name. For [AI agent observability and state tracing](/learn/ai-agent-observability), watch notifications are also the mechanism for forwarding state change events to tracing backends without polling overhead.
+Watch notifications push a message to the watching agent when a matching key changes — no polling required. OpenLegion does this with event wakes: a change to a goal or task wakes the agent waiting on it. Glob pattern matching (`tasks/pending/*`) notifies any watching agent of a new pending task regardless of its specific key name. For [AI agent observability and state tracing](/learn/ai-agent-observability), watch notifications are also the mechanism for forwarding state change events to tracing backends without polling overhead.
 
 ## OpenLegion's Take: External State Is the Only Reliable Architecture
 
 State stored inside an agent process is unreliable by design. A process crash, OOM kill, or network partition doesn't just interrupt the agent — it destroys the state it held. This is the same problem that led distributed systems engineers to prefer external state stores (Redis, Postgres) over in-process state for any workload that requires durability or multi-node coordination. The same principle applies to agents.
 
-OpenLegion's blackboard is external to every agent process. A crash in Agent A doesn't corrupt Agent B's view of shared state. State versions survive crashes because they live outside any individual container. Every write is versioned; rollback to any prior state version is O(1) via the version index.
+OpenLegion's shared record of goals and tasks is external to every agent run. A crash in Agent A doesn't corrupt Agent B's view of shared state. State versions survive crashes because they live in the platform, not in any individual run. Every write is versioned; rollback to any prior state version is O(1) via the version index.
 
 The OpenAI Agents SDK (openai/openai-agents-python, 27,169 ⭐, MIT, June 2026) ships no built-in persistent checkpointing: state lives in the `Runner.run()` return value. A process crash loses the entire execution context. Developers must implement their own persistence layer, which in practice means wrapping every `Runner.run()` call with a SQLite write — exactly the code that a purpose-built state layer should eliminate.
 
 | **Dimension** | **OpenLegion** | **LangGraph** | **OpenAI Agents SDK** | **AutoGen** | **CrewAI** |
 |---|---|---|---|---|---|
-| **State persistence across crashes** | ✅ External blackboard, versioned | ✅ BaseCheckpointSaver backends | ❌ No built-in | ⚠️ ChatHistoryStore (SQLite) | ❌ No built-in |
-| **Cross-agent shared state** | ✅ Blackboard — all agents read/write | ⚠️ Via checkpoint, not true blackboard | ❌ DIY | ❌ DIY | ❌ In-process dict only |
-| **Concurrent write safety** | ✅ CAS via claim_task() | ✅ Reducer functions | ❌ DIY | ❌ DIY | ❌ DIY |
-| **Change notifications (no polling)** | ✅ watch_blackboard() <100ms | ❌ Poll-based | ❌ None | ❌ None | ❌ None |
+| **State persistence across crashes** | ✅ External to every run, versioned | ✅ BaseCheckpointSaver backends | ❌ No built-in | ⚠️ ChatHistoryStore (SQLite) | ❌ No built-in |
+| **Cross-agent shared state** | ✅ Shared goals and tasks — all agents read/write | ⚠️ Via checkpoint, not true blackboard | ❌ DIY | ❌ DIY | ❌ In-process dict only |
+| **Concurrent write safety** | ✅ Compare-and-swap on task claims | ✅ Reducer functions | ❌ DIY | ❌ DIY | ❌ DIY |
+| **Change notifications (no polling)** | ✅ Event wakes, no polling | ❌ Poll-based | ❌ None | ❌ None | ❌ None |
 | **Namespace isolation** | ✅ Hierarchical key prefixes + ACLs | ✅ checkpoint_ns | ❌ DIY | ❌ DIY | ❌ DIY |
 | **Built-in checkpoint backends** | ✅ External persistent store | ✅ SQLite, Postgres, Redis, MongoDB | ❌ None | ⚠️ SQLite only | ❌ None |
 
@@ -185,13 +185,13 @@ Mitigations: output validation before any content is written to shared state (as
 
 Observability tools that capture state snapshots — checkpoint debugging, state replay, tracing backends — may log whatever is present in the state at checkpoint time. If an agent includes a raw API key or token in its state schema, that value propagates to every downstream consumer of checkpoints: log aggregators, tracing databases, backup stores. State snapshots are the primary data source for [AI agent observability and state tracing](/learn/ai-agent-observability) — ensure secrets are redacted before checkpoints reach your tracing backend.
 
-Use opaque credential handles (e.g. `$CRED{name}`) in state schemas rather than raw credential values. The handle resolves at call time; the plaintext secret never enters the checkpoint.
+Use opaque credential handles in state schemas rather than raw credential values. The handle resolves at call time; the plaintext secret never enters the checkpoint.
 
 ### Namespace Access Control: Per-Agent Read/Write Permissions
 
 In a multi-agent system, an agent with write access to one namespace should not be able to read another agent's private namespace. Without ACL enforcement at the platform layer, a compromised agent can read `output/summarizer/*`, `tasks/claimed/*`, or any other key it learns about — potentially exfiltrating intermediate results or poisoning other agents' task queues.
 
-Enforce per-agent ACL gates on state keys at the platform layer, outside agent code. An injected agent cannot self-modify its read permissions if those permissions are enforced by the mesh host rather than by the agent's own code.
+Enforce per-agent ACL gates on state keys at the platform layer, outside agent code. An injected agent cannot self-modify its read permissions if those permissions are enforced by the platform's policy engine rather than by the agent's own code.
 
 <!-- SCHEMA: FAQPage -->
 ## Frequently Asked Questions
@@ -232,6 +232,6 @@ Three risks are specific to the state layer: stored prompt injection (malicious 
 
 The failure mode is predictable: teams build multi-agent pipelines without external state, a pipeline crashes at step 14 of 20 after two hours of LLM calls, and the first thought is "we need checkpointing." Adding it after the fact requires refactoring every agent that touches mutable data.
 
-External state should be a day-one decision: define your state schema, choose a durable backend (PostgresSaver if you're on LangGraph; OpenLegion's blackboard if you want CAS writes, watch notifications, and namespace ACLs without separate infrastructure), and treat every agent write as a durability event.
+External state should be a day-one decision: define your state schema, choose a durable backend (PostgresSaver if you're on LangGraph; OpenLegion's shared goal-and-task record if you want CAS writes, event wakes, and namespace ACLs without separate infrastructure), and treat every agent write as a durability event.
 
 [Build resumable multi-agent pipelines with OpenLegion's built-in state layer →](https://openlegion.ai)

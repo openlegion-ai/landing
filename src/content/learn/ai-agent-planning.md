@@ -78,10 +78,10 @@ By 2025, arXiv:2210.03629 had accumulated over 2,000 citations, making it the si
 
 The Thought and its corresponding Action fire in the same LLM turn. There is no architectural pause between "the agent has decided to call `commit_file`" and "`commit_file` being called." For read-only tools, this is acceptable; the worst outcome is a wasted API call. For irreversible tools, this is a governance gap.
 
-Production pattern to add a checkpoint without changing the framework: in INSTRUCTIONS.md, add a routing rule that triggers before any high-risk tool call:
+Production pattern to add a checkpoint without changing the framework: in the agent's standing instructions, add a routing rule that triggers before any high-risk tool call:
 
 ```markdown
-Before any Action that calls commit_file, http_request (POST), send_email, or spawn_fleet_agent:
+Before any Action that calls commit_file, http_request (POST), send_email, or propose_agent:
 1. Write the proposed Action to the Thought as: "PROPOSED ACTION: [tool] with args [args]"
 2. Call update_status(state="working", summary="Proposed: [tool] — awaiting 30min approval window")
 3. Wait 30 minutes. If a steer message arrives approving the action, proceed.
@@ -127,7 +127,7 @@ Plan-and-Execute (Harrison Chase, LangChain, 2023) separates planning and execut
 
 The isolation reduces hallucinated tool calls because executors operate with a narrow context: one step, the relevant tool schemas, the prior step results. They do not have the full task context that can lead a planner to invent tool parameters that don't exist. The planner does not call tools; it reasons at a high level and produces a plan.
 
-In OpenLegion's multi-agent mesh, Plan-and-Execute maps directly to the coordination model: the planner writes the plan to the blackboard, then uses `hand_off()` to dispatch each step to an executor role. Executor results are written back to the blackboard as each step completes. The planner can read these results and revise the remaining plan if an early step produces unexpected output.
+In OpenLegion's goal-and-task model, Plan-and-Execute maps directly to the coordination model: the planner writes the plan as tasks, then delegates each step to a teammate agent. Results are written back against each task as it completes. The planner can read these results and revise the remaining plan if an early step produces unexpected output.
 
 ### Pre-Execution Plan Inspection: The Security Advantage of Plan-and-Execute
 
@@ -192,7 +192,7 @@ The 22.8-point improvement from GPT-4o to o3 on SWE-bench is the clearest data p
 
 The security dimension of planning is underweighted in most agent system designs. Plans generated before execution create interception points that don't exist in pure ReAct loops. OWASP LLM06 (Excessive Agency) in the 2025 Top 10 is not a prompt-injection problem; it is a governance problem: agents that execute irreversible actions without a pre-execution checkpoint have no structural defense against executing a bad plan. Plan-and-Execute with plan inspection closes that gap; ReAct with instruction-level approval gates partially closes it; pure ReAct with no inspection gates does not.
 
-OpenLegion's mesh provides two structural planning controls: the blackboard as a shared plan artifact store (plans written to `plans/{task_id}` are readable by supervisor agents and operators before executors start), and the steer mechanism as a real-time plan interception tool. Neither requires framework changes.
+OpenLegion provides two structural planning controls: the shared record of goals and tasks as a plan artifact store (a plan written as tasks is readable by the owner and by reviewing agents before any teammate starts), and approvals at the three walls as a real-time plan interception point. Neither requires framework changes.
 
 For the architectural context that determines which planning pattern fits your agent topology, see the [AI agent architecture guide](/learn/ai-agent-architecture). For the multi-agent coordination patterns that govern how planners hand off to executors at scale, see [multi-agent systems](/learn/multi-agent-systems).
 
@@ -233,7 +233,7 @@ o3 achieves 71.7% on SWE-bench Verified (January 2025) versus GPT-4o's 48.9%, a 
 
 ### How do I add a pre-execution inspection gate to my agent?
 
-Use Plan-and-Execute: have the planner write its full step list to a shared blackboard key before dispatching any executor. A plan-inspector component reads the plan and checks for out-of-allowlist tool calls, unapproved external endpoints, and injection-pattern matches. If the plan passes, set an approved flag and let executors proceed. If not, block with a rejection reason that feeds back to the planner for revision. For ReAct-based agents, add an INSTRUCTIONS.md routing rule that waits 30 minutes for operator approval before any high-risk Action fires.
+Use Plan-and-Execute: have the planner write its full step list to a shared plan key before dispatching any executor. A plan-inspector component reads the plan and checks for out-of-allowlist tool calls, unapproved external endpoints, and injection-pattern matches. If the plan passes, set an approved flag and let executors proceed. If not, block with a rejection reason that feeds back to the planner for revision. For ReAct-based agents, add a standing-instruction routing rule that waits 30 minutes for operator approval before any high-risk Action fires.
 
 ### What are the security implications of extended thinking in agent planning?
 

@@ -3,7 +3,7 @@ title: Model Context Protocol (MCP) — Comment les agents IA utilisent les outi
 description: >-
   Le Model Context Protocol (MCP) est la norme ouverte d'Anthropic permettant
   aux agents IA de découvrir et d'appeler des outils externes. Comment cela
-  fonctionne, mises en garde de sécurité et support MCP d'OpenLegion.
+  fonctionne, mises en garde de sécurité et ce que fait OpenLegion à la place.
 slug: /learn/model-context-protocol
 primary_keyword: model context protocol
 secondary_keywords:
@@ -74,14 +74,14 @@ L'intégration MCP de référence de Claude Desktop monte les serveurs comme sou
 
 ## Comment OpenLegion intègre MCP
 
-OpenLegion est un client MCP par défaut. Les agents dans le runtime auto-découvrent les serveurs MCP configurés pour leur flotte, voient la liste d'outils dans leur fenêtre de contexte et appellent les outils MCP via le même chemin protégé par proxy de coffre-fort et contrôlé par ACL que les compétences intégrées. Le mesh applique les couches de niveau production que MCP laisse de côté :
+MCP n'est pas disponible sur OpenLegion au lancement. Les agents utilisent la boîte à outils intégrée d'OpenLegion, et chaque appel suit le même chemin : une intention vérifiée par un moteur de politiques unique avant qu'elle n'ait lieu, puis enregistrée comme un reçu que le propriétaire peut lire. Ce sont les couches de niveau production que MCP laisse délibérément de côté :
 
-- Chaque serveur MCP s'exécute dans son propre espace de noms bac à sable ; l'agent n'a jamais d'accès stdio direct au processus serveur.
-- Les ACL par agent contrôlent à quels serveurs MCP un agent donné est autorisé à appeler.
-- Chaque appel d'outil est compté contre le budget par agent ; un agent dépassant son plafond est coupé que la dépense vienne des LLM ou des outils MCP.
-- Le mesh enregistre chaque appel MCP dans le journal de traces — la même télémétrie couverte dans [Observabilité des agents IA](/learn/ai-agent-observability).
+- Le code que l'agent écrit tourne dans un bac à sable sans accès réseau par défaut ; l'agent n'a jamais d'accès stdio direct à un processus hôte.
+- Les autorisations par agent contrôlent quels outils un agent donné est autorisé à appeler.
+- Chaque appel d'outil est compté contre le budget en crédits propre à l'agent ; un agent qui l'épuise est coupé, que la dépense vienne des modèles ou des outils.
+- Chaque appel est enregistré avec l'identité de l'agent, un horodatage et le coût exact — la même télémétrie couverte dans [Observabilité des agents IA](/learn/ai-agent-observability).
 
-Le résultat : vous obtenez l'étendue de l'écosystème MCP sans hériter de ses hypothèses de confiance par défaut.
+Le résultat : une surface d'outils plus étroite que celle de l'écosystème MCP, et aucune de ses hypothèses de confiance par défaut.
 
 ## Le point de vue d'OpenLegion
 
@@ -89,7 +89,7 @@ MCP est la norme d'écosystème d'agents la plus importante depuis OpenAPI — e
 
 ## CTA
 
-**Déployez des agents compatibles MCP avec des contrôles de niveau production intégrés.**
+**Déployez des agents avec des contrôles de niveau production intégrés.**
 [Commencer](https://app.openlegion.ai) | [Lire la documentation](https://docs.openlegion.ai)
 
 ---
@@ -120,4 +120,4 @@ L'appel de fonction OpenAI est un patron mono-fournisseur permettant à un LLM d
 
 ### Puis-je utiliser MCP avec n'importe quel fournisseur LLM ?
 
-Oui. MCP est indépendant du LLM — le client rend les définitions d'outils MCP dans le format que le LLM sous-jacent attend (tool use Anthropic, appel de fonction OpenAI, déclarations de fonction Gemini). Les runtimes comme OpenLegion qui supportent 100+ fournisseurs via LiteLLM adaptent automatiquement les outils MCP à la convention d'appel de chaque fournisseur.
+Oui. MCP est indépendant du LLM — le client rend les définitions d'outils MCP dans le format que le LLM sous-jacent attend (tool use Anthropic, appel de fonction OpenAI, déclarations de fonction Gemini). Un runtime qui masque le choix du fournisseur derrière des préréglages de modèles, comme OpenLegion le fait avec Smartest, Smart et Normal, adapte pour vous les définitions d'outils à la convention d'appel de chaque fournisseur.

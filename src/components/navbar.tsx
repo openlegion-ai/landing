@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { Github, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { NAV_LINKS, APP_URL, GITHUB_URL, ONBOARDING_URL } from "@/lib/constants";
+import { NAV_LINKS, APP_URL, GITHUB_URL, WAITLIST_URL } from "@/lib/constants";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { trackCtaClick } from "@/lib/analytics";
 
@@ -41,7 +41,7 @@ export function Navbar() {
     >
       {scrolled && (
         <div
-          className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/25 to-transparent"
+          className="absolute bottom-0 left-0 right-0 h-px bg-border"
           aria-hidden="true"
         />
       )}
@@ -103,7 +103,7 @@ export function Navbar() {
             {t("signIn")}
           </a>
           <Link
-            href={ONBOARDING_URL}
+            href={WAITLIST_URL}
             onClick={() => trackCtaClick({ location: "nav_primary_desktop" })}
             className="btn-shine ml-1 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
           >
@@ -121,7 +121,7 @@ export function Navbar() {
             {t("signIn")}
           </a>
           <Link
-            href={ONBOARDING_URL}
+            href={WAITLIST_URL}
             onClick={() => trackCtaClick({ location: "nav_primary_mobile" })}
             className="btn-shine inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-accent px-4 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
           >

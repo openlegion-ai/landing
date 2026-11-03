@@ -194,7 +194,7 @@ LoRA adapter weights are intellectual property and a competitive asset — they 
 
 **4. Model inversion attacks:** with sufficient API access to a fine-tuned model, an adversary can use membership inference or model inversion techniques to partially reconstruct training data or infer adapter parameters. This is particularly relevant for fine-tuned models deployed as public APIs.
 
-**Mitigations:** store adapter weights with strict ACLs; run fine-tuning in isolated compute environments per project; use OpenLegion's per-project container isolation for serving fine-tuned adapters; enable model checkpoint encryption at rest; audit all adapter-loading decisions in the inference server log.
+**Mitigations:** store adapter weights with strict ACLs; run fine-tuning in isolated compute environments per project; keep adapter-serving credentials in a vault, as OpenLegion does, so no agent holds them; enable model checkpoint encryption at rest; audit all adapter-loading decisions in the inference server log.
 
 For the full attack surface of production agent systems beyond training data — prompt injection, tool hijacking, and credential exposure — see [AI agent security and training data attack surfaces](/learn/ai-agent-security).
 
@@ -254,11 +254,11 @@ Three concrete problems define the fine-tuning failure mode in production:
 | **Fine-tuning property** | **OpenLegion** | **OpenAI fine-tuning API** | **Self-hosted (Axolotl + vLLM)** | **HuggingFace Inference Endpoints** | **AWS Bedrock fine-tuning** |
 |---|---|---|---|---|---|
 | **Per-agent adapter isolation** | Adapter weights loaded per agent type, not shared across project boundaries | Per API key, not per agent | Manual implementation required | Per endpoint deployment | Per model deployment |
-| **Training data lineage logging** | Training dataset versions tracked in project git — full audit trail | Not provided | Manual (DVC, MLflow) | Not provided | Not provided |
-| **PII-in-training enforcement** | INSTRUCTIONS.md policy enforced at project level | No enforcement | No enforcement | No enforcement | No enforcement |
+| **Training data lineage logging** | Dataset versions recorded in the workspace audit trail | Not provided | Manual (DVC, MLflow) | Not provided | Not provided |
+| **PII-in-training enforcement** | Workspace policy enforced before every action | No enforcement | No enforcement | No enforcement | No enforcement |
 | **Adapter weight ACL** | Credential vault governs adapter weight access | OpenAI manages; no external access | Manual S3/filesystem ACLs | HuggingFace Hub access controls | S3 + IAM |
 | **Post-fine-tuning regression gate** | MMLU + tool call accuracy required before deployment | No — fine-tuned model deploys automatically | Manual | Manual | Manual |
-| **Isolated container serving per agent type** | Yes — no cross-tenant adapter loading possible | Not applicable | Manual | Not applicable | Not applicable |
+| **Isolated container serving per agent type** | Sandboxed serving per agent type — no cross-tenant adapter loading | Not applicable | Manual | Not applicable | Not applicable |
 
 <!-- SCHEMA: FAQPage -->
 
@@ -302,6 +302,6 @@ Fine-tuning is a narrow tool: it changes how a model writes, not what it knows. 
 
 The three constraints before any fine-tuning run: ≥100 labeled examples, no personal data in the training set, and a post-training evaluation gate on MMLU + tool call accuracy before production deployment.
 
-[Start building on OpenLegion](https://app.openlegion.ai) — isolated adapter serving per agent type, per-project container boundaries, and credential vault for adapter weight access control.
+[Start building on OpenLegion](https://app.openlegion.ai) — isolated adapter serving per agent type, per-workspace sandboxed runs, and credential vault for adapter weight access control.
 
 For the full LLM cost stack including routing, prompt caching, and inference optimization beyond fine-tuning, see [LLM cost optimization and model selection tradeoffs](/learn/llm-cost-optimization).

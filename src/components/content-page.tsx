@@ -15,6 +15,7 @@ import {
 } from "@/components/json-ld";
 import { PAGE_MENTIONS } from "@/lib/page-mentions";
 import { RelatedPages } from "@/components/related-pages";
+import { PreferredSourceButton } from "@/components/preferred-source-button";
 
 interface ContentPageProps {
   page: ContentPageData;
@@ -147,6 +148,8 @@ export function ContentPage({ page, locale }: ContentPageProps) {
         <article className="prose">
           <div dangerouslySetInnerHTML={{ __html: html }} />
         </article>
+
+        <PreferredSourceButton className="mt-10 flex justify-center" />
 
         <aside aria-label={t("relatedContentAriaLabel")}>
           <RelatedPages currentSlug={slug} locale={effectiveLocale} />

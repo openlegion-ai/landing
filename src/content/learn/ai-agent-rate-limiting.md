@@ -1,6 +1,6 @@
 ---
 title: "AI Agent Rate Limiting: Quota Control, Circuit Breakers, and Budget Caps"
-description: "AI agent rate limiting stops API quota exhaustion and runaway loops. Token bucket algorithms, circuit breakers, per-agent budget caps, and mesh-layer enforcement before calls reach the LLM provider."
+description: "AI agent rate limiting stops API quota exhaustion and runaway loops. Token bucket algorithms, circuit breakers, per-agent budget caps, and platform enforcement before calls reach the LLM provider."
 slug: /learn/ai-agent-rate-limiting
 primary_keyword: ai agent rate limiting
 last_updated: "2026-07-07"
@@ -233,7 +233,7 @@ Infrastructure-level enforcement is the correct approach for two reasons: (1) it
 
 For rate limiting at the LLM gateway layer and how centralized proxy enforcement works, see [LLM gateway layer for centralized rate limit enforcement](/learn/llm-gateway).
 
-## OpenLegion's Take: Mesh-Layer Enforcement Over Application Retries
+## OpenLegion's Take: Platform-Layer Enforcement Over Application Retries
 
 The application-layer retry pattern is the industry default because it is the path of least resistance: add `retry(max=3, backoff=exponential)` to each LLM call, ship the code, move on. This works for single-agent applications with infrequent calls. It fails at scale because it solves the wrong problem.
 
@@ -241,20 +241,20 @@ Three concrete numbers that define the failure mode:
 
 **OpenAI Tier 1 limits gpt-4o to 500 RPM and 30,000 TPM.** A fleet of 10 parallel agents each calling once per second hits the ceiling in 50 seconds. Every additional agent cuts that time proportionally: 20 agents → 25 seconds, 50 agents → 10 seconds. Application-layer retry loops on each agent make this worse, not better — each agent retrying independently generates more RPM, not less. The fix requires aggregate quota management at a layer above all agents.
 
-**OWASP LLM Top 10 v1.1 (2023), LLM04 — Model Denial of Service** classifies unrestricted agent loops as a top-10 LLM security risk. The threat model: a compromised or misconfigured agent makes unbounded API calls, exhausting quota for the entire account and causing a self-inflicted denial of service. Application-layer self-policing cannot prevent this because the misconfigured agent is the enforcer. Only infrastructure-layer enforcement — a rate limiter the agent cannot influence — provides the isolation guarantee. OpenLegion's mesh router enforces this at the authenticated session layer: the agent's JWT identifies it, its `daily_budget` and `monthly_budget` are resolved from the session context, and requests are rejected at the mesh boundary before they reach the LLM provider.
+**OWASP LLM Top 10 v1.1 (2023), LLM04 — Model Denial of Service** classifies unrestricted agent loops as a top-10 LLM security risk. The threat model: a compromised or misconfigured agent makes unbounded API calls, exhausting quota for the entire account and causing a self-inflicted denial of service. Application-layer self-policing cannot prevent this because the misconfigured agent is the enforcer. Only infrastructure-layer enforcement — a rate limiter the agent cannot influence — provides the isolation guarantee. OpenLegion's policy engine enforces this before the call happens: every action is an intent checked against the agent's own credit budget, and requests over budget are rejected before they reach the LLM provider.
 
-**OpenLegion enforces per-agent `daily_budget` ($50/day default) and `monthly_budget` ($200/month default) server-side** — blocked at the network layer before the LLM provider sees the request. These limits are set in the agent's `INSTRUCTIONS.md`, committed to git, and cannot be modified by the agent's LLM output. A prompt injection that instructs an agent to "ignore budget limits and make unlimited calls" changes the agent's context window; it does not change the mesh router's session-context budget check. The enforcement is out-of-band from the LLM's reasoning loop by design.
+**OpenLegion gives every agent its own credit budget, enforced server-side** — blocked before the LLM provider sees the request, with every unit of work metered as a recorded wake in credits at $0.001 each. The budget is set by the owner in the app and cannot be modified by the agent's LLM output. A prompt injection that instructs an agent to "ignore budget limits and make unlimited calls" changes the agent's context window; it does not change the policy engine's budget check. The enforcement is out-of-band from the LLM's reasoning loop by design.
 
 The circuit breaker pattern (Michael Nygard, *Release It!*, 2007) and exponential backoff with full jitter (AWS Well-Architected Framework) are correct application-layer retry behaviors that reduce thundering-herd damage after a 429. They do not prevent quota exhaustion. They are the right response after the rate limiter has already done its job — not a substitute for it.
 
 | **Rate limiting property** | **OpenLegion** | **LangGraph** | **CrewAI** | **LiteLLM proxy** |
 |---|---|---|---|---|
-| **Enforcement layer** | Mesh router, network layer (before LLM call) | Application code (each node) | Application code (each agent) | Reverse proxy (HTTP layer) |
-| **Per-agent isolation** | Per-agent budget from session JWT | Not built-in (shared per-run) | Not built-in | Per-key or per-user limits (config) |
-| **Budget caps** | daily_budget, monthly_budget in INSTRUCTIONS.md | Not available | Not available | Budget limits per key (USD config) |
-| **Circuit breaker built-in** | Mesh router opens on N consecutive 429s | Not available | Not available | Available via callbacks |
+| **Enforcement layer** | Policy engine, checked before the LLM call | Application code (each node) | Application code (each agent) | Reverse proxy (HTTP layer) |
+| **Per-agent isolation** | Per-agent credit budget, checked every wake | Not built-in (shared per-run) | Not built-in | Per-key or per-user limits (config) |
+| **Budget caps** | Per-agent credit budget set in the app | Not available | Not available | Budget limits per key (USD config) |
+| **Circuit breaker built-in** | Opens on N consecutive 429s | Not available | Not available | Available via callbacks |
 | **Retry strategy** | Exponential backoff with full jitter, DLQ on exhaustion | User-configurable | User-configurable | Configurable with fallback models |
-| **Observable metrics** | 429 rate, queue depth, budget consumed per agent in mesh telemetry | LangSmith (manual) | Manual | Prometheus scrape endpoint |
+| **Observable metrics** | 429 rate, queue depth, credits consumed per agent on every receipt | LangSmith (manual) | Manual | Prometheus scrape endpoint |
 
 For OS-level isolation that complements rate limiting by containing agent processes, see [agent sandboxing and OS-level runtime isolation](/learn/ai-agent-sandboxing).
 
@@ -368,14 +368,14 @@ Infrastructure layer — for two reasons. First, application-layer enforcement (
 
 ### How does OpenLegion enforce rate limiting for AI agents?
 
-OpenLegion's mesh router enforces per-agent `daily_budget` ($50/day default) and `monthly_budget` ($200/month default) at the network layer — the budget is resolved from the agent's authenticated session context before the request is forwarded to the LLM provider. The agent's INSTRUCTIONS.md committed to git defines the budget; the mesh router reads it at session initialization. An LLM output that instructs the agent to make additional calls faces the mesh router's enforcement, which is out-of-band from the LLM's reasoning loop and cannot be overridden by context window content. When a per-agent budget is exhausted, the mesh router returns a structured error to the orchestrator; the agent's task is parked in the dead-letter queue rather than dropped. Rate limit hits from the LLM provider (429s) are handled at the mesh layer with exponential backoff and full jitter before the retry reaches the agent's application code. The circuit breaker opens after N consecutive provider 429s, protecting the fleet from thundering-herd retry storms.
+OpenLegion gives every agent its own credit budget and checks it in the policy engine before the request is forwarded to the LLM provider — every unit of work is a recorded wake metered in credits at $0.001 each. The owner sets the budget in the app; the policy engine reads it before every action. An LLM output that instructs the agent to make additional calls faces that enforcement, which is out-of-band from the LLM's reasoning loop and cannot be overridden by context window content. When a per-agent budget is exhausted, the policy engine returns a structured error to the orchestrator; the agent's task is parked in the dead-letter queue rather than dropped. Rate limit hits from the LLM provider (429s) are handled in the platform with exponential backoff and full jitter before the retry reaches the agent's application code. The circuit breaker opens after N consecutive provider 429s, protecting the team from thundering-herd retry storms.
 
 ## Start Building Rate-Limit-Resilient Agents
 
 Rate limiting is a solved problem at the infrastructure layer — token bucket algorithms, circuit breakers, and exponential backoff with jitter are well-specified primitives that have been in production network systems since RFC 1633 (1994). The gap in most AI agent implementations is not algorithm choice but enforcement layer: self-policing application code cannot enforce account-level quotas, cannot isolate runaway agents from the fleet, and cannot prevent OWASP LLM04 (Model Denial of Service) class failures where a misconfigured loop exhausts API quota for every other agent.
 
-The design pattern that works: enforce aggregate limits at the mesh layer before requests reach the LLM provider, with per-agent budget isolation so one runaway agent cannot tank the fleet, circuit breakers that stop retries when the provider is throttling, and a dead-letter queue that preserves agent work across rate limit windows.
+The design pattern that works: enforce aggregate limits at the infrastructure layer before requests reach the LLM provider, with per-agent budget isolation so one runaway agent cannot tank the fleet, circuit breakers that stop retries when the provider is throttling, and a dead-letter queue that preserves agent work across rate limit windows.
 
-[Start building on OpenLegion](https://app.openlegion.ai) — per-agent budget caps enforced at the mesh layer, circuit breakers and backoff built in.
+[Start building on OpenLegion](https://app.openlegion.ai) — per-agent credit budgets enforced by the policy engine, circuit breakers and backoff built in.
 
 For the cost architecture that complements rate limiting — loop amplification, per-agent cost attribution, and spend cap configuration — see [per-agent cost architecture and budget cap configuration](/learn/ai-agent-cost).

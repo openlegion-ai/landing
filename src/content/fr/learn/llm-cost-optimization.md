@@ -38,15 +38,15 @@ La bonne nouvelle: les coûts LLM sont hautement compressibles. Contrairement au
 
 ## Avis d'OpenLegion: les plafonds budgétaires sont un primitif de sécurité, pas seulement FinOps
 
-La plupart des frameworks traitent le coût LLM comme un problème de surveillance. OpenLegion traite les plafonds budgétaires par agent comme un primitif de sécurité appliqué au niveau de la couche infrastructure. Chaque agent a un plafond `daily_usd` et `monthly_usd`. Lorsqu'un agent atteint son plafond, les appels LLM pour cet agent sont bloqués, pas le pipeline entier. Les autres agents de la flotte continuent à fonctionner. C'est une coupure stricte, pas un avertissement souple.
+La plupart des frameworks traitent le coût LLM comme un problème de surveillance. OpenLegion traite les budgets par agent comme un primitif de sécurité appliqué au niveau de la couche infrastructure. Chaque agent porte son propre budget, mesuré en crédits à $0,001 l'unité. Lorsqu'un agent l'épuise, les appels au modèle pour cet agent sont refusés, pas le pipeline entier. Les autres agents de l'équipe continuent à fonctionner. C'est une coupure stricte, pas un avertissement souple.
 
 Trois implications concrètes:
 
 **Prévention des boucles incontrôlées.** Un agent dans une boucle de raisonnement récursive atteint son plafond journalier et s'arrête. Sans plafond strict, une boucle récursive dans un agent à contexte long peut dépenser des centaines de dollars en quelques minutes. Avec un plafond de $2/jour par agent, le pire cas est $2.
 
-**Défense contre le déni de portefeuille.** OWASP LLM10:2025 nomme le déni de portefeuille comme un risque principal des applications LLM. Un plafond strict appliqué au niveau mesh ne peut pas être contourné par l'agent.
+**Défense contre le déni de portefeuille.** OWASP LLM10:2025 nomme le déni de portefeuille comme un risque principal des applications LLM. Un budget strict appliqué par le moteur de politiques ne peut pas être contourné par l'agent.
 
-**Modélisation prévisible des coûts.** Avec des plafonds par agent, les dépenses journalières maximales pour une flotte de N agents sont N fois le plafond journalier.
+**Modélisation prévisible des coûts.** Avec des budgets par agent, la dépense maximale pour une équipe de N agents est N fois le budget par agent.
 
 Pour le contexte de sécurité complet, voir [sécurité des agents IA et défense contre le déni de portefeuille](/learn/ai-agent-security).
 
@@ -93,7 +93,7 @@ Trois techniques de compression par ordre de priorité:
 
 ### Levier 5: Plafonds budgétaires par agent — application au niveau infrastructure
 
-OpenLegion implémente `daily_usd` et `monthly_usd` par agent au niveau mesh. Lorsque le plafond est atteint: les appels LLM pour cet agent sont bloqués, le pipeline continue, le statut de l'agent bloqué est mis à jour sur le blackboard, et la logique d'orchestrateur peut déclencher un reroutage.
+OpenLegion donne à chaque agent son propre budget en crédits, fixé par le propriétaire dans l'application. Lorsque le budget est épuisé: les appels au modèle pour cet agent sont refusés, le pipeline continue, le statut de l'agent bloqué est enregistré dans le registre partagé, et la logique d'orchestrateur peut déclencher un reroutage.
 
 ### Levier 6: Contrôle des tokens de sortie — sorties structurées et génération contrainte
 
@@ -125,10 +125,10 @@ C'est une **réduction de 68 %**. À 1 000 tâches/jour, la différence est $56/
 
 | **Dimension** | **OpenLegion** | **LangGraph** | **CrewAI** | **AutoGen** |
 |---|---|---|---|---|
-| **Routage de modèle intégré** | Oui, champ modèle par agent | Non, manuel dans le code | Non, manuel dans le code | Non, manuel dans le code |
-| **Plafonds budgétaires par agent** | Oui, daily_usd + monthly_usd | Non | Non | Non |
-| **Coupure stricte des dépenses** | Oui, appels LLM bloqués en cas de dépassement | Non | Non | Non |
-| **Suivi des coûts en temps réel** | Oui, Cost Tracker dans Zone 2 | Non intégré | Non intégré | Non intégré |
+| **Routage de modèle intégré** | Oui, un préréglage de modèle par agent | Non, manuel dans le code | Non, manuel dans le code | Non, manuel dans le code |
+| **Plafonds budgétaires par agent** | Oui, un budget en crédits par agent, au moteur de politiques | Non | Non | Non |
+| **Coupure stricte des dépenses** | Oui, appels au modèle refusés en cas de dépassement | Non | Non | Non |
+| **Suivi des coûts en temps réel** | Oui, coût exact par tâche et par agent | Non intégré | Non intégré | Non intégré |
 
 Pour une comparaison complète des frameworks, voir la [comparaison des frameworks d'agents IA](/learn/ai-agent-frameworks).
 
@@ -153,7 +153,7 @@ L'API Message Batches d'Anthropic traite les requêtes de manière asynchrone à
 
 ### Comment fonctionnent les plafonds budgétaires par agent dans OpenLegion?
 
-Chaque agent dans OpenLegion a des plafonds `daily_usd` et `monthly_usd` appliqués au niveau mesh par le Cost Tracker dans Zone 2. Lorsqu'un agent atteint son plafond, les appels LLM pour cet agent sont bloqués immédiatement. Le reste du pipeline continue à fonctionner. Une flotte de 20 agents chacun plafonné à $5/jour a une exposition maximale quotidienne de $100.
+Chaque agent dans OpenLegion porte son propre budget en crédits, fixé dans l'application et appliqué par le moteur de politiques avant chaque appel au modèle. Lorsqu'un agent l'épuise, les appels au modèle pour cet agent sont refusés immédiatement. Le reste du pipeline continue à fonctionner. Une équipe de 20 agents détenant chacun 5 000 crédits a une exposition maximale de $100.
 
 ### Comment la compression du contexte réduit-elle les coûts des tokens LLM?
 
@@ -161,7 +161,7 @@ La compression du contexte supprime les tokens des appels API qui ne contribuent
 
 ### Qu'est-ce que le déni de portefeuille et comment les plafonds budgétaires le préviennent-ils?
 
-Le déni de portefeuille est OWASP LLM10:2025, une attaque où un agent est manipulé pour consommer des tokens illimités. Les plafonds budgétaires par agent avec des coupures strictes au niveau infrastructure préviennent cela: lorsque le plafond est atteint, les appels LLM sont bloqués par la couche mesh, pas par l'agent lui-même.
+Le déni de portefeuille est OWASP LLM10:2025, une attaque où un agent est manipulé pour consommer des tokens illimités. Les plafonds budgétaires par agent avec des coupures strictes au niveau infrastructure préviennent cela: lorsque le budget est épuisé, les appels au modèle sont refusés par le moteur de politiques, pas par l'agent lui-même.
 
 ## Exécuter des agents avec les coûts intégrés dans l'architecture
 

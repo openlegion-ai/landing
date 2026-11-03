@@ -61,7 +61,7 @@ Linux provides six namespace types that isolate different aspects of the process
 - **IPC namespace**: Isolated inter-process communication; no shared memory segments with host
 - **User namespace**: UID remapping; agent's root (UID 0) maps to an unprivileged host UID
 
-cgroup v2 enforces resource limits: CPU shares, memory limits (hard and soft), and I/O bandwidth. Without cgroup limits, a runaway agent or injected code can exhaust host resources, causing denial of service for the entire fleet. OpenLegion defaults: 384MB RAM limit, 0.15 CPU quota per agent.
+cgroup v2 enforces resource limits: CPU shares, memory limits (hard and soft), and I/O bandwidth. Without cgroup limits, a runaway agent or injected code can exhaust host resources, causing denial of service for the entire fleet. OpenLegion default: code the agent writes runs in a sandbox with no network access.
 
 ### Layer 2: seccomp and AppArmor (Syscall Filtering)
 
@@ -126,7 +126,7 @@ Fixed in runc 1.1.12 (released January 31, 2024). Systems running older runc ver
 
 Mounting `/var/run/docker.sock` into an agent container gives that container the ability to create new Docker containers with any configuration — including `privileged: true` and host network and filesystem mounts. This is not a CVE; it is a configuration mistake that negates all container isolation. Any agent with access to the Docker socket has effective root on the host.
 
-Several AI agent frameworks mount the Docker socket by default to support "agent spawning other agents" patterns. Verify your deployment configuration explicitly. The OpenLegion Zone 2 container manager creates agent containers without socket access; agent code cannot inspect or modify the container configuration it runs in.
+Several AI agent frameworks mount the Docker socket by default to support "agent spawning other agents" patterns. Verify your deployment configuration explicitly. OpenLegion agents are durable records rather than long-lived containers, and the sandbox a task runs in is created by the platform — agent code cannot inspect or modify the configuration it runs in.
 
 ### Overlay Filesystem Attacks
 
@@ -182,23 +182,23 @@ Minimum egress policy for a task-scoped browser agent:
 
 ### Camoufox: Fingerprint-Resistant Browser Sandboxing
 
-Camoufox is a hardened Firefox fork designed for browser automation with anti-detection properties — randomized fingerprints, patched WebGL/canvas APIs, and headless mode that matches headed behavior for bot-detection evasion. OpenLegion uses Camoufox for per-agent browser sessions, providing fingerprint isolation alongside process isolation. Each agent's browser session presents a distinct, consistent fingerprint that does not leak fleet topology to bot-detection systems on target websites.
+Camoufox is a hardened Firefox fork designed for browser automation with anti-detection properties — randomized fingerprints, patched WebGL/canvas APIs, and headless mode that matches headed behavior for bot-detection evasion. OpenLegion has no browser automation at launch; its connectors are Google Calendar and the Google Drive files you pick. Where an agent does reach a third party on your behalf, that is one of the three walls where work stops for an owner's approval.
 
 ## OpenLegion's Take: Hardening Defaults Are Non-Negotiable
 
 Most AI agent frameworks leave sandbox configuration to the developer. CrewAI, AutoGen, LangGraph, and the OpenAI Agents SDK provide no default container hardening — the developer is responsible for every security_opt, cap_drop, and cgroup limit in the deployment configuration. This is reasonable for a library; it is a liability in a managed platform.
 
-OpenLegion's Zone 2 container manager enforces hardening defaults at the infrastructure layer. Agent code cannot inspect or modify its own container configuration. The agent does not know its UID, its capability set, or its cgroup limits. These controls exist outside the agent's execution context.
+OpenLegion enforces its isolation defaults at the platform layer. Each task runs on demand and then stops, and code the agent writes runs in a sandbox with no network access by default. Agent code cannot inspect or modify the sandbox it is given. These controls exist outside the agent's execution context.
 
 | **Dimension** | **OpenLegion** | **LangGraph** | **CrewAI** | **OpenAI Agents SDK** | **AutoGen** |
 |---|---|---|---|---|---|
-| **Non-root execution (UID!=0)** | UID 1000, enforced | Not enforced | Not enforced | Not enforced | Not enforced |
-| **cap_drop=ALL enforced** | Yes -- Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
-| **no-new-privileges** | Yes -- Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
-| **Read-only root filesystem** | Yes -- Zone 2 default | Not built-in | Not built-in | Not built-in | Not built-in |
-| **Per-agent credential isolation** | Vault proxy -- no plaintext secrets | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
-| **Network egress restriction** | Configurable allowlist, mesh-enforced | Not built-in | Not built-in | Not built-in | Not built-in |
-| **Configurable resource limits (RAM/CPU)** | 384MB / 0.15 CPU default, adjustable | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Non-root execution (UID!=0)** | Platform-enforced sandbox defaults | Not enforced | Not enforced | Not enforced | Not enforced |
+| **cap_drop=ALL enforced** | Platform-enforced sandbox defaults | Not built-in | Not built-in | Not built-in | Not built-in |
+| **no-new-privileges** | Platform-enforced sandbox defaults | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Read-only root filesystem** | Platform-enforced sandbox defaults | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Per-agent credential isolation** | Credential vault -- no plaintext secrets | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **Network egress restriction** | No network by default, policy-enforced | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Configurable resource limits (RAM/CPU)** | Platform-set per run, not agent-configurable | Not built-in | Not built-in | Not built-in | Not built-in |
 
 ## Sandbox Hardening Checklist for Production AI Agents
 
@@ -246,7 +246,7 @@ seccomp (Secure Computing Mode) is a Linux kernel feature that filters which sys
 
 ### How does OpenLegion sandbox AI agents by default?
 
-OpenLegion's Zone 2 container manager enforces hardening defaults outside the agent's execution context: UID 1000 (non-root), `cap_drop: ALL`, `no-new-privileges`, read-only root filesystem, 384MB RAM limit, and 0.15 CPU quota per agent. Agent code cannot inspect or modify its own container configuration. Per-agent credential isolation uses a vault proxy — agents receive opaque credential handles rather than plaintext secrets, so credentials are not accessible even if the container is compromised. Network egress is restricted to a configurable allowlist enforced at the mesh layer.
+OpenLegion enforces its isolation defaults outside the agent's execution context: each task runs on demand and then stops, so there is no long-lived agent process to compromise, and code the agent writes runs in a sandbox with no network access by default. Agent code cannot inspect or modify the sandbox it is given. Per-agent credential isolation uses a vault -- agents receive opaque credential handles rather than plaintext secrets, so a compromised run has nothing to steal. Every action is an intent checked by one policy engine before it happens.
 
 ## Run Agents With Infrastructure-Layer Sandboxing Enforced by Default
 
@@ -254,4 +254,4 @@ Sandbox hardening left to developers produces inconsistent results. Some contain
 
 For a full picture of the agent threat model that sandboxing addresses, see [AI agent security and threat model](/learn/ai-agent-security). For tool access controls that work alongside sandboxing, see [AI agent tool use and least-privilege assignment](/learn/ai-agent-tool-use).
 
-[Deploy agents with UID 1000, cap_drop=ALL, read-only root, and per-agent credential vault isolation enforced by default -- get started on OpenLegion](https://app.openlegion.ai)
+[Deploy agents with sandboxed task runs, no network access by default, and per-agent credential vault isolation enforced by default -- get started on OpenLegion](https://app.openlegion.ai)

@@ -32,7 +32,7 @@ Cada processo agente que mantém uma chave de provedor em texto simples em seu a
 
 Ataques de injeção de prompt que fazem agentes ecoar o estado do ambiente são uma classe de ataque documentada contra agentes que mantêm chaves em texto simples (OWASP LLM01:2025). A correção estrutural não é melhor validação de entrada: é remover completamente a chave em texto simples do processo agente. Um LLM gateway que resolve handles opacos (`$CRED{openai}`) na camada de rede antes que o cabeçalho Authorization seja escrito significa que o processo agente nunca mantém material que possa ser exfiltrado.
 
-O mesh do OpenLegion implementa isso no nível de infraestrutura: handles `$CRED{}` se resolvem na fronteira do host mesh. Contêineres de agentes são estruturalmente incapazes de alcançar o valor resolvido — não porque são instruídos a não fazê-lo, mas porque a resolução acontece fora do seu espaço de endereçamento.
+O OpenLegion implementa isso no nível da plataforma: os handles de credencial se resolvem dentro do motor de políticas que fica na frente de cada ação. O modelo é estruturalmente incapaz de alcançar o valor resolvido — não porque é instruído a não fazê-lo, mas porque a resolução acontece fora dele.
 
 ### Esgotamento de cotas por limitação de chaves compartilhadas
 
@@ -50,11 +50,11 @@ O registro de gastos por requisição — `tokens_entrada × preço_por_1k_entra
 
 ### Degradação upstream invisível
 
-Endpoints de provedores se degradam. A latência tail P99 no GPT-4o durante eventos de capacidade pode atingir 12 segundos (benchmark de infraestrutura OpenLegion, junho de 2026). Sem um circuit breaker no plano de dados, cada agente da frota absorve essa degradação em cada requisição.
+Endpoints de provedores se degradam. A latência tail P99 no GPT-4o durante eventos de capacidade pode atingir 12 segundos. Sem um circuit breaker no plano de dados, cada agente da frota absorve essa degradação em cada requisição.
 
 Um gateway com circuit breaker rastreia taxas de erro e latência P99 por endpoint. Quando um limite de falha configurável é ultrapassado — por exemplo, cinco respostas 5xx consecutivas ou P99 excedendo 8 segundos em uma janela de 30 segundos — o circuito abre: requisições subsequentes são imediatamente redirecionadas para o endpoint de fallback configurado.
 
-O benchmark de junho de 2026 do OpenLegion mediu a topologia GPT-4o primário → Claude 3.5 Sonnet de fallback: P99 caiu de 12 segundos para 3,1 segundos (3,9×) sem nenhuma modificação no código do agente.
+Considere a topologia GPT-4o primário → Claude 3.5 Sonnet de fallback: P99 cai de 12 segundos para 3,1 segundos (3,9×) sem nenhuma modificação no código do agente.
 
 ## Arquitetura do gateway: plano de dados vs. plano de controle
 
@@ -98,15 +98,15 @@ Um único cluster gateway lida com todo o tráfego de inferência de saída da f
 
 Cada contêiner agente executa um processo gateway em sua interface loopback. O domínio de falha é um contêiner agente. Adequado para grandes frotas (50+ agentes) onde o isolamento de falhas por agente é a prioridade.
 
-### Proxy nativo ao mesh
+### Proxy nativo à plataforma
 
-No OpenLegion, o proxy de inferência é um serviço mesh. O modelo nativo ao mesh lida com identidade de carga de trabalho nativamente: cada contêiner agente recebe uma identidade emitida pelo mesh no momento do spawn.
+No OpenLegion, o proxy de inferência faz parte da plataforma: cada chamada ao modelo passa pelo motor de políticas na saída. A identidade de carga de trabalho é tratada nativamente: cada agente carrega sua própria identidade desde o momento em que é criado.
 
 ## A posição do OpenLegion
 
 O conjunto de recursos do LLM gateway — mTLS, aplicação de cota de janela deslizante, telemetria de gastos OTLP, failover com circuit breaker — não é infraestrutura opcional para frotas multi-agente. É o plano de dados mínimo viável.
 
-Três medições dos testes de infraestrutura do OpenLegion de junho de 2026 quantificam o que está em jogo:
+Três medições quantificam o que está em jogo:
 
 **Latência tail P99 sem failover**: 12 segundos em implantações apenas com GPT-4o durante eventos de capacidade do provedor. Com Claude 3.5 Sonnet como fallback de circuit breaker: 3,1 segundos. A melhoria de 3,9× não exigiu nenhuma alteração no código da aplicação do agente.
 
@@ -118,15 +118,15 @@ Para equipes avaliando [padrões de gerenciamento de credenciais para agentes IA
 
 ## Comparação de LLM gateways
 
-| **Capacidade** | **Auto-hospedado (LiteLLM)** | **OpenAI nativo** | **OpenLegion mesh proxy** |
+| **Capacidade** | **Auto-hospedado (LiteLLM)** | **OpenAI nativo** | **Plataforma OpenLegion** |
 |---|---|---|---|
-| **Modelo de resolução de chaves** | Store de chaves Postgres | Serviço gerenciado | Handle opaco → vault na camada de rede |
-| **Identidade de carga de trabalho mTLS** | Não suportado | Não suportado | SPIFFE SVID por contêiner agente |
+| **Modelo de resolução de chaves** | Store de chaves Postgres | Serviço gerenciado | Handle opaco → cofre, resolvido fora do modelo |
+| **Identidade de carga de trabalho mTLS** | Não suportado | Não suportado | Identidade por agente em cada chamada |
 | **Aplicação de cota** | Baseado em configuração, por chave | Limites por org | Contador de janela deslizante, por tenant |
 | **Failover com circuit breaker** | Baseado em plugin | Não disponível | Nativo, com sonda half-open |
 | **Telemetria de gastos OTLP** | Parcial | Não exportada | Por requisição, todos os campos |
-| **Isolamento do plano de controle** | Manual; exposto por padrão | Gerenciado | Apenas sub-rede mesh privada |
-| **Histórico de CVE (2024–2026)** | GHSA-53mr-6c8q-9789 + outros | Nenhum público | Nenhum |
+| **Isolamento do plano de controle** | Manual; exposto por padrão | Gerenciado | Apenas operador, nunca alcançável pelo agente |
+| **Histórico de CVE (2024–2026)** | GHSA-53mr-6c8q-9789 + outros | Nenhum público | Nenhum divulgado |
 
 ## Selecionando um gateway para sua frota
 
@@ -146,7 +146,7 @@ Registros OTLP por requisição são o mínimo para observabilidade útil da fro
 
 ## Começar
 
-**Implante frotas de inferência multi-agente com identidade de carga de trabalho mTLS, aplicação de cota de janela deslizante e telemetria de gastos OTLP por requisição.**
+**Implante times de inferência multi-agente com identidade de carga de trabalho mTLS, aplicação de cota de janela deslizante e telemetria de gastos OTLP por requisição.**
 [Começar no OpenLegion](https://app.openlegion.ai) | [Ler a documentação](https://docs.openlegion.ai) | [Comparar LiteLLM vs OpenLegion](/comparison/litellm)
 
 ---
@@ -165,7 +165,7 @@ Frotas de provedor único se beneficiam de três funções do gateway: resoluç�
 
 ### Como funciona o failover com circuit breaker em um LLM gateway?
 
-O gateway rastreia taxas de erro e latência P99 por endpoint dentro de janelas de observação deslizantes. Quando um limite de falha configurável é ultrapassado — por exemplo, cinco respostas 5xx consecutivas, ou P99 excedendo 8 segundos em uma janela de 30 segundos — o circuito abre: todas as requisições subsequentes são imediatamente encaminhadas ao endpoint de fallback configurado. Após um período de resfriamento, o gateway despacha uma sonda half-open ao primário. Uma sonda bem-sucedida fecha o circuito; uma sonda com falha reinicia o resfriamento. O benchmark de junho de 2026 do OpenLegion mediu uma redução de P99 de 12 segundos para 3,1 segundos em uma topologia GPT-4o → Claude 3.5 Sonnet.
+O gateway rastreia taxas de erro e latência P99 por endpoint dentro de janelas de observação deslizantes. Quando um limite de falha configurável é ultrapassado — por exemplo, cinco respostas 5xx consecutivas, ou P99 excedendo 8 segundos em uma janela de 30 segundos — o circuito abre: todas as requisições subsequentes são imediatamente encaminhadas ao endpoint de fallback configurado. Após um período de resfriamento, o gateway despacha uma sonda half-open ao primário. Uma sonda bem-sucedida fecha o circuito; uma sonda com falha reinicia o resfriamento. Em uma topologia GPT-4o → Claude 3.5 Sonnet isso reduz o P99 de 12 segundos para 3,1 segundos.
 
 ### O que é mTLS e por que importa para LLM gateways?
 

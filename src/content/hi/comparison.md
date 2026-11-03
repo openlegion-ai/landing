@@ -27,7 +27,7 @@ related:
 
 इंडस्ट्री विश्लेषकों के अनुसार, agentic AI बाज़ार 2025 में अनुमानित $7.6 बिलियन तक पहुँचा और 2030 तक $47-52 बिलियन तक जाने की संभावना है। विश्लेषक फर्म्स अनुमान लगाती हैं कि 2026 के अंत तक एंटरप्राइज़ ऐप्लिकेशन्स का एक महत्वपूर्ण प्रतिशत AI एजेंट्स को embed करेगा। एक दर्जन से अधिक फ्रेमवर्क adoption के लिए प्रतिस्पर्धा में हैं, ऐसे में सही फ्रेमवर्क का चुनाव आपकी वास्तविक ज़रूरत पर निर्भर करता है: तेज़ prototyping, cloud-native डिप्लॉयमेंट, visual building, या प्रोडक्शन सुरक्षा।
 
-OpenLegion एक security-first [AI एजेंट फ्रेमवर्क](/learn/ai-agent-platform) है जो कंटेनर isolation, vault-proxied credentials, और प्रति-एजेंट बजट प्रवर्तन के इर्द-गिर्द बना है। यह पेज इसकी तुलना हर बड़े विकल्प से करता है — OpenClaw ecosystem परियोजनाओं के विस्फोट सहित — ताकि आप तय कर सकें कि कौन सा फ्रेमवर्क आपकी आवश्यकताओं के लिए उपयुक्त है।
+OpenLegion एक security-first [AI एजेंट फ्रेमवर्क](/learn/ai-agent-platform) है जो sandboxed task runs, vault में रखे गए credentials, और प्रति-एजेंट बजट प्रवर्तन के इर्द-गिर्द बना है। यह पेज इसकी तुलना हर बड़े विकल्प से करता है — OpenClaw ecosystem परियोजनाओं के विस्फोट सहित — ताकि आप तय कर सकें कि कौन सा फ्रेमवर्क आपकी आवश्यकताओं के लिए उपयुक्त है।
 
 ## मास्टर तुलना तालिका
 
@@ -43,7 +43,7 @@ OpenLegion एक security-first [AI एजेंट फ्रेमवर्क
 | [**Semantic Kernel**](/comparison/semantic-kernel) | 27,300 | MIT | अंतर्निहित नहीं | DefaultAzureCredential | Free (open source) | Critical RCE (CVSS 9.9) | अपडेट आवृत्ति घटी |
 | [**OpenAI Agents SDK**](/comparison/openai-agents-sdk) | 19,200 | MIT | कोई नहीं (same process) | Env var API key | Free SDK; API usage-based | 0 | सक्रिय |
 | [**Dify**](/comparison/dify) | 131,000 | Modified Apache 2.0 | Plugin sandbox | Workspace-shared keys | Cloud $59-159/mo | CVE-2025-3466 (CVSS 9.8) | सक्रिय |
-| **OpenLegion** | new | PolyForm Perimeter License 1.0.1 | प्रति-एजेंट Docker (default और एकमात्र mode) | Vault proxy (एजेंट्स keys कभी नहीं देखते) | प्रति-एजेंट दैनिक/मासिक hard cutoff | कोई रिपोर्ट नहीं (v0.1.0) | सक्रिय |
+| **OpenLegion** | new | PolyForm Perimeter License 1.0.1 (engine) | प्रति task sandboxed run (default और एकमात्र mode) | Vault में रखे (model के पास सिर्फ़ एक handle) | प्रति-एजेंट credit बजट, hard cutoff | n/a — hosted प्लेटफ़ॉर्म | सक्रिय |
 
 ## सुरक्षा अंतर
 
@@ -51,7 +51,7 @@ OpenLegion एक security-first [AI एजेंट फ्रेमवर्क
 
 सार्वजनिक सुरक्षा शोध ने एजेंट फ्रेमवर्क परिदृश्य में गंभीर भेद्यताओं को दर्ज किया है — LangChain ecosystem में RCE chains, sandbox escapes जिन्होंने secret keys उजागर किए, credential leaks, prompt-injection हमले, और unbounded loop व्यवहार। विशिष्ट CVEs और severity scores भिन्न हैं; वर्तमान विवरण के लिए हर vendor की advisories और primary reporting देखें।
 
-OpenLegion सुरक्षा को एक primary value proposition बनाता है: प्रति-एजेंट Docker कंटेनर isolation के माध्यम से defense-in-depth, vault-proxied credential प्रबंधन जहाँ एजेंट्स कच्चे API keys कभी नहीं देखते, प्रति-एजेंट ACLs, और resource caps।
+OpenLegion सुरक्षा को एक primary value proposition बनाता है: हर task के लिए एक sandboxed run के माध्यम से defense-in-depth, vault में रखे credentials जिन्हें model कभी खुले रूप में नहीं देखता, हर action के आगे एक policy engine, और प्रति-एजेंट budgets।
 
 गहन विश्लेषण के लिए, हमारा [AI एजेंट सुरक्षा](/learn/ai-agent-security) विश्लेषण देखें।
 
@@ -101,15 +101,15 @@ OpenLegion developer-first श्रेणी में बैठता है, 
 
 ## OpenLegion क्या अलग करता है
 
-**Vault proxy**: एजेंट्स कच्चे API keys कभी नहीं देखते। Credentials network level पर एक proxy के माध्यम से inject किए जाते हैं — यदि एक एजेंट compromise हो जाता है, तो वह secrets exfiltrate नहीं कर सकता। बहुत कम अन्य फ्रेमवर्क यह प्रदान करते हैं।
+**Credential vault**: एजेंट्स कच्चे API keys कभी नहीं देखते। Credentials एक vault में रहते हैं और model के बाहर inject किए जाते हैं, जिसके पास सिर्फ़ एक handle रहता है — यदि एक एजेंट compromise हो जाता है, तो वह secrets exfiltrate नहीं कर सकता। बहुत कम अन्य फ्रेमवर्क यह प्रदान करते हैं।
 
-**अनिवार्य कंटेनर isolation**: प्रत्येक एजेंट non-root execution, no Docker socket access, और resource caps के साथ अपने स्वयं के Docker कंटेनर में चलता है। यह default और एकमात्र mode है।
+**Sandboxed task execution**: प्रत्येक task on demand चलता है और फिर रुक जाता है, इसलिए compromise करने के लिए कोई long-lived एजेंट process नहीं है, और एजेंट जो code लिखता है वह default पर बिना network access के एक sandbox में चलता है। यह default और एकमात्र mode है।
 
-**प्रति-एजेंट बजट प्रवर्तन**: स्वचालित hard cutoff के साथ प्रति एजेंट दैनिक और मासिक spending limits। दर्ज infinite-loop, uncontrolled-iteration, और अप्रत्याशित-credit-drain समस्याओं को संबोधित करता है जो अन्य फ्रेमवर्क ने उजागर की हैं।
+**प्रति-एजेंट बजट प्रवर्तन**: हर एजेंट का अपना credit बजट होता है, $0.001 प्रति credit पर metered, एक स्वचालित hard cutoff के साथ। दर्ज infinite-loop, uncontrolled-iteration, और अप्रत्याशित-credit-drain समस्याओं को संबोधित करता है जो अन्य फ्रेमवर्क ने उजागर की हैं।
 
-**Fleet model — blackboard + pub/sub + handoff (कोई CEO एजेंट नहीं)**: atomic compare-and-set के साथ SQLite-backed blackboard, एक pub/sub event bus, और एक संरचित handoff protocol के माध्यम से coordination। प्रति-एजेंट iteration caps और tool-loop detection (2 repeats पर warn, 4 पर block, 9 पर terminate) runaway loops को terminate करते हैं। YAML में Auditable; version-controllable।
+**Goal-and-task coordination (कोई CEO एजेंट नहीं)**: काम goals → tasks → एजेंट्स के रूप में organise होता है, एक assistant के साथ जो ज़रूरी teammates बनाता है और उन्हें delegate करता है, साथ ही उन चीज़ों के लिए event wakes जिन्हें किसी बात पर react करना है। प्रति-एजेंट budgets और record किए गए, replayable wakes runaway loops को bound करते हैं। हर tool call, delegation और approval एजेंट की identity, एक timestamp और exact cost के साथ record होता है।
 
-**BYO API keys + managed credits**: LiteLLM के माध्यम से 100+ model support, BYOK usage पर zero markup। Managed hosting सुविधा के रूप में prepaid LLM credits भी प्रदान करता है। किसी भी model provider पर कोई vendor lock-in नहीं।
+**Model presets + credits**: Models preset से चुने जाते हैं — Smartest, Smart या Normal — प्रति एजेंट या प्रति workspace, इसलिए maintain करने के लिए कोई provider wiring नहीं। काम $0.001 प्रति credit पर metered है; included credits हर महीने refresh होते हैं और खरीदे गए packs कभी expire नहीं होते।
 
 तकनीकी विवरण के लिए, [AI एजेंट orchestration](/learn/ai-agent-orchestration) पेज देखें।
 
@@ -138,7 +138,7 @@ OpenLegion और LangGraph विभिन्न आवश्यकताओं
 
 ### सबसे सुरक्षित AI एजेंट फ्रेमवर्क क्या है?
 
-OpenLegion सुरक्षा को defense-in-depth के साथ एक primary design goal बनाता है: अनिवार्य कंटेनर isolation, vault-proxied credentials, प्रति-एजेंट ACLs, bounded execution, SSRF सुरक्षा, और input sanitization। अधिकांश अन्य फ्रेमवर्क या तो अंतर्निहित security defaults की कमी रखते हैं या केवल paid tiers में प्रदान करते हैं। हमारा [AI एजेंट सुरक्षा](/learn/ai-agent-security) विश्लेषण देखें।
+OpenLegion सुरक्षा को defense-in-depth के साथ एक primary design goal बनाता है: हर task के लिए एक sandboxed run, vault में रखे credentials, हर action के आगे एक policy engine, bounded execution, तीन walls पर owner की approval, और हर चीज़ के लिए एक receipt। अधिकांश अन्य फ्रेमवर्क या तो अंतर्निहित security defaults की कमी रखते हैं या केवल paid tiers में प्रदान करते हैं। हमारा [AI एजेंट सुरक्षा](/learn/ai-agent-security) विश्लेषण देखें।
 
 ### क्या AutoGen और Semantic Kernel अभी भी अनुरक्षित हैं?
 

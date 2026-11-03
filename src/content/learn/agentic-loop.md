@@ -16,7 +16,7 @@ related:
 
 # Agentic Loop: How AI Agents Perceive, Think, and Act
 
-An agentic loop is the repeating perceive-think-act cycle that drives an AI agent from task start to final answer. Each iteration, the agent reads context — observations, tool results, memory — calls an LLM to reason about next steps, executes a tool or returns a response, then loops. Iteration limits, termination conditions, and failure handling determine whether a production agent is reliable or a liability — OpenLegion enforces hard caps at the mesh layer, turning runaway loops into deterministic failures.
+An agentic loop is the repeating perceive-think-act cycle that drives an AI agent from task start to final answer. Each iteration, the agent reads context — observations, tool results, memory — calls an LLM to reason about next steps, executes a tool or returns a response, then loops. Iteration limits, termination conditions, and failure handling determine whether a production agent is reliable or a liability — OpenLegion enforces hard caps in its policy engine, turning runaway loops into deterministic failures.
 
 ## What Is an Agentic Loop?
 
@@ -123,9 +123,9 @@ Budget-based termination stops the loop when the agent has consumed a configured
 **Why budget-based termination is necessary even when max_turns is set:** `max_turns = 10` limits iteration count, but each iteration's cost varies by context size and model. A 10-iteration run with large tool responses (web pages, file contents) and GPT-4o may cost $2–5. A 10-iteration run with small tool responses and GPT-4o-mini may cost $0.10. `max_turns` provides iteration-count certainty but not cost certainty.
 
 **OpenLegion's budget enforcement model:**
-- `daily_budget` (default $50/day) and `monthly_budget` (default $200/month) are configured per agent in `INSTRUCTIONS.md`, committed to git
-- The mesh router tracks cumulative spend per agent ID in real time
-- When a loop iteration would exceed the remaining daily budget, the request is rejected at the mesh layer before it reaches the LLM provider
+- Every agent carries its own budget, set per agent in the app and metered in credits worth $0.001 each
+- The policy engine tracks cumulative spend per agent in real time
+- When a loop iteration would exceed the remaining budget, the policy engine refuses the intent before it reaches the model
 - The agent receives a structured budget-exhaustion error, not a 402 from the LLM provider
 - The error is deterministic — the same agent configuration produces the same termination behavior regardless of loop depth
 
@@ -183,19 +183,19 @@ Loop control is a security property, not just an operational one. A loop that ru
 
 **23% of agent failures traced to infinite tool call loops** (LangChain 2025 state-of-agents report). This is the single largest agent failure category — larger than model hallucination, larger than tool call errors, larger than context window overflow. Most loop failures are not dramatic runaway loops; they are quiet slow loops where the agent makes marginal progress per iteration, never reaches a natural termination condition, and eventually hits max_turns with a partial result. The fix is not a higher max_turns limit. It is measurable termination conditions, explicit progress checks, and circuit-breaker logic that detects non-convergence.
 
-**OpenAI Agents SDK default max_turns = 10; LangGraph recursion_limit = 25.** These are starting-point defaults, not production values. A customer-facing agent that times out at 10 iterations on a legitimate 15-iteration task produces a worse user experience than one configured at 20 iterations. An internal pipeline agent that processes overnight batch tasks has different termination needs than a real-time chat agent. Configure termination limits for the task distribution, not the framework default. And enforce them at two layers: application (max_turns in the agent config) and infrastructure (budget cap at the mesh layer).
+**OpenAI Agents SDK default max_turns = 10; LangGraph recursion_limit = 25.** These are starting-point defaults, not production values. A customer-facing agent that times out at 10 iterations on a legitimate 15-iteration task produces a worse user experience than one configured at 20 iterations. An internal pipeline agent that processes overnight batch tasks has different termination needs than a real-time chat agent. Configure termination limits for the task distribution, not the framework default. And enforce them at two layers: application (max_turns in the agent config) and infrastructure (a budget cap in the policy engine).
 
 **CVE-2024-5184 — prompt injection via tool response — is a loop control vulnerability, not just a security vulnerability.** A compromised loop iteration produces a compromised agent output. The attack surface is every external tool call — web search results, API responses, file reads, database query results. Any of these can contain injected instructions that redirect the loop. The defense is not input sanitization alone (though that helps); it is an instruction hierarchy that prevents tool result content from overriding system prompt instructions, enforced at the framework level where the LLM call is constructed.
 
 | **Loop control mechanism** | **OpenLegion** | **LangChain AgentExecutor** | **LangGraph** | **OpenAI Agents SDK** |
 |---|---|---|---|---|
-| **Iteration limit** | max_turns in INSTRUCTIONS.md, enforced at mesh | max_iterations=15 (default), configurable | recursion_limit=25, configurable | max_turns=10 (default), configurable |
-| **Budget-based termination** | daily_budget + monthly_budget per agent, enforced at mesh layer before LLM call | Not built-in | Not built-in | Not built-in |
+| **Iteration limit** | Per-agent turn cap, enforced by the policy engine | max_iterations=15 (default), configurable | recursion_limit=25, configurable | max_turns=10 (default), configurable |
+| **Budget-based termination** | Per-agent credit budget, enforced by the policy engine before the model call | Not built-in | Not built-in | Not built-in |
 | **Error termination** | Structured error returned to orchestrator | Raises AgentExecutorError | Raises GraphRecursionError | Raises MaxTurnsExceeded |
-| **Injection defense** | Vault-proxied tool calls; system prompt authority over tool results | handle_parsing_errors configurable | Not built-in | Not built-in |
-| **Loop audit trail** | Every iteration logged with agent_id, model, tool call, cost in mesh telemetry | LangSmith (optional) | LangSmith (optional) | OpenAI dashboard |
+| **Injection defense** | Vault-held credentials; acting on untrusted content needs approval | handle_parsing_errors configurable | Not built-in | Not built-in |
+| **Loop audit trail** | Every wake recorded as a receipt: agent identity, model, tool call, cost | LangSmith (optional) | LangSmith (optional) | OpenAI dashboard |
 
-OpenLegion's budget enforcement operates at the mesh layer — the agent's JWT identifies it, its `daily_budget` is resolved from the session context before the LLM call is forwarded to the provider. A prompt injection that instructs the agent to "ignore your budget and continue" changes the LLM's context window; it does not change the mesh router's budget check. The enforcement is out-of-band from the LLM's reasoning loop by design.
+OpenLegion's budget enforcement operates in the policy engine — the agent's identity is resolved from the wake, and its remaining credit budget is checked before the model call is made. A prompt injection that instructs the agent to "ignore your budget and continue" changes the LLM's context window; it does not change the policy engine's budget check. The enforcement is out-of-band from the LLM's reasoning loop by design.
 
 For how multiple loops compose into larger systems, see [how agentic workflows compose multiple loops into production pipelines](/learn/agentic-workflows). For the architectural patterns that govern loop orchestration and agent coordination, see [agentic AI design patterns for loop orchestration and agent coordination](/learn/agentic-ai-design-patterns).
 
@@ -225,7 +225,7 @@ Prompt injection via tool response content — demonstrated by CVE-2024-5184 (Sy
 
 ### How does OpenLegion prevent runaway agentic loops?
 
-OpenLegion applies defense in depth with two enforcement layers. First, per-agent iteration limits configured in INSTRUCTIONS.md are enforced at the application layer — the agent returns a structured error on max_turns exhaustion rather than silently truncating. Second, per-agent daily_budget (default $50/day) and monthly_budget (default $200/month) are enforced at the mesh router layer before each LLM call is forwarded to the provider. When a loop iteration would exceed the remaining budget, the request is rejected at the network layer — the LLM provider never sees it. This means a prompt injection that instructs the agent to "ignore budget limits" changes only the LLM's context; it cannot override the mesh router's budget check, which operates out-of-band from the agent's reasoning loop. Runaway loops produce deterministic, bounded errors rather than unbounded API spend.
+OpenLegion applies defense in depth with two enforcement layers. First, per-agent iteration limits are enforced at the application layer — the agent returns a structured error on max_turns exhaustion rather than silently truncating. Second, every agent carries its own budget, metered in credits worth $0.001 each, and the policy engine checks it before every model call. When a loop iteration would exceed the remaining budget, the intent is refused before it happens — the model never sees it. This means a prompt injection that instructs the agent to "ignore budget limits" changes only the LLM's context; it cannot override the policy engine's budget check, which operates out-of-band from the agent's reasoning loop. Runaway loops produce deterministic, bounded errors rather than unbounded API spend.
 
 ### What is the difference between an agentic loop and a workflow?
 
@@ -235,7 +235,7 @@ An agentic loop is the per-agent iteration cycle — a single agent's repeating 
 
 The agentic loop is where agent reliability is won or lost. Framework defaults — max_turns=10, recursion_limit=25 — are starting points, not production configurations. Effective loop control requires per-agent iteration limits calibrated to your task distribution, budget-based termination that catches runaway costs before they reach the LLM provider, and injection-aware trust boundaries that prevent tool responses from hijacking loop iterations.
 
-OpenLegion enforces budget caps and iteration limits at the mesh layer — out-of-band from the agent's LLM reasoning, not overridable by prompt injection.
+OpenLegion enforces budget caps and iteration limits in its policy engine — out-of-band from the agent's LLM reasoning, not overridable by prompt injection.
 
 [Start building on OpenLegion](https://app.openlegion.ai) — hard loop limits and per-agent budget enforcement built in.
 

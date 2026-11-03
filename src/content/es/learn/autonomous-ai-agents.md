@@ -50,7 +50,7 @@ Los agentes L1 actúan de forma autónoma dentro de un alcance predefinido y fij
 
 Los agentes L2 reciben un objetivo y ejecutan de forma autónoma un plan de varios pasos. OpenAI Operator (enero 2025) es el primer L2 desplegado comercialmente. L2 es el nivel de autonomía donde los errores compuestos se convierten en el riesgo principal: un agente con 95 % de precisión por paso en una tarea de 20 pasos tiene un 36 % de probabilidades de completar correctamente todos los 20 pasos (0,95^20).
 
-**Nivel de autonomía predeterminado de OpenLegion: L2 con supervisor mesh.** Las cinco puertas de seguridad son obligatorias:
+**Nivel de autonomía predeterminado de OpenLegion: L2 con supervisión del motor de políticas.** Las cinco puertas de seguridad son obligatorias:
 
 1. Inspección del plan pre-ejecución antes de cualquier acción irreversible
 2. Puerta HITL antes de llamadas a herramientas irreversibles (commit, enviar, POST)
@@ -65,13 +65,13 @@ Los agentes L3 reciben un objetivo de alto nivel y generan su propia descomposic
 **Puertas de seguridad requeridas para L3** (todas las puertas L2 más):
 - Verificación automatizada de política de plan antes de ejecución
 - Memoria de fallos por reflexión
-- Límite de capacidad explícito en INSTRUCTIONS.md
+- Límite de capacidad explícito en las instrucciones del agente
 - Detección de deriva de objetivos
 - Límite de profundidad de revisión: máximo 3 ciclos antes de escalar
 
 ### L4: Agente automodificante, reescribe objetivos, código y configuración
 
-Los agentes L4 pueden modificar sus propios objetivos, reescribir su propio código, crear nuevos agentes y adquirir recursos externos de forma autónoma. Ningún sistema L4 desplegado comercialmente existe en 2026. Propiedades de prevención L4 de OpenLegion: acceso a credenciales solo a través de handles `$CRED{}` explícitamente registrados, límite de presupuesto aplicado en el proxy LLM de la Zona 2.
+Los agentes L4 pueden modificar sus propios objetivos, reescribir su propio código, crear nuevos agentes y adquirir recursos externos de forma autónoma. Ningún sistema L4 desplegado comercialmente existe en 2026. Propiedades de prevención L4 de OpenLegion: acceso a credenciales solo a través de identificadores de bóveda explícitamente registrados, presupuesto aplicado por el motor de políticas fuera del modelo.
 
 ## Puertas de seguridad por nivel de autonomía
 
@@ -105,7 +105,7 @@ OWASP LLM06:2025 es la categoría de riesgo crítico para agentes autónomos. Cu
 
 La generalización errónea de objetivos ocurre cuando un agente ha aprendido a optimizar para un objetivo proxy que funciona bien en entrenamiento pero diverge del objetivo previsto en producción. Detección: conjunto de pruebas diseñado para exponer la divergencia proxy-objetivo.
 
-Mitigación en INSTRUCTIONS.md:
+Mitigación en las instrucciones del agente:
 
 ```markdown
 ## Verificación de alineación de objetivos
@@ -137,7 +137,7 @@ La Ley de IA de la UE (vigente desde agosto 2024) clasifica los agentes autónom
 
 ## La perspectiva de OpenLegion
 
-El espectro L0-L4 es una herramienta de planificación, no una categoría de marketing. La mayoría de los despliegues en producción apuntan a L2 con supervisión del supervisor mesh. Los agentes OpenLegion se despliegan en L2 por defecto.
+El espectro L0-L4 es una herramienta de planificación, no una categoría de marketing. La mayoría de los despliegues en producción apuntan a L2 con supervisión aplicada por la plataforma. Los agentes OpenLegion se despliegan en L2 por defecto: un único motor de políticas delante de cada acción, presupuestos por agente y un rastro de recibos append-only.
 
 L3 es alcanzable pero requiere trabajo adicional. OpenLegion admite despliegues L3 para clientes empresariales que han operado agentes L2 en modo supervisado durante al menos 30 días.
 
@@ -145,7 +145,7 @@ Para el marco de gobernanza que cubre la política de agentes autónomos en una 
 
 ## Empezar
 
-**Desplegar agentes autónomos L2 con puertas de seguridad estructurales, supervisión mesh y kill switch en menos de 60 segundos.**
+**Desplegar agentes autónomos L2 con puertas de seguridad estructurales, supervisión del motor de políticas y kill switch en menos de 60 segundos.**
 [Empezar con OpenLegion](https://app.openlegion.ai) | [Leer la documentación](https://docs.openlegion.ai) | [¿Qué es un agente IA?](/learn/what-is-an-ai-agent)
 
 ---

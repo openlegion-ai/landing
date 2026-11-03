@@ -23,7 +23,7 @@ related:
 
 # Mastra 대안: 보안 우선 플랫폼 vs TypeScript 우선 프레임워크
 
-Mastra는 Gatsby 팀이 만든 24,329개의 GitHub 스타를 보유한 TypeScript 에이전트 프레임워크입니다. CVE-2025-61685(CVSS 6.5)는 Cursor IDE 프롬프트 인젝션을 통해 자격 증명 파일을 노출하고, RBAC와 Auth는 Apache 2.0으로는 이용할 수 없는 전용 ee/ 디렉터리에 잠겨 있으며, 두 개의 미병합 PR이 2026년 5월 기준으로 여전히 미패치 상태입니다. 보안 우선 팀에게 필요한 Mastra 대안은 볼트 프록시 격리가 필요합니다.
+Mastra는 Gatsby 팀이 만든 24,329개의 GitHub 스타를 보유한 TypeScript 에이전트 프레임워크입니다. CVE-2025-61685(CVSS 6.5)는 Cursor IDE 프롬프트 인젝션을 통해 자격 증명 파일을 노출하고, RBAC와 Auth는 Apache 2.0으로는 이용할 수 없는 전용 ee/ 디렉터리에 잠겨 있으며, 두 개의 미병합 PR이 2026년 5월 기준으로 여전히 미패치 상태입니다. 보안 우선 팀에게 필요한 Mastra 대안은 환경 변수 자격 증명이 아니라 볼트에 보관되는 자격 증명입니다.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -52,30 +52,30 @@ Mastra의 Apache 2.0 라이선스는 코어 프레임워크에만 적용됩니�
 **GHSA-wxw3-q3m9-c3jr(CVSS 5.3)**: better-auth의 OAuth CSRF. OAuth 콜백 처리에 미패치 CSRF 취약점이 있습니다.
 ## OpenLegion의 견해: 세 가지 구조적 보안 격차
 
-**설계에 의한 자격 증명 노출.** Mastra 에이전트는 환경 변수로 자격 증명을 받습니다. CVE-2025-61685는 주변 툴체인이 에이전트 코드가 깨끗해도 자격 증명에 접근할 수 있음을 보여주었습니다. OpenLegion의 볼트 프록시는 네트워크 계층에서 자격 증명을 주입합니다. 에이전트 프로세스는 평문 API 키를 절대 받지 않습니다.
+**설계에 의한 자격 증명 노출.** Mastra 에이전트는 환경 변수로 자격 증명을 받습니다. CVE-2025-61685는 주변 툴체인이 에이전트 코드가 깨끗해도 자격 증명에 접근할 수 있음을 보여주었습니다. OpenLegion은 자격 증명을 볼트에 보관하고 모델 외부에서 주입합니다. 에이전트 실행은 평문 API 키를 절대 받지 않습니다.
 
-**보안의 엔터프라이즈 업그레이드.** RBAC, 어댑터 접근 제어, Auth 통합은 전용 ee/ 티어가 필요합니다. OpenLegion의 볼트 프록시와 블랙보드 권한은 모든 사용자를 위한 핵심 기능입니다.
+**보안의 엔터프라이즈 업그레이드.** RBAC, 어댑터 접근 제어, Auth 통합은 전용 ee/ 티어가 필요합니다. OpenLegion의 자격 증명 볼트, 작업별 샌드박스 실행, 에이전트별 도구 권한은 모든 사용자를 위한 핵심 기능입니다.
 
-**유료 티어에 미패치 Auth 취약점.** CVE-2026-42565와 GHSA-wxw3-q3m9-c3jr은 엔터프라이즈 ee/ 디렉터리의 Auth 의존성에 있습니다. OpenLegion의 Zero CVE 실적(2026년 5월 기준)은 에이전트가 자격 증명을 보유하지 않는 아키텍처를 반영합니다.
+**유료 티어에 미패치 Auth 취약점.** CVE-2026-42565와 GHSA-wxw3-q3m9-c3jr은 엔터프라이즈 ee/ 디렉터리의 Auth 의존성에 있습니다. OpenLegion은 그 노출 클래스를 근본에서 제거합니다: 에이전트는 자격 증명을 보유하지 않고, 볼트가 모델 외부에서 주입합니다.
 
 ## Mastra vs OpenLegion: 비교표
 
 | **항목** | **Mastra** | **OpenLegion** |
 |---|---|---|
-| **언어 지원** | TypeScript만 | Python(에이전트); 임의 언어 도구 인터페이스 |
-| **라이선스** | Apache 2.0 (코어) + 전용 ee/ | PolyForm Perimeter License 1.0.1 |
+| **언어 지원** | TypeScript만 | 없음 — 에이전트는 웹 앱에서 구성 |
+| **라이선스** | Apache 2.0 (코어) + 전용 ee/ | PolyForm Perimeter License 1.0.1 (엔진) |
 | **GitHub 스타** | 24,329 (2026년 5월) | 프리릴리스 |
-| **자격 증명 모델** | 환경 변수 — 에이전트가 키 보유 | 볼트 프록시 — 에이전트는 키 미보유 |
-| **에이전트 격리** | 프로세스 수준 | 필수 Docker 컨테이너 |
-| **RBAC** | 전용 ee/ 티어만 | 에이전트별 블랙보드 권한 (모든 사용자) |
-| **CVE 이력** | CVE-2025-61685 (CVSS 6.5) + 2개의 오픈 PR | 0 CVE 보고 |
-| **Auth** | WorkOS AuthKit / better-auth (ee/만) | 볼트 프록시 (Auth 계층 불필요) |
-| **예산 제어** | 없음 | 에이전트별 일일/월별 한도 |
-| **멀티 에이전트** | 워크플로우 오케스트레이션 | Blackboard + pub/sub + mesh handoff |
+| **자격 증명 모델** | 환경 변수 — 에이전트가 키 보유 | 볼트 보관 — 에이전트는 키 미보유 |
+| **에이전트 격리** | 프로세스 수준 | 모든 작업마다 샌드박스 실행 |
+| **RBAC** | 전용 ee/ 티어만 | 에이전트별 도구·볼트 권한 (모든 사용자) |
+| **CVE 이력** | CVE-2025-61685 (CVSS 6.5) + 2개의 오픈 PR | 프리릴리스 |
+| **Auth** | WorkOS AuthKit / better-auth (ee/만) | Google 로그인; 자격 증명은 볼트에 보관 |
+| **예산 제어** | 없음 | 에이전트별 크레딧 예산 |
+| **멀티 에이전트** | 워크플로우 오케스트레이션 | 목표 → 태스크 → 에이전트, 위임 포함 |
 | **오픈 이슈** | 433 (2026년 5월 26일) | 프리릴리스 |
 ## TypeScript 전용: 실무상의 의미
 
-Mastra는 TypeScript-first 설계로 현재 TypeScript만 지원합니다. Python이 필요한 팀에는 적합하지 않습니다. OpenLegion, LangGraph, CrewAI, AutoGen은 모두 Python을 네이티브로 지원합니다.
+Mastra는 TypeScript-first 설계로 현재 TypeScript만 지원합니다. Python이 필요한 팀에는 적합하지 않습니다. LangGraph, CrewAI, AutoGen은 모두 Python을 네이티브로 지원하며, OpenLegion은 SDK 자체가 필요 없습니다.
 
 TypeScript 풀스택 팀에게 Mastra의 개발자 경험은 뛰어납니다. 도구 스키마의 타입 추론, Node.js 에코시스템과의 긴밀한 통합, async/await 패턴이 자연스러운 개발 경험을 제공합니다.
 
@@ -83,13 +83,13 @@ TypeScript 풀스택 팀에게 Mastra의 개발자 경험은 뛰어납니다. �
 
 Mastra 에이전트는 process.env를 통해 LLM API 키와 서비스 자격 증명을 받습니다. CVE-2025-61685는 @mastra/mcp-docs-server의 디렉터리 탐색이 ~/.aws/credentials에 도달할 수 있음을 보여주었습니다.
 
-OpenLegion의 볼트 프록시는 에이전트와 LLM 공급자 사이의 네트워크 계층에 위치합니다. 에이전트 프로세스는 자격 증명 문자열을 절대 받지 않습니다. 자세한 분석은 [AI 에이전트 보안: 자격 증명 격리 및 컨테이너 강화](/learn/ai-agent-security)를 참조하세요.
+OpenLegion의 자격 증명 볼트는 모델 바깥, 에이전트와 호출 대상 서비스 사이에 위치합니다. 모델은 자격 증명 문자열을 절대 받지 않습니다. 자세한 분석은 [AI 에이전트 보안: 자격 증명 격리 및 컨테이너 강화](/learn/ai-agent-security)를 참조하세요.
 
 ## Mastra 대안으로서의 OpenLegion
 
-Blackboard 상태, pub/sub 이벤트, mesh handoff를 통한 멀티 에이전트 협조. 볼트 프록시 자격 증명 주입. Docker 레이어 격리. 에이전트별 일일/월볔 예산 한도. LiteLLM을 통한 100+ LLM 공급자.
+목표, 태스크, 에이전트와 이벤트 웨이크·위임을 통한 멀티 에이전트 협조. 모델 외부에서 이루어지는 볼트 자격 증명 주입. 작업별 샌드박스 실행. 에이전트별 크레딧 예산. Smartest, Smart, Normal 모델 프리셋.
 
-**솔직한 트레이드오프**: TypeScript SDK 없음 — Python만 지원. Mastra의 24,329 스타보다 작은 커뮤니티.
+**솔직한 트레이드오프**: 임포트할 SDK 없음 — 라이브러리가 아니라 호스팅 웹 앱입니다. Mastra의 24,329 스타보다 작은 커뮤니티.
 
 [AI 에이전트 플랫폼이 프레임워크를 넘어 제공하는 것](/learn/ai-agent-platform)도 다루고 있습니다. [OpenLegion vs LangGraph](/comparison/langgraph), [OpenLegion vs CrewAI](/comparison/crewai), [OpenLegion vs AutoGen](/comparison/autogen)도 확인하세요. [AI 에이전트 프레임워크 비교 2026](/learn/ai-agent-frameworks)에서 전체 그림을 확인할 수 있습니다.
 <!-- SCHEMA: FAQPage -->
@@ -106,7 +106,7 @@ CVE-2025-61685(CVSS 6.5, 2025년 9월 24일)는 Liran Tal이 발견한 @mastra/m
 
 ### Mastra에 무료 티어 RBAC가 있나요?
 
-없습니다. RBAC, 어댑터 권한, Auth 통합은 Mastra의 전용 ee/ 디렉터리에 있으며 Apache 2.0 오픈소스 라이선스로는 이용할 수 없습니다. OpenLegion은 에이전트별 블랙보드 권한과 볼트 프록시 격리를 모든 사용자를 위한 핵심 플랫폼 기능으로 제공합니다.
+없습니다. RBAC, 어댑터 권한, Auth 통합은 Mastra의 전용 ee/ 디렉터리에 있으며 Apache 2.0 오픈소스 라이선스로는 이용할 수 없습니다. OpenLegion은 에이전트별 도구 권한과 볼트에 보관되는 자격 증명을 모든 사용자를 위한 핵심 플랫폼 기능으로 제공합니다.
 
 ### 2026년 5월 기준 Mastra의 미패치 보안 문제는?
 
@@ -114,7 +114,7 @@ Mastra의 엔터프라이즈 Auth 스택에 두 개의 보안 PR이 미병합 �
 
 ### TypeScript 개발자도 OpenLegion을 사용할 수 있나요?
 
-OpenLegion 에이전트는 Python만 지원합니다. TypeScript 팀은 Python 에이전트를 실행하거나 OpenLegion API를 호출하는 TypeScript 툴링을 구축해야 합니다. 네이티브 TypeScript SDK는 없습니다. 보안 격리 요구사항이 언어 선호도보다 중요할 때 OpenLegion이 적합한 선택입니다.
+OpenLegion은 어떤 언어의 SDK도 아닙니다. Google로 로그인해 브라우저에서 에이전트를 구성하는 호스팅 웹 앱이며, 임포트할 TypeScript 패키지가 없습니다. 자체 코드베이스 안에 에이전트를 두려는 팀에게는 Mastra, LangGraph, AutoGen이 더 자연스럽습니다. 보안 격리 요구사항이 언어 선호도보다 중요할 때 OpenLegion이 적합한 선택입니다.
 
 ### Mastra는 프로덕션 사용에 충분히 안정적인가요?
 

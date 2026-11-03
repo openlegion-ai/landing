@@ -24,7 +24,7 @@ related:
 
 # ทางเลือก Pydantic AI: จากไลบรารีที่ปลอดภัยด้านประเภทสู่แพลตฟอร์มสำหรับการผลิต
 
-PydanticAI คือเฟรมเวิร์ก Python สำหรับ agent ที่มี 17,362 ดาวบน GitHub สร้างขึ้นรอบ Pydantic v2 validation โดยมี structured output ที่ปลอดภัยด้านประเภทและ dependency injection สำหรับ agent context แต่ไม่มี credential vault, process isolation ระหว่าง agent และ runtime budget enforcement ทำให้ความปลอดภัยในการผลิตเป็นภาระของนักพัฒนาทั้งหมด OpenLegion คือแพลตฟอร์ม AI agent ที่ให้ความปลอดภัยเป็นอันดับหนึ่ง พร้อม Docker container isolation บังคับ, การจัดการ credential ผ่าน Vault Proxy และการบังคับใช้งบประมาณต่อ agent
+PydanticAI คือเฟรมเวิร์ก Python สำหรับ agent ที่มี 17,362 ดาวบน GitHub สร้างขึ้นรอบ Pydantic v2 validation โดยมี structured output ที่ปลอดภัยด้านประเภทและ dependency injection สำหรับ agent context แต่ไม่มี credential vault, process isolation ระหว่าง agent และ runtime budget enforcement ทำให้ความปลอดภัยในการผลิตเป็นภาระของนักพัฒนาทั้งหมด OpenLegion คือแพลตฟอร์ม AI agent ที่โฮสต์ให้และให้ความปลอดภัยเป็นอันดับหนึ่ง พร้อมการรันในแซนด์บ็อกซ์สำหรับทุกงาน, credential ที่เก็บใน vault และงบประมาณเครดิตต่อ agent
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -41,15 +41,15 @@ PydanticAI แก้ปัญหาหนึ่งได้อย่างยอ
 
 | มิติ | OpenLegion | PydanticAI |
 |---|---|---|
-| **ประเภท** | Execution platform (BSL 1.1) | Agent library (MIT) |
-| **โมเดล credential** | Vault Proxy — agent ไม่เห็น raw key | Dependency injection ผ่าน RunContext — key ใน process memory |
-| **Agent isolation** | Docker container ต่อ agent, non-root, no-new-privileges | Shared Python process; ไม่มี container isolation |
-| **การควบคุมงบประมาณ** | Hard cutoff รายวัน/รายเดือนต่อ agent | ไม่มี — รายงาน result.usage() หลังเหตุการณ์เท่านั้น |
-| **การประสานงาน multi-agent** | Fleet-model — blackboard + pub/sub + handoff | Agent-as-tool delegation; shared memory |
+| **ประเภท** | Execution platform ที่โฮสต์ให้ (เอนจิน PolyForm Perimeter 1.0.1) | Agent library (MIT) |
+| **โมเดล credential** | เก็บใน vault — โมเดลถือเพียง handle | Dependency injection ผ่าน RunContext — key ใน process memory |
+| **Agent isolation** | การรันในแซนด์บ็อกซ์สำหรับทุกงาน ไม่มีเครือข่ายเป็นค่าเริ่มต้น | Shared Python process; ไม่มี container isolation |
+| **การควบคุมงบประมาณ** | งบประมาณเครดิตต่อ agent พร้อม hard cutoff | ไม่มี — รายงาน result.usage() หลังเหตุการณ์เท่านั้น |
+| **การประสานงาน multi-agent** | เป้าหมายและงาน — เป้าหมาย → งาน → agent | Agent-as-tool delegation; shared memory |
 | **Structured output** | Tool call schema validation | Pydantic v2 typed response models (จุดเด่นหลัก) |
 | **Offline evals** | ไม่ได้รวมไว้ | pydantic_evals (ทดลอง) |
-| **GitHub stars** | ~59 | ~17,362 |
-| **ลิขสิทธิ์** | BSL 1.1 | MIT |
+| **GitHub stars** | เอนจิน source-available | ~17,362 |
+| **ลิขสิทธิ์** | เอนจิน PolyForm Perimeter 1.0.1; แพลตฟอร์มเป็นกรรมสิทธิ์ | MIT |
 
 ## มุมมองของ OpenLegion
 
@@ -63,19 +63,19 @@ PydanticAI ยอดเยี่ยมมากในสิ่งที่ทำ
 
 **PydanticAI** ใช้ dependency injection API key อยู่เป็น Python object attribute ใน process heap สามารถเข้าถึงได้จากโค้ดใด ๆ ใน process เดียวกัน
 
-**OpenLegion** ใช้ Vault Proxy API key เก็บไว้ใน Mesh Host Credential Vault เมื่อ agent ทำ authenticated API call คำขอจะผ่าน vault proxy ที่ inject credential ที่ layer เครือข่าย
+**OpenLegion** ใช้ credential vault API key เก็บไว้ใน vault ไม่เคยอยู่ใน context ของ agent เมื่อ agent ทำ authenticated API call policy engine จะ inject credential นอกโมเดล ซึ่งถือเพียง handle เท่านั้น agent ไม่เคยรับ ถือ หรือ log raw key
 
 ### Agent Isolation
 
 **PydanticAI** รัน agent ทั้งหมดใน Python process เดียวกัน เมื่อ agent A เรียก agent B มันเป็น function call ใน runtime เดียวกัน
 
-**OpenLegion** รัน agent แต่ละตัวใน Docker container ของตัวเอง (UID 1000, no-new-privileges, read-only root filesystem) Agent สื่อสารผ่าน Mesh Host Blackboard
+**OpenLegion** รันแต่ละงานตามต้องการแล้วหยุด และโค้ดที่ agent เขียนรันในแซนด์บ็อกซ์ที่ไม่มีการเข้าถึงเครือข่ายเป็นค่าเริ่มต้น Agent สื่อสารผ่านบันทึกเป้าหมายและงานร่วมกัน ไม่ใช่ผ่าน process call โดยตรง
 
 ### การควบคุมงบประมาณ
 
 **PydanticAI** ให้ result.usage() ที่คืนค่า token counts หลังจาก run เสร็จสิ้น นี่คือการรายงานหลังเหตุการณ์
 
-**OpenLegion** บังคับใช้ขีดจำกัดงบประมาณรายวันและรายเดือนต่อ agent พร้อม hard cutoff อัตโนมัติ
+**OpenLegion** ให้ agent ทุกตัวมีงบประมาณเครดิตของตัวเอง คิดเป็นเครดิต เครดิตละ $0.001 พร้อม hard cutoff อัตโนมัติ นี่คือการบังคับใช้ ไม่ใช่การรายงาน
 
 ## สิ่งที่ PydanticAI ทำได้ดี
 
@@ -107,7 +107,7 @@ PydanticAI agent-as-tools ทำงานเป็น function call ใน Pytho
 
 ## OpenLegion ในฐานะทางเลือกสำหรับ Pydantic AI
 
-OpenLegion ให้ execution layer ที่ PydanticAI builders ประกอบเองตั้งแต่เริ่มต้น Vault Proxy credential management, Docker container ต่อ agent และ per-agent budget enforcement
+OpenLegion ให้ execution layer ที่ PydanticAI builders ประกอบเองตั้งแต่เริ่มต้น credential ที่เก็บใน vault (ฉีดนอกโมเดล), การรันในแซนด์บ็อกซ์ต่องาน และงบประมาณเครดิตต่อ agent
 
 สำหรับภาพรวมทั้งหมดของ AI agent framework ดูที่ [AI agent frameworks comparison](/learn/ai-agent-frameworks) สำหรับรายละเอียดด้านความปลอดภัย ดูที่ [AI agent security](/learn/ai-agent-security)
 
@@ -137,7 +137,7 @@ OpenLegion ให้ execution layer ที่ PydanticAI builders ประก�
 
 ### PydanticAI มี credential vault ไหม?
 
-ไม่มี PydanticAI ใช้ dependency injection ผ่าน RunContext API key อยู่ใน Python process memory เป็น attribute ของ deps object OpenLegion vault proxy inject credential ที่ network layer ดังนั้น agent code จึงไม่เคยมี raw key value ในรูปแบบใด
+ไม่มี PydanticAI ใช้ dependency injection ผ่าน RunContext API key อยู่ใน Python process memory เป็น attribute ของ deps object vault ของ OpenLegion inject credential นอกโมเดล ดังนั้น agent จึงไม่เคยถือ raw key value ในรูปแบบใด
 
 ### PydanticAI พร้อมสำหรับ production ในปี 2026 ไหม?
 
@@ -153,7 +153,7 @@ pydantic_evals คือ offline evaluation harness ของ PydanticAI ไม�
 
 ### PydanticAI บังคับใช้ per-agent budget limits ได้ไหม?
 
-ไม่ได้ PydanticAI ไม่มีกลไกในตัวสำหรับจำกัด agent API spend การติดตามการใช้งานมีผ่าน result.usage() ซึ่งเป็นการรายงานหลังเหตุการณ์ OpenLegion บังคับใช้ hard budget caps รายวันและรายเดือนต่อ agent
+ไม่ได้ PydanticAI ไม่มีกลไกในตัวสำหรับจำกัด agent API spend การติดตามการใช้งานมีผ่าน result.usage() ซึ่งเป็นการรายงานหลังเหตุการณ์ OpenLegion บังคับใช้งบประมาณเครดิตต่อ agent พร้อม hard cutoff
 
 ### pydantic_graph v2 rewrite หมายความว่าอะไรสำหรับผู้ใช้ PydanticAI?
 

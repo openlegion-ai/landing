@@ -16,7 +16,7 @@ related:
 
 # Agentic Loop: Wie KI-Agenten wahrnehmen, denken und handeln
 
-Ein Agentic Loop ist der wiederholende Wahrnehmen-Denken-Handeln-Zyklus, der einen KI-Agenten vom Aufgabenstart bis zur endgültigen Antwort antreibt. In jeder Iteration liest der Agent den Kontext — Beobachtungen, Tool-Ergebnisse, Speicher — ruft ein LLM auf, um über die nächsten Schritte zu urteilen, führt ein Tool aus oder gibt eine Antwort zurück und wiederholt dann den Vorgang. Iterationslimits, Terminierungsbedingungen und Fehlerbehandlung entscheiden, ob ein Produktionsagent zuverlässig oder ein Risiko ist — OpenLegion erzwingt harte Obergrenzen auf der Mesh-Ebene und macht unkontrollierte Schleifen zu deterministischen Fehlern.
+Ein Agentic Loop ist der wiederholende Wahrnehmen-Denken-Handeln-Zyklus, der einen KI-Agenten vom Aufgabenstart bis zur endgültigen Antwort antreibt. In jeder Iteration liest der Agent den Kontext — Beobachtungen, Tool-Ergebnisse, Speicher — ruft ein LLM auf, um über die nächsten Schritte zu urteilen, führt ein Tool aus oder gibt eine Antwort zurück und wiederholt dann den Vorgang. Iterationslimits, Terminierungsbedingungen und Fehlerbehandlung entscheiden, ob ein Produktionsagent zuverlässig oder ein Risiko ist — OpenLegion erzwingt harte Obergrenzen in seiner Policy-Engine und macht unkontrollierte Schleifen zu deterministischen Fehlern.
 
 ## Was ist ein Agentic Loop?
 
@@ -101,9 +101,9 @@ Natürliche Terminierung tritt auf, wenn der Denkschritt des LLM eine endgültig
 Budgetbasierte Terminierung stoppt die Schleife, wenn der Agent einen konfigurierten Dollarbetrag verbraucht hat.
 
 **OpenLegions Durchsetzungsmodell:**
-- `daily_budget` (Standard $50/Tag) und `monthly_budget` (Standard $200/Monat) werden pro Agent in `INSTRUCTIONS.md` konfiguriert
-- Der Mesh-Router verfolgt die kumulierten Ausgaben pro Agent-ID in Echtzeit
-- Wenn eine Loop-Iteration das verbleibende Tagesbudget überschreiten würde, wird die Anfrage auf der Mesh-Ebene vor dem LLM-Anbieter abgelehnt
+- Jeder Agent trägt sein eigenes Budget, pro Agent in der App gesetzt und in Credits zu je $0,001 abgerechnet
+- Die Policy-Engine verfolgt die kumulierten Ausgaben pro Agent in Echtzeit
+- Wenn eine Loop-Iteration das verbleibende Budget überschreiten würde, weist die Policy-Engine die Absicht ab, bevor sie das Modell erreicht
 - Der Agent erhält einen strukturierten Budget-Erschöpfungsfehler
 
 ### Fehlerbasierte Terminierung
@@ -152,10 +152,10 @@ Loop-Kontrolle ist eine Sicherheitseigenschaft, nicht nur eine betriebliche. Die
 
 | **Loop-Kontrollmechanismus** | **OpenLegion** | **LangChain AgentExecutor** | **LangGraph** | **OpenAI Agents SDK** |
 |---|---|---|---|---|
-| **Iterationslimit** | max_turns in INSTRUCTIONS.md, auf Mesh durchgesetzt | max_iterations=15 (Standard) | recursion_limit=25 | max_turns=10 (Standard) |
-| **Budgetbasierte Terminierung** | daily_budget + monthly_budget pro Agent, auf Mesh-Ebene | Nicht eingebaut | Nicht eingebaut | Nicht eingebaut |
+| **Iterationslimit** | Turn-Obergrenze pro Agent, von der Policy-Engine durchgesetzt | max_iterations=15 (Standard) | recursion_limit=25 | max_turns=10 (Standard) |
+| **Budgetbasierte Terminierung** | Credit-Budget pro Agent, von der Policy-Engine durchgesetzt | Nicht eingebaut | Nicht eingebaut | Nicht eingebaut |
 | **Fehlerterminierung** | Strukturierter Fehler an Orchestrator | Löst AgentExecutorError aus | Löst GraphRecursionError aus | Löst MaxTurnsExceeded aus |
-| **Injection-Abwehr** | Vault-proxied Tool-Aufrufe; System-Prompt-Autorität | handle_parsing_errors konfigurierbar | Nicht eingebaut | Nicht eingebaut |
+| **Injection-Abwehr** | Credentials im Vault; ungeprüfte Inhalte brauchen eine Freigabe | handle_parsing_errors konfigurierbar | Nicht eingebaut | Nicht eingebaut |
 | **Loop-Prüfpfad** | Jede Iteration protokolliert mit agent_id, Modell, Tool-Aufruf, Kosten | LangSmith (optional) | LangSmith (optional) | OpenAI-Dashboard |
 
 Für die Muster, die mehrere Agenten-Loops zu Produktionssystemen zusammensetzen, siehe [wie Agentic Workflows mehrere Loops zu Produktionspipelines zusammensetzen](/learn/agentic-workflows) und [Agentic-AI-Designmuster für Loop-Orchestrierung und Agentenkoordination](/learn/agentic-ai-design-patterns).
@@ -186,7 +186,7 @@ Prompt-Injection über Tool-Antwortinhalte — demonstriert durch CVE-2024-5184 
 
 ### Wie verhindert OpenLegion unkontrollierte Agentic Loops?
 
-OpenLegion wendet Defense-in-Depth mit zwei Durchsetzungsebenen an. Erstens werden agentenbezogene Iterationslimits, die in INSTRUCTIONS.md konfiguriert sind, auf Anwendungsebene durchgesetzt. Zweitens werden agentenbezogene daily_budget ($50/Tag Standard) und monthly_budget ($200/Monat Standard) auf der Mesh-Router-Ebene vor jedem LLM-Aufruf durchgesetzt. Wenn eine Loop-Iteration das verbleibende Budget überschreiten würde, wird die Anfrage auf Netzwerkebene abgelehnt. Eine Prompt-Injection, die den Agenten anweist, "Budget-Limits zu ignorieren", ändert nur das Kontextfenster des LLM — nicht die Budget-Prüfung des Mesh-Routers.
+OpenLegion wendet Defense-in-Depth mit zwei Durchsetzungsebenen an. Erstens werden agentenbezogene Iterationslimits, die in der App gesetzt sind, auf Anwendungsebene durchgesetzt. Zweitens wird das Credit-Budget jedes Agenten von der Policy-Engine vor jedem Modell-Aufruf durchgesetzt. Wenn eine Loop-Iteration das verbleibende Budget überschreiten würde, wird die Absicht abgewiesen, bevor sie geschieht. Eine Prompt-Injection, die den Agenten anweist, "Budget-Limits zu ignorieren", ändert nur das Kontextfenster des LLM — nicht die Budget-Prüfung der Policy-Engine.
 
 ### Was ist der Unterschied zwischen einem Agentic Loop und einem Workflow?
 
@@ -196,7 +196,7 @@ Ein Agentic Loop ist der pro-Agent-Iterationszyklus — der wiederholende Wahrne
 
 Der Agentic Loop ist der Ort, an dem die Zuverlässigkeit des Agenten gewonnen oder verloren wird. Framework-Standards — max_turns=10, recursion_limit=25 — sind Ausgangspunkte, keine Produktionskonfigurationen. Effektive Loop-Kontrolle erfordert agentenbezogene Iterationslimits, die auf Ihre Aufgabenverteilung kalibriert sind, budgetbasierte Terminierung und injection-bewusste Vertrauensgrenzen.
 
-OpenLegion erzwingt Budget-Obergrenzen und Iterationslimits auf der Mesh-Ebene — außerhalb des LLM-Denkens des Agenten, nicht durch Prompt-Injection überschreibbar.
+OpenLegion erzwingt Budget-Obergrenzen und Iterationslimits in der Policy-Engine — außerhalb des LLM-Denkens des Agenten, nicht durch Prompt-Injection überschreibbar.
 
 [Beginnen Sie mit OpenLegion](https://app.openlegion.ai) — harte Loop-Limits und agentenbezogene Budget-Durchsetzung integriert.
 

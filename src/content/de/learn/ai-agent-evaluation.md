@@ -157,9 +157,9 @@ Zeichne einen goldenen Eval-Datensatz mit Aufgaben-Eingaben, erwarteten Tool-Cal
 
 ### Wie unterstützt OpenLegion die Agenten-Evaluierung?
 
-OpenLegions Agenten-Mesh emittiert strukturierte Tool-Call-Traces, die gegen einen Eval-Harness wiederholt werden können. Der Credential-Vault stellt sicher, dass Eval-Läufe isolierte Credentials verwenden — ein fehlgeschlagener Sicherheitstest kann keine echten API-Tokens exfiltrieren. Herzschlag-gesteuerte Eval-Agenten können Regressions-Suites nach Zeitplan ausführen.
+OpenLegion hält jeden Tool-Aufruf als Beleg fest, und diese strukturierten Traces können gegen einen Eval-Harness wiederholt werden. Der Credential-Vault stellt sicher, dass Eval-Läufe isolierte Credentials verwenden — ein fehlgeschlagener Sicherheitstest kann keine echten API-Tokens exfiltrieren. Geplante Eval-Agenten können Regressions-Suites nach Zeitplan ausführen.
 
-## Evaluiere deine Agenten in einem sicheren Mesh
+## Evaluiere deine Agenten auf einer sicheren Plattform
 
 Zuverlässige Agenten erfordern Eval-Infrastruktur, die die vollständige Ausführungs-Trajektorie testet. Das kumulative Fehlerproblem ist real: Eine Schritt-Zuverlässigkeitsrate von 90 % bedeutet, dass ein fünfstufiger Agent 41 % der Läufe fehlschlägt. Das Erkennen dieser Degradation vor der Produktion erfordert trajektorien-level Eval, adversarielle Eingabetests und CI-gesteuerte Regressionsprüfungen.
 

@@ -31,7 +31,7 @@ schema_types:
 ## 摘要
 
 - **六大框架对比**：OpenLegion、OpenClaw、LangGraph、CrewAI、AutoGen、Semantic Kernel
-- **关键差异化**：安全性。没有主流框架提供内置凭证隔离、强制容器沙箱和单智能体预算执行。OpenLegion 提供了。
+- **关键差异化**：安全性。没有主流框架提供内置凭证隔离、沙箱化的任务执行和单智能体预算执行。OpenLegion 提供了。
 - **LangGraph** 拥有最高采用率（每月约 600 万 PyPI 下载量）和最灵活的编程控制
 - **CrewAI** 凭借其基于角色的智能体设计最容易上手
 - **OpenClaw** 拥有最大的社区（约 67K GitHub 星标）但存在已记录的安全问题
@@ -43,13 +43,13 @@ schema_types:
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
 | **类型** | 平台 (PolyForm Perimeter License 1.0.1) | 智能体操作系统（开源） | 框架 + 平台 | 框架 + 平台 | 框架 | 企业 SDK |
-| **托管** | 自托管或托管 | 自托管或云端 | 自托管或 LangSmith | 自托管或 CrewAI AMP | 自托管 | 自托管（Azure 集成） |
-| **智能体隔离** | 每个智能体一个 Docker 容器（强制） | Docker 容器（可选，需要 Docker 套接字） | 无内置 | Docker 仅用于 CodeInterpreter | Docker 用于代码执行 | 无（嵌入式 SDK） |
-| **凭证管理** | 密钥库代理——盲注 | Secret Registry + SecretStr 掩码 | 环境变量 | 环境变量 | 环境变量 | Azure Key Vault 集成 |
-| **多智能体支持** | 舰队模型协调（黑板 + 发布/订阅 + 交接）（顺序、并行）+ 黑板协调 + 发布/订阅消息 | 主要单智能体（SDK 支持多智能体） | StateGraph + 条件边、swarm | 团队（自主）+ Flows（事件驱动） | 群聊（RoundRobin、Selector、Swarm、GraphFlow） | ChatCompletionAgent、群聊、智能体即插件 |
-| **预算/成本控制** | 单智能体每日和每月硬性截止 | 无内置 | 无 | 无 | 无 | 无 |
-| **主要语言** | Python | Python | Python、JavaScript | Python | Python、.NET | .NET、Python、Java |
-| **LLM 支持** | 100+ 通过 LiteLLM | 100+ 通过 LiteLLM | 任意通过 LangChain | 任意通过 LiteLLM | 任意通过配置 | Azure OpenAI + 其他 |
+| **托管** | 托管 Web 应用 —— 无需安装 | 自托管或云端 | 自托管或 LangSmith | 自托管或 CrewAI AMP | 自托管 | 自托管（Azure 集成） |
+| **智能体隔离** | 每个任务一次沙箱化运行（始终开启） | Docker 容器（可选，需要 Docker 套接字） | 无内置 | Docker 仅用于 CodeInterpreter | Docker 用于代码执行 | 无（嵌入式 SDK） |
+| **凭证管理** | 凭证密钥库——在模型之外注入 | Secret Registry + SecretStr 掩码 | 环境变量 | 环境变量 | 环境变量 | Azure Key Vault 集成 |
+| **多智能体支持** | 目标与任务协调（目标 → 任务 → 智能体）+ 委派 + 事件唤醒 | 主要单智能体（SDK 支持多智能体） | StateGraph + 条件边、swarm | 团队（自主）+ Flows（事件驱动） | 群聊（RoundRobin、Selector、Swarm、GraphFlow） | ChatCompletionAgent、群聊、智能体即插件 |
+| **预算/成本控制** | 单智能体积分预算，带硬性截止 | 无内置 | 无 | 无 | 无 | 无 |
+| **主要语言** | 无 —— 在 Web 应用中配置智能体 | Python | Python、JavaScript | Python | Python、.NET | .NET、Python、Java |
+| **LLM 支持** | 最智能、智能与普通三档预设 | 100+ 通过 LiteLLM | 任意通过 LangChain | 任意通过 LiteLLM | 任意通过配置 | Azure OpenAI + 其他 |
 | **GitHub 星标** | ~40 | ~67,300 | ~25,200 | ~33,400 | ~54,400 | ~26,900 |
 | **许可证** | PolyForm Perimeter License 1.0.1 | MIT（核心） | MIT | MIT（核心） | MIT | MIT |
 | **最适合** | 安全优先的生产需求 | AI 驱动的软件开发 | 复杂的有状态工作流 | 快速原型、基于角色的团队 | 研究、Microsoft 生态 | .NET 企业、Azure 用户 |
@@ -58,11 +58,11 @@ schema_types:
 
 ### 何时选择 OpenLegion
 
-当你的首要关注点是生产安全和治理时选择 OpenLegion。如果你需要智能体永远看不到原始 API 密钥（通过密钥库代理的盲注凭证注入）、强制性的单智能体容器隔离、带硬性截止的单智能体预算执行或执行前可审计的确定性编排，OpenLegion 是正确的选择。
+当你的首要关注点是生产安全和治理时选择 OpenLegion。如果你需要智能体永远看不到原始 API 密钥（凭证保存在密钥库中并在模型之外注入）、每个任务一次沙箱化运行、带硬性截止的单智能体预算执行，或执行前可审计的目标与任务协调，OpenLegion 是正确的选择。
 
 OpenLegion 是一个较年轻的项目，社区比其他选项小。如果你需要庞大的社区贡献集成生态，或者你正在构建安全不是优先事项的快速原型，其他框架可能更快上手。
 
-自带 LLM API 密钥，模型使用零加价。
+模型通过预设选择——最智能、智能或普通——可按智能体或按工作区设置。
 
 ### 何时选择 OpenClaw
 
@@ -104,12 +104,12 @@ OpenLegion 是一个较年轻的项目，社区比其他选项小。如果你需
 
 | 运维关注点 | 框架（自建） | OpenLegion | LangSmith | CrewAI AMP |
 |---|---|---|---|---|
-| 容器隔离 | 你自建 | 内置，强制 | 未包含 | 仅 CodeInterpreter |
-| 凭证密钥库 | 你自建 | 内置（密钥库代理） | 未包含 | 企业版 |
+| 容器隔离 | 你自建 | 内置的沙箱化运行 | 未包含 | 仅 CodeInterpreter |
+| 凭证密钥库 | 你自建 | 内置（凭证密钥库） | 未包含 | 企业版 |
 | 预算执行 | 你自建 | 内置（单智能体） | 未包含 | 未包含 |
 | 可观测性 | 你集成 | 内置仪表板 | 内置（追踪、评估） | 内置（企业版） |
-| 多渠道部署 | 你自建 | 内置（5 个渠道 + webhooks） | 未包含 | 未包含 |
-| 定价 | 免费（+ 基础设施成本） | PolyForm Perimeter License 1.0.1（+ 托管选项） | 免费-$39/席位/月 + 用量 | 免费-$25/月 + 企业版 |
+| 多渠道部署 | 你自建 | 内置（4 个渠道 + webhooks） | 未包含 | 未包含 |
+| 定价 | 免费（+ 基础设施成本） | 免费 $0 · Pro $29/月 · Team $99/月 | 免费-$39/席位/月 + 用量 | 免费-$25/月 + 企业版 |
 
 对于正在评估顶级 AI 智能体框架的团队，诚实的回答是：如果安全和治理是你的首要优先级，OpenLegion 是为此量身打造的。如果生态成熟度和社区规模更重要，LangGraph 和 CrewAI 有显著优势。如果你在 Microsoft 生态中，Semantic Kernel（或新的 Microsoft Agent Framework）是自然的选择。
 
@@ -127,7 +127,7 @@ AI 智能体框架格局正在快速演变。几个新进入者正在获得关�
 
 ## CTA
 
-**需要为你的智能体集群提供生产级安全？**
+**需要为你的智能体团队提供生产级安全？**
 [立即开始](https://app.openlegion.ai) | [阅读文档](https://docs.openlegion.ai)
 
 ---
@@ -142,7 +142,7 @@ AI 智能体框架格局正在快速演变。几个新进入者正在获得关�
 
 ### AI 智能体框架对比：它们有何不同？
 
-AI 智能体框架在五个关键维度上存在差异：编排模型（基于图 vs 基于角色 vs 基于对话）、隔离（单智能体容器 vs 共享进程）、凭证管理（密钥库代理 vs 环境变量）、成本控制（单智能体预算 vs 无）和托管（自托管 vs 托管平台）。请参阅上方对比表了解详细的并排对比。
+AI 智能体框架在五个关键维度上存在差异：编排模型（基于图 vs 基于角色 vs 基于对话）、隔离（单智能体容器 vs 共享进程）、凭证管理（凭证密钥库 vs 环境变量）、成本控制（单智能体预算 vs 无）和托管（自托管 vs 托管平台）。请参阅上方对比表了解详细的并排对比。
 
 ### 什么是最佳的生产级 AI 智能体框架？
 
@@ -150,11 +150,11 @@ AI 智能体框架在五个关键维度上存在差异：编排模型（基于�
 
 ### 开源 vs 托管式 AI 智能体平台：有什么区别？
 
-开源 AI 智能体框架（LangGraph 核心、CrewAI 开源、AutoGen）提供智能体逻辑——你自建基础设施。托管式 [AI 智能体平台](/learn/ai-agent-platform) 增加运维层：容器配置、凭证密钥库、成本追踪、可观测性。OpenLegion 作为源码可用项目（PolyForm Perimeter License 1.0.1）弥合了这一差距，内置托管平台功能。LangSmith 和 CrewAI AMP 是各自开源框架之上的付费托管层。
+开源 AI 智能体框架（LangGraph 核心、CrewAI 开源、AutoGen）提供智能体逻辑——你自建基础设施。托管式 [AI 智能体平台](/learn/ai-agent-platform) 增加运维层：容器配置、凭证密钥库、成本追踪、可观测性。OpenLegion 弥合了这一差距：引擎在 PolyForm Perimeter License 1.0.1 下以源码可用方式发布，而托管平台替你运行它。LangSmith 和 CrewAI AMP 是各自开源框架之上的付费托管层。
 
 ### OpenLegion 相比 OpenClaw/LangGraph/CrewAI/AutoGen 处于什么位置？
 
-OpenLegion 占据一个特定的细分市场：安全优先的 [AI 智能体平台](/learn/ai-agent-platform)。根据公开文档，它是唯一提供内置盲注凭证注入、强制性单智能体容器隔离和原生预算执行的框架。OpenClaw 拥有最大的社区和最强的 AI 编程能力。LangGraph 拥有最高的采用率和最灵活的编排。CrewAI 拥有最平缓的学习曲线。AutoGen 正在过渡到 Microsoft Agent Framework。
+OpenLegion 占据一个特定的细分市场：安全优先的 [AI 智能体平台](/learn/ai-agent-platform)。根据公开文档，它是唯一提供内置密钥库托管凭证、每个任务一次沙箱化运行和原生单智能体预算执行的框架。OpenClaw 拥有最大的社区和最强的 AI 编程能力。LangGraph 拥有最高的采用率和最灵活的编排。CrewAI 拥有最平缓的学习曲线。AutoGen 正在过渡到 Microsoft Agent Framework。
 
 ### 如何在 AI 智能体框架之间做选择？
 
@@ -166,7 +166,7 @@ OpenLegion 占据一个特定的细分市场：安全优先的 [AI 智能体平�
 
 ### 什么是最安全的 AI 智能体框架？
 
-根据撰写时的公开文档，OpenLegion 提供最全面的内置安全：盲注凭证注入（智能体永远看不到原始 API 密钥）、强制性的单智能体 Docker 容器隔离、带硬性截止的单智能体预算执行、每个智能体的权限矩阵、多个控制点的 Unicode 清洗，以及用于可审计性的舰队模型协调。其他框架可以通过自定义工程实现类似安全性，但没有框架开箱即用地提供这些功能。
+根据撰写时的公开文档，OpenLegion 提供最全面的内置安全：密钥库托管的凭证（智能体永远看不到原始 API 密钥）、每个任务一次沙箱化运行、带硬性截止的单智能体预算执行、每个智能体的权限矩阵、多个控制点的 Unicode 清洗，以及用于可审计性的目标与任务协调。其他框架可以通过自定义工程实现类似安全性，但没有框架开箱即用地提供这些功能。
 
 ---
 

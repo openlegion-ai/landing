@@ -452,9 +452,9 @@ When N parallel agents all call the same external API with the same credential, 
 2. **Audit opacity:** the log shows the credential was used N times, but cannot attribute specific API calls to specific agents
 3. **Rotation complexity:** rotating the credential requires restarting all N running agents
 
-**Vault-proxied credential injection (OpenLegion pattern):**
+**Vault-held credential injection (OpenLegion pattern):**
 
-Each parallel agent receives credential injection per-request at the network layer. The credential value is never written to any agent process's environment. A compromise of one parallel agent has no access to the credential. Credential rotation in the vault takes effect on the next request without restarting agents. The audit log records `agent_id`, `credential_name`, and `timestamp` per access — not just "this credential was used N times."
+Each parallel agent receives its credential injected per-request, outside the model. The credential value is never written to any agent process's environment. A compromise of one parallel agent has no access to the credential. Credential rotation in the vault takes effect on the next request without restarting agents. The audit log records `agent_id`, `credential_name`, and `timestamp` per access — not just "this credential was used N times."
 
 ## OpenLegion's Take: Parallel Agents Need Isolated Execution, Not Shared State
 
@@ -466,16 +466,16 @@ Three concrete facts about parallel agent failures in production:
 
 **Thundering herd against LLM provider rate limits is avoidable with one primitive.** OpenAI Tier 5 is 10,000 RPM (167 req/s); Anthropic Tier 4 is 4,000 RPM (67 req/s); Gemini 1.5 Pro is 1,000 RPM (17 req/s). Fan-out to 50 parallel agents all calling Anthropic simultaneously produces a burst of 50 requests in the same 50ms window — well above rate limit thresholds. `asyncio.Semaphore()` with a Little's Law-sized limit turns a thundering herd into a rate-limit-safe stream with no retries and no wasted compute from 429-triggered agent failures.
 
-**Vault-proxied credentials eliminate the parallel execution credential blast radius.** LangGraph, CrewAI, AutoGen, and LangChain implement parallel execution with shared `os.environ` credential storage: all N parallel agents share the same env var value. A prompt injection attack against one of 50 agents yields the credential used by all 50. OpenLegion's Zone 2 network-layer credential injection means each parallel agent receives credential resolution per-request — the env var containing the actual credential value does not exist in the agent process. A compromise of agent N=3 yields nothing.
+**Vault-held credentials eliminate the parallel execution credential blast radius.** LangGraph, CrewAI, AutoGen, and LangChain implement parallel execution with shared `os.environ` credential storage: all N parallel agents share the same env var value. A prompt injection attack against one of 50 agents yields the credential used by all 50. OpenLegion resolves credentials outside the model, so each parallel agent receives credential resolution per-request — the env var containing the actual credential value does not exist in the agent process. A compromise of agent N=3 yields nothing.
 
 | **Parallelization property** | **OpenLegion** | **LangGraph** | **CrewAI** | **AutoGen** | **LangChain agents** |
 |---|---|---|---|---|---|
-| **Per-agent vault credential injection at request time — no shared env var across parallel agents** | Yes — Zone 2 network-layer resolution | No — env var | No — env var | No — env var | No — env var |
-| **Disjoint blackboard keys per parallel agent — no read-modify-write race conditions** | Yes — hierarchical key design, collector node merges | Partial — checkpointer serializes, merge logic is user-defined | No — shared crew state | No — shared agent state | No — shared memory |
+| **Per-agent vault credential injection at request time — no shared env var across parallel agents** | Yes — resolved outside the model | No — env var | No — env var | No — env var | No — env var |
+| **Disjoint task keys per parallel agent — no read-modify-write race conditions** | Yes — hierarchical key design, collector node merges | Partial — checkpointer serializes, merge logic is user-defined | No — shared crew state | No — shared agent state | No — shared memory |
 | **asyncio.Semaphore() backpressure — parallel agents cannot thundering-herd provider rate limits** | Yes — platform-enforced backpressure | User-defined | Not built-in | Not built-in | Not built-in |
-| **task_id + branch_id idempotency keys on parallel tool calls** | Yes — mesh-layer task_id propagation | Yes — checkpoint namespace (graph_id + thread_id + branch_id) | No | No | No |
-| **max_parallelism enforced at mesh layer** | Yes — operator-configured ceiling | User-defined | Not enforced | Not enforced | Not enforced |
-| **Partial failure resume from checkpoint (not full restart)** | Yes — blackboard key-level recovery | Yes — SQLite/Postgres checkpoint resume | No — full restart | No — full restart | No — full restart |
+| **task_id + branch_id idempotency keys on parallel tool calls** | Yes — task_id propagated by the platform | Yes — checkpoint namespace (graph_id + thread_id + branch_id) | No | No | No |
+| **max_parallelism enforced by the platform** | Yes — operator-configured ceiling | User-defined | Not enforced | Not enforced | Not enforced |
+| **Partial failure resume from checkpoint (not full restart)** | Yes — task key-level recovery | Yes — SQLite/Postgres checkpoint resume | No — full restart | No — full restart | No — full restart |
 
 <!-- SCHEMA: FAQPage -->
 
@@ -519,5 +519,5 @@ Fan-out/fan-in delivers real latency gains — 5 independent 10-second subtasks 
 
 The failure modes to design against before scaling: disjoint state keys (not shared write targets), idempotency keys on all parallel tool calls, and per-agent credential injection (not shared env vars).
 
-[Start building on OpenLegion](https://app.openlegion.ai) — disjoint blackboard keys per parallel agent, `$CRED{}` vault injection per-request at the network layer, `asyncio.Semaphore()` backpressure enforced at the mesh layer, and `max_parallelism` bounded by operator configuration.
+[Start building on OpenLegion](https://app.openlegion.ai) — disjoint task keys per parallel agent, vault credential injection per-request outside the model, `asyncio.Semaphore()` backpressure enforced by the platform, and `max_parallelism` bounded by operator configuration.
 

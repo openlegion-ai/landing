@@ -38,7 +38,7 @@ export function SeoLinks() {
     <SectionWrapper id="learn" glow>
       <AnimateIn>
         <div className="mb-16 text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
+          <p className="sr-only">
             {t("sectionLabel")}
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">

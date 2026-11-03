@@ -346,20 +346,20 @@ Three concrete failure modes that turn a cost-saving feature into a cost-increas
 
 **The broken Anthropic cache costs more than no cache.** A 10,000-token system prompt with `cache_control` configured but broken prefix stability (timestamp in the system prompt, user ID at position 1) pays $3.75/MTok on every call instead of $3.00/MTok — a 25% cost increase vs uncached. With 1,000 calls/day at this rate: $37.50/day vs $30.00/day uncached = **$7.50/day in cost from broken caching**. Caching is not opt-in-and-forget; it requires monitoring `cache_creation_input_tokens` vs `cache_read_input_tokens` in production.
 
-**Fleet cache hit rate is a property of shared agent definitions, not cache configuration.** In a 100-agent fleet where each agent has a slightly different system prompt (user ID injected, per-session state, different tool schema ordering) — even with `cache_control` correctly configured — no cache sharing occurs between agents and each incurs the write surcharge. In a 100-agent fleet with identical INSTRUCTIONS.md-defined system prompts across all instances of the same agent type, one cache write amortizes across 99 reads automatically. The amplification comes from the agent architecture, not from cache settings.
+**Fleet cache hit rate is a property of shared agent definitions, not cache configuration.** In a 100-agent fleet where each agent has a slightly different system prompt (user ID injected, per-session state, different tool schema ordering) — even with `cache_control` correctly configured — no cache sharing occurs between agents and each incurs the write surcharge. In a 100-agent fleet with identical, workspace-defined system prompts across all instances of the same agent type, one cache write amortizes across 99 reads automatically. The amplification comes from the agent architecture, not from cache settings.
 
 **The break-even on Anthropic is 0.28 reads.** Any agent called more than once per 5-minute window benefits — which covers virtually every production agent system. The write surcharge concern is real but only applies to agents called at intervals longer than the TTL with no TTL extension configured.
 
 | **Cache architecture property** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **System prompt defined in git (byte-for-byte stable across all instances of same agent type)** | INSTRUCTIONS.md, committed | Developer convention | Developer convention | Developer convention | Developer convention |
-| **Tool schemas static per agent role (no dynamic content in tool descriptions)** | Enforced by Zone 2 | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
-| **Dynamic content injected after cache breakpoint (not in system prompt)** | Zone 2 architecture | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
-| **Fleet cache sharing — N parallel agents share one cache write** | Natural consequence of shared INSTRUCTIONS.md | Possible if manually designed | Not built-in | Not built-in | Not built-in |
-| **Per-project API key isolation (per-tenant cache entries — no cross-tenant bleed)** | $CRED{} per project | Manual | Manual | Manual | Manual |
-| **Cache hit rate monitoring (cache_read_input_tokens in observability pipeline)** | Zone 2 tagged, observable | Manual (LangSmith) | Manual | Manual | Manual |
+| **System prompt defined in git (byte-for-byte stable across all instances of same agent type)** | Stored once per agent type, byte-stable | Developer convention | Developer convention | Developer convention | Developer convention |
+| **Tool schemas static per agent role (no dynamic content in tool descriptions)** | Enforced by the policy engine | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **Dynamic content injected after cache breakpoint (not in system prompt)** | Policy-engine architecture | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
+| **Fleet cache sharing — N parallel agents share one cache write** | Natural consequence of shared agent definitions | Possible if manually designed | Not built-in | Not built-in | Not built-in |
+| **Per-project API key isolation (per-tenant cache entries — no cross-tenant bleed)** | Credential handles per workspace | Manual | Manual | Manual | Manual |
+| **Cache hit rate monitoring (cache_read_input_tokens in observability pipeline)** | Policy-engine tagged, observable | Manual (LangSmith) | Manual | Manual | Manual |
 
-[Start building on OpenLegion](https://app.openlegion.ai) — agent definitions in git, cache-first architecture by default.
+[Start building on OpenLegion](https://app.openlegion.ai) — stable agent definitions, cache-first architecture by default.
 
 For broader LLM cost controls beyond caching — model selection, prompt compression, quantized models, and batch inference — see [LLM cost optimization at the model and infrastructure layer](/learn/llm-cost-optimization).
 

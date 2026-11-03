@@ -1,9 +1,9 @@
 ---
 title: "Plataforma de Agentes de IA — Despliegue Agentes Seguros"
 description: >-
-  OpenLegion es una plataforma gestionada de agentes de IA con aislamiento por
-  contenedor, bóveda de credenciales y controles de presupuesto. Aporte sus
-  propias claves API de LLM.
+  OpenLegion es una plataforma gestionada de agentes de IA con ejecuciones de
+  tarea en sandbox, bóveda de credenciales y presupuestos por agente. Nada que
+  instalar.
 slug: /learn/ai-agent-platform
 primary_keyword: plataforma de agentes de ia
 secondary_keywords:
@@ -27,7 +27,7 @@ related:
 
 La mayoría de equipos empiezan con un framework. Ensamblan nodos de LangGraph o crews de CrewAI, ponen una demo a funcionar y luego chocan con un muro: ¿quién gestiona los contenedores? ¿Dónde van las claves API? ¿Qué impide que un agente descontrolado queme 500$ en tokens de la noche a la mañana?
 
-Una **plataforma de agentes de IA** responde a esas preguntas antes de que escriba su primer agente. OpenLegion es una plataforma gestionada de agentes de IA que viene con aislamiento por contenedor, credenciales con proxy de bóveda, controles de presupuesto por agente y coordinación tipo flota (blackboard + pub/sub + handoff) — todo habilitado por defecto. Aporte sus propias claves API de LLM. Sin recargo en el uso del modelo.
+Una **plataforma de agentes de IA** responde a esas preguntas antes de que escriba su primer agente. OpenLegion es una plataforma gestionada de agentes de IA que viene con ejecuciones de tarea en sandbox, credenciales guardadas en bóveda, presupuestos de créditos por agente y coordinación por objetivos y tareas (objetivos → tareas → agentes) — todo habilitado por defecto. Es una app web alojada: inicia sesión con Google y empieza. No hay nada que instalar.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -36,13 +36,13 @@ Una **plataforma de agentes de IA** responde a esas preguntas antes de que escri
 
 ## TL;DR
 
-- **Plataforma, no framework** — OpenLegion gestiona contenedores, credenciales, presupuestos y redes. Usted gestiona la lógica del agente.
-- **Credenciales con proxy de bóveda** — Los agentes ejecutan llamadas API a través de un proxy de bóveda. Nunca ven las claves en bruto.
-- **Aislamiento por contenedor por agente** — Cada agente corre en su propio contenedor Docker con límites de recursos configurables (por defecto 384MB RAM / 0,15 CPU), ejecución no-root y sin sistema de archivos compartido.
-- **Aplicación de presupuesto por agente** — Establezca límites diarios y mensuales de tokens con corte automático estricto. Sin facturas sorpresa.
-- **BYO claves API** — Conecte cualquier proveedor de LLM vía LiteLLM (100+ soportados). Paga a los proveedores directamente a sus tarifas publicadas.
-- **Coordinación tipo flota auditable** — Coordinación de flota (blackboard + pub/sub + handoff) para enrutamiento de tareas. Sin "agente CEO" tomando decisiones opacas.
-- **Extensibilidad compatible con MCP** — Conecte cualquier servidor de herramientas MCP (bases de datos, sistemas de archivos, APIs) junto a más de 50 skills integradas. Auto-descubiertos por los agentes.
+- **Plataforma, no framework** — OpenLegion gestiona ejecuciones, credenciales, presupuestos y aprobaciones. Usted gestiona la lógica del agente.
+- **Credenciales guardadas en bóveda** — Las credenciales se inyectan fuera del modelo, que solo llega a retener un identificador. Los agentes nunca ven las claves en bruto.
+- **Una ejecución en sandbox por tarea** — Cada tarea corre bajo demanda y luego se detiene, así que no hay proceso de agente de larga vida que comprometer, y el código que el agente escribe corre sin acceso a red por defecto.
+- **Aplicación de presupuesto por agente** — Cada agente lleva su propio presupuesto de créditos, medido a $0.001 el crédito, con corte automático estricto. Sin facturas sorpresa.
+- **Presets de modelo** — Elija Smartest, Smart o Normal por agente o por espacio de trabajo. Nunca conecta un proveedor ni rota una clave.
+- **Coordinación auditable por objetivos y tareas** — El trabajo se organiza objetivos → tareas → agentes, con un asistente que crea los compañeros que necesita. Sin "agente CEO" tomando decisiones opacas.
+- **Conjunto de herramientas integrado** — Búsqueda y recuperación web, archivos, memoria a largo plazo, horarios, ejecución de código en sandbox y entregables compartibles. Disponibles para cada agente.
 - **Memoria persistente del agente** — Los agentes recuerdan entre sesiones con búsqueda vectorial, archivos de workspace y aprendizajes de errores. Contexto gestionado automáticamente.
 
 ## Gestionado vs Autoalojado: Cuándo Tiene Sentido Cada Uno
@@ -51,7 +51,7 @@ La distinción entre frameworks de agentes de IA y plataformas de agentes de IA 
 
 **Frameworks autoalojados** (LangGraph, CrewAI, AutoGen) le dan el máximo control. Usted posee la infraestructura. Configura los contenedores. Construye el pipeline de credenciales. Esto funciona cuando su equipo tiene capacidad dedicada de DevOps e infraestructura existente con la que los agentes necesitan integrarse profundamente.
 
-**Las plataformas gestionadas de agentes de IA** manejan la capa operativa para que su equipo se centre en la lógica del agente. OpenLegion se sitúa aquí — pero con una diferencia crítica: tiene código disponible bajo PolyForm Perimeter License 1.0.1. Obtiene operaciones de grado plataforma (aislamiento, bóveda, controles de presupuesto) sin lock-in con proveedor en el lado de la infraestructura.
+**Las plataformas gestionadas de agentes de IA** manejan la capa operativa para que su equipo se centre en la lógica del agente. OpenLegion se sitúa aquí — pero con una diferencia crítica: el motor que hay debajo se publica con código disponible bajo PolyForm Perimeter License 1.0.1. Obtiene operaciones de grado plataforma (aislamiento de la ejecución, bóveda, controles de presupuesto) sin una caja negra debajo.
 
 La cuestión no es cuál es "mejor". Es si su equipo debería gastar horas de ingeniería en infraestructura de seguridad de agentes o en los agentes mismos.
 
@@ -69,88 +69,88 @@ La cuestión no es cuál es "mejor". Es si su equipo debería gastar horas de in
 - Necesita garantías de [seguridad de agentes de IA](/learn/ai-agent-security) sin construirlas usted mismo
 - Quiere controles de coste y trazas de petición sin instrumentar todo manualmente
 
-## El Modelo BYO Claves API — Por Qué Importa
+## El Sistema de Presets de Modelo — Por Qué Importa
 
-La mayoría de las plataformas de IA gestionadas cobran por token o toman un margen sobre el uso del modelo. Esto crea dos problemas: opacidad de coste y lock-in con proveedor.
+La mayoría de las plataformas de IA gestionadas hacen de la elección de modelo su problema: elija un proveedor, conecte una clave, rótela, reajuste cuando cambie. Esto crea dos problemas: opacidad de coste y lock-in con proveedor.
 
-OpenLegion toma un enfoque diferente. Usted aporta sus propias claves API de LLM de cualquier proveedor — OpenAI, Anthropic, Google, Mistral o cualquiera de los más de 100 proveedores soportados vía LiteLLM. Sus tokens fluyen directamente al proveedor a sus tarifas publicadas. OpenLegion cobra por plataforma y orquestación, no por acceso a modelos.
+OpenLegion toma un enfoque diferente. Los modelos se eligen por preset — Smartest, Smart o Normal — por agente o por espacio de trabajo, así que no hay proveedor que conectar ni clave que rotar. El trabajo se mide en créditos a $0.001 cada uno, y el coste exacto de cada tarea es visible en la app.
 
 Esto importa por tres razones:
 
-**Transparencia de coste.** Ve exactamente lo que cada agente gasta en cada proveedor. Sin recargo oculto. Sin "tokens de plataforma" que oscurezcan costes reales.
+**Transparencia de coste.** Ve exactamente lo que cada agente gasta y lo que costó cada tarea. Cada unidad de trabajo es un despertar registrado con un precio, no una línea en una factura mensual.
 
-**Flexibilidad de proveedor.** Intercambie modelos por agente. Ejecute GPT-4o para razonamiento complejo, Claude para tareas de contexto largo y un modelo Llama local para clasificación de alto volumen — todo en el mismo proyecto, gestionado desde el mismo panel.
+**Flexibilidad de modelo.** Intercambie presets por agente. Ejecute Smartest para razonamiento complejo, Smart para el trabajo diario y Normal para clasificación de alto volumen — todo en el mismo espacio de trabajo, gestionado desde el mismo panel.
 
-**Sin lock-in.** Si deja OpenLegion, sus claves API y configuraciones de modelo se van con usted. No hay una capa de modelo propietaria de la que migrar.
+**Sin lock-in.** Si deja OpenLegion, puede exportar el espacio de trabajo — agentes, tareas, recibos y entregables — y borrar lo que quede. No hay una capa de modelo propietaria de la que migrar.
 
 ## Para Quién Es
 
 ### Desarrolladores en solitario construyendo productos con agentes
 
-Está enviando un producto impulsado por agentes y necesita que sea seguro desde el primer día. OpenLegion le da infraestructura de producción — aislamiento por contenedor, bóveda de credenciales, controles de coste — sin contratar un equipo de DevOps. Empiece con una plantilla de equipo integrada (Dev Team, Sales Pipeline, Content Studio) y personalice desde ahí.
+Está enviando un producto impulsado por agentes y necesita que sea seguro desde el primer día. OpenLegion le da infraestructura de producción — ejecuciones en sandbox, bóveda de credenciales, controles de coste — sin contratar un equipo de DevOps. Describa el resultado que quiere y el asistente crea los compañeros de equipo que hacen falta para llegar.
 
 ### Equipos de startup enviando rápido
 
-Su equipo tiene de 2 a 10 ingenieros. Necesita agentes en producción este sprint, no el próximo trimestre. La instalación son tres comandos: `git clone`, `./install.sh`, `openlegion start`. El asistente de configuración guiada configura sus claves API, elige una plantilla de equipo y despliega su primera flota de agentes en menos de tres minutos.
+Su equipo tiene de 2 a 10 ingenieros. Necesita agentes en producción este sprint, no el próximo trimestre. No hay instalación: OpenLegion es una app web alojada y usted inicia sesión con Google. Gratis son 0$ con 1.000 créditos de una vez y sin tarjeta, así que su primer agente estará trabajando minutos después de registrarse.
 
 ### Equipos de seguridad empresariales
 
-Necesita traza de peticiones y observabilidad de flujo, aislamiento de credenciales que sobreviva a un agente comprometido y controles de presupuesto que prevengan costes descontrolados. La arquitectura de OpenLegion está diseñada para entornos que requieren defensa en profundidad. La coordinación tipo flota auditable significa que cada paso de flujo es explícito y trazable — sin toma de decisiones opaca del LLM en el plano de control. Consulte nuestra página de [seguridad de agentes de IA](/learn/ai-agent-security) para el modelo de amenazas completo.
+Necesita traza de peticiones y observabilidad de flujo, aislamiento de credenciales que sobreviva a un agente comprometido y controles de presupuesto que prevengan costes descontrolados. La arquitectura de OpenLegion está diseñada para entornos que requieren defensa en profundidad. La coordinación auditable por objetivos y tareas significa que cada paso de flujo es explícito y trazable — sin toma de decisiones opaca del LLM en el plano de control. Consulte nuestra página de [seguridad de agentes de IA](/learn/ai-agent-security) para el modelo de amenazas completo.
 
 ## Preparación para Producción: Qué Maneja OpenLegion vs DIY
 
 | Capacidad | DIY (Solo Framework) | OpenLegion |
 |---|---|---|
-| **Runtime de agente** | Usted configura Docker, gestiona imágenes, maneja la red | Cada agente aprovisionado automáticamente en contenedor aislado (384MB RAM, 0,15 CPU por defecto, no-root, no-new-privileges) |
-| **Gestión de credenciales** | Variables de entorno o integración de bóveda personalizada | Proxy de bóveda con inyección ciega — los agentes nunca ven las claves en bruto |
-| **Controles de coste** | Seguimiento manual, sin límites estrictos | Presupuestos diarios/mensuales por agente con corte automático |
-| **Orquestación** | Codifique su propia lógica de enrutamiento o use enrutamiento basado en LLM | Coordinación tipo flota (blackboard + pub/sub + handoff) — auditable |
+| **Runtime de agente** | Usted configura Docker, gestiona imágenes, maneja la red | Los agentes son registros duraderos, no servidores; cada tarea corre bajo demanda en un sandbox y luego se detiene |
+| **Gestión de credenciales** | Variables de entorno o integración de bóveda personalizada | Credenciales en bóveda inyectadas fuera del modelo — los agentes nunca ven las claves en bruto |
+| **Controles de coste** | Seguimiento manual, sin límites estrictos | Presupuestos de créditos por agente a $0.001 el crédito, con corte automático |
+| **Orquestación** | Codifique su propia lógica de enrutamiento o use enrutamiento basado en LLM | Coordinación por objetivos y tareas (objetivos → tareas → agentes) — auditable |
 | **Observabilidad** | Integrar LangSmith, Datadog o logging personalizado | Panel integrado con streaming en vivo, gráficos de coste, trazas de petición |
-| **Despliegue multi-canal** | Construir integraciones por canal | CLI, Telegram, Discord, Slack, WhatsApp — además de endpoints webhook para integraciones externas |
-| **Automatización de navegador** | Configurar Playwright/Puppeteer, gestionar instancias Chrome | Camoufox por agente (Firefox sigiloso) en un contenedor compartido de servicio de navegador, con KasmVNC (puertos 6100..6163), control CDP y auto-recuperación |
-| **Extensibilidad de herramientas** | Construir integraciones personalizadas o usar herramientas LangChain | Compatible con MCP — conecte cualquier servidor MCP + 50+ skills integradas, auto-descubiertas |
+| **Despliegue multi-canal** | Construir integraciones por canal | Chat web en todos los planes, Telegram y webhooks desde Pro, Slack y email entrante en Team y superiores |
+| **Automatización de navegador** | Configurar Playwright/Puppeteer, gestionar instancias Chrome | No se ofrece en el lanzamiento — los agentes leen la web en vivo con búsqueda y recuperación integradas |
+| **Extensibilidad de herramientas** | Construir integraciones personalizadas o usar herramientas LangChain | Integrada — búsqueda y recuperación web, archivos, memoria, horarios, ejecución de código en sandbox, entregables compartibles |
 | **Memoria del agente** | Construir RAG o gestión de estado personalizada | Memoria vectorial persistente por agente con gestión automática de contexto |
-| **Failover de modelos** | Lógica de reintento personalizada por proveedor | Cadenas de failover configurables entre proveedores vía LiteLLM |
+| **Failover de modelos** | Lógica de reintento personalizada por proveedor | Lo gestiona la plataforma — elija un preset y ella enruta por usted |
 
 El resumen: si está evaluando [frameworks de agentes de IA](/learn/ai-agent-frameworks) y se encuentra construyendo más infraestructura que lógica de agente, está resolviendo un problema de plataforma con herramientas de framework. OpenLegion maneja la capa de plataforma para que pueda centrarse en lo que sus agentes hacen realmente.
 
-## Extensibilidad de Herramientas Compatible con MCP
+## Extensibilidad de Herramientas Integrada
 
-OpenLegion soporta el Model Context Protocol (MCP) para conectar herramientas externas. Cualquier servidor MCP — bases de datos, sistemas de archivos, APIs, servicios internos — puede añadirse vía configuración y ser auto-descubierto por los agentes. Esto se sitúa junto a más de 50 skills integradas que cubren automatización de navegador, operaciones de archivos, peticiones HTTP, búsqueda web, gestión de memoria, ejecución de código y comunicación de mesh.
+OpenLegion entrega sus herramientas con la plataforma en lugar de pedirle que conecte servidores. Cada agente tiene búsqueda y recuperación web, manejo de archivos, memoria a largo plazo, horarios, ejecución de código en sandbox y entregables compartibles desde el momento en que se crea. Los conectores en el lanzamiento son Google Calendar y los archivos de Google Drive que usted elija; el Model Context Protocol (MCP) no está soportado en el lanzamiento.
 
-La integración MCP significa que los agentes no están limitados a capacidades integradas. Conecte un servidor Postgres, una integración GitHub o una API interna personalizada — los agentes descubren las herramientas disponibles automáticamente y las usan dentro de sus límites de permisos.
+Las herramientas integradas significan que un agente es útil en el momento en que lo crea, sin nada que instalar ni configurar. Cada llamada a herramienta es una intención verificada por un único motor de políticas antes de ocurrir, así que los agentes se mantienen dentro de sus límites de permisos y cada llamada queda registrada como un recibo.
 
 ## Memoria Persistente del Agente
 
 Los agentes en OpenLegion mantienen memoria entre sesiones usando búsqueda vectorial, archivos de workspace y aprendizajes de errores. Cuando un agente encuentra un problema y lo resuelve, la solución se almacena y se recupera en sesiones futuras — reduciendo fallos repetidos y mejorando la calidad de ejecución a lo largo del tiempo.
 
-La memoria está limitada por agente y se almacena en la base de datos SQLite + vectorial aislada de cada agente dentro de su contenedor. La gestión automática de contexto mantiene el uso de tokens eficiente exponiendo solo memorias relevantes para la tarea actual, en lugar de cargar historiales completos de conversación.
+La memoria está limitada por agente y aislada de cualquier otro agente y de cualquier otro espacio de trabajo. La gestión automática de contexto mantiene el uso de tokens eficiente exponiendo solo memorias relevantes para la tarea actual, en lugar de cargar historiales completos de conversación.
 
-## Arquitectura: El Modelo de Confianza de Cuatro Zonas
+## Arquitectura: Un Único Motor de Políticas Delante de Cada Acción
 
-OpenLegion separa cada despliegue en cuatro zonas de confianza más un nivel operador-o-interno:
+OpenLegion separa cada espacio de trabajo en cuatro límites de confianza más un nivel de decisión del propietario:
 
-**Zona 0 — Entrada Externa No Confiable.** Cualquier cosa que llegue de usuarios o terceros: CLI, Telegram, Discord, Slack, WhatsApp y endpoints webhook. Todas las entradas se validan y sanean vía guardas de inyección de prompt antes de llegar al mesh.
+**Entrada externa no confiable.** Cualquier cosa que llegue de usuarios o terceros: chat web, Telegram, Slack, email entrante y endpoints webhook. Todas las entradas se validan y sanean vía guardas de inyección de prompt antes de llegar al motor de políticas.
 
-**Zona 1 — Contenedores de Agente Sandboxed (No Confiable).** Cada agente corre como su propia instancia FastAPI en un contenedor Docker dedicado con su propio volumen `/data`, base de datos de memoria y límites estrictos de recursos. Incluso un agente totalmente comprometido no puede acceder a sus claves API, datos de otros agentes o al sistema anfitrión.
+**La ejecución del agente (no confiable).** Cada tarea corre bajo demanda y luego se detiene, y el código que el agente escribe corre en un sandbox sin acceso a red por defecto. Incluso una ejecución totalmente comprometida no puede acceder a sus credenciales, a los datos de otros agentes ni a otro espacio de trabajo.
 
-**Zona 2 — Mesh Host (Confiable).** El servidor FastAPI que ejecuta el Blackboard (estado compartido vía SQLite + WAL), enrutador de mensajes PubSub, Bóveda de Credenciales (el proxy que maneja la inyección ciega), matriz ACL, Gestor de Contenedores, Rastreador de Costes y Servicio de Navegador (Camoufox por agente en :8500). Este es el cerebro — y es el único componente que toca sus claves API.
+**El motor de políticas (confiable).** Una sola capa verifica cada acción como una intención antes de que ocurra y la registra como un recibo que el propietario puede leer: llamada a herramienta, delegación, aprobación, coste. Contiene el registro compartido de objetivos y tareas, la bóveda de credenciales, la matriz de permisos y el presupuesto de créditos de cada agente. Este es el cerebro — y es el único componente que toca sus credenciales.
 
-**Zona 2.5 — Operador-o-Interno.** Operaciones reservadas del plano de control disponibles para el agente Operador o utilidades internas del mesh — gestión de flota, ediciones de agentes, concesiones de permisos (el Operador no puede conceder `can_spawn` ni `can_use_wallet`).
+**Decisiones de propietario o administrador.** El trabajo se detiene para una aprobación en tres muros solamente: alcanzar a un tercero en su nombre, borrar datos y actuar sobre contenido no confiable. La decisión la toma en la app un propietario o un administrador, nunca un agente.
 
-**Zona 3 — Interno Solo-Loopback.** El nivel más restringido: endpoints que requieren tanto una cabecera `x-mesh-internal: 1` como una IP de origen loopback. Usado solo para llamadas de coordinación interna del mesh.
+**Plano de control solo interno.** El nivel más restringido: operaciones administrativas como crear agentes, conceder permisos de herramienta y cambiar de plan, alcanzadas a través de una única API de administración delimitada a un solo espacio de trabajo.
 
 Esta arquitectura significa que la [orquestación de agentes de IA](/learn/ai-agent-orchestration) y la seguridad no son preocupaciones separadas — son el mismo sistema.
 
 ## Empezar
 
-```bash
-git clone https://github.com/openlegion-ai/openlegion.git
-cd openlegion && ./install.sh
-openlegion start # configuración inline en la primera ejecución, luego los agentes se despliegan en contenedores aislados
+```text
+1. Inicia sesión con Google en app.openlegion.ai — no hay nada que instalar.
+2. Dile al asistente lo que quieres hacer; él crea los agentes que necesita.
+3. Aprueba la primera acción que alcance a un tercero y luego lee los recibos.
 ```
 
-La primera instalación toma 2-3 minutos. Requiere Python 3.10+ y Docker.
+Gratis son 0$ con 1.000 créditos de una vez y sin tarjeta. Pro son 29$/mes con 10.000.
 
 ## CTA
 
@@ -169,7 +169,7 @@ Una plataforma de agentes de IA es infraestructura gestionada que maneja las pre
 
 ### ¿Cuál es la mejor plataforma de agentes de IA para producción?
 
-La mejor plataforma de agentes de IA para producción depende de sus requisitos de seguridad y operativos. Si necesita aislamiento por contenedor integrado, credenciales con proxy de bóveda y controles de presupuesto por agente sin construir infraestructura personalizada, OpenLegion proporciona esto de fábrica. Para equipos profundamente invertidos en el ecosistema Microsoft, Azure AI Agent Service vale la pena evaluar. Para máxima flexibilidad con más esfuerzo DIY, autoalojar LangGraph con LangSmith ofrece observabilidad fuerte.
+La mejor plataforma de agentes de IA para producción depende de sus requisitos de seguridad y operativos. Si necesita aislamiento de la ejecución integrado, credenciales guardadas en bóveda y controles de presupuesto por agente sin construir infraestructura personalizada, OpenLegion proporciona esto de fábrica. Para equipos profundamente invertidos en el ecosistema Microsoft, Azure AI Agent Service vale la pena evaluar. Para máxima flexibilidad con más esfuerzo DIY, autoalojar LangGraph con LangSmith ofrece observabilidad fuerte.
 
 ### ¿Qué es una plataforma empresarial de agentes de IA?
 
@@ -177,23 +177,23 @@ Una plataforma empresarial de agentes de IA añade gobernanza, cumplimiento y co
 
 ### ¿Puedo alojar agentes de IA con mis propias claves API?
 
-Sí. OpenLegion usa un modelo BYO (Bring Your Own) de claves API. Conecte sus propias claves de cualquier proveedor de LLM — OpenAI, Anthropic, Google, Mistral y más de 100 otros vía LiteLLM. Sus tokens fluyen directamente al proveedor a sus tarifas publicadas. Aporte sus propias claves API de LLM. Sin recargo en el uso del modelo.
+No, y no hace falta. El acceso a modelos está incluido: elija un preset — Smartest, Smart o Normal — por agente o por espacio de trabajo, y OpenLegion se encarga del proveedor. El trabajo se mide en créditos a $0.001 cada uno, así que ve el coste exacto de cada tarea. Gratis son 0$ con 1.000 créditos de una vez y sin tarjeta.
 
 ### Agentes de IA gestionados vs autoalojados: ¿cuál es la diferencia?
 
-Las plataformas gestionadas de agentes de IA manejan el aprovisionamiento de contenedores, la bóveda de credenciales, los controles de coste y la observabilidad por usted. Autoalojado significa que despliega un framework (LangGraph, CrewAI, AutoGen) en su propia infraestructura y construye estas capas operativas usted mismo. Gestionado es más rápido a producción y requiere menos inversión en DevOps. Autoalojado da máximo control de infraestructura. OpenLegion ofrece un híbrido: código disponible (PolyForm Perimeter License 1.0.1) que puede autoalojar, con capacidades de plataforma gestionada integradas.
+Las plataformas gestionadas de agentes de IA manejan el aprovisionamiento, la bóveda de credenciales, los controles de coste y la observabilidad por usted. Autoalojado significa que despliega un framework (LangGraph, CrewAI, AutoGen) en su propia infraestructura y construye estas capas operativas usted mismo. Gestionado es más rápido a producción y requiere menos inversión en DevOps. Autoalojado da máximo control de infraestructura. OpenLegion es gestionada: inicia sesión con Google y empieza, y el motor por debajo se publica con código disponible bajo PolyForm Perimeter License 1.0.1.
 
 ### ¿Cómo se compara OpenLegion con otras plataformas de agentes de IA?
 
-OpenLegion se diferencia en arquitectura security-first. Basado en documentación pública al momento de escribir, ningún otro [framework de agentes de IA](/learn/ai-agent-frameworks) importante proporciona credenciales con proxy de bóveda integradas, aislamiento obligatorio por contenedor por agente o aplicación de presupuesto por agente nativa. Consulte nuestra [comparativa de frameworks](/learn/ai-agent-frameworks) para un desglose detallado a través de OpenClaw, LangGraph, CrewAI, AutoGen y Semantic Kernel.
+OpenLegion se diferencia en arquitectura security-first. Basado en documentación pública al momento de escribir, ningún otro [framework de agentes de IA](/learn/ai-agent-frameworks) importante proporciona credenciales guardadas en bóveda integradas, una ejecución en sandbox para cada tarea o aplicación de presupuesto por agente nativa. Consulte nuestra [comparativa de frameworks](/learn/ai-agent-frameworks) para un desglose detallado a través de OpenClaw, LangGraph, CrewAI, AutoGen y Semantic Kernel.
 
 ### ¿Qué licencia usa OpenLegion?
 
-OpenLegion tiene código disponible bajo la licencia PolyForm Perimeter License 1.0.1 y está disponible en [GitHub](https://github.com/openlegion-ai/openlegion). El proyecto también ofrece una plataforma alojada para equipos que quieren infraestructura gestionada sin autoalojarse.
+El motor de OpenLegion se publica con código disponible bajo la licencia PolyForm Perimeter License 1.0.1 en [GitHub](https://github.com/openlegion-ai/openlegion). La plataforma alojada es propietaria, y es donde los equipos ejecutan agentes sin gestionar ninguna infraestructura.
 
 ### ¿Qué tan rápido puedo desplegar mi primer agente?
 
-Tres comandos y menos de tres minutos. `git clone`, `./install.sh`, `openlegion start`. El asistente de configuración guiada configura sus claves API, selecciona una plantilla de equipo y aprovisiona su primera flota de agentes aislada automáticamente.
+Minutos, sin nada que instalar. Inicie sesión con Google, dígale al asistente lo que quiere hacer y él creará los agentes que necesita. Gratis son 0$ con 1.000 créditos de una vez y sin tarjeta, así que nada se interpone entre iniciar sesión y su primera tarea.
 
 ---
 

@@ -24,7 +24,7 @@ related:
 
 # Pydantic AI 替代方案：从类型安全库到生产平台
 
-PydanticAI 是一个拥有 17,362 个 GitHub Star 的 Python Agent 框架，围绕 Pydantic v2 验证构建。它提供出色的类型安全结构化输出和 Agent 上下文的依赖注入，但未内置凭证 Vault、Agent 间进程隔离或运行时预算执行，将生产安全责任完全交给开发者。OpenLegion 是一个安全优先的 AI Agent 平台，提供强制性 Docker 容器隔离、Vault Proxy 凭证管理（Agent 永远无法看到 API 密钥）和每个 Agent 的硬截止预算执行。
+PydanticAI 是一个拥有 17,362 个 GitHub Star 的 Python Agent 框架，围绕 Pydantic v2 验证构建。它提供出色的类型安全结构化输出和 Agent 上下文的依赖注入，但未内置凭证 Vault、Agent 间进程隔离或运行时预算执行，将生产安全责任完全交给开发者。OpenLegion 是一个托管的、安全优先的 AI Agent 平台，每个任务都在沙箱中运行，凭证由密钥库托管（模型永远看不到它们），并为每个 Agent 提供带硬截止的积分预算。
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -41,17 +41,17 @@ PydanticAI 出色地解决了一个问题：从 LLM 获取结构化、经过验�
 
 | 维度 | OpenLegion | PydanticAI |
 |---|---|---|
-| **类型** | 执行平台 (BSL 1.1) | Agent 库 (MIT) |
-| **凭证模型** | Vault Proxy — Agent 永远看不到原始密钥 | 通过 RunContext 注入 — 密钥在进程内存中 |
-| **Agent 隔离** | 每个 Agent 独立 Docker，Non-root，no-new-privileges | 共享 Python 进程；无容器隔离 |
-| **预算控制** | 每个 Agent 严格的日/月限额 | 无 — 仅事后 result.usage() 报告 |
-| **多 Agent 协调** | Fleet 模型 — blackboard + pub/sub + handoff | 工具式 Agent 委派；共享内存 |
+| **类型** | 托管执行平台（引擎 PolyForm Perimeter 1.0.1） | Agent 库 (MIT) |
+| **凭证模型** | 密钥库托管 — 模型自始至终只持有一个句柄 | 通过 RunContext 注入 — 密钥在进程内存中 |
+| **Agent 隔离** | 每个任务一次沙箱化运行，默认无网络 | 共享 Python 进程；无容器隔离 |
+| **预算控制** | 每个 Agent 一份带硬截止的积分预算 | 无 — 仅事后 result.usage() 报告 |
+| **多 Agent 协调** | 目标与任务 — 目标 → 任务 → 智能体 | 工具式 Agent 委派；共享内存 |
 | **结构化输出** | 工具调用 Schema 验证 | Pydantic v2 类型化响应模型（核心差异化） |
 | **离线 Eval** | 未内置 | pydantic_evals（实验性） |
-| **图/工作流** | Fleet 模型协调 | pydantic_graph（v2 重写进行中，PR #5465） |
-| **已知 CVE** | 0 | 0 |
-| **GitHub Star** | ~59 | ~17,362 |
-| **许可证** | BSL 1.1 | MIT |
+| **图/工作流** | 目标与任务协调 | pydantic_graph（v2 重写进行中，PR #5465） |
+| **已知 CVE** | 无已公布 | 0 |
+| **GitHub Star** | 引擎源码可用 | ~17,362 |
+| **许可证** | 引擎 PolyForm Perimeter 1.0.1；平台专有 | MIT |
 
 ## OpenLegion 的观点
 
@@ -65,19 +65,19 @@ PydanticAI 在其所做的事情上确实出色。应用于 LLM 输出的 Pydant
 
 **PydanticAI** 使用依赖注入。定义一个以 API 密钥为字段的数据类，并在运行时通过 RunContext[MyDeps] 传递给 Agent。API 密钥作为进程堆上的 Python 对象属性存在，可被同一进程中的任何代码访问。
 
-**OpenLegion** 使用 Vault Proxy。API 密钥存储在 Mesh Host 凭证 Vault 中，永远不在 Agent 容器中。当 Agent 进行经过身份验证的 API 调用时，请求通过 Vault Proxy 路由，在网络层注入凭证。
+**OpenLegion** 使用凭证密钥库。API 密钥存储在密钥库中，永远不会进入模型的上下文。当 Agent 进行经过身份验证的 API 调用时，策略引擎在模型之外注入凭证，模型自始至终只持有一个句柄。
 
 ### Agent 隔离
 
 **PydanticAI** 在同一 Python 进程中运行所有 Agent。工具式 Agent 调用意味着 Agent A 在同一运行时中作为函数调用调用 Agent B。它们共享堆、环境和解释器。
 
-**OpenLegion** 在各自独立的 Docker 容器中运行每个 Agent（UID 1000，no-new-privileges，只读根文件系统，无 Docker Socket）。
+**OpenLegion** 让每个任务按需运行然后停止，Agent 编写的代码默认运行在无网络访问的沙箱中。Agent 之间通过共享的目标与任务记录沟通，而不是直接的进程调用。
 
 ### 预算控制
 
 **PydanticAI** 提供 result.usage()，在运行完成后返回 Token 和请求计数。事后报告，无自动停止超出成本阈值 Agent 的机制。
 
-**OpenLegion** 在编排器级别执行每个 Agent 的日/月预算限额，自动硬截止。
+**OpenLegion** 为每个 Agent 分配自己的积分预算，按每积分 $0.001 计量，并自动硬截止。
 
 ## PydanticAI 擅长的方面
 
@@ -109,7 +109,7 @@ PydanticAI 工具式 Agent 作为同一 Python 解释器中的函数调用运行
 
 ## 作为 Pydantic AI 替代方案的 OpenLegion
 
-OpenLegion 提供 PydanticAI 开发者从零开始组装的执行层。Vault Proxy 凭证管理替代 RunContext 凭证注入。每个 Agent 的 Docker 替代共享进程执行。带硬截止的每个 Agent 预算执行替代事后 result.usage() 报告。
+OpenLegion 提供 PydanticAI 开发者从零开始组装的执行层。密钥库托管的凭证（在模型之外注入，从不进入其上下文）替代 RunContext 凭证注入。每个任务一次沙箱化运行替代共享进程执行。带硬截止的每个 Agent 积分预算替代事后 result.usage() 报告。
 
 诚实的权衡：您失去了 Pydantic v2 类型化响应模型和 pydantic_evals。对于依赖它们的团队来说，这是真实的损失。
 
@@ -137,11 +137,11 @@ OpenLegion 提供 PydanticAI 开发者从零开始组装的执行层。Vault Pro
 
 ### 2026 年最佳的 PydanticAI 替代方案是什么？
 
-对于需要具备凭证隔离、容器级 Agent 分离和严格预算限制的完整执行平台的团队，OpenLegion 正是为此而构建的。对于主要构建类型化 LLM 输出管道并具有强大离线 Eval 的团队，PydanticAI 仍然是该特定工作的最佳 Python 库。
+对于需要具备凭证隔离、沙箱化任务执行和严格预算限制的完整执行平台的团队，OpenLegion 正是为此而构建的。对于主要构建类型化 LLM 输出管道并具有强大离线 Eval 的团队，PydanticAI 仍然是该特定工作的最佳 Python 库。
 
 ### PydanticAI 有凭证 Vault 吗？
 
-没有。PydanticAI 通过 RunContext 使用依赖注入。API 密钥作为 deps 对象的属性存在于进程内存中，可被同一进程中的任何代码访问。OpenLegion 的 Vault Proxy 在网络层注入凭证，使 Agent 代码以任何形式都不持有原始密钥值。
+没有。PydanticAI 通过 RunContext 使用依赖注入。API 密钥作为 deps 对象的属性存在于进程内存中，可被同一进程中的任何代码访问。OpenLegion 的凭证密钥库在模型之外注入凭证，使 Agent 以任何形式都不持有原始密钥值。
 
 ### PydanticAI 在 2026 年是否可用于生产？
 
@@ -157,7 +157,7 @@ pydantic_evals 是 PydanticAI 的离线评估工具。它不是生产监控工�
 
 ### PydanticAI 能执行每个 Agent 的预算限额吗？
 
-不能。PydanticAI 没有内置机制来限制 Agent 的 API 支出或停止超出成本阈值的 Agent。使用量追踪可通过 result.usage() 获得，这是事后报告，而非预防性执行。OpenLegion 在平台级别自动截止的情况下执行每个 Agent 的严格日/月预算上限。
+不能。PydanticAI 没有内置机制来限制 Agent 的 API 支出或停止超出成本阈值的 Agent。使用量追踪可通过 result.usage() 获得，这是事后报告，而非预防性执行。OpenLegion 在平台级别为每个 Agent 强制执行带自动截止的积分预算上限。
 
 ### pydantic_graph v2 重写对 PydanticAI 用户意味着什么？
 

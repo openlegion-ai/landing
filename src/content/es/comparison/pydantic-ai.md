@@ -24,7 +24,7 @@ related:
 
 # Alternativa a Pydantic AI: De la biblioteca con tipos seguros a la plataforma de producción
 
-PydanticAI es un framework de agentes Python con 17.362 estrellas en GitHub construido alrededor de la validación Pydantic v2. Entrega excelentes salidas estructuradas con tipos seguros e inyección de dependencias para el contexto del agente, pero se entrega sin vault de credenciales, sin aislamiento de procesos entre agentes y sin aplicación de presupuesto en tiempo de ejecución, dejando la seguridad en producción completamente en manos del desarrollador. OpenLegion es una plataforma de agentes IA con seguridad primero, con aislamiento obligatorio en contenedor Docker, gestión de credenciales mediante vault proxy (los agentes nunca ven las claves API) y aplicación de presupuesto por agente con límites estrictos.
+PydanticAI es un framework de agentes Python con 17.362 estrellas en GitHub construido alrededor de la validación Pydantic v2. Entrega excelentes salidas estructuradas con tipos seguros e inyección de dependencias para el contexto del agente, pero se entrega sin vault de credenciales, sin aislamiento de procesos entre agentes y sin aplicación de presupuesto en tiempo de ejecución, dejando la seguridad en producción completamente en manos del desarrollador. OpenLegion es una plataforma de agentes IA alojada y con seguridad primero, con una ejecución en sandbox para cada tarea, credenciales guardadas en una bóveda que el modelo nunca ve y presupuestos de créditos por agente con límites estrictos.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -41,17 +41,17 @@ Las búsquedas de alternativas a PydanticAI se agrupan alrededor de tres problem
 
 | Dimensión | OpenLegion | PydanticAI |
 |---|---|---|
-| **Tipo** | Plataforma de ejecución (BSL 1.1) | Biblioteca de agentes (MIT) |
-| **Modelo de credenciales** | Vault proxy — agentes nunca ven claves brutas | Inyección vía RunContext — claves en memoria del proceso |
-| **Aislamiento de agentes** | Docker por agente, non-root, no-new-privileges | Proceso Python compartido; sin aislamiento de contenedor |
-| **Controles de presupuesto** | Límite diario/mensual estricto por agente | Ninguno — solo reporting post-hoc result.usage() |
-| **Coordinación multi-agente** | Modelo fleet — blackboard + pub/sub + handoff | Delegación agente-como-herramienta; memoria compartida |
+| **Tipo** | Plataforma de ejecución alojada (motor PolyForm Perimeter 1.0.1) | Biblioteca de agentes (MIT) |
+| **Modelo de credenciales** | Guardadas en bóveda — el modelo solo retiene un identificador | Inyección vía RunContext — claves en memoria del proceso |
+| **Aislamiento de agentes** | Una ejecución en sandbox para cada tarea, sin red por defecto | Proceso Python compartido; sin aislamiento de contenedor |
+| **Controles de presupuesto** | Presupuesto de créditos por agente con corte estricto | Ninguno — solo reporting post-hoc result.usage() |
+| **Coordinación multi-agente** | Objetivos y tareas — objetivos → tareas → agentes | Delegación agente-como-herramienta; memoria compartida |
 | **Salidas estructuradas** | Validación de esquema de tool call | Modelos de respuesta tipados Pydantic v2 (diferenciador clave) |
 | **Evals offline** | No integrado | pydantic_evals (experimental) |
-| **Grafo/workflow** | Coordinación modelo fleet | pydantic_graph (reescritura v2 en curso, PR #5465) |
-| **CVEs conocidos** | 0 | 0 |
-| **Estrellas GitHub** | ~59 | ~17.362 |
-| **Licencia** | BSL 1.1 | MIT |
+| **Grafo/workflow** | Coordinación por objetivos y tareas | pydantic_graph (reescritura v2 en curso, PR #5465) |
+| **CVEs conocidos** | Ninguno publicado | 0 |
+| **Estrellas GitHub** | Motor con código disponible | ~17.362 |
+| **Licencia** | Motor PolyForm Perimeter 1.0.1; plataforma propietaria | MIT |
 
 ## La perspectiva de OpenLegion
 
@@ -65,19 +65,19 @@ La brecha de producción es arquitectónica, no un bug. Las claves API pasadas c
 
 **PydanticAI** usa inyección de dependencias. Se define una dataclass con claves API como campos y se pasa al agente vía RunContext[MyDeps]. La clave API vive como atributo de objeto Python en el heap del proceso, accesible a cualquier código en el mismo proceso.
 
-**OpenLegion** usa un vault proxy. Las claves API se almacenan en el Vault de Credenciales del Mesh Host, nunca en el contenedor del agente. Cuando un agente hace una llamada API autenticada, la solicitud se enruta por el vault proxy que inyecta la credencial en la capa de red.
+**OpenLegion** usa una bóveda de credenciales. Las claves API se almacenan en la bóveda, nunca en el contexto del agente. Cuando un agente hace una llamada API autenticada, el motor de políticas inyecta la credencial fuera del modelo, que solo llega a retener un identificador.
 
 ### Aislamiento de agentes
 
 **PydanticAI** ejecuta todos los agentes en el mismo proceso Python. Una llamada agente-como-herramienta significa que el Agente A invoca al Agente B como una llamada de función en el mismo runtime. Comparten el heap, el entorno y el intérprete.
 
-**OpenLegion** ejecuta cada agente en su propio contenedor Docker con ejecución non-root (UID 1000), no-new-privileges, sistema de archivos raíz de solo lectura y sin Docker socket.
+**OpenLegion** ejecuta cada tarea bajo demanda y luego la detiene, y el código que el agente escribe corre en un sandbox sin acceso a red por defecto.
 
 ### Controles de presupuesto
 
 **PydanticAI** proporciona result.usage() que devuelve conteos de tokens y solicitudes después de completar un run. Reporting post-hoc sin mecanismo para detener automáticamente un agente que excede un umbral de costo.
 
-**OpenLegion** aplica límites de presupuesto diarios y mensuales por agente con corte automático estricto a nivel de orquestador.
+**OpenLegion** da a cada agente su propio presupuesto de créditos, medido a $0.001 el crédito, con corte automático estricto a nivel de plataforma.
 
 ## Lo que PydanticAI hace bien
 
@@ -113,7 +113,7 @@ No hay mecanismo en tiempo de ejecución para detener un agente que excede un um
 
 ## OpenLegion como alternativa a Pydantic AI
 
-OpenLegion proporciona la capa de ejecución que los desarrolladores de PydanticAI ensamblan desde cero. La gestión de credenciales mediante vault proxy reemplaza la inyección RunContext. Docker por agente reemplaza la ejecución en proceso compartido. La aplicación estricta del presupuesto reemplaza el reporting post-hoc result.usage().
+OpenLegion proporciona la capa de ejecución que los desarrolladores de PydanticAI ensamblan desde cero. Las credenciales guardadas en bóveda reemplazan la inyección RunContext. Una ejecución en sandbox por tarea reemplaza la ejecución en proceso compartido. Los presupuestos de créditos por agente reemplazan el reporting post-hoc result.usage().
 
 Compensación honesta: se pierde los modelos de respuesta tipados Pydantic v2 y pydantic_evals. Son pérdidas reales para los equipos que dependen de ellos.
 
@@ -141,11 +141,11 @@ Para el panorama completo de tradeoffs de frameworks de agentes, ver [comparativ
 
 ### ¿Cuál es la mejor alternativa a PydanticAI en 2026?
 
-Para equipos que necesitan una plataforma de ejecución completa con aislamiento de credenciales, separación de agentes a nivel de contenedor y límites de presupuesto estrictos, OpenLegion está diseñado para eso. Para equipos que construyen principalmente pipelines de salida LLM tipados con evals offline sólidos, PydanticAI sigue siendo la mejor biblioteca Python para esa tarea específica.
+Para equipos que necesitan una plataforma de ejecución completa con aislamiento de credenciales, ejecución de tareas en sandbox y límites de presupuesto estrictos, OpenLegion está diseñado para eso. Para equipos que construyen principalmente pipelines de salida LLM tipados con evals offline sólidos, PydanticAI sigue siendo la mejor biblioteca Python para esa tarea específica.
 
 ### ¿Tiene PydanticAI un vault de credenciales?
 
-No. PydanticAI usa inyección de dependencias vía RunContext. Las claves API viven en la memoria del proceso Python como atributos del objeto deps, accesibles a cualquier código en el mismo proceso. El vault proxy de OpenLegion inyecta credenciales en la capa de red para que el código del agente nunca tenga el valor bruto de la clave en ninguna forma.
+No. PydanticAI usa inyección de dependencias vía RunContext. Las claves API viven en la memoria del proceso Python como atributos del objeto deps, accesibles a cualquier código en el mismo proceso. La bóveda de OpenLegion inyecta las credenciales fuera del modelo para que el agente nunca tenga el valor bruto de la clave en ninguna forma.
 
 ### ¿Está PydanticAI listo para producción en 2026?
 
@@ -153,7 +153,7 @@ PydanticAI está mantenido activamente y ampliamente usado en producción para p
 
 ### ¿Cómo maneja PydanticAI la coordinación multi-agente?
 
-PydanticAI soporta delegación de agentes — un agente puede llamar a otro como herramienta. Todos los agentes se ejecutan en el mismo proceso Python con memoria compartida; no hay bus de mensajes, blackboard ni primitiva pub/sub integrada. Para una flota de 10+ agentes con ciclos de vida independientes, PydanticAI requiere arquitectura personalizada sustancial.
+PydanticAI soporta delegación de agentes — un agente puede llamar a otro como herramienta. Todos los agentes se ejecutan en el mismo proceso Python con memoria compartida; no hay bus de mensajes, blackboard ni primitiva pub/sub integrada. Para una flota de 10+ agentes con ciclos de vida independientes, PydanticAI requiere arquitectura personalizada sustancial. OpenLegion ofrece coordinación por objetivos y tareas como primitiva de primer nivel, con una ejecución en sandbox para cada tarea.
 
 ### ¿Qué es pydantic_evals y cómo se compara con el monitoreo de producción?
 
@@ -161,7 +161,7 @@ pydantic_evals es el arnés de evaluación offline de PydanticAI. No es una herr
 
 ### ¿Puede PydanticAI aplicar límites de presupuesto por agente?
 
-No. PydanticAI no tiene mecanismo integrado para limitar el gasto API de un agente. El seguimiento de uso está disponible mediante result.usage() — reporting post-hoc, no aplicación preventiva. OpenLegion aplica límites de presupuesto diarios y mensuales estrictos por agente con corte automático a nivel de plataforma.
+No. PydanticAI no tiene mecanismo integrado para limitar el gasto API de un agente. El seguimiento de uso está disponible mediante result.usage() — reporting post-hoc, no aplicación preventiva. OpenLegion aplica un presupuesto de créditos estricto por agente con corte automático a nivel de plataforma.
 
 ### ¿Qué significa la reescritura v2 de pydantic_graph para los usuarios de PydanticAI?
 

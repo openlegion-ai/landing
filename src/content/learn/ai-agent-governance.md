@@ -42,7 +42,7 @@ A governed agent system satisfies four properties that cannot be delegated to th
 
 Every action an agent takes must be traceable to a specific agent identity at a specific time. This means a unique `agent_id` at the instance level (not the role level), a millisecond-precision UTC timestamp, and an immutable log entry that cannot be retroactively modified. SOC 2 Trust Service Criterion CC7.2 requires monitoring and logging of system activity — for agent systems, that means tool calls, blackboard writes, and agent-to-agent messages are all within scope.
 
-Attributability breaks down when multiple agents share an identity (common in naive fleet deployments) or when logs can be overwritten. OpenLegion auto-generates a unique `agent_id` per fleet agent instance and appends every tool call to an append-only audit trail. Shared agent identities are structurally prevented at the mesh layer.
+Attributability breaks down when multiple agents share an identity (common in naive fleet deployments) or when logs can be overwritten. OpenLegion auto-generates a unique `agent_id` for every agent record and appends every tool call to an append-only audit trail. Shared agent identities are structurally prevented by the policy engine.
 
 ### Property 2: Permission Boundaries — Structurally Enforced, Not Self-Policed
 
@@ -50,13 +50,13 @@ An agent's permission boundary defines which tools it can call, which blackboard
 
 Self-policed boundaries fail for two reasons. First, a sufficiently crafted prompt injection overrides any instruction-based restriction. Second, a hallucinating model may interpret its own permission instructions incorrectly. OWASP LLM06 (Excessive Agency, LLM Top 10 2025) identifies the governance fix as a formal least-privilege access review checklist: enumerate every tool and permission the agent holds, document the task requirement that justifies each, remove any permission without documented justification, and record the outcome with reviewer identity and date.
 
-In OpenLegion, permission boundaries are encoded as ACL configuration in Zone 2 — the credential and access control tier. Agent containers in Zone 1 cannot escalate their own permissions. The role definition document (name, task scope, tool allowlist, blackboard namespace ACL, communication ACL, external network allowlist) is the governance artifact that auditors review.
+In OpenLegion, permission boundaries are ACL configuration the policy engine reads — the single tier that checks credentials and access before any action. An agent's run cannot escalate its own permissions. The role definition document (name, task scope, tool allowlist, blackboard namespace ACL, communication ACL, external network allowlist) is the governance artifact that auditors review.
 
 ### Property 3: Cost Boundaries — Budget Enforcement at Infrastructure
 
 Unbounded token consumption is a governance failure mode, not just a technical one. OWASP LLM10 (Unbounded Consumption) is the compliance-relevant framing: an agent that can spend without limit exposes the organization to unbudgeted cost that cannot be attributed to a cost center, reviewed in an audit, or explained to a finance committee.
 
-Budget governance requires enforcement at the infrastructure layer, not the application layer. OpenLegion's Zone 2 Cost Tracker enforces $50/day and $200/month per agent by default. The limits are not bypassable by agent code — the LLM proxy blocks calls once the cap is reached. At 80% of the daily budget, an alert fires to the designated operator. This threshold alert is the chargeback mechanism: the cost center owning the agent receives a notification before the cap is hit, enabling budget reallocation without service disruption.
+Budget governance requires enforcement at the infrastructure layer, not the application layer. In OpenLegion every agent carries its own budget, metered in credits at $0.001 each and set by the owner in the app. The limits are not bypassable by agent code — the policy engine blocks calls once the budget is reached. At 80% of the budget, an alert fires to the designated operator. This threshold alert is the chargeback mechanism: the cost center owning the agent receives a notification before the cap is hit, enabling budget reallocation without service disruption.
 
 For multi-team deployments, showback reports (read-only cost visibility per agent role per team) and chargeback reports (cost allocated to cost centers) are the finance governance deliverables. Without per-agent cost attribution, audit committees cannot verify that agent spend was authorized and within approved budgets.
 
@@ -64,7 +64,7 @@ For multi-team deployments, showback reports (read-only cost visibility per agen
 
 Every governed agent system requires a documented kill switch: a procedure, tested at least monthly, that halts any running agent within 60 seconds. EU AI Act Article 14 requires human oversight mechanisms including the ability to intervene and stop AI systems. A kill switch that exists in documentation but has never been tested does not satisfy this requirement.
 
-In OpenLegion, the steer mechanism sends an immediate halt signal to any fleet agent by agent ID. The halt is logged to the immutable audit trail with the identity of the operator who issued it, the timestamp, and the agent's last recorded state. For Kubernetes deployments outside OpenLegion, the equivalent is a documented `kubectl delete pod` procedure with RBAC restricting who can issue it and a webhook that logs the deletion event to your audit system.
+In OpenLegion, an owner can halt any agent by agent ID from the app, and its running task stops at once. The halt is logged to the immutable audit trail with the identity of the operator who issued it, the timestamp, and the agent's last recorded state. For Kubernetes deployments outside OpenLegion, the equivalent is a documented `kubectl delete pod` procedure with RBAC restricting who can issue it and a webhook that logs the deletion event to your audit system.
 
 ## Regulatory Framework: EU AI Act, NIST AI RMF, and SOC 2
 
@@ -86,7 +86,7 @@ Relevant NIST AI RMF subcategories for agent governance: GOVERN 1.1 (policies an
 
 SOC 2 Type II audits are the standard enterprise procurement requirement for SaaS products handling customer data. Two Trust Service Criteria directly govern agent systems:
 
-**CC6.1 (Logical and Physical Access Controls)**: requires that access to systems is restricted to authorized users and that access is reviewed periodically. For agent systems, CC6.1 maps to: vault proxy enforcement of per-agent credential scope (agents can only access the credentials their role is authorized to use), quarterly access certification reviews of agent role permissions, and documented provisioning/deprovisioning procedures for agent roles.
+**CC6.1 (Logical and Physical Access Controls)**: requires that access to systems is restricted to authorized users and that access is reviewed periodically. For agent systems, CC6.1 maps to: vault enforcement of per-agent credential scope (agents can only access the credentials their role is authorized to use), quarterly access certification reviews of agent role permissions, and documented provisioning/deprovisioning procedures for agent roles.
 
 **CC7.2 (System Monitoring)**: requires that the organization monitors system components for anomalies and deviations from expected performance. For agent systems, CC7.2 maps to: immutable logs of all agent actions with anomaly detection rules (unusual tool call volume, unexpected external endpoint access, off-hours activity), and evidence that alerts are reviewed and acted on. The [AI agent observability guide](/learn/ai-agent-observability) covers the monitoring implementation that generates CC7.2 evidence.
 
@@ -114,9 +114,9 @@ An agent role is the governance unit of RBAC for agent systems. Each role define
 - **Blackboard namespace ACL**: which keys the agent can read and which it can write
 - **Agent communication ACL**: which other agent roles this agent can send messages to or receive messages from
 - **External network allowlist**: which domains or IP ranges the agent container can reach
-- **Credential scope**: which `$CRED{}` handles the vault proxy will resolve for this role
+- **Credential scope**: which credential handles the vault will resolve for this role
 
-The role definition document is the primary governance artifact — it is what an auditor reviews to assess whether least-privilege is implemented. It is also the evidence that EU AI Act Article 9 risk controls are documented and the SOC 2 CC6.1 access control record. In OpenLegion, this document maps directly to Zone 2 ACL configuration — the documentation and the technical enforcement are the same artifact.
+The role definition document is the primary governance artifact — it is what an auditor reviews to assess whether least-privilege is implemented. It is also the evidence that EU AI Act Article 9 risk controls are documented and the SOC 2 CC6.1 access control record. In OpenLegion, this document maps directly to the ACL configuration the policy engine enforces — the documentation and the technical enforcement are the same artifact.
 
 Role proliferation is a governance risk. Ten narrowly scoped roles are easier to certify than one broadly scoped role, but thirty roles create certification overhead that causes access reviews to be skipped. Design roles around task categories, not individual agents. A `research-reader` role that covers all read-only research agents is easier to govern than thirty individually named research agents with near-identical permissions.
 
@@ -126,7 +126,7 @@ Access certification is the formal process of reviewing every agent role's permi
 
 The quarterly access certification process for agent systems:
 
-1. **Generate the permissions report**: a complete listing of every agent role and its current permissions, pulled directly from the enforcement system (Zone 2 ACL config in OpenLegion, OPA policy store, or equivalent). Reports generated from documentation rather than the enforcement system may not reflect actual permissions.
+1. **Generate the permissions report**: a complete listing of every agent role and its current permissions, pulled directly from the enforcement system (the policy engine's ACL config in OpenLegion, OPA policy store, or equivalent). Reports generated from documentation rather than the enforcement system may not reflect actual permissions.
 
 2. **Assign an independent reviewer**: the reviewer should not be the agent owner. This separation of duties is a SOC 2 requirement and prevents owners from certifying their own excess permissions.
 
@@ -251,13 +251,13 @@ Enterprise adoption of AI agents in 2026 is running ahead of governance program 
 
 The technical controls — RBAC, immutable logs, budget caps, kill switches — are implementable in weeks. The governance program — committee structure, quarterly access certification, acceptable use policy, incident response plan — takes longer because it requires organizational decisions about accountability, not just technical configuration. The bottleneck is not tooling; it is the organizational will to assign named owners and run quarterly reviews.
 
-OpenLegion's mesh encodes governance controls structurally: Zone 2 ACL enforcement means permission boundaries cannot be self-policed away, the append-only audit trail means logs cannot be modified, and the Zone 2 Cost Tracker means budget governance is not optional. The governance program — documentation, reviews, committee structure — is the organization's responsibility. The platform provides the enforcement substrate and the audit evidence. Organizations that treat governance as a compliance checkbox rather than an operational practice will find their controls failing the first time an agent acts outside its intended scope.
+OpenLegion encodes governance controls structurally: one policy engine in front of every action means permission boundaries cannot be self-policed away, the append-only audit trail means logs cannot be modified, and a per-agent credit budget means budget governance is not optional. The governance program — documentation, reviews, committee structure — is the organization's responsibility. The platform provides the enforcement substrate and the audit evidence. Organizations that treat governance as a compliance checkbox rather than an operational practice will find their controls failing the first time an agent acts outside its intended scope.
 
 For the technical security layer that defends against external threats (as distinct from governance), see the [AI agent security guide](/learn/ai-agent-security). For the observability implementation that generates CC7.2 monitoring evidence, see [AI agent observability](/learn/ai-agent-observability). For sandboxing controls that harden agent containers, see [AI agent sandboxing](/learn/ai-agent-sandboxing).
 
 ## Get Started
 
-**Governance-ready agent deployment with Zone 2 ACL enforcement, immutable audit trails, and per-agent budget caps.**
+**Governance-ready agent deployment with policy-engine ACL enforcement, immutable audit trails, and per-agent credit budgets.**
 [Start Building on OpenLegion](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [Explore AI Agent Security](/learn/ai-agent-security)
 
 ---

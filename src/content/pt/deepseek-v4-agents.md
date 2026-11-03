@@ -1,9 +1,9 @@
 ---
 title: Execute Agentes Baseados em DeepSeek com Segurança no OpenLegion (2026)
 description: >-
-  Execute agentes de IA baseados em DeepSeek com credenciais em proxy de cofre,
-  isolamento por contêiner e controles de orçamento por agente. O framework de
-  agentes de IA do OpenLegion suporta DeepSeek via LiteLLM.
+  Execute agentes de IA baseados em DeepSeek com credenciais guardadas em cofre,
+  uma execução em sandbox para cada tarefa e controles de orçamento por agente
+  no framework de agentes de IA hospedado do OpenLegion.
 slug: /deepseek-v4-agents
 primary_keyword: agentes deepseek
 secondary_keywords:
@@ -33,21 +33,21 @@ related:
 
 # Execute Agentes Baseados em DeepSeek com Segurança no OpenLegion
 
-**Agentes baseados em DeepSeek** combinam os modelos da DeepSeek com uso autônomo de ferramentas — e OpenLegion é o framework de agentes de IA que os protege. Credenciais em proxy de cofre, isolamento por contêiner Docker e controles de orçamento por agente vêm por padrão. Traga suas próprias chaves de API de LLM ou use créditos gerenciados. Sem markup sobre uso de modelo BYOK.
+**Agentes baseados em DeepSeek** combinam os modelos da DeepSeek com uso autônomo de ferramentas — e OpenLegion é o framework de agentes de IA que os protege. Credenciais guardadas em cofre, uma execução em sandbox para cada tarefa e controles de orçamento por agente vêm por padrão. Os modelos são escolhidos por preset — Smartest, Smart ou Normal — e o trabalho é medido em créditos de US$ 0,001 cada.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **O que são agentes baseados em DeepSeek?**
-> Agentes baseados em DeepSeek são agentes de IA autônomos movidos por um modelo DeepSeek (por exemplo `deepseek-chat` ou `deepseek-coder`). Quando implantados por meio de um framework de agentes de IA como o OpenLegion, eles podem executar tarefas em múltiplas etapas, chamar APIs, gerar código e processar entradas — com isolamento por contêiner e cofre de credenciais aplicados no nível da infraestrutura.
+> Agentes baseados em DeepSeek são agentes de IA autônomos movidos por um modelo DeepSeek (por exemplo `deepseek-chat` ou `deepseek-coder`). Quando implantados por meio de um framework de agentes de IA como o OpenLegion, eles podem executar tarefas em múltiplas etapas, chamar APIs, gerar código e processar entradas — com uma execução em sandbox por tarefa e credenciais guardadas em cofre aplicadas no nível da plataforma.
 
 ## TL;DR
 
-- **Suporte roteado via LiteLLM.** OpenLegion suporta agentes baseados em DeepSeek via LiteLLM — pela própria API da DeepSeek, OpenRouter, Together, Fireworks ou um endpoint auto-hospedado (Ollama, vLLM).
-- **Credenciais em proxy de cofre.** Sua chave de API da DeepSeek nunca entra no contêiner do agente. Os agentes chamam por um proxy que injeta a chave na camada de rede.
-- **Isolamento por contêiner.** Cada agente baseado em DeepSeek roda no seu próprio contêiner Docker, com execução non-root, sem Docker socket e limites de recurso configuráveis.
-- **Controles de orçamento por agente.** Limites diários e mensais de gasto com corte rígido automático — essenciais para cargas de agente em que a contagem de iterações é imprevisível.
-- **Compatível com pesos abertos.** Rode modelos de pesos abertos da DeepSeek localmente com Ollama ou vLLM. OpenLegion oferece as mesmas garantias de [segurança de agentes de IA](/learn/ai-agent-security) seja o modelo rodando no seu hardware ou via API.
-- **Agnóstico a modelo.** Mesmos agentes, mesmas ferramentas, mesma segurança — troque entre DeepSeek, Claude e modelos GPT no dashboard. DeepSeek pode ser uma alternativa custo-eficiente para frotas de agente sensíveis a custo.
+- **Modelos roteados por preset.** OpenLegion roda cada agente em um preset de modelo — Smartest, Smart ou Normal — escolhido por agente ou por workspace, sem conta de provedor nem endpoint para configurar.
+- **Credenciais guardadas em cofre.** Uma credencial nunca entra no contexto do modelo. Ela fica num cofre e é injetada fora do modelo, que só guarda um handle.
+- **Execuções em sandbox.** Cada tarefa roda sob demanda e depois para, e qualquer código que o agente escreve roda em um sandbox sem acesso à rede por padrão.
+- **Controles de orçamento por agente.** Cada agente carrega seu próprio orçamento de créditos, com corte rígido automático — essencial para cargas de agente em que a contagem de iterações é imprevisível.
+- **Segurança independente do modelo.** Qualquer que seja o modelo por trás de um preset, o OpenLegion oferece as mesmas garantias de [segurança de agentes de IA](/learn/ai-agent-security): credenciais em cofre, execuções em sandbox e um recibo para cada ação.
+- **Agnóstico a modelo.** Mesmos agentes, mesmas ferramentas, mesma segurança — mude o preset de um agente no app. Um modelo mais barato pode ser a escolha certa para times de agentes sensíveis a custo.
 
 ## Por Que Agentes Baseados em DeepSeek Precisam de um Framework Seguro
 
@@ -66,49 +66,49 @@ Sem um [runtime de agente de IA](/learn/ai-agent-platform) adequado, um agente a
 - Executar caminhos de workflow não auditados
 - Cair em vetores de injeção de prompt em contexto fornecido pelo usuário
 
-OpenLegion — um framework de agentes de IA de código-fonte disponível — resolve isso com três garantias de arquitetura:
+OpenLegion — uma plataforma de agentes de IA hospedada — resolve isso com três garantias de arquitetura:
 
-**Credenciais em proxy de cofre.** Sua chave de API da DeepSeek nunca entra no contêiner do agente. Os agentes fazem chamadas por um proxy que injeta sua chave na camada de rede. Mesmo que um modelo seja induzido a procurar credenciais, não há nada para achar dentro do contêiner.
+**Credenciais guardadas em cofre.** Suas credenciais nunca entram no contexto do modelo. Elas ficam num cofre e são injetadas fora do modelo, que só guarda um handle. Mesmo que um modelo seja induzido a procurar credenciais, não há nada para achar dentro da execução.
 
-**Isolamento por contêiner Docker.** Cada agente roda no seu próprio contêiner com execução non-root (UID 1000), sem Docker socket, `cap_drop=ALL`, no-new-privileges e limites de recurso configuráveis. Um agente comprometido não pode afetar outros agentes, o sistema host ou seu armazenamento de credenciais.
+**Execuções de tarefa em sandbox.** Cada tarefa roda sob demanda e depois para, e qualquer código que o agente escreve roda em um sandbox sem acesso à rede por padrão. Um agente comprometido não pode afetar outros agentes, a plataforma ou seu cofre de credenciais.
 
-**Imposição de orçamento por agente.** OpenLegion impõe limites diários e mensais de gasto por agente com corte rígido automático. Nenhum agente consegue queimar seu orçamento da DeepSeek durante a noite.
+**Imposição de orçamento por agente.** Cada agente carrega seu próprio orçamento de créditos, imposto com corte rígido automático. Nenhum agente consegue queimar seus créditos durante a noite.
 
 ## Notas de Configuração de Modelos DeepSeek
 
 A DeepSeek publica modelos como `deepseek-chat` e `deepseek-coder`, além de releases periódicos focados em raciocínio. A lista exata e o preço mudam com o tempo; consulte a [documentação da DeepSeek](https://api-docs.deepseek.com/) para a lista atual. Considerações práticas-chave para cargas de agente:
 
-- **Roteamento.** OpenLegion roteia via LiteLLM. Quaisquer IDs de modelo DeepSeek que o LiteLLM já entrega estão disponíveis; você também pode rotear para DeepSeek por agregadores como OpenRouter, Together ou Fireworks.
+- **Roteamento.** OpenLegion roteia por preset. Você escolhe Smartest, Smart ou Normal para um agente e a plataforma roda o modelo por trás; não há IDs de modelo nem contas de agregador para gerenciar.
 - **Janelas de contexto e preços** variam por modelo. Consulte a documentação da DeepSeek para o custo por token atual; os orçamentos por agente do OpenLegion são a rede de segurança, independente do modelo.
-- **Pesos abertos.** Algumas linhas de modelo DeepSeek liberaram pesos abertos. Você pode rodá-los localmente com Ollama ou vLLM e apontar o OpenLegion para seu endpoint local — as garantias de segurança do framework se aplicam do mesmo jeito.
+- **Pesos abertos.** Algumas linhas de modelo DeepSeek liberaram pesos abertos, então times podem rodá-los nas próprias GPUs com Ollama ou vLLM. O OpenLegion é hospedado e roda o modelo por trás do preset que você escolher — suas garantias de segurança se aplicam a cada tarefa de qualquer forma.
 
 <!-- SCHEMA: HowTo -->
 
 ## Como Rodar Agentes Baseados em DeepSeek no OpenLegion
 
-Configurar agentes baseados em DeepSeek leva cerca de 30 segundos na hospedagem gerenciada — sem arquivos de config, sem editar YAML. Setup auto-hospedado adiciona um build de imagem Docker na primeira execução.
+Configurar agentes leva cerca de 30 segundos no app hospedado — sem arquivos de config, sem editar YAML, nada para instalar. Basta entrar com o Google e o primeiro agente está pronto.
 
 ### Passo 1: Selecione seu provedor de LLM
 
-No dashboard ou REPL do OpenLegion, escolha seu provedor. A própria API da DeepSeek, OpenRouter, Together, Fireworks ou um endpoint auto-hospedado (Ollama, vLLM) — qualquer provedor compatível com LiteLLM serve. É o mesmo sistema de provedor que move toda a [coordenação de agentes](/learn/ai-agent-orchestration) no OpenLegion.
+Não há provedor para escolher: o OpenLegion roda o modelo por você. Você escolhe um preset — Smartest, Smart ou Normal — por agente ou por workspace. É o mesmo sistema de modelos que move toda a [coordenação de agentes](/learn/ai-agent-orchestration) no OpenLegion.
 
 ### Passo 2: Forneça sua chave de API
 
-Cole sua chave de API. A chave fica no processo mesh / arquivo env criptografado (com permissões de arquivo restritas) e nunca é passada para contêineres de agente. Daqui pra frente, os agentes baseados em DeepSeek chamam pelo proxy de cofre e nunca veem a chave bruta.
+Não há chave de API de modelo para colar, e nenhum cartão é necessário para começar. As credenciais que você acrescentar, para as ferramentas que um agente usa, ficam no cofre e são injetadas fora do modelo, então um agente só guarda um handle e nunca vê a chave bruta.
 
 ### Passo 3: Selecione o modelo
 
-Escolha o modelo DeepSeek que você quer na lista (por exemplo `deepseek-chat` ou `deepseek-coder`). Pronto. Seus agentes agora estão rodando com proteção de proxy de cofre, isolamento por contêiner e imposição de orçamento — a mesma stack de segurança que se aplica a todo modelo suportado pelo OpenLegion.
+Escolha o preset que você quer — Smartest, Smart ou Normal — para aquele agente ou para o workspace inteiro. Pronto. Seus agentes agora estão rodando com credenciais guardadas em cofre, uma execução em sandbox por tarefa e imposição de orçamento — a mesma stack de segurança que se aplica a todo modelo que o OpenLegion roda.
 
-É isso. O dashboard cuida da seleção de provedor, o cofre cuida da sua chave e o framework cuida do isolamento e dos orçamentos.
+É isso. O app cuida do modelo, o cofre cuida das suas credenciais e a plataforma cuida do sandbox e dos orçamentos.
 
 ### Rode DeepSeek localmente com pesos abertos
 
-Para times que querem rodar agentes baseados em DeepSeek em pesos abertos — usando suas próprias GPUs via Ollama, vLLM ou outro inference server — o fluxo é o mesmo. É só apontar o provedor para seu endpoint local. OpenLegion ainda fornece isolamento por contêiner, controles de acesso a ferramentas e coordenação de frota. Isso mantém a inferência on-premises (a chamada de LLM não sai da sua rede), o que é um forte encaixe para organizações com requisitos de soberania de dados.
+Times podem rodar pesos abertos da DeepSeek nas próprias GPUs via Ollama, vLLM ou outro inference server, e isso mantém a inferência on-premises. O OpenLegion em si é hospedado: não há opção auto-hospedada nem endpoint local para apontar, e o modelo por trás de cada preset roda na plataforma. O que o OpenLegion acrescenta é tudo em volta do modelo — execuções em sandbox, controles de acesso a ferramentas, delegação e um recibo para cada ação.
 
 ### Trocando modelos — DeepSeek como alternativa a Claude ou GPT
 
-Quer comparar DeepSeek contra Claude ou GPT na mesma tarefa? Mude a seleção do modelo no dashboard. Mesmos agentes, mesmas ferramentas, mesma segurança — modelo diferente. Veja nossa [comparação de frameworks de agentes de IA](/learn/ai-agent-frameworks) para decomposições entre provedores.
+Quer comparar um modelo mais barato contra um de fronteira na mesma tarefa? Mude o preset do agente no app. Mesmos agentes, mesmas ferramentas, mesma segurança — modelo diferente. Veja nossa [comparação de frameworks de agentes de IA](/learn/ai-agent-frameworks) para decomposições entre provedores.
 
 ## Workflows de Agentes Baseados em DeepSeek
 
@@ -121,11 +121,11 @@ Modelos modernos da família DeepSeek suportam janelas de contexto grandes, viab
 - **Geração de documentação** a partir de um contexto maior de projeto
 - **Auditoria de segurança** em bases de código
 
-Os tetos de iteração por agente do OpenLegion (padrão `MAX_ITERATIONS=20`) e a detecção de loop de ferramenta (avisa em 2 repetições, bloqueia em 4, encerra em 9) mantêm essas operações de contexto longo limitadas — e os orçamentos por agente impedem que um único prompt grande consuma todo o seu orçamento mensal.
+O OpenLegion mantém essas operações de contexto longo limitadas: cada tarefa roda sob demanda e depois para, e cada despertar é verificado pelo motor de políticas e medido — os orçamentos por agente impedem que um único prompt grande consuma todo o seu saldo mensal.
 
 ### Previsibilidade de custo com cortes rígidos
 
-Modelos DeepSeek historicamente têm preço abaixo das alternativas de fronteira ocidentais, o que os torna atrativos para cargas de agente com muitas iterações. Mas "mais barato por chamada" ainda pode virar "caro no agregado" quando os agentes iteram livremente. Os cortes rígidos diários/mensais por agente do OpenLegion evitam que picos de custo se propaguem pela frota.
+Modelos DeepSeek historicamente têm preço abaixo das alternativas de fronteira ocidentais, o que os torna atrativos para cargas de agente com muitas iterações. Mas "mais barato por chamada" ainda pode virar "caro no agregado" quando os agentes iteram livremente. Os orçamentos de créditos por agente e os cortes rígidos do OpenLegion evitam que picos de custo se propaguem pelo time.
 
 ## Considerações de Segurança para Agentes Baseados em DeepSeek
 
@@ -133,15 +133,15 @@ Modelos DeepSeek historicamente têm preço abaixo das alternativas de fronteira
 
 Os releases de pesos abertos da DeepSeek são uma forte vitória para deploy auto-hospedado e transparência de ecossistema. Eles também significam que:
 
-- **Variantes fine-tuned vão proliferar.** Nem todas estarão alinhadas ou testadas em segurança. O isolamento por contêiner e as restrições de ferramenta do OpenLegion se aplicam independente da variante que roda.
-- **Pesquisa adversarial é mais fácil em pesos abertos.** Agentes rodando modelos de pesos abertos se beneficiam de [defesa em profundidade](/learn/ai-agent-security): isolamento por contêiner, execução limitada, concessões explícitas de ferramenta — não apenas alinhamento em nível de modelo.
+- **Variantes fine-tuned vão proliferar.** Nem todas estarão alinhadas ou testadas em segurança. As execuções em sandbox e as restrições de ferramenta do OpenLegion se aplicam independente de qual modelo está por trás do preset.
+- **Pesquisa adversarial é mais fácil em pesos abertos.** Agentes rodando modelos de pesos abertos se beneficiam de [defesa em profundidade](/learn/ai-agent-security): execuções em sandbox, execução limitada, concessões explícitas de ferramenta — não apenas alinhamento em nível de modelo.
 - **Higiene de cadeia de suprimentos.** Baixar pesos abertos do Hugging Face ou outras fontes exige verificar checksums e procedência. Documente qual binário de modelo você roda.
 
 ### Contextos longos alargam a superfície de injeção de prompt
 
 Uma janela de contexto grande é uma grande superfície potencial de injeção de prompt. Um agente processando uma base de código inteira está processando cada comentário, cada string literal, cada README — qualquer um deles pode conter instruções adversariais.
 
-As defesas do OpenLegion: execução limitada (MAX_ITERATIONS=20), ACLs de permissão por agente, credenciais em proxy de cofre para que a injeção não consiga exfiltrar chaves e detecção de loop de ferramenta que encerra loops descontrolados. Eles limitam o dano mesmo quando uma injeção é bem-sucedida.
+As defesas do OpenLegion: um único motor de políticas na frente de cada ação, permissões de ferramenta por agente, credenciais guardadas em cofre para que a injeção não consiga exfiltrar chaves e uma barreira de aprovação antes de um agente agir sobre conteúdo não confiável. Eles limitam o dano mesmo quando uma injeção é bem-sucedida.
 
 ### Considerações geopolíticas
 
@@ -151,7 +151,7 @@ Para organizações sujeitas a controles de exportação, requisitos de soberani
 - **Modo auto-hospedado (pesos abertos):** Dados ficam na sua infraestrutura. Elimina totalmente a dependência da API.
 - **Modo agregador / provedor de inferência:** Dados transitam pela infraestrutura do provedor (varia por provedor).
 
-OpenLegion suporta os três modos com as mesmas garantias de [segurança de agentes de IA](/learn/ai-agent-security).
+O OpenLegion é hospedado, então a inferência roda na plataforma, com as mesmas garantias de [segurança de agentes de IA](/learn/ai-agent-security) em todos os planos.
 
 ## Agentes Baseados em DeepSeek vs Outros Modelos para Cargas de Agente
 
@@ -161,21 +161,21 @@ OpenLegion suporta os três modos com as mesmas garantias de [segurança de agen
 | **Auto-hospedável** | Sim (releases de pesos abertos) | Não | Não |
 | **Postura de preço** | Geralmente menor por token | Premium | Premium |
 | **Suporte em framework de agente** | Via LiteLLM (100+ provedores) | Nativo + LiteLLM | Nativo + LiteLLM |
-| **Suporte no OpenLegion** | Via LiteLLM | Completo | Completo |
+| **Suporte no OpenLegion** | Escolhido por preset | Escolhido por preset | Escolhido por preset |
 
-*OpenLegion suporta as três famílias com as mesmas garantias de segurança. Troque entre elas no dashboard — mesmos agentes, mesma segurança, modelo diferente. Veja nossa [comparação completa de frameworks](/comparison) para decomposições detalhadas.*
+*OpenLegion aplica as mesmas garantias de segurança a todo modelo que roda. Mude o preset de um agente no app — mesmos agentes, mesma segurança, modelo diferente. Veja nossa [comparação completa de frameworks](/comparison) para decomposições detalhadas.*
 
 ## Quem Deve Rodar Agentes Baseados em DeepSeek com OpenLegion
 
-**Times conscientes de custo rodando frotas de agente.** Preço menor por token significa que você pode rodar mais agentes, com mais frequência, no mesmo orçamento. Os controles de custo por agente do OpenLegion evitam que "mais barato por chamada" vire "mais caro no agregado".
+**Times conscientes de custo rodando muitos agentes.** Preço menor por token significa que você pode rodar mais agentes, com mais frequência, no mesmo orçamento. Os controles de custo por agente do OpenLegion evitam que "mais barato por chamada" vire "mais caro no agregado".
 
-**Times com requisitos de soberania de dados.** Deploy auto-hospedado de pesos abertos somado ao isolamento por contêiner e ao cofre de credenciais do OpenLegion mantém inferência e credenciais na sua infraestrutura.
+**Times que precisam manter credenciais longe do modelo.** O OpenLegion guarda cada credencial num cofre e a injeta fora do modelo, que só guarda um handle e nunca vê uma chave.
 
-**Times avaliando DeepSeek junto com Claude e GPT.** A arquitetura agnóstica a modelo do OpenLegion significa que você pode rodar a mesma frota de agentes contra múltiplos provedores simultaneamente — comparando qualidade, custo e latência por tarefa sem mudar nada na infraestrutura. Veja [OpenLegion vs OpenClaw](/comparison/openclaw) e [OpenLegion vs LangGraph](/comparison/langgraph) para comparações em nível de framework.
+**Times pesando qualidade de modelo contra custo.** A arquitetura agnóstica a modelo do OpenLegion significa que você pode rodar o mesmo time de agentes em presets diferentes — comparando qualidade, custo e latência por tarefa, com o custo exato de cada tarefa visível. Veja [OpenLegion vs OpenClaw](/comparison/openclaw) e [OpenLegion vs LangGraph](/comparison/langgraph) para comparações em nível de framework.
 
 ## CTA
 
-**Traga sua chave da DeepSeek — sua camada de segurança está pronta.**
+**Entre com o Google — sua camada de segurança está pronta.**
 [Começar Agora](https://app.openlegion.ai) | [Ler a Documentação](https://docs.openlegion.ai) | [Ver Todas as Comparações](/comparison)
 
 ---
@@ -186,39 +186,39 @@ OpenLegion suporta os três modos com as mesmas garantias de [segurança de agen
 
 ### O que são agentes baseados em DeepSeek?
 
-Agentes baseados em DeepSeek são agentes de IA autônomos movidos por um modelo DeepSeek (como `deepseek-chat` ou `deepseek-coder`) rodando sob um framework de agentes que fornece isolamento, credenciais, ferramentas, orçamentos e coordenação. OpenLegion é um desses frameworks — ele adiciona isolamento por contêiner, credenciais em proxy de cofre e imposição de orçamento por agente ao modelo DeepSeek que você selecionar.
+Agentes baseados em DeepSeek são agentes de IA autônomos movidos por um modelo DeepSeek (como `deepseek-chat` ou `deepseek-coder`) rodando sob um framework de agentes que fornece isolamento, credenciais, ferramentas, orçamentos e coordenação. OpenLegion é um desses frameworks — ele adiciona uma execução em sandbox por tarefa, credenciais guardadas em cofre e orçamentos de créditos por agente ao preset de modelo que você escolher.
 
 ### O OpenLegion suporta DeepSeek?
 
-Sim. OpenLegion suporta DeepSeek via o suporte a mais de 100 provedores do LiteLLM. Selecione DeepSeek (ou um agregador que roteia para DeepSeek, como OpenRouter, Together ou Fireworks) como seu provedor no dashboard ou REPL, cole sua chave de API e escolha o modelo. Funciona pela própria API da DeepSeek, pesos abertos auto-hospedados (via Ollama, vLLM ou outros inference servers) ou por qualquer provedor de inferência compatível.
+O OpenLegion roda o modelo por você, então você nunca seleciona um provedor. Em vez disso você escolhe um preset — Smartest, Smart ou Normal — por agente ou por workspace, e a plataforma roda o modelo por trás. Não há chave de API para colar, conta de agregador para configurar nem inference server para subir; o trabalho é medido em créditos de US$ 0,001 cada, com o custo exato de cada tarefa visível.
 
 ### Como rodo agentes baseados em DeepSeek com segurança?
 
-OpenLegion fornece três camadas de segurança para agentes baseados em DeepSeek: credenciais em proxy de cofre (sua chave de API nunca entra no contêiner do agente — fica no processo mesh e é injetada na camada de rede), isolamento por contêiner Docker (cada agente roda em um contêiner separado com cap_drop=ALL, sem Docker socket, non-root) e imposição de orçamento por agente (limites diários e mensais com corte rígido automático). Selecione seu provedor, forneça sua chave, escolha o modelo e a stack de segurança se aplica automaticamente.
+OpenLegion fornece três camadas de segurança para cada agente: credenciais guardadas em cofre (uma credencial nunca entra no contexto do modelo — ela fica no cofre e é injetada fora do modelo), execuções de tarefa em sandbox (cada tarefa roda sob demanda e depois para, e o código que o agente escreve não tem acesso à rede por padrão) e imposição de orçamento por agente (um orçamento de créditos próprio, com corte rígido automático). Crie o agente, escolha um preset e a stack de segurança se aplica automaticamente.
 
 ### DeepSeek é melhor que Claude ou GPT para agentes?
 
-Depende da tarefa. Modelos da família DeepSeek tipicamente têm preço abaixo de Claude e GPT e são competitivos em muitos benchmarks, mas capacidades específicas variam por modelo. Para cargas de agente, a escolha depende dos requisitos de tarefa, restrições de custo e necessidades de residência de dados. OpenLegion suporta as três famílias com garantias de segurança idênticas — você pode avaliá-las lado a lado nos mesmos workflows.
+Depende da tarefa. Modelos da família DeepSeek tipicamente têm preço abaixo de Claude e GPT e são competitivos em muitos benchmarks, mas capacidades específicas variam por modelo. Para cargas de agente, a escolha depende dos requisitos de tarefa, restrições de custo e necessidades de residência de dados. OpenLegion aplica garantias de segurança idênticas a todo modelo que roda — você pode avaliar presets lado a lado nos mesmos workflows.
 
 ### Posso auto-hospedar DeepSeek com OpenLegion?
 
-Sim — para modelos DeepSeek que têm pesos abertos. Rode o modelo localmente na sua própria infraestrutura de GPU via Ollama, vLLM ou outro inference server, e no dashboard do OpenLegion aponte o provedor para seu endpoint local. Isolamento por contêiner, controles de acesso a ferramentas, coordenação de frota e orçamentos por agente todos se aplicam — mesmo sem envolver nenhuma API externa.
+Não no lançamento. O OpenLegion é uma aplicação web hospedada: não há opção auto-hospedada nem endpoint local para apontar. Times que precisam manter a inferência na própria infraestrutura de GPU podem rodar pesos abertos lá com Ollama ou vLLM, separadamente do OpenLegion. Na plataforma você escolhe um preset, e execuções em sandbox, controles de acesso a ferramentas, delegação e orçamentos por agente todos se aplicam.
 
 ### Como o preço da DeepSeek se compara para cargas de agente?
 
-DeepSeek tipicamente tem preço abaixo dos modelos de fronteira ocidentais por token. Para cargas de agente que envolvem muitas chamadas iterativas à API, a diferença de custo composta. Os controles de orçamento por agente do OpenLegion — limites diários e mensais com corte rígido — evitam que "mais barato por chamada" vire "caro no agregado" quando os agentes iteram livremente.
+DeepSeek tipicamente tem preço abaixo dos modelos de fronteira ocidentais por token. Para cargas de agente que envolvem muitas chamadas iterativas à API, a diferença de custo composta. Os controles de orçamento por agente do OpenLegion — um orçamento de créditos por agente com corte rígido — evitam que "mais barato por chamada" vire "caro no agregado" quando os agentes iteram livremente.
 
 ### DeepSeek é uma boa alternativa ao Claude para agentes de IA?
 
-DeepSeek pode ser uma alternativa convincente para cargas de agente sensíveis a custo. OpenLegion suporta DeepSeek e Claude com garantias de segurança idênticas, então você pode avaliá-los lado a lado nos mesmos workflows e trocar no dashboard sem mudar nenhum código de agente ou infraestrutura.
+DeepSeek pode ser uma alternativa convincente para cargas de agente sensíveis a custo. O OpenLegion aplica garantias de segurança idênticas a todo modelo que roda, então você pode avaliar presets lado a lado nos mesmos workflows e trocar no app sem mudar o agente nem nenhuma infraestrutura.
 
 ### É seguro rodar agentes num modelo de IA chinês?
 
-A questão da segurança depende do seu modelo de deploy. Agentes DeepSeek auto-hospedados com pesos abertos significam que nenhum dado sai da sua infraestrutura. O modo API roteia dados pelos servidores hospedados da DeepSeek. OpenLegion suporta os dois com as mesmas garantias de segurança. Para organizações com requisitos de soberania de dados, deploy auto-hospedado com pesos abertos mantém a inferência na sua infraestrutura.
+A questão da segurança depende do seu modelo de deploy. Agentes DeepSeek auto-hospedados com pesos abertos significam que nenhum dado sai da sua infraestrutura. O modo API roteia dados pelos servidores hospedados da DeepSeek. O OpenLegion é hospedado e roda o modelo por trás do preset que você escolher, com as mesmas garantias de segurança em todos os planos. Para organizações com requisitos de soberania de dados, deploy auto-hospedado com pesos abertos mantém a inferência na sua infraestrutura.
 
 ### O que torna a janela de contexto longa da DeepSeek útil para agentes?
 
-Uma janela de contexto grande viabiliza workflows de agente que processam bases de código inteiras, conjuntos de documentos completos ou históricos longos de conversa em uma única passada — sem chunking ou recuperação aumentada. A execução limitada e os orçamentos por agente do OpenLegion impedem que prompts caros de contexto longo ultrapassem os limites, independente de qual modelo está em uso.
+Uma janela de contexto grande viabiliza workflows de agente que processam bases de código inteiras, conjuntos de documentos completos ou históricos longos de conversa em uma única passada — sem chunking ou recuperação aumentada. A execução limitada e os orçamentos de créditos por agente do OpenLegion impedem que prompts caros de contexto longo ultrapassem os limites, independente de qual modelo está em uso.
 
 ---
 

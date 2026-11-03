@@ -131,11 +131,11 @@ A2A est bien conçu en tant que format filaire. Le modèle de sécurité est ins
 
 L'approche d'OpenLegion applique ce que le profil de base d'A2A laisse optionnel :
 
-1. **Chaque appel inter-agents passe par le coffre de credentials.** Il n'y a pas de mode de délégation anonyme.
+1. **Chaque appel inter-agents est une intention vérifiée par le moteur de politiques.** Il n'y a pas de mode de délégation anonyme.
 
-2. **Assainissement du payload à 56 points d'étranglement réseau.** Le contenu contrôlé par l'utilisateur est assaini pour les attaques unicode avant d'atteindre le contexte LLM.
+2. **Assainissement du payload avant que le contenu n'atteigne le modèle.** Le contenu contrôlé par l'utilisateur est assaini pour les attaques unicode avant d'atteindre le contexte LLM.
 
-3. **Contrats de handoff typés validés par l'orchestrateur.** Les payloads d'injection relais sont bloqués à la frontière.
+3. **Contrats de tâche typés validés avant la distribution.** Les payloads d'injection relais sont bloqués à la frontière.
 
 4. **Les manifestes de capacités des agents nécessitent une authentification.** La surface des compétences n'est pas exposée aux appelants anonymes.
 
@@ -204,7 +204,7 @@ A2A a été lancé en avril 2025 avec plus de 50 organisations contributrices, d
 
 ### Comment OpenLegion implémente-t-il la communication agent à agent ?
 
-L'architecture mesh d'OpenLegion applique une authentification obligatoire à chaque appel. Chaque handoff agent à agent passe par le coffre de credentials. Le contenu des payloads est assaini à 56 points d'étranglement réseau. Les contrats de handoff typés sont validés par l'orchestrateur. Ces contrôles s'exécutent au niveau de l'infrastructure, hors du code de l'agent.
+OpenLegion applique une authentification obligatoire à chaque appel. Chaque délégation est une intention vérifiée par un moteur de politiques unique, qui en enregistre le résultat comme un reçu lisible par le propriétaire. Le contenu des payloads est assaini pour les attaques unicode avant d'atteindre le modèle. Les contrats de tâche typés sont validés avant la distribution. Ces contrôles s'exécutent dans la plateforme, hors du code de l'agent.
 
 ## Construire des systèmes multi-agents avec authentification à chaque appel
 

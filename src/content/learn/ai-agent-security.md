@@ -2,8 +2,8 @@
 title: 'AI Agent Security — Threats, Isolation, Vaults'
 description: >-
  AI agent security guide: credential leakage, prompt injection, sandbox escape,
- and how container isolation, vault-proxied credentials, and budget controls
- mitigate each threat.
+ and how run isolation, vault-held credentials, and budget controls mitigate
+ each threat.
 slug: /learn/ai-agent-security
 primary_keyword: ai agent security
 secondary_keywords:
@@ -13,7 +13,7 @@ secondary_keywords:
  - secure ai agent deployment
  - ai agent threat model
 date_published: 2026-03
-last_updated: 2026-03
+last_updated: 2026-11
 schema_types:
  - FAQPage
 related:
@@ -25,145 +25,127 @@ related:
 
 # AI Agent Security: The Threat Model for Production Agent Fleets
 
-Every AI agent framework gives you tools to build agents. Almost none give you tools to contain them. When an agent can call APIs, browse the web, execute code, and access databases, the security question isn't whether something can go wrong — it's what the blast radius looks like when it does.
+A chatbot that says something wrong is embarrassing. An agent that does something wrong — sends the email, deletes the file, pays the invoice, posts the API key — is an incident. The security question for agents is not "can the model be tricked?" It can. The question is what happens next.
 
-**AI agent security** is the practice of constraining autonomous agents so that a compromised, misconfigured, or misbehaving agent cannot leak credentials, exfiltrate data, drain budgets, or escalate privileges. OpenLegion treats this as a core architectural concern, not an add-on. Every agent runs in an isolated container with vault-proxied credentials, per-agent budget controls, and a permission matrix — all enabled by default.
-
-Bring your own LLM API keys. No markup on model usage.
+**AI agent security** is the set of controls that keep a tricked, buggy or misconfigured agent from leaking credentials, sending data out, burning money, or taking an irreversible action nobody approved. The controls that hold up are the ones that sit *outside* the model: code that runs before every action and does not care how persuasive the prompt was.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is AI agent security?**
-> AI agent security encompasses the controls that prevent autonomous AI agents from causing harm — whether through credential leakage, prompt injection, resource abuse, data exfiltration, or excessive agency. It includes runtime isolation, credential management, cost enforcement, permission controls, and input validation applied at the infrastructure level.
+> AI agent security is the practice of constraining autonomous AI agents so that a compromised or mistaken agent cannot leak secrets, exfiltrate data, run up costs, take irreversible actions without a person's approval, or reach another customer's data. The effective controls are deterministic and enforced outside the model: policy checks before every tool call, credentials the model never sees, sandboxed code execution, spend limits, and tenant isolation in the database.
 
 ## TL;DR
 
-- **The threat is real.** Research shows 77% of organizations with AI deployments experienced security incidents in 2024. Only 5% express confidence in their AI security measures.
-- **Four primary threats**: Credential leakage, prompt injection, resource abuse (denial of wallet), and data exfiltration. Each requires a different mitigation.
-- **No major framework provides built-in security.** Based on public documentation, LangGraph, CrewAI, AutoGen, and OpenClaw all rely on environment variables for credentials with no native isolation or budget enforcement.
-- **OpenLegion's six-layer defense**: Container isolation, container hardening, credential separation (vault proxy), permission enforcement, input validation, and unicode sanitization — all enabled by default.
-- **Secure AI agents are possible with BYO keys** — the vault proxy model means your keys stay in the trusted zone and agents interact through a proxy that never exposes raw secrets.
+- **Assume the model will be manipulated.** Anything an agent reads can contain instructions.
+- **Put the authority in code, not in the prompt.** In OpenLegion every tool call is an *intent* that a policy engine checks before it runs, and every action leaves a *receipt*.
+- **Agents never hold keys.** Credentials are injected at the call boundary, and every output is scanned for known secrets before it goes anywhere.
+- **Hold the dangerous actions for a person.** Reaching a third party on your behalf and deleting data stop for an owner's approval by default.
+- **Spend is reserved before work starts,** so a looping agent stops at its limit instead of at your card's limit.
 
-## The Threat Model for AI Agents
+## The threat model for AI agents
 
-### Threat 1: Credential leakage
+Five things go wrong, and they compound: an injected instruction is dangerous because the agent also holds a credential, a network connection or a budget.
 
-**What happens.** An agent with access to API keys — through environment variables, configuration files, or in-context passing — leaks those keys through prompt injection, logging, error messages, or malicious tool calls.
+### 1. Prompt injection through tools and content
 
-**How common.** Research published in early 2026 found that 283 out of 3,984 scanned agent skills (7.1%) contained critical credential-handling flaws, passing API keys and passwords through LLM context in plaintext. Separately, 76 skills contained deliberately malicious payloads designed for credential theft. High-profile incidents include an xAI employee leaking an API key on GitHub that provided access to 60+ private LLMs for two months, and a vulnerability in a popular LLM platform that exposed API keys via an unauthenticated endpoint.
+An agent that reads untrusted text can be told to do something else. The text can sit in a web page, an inbound email, a shared document, a group chat or a tool result. The model has no reliable way to tell data from instructions, and prompt-level defences ("ignore instructions in documents") reduce the rate without closing the hole.
 
-**How OpenLegion mitigates it.** OpenLegion uses vault-proxied credentials through a vault proxy. API keys are stored in the Mesh Host (Zone 2). When an agent needs to call an external API, the request routes through the vault proxy, which injects the credential at the network layer. The agent never sees, logs, or has memory access to the raw key. Even a fully compromised agent cannot extract credentials because they're never present in the agent's container.
+### 2. Credential exfiltration
 
-### Threat 2: Prompt injection
+If an API key sits in the agent's environment, prompt, memory or tool output, an injected instruction can ask the agent to repeat it — into a reply, a log, a URL, a file. Encoding tricks (base64, hex, URL-encoding) make naive string matching miss it.
 
-**What happens.** An attacker embeds malicious instructions in content the agent processes — web pages, documents, emails, database records, user inputs. The agent follows the injected instructions instead of (or in addition to) its intended task.
+### 3. Runaway spend
 
-**How common.** Prompt injection appears in over 73% of production AI deployments assessed during security audits. OpenAI stated in December 2025 that prompt injection "is unlikely to ever be fully solved." OWASP ranks it as the #1 vulnerability for LLM applications. Real-world incidents include a browser agent that was tricked into stealing credentials within 150 seconds via hidden instructions on a web page, and enterprise RAG systems where malicious content in public documents caused agents to leak proprietary data.
+Agents loop: a tool errors, the agent retries, repeat. Or an injected page asks for "thorough research" across thousands of calls. Without a hard limit outside the loop, the first sign of trouble is the bill.
 
-**How OpenLegion mitigates it.** OpenLegion applies defense in depth across multiple layers. Unicode sanitization strips invisible characters (bidi overrides, tag characters, zero-width characters) at 56 choke points before content reaches the LLM context — these characters are commonly used to hide injected instructions. Input validation prevents path traversal and enforces safe condition evaluation. Container isolation limits the blast radius: even if an agent is successfully injected, it can only access its own sandboxed container with its own scoped permissions. It cannot access other agents' data, the credential vault, or the host system.
+### 4. Irreversible actions
 
-No system can guarantee complete immunity to prompt injection. OpenLegion's approach is to minimize the attack surface and contain the damage.
+An email to a customer, a public post, a deleted file, a shared document: one bad decision becomes permanent.
 
-### Threat 3: Resource abuse (Denial of Wallet)
+### 5. Cross-tenant leaks
 
-**What happens.** An agent enters a recursive loop, makes excessive API calls, or is manipulated into consuming resources far beyond what's needed. In multi-agent systems, this compounds — a 5-agent workflow costs 5x what a single agent costs, and a runaway loop can burn hundreds of dollars in minutes before anyone notices.
+On a multi-customer platform the worst outcome is a query or bug that returns *another customer's* data. That is an infrastructure problem, and it has to be solved below the application.
 
-**How common.** This is listed as OWASP LLM10:2025 (Unbounded Consumption). Most cloud billing systems do not automatically stop charges when budgets are exceeded — alerts fire, but the meter keeps running. Community reports from CrewAI and LangGraph users describe token-burning loops that consumed 10x expected budgets.
+## The controls that actually work
 
-**How OpenLegion mitigates it.** Per-agent daily and monthly budget controls with hard cutoff. Each agent in the fleet has its own token budget tracked in real time. When the limit is reached, the [orchestration layer](/learn/ai-agent-orchestration) halts that specific agent. The rest of the workflow continues or pauses gracefully. There's no "soft warning" that gets ignored — the cutoff is enforced at the infrastructure level.
+Each threat above has a deterministic control — one that a model cannot talk its way past because the model is not asked:
 
-### Threat 4: Data exfiltration
+| Threat | Control that works | Why it holds |
+|---|---|---|
+| Prompt injection | Label content by where it came from; content arriving from untrusted sources cannot drive outbound or irreversible tools without a person | The decision is made from provenance labels, not from the text |
+| Credential exfiltration | The model never holds the secret; outputs are scanned for known secrets | You cannot leak what you were never given |
+| Runaway spend | Reserve the budget before the run; stop at the reservation | The limit lives in the ledger, not in the agent |
+| Irreversible actions | Default-deny tools; approval holds as durable records | The model proposes; a person decides |
+| Cross-tenant leaks | Row-level security in the database, tested | Isolation does not depend on every query being correct |
 
-**What happens.** An agent is manipulated into sending sensitive data to an attacker-controlled endpoint. Techniques include: instructing the agent to encode data in URL parameters (which get logged or sent via link previews), using the agent's browser to visit attacker-controlled pages, or exploiting tool calls to forward data to external APIs.
+The common thread: **the model is never the final authority for an action that matters.**
 
-**How common.** Zero-click exfiltration techniques have been demonstrated against agents operating in messaging platforms (where link previews automatically fetch URLs), enterprise collaboration tools, and code repositories. Research on banking agents showed approximately 20% success rates for data exfiltration attacks.
+## How OpenLegion implements each control
 
-**How OpenLegion mitigates it.** Container-level network isolation restricts which external endpoints each agent can reach. The permission matrix defines allowed tools, files, and mesh operations per agent. Outbound requests route through controlled channels. Combined with credential isolation (the agent has no credentials to exfiltrate) and the fleet-model coordination (which logs every action), the attack surface for exfiltration is significantly reduced compared to agents running in shared process spaces with unrestricted network access.
+OpenLegion agents are database records, not long-running servers: when there is work, an agent *wakes*, does it, and stops. Everything below applies to every wake.
 
-### Threat 5: Sandbox escape
+### Every action is an intent, checked by one policy engine
 
-**What happens.** An agent or its executed code breaks out of its container and gains access to the host system, other containers, or the orchestration layer. Container escape vulnerabilities are discovered regularly — multiple high-severity runC CVEs were disclosed in November 2025 affecting Docker and Kubernetes across major cloud providers.
+When an agent wants to use a tool, it does not call the tool. It produces an *intent* — a structured record of what it wants to do and with which arguments. A single policy engine evaluates that intent in a fixed order: **deny, then hard limits, then approval, then allow.** Only an allowed intent is executed, and the executor reads the limits from the persisted intent, never from the model's prose. Each execution writes a receipt to an append-only audit trail.
 
-**How OpenLegion mitigates it.** Container hardening: non-root execution (UID 1000), `no-new-privileges` flag, configurable memory limits (384MB default), configurable CPU limits (0.15 default), and no shared filesystem between containers. Each agent gets its own `/data` volume. The four-zone trust model (plus an operator-or-internal tier) means that even if an agent escapes its container, it lands in a zone with no direct access to the credential vault or other agents' containers. For environments requiring stronger isolation, the architecture supports Docker Sandbox microVMs.
+Tools are **default-deny**: an agent can only use the tools its owner granted, and a refusal comes back as a tool result the agent can adjust to. Hard limits run *before* approvals, so an owner is never asked to rubber-stamp something over a cap anyway.
 
-### Threat 6: Supply chain attacks
+See [AI agent orchestration](/learn/ai-agent-orchestration) for how goals, tasks and agents fit together around this loop.
 
-**What happens.** Malicious code is introduced through agent skills, MCP tool servers, shared configurations, or framework dependencies. Malicious MCP servers have been found on npm impersonating legitimate services. Crowdsourced configuration files have been weaponized with hidden LLM-triggered prompts.
+### Approval holds for third-party reach and deletion
 
-**How OpenLegion mitigates it.** OpenLegion uses zero external framework dependencies — no LangChain, no Redis, no Kubernetes. The core is pure Python + SQLite. MCP tool servers are supported but sandboxed through the permission matrix. The fleet-model coordination means tool calls are explicitly declared in the workflow definition, not dynamically discovered at runtime — reducing the surface for unexpected tool injection.
+By default, work stops for an owner's approval when an action would:
 
-## How AI Agent Isolation Works in OpenLegion
+1. **reach a third party on your behalf** — posting to a channel, sharing an artifact, or creating a calendar event that invites attendees;
+2. **destroy or overwrite data** — deleting a file, deleting a calendar event, overwriting a document;
+3. **use an outbound or irreversible tool on a tainted run** (see the next section);
+4. **change an agent's own configuration** — instructions, budget, status — when the request does not carry the owner's authority, for example when it comes from a workspace member or another agent.
 
-OpenLegion's four-zone trust model plus an operator-or-internal tier separates every deployment into distinct security boundaries:
+An approval is a row in the database, not a paused process: the run ends, and a later wake resumes the intent once an owner or admin decides. Approval tokens are single-use and bound to the exact intent, so approving one email cannot be replayed to send another. Owners approve in the app or from Telegram and Slack buttons tied to their paired identity; members can answer an agent's questions but not approve held actions.
 
-**Zone 0 — Untrusted External Input.** Anything arriving from users or third parties: CLI, Telegram, Discord, Slack, WhatsApp, and webhook endpoints. Inputs are validated and sanitized via prompt-injection guards before entering Zone 2.
+### Content trust: inbound content is labelled, and the label gates outbound tools
 
-**Zone 1 — Sandboxed Agent Containers (Untrusted).** Each agent runs as an isolated FastAPI instance in its own Docker container. Each container has its own `/data` volume, its own memory database (SQLite + vector search), configurable resource caps (384MB RAM / 0.15 CPU default), non-root execution (UID 1000), `cap_drop=ALL`, `no-new-privileges`, a read-only root filesystem, and no access to the Docker socket, credential vault, or other agents' containers.
+Every piece of content carries a trust label derived from **who sent it and how it arrived**. A paired owner or admin messaging the agent directly speaks as the owner; a paired member is trusted less. Anything from an unpaired sender, a group chat, a forwarded or quoted message, or an attachment is low-trust, and is tainted *separately* from the instruction it came with: "summarise this attachment" is the owner's request; the attachment stays untrusted.
 
-**Zone 2 — Mesh Host (Trusted).** The only component with access to credentials. Runs the Blackboard (shared state + WAL), PubSub router, Credential Vault (blind injection proxy), ACL matrix, Container Manager, Cost Tracker, and Browser Service (per-agent Camoufox on :8500). This zone is hardened and not exposed to agent code.
+Untrusted content enters the model only as labelled data inside tool results. Two rules follow from the labels, and both are enforced in the policy engine, not the prompt:
 
-**Zone 2.5 — Operator-or-Internal.** Reserved control-plane operations available to the Operator agent or internal mesh tooling — fleet management, agent edits, permission grants (the Operator cannot grant `can_spawn` or `can_use_wallet`).
+- an outbound tool **refuses an argument that came from low-trust content**;
+- on a tainted run, **any outbound or irreversible tool is held for approval.**
 
-**Zone 3 — Loopback-Only Internal.** The most-restricted tier: endpoints that require both an `x-mesh-internal: 1` header and a loopback source IP. Used for mesh-internal coordination calls only.
+Taint also carries forward. What a tainted run leaves behind for later — a plan, an answer, a scheduled follow-up — is stamped with the combined taint of the request, what was read and what was recalled from memory, so injected text cannot launder itself into a clean run tomorrow. Invisible and bidirectional Unicode characters are neutralised at channel ingest and before every untrusted envelope; that is defence in depth against hidden text, not an injection control on its own.
 
-This architecture means a compromised agent in Zone 1 cannot reach Zone 2 (credentials) or other Zone 1 containers (other agents' data). The blast radius of any single agent compromise is contained to that agent's sandbox.
+### Credentials stay outside the model
 
-## AI Agent Credential Management: Vault Proxy vs Environment Variables
+Agents never hold keys. When a tool needs a credential, the platform's credential broker fetches it inside the call and the model only ever sees a handle. Stored credentials are encrypted per workspace under a master key held outside the database, and that master key can be rotated.
 
-The most common credential management pattern across [AI agent frameworks](/learn/ai-agent-frameworks) is environment variables. Your API key sits in a `.env` file or is passed via `OAI_CONFIG_LIST`. The agent process reads it directly. This means:
+To catch a secret that reaches an output some other way, every tool result, sandbox output, model completion and memory write is scanned against the workspace's known secrets — plain text and common encodings such as base64, hex, URL-encoding and gzip — before it is stored or shown. Log lines are redacted by key name.
 
-- The key exists in the agent's memory space
-- A prompt injection attack can instruct the agent to print or exfiltrate the key
-- Logs, error messages, and debug output may contain the key
-- If the agent is compromised, the attacker has direct access to all injected credentials
+### Code runs in a sandbox with egress denied
 
-OpenLegion's vault proxy changes this architecture fundamentally. API keys are stored in the Mesh Host's Credential Vault (Zone 2). When an agent needs to make an authenticated API call, it sends the request to the vault proxy. The proxy injects the credential at the network layer, makes the authenticated call, and returns the result to the agent. The agent never sees, stores, or has memory access to the raw key.
+Code an agent writes runs in an isolated microVM sandbox, not in the platform's own process. Network egress from the sandbox is **deny-all by default**, opened only by explicit per-domain rules; wildcard or allow-all network policies fail the build. Where a sandbox needs a credential to reach an allowed domain, it is injected by the sandbox firewall on the way out, so the code inside never sees it. The agent's own web fetches connect to the IP address that was checked, over HTTPS by default.
 
-This is **vault-proxied credentials** — the same principle used by enterprise secret management systems like HashiCorp Vault, but built into the [AI agent orchestration](/learn/ai-agent-orchestration) layer rather than requiring separate infrastructure.
+### Memory has trust tiers
 
-## Containerized AI Agents: Why Process-Level Isolation Isn't Enough
+Long-term memory is an injection target: plant an instruction once and it is re-read on every future run. Each memory write carries a trust tier, stored as the *lower* of what the model asked for and what the content's provenance supports. Low-trust content never reaches an agent's core memory or its policy, and a lower-trust entry cannot supersede a higher-trust one. Entries are HMAC-signed as tamper evidence — not as the injection defence.
 
-Several frameworks offer some form of isolation, but the implementation details matter:
+### Spend is reserved before each run
 
-| Framework | Isolation approach | What's actually isolated | What's shared |
-|---|---|---|---|
-| **OpenLegion** | Docker container per agent (mandatory) | Process, filesystem, network, memory, credentials | Nothing — agents are fully isolated |
-| **OpenClaw** | Docker container (optional) | Process, filesystem | Docker socket mounted by default; host network accessible |
-| **LangGraph** | None built-in | N/A | Everything — agents share Python process |
-| **CrewAI** | Docker for CodeInterpreter | Code execution output | Agent processes share Python runtime |
-| **AutoGen** | Docker for code execution | Code execution output | Agent processes share Python runtime |
+Every wake reserves its spend ceiling before it starts, and the loop stops at that reservation, mid-run if necessary. Each agent has its own budget, paid tools such as web search are priced and capped before they are allowed, and each model call carries a deadline so a hung request cannot hold a run open.
 
-The critical distinction: OpenLegion isolates the **agent itself** in a container. Other frameworks that offer Docker isolation typically isolate only **code execution output** — the agent process, its memory, and its credential access remain shared. This means a prompt injection that compromises an agent in LangGraph or CrewAI has access to all credentials and state in the shared process. In OpenLegion, the same compromise is contained to a single sandboxed container with no credential access.
+### Tenant isolation in the database
 
-## AI Agent Cost Controls: Budget Enforcement as Security
+Every table has row-level security keyed on workspace membership, and application code runs as a database role that **cannot bypass** it. Only one module may construct a privileged database client; a check fails any other import. Queries also bind the workspace ID explicitly, so row-level security is a second wall, not the only one, and a dedicated test suite attempts cross-tenant reads through sessions, the machine role and forged claims.
 
-Cost controls aren't just financial governance — they're a security mechanism. A runaway agent consuming unlimited tokens is a resource abuse attack, whether triggered by malicious prompt injection or a simple bug in the agent's reasoning loop.
+## What this doesn't solve
 
-OpenLegion's budget enforcement works at the orchestrator level:
+These controls limit what a manipulated agent can *do*; they do not stop it from being manipulated. An agent can still be wrong within its grants: if you give it a tool that does not require approval, an injected instruction can steer it to use that tool badly. Content trust is keyed on how content *arrives* — a message, a forward, an attachment. A web page the agent fetches itself during a task does not, on its own, taint that same task's outbound calls; the defences there are narrow tool grants, approval holds on third-party reach, domain rules and the secret scan, not the taint rule. Approvals only protect you if the person approving reads the card. And OpenLegion does not hold SOC 2, ISO 27001, HIPAA or other certifications; meeting a compliance regime depends on your own controls, not only on the platform. What we have done is move the decisions that matter out of the model.
 
-- Each agent has a configurable daily and monthly token budget
-- Token usage is tracked in real time by the Cost Tracker in Zone 2
-- When an agent hits its limit, the orchestrator issues a hard cutoff — the agent is halted
-- The rest of the workflow pipeline continues or pauses gracefully
-- Cost data is visible in the fleet dashboard with per-agent breakdowns
+## Getting started
 
-No other major AI agent framework provides this capability built in, based on public documentation at the time of writing.
+**Run agents whose dangerous actions wait for you.**
+[Join the waitlist](https://app.openlegion.ai/signin)
 
-## Compliance and Audit Considerations
-
-OpenLegion is **designed for environments that require** compliance controls, including:
-
-- **Request tracing**: Auditable fleet-model coordination means every workflow step is explicit and traceable. The built-in request tracing system records task transitions, tool calls, and token expenditure for real-time observability. The Blackboard (shared state) provides coordination context across agents.
-- **Auditable fleet-model coordination**: fleet-model coordination (blackboard + pub/sub + handoff) can be audited before execution — you can verify the complete flow of data, permissions, and agent interactions without running the system.
-- **Data isolation**: Per-agent containers with dedicated `/data` volumes ensure that sensitive data processed by one agent is not accessible to other agents.
-- **Air-gap support**: No external services (no Redis, no Kubernetes, no cloud services required) means OpenLegion can run in on-premises environments.
-
-**Important**: OpenLegion does not currently hold SOC 2, ISO 27001, HIPAA, or other compliance certifications. The architecture is built to support environments with these requirements, but certification is a function of your deployment, configuration, and organizational controls — not just the framework.
-
-## CTA
-
-**Deploy agents that are secure by default.**
-[Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
+For the wider picture, see [what an AI agent platform should include](/learn/ai-agent-platform) and our [AI agent frameworks comparison](/learn/ai-agent-frameworks), or compare [OpenLegion vs OpenClaw](/comparison/openclaw).
 
 ---
 
@@ -173,35 +155,23 @@ OpenLegion is **designed for environments that require** compliance controls, in
 
 ### What does AI agent security mean?
 
-AI agent security is the set of controls that prevent autonomous AI agents from causing harm through credential leakage, prompt injection, resource abuse, data exfiltration, sandbox escape, or excessive agency. It spans runtime isolation (sandboxing agents), credential management (preventing key exposure), cost enforcement (stopping runaway spending), permission controls (limiting what agents can do), and input validation (filtering malicious inputs).
+AI agent security is the set of controls that stop an autonomous agent from causing harm when it is manipulated or mistaken: leaking credentials, exfiltrating data, running up costs, taking irreversible actions without approval, or reaching another customer's data. The controls that hold are deterministic and sit outside the model — policy checks before every action, credentials the model never sees, sandboxed code execution, spend limits and database-level tenant isolation.
 
-### How do you secure AI agents with API keys?
+### Can prompt injection be prevented?
 
-The most secure approach is vault-proxied credentials: store API keys in a vault that agents cannot access directly. When an agent needs to make an authenticated call, the request routes through a proxy that injects the credential at the network layer. The agent never sees the raw key. OpenLegion implements this through its vault proxy in Zone 2 of the four-zone trust model (plus an operator-or-internal tier). The least secure (and most common) approach is environment variables, where keys exist in the agent's memory and can be leaked via prompt injection, logging, or error output.
+Not completely. Any agent that reads untrusted content can be steered by it. What you can do is limit what a steered agent is able to do. OpenLegion labels content by who sent it and how it arrived, refuses to let low-trust inbound content become the argument of an outbound tool, and holds outbound and irreversible actions on a tainted run for an owner's approval. A page the agent fetches itself is handled by narrow tool grants and approval holds rather than by taint.
 
-### How does AI agent isolation work?
+### How should AI agents handle API keys?
 
-Agent isolation means running each agent in its own sandboxed environment — separate process, filesystem, network namespace, and memory space. In OpenLegion, each agent runs in a dedicated Docker container with configurable resource limits (384MB RAM, 0.15 CPU default), non-root execution, and no shared filesystem. This means a compromised agent cannot access other agents' data, the credential vault, or the host system. This differs from frameworks where agents share a Python process and can access each other's memory.
+They should never hold them. In OpenLegion a credential broker injects the credential inside the tool call, the model only sees a handle, and every output is scanned for the workspace's known secrets in plain and encoded forms before it is stored or shown. Keys in environment variables or prompts are the most common — and least safe — pattern.
 
-### Why do AI agents need budget / cost controls?
+### Does OpenLegion have SOC 2 or other certifications?
 
-Autonomous agents can enter recursive loops, make excessive API calls, or be manipulated into consuming resources far beyond what's needed. Without budget controls, a single runaway agent can drain hundreds of dollars in tokens in minutes. In multi-agent systems this compounds — each agent multiplies the risk. OpenLegion enforces per-agent daily and monthly budgets with hard cutoffs at the orchestrator level, preventing any single agent from causing unbounded cost.
+No. OpenLegion does not currently hold SOC 2, ISO 27001, HIPAA or other compliance certifications. The platform keeps an append-only audit trail with a receipt for every action, which helps with audits, but certification depends on your deployment and organisational controls as well.
 
-### Are secure AI agents possible with BYO keys?
+### Does OpenLegion train models on my data?
 
-Yes. The BYO (Bring Your Own) key model is actually more secure with proper architecture. In OpenLegion, your keys are stored in the Mesh Host's Credential Vault and injected through a vault proxy at the network layer. Agents never see raw keys. This gives you full cost transparency (you see exactly what each agent spends with each provider), provider flexibility (swap models per agent), and the same credential isolation guarantees regardless of which provider you use. Bring your own LLM API keys. No markup on model usage.
-
-### What is the OWASP Top 10 for AI agents?
-
-OWASP published the Top 10 for Agentic Applications in December 2025. The #1 risk is Agent Goal Hijacking — where an attacker manipulates an agent into pursuing goals different from what the user intended. Other top risks include credential leakage, excessive agency (agents taking actions beyond their scope), and supply chain vulnerabilities (malicious tools or plugins). OpenLegion addresses these through vault-proxied credentials, container isolation, permission matrices, and fleet-model coordination (blackboard + pub/sub + handoff).
-
-### How does OpenLegion compare to OpenClaw on security?
-
-Based on public documentation, OpenLegion provides stricter security defaults. OpenClaw's default local deployment requires Docker socket mounting (granting broad host access), its security analyzer has had reported issues with consistent activation, and it stores credentials in configuration accessible to the agent process. OpenLegion runs agents in mandatory isolated containers, uses a vault proxy for vault-proxied credentials, enforces per-agent budgets, and applies unicode sanitization at multiple choke points. For a detailed comparison, see [OpenLegion vs OpenClaw](/comparison/openclaw).
-
-### What compliance frameworks apply to AI agents?
-
-Key frameworks include OWASP Top 10 for LLM Applications (2025) and Agentic Applications (2026), NIST AI Risk Management Framework (with upcoming AI Agent Standards), ISO/IEC 42001 (AI management systems), the EU AI Act (enforcement begins August 2026), and industry-specific regulations like HIPAA, SOC 2, and SOX depending on your domain. OpenLegion's architecture is designed for environments that require these controls but does not itself hold certifications.
+No. OpenLegion does not train models on your workspace's data and does not sell personal information. Model calls made on our platform keys go to providers under zero-retention terms, opted out of training. On a paid plan you can bring your own model key instead, and then your own agreement with that provider applies.
 
 ---
 
@@ -212,8 +182,5 @@ Key frameworks include OWASP Top 10 for LLM Applications (2025) and Agentic Appl
 | AI agent platform | /learn/ai-agent-platform |
 | AI agent orchestration | /learn/ai-agent-orchestration |
 | AI agent frameworks comparison | /learn/ai-agent-frameworks |
-| AI agent security | /learn/ai-agent-security |
-| OpenClaw alternative | /openclaw-alternative |
 | OpenLegion vs OpenClaw | /comparison/openclaw |
 | Documentation | /docs |
-| GitHub | https://github.com/openlegion-ai/openlegion |

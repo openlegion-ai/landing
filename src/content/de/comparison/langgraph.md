@@ -2,7 +2,7 @@
 title: OpenLegion vs. LangGraph — Detaillierter Vergleich (2026)
 description: >-
  OpenLegion vs. LangGraph: Sicherheitsarchitektur, Credential-Isolation, CVE-Historie,
- Budget-Kontrollen, graphbasierte vs. Fleet-Modell-Koordination und Produktions-Deployment
+ Budget-Kontrollen, graphbasierte vs. Ziel-und-Aufgaben-Koordination und Produktions-Deployment
  im Vergleich.
 slug: /comparison/langgraph
 primary_keyword: openlegion vs langgraph
@@ -27,40 +27,40 @@ related:
 
 LangGraph ist das in der Produktion am breitesten adoptierte Agenten-Orchestrierungs-Framework. Vom LangChain-Team gebaut, hat es ca. 25.200 GitHub-Stars, 6,17 Millionen monatliche PyPI-Downloads und erreichte am 22. Oktober 2025 die 1.0-GA — das erste große Agenten-Framework mit einem stabilen Release. Enterprise-Deployments bei Uber, LinkedIn, Klarna und Replit demonstrieren reale Adoption in Skalierung.
 
-OpenLegion ist ein sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agent-platform) mit verpflichtender Docker-Container-Isolation, Vault-Proxy-Credential-Verwaltung, Pro-Agent-Budgetdurchsetzung und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff).
+OpenLegion ist ein sicherheitsorientiertes [KI-Agenten-Framework](/learn/ai-agent-platform) mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault, Pro-Agent-Budgetdurchsetzung und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten).
 
-LangGraph und OpenLegion repräsentieren zwei verschiedene Antworten auf dieselbe Frage: Wie sollten Agenten-Workflows orchestriert werden? LangGraph sagt: Gebt Entwicklern Graph-Primitive mit maximaler Flexibilität. OpenLegion sagt: Gebt Entwicklern auditierbare Fleet-Modell-Koordination mit maximaler Sicherheit. Beide sind valide — die richtige Wahl hängt davon ab, ob Ihr Engpass Orchestrierungs-Komplexität oder Sicherheitsrisiko ist.
+LangGraph und OpenLegion repräsentieren zwei verschiedene Antworten auf dieselbe Frage: Wie sollten Agenten-Workflows orchestriert werden? LangGraph sagt: Gebt Entwicklern Graph-Primitive mit maximaler Flexibilität. OpenLegion sagt: Gebt Entwicklern auditierbare Ziel-und-Aufgaben-Koordination mit maximaler Sicherheit. Beide sind valide — die richtige Wahl hängt davon ab, ob Ihr Engpass Orchestrierungs-Komplexität oder Sicherheitsrisiko ist.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Was ist der Unterschied zwischen OpenLegion und LangGraph?**
-> LangGraph ist ein graphbasiertes Orchestrierungs-Framework zum Bauen zustandsbehafteter, langlaufender KI-Agenten mit gerichteten Graphen (inkl. Zyklen), dauerhafter Checkpoint/Replay-Ausführung und tiefer LangChain-Ökosystem-Integration. OpenLegion ist ein Security-First-KI-Agenten-Framework mit verpflichtender Docker-Container-Isolation, Vault-Proxy-Credential-Verwaltung (Agenten sehen nie API-Keys), Pro-Agent-Budgetdurchsetzung und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff). LangGraph bietet maximale Orchestrierungs-Flexibilität; OpenLegion bietet maximale Produktions-Sicherheit.
+> LangGraph ist ein graphbasiertes Orchestrierungs-Framework zum Bauen zustandsbehafteter, langlaufender KI-Agenten mit gerichteten Graphen (inkl. Zyklen), dauerhafter Checkpoint/Replay-Ausführung und tiefer LangChain-Ökosystem-Integration. OpenLegion ist ein Security-First-KI-Agenten-Framework mit einem Sandbox-Lauf für jede Aufgabe, Credentials im Vault, die Agenten nie sehen, Pro-Agent-Budgetdurchsetzung und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten). LangGraph bietet maximale Orchestrierungs-Flexibilität; OpenLegion bietet maximale Produktions-Sicherheit.
 
 ## Auf einen Blick
 
 | Dimension | OpenLegion | LangGraph |
 |---|---|---|
 | **Primärer Fokus** | Produktions-Sicherheitsinfrastruktur | Graphbasierte zustandsbehaftete Orchestrierung |
-| **Architektur** | Vier-Zonen-Trust-Modell (User → Mesh Host → Agenten-Container, plus Operator-oder-Internal) | StateGraph mit typisiertem Zustand, Knoten, konditionalen Kanten, Checkpointing |
-| **Agenten-Isolation** | Docker-Container pro Agent, Non-Root, no-new-privileges | Keine integriert; Pyodide/WASM-Sandbox nur für Code-Ausführung |
-| **Credential-Sicherheit** | Vault-Proxy — Agenten sehen keine Keys | Kein integriertes System; Umgebungsvariablen oder externe Vaults |
-| **Budget-Kontrollen** | Pro Agent tägliche/monatliche Hartabschaltung | Nativ keine; LangSmith bietet nur Kosten-Tracking |
-| **Orchestrierung** | Fleet-Modell-Koordination — Blackboard + Pub/Sub + Handoff (kein CEO-Agent) | Gerichtete Graphen mit Zyklen, konditionalen Kanten, Command-basiertem Routing |
-| **Dauerhafte Ausführung** | Task-Zustand in SQLite persistiert | Checkpoint-basiert (PostgreSQL/SQLite), übersteht Neustarts, Time Travel |
-| **Human-in-the-Loop** | Approval-Gates in Fleet-Modell-Koordination | `interrupt`-Primitiv, konfigurierbare Breakpoints |
-| **Multi-Agent** | Flotten-Templates mit Pro-Agent-ACLs | Supervisor, Swarm, Graph-of-Graphs (Subgraph-Komposition) |
-| **LLM-Unterstützung** | 100+ über LiteLLM | 100+ über LangChain-Integrationen |
+| **Architektur** | Eine Policy-Engine vor jeder Aktion (Absicht → Prüfung → Beleg) | StateGraph mit typisiertem Zustand, Knoten, konditionalen Kanten, Checkpointing |
+| **Agenten-Isolation** | Sandbox-Lauf pro Aufgabe, standardmäßig kein Netzwerk | Keine integriert; Pyodide/WASM-Sandbox nur für Code-Ausführung |
+| **Credential-Sicherheit** | Credential-Vault — Agenten sehen keine Keys | Kein integriertes System; Umgebungsvariablen oder externe Vaults |
+| **Budget-Kontrollen** | Pro-Agent-Credit-Budget, harte Abschaltung | Nativ keine; LangSmith bietet nur Kosten-Tracking |
+| **Orchestrierung** | Ziel-und-Aufgaben-Koordination — Ziele → Aufgaben → Agenten (kein CEO-Agent) | Gerichtete Graphen mit Zyklen, konditionalen Kanten, Command-basiertem Routing |
+| **Dauerhafte Ausführung** | Task-Zustand persistiert; jeder Lauf nachvollziehbar | Checkpoint-basiert (PostgreSQL/SQLite), übersteht Neustarts, Time Travel |
+| **Human-in-the-Loop** | Freigaben an drei Stellen, in der App entschieden | `interrupt`-Primitiv, konfigurierbare Breakpoints |
+| **Multi-Agent** | Agenten-Teams mit Berechtigungen pro Agent | Supervisor, Swarm, Graph-of-Graphs (Subgraph-Komposition) |
+| **LLM-Unterstützung** | Presets Smartest, Smart und Normal | 100+ über LangChain-Integrationen |
 | **Observability** | Integriertes Dashboard | LangSmith (Tracing, Evaluation, Monitoring) |
-| **Abhängigkeiten** | Python + SQLite + Docker (null extern) | LangChain-Ökosystem (langgraph, langchain-core, Checkpointing) |
-| **GitHub-Stars** | ~59 | ~25.200 |
-| **PyPI-Downloads** | Pre-Release | ~6,17 Mio./Monat |
-| **Bekannte CVEs** | 0 | 4 kritische im LangChain-Ökosystem (bis CVSS 9,3) |
+| **Abhängigkeiten** | Keine — gehostete Web-App, nichts zu installieren | LangChain-Ökosystem (langgraph, langchain-core, Checkpointing) |
+| **GitHub-Stars** | entfällt (gehostete Plattform) | ~25.200 |
+| **PyPI-Downloads** | entfällt (nichts zu installieren) | ~6,17 Mio./Monat |
+| **Bekannte CVEs** | Gehostete Plattform, zentral gepatcht | 4 kritische im LangChain-Ökosystem (bis CVSS 9,3) |
 | **Lizenz** | PolyForm Perimeter License 1.0.1 | MIT |
-| **Pricing** | BYO-API-Keys, 19 $/Monat gehostet | Kostenlos (MIT); LangSmith Plus 39 $/Platz/Monat für Auth/RBAC |
+| **Pricing** | Kostenlos mit 1.000 Credits; Pro 29 $/Monat | Kostenlos (MIT); LangSmith Plus 39 $/Platz/Monat für Auth/RBAC |
 
 ## Wählen Sie LangGraph, wenn …
 
-**Sie komplexe zustandsbehaftete Workflows mit Zyklen brauchen.** LangGraphs Graph-Modell handhabt Branching, Looping und konditionales Routing, das Fleet-Modell-Koordination nicht ausdrücken kann. Wenn Ihr Agenten-Workflow dynamisches Branching basierend auf Zwischenresultaten erfordert — ein Research-Agent, der bis zu Qualitätsschwellen schleift, oder ein Supervisor, der fehlgeschlagene Tasks umroutet —, ist LangGraph dafür zweckgebaut.
+**Sie komplexe zustandsbehaftete Workflows mit Zyklen brauchen.** LangGraphs Graph-Modell handhabt Branching, Looping und konditionales Routing, das Ziel-und-Aufgaben-Koordination nicht ausdrücken kann. Wenn Ihr Agenten-Workflow dynamisches Branching basierend auf Zwischenresultaten erfordert — ein Research-Agent, der bis zu Qualitätsschwellen schleift, oder ein Supervisor, der fehlgeschlagene Tasks umroutet —, ist LangGraph dafür zweckgebaut.
 
 **Sie dauerhafte Ausführung mit Checkpoint/Replay brauchen.** LangGraphs Checkpointing-System (PostgreSQL- oder SQLite-basiert) erlaubt Workflows, Server-Neustarts zu überstehen, Time-Travel-Debugging aus beliebigen historischen Zuständen und Branching von jedem Checkpoint. Das ist eine reife Fähigkeit, die kein anderes Framework erreicht.
 
@@ -72,15 +72,15 @@ LangGraph und OpenLegion repräsentieren zwei verschiedene Antworten auf dieselb
 
 ## Wählen Sie OpenLegion, wenn …
 
-**Credential-Sicherheit ist eine harte Anforderung.** LangGraph hat keine integrierte Credential-Verwaltung und eine Historie von Serialisierungs-Schwachstellen, die Secrets offenlegen können. Eine Serialisierungs-Injection-Schwachstelle (CVSS 9,3, Dezember 2025) zeigte, dass Checkpoint-Manipulation Secrets extrahieren und beliebigen Code ausführen konnte. OpenLegions Vault-Proxy bietet architektonischen Schutz — Agenten sehen keine API-Keys, selbst wenn der Agentenprozess kompromittiert wird.
+**Credential-Sicherheit ist eine harte Anforderung.** LangGraph hat keine integrierte Credential-Verwaltung und eine Historie von Serialisierungs-Schwachstellen, die Secrets offenlegen können. Eine Serialisierungs-Injection-Schwachstelle (CVSS 9,3, Dezember 2025) zeigte, dass Checkpoint-Manipulation Secrets extrahieren und beliebigen Code ausführen konnte. OpenLegions Credential-Vault bietet architektonischen Schutz — Agenten sehen keine API-Keys, selbst wenn der Agentenprozess kompromittiert wird.
 
-**Sie Pro-Agent-Budgetdurchsetzung brauchen.** LangGraph bietet Kosten-Tracking über LangSmith, aber keinen Mechanismus, einen Agenten, der eine Ausgaben-Schwelle überschreitet, automatisch zu stoppen. Ein Agent in einer Reasoning-Schleife häuft weiter Kosten an, bis er manuell terminiert wird. OpenLegion erzwingt harte Abschaltungen pro Agent, pro Tag und pro Monat — wenn das Budget erschöpft ist, stoppt der Agent.
+**Sie Pro-Agent-Budgetdurchsetzung brauchen.** LangGraph bietet Kosten-Tracking über LangSmith, aber keinen Mechanismus, einen Agenten, der eine Ausgaben-Schwelle überschreitet, automatisch zu stoppen. Ein Agent in einer Reasoning-Schleife häuft weiter Kosten an, bis er manuell terminiert wird. OpenLegion gibt jedem Agenten ein eigenes Credit-Budget — wenn dieses Budget erschöpft ist, stoppt der Agent.
 
-**Sie Sicherheit eingebaut wollen, nicht angeschraubt.** Die 4 kritischen CVEs des LangChain-Ökosystems in 18 Monaten zeigen die Herausforderung, einem nicht dafür entworfenen Framework Sicherheit hinzuzufügen. AES-Checkpoint-Verschlüsselung und eine Pyodide-Sandbox wurden nachträglich hinzugefügt. OpenLegions Vier-Zonen-Trust-Modell (plus Operator-oder-Internal-Ebene) war die Ausgangs-Architektur.
+**Sie Sicherheit eingebaut wollen, nicht angeschraubt.** Die 4 kritischen CVEs des LangChain-Ökosystems in 18 Monaten zeigen die Herausforderung, einem nicht dafür entworfenen Framework Sicherheit hinzuzufügen. AES-Checkpoint-Verschlüsselung und eine Pyodide-Sandbox wurden nachträglich hinzugefügt. OpenLegions einzelne Policy-Engine vor jeder Aktion war die Ausgangs-Architektur.
 
-**Sie auditierbare Fleet-Modell-Koordination brauchen.** Flotten-Templates und ACLs können codereviewt, versionskontrolliert und compliance-auditiert werden, bevor irgendein Agent ausgeführt wird. Koordination ist durch Pro-Agent-Tool-Loop-Erkennung begrenzt (Warnung@2, Block@4, Terminierung@9). Graphbasierte Workflows mit dynamischem Routing sind statisch schwerer zu auditieren, und Zyklen bringen die Möglichkeit endloser Schleifen ohne begrenzte Erkennung.
+**Sie auditierbare Ziel-und-Aufgaben-Koordination brauchen.** Ziele, Aufgaben und Pro-Agent-Berechtigungen können reviewt, versioniert und compliance-auditiert werden, bevor irgendein Agent ausgeführt wird. Koordination ist durch das Credit-Budget jedes Agenten und durch die Policy-Engine vor jeder Aktion begrenzt. Graphbasierte Workflows mit dynamischem Routing sind statisch schwerer zu auditieren, und Zyklen bringen die Möglichkeit endloser Schleifen ohne begrenzte Erkennung.
 
-**Sie null externe Abhängigkeiten wollen.** OpenLegion läuft auf Python + SQLite + Docker. LangGraph erfordert das LangChain-Ökosystem und typischerweise LangSmith (39 $/Platz/Monat auf Plus) für Produktions-Funktionen wie Auth und RBAC.
+**Sie nichts installieren wollen.** OpenLegion ist eine gehostete Web-App: mit Google anmelden und loslegen. LangGraph erfordert das LangChain-Ökosystem und typischerweise LangSmith (39 $/Platz/Monat auf Plus) für Produktions-Funktionen wie Auth und RBAC.
 
 ## Vergleich der Sicherheitsmodelle
 
@@ -88,13 +88,13 @@ LangGraph und OpenLegion repräsentieren zwei verschiedene Antworten auf dieselb
 
 **LangGraph** hat kein integriertes Secrets- oder Credential-Management. Entwickler nutzen typischerweise Umgebungsvariablen, `.env`-Dateien oder integrieren externe Vault-Lösungen (HashiCorp Vault, AWS Secrets Manager). Das bedeutet, Credentials existieren in der Prozessumgebung des Agenten — zugänglich für jeden Code, der in diesem Prozess läuft. Eine Serialisierungs-Injection-Schwachstelle zeigte, dass Checkpoint-Daten manipuliert werden konnten, um Umgebungsvariablen einschließlich API-Keys zu extrahieren.
 
-**OpenLegion** speichert Credentials in einem Vault, der nur über einen Proxy zugänglich ist. Agenten führen API-Aufrufe über den Vault-Proxy aus; Credentials werden auf Netzwerkebene injiziert. Keine Umgebungsvariablen mit API-Keys, keine `.env`-Dateien, keine Secret-Objekte im Agentenspeicher. Selbst wenn Checkpoint-Daten oder Agenten-Zustand kompromittiert werden, sind keine Credentials zum Extrahieren präsent.
+**OpenLegion** speichert Credentials in einem Vault, den das Modell nicht erreicht. Agenten reichen ein Handle weiter, und das Credential wird außerhalb des Modells injiziert. Keine Umgebungsvariablen mit API-Keys, keine `.env`-Dateien, keine Secret-Objekte im Agentenspeicher. Selbst wenn Checkpoint-Daten oder Agenten-Zustand kompromittiert werden, sind keine Credentials zum Extrahieren präsent.
 
 ### Isolationsmodell
 
 **LangGraph** läuft als Python-Bibliothek innerhalb Ihres Anwendungsprozesses. Es gibt keine integrierte Agenten-Isolation — alle Agenten, Tools und Workflows teilen denselben Prozessraum. Eine Pyodide/WebAssembly-Sandbox (Mai 2025 hinzugefügt) isoliert speziell Code-Ausführung, aber die Agenten-Logik selbst läuft im Host-Prozess. Auth und RBAC sind nur in LangSmith-Plus- und Enterprise-Stufen verfügbar.
 
-**OpenLegion** nutzt Docker-Container-Isolation pro Agent. Jeder Agent läuft in einem separaten Container mit Non-Root-Ausführung, ohne Docker-Socket, no-new-privileges und Pro-Container-Ressourcen-Caps. Agenten können nicht auf andere Agenten, das Host-System oder Credential-Stores zugreifen. Das ist Isolation auf OS-Ebene, durchgesetzt durch Linux-Namespaces und cgroups.
+**OpenLegion** isoliert die Arbeit pro Aufgabe statt pro Prozess. Jede Aufgabe läuft bei Bedarf in einer Sandbox, standardmäßig ohne Netzwerkzugriff, und endet dann — es gibt keinen langlebigen Agentenprozess zu kompromittieren. Agenten erreichen weder andere Agenten noch das Host-System oder Credential-Stores. Die Isolation setzt die Plattform durch, außerhalb der Reichweite des Agenten.
 
 ### Die CVE-Bilanz
 
@@ -105,13 +105,13 @@ Das **LangChain-Ökosystem** hat mehrere kritische CVEs angesammelt, die LangGra
 - **Serialisierungs-Injection (CVSS 9,3, Dezember 2025):** Serialisierungs-Injection mit Secret-Extraktion und beliebiger Code-Ausführung.
 - **Weitere Checkpoint-Schwachstellen** mit AES-Verschlüsselung adressiert (Januar 2026).
 
-**OpenLegion** hat seit v0.1.0 keine CVEs gemeldet. Seine Vault-Proxy-Architektur bedeutet, dass im Agenten-Zustand keine Credentials zum Extrahieren via Serialisierungs-Angriffe vorhanden sind.
+**OpenLegion** ist eine gehostete Plattform, die zentral gepatcht wird statt von ihren Nutzern. Credentials im Vault bedeuten, dass im Agenten-Zustand keine Credentials zum Extrahieren via Serialisierungs-Angriffe vorhanden sind.
 
 ### Budget-Kontrollen
 
 **LangGraph** bietet Kosten-Tracking und Observability über LangSmith, aber keinen Mechanismus zur Durchsetzung von Ausgabenlimits. Ein Agent in einer Reasoning-Schleife häuft weiter Kosten an.
 
-**OpenLegion** erzwingt tägliche und monatliche Budget-Limits pro Agent mit automatischer Hartabschaltung.
+**OpenLegion** gibt jedem Agenten ein eigenes Credit-Budget mit automatischer Hartabschaltung.
 
 ## LangGraphs Ökosystem: Was es am besten kann
 
@@ -143,25 +143,25 @@ LangSmith ergänzt Tracing, Evaluation, Monitoring und (in Plus/Enterprise-Stufe
 
 ### Was OpenLegion anders abdeckt
 
-OpenLegion enthält Sicherheits-Primitive, die LangGraph extern besorgt: Der Vault-Proxy ersetzt HashiCorp-Vault-Integration, Docker-Container-Isolation ersetzt Kubernetes-Pod-Isolation, Pro-Agent-Budgets ersetzen manuelles Kosten-Monitoring, Fleet-Modell-Koordination ersetzt graphbasierte Workflows mit statischer Auditierbarkeit, und null externe Abhängigkeiten ersetzen den LangChain-Ökosystem-Stack.
+OpenLegion enthält Sicherheits-Primitive, die LangGraph extern besorgt: Ein Credential-Vault ersetzt HashiCorp-Vault-Integration, Sandbox-Läufe pro Aufgabe ersetzen Kubernetes-Pod-Isolation, Pro-Agent-Budgets ersetzen manuelles Kosten-Monitoring, Ziel-und-Aufgaben-Koordination ersetzt graphbasierte Workflows mit statischer Auditierbarkeit, und eine gehostete Plattform ersetzt den LangChain-Ökosystem-Stack.
 
 ## Hosting- vs. Self-Host-Kompromisse
 
 **LangGraph** ist eine Python-Bibliothek, die Sie selbst hosten. LangSmith bietet eine optionale Cloud-Plattform für Observability, Auth und RBAC. Self-Hosting von LangSmith Enterprise ist zu Enterprise-Preisen verfügbar. Die MIT-Lizenz bietet volle Deployment-Flexibilität.
 
-**OpenLegion** benötigt Python, SQLite und Docker. Die gehostete Plattform (kommt bald) bietet Per-User-VPS-Instanzen für 19 $/Monat mit BYO-API-Keys. Self-Hosted-Deployment ist vollständig in sich geschlossen ohne externe Service-Abhängigkeiten.
+**OpenLegion** ist keine Bibliothek, die Sie selbst hosten. Die gehostete Plattform ist live und verlangt nichts davon: mit Google anmelden, kostenlos mit 1,000 Credits und ohne Kreditkarte starten oder für $29/Monat zu Pro wechseln. Es gibt nichts zu installieren, zu patchen oder selbst zu betreiben.
 
 ## Für wen
 
 **LangGraph** ist für Engineering-Teams, die komplexe, zustandsbehaftete Agenten-Workflows bauen, die feingranulare Kontrolle über den Ausführungsfluss, dauerhaftes Checkpoint/Replay und tiefe Ökosystem-Integration erfordern. Der ideale Nutzer ist ein Backend-Engineer, der mit graphbasierten Abstraktionen vertraut ist, der Zugriff auf bestehende Sicherheitsinfrastruktur (Secret Manager, Container-Orchestrierung, Netzwerk-Policies) hat und Orchestrierungs-Flexibilität über integrierte Sicherheit stellt.
 
-**OpenLegion** ist für Teams, die Agenten-Flotten in Umgebungen ausspielen, in denen Credential-Sicherheit, Kostenkontrolle und Auditierbarkeit harte Anforderungen sind — und die diese Fähigkeiten ins Framework eingebaut wollen statt aus externen Tools zusammengesetzt. Der ideale Nutzer muss Compliance-Reviewern eine Sicherheitslage nachweisen und kann sich Credential-Exposition oder unkontrollierte Kosten nicht leisten.
+**OpenLegion** ist für Teams, die Agenten in Umgebungen ausspielen, in denen Credential-Sicherheit, Kostenkontrolle und Auditierbarkeit harte Anforderungen sind — und die diese Fähigkeiten ins Framework eingebaut wollen statt aus externen Tools zusammengesetzt. Der ideale Nutzer muss Compliance-Reviewern eine Sicherheitslage nachweisen und kann sich Credential-Exposition oder unkontrollierte Kosten nicht leisten.
 
 ## Der ehrliche Kompromiss
 
-LangGraph hat die Orchestrierungs-Power, Produktionsreife (1.0 GA), Enterprise-Adoption und Ökosystem-Breite. Sein graphbasiertes Modell handhabt Workflows, die Fleet-Modell-Koordination nicht ausdrücken kann.
+LangGraph hat die Orchestrierungs-Power, Produktionsreife (1.0 GA), Enterprise-Adoption und Ökosystem-Breite. Sein graphbasiertes Modell handhabt Workflows, die Ziel-und-Aufgaben-Koordination nicht ausdrücken kann.
 
-OpenLegion hat die Sicherheitsarchitektur, Credential-Schutz und Kosten-Governance eingebaut. Seine Fleet-Modell-Koordination ist weniger ausdrucksstark als LangGraphs Graphen, bietet aber statische Auditierbarkeit und strukturelle Sicherheitsgarantien.
+OpenLegion hat die Sicherheitsarchitektur, Credential-Schutz und Kosten-Governance eingebaut. Seine Ziel-und-Aufgaben-Koordination ist weniger ausdrucksstark als LangGraphs Graphen, bietet aber statische Auditierbarkeit und strukturelle Sicherheitsgarantien.
 
 Wenn Ihr Engpass Orchestrierungs-Komplexität ist, wählen Sie LangGraph. Wenn Ihr Engpass Sicherheitsrisiko ist, wählen Sie OpenLegion. Manche Teams nutzen beides: LangGraph für komplexe interne Workflows, OpenLegion für extern gerichtete Agenten mit sensiblen Credentials.
 
@@ -184,23 +184,23 @@ LangGraph ist ein graphbasiertes Agenten-Orchestrierungs-Framework, das vom Lang
 
 ### OpenLegion vs. LangGraph: Was ist der Unterschied?
 
-LangGraph ist ein graphbasiertes Orchestrierungs-Framework, optimiert für komplexe zustandsbehaftete Workflows mit Zyklen, Checkpoint/Replay und LangChain-Ökosystem-Integration. OpenLegion ist ein Security-First-Framework mit Docker-Container-Isolation, Vault-Proxy-Credentials (Agenten sehen nie Keys), Pro-Agent-Budgets und Fleet-Modell-Koordination (Blackboard + Pub/Sub + Handoff). LangGraph bietet mehr Orchestrierungs-Flexibilität; OpenLegion bietet stärkere Sicherheits-Garantien.
+LangGraph ist ein graphbasiertes Orchestrierungs-Framework, optimiert für komplexe zustandsbehaftete Workflows mit Zyklen, Checkpoint/Replay und LangChain-Ökosystem-Integration. OpenLegion ist ein Security-First-Framework mit Sandbox-Läufen pro Aufgabe, Credentials im Vault (Agenten sehen nie Keys), Pro-Agent-Budgets und Ziel-und-Aufgaben-Koordination (Ziele → Aufgaben → Agenten). LangGraph bietet mehr Orchestrierungs-Flexibilität; OpenLegion bietet stärkere Sicherheits-Garantien.
 
 ### Ist OpenLegion eine LangGraph-Alternative?
 
-Ja. OpenLegion dient als LangGraph-Alternative für Teams, deren primäre Anforderung integrierte Sicherheit statt Orchestrierungs-Flexibilität ist. Es bietet Fähigkeiten, die LangGraph nativ fehlen: verpflichtende Container-Isolation, Vault-Proxy-Credential-Verwaltung, Pro-Agent-Budgetdurchsetzung und auditierbare Fleet-Modell-Koordination. Es repliziert weder LangGraphs graphbasierte Zyklen noch dauerhaftes Checkpoint/Replay oder LangChain-Ökosystem-Integration.
+Ja. OpenLegion dient als LangGraph-Alternative für Teams, deren primäre Anforderung integrierte Sicherheit statt Orchestrierungs-Flexibilität ist. Es bietet Fähigkeiten, die LangGraph nativ fehlen: einen Sandbox-Lauf für jede Aufgabe, Credentials im Vault, Pro-Agent-Budgetdurchsetzung und auditierbare Ziel-und-Aufgaben-Koordination. Es repliziert weder LangGraphs graphbasierte Zyklen noch dauerhaftes Checkpoint/Replay oder LangChain-Ökosystem-Integration.
 
 ### Wie vergleicht sich Credential-Handling zwischen OpenLegion und LangGraph?
 
-LangGraph hat keine integrierte Credential-Verwaltung — Entwickler nutzen Umgebungsvariablen oder externe Vaults. Drei seiner vier CVEs betreffen Serialisierungs-Schwachstellen, die Secrets offenlegen können. OpenLegions Vault-Proxy routet API-Aufrufe über einen Proxy, der Credentials auf Netzwerkebene injiziert. Agenten halten in keiner Form Keys, was serialisierungsbasierten Credential-Diebstahl strukturell unmöglich macht.
+LangGraph hat keine integrierte Credential-Verwaltung — Entwickler nutzen Umgebungsvariablen oder externe Vaults. Drei seiner vier CVEs betreffen Serialisierungs-Schwachstellen, die Secrets offenlegen können. OpenLegions Vault injiziert Credentials außerhalb des Modells, das immer nur ein Handle hält. Agenten halten in keiner Form Keys, was serialisierungsbasierten Credential-Diebstahl strukturell unmöglich macht.
 
 ### Welches ist besser für Produktions-KI-Agenten?
 
-LangGraph hat stärkere Produktionsreife (1.0 GA, Enterprise-Adoption). OpenLegion hat stärkere Produktions-Sicherheit (Vault-Proxy, Container-Isolation, Pro-Agent-Budgets). Für komplexe interne Workflows mit bestehender Sicherheitsinfrastruktur: LangGraph. Für Agenten-Flotten mit sensiblen Credentials, bei denen integrierte Sicherheit gefordert ist: OpenLegion.
+LangGraph hat stärkere Produktionsreife (1.0 GA, Enterprise-Adoption). OpenLegion hat stärkere Produktions-Sicherheit (Credential-Vault, Sandbox-Läufe, Pro-Agent-Budgets). Für komplexe interne Workflows mit bestehender Sicherheitsinfrastruktur: LangGraph. Für Agenten-Teams mit sensiblen Credentials, bei denen integrierte Sicherheit gefordert ist: OpenLegion.
 
 ### Hat LangGraph Pro-Agent-Kostenkontrollen?
 
-LangGraph bietet Kosten-Tracking über LangSmith, aber keinen Mechanismus, um Ausgabenlimits zu erzwingen oder Agenten, die Budgets überschreiten, automatisch zu stoppen. OpenLegion erzwingt tägliche und monatliche Limits pro Agent mit automatischer Hartabschaltung.
+LangGraph bietet Kosten-Tracking über LangSmith, aber keinen Mechanismus, um Ausgabenlimits zu erzwingen oder Agenten, die Budgets überschreiten, automatisch zu stoppen. OpenLegion gibt jedem Agenten ein eigenes Credit-Budget mit automatischer Hartabschaltung.
 
 ### Ist LangGraph sicher für Produktions-Deployments?
 
@@ -208,7 +208,7 @@ Das LangChain-Ökosystem hatte 4 kritische CVEs (bis CVSS 9,3), darunter Seriali
 
 ### Kann ich LangGraph und OpenLegion zusammen nutzen?
 
-Ja. Manche Teams nutzen LangGraph für komplexe interne Orchestrierung und OpenLegion für extern gerichtete Agenten mit sensiblen Credentials. OpenLegions MCP-Tool-Server-Unterstützung bedeutet, dass LangGraph-Agenten OpenLegion-verwaltete Tools konsumieren können.
+Ja. Manche Teams nutzen LangGraph für komplexe interne Orchestrierung und OpenLegion für extern gerichtete Agenten mit sensiblen Credentials. OpenLegions freigegebene ausgehende Anfragen bedeuten, dass sich ein LangGraph-Dienst als externes Tool aufrufen lässt.
 
 ---
 

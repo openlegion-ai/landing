@@ -106,7 +106,7 @@ Invisible unicode characters are the primary obfuscation technique for hiding in
 - **Tag characters** (U+E0000--U+E007F): invisible to humans, processed by LLMs
 - **Zero-width joiners and spaces** (U+200B, U+200C, U+200D): split words visually without breaking LLM token boundaries
 
-Sanitise at every trust boundary -- user input, tool outputs, retrieved documents, memory reads, MCP server responses. OpenLegion applies unicode sanitisation at 56 choke points in the mesh host before content reaches the LLM. This cannot be bypassed by an injected agent because it runs outside the agent's execution context.
+Sanitise at every trust boundary -- user input, tool outputs, retrieved documents, memory reads, MCP server responses. OpenLegion applies unicode sanitisation at every ingest point in the platform before content reaches the LLM. This cannot be bypassed by an injected agent because it runs outside the agent's execution context.
 
 ### Output Validation: Assert Before Propagating
 
@@ -116,7 +116,7 @@ Before an agent's output reaches a downstream agent or triggers an irreversible 
 
 The blast radius of a successful injection is bounded by what the injected agent is permitted to do. An agent permitted only to read documents and produce summaries, with no write tools and no external API access, has near-zero injection blast radius. An agent with unrestricted tool access, network egress, and credential access has maximum blast radius.
 
-Per-agent ACL gates enforced at the platform layer, outside the agent's execution context, are the only reliable implementation. An injected agent cannot self-modify its permission set because the permission check runs at the mesh host, not in the agent's code.
+Per-agent ACL gates enforced at the platform layer, outside the agent's execution context, are the only reliable implementation. An injected agent cannot self-modify its permission set because the permission check runs in the policy engine, not in the agent's code.
 
 ## OpenLegion's Take: Defence-in-Depth at the Infrastructure Layer
 
@@ -126,14 +126,14 @@ Defences implemented in agent code can be bypassed by injection -- an injected a
 
 OpenLegion implements three infrastructure-layer defences that the agent cannot disable:
 
-1. **Unicode sanitisation at 56 choke points** in the mesh host, stripping bidi overrides (U+202A--U+202E), tag characters (U+E0000--U+E007F), and zero-width characters before content reaches the LLM. The sanitisation is applied by the network layer before the LLM call is made.
-2. **Per-agent ACL gates** enforced by the mesh host. An injected agent cannot grant itself new tool permissions or credential access. The attacker's blast radius is structurally bounded to whatever the agent was legitimately permitted to do before the injection.
+1. **Unicode sanitisation at every ingest point** in the platform, stripping bidi overrides (U+202A--U+202E), tag characters (U+E0000--U+E007F), and zero-width characters before content reaches the LLM. The sanitisation is applied outside the model before the LLM call is made.
+2. **Per-agent ACL gates** enforced by the policy engine. An injected agent cannot grant itself new tool permissions or credential access. The attacker's blast radius is structurally bounded to whatever the agent was legitimately permitted to do before the injection.
 3. **Typed handoff contracts** validated by the orchestrator before a downstream agent receives the payload. A relay injection that produces a malformed or anomalous payload is blocked at the handoff boundary.
 
 | **Dimension** | **OpenLegion** | **LangGraph** | **CrewAI** | **OpenAI Agents SDK** | **AutoGen** |
 |---|---|---|---|---|---|
-| **Unicode/invisible char sanitisation** | 56 choke points, infra-layer | Not built-in | Not built-in | Not built-in | Not built-in |
-| **Per-agent ACL enforcement** | Mesh host -- agent cannot bypass | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Unicode/invisible char sanitisation** | Every ingest point, infra-layer | Not built-in | Not built-in | Not built-in | Not built-in |
+| **Per-agent ACL enforcement** | Policy engine -- agent cannot bypass | Not built-in | Not built-in | Not built-in | Not built-in |
 | **Handoff output validation** | Typed contracts, orchestrator-validated | Manual via StateGraph | Manual | Not built-in | Not built-in |
 | **Tool result isolation** | Sanitised before LLM context | Developer responsibility | Developer responsibility | Developer responsibility | Developer responsibility |
 | **Multi-agent relay protection** | Structural -- schema-validated handoffs | Not built-in | Not built-in | Not built-in | Not built-in |

@@ -1,6 +1,6 @@
 ---
 title: Alternativa a LiteLLM — Aislamiento Vault vs Store de Credenciales
-description: "OpenLegion vs LiteLLM: proxy vault vs store centralizado de credenciales. CVE-2026-42208 (CVSS 9.3) inyección SQL expuso la BD de credenciales de LiteLLM. Aislamiento distribuido vs agregación gateway."
+description: "OpenLegion vs LiteLLM: aislamiento en bóveda vs store centralizado de credenciales. CVE-2026-42208 (CVSS 9.3) inyección SQL expuso la BD de credenciales de LiteLLM. Aislamiento distribuido vs agregación gateway."
 slug: /comparison/litellm
 primary_keyword: litellm alternative
 secondary_keywords:
@@ -25,27 +25,27 @@ related:
 
 # Alternativa a LiteLLM: Vault Distribuido de OpenLegion vs Gateway Centralizado
 
-OpenLegion vs LiteLLM representa el compromiso fundamental de seguridad entre la arquitectura de proxy vault distribuido y la agregación de credenciales mediante gateway LLM centralizado. LiteLLM destaca como gateway unificado de proveedores con 47.997 estrellas en GitHub, seguimiento de costos y soporte para más de 100 proveedores LLM, pero sufrió CVE-2026-42208 (CVSS 9.3 CRÍTICO) donde la inyección SQL expuso toda la base de datos de credenciales a atacantes no autenticados. El proxy vault distribuido de OpenLegion inyecta credenciales en el momento de la llamada sin almacenamiento central, eliminando el objetivo de ataque de alto valor que los gateways centralizados crean estructuralmente.
+OpenLegion vs LiteLLM representa el compromiso fundamental de seguridad entre credenciales guardadas en bóveda e inyectadas fuera del modelo y la agregación de credenciales mediante gateway LLM centralizado. LiteLLM destaca como gateway unificado de proveedores con 47.997 estrellas en GitHub, seguimiento de costos y soporte para más de 100 proveedores LLM, pero sufrió CVE-2026-42208 (CVSS 9.3 CRÍTICO) donde la inyección SQL expuso toda la base de datos de credenciales a atacantes no autenticados. En OpenLegion las credenciales viven en una bóveda y se inyectan en el momento de la llamada, y el modelo solo llega a retener un identificador — no hay base de datos de credenciales que leer.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **¿Qué es LiteLLM y cómo se compara con OpenLegion?**
-> LiteLLM es un gateway LLM centralizado con más de 47.997 estrellas en GitHub que agrega credenciales de proveedores en una base de datos para acceso unificado, seguimiento de costos y enrutamiento de proveedores. OpenLegion es una plataforma multi-agente enfocada en seguridad con proxy vault distribuido que inyecta credenciales sin almacenamiento central, eliminando las bases de datos de credenciales como objetivos de ataque. LiteLLM ofrece unificación del gateway; OpenLegion ofrece aislamiento de seguridad arquitectónico.
+> LiteLLM es un gateway LLM centralizado con más de 47.997 estrellas en GitHub que agrega credenciales de proveedores en una base de datos para acceso unificado, seguimiento de costos y enrutamiento de proveedores. OpenLegion es una plataforma multi-agente enfocada en seguridad donde las credenciales viven en una bóveda y se inyectan fuera del modelo, eliminando las bases de datos de credenciales como objetivos de ataque. LiteLLM ofrece unificación del gateway; OpenLegion ofrece aislamiento de seguridad arquitectónico.
 
 ## TL;DR
 
 | **Dimensión** | **LiteLLM** | **OpenLegion** |
 |---|---|---|
-| **Propósito principal** | Gateway LLM centralizado y proxy de proveedores | Plataforma multi-agente enfocada en seguridad con proxy vault |
-| **Arquitectura** | Base de datos de credenciales centralizada con enrutamiento API | Inyección vault distribuida sin almacenamiento central |
-| **Almacenamiento de credenciales** | Todas las claves de proveedores en base de datos centralizada | El proxy vault inyecta credenciales en el momento de la llamada |
-| **CVEs recientes** | 5 CVEs en 2026, incluyendo inyección SQL CRÍTICA | 0 CVEs reportados |
-| **Aislamiento de seguridad** | Gateway compartido con controles de acceso | Contenedores por agente con aislamiento proxy vault |
-| **Soporte de proveedores** | Más de 100 LLMs con interfaz API unificada | Más de 100 LLMs mediante integración LiteLLM |
-| **Seguimiento de costos** | Seguimiento de gastos integrado y presupuestación | Controles presupuestarios a nivel de agente |
-| **Modelo de despliegue** | Servicio gateway único | Contenedores de agentes distribuidos |
-| **Seguridad de contenedores** | Ejecución root por defecto, sin sandboxing | No-root obligatorio, aislamiento no-new-privileges |
-| **Superficie de ataque** | Objetivo de credenciales centralizado de alto valor | Vault distribuido sin store central |
+| **Propósito principal** | Gateway LLM centralizado y proxy de proveedores | Plataforma multi-agente enfocada en seguridad con credenciales en bóveda |
+| **Arquitectura** | Base de datos de credenciales centralizada con enrutamiento API | Credenciales en una bóveda, inyectadas fuera del modelo |
+| **Almacenamiento de credenciales** | Todas las claves de proveedores en base de datos centralizada | La bóveda inyecta credenciales en la llamada; el modelo retiene un identificador |
+| **CVEs recientes** | 5 CVEs en 2026, incluyendo inyección SQL CRÍTICA | n/d — plataforma alojada |
+| **Aislamiento de seguridad** | Gateway compartido con controles de acceso | Ejecución en sandbox por tarea, credenciales en bóveda |
+| **Soporte de proveedores** | Más de 100 LLMs con interfaz API unificada | Presets de modelo Smartest, Smart y Normal |
+| **Seguimiento de costos** | Seguimiento de gastos integrado y presupuestación | Presupuestos de créditos por agente, coste visible por tarea |
+| **Modelo de despliegue** | Servicio gateway único | App web alojada; los agentes son registros duraderos |
+| **Seguridad de contenedores** | Ejecución root por defecto, sin sandboxing | Ejecuciones en sandbox, sin acceso a red por defecto |
+| **Superficie de ataque** | Objetivo de credenciales centralizado de alto valor | Ningún store de credenciales que un agente pueda alcanzar |
 
 ## Gateway Centralizado vs Vault Distribuido
 
@@ -53,7 +53,7 @@ OpenLegion vs LiteLLM representa el compromiso fundamental de seguridad entre la
 
 **LiteLLM** centraliza todas las credenciales de proveedores LLM en una base de datos única accesible mediante endpoints API. Esto crea una interfaz unificada donde las aplicaciones pueden acceder a OpenAI, Anthropic, Google, Cohere y más de 100 proveedores adicionales a través de una API consistente.
 
-**OpenLegion** distribuye el acceso a credenciales mediante inyección de proxy vault que nunca almacena credenciales en ninguna ubicación accesible por los agentes. Cuando los agentes realizan llamadas LLM, el host mesh intercepta las solicitudes e inyecta las credenciales apropiadas a nivel de red.
+**OpenLegion** mantiene el acceso a credenciales en una bóveda que nunca se replica en ninguna ubicación accesible por los agentes. Cuando los agentes realizan llamadas, la credencial se inyecta fuera del modelo y el modelo solo llega a retener un identificador.
 
 ### Objetivo de Alto Valor vs Riesgo Distribuido
 
@@ -83,15 +83,15 @@ CVE-2026-42208 demostró este riesgo cuando la inyección SQL expuso toda la bas
 
 ### Aislamiento Obligatorio de OpenLegion
 
-**Ejecución no-root** con indicador no-new-privileges que previene intentos de escalada de privilegios.
+**Ejecución efímera**: cada tarea corre bajo demanda y luego se detiene, así que no hay proceso permanente desde el que escalar.
 
-**Restricciones de recursos** aplican por contenedor de agente, previniendo ataques de agotamiento de recursos.
+**Restricciones de presupuesto** aplican un presupuesto de créditos por agente, previniendo un gasto descontrolado que ahogue el trabajo de los demás.
 
 ## Perspectiva de OpenLegion
 
 LiteLLM vs OpenLegion representa el clásico compromiso seguridad/comodidad en infraestructura de IA. El clúster CVE 2026 expone los riesgos sistemáticos de la agregación de credenciales. CVE-2026-42208 (CVSS 9.3 CRÍTICO) probó que la inyección SQL puede exponer todos los stores de credenciales organizacionales.
 
-El proxy vault distribuido de OpenLegion elimina completamente el riesgo de agregación de credenciales. Ninguna base de datos almacena claves API donde puedan ser expuestas mediante inyección SQL, bypass de autenticación o escape de contenedor.
+La bóveda de credenciales de OpenLegion elimina completamente el riesgo de agregación. Ninguna base de datos almacena claves API donde puedan ser expuestas mediante inyección SQL, bypass de autenticación o un escape del sandbox.
 
 ## Elegir LiteLLM vs Elegir OpenLegion
 
@@ -105,7 +105,7 @@ La agregación de credenciales crea riesgo inaceptable donde el compromiso de un
 
 ## Migración de Gateway Centralizado a Proxy Vault
 
-**Las configuraciones de proveedores** se transfieren directamente ya que OpenLegion soporta más de 100 LLMs mediante integración LiteLLM sin pérdida de funcionalidad.
+**Las configuraciones de proveedores** dejan de ser algo que mantener: OpenLegion elige modelos por preset — Smartest, Smart o Normal — por agente o por espacio de trabajo.
 
 Para una visión más amplia de [la arquitectura de seguridad de agentes IA](/learn/ai-agent-security), el patrón de aislamiento de credenciales es el diferenciador de seguridad más significativo de OpenLegion.
 
@@ -115,7 +115,7 @@ Para una visión más amplia de [la arquitectura de seguridad de agentes IA](/le
 
 ### ¿Qué es LiteLLM vs OpenLegion?
 
-LiteLLM es un gateway LLM centralizado con más de 47.997 estrellas en GitHub que agrega credenciales en una base de datos para acceso unificado a más de 100 proveedores LLM. OpenLegion es una plataforma multi-agente enfocada en seguridad con proxy vault distribuido que inyecta credenciales sin almacenamiento central.
+LiteLLM es un gateway LLM centralizado con más de 47.997 estrellas en GitHub que agrega credenciales en una base de datos para acceso unificado a más de 100 proveedores LLM. OpenLegion es una plataforma multi-agente enfocada en seguridad donde las credenciales viven en una bóveda y se inyectan fuera del modelo.
 
 ### ¿Cuáles son las vulnerabilidades de seguridad recientes de LiteLLM?
 
@@ -123,19 +123,19 @@ CVE-2026-42208 (CVSS 9.3 CRÍTICO) permitía inyección SQL para leer y modifica
 
 ### ¿Cómo gestionan las credenciales de proveedores LLM?
 
-LiteLLM almacena todas las credenciales en una base de datos centralizada accesible mediante endpoints API. El proxy vault de OpenLegion inyecta credenciales en el momento de la llamada sin almacenarlas en ninguna ubicación accesible por los agentes.
+LiteLLM almacena todas las credenciales en una base de datos centralizada accesible mediante endpoints API. La bóveda de OpenLegion inyecta credenciales en el momento de la llamada, fuera del modelo, que solo llega a retener un identificador.
 
 ### ¿Cuál es más seguro para producción?
 
-LiteLLM agrega todas las credenciales creando un objetivo de ataque de alto valor probado vulnerable a inyección SQL CRÍTICA. OpenLegion distribuye la inyección vault sin store central de credenciales e impone aislamiento de contenedor por agente con ejecución no-root.
+LiteLLM agrega todas las credenciales creando un objetivo de ataque de alto valor probado vulnerable a inyección SQL CRÍTICA. OpenLegion guarda las credenciales en una bóveda que el modelo nunca lee y da a cada tarea su propia ejecución en sandbox, sin proceso de larga vida que comprometer.
 
 ### ¿Cuáles son las diferencias de despliegue?
 
-LiteLLM se ejecuta como root en la imagen Docker por defecto sin sandboxing. OpenLegion impone contenedores por agente con ejecución no-root, indicador no-new-privileges, restricciones de recursos y aislamiento del sistema de archivos.
+LiteLLM se ejecuta como root en la imagen Docker por defecto sin sandboxing. OpenLegion es una app web alojada sin nada que desplegar: cada tarea corre bajo demanda en un sandbox sin acceso a red por defecto, con su propio presupuesto y un recibo por cada acción.
 
 ### ¿Puedo migrar de LiteLLM a OpenLegion?
 
-Sí, las configuraciones de proveedores se transfieren directamente ya que OpenLegion soporta más de 100 LLMs mediante integración LiteLLM sin pérdida de funcionalidades.
+Sí. No hay configuraciones de proveedores que trasladar, porque los modelos se eligen por preset — Smartest, Smart o Normal — por agente o por espacio de trabajo.
 
 **Prueba OpenLegion hoy.**
 [Comenzar](https://app.openlegion.ai) | [Leer la documentación](https://docs.openlegion.ai) | [Comparar arquitectura de seguridad de agentes IA](/learn/ai-agent-security)

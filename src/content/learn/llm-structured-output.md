@@ -354,7 +354,7 @@ Three concrete problems define the structured output failure mode in production:
 |---|---|---|---|---|---|
 | **Validator stage between every pipeline step** | Schema enforcement before next agent receives input | PydanticOutputParser per chain step | Not built-in | Not built-in | Not built-in |
 | **Validation failure → retry with error feedback → reject after max_retries** | Never passes malformed data downstream | Configurable per parser | Not built-in | Not built-in | Partial (parsing error handling) |
-| **Per-agent output schema declared in INSTRUCTIONS.md** | Git-committed — schema changes require a PR | Not applicable | In YAML config | In code | In code |
+| **Per-agent output schema declared per agent** | Declared in the app — schema changes are versioned | Not applicable | In YAML config | In code | In code |
 | **`additionalProperties: false` enforced on all agent output schemas** | Platform-level default | Per-parser configuration | Not enforced | Not enforced | Not enforced |
 | **Validation error audit log** | Every violation logged with agent_id, schema version, error | LangSmith (optional) | Not built-in | Not built-in | OpenAI dashboard |
 | **Schema version pinning** | Agent output schema versioned; consumers declare consumed version | Not built-in | Not built-in | Not built-in | Not built-in |

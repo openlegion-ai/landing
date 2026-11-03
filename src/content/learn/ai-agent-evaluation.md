@@ -228,13 +228,13 @@ Record a golden eval dataset of task inputs with expected tool call sequences an
 
 ### How does OpenLegion support agent evaluation?
 
-OpenLegion's agent mesh emits structured tool-call traces that can be replayed against an eval harness. The credential vault ensures eval runs use isolated credentials — a failing security test cannot exfiltrate real API tokens. Heartbeat-driven eval agents can run regression suites on a schedule and post results to the blackboard for operator review and CI gate integration.
+OpenLegion records every tool call as a receipt, and those structured traces can be replayed against an eval harness. The credential vault ensures eval runs use isolated credentials — a failing security test cannot exfiltrate real API tokens. Scheduled eval agents can run regression suites on a schedule and record results for operator review and CI gate integration.
 
-## Evaluate Your Agents in a Secure Mesh
+## Evaluate Your Agents on a Secure Platform
 
 Reliable agents require eval infrastructure that tests the full execution trajectory, not just individual LLM calls. The compounding error problem is real: a 90% per-step reliability rate means a five-step agent fails on 41% of runs. Catching that degradation before it reaches production requires trajectory-level eval, adversarial input testing, and CI-gated regression checks.
 
-OpenLegion's mesh runs each agent in an isolated container with vault-scoped credentials. Eval runs against the same credential isolation as production — a security test that fails does so cleanly, without risk of exfiltrating real API tokens. Structured tool-call traces flow from every agent interaction, ready for replay against your eval dataset.
+OpenLegion runs each task on demand in a sandbox with vault-scoped credentials. Eval runs against the same credential isolation as production — a security test that fails does so cleanly, without risk of exfiltrating real API tokens. Structured tool-call traces flow from every agent interaction, ready for replay against your eval dataset.
 
 Review [agent observability with OpenTelemetry traces and span dashboards](/learn/ai-agent-observability) for the monitoring layer that complements eval: observability catches failures in production that eval suites miss in pre-deployment testing. Together, pre-deployment eval and production observability form the reliability foundation for agents operating at scale.
 

@@ -26,7 +26,7 @@ related:
 
 Um fluxo de trabalho agêntico é um processo de IA de múltiplas etapas no qual um ou mais agentes decidem de forma autônoma quais ferramentas chamar, quando delegar subtarefas a outros agentes e como adaptar sua abordagem com base nos resultados intermediários. Ao contrário de um pipeline fixo onde cada etapa é codificada e executada exatamente uma vez, um fluxo de trabalho agêntico é dinâmico: o agente lê seu ambiente, raciocina sobre o estado e escolhe a próxima ação. Essa autonomia é a funcionalidade. Também é a superfície de ataque.
 
-OpenLegion é uma plataforma de agentes de IA com foco em segurança que trata o design de fluxos de trabalho agênticos como uma disciplina de engenharia: cada etapa é executada em um container isolado, as credenciais nunca estão presentes no processo do agente, e cada loop de iteração tem uma condição de parada rígida aplicada no nível da infraestrutura.
+OpenLegion é uma plataforma de agentes de IA com foco em segurança que trata o design de fluxos de trabalho agênticos como uma disciplina de engenharia: cada tarefa é executada sob demanda no seu próprio sandbox, as credenciais nunca estão presentes no modelo, e cada loop de iteração tem uma condição de parada rígida aplicada pela plataforma.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -39,7 +39,7 @@ OpenLegion é uma plataforma de agentes de IA com foco em segurança que trata o
 - **ReAct** (Reason + Act, Yao et al. 2023) é o padrão mais amplamente implementado, usado no LangGraph, OpenAI Agents SDK, AutoGen e OpenLegion.
 - **Vetor de ataque principal**: injeção de prompt via resultados de ferramentas (OWASP LLM Top 10 2025, LLM02). Uma página web ou documento malicioso pode sequestrar a próxima ação do agente.
 - **Loops descontrolados não são casos extremos**: um loop de reflexão ou ReAct sem condição de parada rígida funcionará até que seu orçamento se esgote.
-- **Medidas OpenLegion**: orçamento de etapas por agente (limite rígido de iteração), isolamento por container (uma etapa comprometida não pode acessar credenciais de outros agentes), zero telemetria.
+- **Medidas OpenLegion**: orçamento de etapas por agente (limite rígido de iteração), uma execução em sandbox por tarefa (uma etapa comprometida não pode acessar credenciais de outros agentes), um recibo para cada ação.
 - **Orçamento de etapas vs. orçamento de tokens**: ambos importam. Orçamentos de tokens limitam gastos; orçamentos de etapas limitam loops de raciocínio ilimitados.
 
 ## O que torna um fluxo de trabalho agêntico diferente de um pipeline
@@ -63,7 +63,7 @@ Essa distinção tem implicações diretas de segurança. Em um pipeline fixo, o
 - **Injeção de prompt via observação**: a etapa de Observação é a principal superfície de ataque. OWASP LLM02 (Injeção de prompt) é o principal risco para fluxos de trabalho baseados em ReAct.
 - **Inflação da janela de contexto**: longas cadeias ReAct acumulam triplos pensamento/ação/observação no contexto.
 
-**Medida OpenLegion**: orçamento de etapas por agente (contagem máxima de iterações aplicada pelo orquestrador) mais isolamento por container.
+**Medida OpenLegion**: orçamento de etapas por agente (contagem máxima de iterações aplicada pelo orquestrador) mais uma execução em sandbox para cada tarefa.
 
 ### Padrão 2: Planejar-e-executar
 
@@ -76,7 +76,7 @@ Essa distinção tem implicações diretas de segurança. Em um pipeline fixo, o
 - **Ponto único de falha no Planejador**: uma injeção de prompt que corrompe a saída do Planejador afeta cada etapa de Execução subsequente.
 - **Sem replanejamento adaptativo**: o planejar-e-executar puro não pode lidar com tarefas onde resultados intermediários mudam materialmente o que as etapas subsequentes devem fazer.
 
-**Medida OpenLegion**: o Planejador e os Executores rodam em containers separados. Raio de impacto limitado à saída do container do Planejador.
+**Medida OpenLegion**: o Planejador e os Executores rodam como agentes separados, cada um na sua própria execução de tarefa. Raio de impacto limitado à saída do Planejador.
 
 ### Padrão 3: Loop de reflexão
 
@@ -98,7 +98,7 @@ Essa distinção tem implicações diretas de segurança. Em um pipeline fixo, o
 - **Envenenamento da síntese**: uma saída de ramificação maliciosa pode corromper o resultado mesclado.
 - **Conflitos de concorrência e estado compartilhado**: CVE-2025-64168 (Agno, CVSS 7.1) demonstrou isso: uma condição de corrida no estado de sessão compartilhado sob concorrência assíncrona expôs dados de um usuário a outro.
 
-**Medida OpenLegion**: cada agente paralelo roda em seu próprio container Docker isolado. Nenhum estado mutável compartilhado entre ramificações.
+**Medida OpenLegion**: cada agente paralelo roda na sua própria execução de tarefa em sandbox. Nenhum estado mutável compartilhado entre ramificações.
 
 ## Design de segurança para fluxos de trabalho agênticos
 
@@ -106,29 +106,29 @@ Essa distinção tem implicações diretas de segurança. Em um pipeline fixo, o
 
 Os resultados de ferramentas são o principal vetor de injeção em fluxos de trabalho agênticos. OWASP LLM02 (Injeção de prompt) é o principal risco para aplicações LLM no Top 10 de 2025. Para fluxos de trabalho agênticos, o risco é amplificado porque os agentes têm acesso a ferramentas, portanto uma instrução injetada pode causar ações no mundo real.
 
-O OpenLegion aplica sanitização Unicode na ingestão de resultados de ferramentas (56 pontos de controle para overrides bidi, caracteres de tag e caracteres de largura zero) mais isolamento por container para limitar o raio de impacto de qualquer injeção bem-sucedida.
+O OpenLegion trata agir sobre conteúdo não confiável como uma das três barreiras em que o trabalho para para a aprovação do dono, mais uma execução em sandbox para limitar o raio de impacto de qualquer injeção bem-sucedida.
 
 ### Ameaça 2: Amplificação de chamadas de ferramentas
 
 Um agente chamando uma ferramenta cara em um loop ReAct sem orçamento de etapas pode fazer centenas de chamadas de ferramentas antes que o desenvolvedor perceba. Incidentes do mundo real incluem agentes rodando durante a noite gerando milhares de chamadas de API para serviços de terceiros, acionando cobranças inesperadas e suspensões por limite de taxa.
 
-O OpenLegion impõe ambos: orçamento de tokens por agente (teto de gasto) e orçamento de etapas por agente (teto de iterações). Qualquer limite para o agente quando atingido.
+O OpenLegion impõe ambos: um orçamento de créditos por agente (teto de gasto) e um orçamento de etapas por agente (teto de iterações). Qualquer limite para o agente quando atingido.
 
 ### Ameaça 3: Exposição de credenciais durante a delegação
 
 Em frameworks onde agentes compartilham um processo Python, o Agente B tem acesso por padrão às variáveis de ambiente do Agente A. Uma etapa de delegação comprometida pode expor todas as credenciais disponíveis para o fluxo de trabalho.
 
-O OpenLegion usa injeção de credenciais por proxy vault via Mesh Host. O container do Agente B recebe apenas as credenciais explicitamente atribuídas na matriz ACL do fleet, não as credenciais do Agente A.
+O OpenLegion injeta credenciais guardadas em cofre fora do modelo, que só guarda um handle. O Agente B recebe apenas as credenciais explicitamente atribuídas nas suas próprias permissões, não as credenciais do Agente A.
 
 ### Ameaça 4: Recursão ilimitada e auto-spawning
 
-Um fluxo de trabalho agêntico que permite que agentes criem sub-agentes sem limite pode ser manipulado para recursão exponencial. O OpenLegion limita isso: a permissão `can_spawn` requer autorização explícita do administrador, a profundidade de sub-agentes é limitada pela configuração do mesh, e os templates de fleet definem uma contagem máxima de agentes.
+Um fluxo de trabalho agêntico que permite que agentes criem sub-agentes sem limite pode ser manipulado para recursão exponencial. O OpenLegion limita isso: criar colegas de equipe é uma permissão que um dono ou administrador concede, a profundidade de delegação é limitada pela plataforma, e cada plano define uma contagem máxima de agentes.
 
 ## Orçamento de etapas vs. orçamento de tokens: por que você precisa de ambos
 
 Os orçamentos de tokens limitam o gasto total por agente por dia. Eles são necessários mas não suficientes. Um orçamento de tokens não impede que um loop ReAct execute 500 iterações usando ferramentas baratas. Um orçamento de etapas limita o número de iterações de raciocínio ou chamadas de ferramentas, independentemente do custo de tokens.
 
-O OpenLegion implementa ambos: orçamento de tokens aplicado pelo Cost Tracker na Zona 2, e orçamento de etapas aplicado pelo orquestrador no nível da infraestrutura.
+O OpenLegion implementa ambos: um orçamento de créditos aplicado pelo motor de políticas na frente de cada ação, e um orçamento de etapas aplicado pelo orquestrador no nível da plataforma.
 
 ## Projetando fluxos de trabalho agênticos para produção
 
@@ -148,17 +148,17 @@ Cada loop em um fluxo de trabalho agêntico precisa de uma condição de parada 
 
 ### Validar saídas nas fronteiras de etapas
 
-Cada fronteira de etapa é uma oportunidade de validar que a saída corresponde ao esquema esperado antes de passá-la para a próxima etapa. A coordenação fleet-modelo do OpenLegion aplica validadores de saída em cada ponto de transferência. Ver o [guia de orquestração de agentes de IA](/learn/ai-agent-orchestration) para detalhes de implementação.
+Cada fronteira de etapa é uma oportunidade de validar que a saída corresponde ao esquema esperado antes de passá-la para a próxima etapa. A coordenação por metas e tarefas do OpenLegion aplica validadores de saída em cada ponto de delegação. Ver o [guia de orquestração de agentes de IA](/learn/ai-agent-orchestration) para detalhes de implementação.
 
 ### Limitar permissões ao mínimo necessário
 
-Cada agente deve ter apenas as ferramentas e permissões necessárias para sua etapa específica. Agentes com excesso de permissões ampliam o raio de impacto de qualquer comprometimento. A matriz ACL por agente na configuração fleet do OpenLegion impõe permissões mínimas no nível do orquestrador.
+Cada agente deve ter apenas as ferramentas e permissões necessárias para sua etapa específica. Agentes com excesso de permissões ampliam o raio de impacto de qualquer comprometimento. As permissões por agente do OpenLegion impõem privilégio mínimo no motor de políticas, na frente de cada ação.
 
 ## Frameworks de fluxos de trabalho agênticos: comparação de suporte a padrões
 
 | Framework | ReAct | Planejar-e-executar | Reflexão | Fan-Out | Orçamento etapas | Isolamento container |
 |---|---|---|---|---|---|---|
-| **OpenLegion** | Sim | Sim | Sim | Sim | Sim (rígido) | Sim (obrigatório) |
+| **OpenLegion** | Sim | Sim | Sim | Sim | Sim (rígido) | Execuções de tarefa em sandbox |
 | **LangGraph** | Sim | Sim | Sim | Sim | Não embutido | Não |
 | **CrewAI** | Sim (Flows) | Sim (Crews) | Limitado | Sim (parallel) | Não | Não (apenas CodeInterpreter) |
 | **OpenAI Agents SDK** | Sim | Limitado | Limitado | Sim (handoffs) | Não | Não |
@@ -170,9 +170,9 @@ Para uma comparação detalhada de segurança e arquitetura desses frameworks, v
 
 Os fluxos de trabalho agênticos são onde a dívida de segurança da maioria dos frameworks se torna visível em produção. Loops ReAct sem orçamentos de etapas geraram cobranças de API surpresa de cinco e seis dígitos. CVE-2025-64168 (Agno, CVSS 7.1, outubro de 2025) demonstrou que fluxos de trabalho agênticos concorrentes compartilhando um processo Python podem expor o estado de sessão de um usuário a outro sob alta carga assíncrona. OWASP LLM02 (Injeção de prompt, Top 10 2025) identifica a injeção via resultados de ferramentas como o principal vetor de ataque contra fluxos de trabalho agênticos baseados em ReAct.
 
-O OpenLegion aborda três propriedades arquiteturalmente: orçamentos de etapas rígidos (contagem máxima de iterações aplicada pelo orquestrador), isolamento por container por agente (nenhum estado mutável compartilhado entre ramificações paralelas) e injeção de credenciais por proxy vault (transferências de delegação são roteadas pela Zona 2). Estas não são opções de configuração: são a arquitetura padrão.
+O OpenLegion aborda três propriedades arquiteturalmente: orçamentos de etapas rígidos (contagem máxima de iterações aplicada pelo orquestrador), uma execução em sandbox por tarefa (nenhum estado mutável compartilhado entre ramificações paralelas) e injeção de credenciais guardadas em cofre (cada delegação é verificada por um único motor de políticas). Estas não são opções de configuração: são a arquitetura padrão.
 
-A troca: OpenLegion tem aproximadamente 59 estrelas no GitHub contra LangGraph com aproximadamente 25.200 e CrewAI com aproximadamente 44.600. Para uma comparação de como esses padrões são implementados nos frameworks, ver a [comparação de frameworks de agentes de IA](/learn/ai-agent-frameworks).
+A troca: OpenLegion é uma plataforma hospedada jovem ao lado do LangGraph com aproximadamente 25.200 estrelas no GitHub e do CrewAI com aproximadamente 44.600. Para uma comparação de como esses padrões são implementados nos frameworks, ver a [comparação de frameworks de agentes de IA](/learn/ai-agent-frameworks).
 
 ## CTA
 
@@ -207,11 +207,11 @@ O principal vetor de ataque é a injeção de prompt via resultados de ferrament
 
 ### Como funciona o fan-out paralelo nos fluxos de trabalho agênticos?
 
-O fan-out paralelo faz múltiplos agentes trabalharem simultaneamente em subtarefas independentes e então mescla os resultados em uma etapa de Síntese. Reduz o tempo de relógio para tarefas que se decompõem em fluxos de trabalho independentes. Os modos de falha são amplificação de custos (N agentes custam N vezes mais), envenenamento da síntese (uma saída de ramificação maliciosa corrompendo o resultado mesclado) e conflitos de estado compartilhado em frameworks onde agentes concorrentes compartilham estado de processo mutável. O OpenLegion faz cada agente paralelo rodar em um container Docker isolado com seu próprio estado, prevenindo conflitos de estado compartilhado e limitando cada ramificação independentemente.
+O fan-out paralelo faz múltiplos agentes trabalharem simultaneamente em subtarefas independentes e então mescla os resultados em uma etapa de Síntese. Reduz o tempo de relógio para tarefas que se decompõem em fluxos de trabalho independentes. Os modos de falha são amplificação de custos (N agentes custam N vezes mais), envenenamento da síntese (uma saída de ramificação maliciosa corrompendo o resultado mesclado) e conflitos de estado compartilhado em frameworks onde agentes concorrentes compartilham estado de processo mutável. O OpenLegion faz cada agente paralelo rodar na sua própria execução de tarefa em sandbox com seu próprio estado, prevenindo conflitos de estado compartilhado e limitando cada ramificação independentemente.
 
 ### O que é deriva do plano nos fluxos de trabalho agênticos?
 
-A deriva do plano ocorre em fluxos de trabalho planejar-e-executar quando agentes Executores encontram resultados intermediários inesperados mas continuam executando o plano original em vez de sinalizar a discrepância. As medidas incluem pontos de controle explícitos de validação do plano, portões de aprovação humana em etapas críticas do plano e protocolos de transferência estruturados que surfaciam discrepâncias antes de prosseguir. A coordenação fleet-modelo do OpenLegion suporta pontos de controle com humano no loop via integrações de canais em qualquer ponto de transferência.
+A deriva do plano ocorre em fluxos de trabalho planejar-e-executar quando agentes Executores encontram resultados intermediários inesperados mas continuam executando o plano original em vez de sinalizar a discrepância. As medidas incluem pontos de controle explícitos de validação do plano, portões de aprovação humana em etapas críticas do plano e protocolos de transferência estruturados que surfaciam discrepâncias antes de prosseguir. A coordenação por metas e tarefas do OpenLegion suporta aprovações com humano no loop dentro do app em qualquer ponto de delegação.
 
 ### Como o design de fluxo de trabalho agêntico difere da orquestração de agentes de IA?
 

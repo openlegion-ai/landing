@@ -24,7 +24,7 @@ related:
 
 # AgentOps Alternative: OpenLegion Execution Platform vs Monitoring Dashboard
 
-AgentOps is a Python observability SDK that records session replays, tracks token costs, and graphs tool-call events for frameworks like CrewAI, AutoGen, and LangChain. It does not execute agents — it watches them. OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) with Docker container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination (blackboard + pub/sub + handoff). AgentOps answers "what did my agents do?"; OpenLegion determines how agents run safely in production.
+AgentOps is a Python observability SDK that records session replays, tracks token costs, and graphs tool-call events for frameworks like CrewAI, AutoGen, and LangChain. It does not execute agents — it watches them. OpenLegion is a security-first [AI agent platform](/learn/ai-agent-platform) with sandboxed task runs, vault-held credentials, per-agent budget enforcement, and goal-and-task coordination (goals → tasks → agents). AgentOps answers "what did my agents do?"; OpenLegion determines how agents run safely in production.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -36,15 +36,15 @@ AgentOps is a Python observability SDK that records session replays, tracks toke
 | Dimension | OpenLegion | AgentOps |
 |---|---|---|
 | **Primary function** | Secure agent execution platform | Agent observability dashboard |
-| **Credential handling** | Vault proxy — agents never see API keys | Requires `AGENTOPS_API_KEY` in agent environment |
-| **Agent execution** | Active orchestration in isolated containers | Passive monitoring of existing agent systems |
-| **Container isolation** | Docker, non-root, no-new-privileges, no socket | None — observes whatever environment agents run in |
-| **Budget enforcement** | Per-agent daily/monthly hard cutoff | None built-in |
-| **Observability model** | Built-in audit trail, blackboard, status events | Session replays, cost tracking, event graphs |
-| **Framework integration** | Native fleet model | SDK wraps 8+ external frameworks |
+| **Credential handling** | Credential vault — agents never see API keys | Requires `AGENTOPS_API_KEY` in agent environment |
+| **Agent execution** | Active orchestration in sandboxed task runs | Passive monitoring of existing agent systems |
+| **Container isolation** | Sandboxed run per task, no network by default | None — observes whatever environment agents run in |
+| **Budget enforcement** | Per-agent credit budget, hard cutoff | None built-in |
+| **Observability model** | Built-in audit trail, receipts, status events | Session replays, cost tracking, event graphs |
+| **Framework integration** | Native goal-and-task model | SDK wraps 8+ external frameworks |
 | **GitHub stats** | Early-stage | 578 forks, 810+ commits, 104 open issues (May 2026) |
 | **License** | PolyForm Perimeter License 1.0.1 | MIT |
-| **Deployment model** | Self-hosted + hosted ($19/mo) | Cloud dashboard + open-source SDK |
+| **Deployment model** | Hosted web app (free, or $29/mo) | Cloud dashboard + open-source SDK |
 
 ## Execution vs Monitoring: The Architectural Split
 
@@ -58,7 +58,7 @@ AgentOps integrates with CrewAI, AutoGen, LangChain, LlamaIndex, Cohere, CamelAI
 
 ### What OpenLegion does
 
-OpenLegion provides the execution substrate: isolated Docker containers for each agent, a vault proxy that injects credentials at the network level without exposing them inside containers, a blackboard for structured agent coordination, pub/sub for events, and per-agent ACLs that control which tools each agent can reach. Observability is built-in — every task, hand-off, and status change is logged — but the primary guarantee is *security and execution control*, not session replay.
+OpenLegion provides the execution substrate: a sandboxed run for each task, a vault that injects credentials outside the model so an agent only ever holds a handle, a shared record of goals and tasks, event wakes, and per-agent permissions that control which tools each agent can reach. Observability is built-in — every task, delegation, and status change is recorded — but the primary guarantee is *security and execution control*, not session replay.
 
 ### Why builders move from monitoring to execution
 
@@ -74,11 +74,11 @@ AgentOps requires passing `AGENTOPS_API_KEY` into the agent environment as a raw
 
 This is not a flaw unique to AgentOps. It reflects how every wrapper-model observability tool operates: you instrument the agent's existing runtime, which means you share its security perimeter.
 
-### OpenLegion vault proxy model
+### OpenLegion credential vault model
 
-OpenLegion stores credentials in a vault that agent containers cannot query directly. When an agent needs to make an authenticated call, it sends a request to the vault proxy in the trusted Mesh Host zone. The proxy injects the credential at the network layer, makes the call, and returns the response. No key ever enters the agent container — not as an environment variable, not as an in-memory object, not as a file.
+OpenLegion stores credentials in a vault that an agent's run cannot query directly. When an agent needs to make an authenticated call, it passes a handle and the policy engine resolves it outside the model, makes the call, and returns the response. No key ever enters the agent's run — not as an environment variable, not as an in-memory object, not as a file.
 
-This is an architectural guarantee, not a masking policy. [AI agent security](/learn/ai-agent-security) researchers describe the vault proxy pattern as the only reliable defense against credential exfiltration via prompt injection: if the key does not exist in the agent's process space, injection cannot extract it.
+This is an architectural guarantee, not a masking policy. [AI agent security](/learn/ai-agent-security) researchers describe the vault-held credential pattern as the only reliable defense against credential exfiltration via prompt injection: if the key does not exist in the agent's process space, injection cannot extract it.
 
 ## Integration Complexity: Framework Lock-in vs Fleet Model
 
@@ -90,9 +90,9 @@ If you switch frameworks, you re-instrument. If AgentOps drops support for a fra
 
 ### OpenLegion fleet model
 
-OpenLegion's fleet model is framework-agnostic at the execution layer. Agents communicate through structured blackboard writes, hand-offs, and pub/sub events — protocols defined by the platform, not by any external framework. Adding a new agent type means writing a system prompt and defining its tool permissions. No SDK wrapping required.
+OpenLegion's team model is framework-agnostic at the execution layer. Agents communicate through a shared record of goals and tasks, delegation, and event wakes — protocols defined by the platform, not by any external framework. Adding a new agent type means writing a system prompt and defining its tool permissions. No SDK wrapping required.
 
-The built-in audit trail captures every task assignment, status update, and hand-off with timestamps. This produces an observability record as a side effect of normal execution, rather than requiring an additional instrumentation layer.
+The built-in audit trail captures every task assignment, status update, and delegation with timestamps. This produces an observability record as a side effect of normal execution, rather than requiring an additional instrumentation layer.
 
 ## OpenLegion's Take
 
@@ -102,7 +102,7 @@ The problem is architectural. AgentOps solves "I need to see what my agents did.
 
 The `AGENTOPS_API_KEY` exposure pattern is not a bug — it's the unavoidable result of bolt-on observability. An observability layer cannot make a fundamentally insecure execution environment secure. Teams that start with AgentOps for debugging and then promote agents to production without solving the underlying execution security problem are building on sand.
 
-OpenLegion's design inverts the dependency: security is the foundation, observability is built in. You do not add vault proxy, container isolation, and per-agent budgets as an afterthought. They are the platform.
+OpenLegion's design inverts the dependency: security is the foundation, observability is built in. You do not add the credential vault, run isolation, and per-agent budgets as an afterthought. They are the platform.
 
 ## Choose AgentOps if...
 
@@ -110,23 +110,23 @@ OpenLegion's design inverts the dependency: security is the foundation, observab
 
 **You use CrewAI, AutoGen, LangChain, or LlamaIndex.** AgentOps integrations for these frameworks are maintained and documented. Install the SDK, wrap your runner, and the dashboard starts populating immediately.
 
-**MIT license is a hard requirement.** AgentOps is fully open-source under MIT. OpenLegion uses PolyForm Perimeter License 1.0.1.
+**MIT license is a hard requirement.** AgentOps is fully open-source under MIT. OpenLegion's engine is source-available under PolyForm Perimeter License 1.0.1.
 
 ## Choose OpenLegion if...
 
-**You need credentials kept out of agent process memory.** OpenLegion's vault proxy ensures API keys never enter agent containers. Agents cannot leak what they do not hold. This is the single most important security property for production deployments.
+**You need credentials kept out of agent process memory.** OpenLegion's credential vault ensures API keys never enter the agent's run. Agents cannot leak what they do not hold. This is the single most important security property for production deployments.
 
-**You need per-agent budget enforcement.** AgentOps shows you what agents spent. OpenLegion enforces a maximum. Per-agent daily and monthly hard cutoffs block runaway loops before they exhaust API quotas.
+**You need per-agent budget enforcement.** AgentOps shows you what agents spent. OpenLegion enforces a maximum. Each agent carries its own credit budget, and that cutoff blocks runaway loops before they exhaust your allowance.
 
-**You run multiple agents that should not share context.** OpenLegion's container-per-agent isolation plus per-agent ACLs prevent lateral movement between agents. One compromised agent cannot read another's memory, credentials, or tool history.
+**You run multiple agents that should not share context.** OpenLegion's per-task run isolation plus per-agent permissions prevent lateral movement between agents. One compromised agent cannot read another's memory, credentials, or tool history.
 
-**You are building an [agent fleet with orchestration requirements](/comparison/crewai).** Hand-offs, blackboard coordination, pub/sub events, and per-agent role definitions are built into OpenLegion's execution model. AgentOps records what agents do; it does not coordinate them.
+**You are building an [agent fleet with orchestration requirements](/comparison/crewai).** Delegation, goal-and-task coordination, event wakes, and per-agent role definitions are built into OpenLegion's execution model. AgentOps records what agents do; it does not coordinate them.
 
 ## Observability Without Execution Security Is Incomplete
 
-The framing of "AgentOps vs OpenLegion" as a simple choice misses an important point: they are not equivalent substitutes. A team running agents on OpenLegion can still adopt AgentOps-style session replay if they want a third-party dashboard. A team running agents with AgentOps but without container isolation and vault-proxy credentials is observable but insecure.
+The framing of "AgentOps vs OpenLegion" as a simple choice misses an important point: they are not equivalent substitutes. A team running agents on OpenLegion can still adopt AgentOps-style session replay if they want a third-party dashboard. A team running agents with AgentOps but without run isolation and vault-held credentials is observable but insecure.
 
-For teams building agents that handle production credentials, multi-tenant data, or consequential automated actions, the execution security question must be answered first. See our [agent execution security models](/learn/ai-agent-security) guide for a detailed breakdown of vault proxy, container isolation, and budget enforcement patterns.
+For teams building agents that handle production credentials, multi-tenant data, or consequential automated actions, the execution security question must be answered first. See our [agent execution security models](/learn/ai-agent-security) guide for a detailed breakdown of credential vaults, run isolation, and budget enforcement patterns.
 
 ## CTA
 
@@ -145,20 +145,20 @@ AgentOps is a Python observability SDK for AI agents. It wraps existing agent fr
 
 ### What is the difference between OpenLegion and AgentOps?
 
-AgentOps is a monitoring and observability tool that records what existing agents do. OpenLegion is a secure agent execution platform that provides container isolation, vault proxy credential management, per-agent budget enforcement, and fleet-model coordination. AgentOps answers "what did my agents do?"; OpenLegion determines how agents run and enforces security constraints during execution.
+AgentOps is a monitoring and observability tool that records what existing agents do. OpenLegion is a secure agent execution platform that provides sandboxed task runs, vault-held credentials, per-agent budget enforcement, and goal-and-task coordination. AgentOps answers "what did my agents do?"; OpenLegion determines how agents run and enforces security constraints during execution.
 
 ### Which provides better agent credential security?
 
-OpenLegion's vault proxy is architecturally more secure: API keys never enter agent containers, so prompt injection or tool-call exploits cannot exfiltrate them. AgentOps requires `AGENTOPS_API_KEY` to be present in the agent's environment, sharing the security perimeter with whatever keys the agent process holds. If agent security is a requirement, OpenLegion's vault proxy model is the stronger guarantee.
+OpenLegion's credential vault is architecturally more secure: API keys never enter the agent's run, so prompt injection or tool-call exploits cannot exfiltrate them. AgentOps requires `AGENTOPS_API_KEY` to be present in the agent's environment, sharing the security perimeter with whatever keys the agent process holds. If agent security is a requirement, OpenLegion's vault-held credential model is the stronger guarantee.
 
 ### Does AgentOps replace the need for OpenLegion?
 
-No. AgentOps provides monitoring visibility on top of an existing execution environment. It does not provide credential isolation, container isolation, per-agent budget enforcement, or agent fleet coordination. These are execution-layer properties that AgentOps, as a monitoring wrapper, cannot supply regardless of integration depth.
+No. AgentOps provides monitoring visibility on top of an existing execution environment. It does not provide credential isolation, run isolation, per-agent budget enforcement, or agent team coordination. These are execution-layer properties that AgentOps, as a monitoring wrapper, cannot supply regardless of integration depth.
 
 ### Can I use both AgentOps and OpenLegion together?
 
-Yes. Teams that want third-party session replay dashboards can instrument OpenLegion-run agents with AgentOps SDK. OpenLegion's built-in audit trail captures coordination events; AgentOps can capture LLM call traces and cost metrics as an additional observability channel. The vault proxy architecture remains intact regardless of what SDK instrumentation is added at the application layer.
+Yes. Teams that want third-party session replay dashboards can instrument OpenLegion-run agents with AgentOps SDK. OpenLegion's built-in audit trail captures coordination events; AgentOps can capture LLM call traces and cost metrics as an additional observability channel. The credential vault architecture remains intact regardless of what SDK instrumentation is added at the application layer.
 
 ### Which is better for production AI agents?
 
-For production agents handling real credentials, multi-tenant data, or automated actions with financial consequences, OpenLegion's execution security model is more appropriate. Docker container isolation, vault proxy credentials, per-agent budget limits, and ACL-controlled tool access address the threat model for production deployments. AgentOps value is strongest during development and debugging phases where session replay accelerates iteration.
+For production agents handling real credentials, multi-tenant data, or automated actions with financial consequences, OpenLegion's execution security model is more appropriate. Sandboxed task runs, vault-held credentials, per-agent budget limits, and permission-controlled tool access address the threat model for production deployments. AgentOps value is strongest during development and debugging phases where session replay accelerates iteration.

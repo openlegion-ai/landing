@@ -48,7 +48,7 @@ CVE-2025-61685 (CVSS 6.5, 24 กันยายน 2025) เป็นช่อ�
 
 ## มุมมอง OpenLegion: ช่องโหว่ความปลอดภัยเชิงโครงสร้างสามด้าน
 
-**การเปิดเผยข้อมูลรับรองตามการออกแบบ** Vault proxy ของ OpenLegion ฉีดข้อมูลรับรองที่ชั้น network — กระบวนการ agent ไม่เคยได้รับ API key แบบ plaintext
+**การเปิดเผยข้อมูลรับรองตามการออกแบบ** OpenLegion เก็บข้อมูลรับรองไว้ใน vault และฉีดเข้าไปนอกโมเดล — การรันของ agent ไม่เคยได้รับ API key แบบ plaintext
 
 **ความปลอดภัยเป็น enterprise upgrade** RBAC, สิทธิ์ adapter และ auth integrations ต้องการ tier `ee/` ใน OpenLegion สิ่งเหล่านี้เป็นฟีเจอร์หลักสำหรับทุกคน
 
@@ -58,16 +58,16 @@ CVE-2025-61685 (CVSS 6.5, 24 กันยายน 2025) เป็นช่อ�
 
 | **มิติ** | **Mastra** | **OpenLegion** |
 |---|---|---|
-| **รองรับภาษา** | TypeScript เท่านั้น | Python (agents) |
-| **ใบอนุญาต** | Apache 2.0 (core) + `ee/` กรรมสิทธิ์ | PolyForm Perimeter License 1.0.1 |
+| **รองรับภาษา** | TypeScript เท่านั้น | ไม่มี — ตั้งค่า agent ในเว็บแอป |
+| **ใบอนุญาต** | Apache 2.0 (core) + `ee/` กรรมสิทธิ์ | PolyForm Perimeter License 1.0.1 (เอนจิน) |
 | **GitHub Stars** | 24,329 (พฤษภาคม 2026) | Pre-release |
-| **โมเดลข้อมูลรับรอง** | Environment variables | Vault proxy |
-| **การแยกตัว Agent** | ระดับ Process | Docker container บังคับ |
-| **RBAC** | Tier `ee/` เท่านั้น | สิทธิ์ blackboard ต่อ agent |
-| **สถิติ CVE** | CVE-2025-61685 + 2 PR ที่เปิดอยู่ | 0 CVE ที่รายงาน |
-| **Auth** | WorkOS AuthKit / better-auth (ee/) | Vault proxy |
-| **ควบคุมงบประมาณ** | ไม่มีในตัว | วงเงินรายวัน/รายเดือนต่อ agent |
-| **Multi-agent** | Workflow orchestration | Blackboard + pub/sub + mesh |
+| **โมเดลข้อมูลรับรอง** | Environment variables | เก็บใน vault — agent ไม่ถือคีย์ |
+| **การแยกตัว Agent** | ระดับ Process | การรันในแซนด์บ็อกซ์สำหรับทุกงาน |
+| **RBAC** | Tier `ee/` เท่านั้น | สิทธิ์เครื่องมือและ vault ต่อ agent (ทุกผู้ใช้) |
+| **สถิติ CVE** | CVE-2025-61685 + 2 PR ที่เปิดอยู่ | Pre-release |
+| **Auth** | WorkOS AuthKit / better-auth (ee/) | ลงชื่อเข้าด้วย Google; ข้อมูลรับรองอยู่ใน vault |
+| **ควบคุมงบประมาณ** | ไม่มีในตัว | งบประมาณเครดิตต่อ agent |
+| **Multi-agent** | Workflow orchestration | เป้าหมาย แล้วงาน แล้ว agent พร้อมการมอบหมาย |
 | **Open Issues** | 433 (26 พฤษภาคม 2026) | Pre-release |
 
 ## TypeScript เท่านั้น: ความหมายในทางปฏิบัติ
@@ -76,13 +76,13 @@ Mastra เป็น TypeScript-first โดยการออกแบบแล�
 
 ## สถาปัตยกรรมความปลอดภัย: Vault Proxy เทียบ Environment Variables
 
-Mastra agents รับ LLM API keys ผ่าน `process.env` CVE-2025-61685 แสดงให้เห็นความเสี่ยงที่จับต้องได้ Vault proxy ของ OpenLegion อยู่ที่ชั้น network ระหว่าง agents และผู้ให้บริการ LLM สำหรับการวิเคราะห์เพิ่มเติม ดู [ความปลอดภัย AI agent: การแยกตัว credential](/learn/ai-agent-security)
+Mastra agents รับ LLM API keys ผ่าน `process.env` CVE-2025-61685 แสดงให้เห็นความเสี่ยงที่จับต้องได้ Vault ข้อมูลรับรองของ OpenLegion อยู่นอกโมเดล ระหว่าง agents และบริการที่พวกมันเรียกใช้ การเรียกเครื่องมือของ agent พกเพียง handle และแพลตฟอร์มฉีดข้อมูลรับรองเข้าไปในคำขอขาออก สำหรับการวิเคราะห์เพิ่มเติม ดู [ความปลอดภัย AI agent: การแยกตัว credential](/learn/ai-agent-security)
 
 ## OpenLegion เป็นทางเลือก Mastra
 
-การประสานงาน multi-agent ผ่าน blackboard state, pub/sub events และ mesh handoff การฉีดข้อมูลรับรอง vault proxy วงเงินงบประมาณรายวันและรายเดือนต่อ agent ผู้ให้บริการ LLM 100+ ผ่าน LiteLLM
+การประสานงาน multi-agent ผ่านเป้าหมาย งาน และ agent พร้อมการปลุกด้วย event และการมอบหมาย ข้อมูลรับรองที่เก็บใน vault และฉีดเข้าไปนอกโมเดล การรันในแซนด์บ็อกซ์สำหรับทุกงาน งบประมาณเครดิตต่อ agent ที่เครดิตละ $0.001 โมเดลเลือกด้วยพรีเซ็ต — Smartest, Smart หรือ Normal
 
-**Trade-offs ที่ซื่อสัตย์:** ไม่มี TypeScript SDK — Python เท่านั้น ชุมชนเล็กกว่า 24,329 Stars ของ Mastra ไม่มี workflow visualization ในตัว
+**Trade-offs ที่ซื่อสัตย์:** ไม่มี SDK ให้ import — OpenLegion เป็นเว็บแอปที่โฮสต์ให้ ไม่ใช่ไลบรารีที่ฝังในบริการของคุณ ชุมชนเล็กกว่า 24,329 Stars ของ Mastra ไม่มี workflow visualization ในตัว
 
 ดูสิ่งที่ [แพลตฟอร์ม AI agent ให้มากกว่าเฟรมเวิร์ค](/learn/ai-agent-platform) เปรียบเทียบ [OpenLegion กับ LangGraph](/comparison/langgraph), [OpenLegion กับ CrewAI](/comparison/crewai) และ [เฟรมเวิร์ค AI agent 2026](/learn/ai-agent-frameworks)
 
@@ -100,15 +100,15 @@ CVE-2025-61685 (CVSS 6.5) เป็นช่องโหว่การข้า
 
 ### ทำไม RBAC ของ Mastra ถึงถูกล็อกไว้หลังไดเรกทอรี `ee/`?
 
-ไดเรกทอรี `ee/` มี auth integrations, RBAC และการบังคับใช้สิทธิ์ adapter ภายใต้ใบอนุญาตกรรมสิทธิ์ โดยไม่มีภายใต้ Apache 2.0 ซึ่งหมายความว่าฟีเจอร์ความปลอดภัยหลักต้องชำระเงิน ทีมที่ต้องการควบคุมการเข้าถึงโดยไม่ต้องชำระเงินเพิ่มเติมควรประเมินทางเลือก OpenLegion มีสิทธิ์ blackboard ต่อ agent สำหรับทุกคน
+ไดเรกทอรี `ee/` มี auth integrations, RBAC และการบังคับใช้สิทธิ์ adapter ภายใต้ใบอนุญาตกรรมสิทธิ์ โดยไม่มีภายใต้ Apache 2.0 ซึ่งหมายความว่าฟีเจอร์ความปลอดภัยหลักต้องชำระเงิน ทีมที่ต้องการควบคุมการเข้าถึงโดยไม่ต้องชำระเงินเพิ่มเติมควรประเมินทางเลือก OpenLegion ให้สิทธิ์เครื่องมือต่อ agent และข้อมูลรับรองที่เก็บใน vault แก่ผู้ใช้ทุกคนเป็นฟีเจอร์หลัก
 
 ### ความแตกต่างสำคัญระหว่าง Mastra และ OpenLegion คืออะไร?
 
-Mastra เป็น TypeScript-only มี environment variable credentials และ RBAC อยู่หลัง tier `ee/` กรรมสิทธิ์ OpenLegion เป็น Python-only มี vault proxy credentials และ RBAC เป็นสิทธิ์หลัก การเลือกขึ้นอยู่กับว่าทีมใช้ TypeScript หรือ Python เป็นหลัก และข้อกำหนดความปลอดภัยโดยไม่มีต้นทุนเพิ่มเติม
+Mastra เป็น TypeScript-only มี environment variable credentials และ RBAC อยู่หลัง tier `ee/` กรรมสิทธิ์ OpenLegion เป็นเว็บแอปที่โฮสต์ให้ มีข้อมูลรับรองที่เก็บใน vault และ RBAC เป็นสิทธิ์หลัก การเลือกขึ้นอยู่กับว่าทีมต้องการ agent ในโค้ดเบสของตัวเองหรือไม่ และข้อกำหนดความปลอดภัยโดยไม่มีต้นทุนเพิ่มเติม
 
 ### Mastra รองรับภาษาโปรแกรมอะไรบ้าง?
 
-Mastra รองรับ TypeScript เท่านั้น ไม่มี Python SDK, Go client หรือ JVM integration ทีมที่มีโครงสร้างพื้นฐาน Python ML/data อยู่แล้วควรประเมิน OpenLegion, LangGraph หรือ CrewAI แทน
+Mastra รองรับ TypeScript เท่านั้น ไม่มี Python SDK, Go client หรือ JVM integration ทีมที่มีโครงสร้างพื้นฐาน Python ML/data อยู่แล้วควรประเมิน LangGraph หรือ CrewAI แทน ส่วน OpenLegion ไม่ต้องใช้ SDK ใดเลย
 
 ### Mastra มีการประสานงาน multi-agent อย่างไร?
 
@@ -116,7 +116,7 @@ Mastra ใช้ workflow orchestration และ tool calling สำหรั�
 
 ### OpenLegion จัดการการแยกตัว agent อย่างไร?
 
-OpenLegion แยกตัว agents ด้วย Docker containers ต่อ agent บังคับ vault proxy ฉีดข้อมูลรับรองที่ชั้น network กระบวนการ agent ไม่เคยได้รับ API keys แบบ plaintext สิ่งนี้ทำให้การเปิดเผยข้อมูลรับรองในรูปแบบ CVE-2025-61685 เป็นไปไม่ได้เชิงโครงสร้าง
+OpenLegion รันทุกงานในแซนด์บ็อกซ์ที่ไม่มีการเข้าถึงเครือข่ายเป็นค่าเริ่มต้น และ vault ฉีดข้อมูลรับรองเข้าไปนอกโมเดล การรันของ agent ไม่เคยได้รับ API keys แบบ plaintext สิ่งนี้ทำให้การเปิดเผยข้อมูลรับรองในรูปแบบ CVE-2025-61685 เป็นไปไม่ได้เชิงโครงสร้าง
 
 ### PR ความปลอดภัยที่ยังไม่ได้ Merge ในระบบ Mastra auth คืออะไร?
 
@@ -124,4 +124,4 @@ PR สองรายการที่ยังไม่ได้ Merge ณ พ
 
 ### เมื่อใดที่ควรเลือก Mastra แทน OpenLegion?
 
-เลือก Mastra เมื่อทีมเป็น TypeScript-first, ต้องการ workflow visualization ในตัว หรือต้องการระบบนิเวศที่ใหญ่กว่า (24,329 Stars) เลือก OpenLegion เมื่อทีมใช้ Python, ต้องการ vault proxy credential isolation โดยไม่มีต้นทุนเพิ่มเติม หรือต้องการ RBAC เป็นฟีเจอร์หลักไม่ใช่ enterprise add-on
+เลือก Mastra เมื่อทีมเป็น TypeScript-first, ต้องการ workflow visualization ในตัว หรือต้องการระบบนิเวศที่ใหญ่กว่า (24,329 Stars) เลือก OpenLegion เมื่อทีมไม่อยากดูแลโครงสร้างพื้นฐาน, ต้องการการแยกข้อมูลรับรองด้วย vault โดยไม่มีต้นทุนเพิ่มเติม หรือต้องการ RBAC เป็นฟีเจอร์หลักไม่ใช่ enterprise add-on

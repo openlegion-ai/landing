@@ -131,11 +131,11 @@ O A2A é bem projetado como formato de fio. O modelo de segurança fica aquém d
 
 A abordagem da OpenLegion para comunicação entre agentes aplica o que o perfil base do A2A deixa opcional:
 
-1. **Cada chamada entre agentes passa pelo vault de credenciais.** Não há modo de delegação anônima.
+1. **Cada chamada entre agentes é uma intenção verificada pelo motor de políticas.** Não há modo de delegação anônima.
 
-2. **Sanitização do payload de tarefa em 56 pontos de estrangulamento de rede.** Conteúdo controlado pelo usuário é sanitizado para ataques unicode antes de atingir o contexto LLM.
+2. **Sanitização do payload de tarefa antes de o conteúdo chegar ao modelo.** Conteúdo controlado pelo usuário é sanitizado para ataques unicode antes de atingir o contexto LLM.
 
-3. **Contratos de handoff tipados validados pelo orquestrador.** Payloads de injeção de relé são bloqueados no limite.
+3. **Contratos de tarefa tipados validados antes do despacho.** Payloads de injeção de relé são bloqueados no limite.
 
 4. **Manifestos de capacidades de agentes requerem autenticação.** A superfície de habilidades não está exposta a chamadores anônimos.
 
@@ -204,7 +204,7 @@ O A2A foi lançado em abril de 2025 com mais de 50 organizações contribuintes,
 
 ### Como a OpenLegion implementa a comunicação entre agentes?
 
-A arquitetura mesh da OpenLegion implementa coordenação entre agentes com autenticação obrigatória em cada chamada. Cada handoff entre agentes passa pelo vault de credenciais. O conteúdo do payload é sanitizado em 56 pontos de estrangulamento de rede. Contratos de handoff tipados são validados pelo orquestrador. Esses controles rodam na camada de infraestrutura, fora do código do agente.
+A OpenLegion implementa coordenação entre agentes com autenticação obrigatória em cada chamada. Cada delegação é uma intenção verificada por um único motor de políticas, que registra o resultado como um recibo. O conteúdo do payload é sanitizado para ataques unicode antes de chegar ao modelo. Contratos de tarefa tipados são validados antes do despacho. Esses controles rodam na plataforma, fora do código do agente.
 
 ## Construir sistemas multi-agente com autenticação em cada chamada
 

@@ -161,7 +161,7 @@ Human-on-the-loop (HOTL) is distinct from human-in-the-loop. In HOTL, the agent 
 
 HOTL is appropriate for high-volume, low-stakes actions where the cost of individual review exceeds the risk of individual errors: tagging documents, generating draft responses, enriching data records. The human monitors the stream and intervenes on anomalies rather than approving each action.
 
-In OpenLegion's architecture, `notify_user()` implements the HOTL notification channel. The agent sends a structured notification across all connected operator channels (CLI, Telegram, Discord, Slack). The operator can issue a steer command that the agent receives between tool rounds — the intervention mechanism that allows mid-task redirection without requiring a hard restart.
+In OpenLegion's architecture, the agent notifies its owner directly. It sends a structured notification on the channels the workspace has connected: web chat on every plan, Telegram and webhooks from Pro, Slack and inbound email on Team and above. The owner can reply with a correction the agent receives between tool rounds — the intervention mechanism that allows mid-task redirection without requiring a hard restart.
 
 **When to use:** High-volume, reversible, low-stakes action streams where monitoring is more efficient than individual approval. Not appropriate for irreversible actions.
 
@@ -169,15 +169,15 @@ In OpenLegion's architecture, `notify_user()` implements the HOTL notification c
 
 For high-volume agents that must act autonomously at scale, pre-approving a category of actions within defined scope limits avoids per-action review bottlenecks. A data-enrichment agent might be pre-authorized to write to a specific database table, read from a defined set of APIs, and send messages to a specific internal Slack channel — but nothing outside those boundaries.
 
-The critical implementation requirement: scope enforcement must be structural (ACL enforced by the orchestration layer), not self-policed by the agent. An agent instructed in its system prompt to "only access the enrichment database" can be prompt-injected into accessing other resources. An ACL in the mesh host that denies all connections except to the enrichment database cannot be bypassed regardless of the agent's reasoning.
+The critical implementation requirement: scope enforcement must be structural (ACL enforced by the orchestration layer), not self-policed by the agent. An agent instructed in its system prompt to "only access the enrichment database" can be prompt-injected into accessing other resources. An ACL in the policy engine that denies all connections except to the enrichment database cannot be bypassed regardless of the agent's reasoning.
 
 ```python
-# OpenLegion fleet template — ACL enforced at mesh host layer
+# OpenLegion agent config — ACL enforced by the policy engine
 agent_config = {
     "agent_id": "data-enrichment-agent",
     "allowed_tools": ["db_write_enrichment_table", "api_read_crunchbase", "slack_post_internal"],
     "denied_tools": ["*"],  # deny-by-default, allow-list only
-    "budget_daily_usd": 5.00,
+    "budget_credits": 5000,
     "require_human_approval": ["db_delete_*", "email_send_*", "api_write_*"]
 }
 ```
@@ -294,15 +294,15 @@ publish_policy = EscalationPolicy(
 
 SLA definitions must be published to reviewers before the system goes live. Reviewers who do not know their response window cannot be held accountable for timeout escalations. Test the escalation paths monthly — an untested secondary escalation path is an untested fallback.
 
-### OpenLegion's steer Mechanism
+### OpenLegion's Approval Mechanism
 
-OpenLegion's approval architecture uses `notify_user()` to deliver the approval request across all connected operator channels simultaneously: CLI, Telegram, Discord, Slack. The agent suspends execution and waits for a steer message from the operator.
+OpenLegion's approval architecture delivers the approval request on every channel the workspace has connected: web chat, Telegram from Pro, Slack and inbound email on Team and above. The task stops and waits for an owner or admin to decide in the app.
 
-When the operator responds, the decision is logged to the blackboard as an immutable entry containing: UTC timestamp, agent ID, task ID, action type, action payload hash, operator identity, decision (approved/rejected), and decision reason. The agent resumes on the next heartbeat cycle.
+When the owner responds, the decision is recorded as a receipt containing: UTC timestamp, agent ID, task ID, action type, action payload hash, operator identity, decision (approved/rejected), and decision reason. The task resumes on the next wake.
 
 ```python
-# Agent side — request approval via OpenLegion mesh
-await notify_user(
+# Agent side — request approval via the OpenLegion policy engine
+await request_approval(
     message=f"Approval required: {action_type}\n"
             f"Action: {action_summary}\n"
             f"Reason: {agent_reasoning}\n"
@@ -313,8 +313,8 @@ await notify_user(
 # Suspend execution until steer message received
 approval_decision = await wait_for_steer(timeout_seconds=1800)
 
-# Log decision to blackboard (immutable)
-await write_blackboard(
+# Record the decision as a receipt (immutable)
+await write_receipt(
     key=f"approvals/{task_id}/{action_id}",
     value={
         "timestamp_utc": utcnow_iso(),
@@ -328,7 +328,7 @@ await write_blackboard(
 )
 ```
 
-The 30-minute default timeout uses auto-reject for all actions flagged as irreversible. Operators can configure per-action-class timeout behavior in the fleet template.
+The 30-minute default timeout uses auto-reject for all actions flagged as irreversible. Owners can configure per-action-class timeout behavior in the agent's settings.
 
 ## Audit Trail Design for Human Approval Decisions
 
@@ -412,7 +412,7 @@ An interrupt hard-coded at the orchestration layer before the email-send node do
 Three concrete numbers from OpenLegion's default HITL configuration:
 - Default approval timeout: 30 minutes => auto-reject for irreversible actions
 - Dual-approval threshold: any financial transaction above $500 or bulk action above 100 recipients
-- Audit log retention: 10 years, append-only blackboard entries with SHA-256 chain integrity
+- Audit log retention: 10 years, append-only receipt entries with SHA-256 chain integrity
 
 For the security layer that prevents prompt injection from reaching the approval gate's logic, see [AI agent security](/learn/ai-agent-security). For the evaluation framework that measures whether approval gates are triggering at the right rate, see [AI agent evaluation](/learn/ai-agent-evaluation).
 

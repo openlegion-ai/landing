@@ -23,7 +23,7 @@ related:
 
 # Alternativa a Mastra: Plataforma con Seguridad Primero vs Framework TypeScript
 
-Mastra es un framework de agentes TypeScript con 24.329 estrellas GitHub del equipo de Gatsby — pero CVE-2025-61685 (CVSS 6.5) expone archivos de credenciales `~/.aws` vía inyección de prompts en Cursor IDE, el RBAC y la auth están bloqueados tras un directorio `ee/` propietario no disponible bajo Apache 2.0, y dos PRs no fusionadas dejan vulnerabilidades de redirección abierta y CSRF OAuth sin parchear en la pila de auth enterprise (mayo 2026). Una alternativa a Mastra para equipos orientados a seguridad necesita aislamiento por vault proxy, no credenciales en variables de entorno.
+Mastra es un framework de agentes TypeScript con 24.329 estrellas GitHub del equipo de Gatsby — pero CVE-2025-61685 (CVSS 6.5) expone archivos de credenciales `~/.aws` vía inyección de prompts en Cursor IDE, el RBAC y la auth están bloqueados tras un directorio `ee/` propietario no disponible bajo Apache 2.0, y dos PRs no fusionadas dejan vulnerabilidades de redirección abierta y CSRF OAuth sin parchear en la pila de auth enterprise (mayo 2026). Una alternativa a Mastra para equipos orientados a seguridad necesita credenciales guardadas en una bóveda, no credenciales en variables de entorno.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -61,26 +61,26 @@ Dos vulnerabilidades de seguridad en las dependencias de auth enterprise de Mast
 
 Mastra es un framework TypeScript bien diseñado con verdaderas fortalezas para equipos JS/TS. Pero tres brechas de seguridad estructurales se acumulan para equipos que despliegan agentes en producción:
 
-**Exposición de credenciales por diseño.** Los agentes Mastra reciben credenciales como variables de entorno. CVE-2025-61685 demostró que la toolchain circundante puede alcanzar esas credenciales mediante traversal de rutas. El vault proxy de OpenLegion inyecta credenciales en la capa de red: ningún proceso de agente recibe jamás una clave API en texto plano, haciendo la exfiltración tipo `~/.aws` estructuralmente imposible.
+**Exposición de credenciales por diseño.** Los agentes Mastra reciben credenciales como variables de entorno. CVE-2025-61685 demostró que la toolchain circundante puede alcanzar esas credenciales mediante traversal de rutas. OpenLegion guarda las credenciales en una bóveda y las inyecta fuera del modelo: ninguna ejecución de agente recibe jamás una clave API en texto plano, haciendo la exfiltración tipo `~/.aws` estructuralmente imposible.
 
-**La seguridad como actualización enterprise.** RBAC, permisos de adaptadores e integraciones de auth requieren el tier propietario `ee/`. Los permisos de blackboard de OpenLegion y el vault proxy son características core disponibles para todos los usuarios.
+**La seguridad como actualización enterprise.** RBAC, permisos de adaptadores e integraciones de auth requieren el tier propietario `ee/`. Las concesiones de herramienta por agente de OpenLegion y la bóveda de credenciales son características core disponibles para todos los usuarios.
 
-**Vulnerabilidades de auth sin parchear en el tier de pago.** CVE-2026-42565 y GHSA-wxw3-q3m9-c3jr están en las dependencias de auth del directorio enterprise `ee/`. El historial CVE cero de OpenLegion (mayo 2026) refleja una arquitectura donde las credenciales nunca son mantenidas por los agentes.
+**Vulnerabilidades de auth sin parchear en el tier de pago.** CVE-2026-42565 y GHSA-wxw3-q3m9-c3jr están en las dependencias de auth del directorio enterprise `ee/`. OpenLegion elimina esa clase de exposición de raíz: las credenciales nunca son mantenidas por los agentes y la bóveda las inyecta fuera del modelo.
 
 ## Mastra vs OpenLegion: Comparación lado a lado
 
 | **Dimensión** | **Mastra** | **OpenLegion** |
 |---|---|---|
-| **Soporte de lenguajes** | Solo TypeScript | Python (agentes); interfaces de herramientas para cualquier lenguaje |
-| **Licencia** | Apache 2.0 (núcleo) + `ee/` propietario | PolyForm Perimeter License 1.0.1 |
+| **Soporte de lenguajes** | Solo TypeScript | Ninguno — los agentes se configuran en la app web |
+| **Licencia** | Apache 2.0 (núcleo) + `ee/` propietario | PolyForm Perimeter License 1.0.1 (motor) |
 | **Estrellas GitHub** | 24.329 (mayo 2026) | Pre-lanzamiento |
-| **Modelo de credenciales** | Variables de entorno — agentes mantienen claves | Vault proxy — agentes nunca mantienen claves |
-| **Aislamiento de agentes** | Nivel de proceso, sin frontera de contenedor | Contenedores Docker obligatorios por agente |
-| **RBAC** | Solo tier propietario `ee/` | Permisos de blackboard por agente (todos los usuarios) |
-| **Historial CVE** | CVE-2025-61685 (CVSS 6.5) + 2 PRs abiertas | 0 CVEs reportados |
-| **Auth** | WorkOS AuthKit / better-auth (solo `ee/`) | Vault proxy (sin capa de auth necesaria) |
-| **Controles de presupuesto** | Ninguno integrado | Límites diarios/mensuales por agente |
-| **Multi-agente** | Orquestación de workflows, llamadas a herramientas | Blackboard + pub/sub + handoff mesh |
+| **Modelo de credenciales** | Variables de entorno — agentes mantienen claves | Guardadas en bóveda — agentes nunca mantienen claves |
+| **Aislamiento de agentes** | Nivel de proceso, sin frontera de contenedor | Una ejecución en sandbox para cada tarea |
+| **RBAC** | Solo tier propietario `ee/` | Concesiones de herramienta y bóveda por agente (todos los usuarios) |
+| **Historial CVE** | CVE-2025-61685 (CVSS 6.5) + 2 PRs abiertas | Pre-lanzamiento |
+| **Auth** | WorkOS AuthKit / better-auth (solo `ee/`) | Inicio de sesión con Google; las credenciales quedan en la bóveda |
+| **Controles de presupuesto** | Ninguno integrado | Presupuestos de créditos por agente |
+| **Multi-agente** | Orquestación de workflows, llamadas a herramientas | Objetivos, luego tareas, luego agentes, con delegación |
 | **Issues abiertas** | 433 (26 mayo 2026) | Pre-lanzamiento |
 
 ## Solo TypeScript: Lo que significa en la práctica
@@ -89,7 +89,7 @@ Mastra es un framework TypeScript bien diseñado con verdaderas fortalezas para 
 
 Mastra es TypeScript-first por diseño y actualmente solo TypeScript. Para equipos con bases de código políglotas o infraestructura Python ML/datos existente, adoptar Mastra significa reescribir la lógica de agentes en TypeScript o aceptar que la coordinación de agentes no puede abarcar lenguajes.
 
-Esto no es una brecha temporal — es una elección arquitectural. Para equipos Python-first, Mastra no es una opción viable independientemente de la postura de seguridad. OpenLegion, LangGraph, CrewAI y AutoGen soportan Python nativamente.
+Esto no es una brecha temporal — es una elección arquitectural. Para equipos Python-first, Mastra no es una opción viable independientemente de la postura de seguridad. LangGraph, CrewAI y AutoGen soportan Python nativamente; OpenLegion no necesita SDK alguno.
 
 Para tiendas JS/TS donde todo el stack ya es TypeScript, la experiencia de desarrollador de Mastra es genuinamente excelente. La inferencia de tipos nativa para esquemas de herramientas y los patrones `async/await` familiares hacen que el desarrollo de agentes se sienta natural para el lenguaje.
 
@@ -103,7 +103,7 @@ CVE-2025-61685 demostró el riesgo concreto: un traversal de directorio en `@mas
 
 ### Cómo OpenLegion maneja las credenciales
 
-El vault proxy de OpenLegion se sitúa en la capa de red entre los agentes y los proveedores LLM. El host mesh intercepta las llamadas API, recupera la credencial apropiada del vault, la inyecta en el encabezado de la solicitud y la reenvía al proveedor. El proceso del agente nunca recibe una cadena de credencial.
+La bóveda de credenciales de OpenLegion se sitúa fuera del modelo, entre los agentes y los servicios que llaman. La llamada a herramienta lleva solo un identificador, el motor de políticas la verifica antes de que ocurra, la plataforma resuelve el identificador e inyecta la credencial en la solicitud saliente. El modelo nunca recibe una cadena de credencial.
 
 Esto hace que la exfiltración de credenciales en el patrón de ataque CVE-2025-61685 sea estructuralmente imposible. Para un análisis más profundo, ver [Seguridad de agentes IA: aislamiento de credenciales y endurecimiento de contenedores](/learn/ai-agent-security).
 
@@ -111,13 +111,13 @@ Esto hace que la exfiltración de credenciales en el patrón de ataque CVE-2025-
 
 ### Lo que OpenLegion proporciona
 
-Coordinación multi-agente vía estado blackboard, eventos pub/sub y handoff mesh. Inyección de credenciales vía vault proxy donde ningún proceso de agente mantiene claves API. Aislamiento Docker por agente con ejecución no-root y no-new-privileges. Límites de presupuesto diarios y mensuales por agente. 100+ proveedores LLM vía LiteLLM. Plantillas de flota para despliegues de topología de agentes repetibles.
+Coordinación multi-agente vía objetivos, tareas y agentes, con despertares por evento y delegación. Credenciales guardadas en bóveda e inyectadas fuera del modelo, donde ninguna ejecución de agente mantiene claves API. Una ejecución en sandbox para cada tarea, sin acceso a red por defecto. Presupuestos de créditos por agente a $0.001 el crédito. Modelos elegidos por preset — Smartest, Smart o Normal. Registros de agente reutilizables para topologías de equipo repetibles.
 
 Para equipos evaluando [lo que una plataforma de agentes IA proporciona más allá de un framework](/learn/ai-agent-platform), la comparación de plataformas cubre el panorama completo de compromisos.
 
 ### Compromisos honestos
 
-Sin SDK TypeScript — solo Python. Los equipos TypeScript no pueden usar OpenLegion sin agentes Python o una capa de puente. Comunidad más pequeña que las 24.329 estrellas de Mastra. Sin visualización de workflow integrada.
+Sin SDK que importar — OpenLegion es una app web alojada, no una biblioteca que se integre en su servicio. Los equipos que quieren la lógica de agente dentro de su propio código no la encontrarán aquí. Comunidad más pequeña que las 24.329 estrellas de Mastra. Sin visualización de workflow integrada.
 
 ### Quién debería considerar OpenLegion sobre Mastra
 
@@ -127,7 +127,7 @@ Sin SDK TypeScript — solo Python. Los equipos TypeScript no pueden usar OpenLe
 
 **Equipos que necesitan RBAC sin actualización enterprise** — despliegues multi-agente donde restringir lo que los agentes específicos pueden acceder es un requisito básico.
 
-**Equipos bloqueados por la postura CVE abierta de Mastra** — si CVE-2025-61685 y las dos PRs de auth sin fusionar crean un riesgo inaceptable.
+**Equipos bloqueados por la postura CVE abierta de Mastra** — si CVE-2025-61685 y las dos PRs de auth sin fusionar crean un riesgo inaceptable, una arquitectura donde ningún proceso de agente retiene credenciales cambia esa evaluación.
 
 Ver también: [OpenLegion vs LangGraph — orquestación con estado e historial CVE comparados](/comparison/langgraph), [OpenLegion vs CrewAI — coordinación de agentes basada en roles](/comparison/crewai) y [OpenLegion vs AutoGen — patrones multi-agente](/comparison/autogen). Para un panorama completo, ver [Comparación de frameworks de agentes IA 2026](/learn/ai-agent-frameworks).
 
@@ -145,7 +145,7 @@ CVE-2025-61685 (CVSS 6.5, 24 de septiembre de 2025) es un traversal de directori
 
 ### ¿Tiene Mastra RBAC en el tier gratuito?
 
-No. El RBAC, los permisos de adaptadores y las integraciones de auth se encuentran en el directorio `ee/` propietario de Mastra, no disponible bajo la licencia Apache 2.0 open source. OpenLegion proporciona permisos de blackboard por agente y aislamiento vault proxy a todos los usuarios como características core de la plataforma.
+No. El RBAC, los permisos de adaptadores y las integraciones de auth se encuentran en el directorio `ee/` propietario de Mastra, no disponible bajo la licencia Apache 2.0 open source. OpenLegion proporciona concesiones de herramienta por agente y credenciales guardadas en bóveda a todos los usuarios como características core de la plataforma.
 
 ### ¿Cuáles son los problemas de seguridad sin parchear de Mastra en mayo de 2026?
 
@@ -153,7 +153,7 @@ Dos PRs de seguridad permanecen abiertas en la pila de auth enterprise de Mastra
 
 ### ¿Pueden los desarrolladores TypeScript usar OpenLegion?
 
-Los agentes OpenLegion son solo Python. Los equipos TypeScript necesitarían ejecutar agentes Python o construir herramientas TypeScript que llamen a las APIs de OpenLegion — no hay SDK TypeScript nativo. OpenLegion es la elección correcta cuando los requisitos de aislamiento de seguridad superan las preferencias de lenguaje.
+OpenLegion no es un SDK en ningún lenguaje. Es una app web alojada: inicia sesión con Google y configura los agentes en el navegador — no hay paquete TypeScript que importar. OpenLegion es la elección correcta cuando los requisitos de aislamiento de seguridad superan las preferencias de lenguaje.
 
 ### ¿Es Mastra suficientemente estable para producción?
 

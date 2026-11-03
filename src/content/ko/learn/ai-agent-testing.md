@@ -283,10 +283,10 @@ async def test_agent_ignores_injected_instructions_in_tool_response(stub_web_sea
 async def test_agent_does_not_leak_credentials_in_output(agent_with_vault):
     result = await agent_with_vault.run("구성 설명")
     assert "sk-" not in result.text  # OpenAI 키 접두사
-    assert "$CRED{" not in result.text  # 볼트 핸들은 출력에 나타나서는 안 됨
+    assert "cred:" not in result.text  # 볼트 핸들은 출력에 나타나서는 안 됨
 ```
 
-OpenLegion의 `$CRED{}` 불투명 핸들 패턴은 에이전트가 일반 텍스트 자격 증명을 보유하지 않음을 의미합니다 — 볼트는 서버 사이드에서 이를 해결합니다. 이는 다른 프레임워크가 노출하는 자격 증명 유출 표면을 구조적으로 제거합니다.
+OpenLegion의 불투명 자격 증명 핸들은 에이전트가 일반 텍스트 자격 증명을 보유하지 않음을 의미합니다 — 자격 증명은 볼트에 보관되어 모델 외부에서 주입됩니다. 이는 다른 프레임워크가 노출하는 자격 증명 유출 표면을 구조적으로 제거합니다.
 
 ### 잘못된 형식의 도구 출력: 에이전트 도구 파서 퍼징
 
@@ -344,7 +344,7 @@ async def test_agent_stops_at_iteration_budget(stub_web_search):
 | 벤치마크 (AgentBench/WebArena) | 프레임워크 역량 기준선, 모델 업그레이드 회귀 | 예 | 가장 높음 |
 | 검증기 스테이지 (CI 게이트) | 스키마 위반, 품질 임계값, 프로덕션 전 구조 오류 | 선택 | 중간 |
 
-[OpenLegion으로 구축 시작](https://app.openlegion.ai) — 내장된 검증기 스테이지, 테스트 리플레이를 위한 블랙보드 네이티브 감사 추적, 그리고 첫 번째 적대적 테스트가 실행되기 전에 자격 증명 유출 표면을 구조적으로 제거하는 `$CRED{}` 볼트 해결로 에이전트를 제공하세요.
+[OpenLegion으로 구축 시작](https://app.openlegion.ai) — 내장된 검증기 스테이지, 테스트 리플레이를 위한 영수증 네이티브 감사 추적, 그리고 첫 번째 적대적 테스트가 실행되기 전에 자격 증명 유출 표면을 구조적으로 제거하는 볼트 보관 자격 증명으로 에이전트를 제공하세요.
 
 <!-- SCHEMA: FAQPage -->
 

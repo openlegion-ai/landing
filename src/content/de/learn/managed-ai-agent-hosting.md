@@ -1,9 +1,9 @@
 ---
 title: "Verwaltetes KI-Agenten-Hosting: Sichere Agenten-Flotten bereitstellen"
 description: >-
-  Verwaltetes KI-Agenten-Hosting von OpenLegion: Container-isolierte
-  Agenten-Flotten auf einem dedizierten VPS mit Vault-Credentials und
-  Pro-Agent-Budgets, ganz ohne eigene Infrastruktur.
+  Verwaltetes KI-Agenten-Hosting von OpenLegion: sichere Agenten-Teams in einer
+  gehosteten Web-App mit Vault-Credentials und Pro-Agent-Budgets, ganz ohne
+  dedizierten VPS oder eigene Infrastruktur.
 slug: /learn/managed-ai-agent-hosting
 primary_keyword: verwaltetes ki-agenten-hosting
 secondary_keywords:
@@ -28,7 +28,7 @@ related:
 
 # Verwaltetes KI-Agenten-Hosting für sichere Agenten-Flotten
 
-Sie wollten eine KI-Belegschaft. Was Sie bekamen, war ein zweiter Job in DevOps. Verwaltetes KI-Agenten-Hosting gibt diesen Job zurück. Es betreibt die Server, Container, den Credential-Vault und die Budgets, die Ihre Agenten brauchen, sodass Sie nichts davon selbst provisionieren. OpenLegions verwaltete Ebene setzt jeden Agenten in seinen eigenen isolierten Container auf einem dedizierten VPS, hält Ihre Keys in einem Vault, den die Agenten nie berühren, und deckelt die Ausgaben pro Agent standardmäßig. Sie bringen ein Ziel und einen Key; wir betreiben den Unterbau.
+Sie wollten eine KI-Belegschaft. Was Sie bekamen, war ein zweiter Job in DevOps. Verwaltetes KI-Agenten-Hosting gibt diesen Job zurück. Es betreibt die Server, die Isolation, den Credential-Vault und die Budgets, die Ihre Agenten brauchen, sodass Sie nichts davon selbst provisionieren. OpenLegion ist eine gehostete Web-App: mit Google anmelden und loslegen, ohne Installation und ohne dedizierten VPS, mit Ihren Keys in einem Vault, den die Agenten nie berühren, und einem Budget für jeden Agenten standardmäßig. Sie bringen ein Ziel; wir betreiben den Unterbau.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -38,11 +38,11 @@ Sie wollten eine KI-Belegschaft. Was Sie bekamen, war ein zweiter Job in DevOps.
 ## Auf einen Blick
 
 - Verwaltetes KI-Agenten-Hosting entfernt die Arbeit zwischen Ihnen und einer laufenden Flotte: kein Server-Setup, kein Docker-Tuning, kein Vault zu betreiben.
-- Jeder Agent läuft in seinem eigenen Container auf einem dedizierten VPS, nicht in einem geteilten Multi-Tenant-Prozess, sodass der Blast Radius eines Accounts eingedämmt bleibt.
-- Credentials liegen in einem Vault-Proxy auf dem vertrauenswürdigen Host; Agenten senden Anfragen und der Proxy injiziert Keys auf Netzwerkebene, sodass ein kompromittierter Agent sie nicht lesen kann.
-- Tägliche und monatliche Budget-Obergrenzen pro Agent stoppen außer Kontrolle geratene LLM-Ausgaben auf den Dollar genau, ohne Aufschlag auf Modellnutzung.
-- Dieselbe Engine ist source-available unter PolyForm Perimeter License 1.0.1, sodass Sie verwaltet starten und später ohne Neuschreiben zu Self-Hosting wechseln können.
-- Pläne starten bei 19 $/Monat, zahlbar ab dem ersten Tag, mit einer 7-tägigen Geld-zurück-Garantie.
+- Agenten sind dauerhafte Datensätze, keine Server: Einen anzulegen geht sofort, ein untätiger Agent kostet nichts, und ein Workspace kann Hunderte betreiben.
+- Credentials liegen in einem Vault und werden außerhalb des Modells injiziert, das immer nur ein Handle hält, sodass ein kompromittierter Agent sie nicht lesen kann.
+- Jeder Agent trägt sein eigenes Budget, und jede Arbeitseinheit ist ein festgehaltener Lauf, abgerechnet in Credits zu je $0,001.
+- Die Engine ist source-available unter der PolyForm Perimeter License 1.0.1 veröffentlicht; die gehostete Plattform ist proprietär.
+- Kostenlos sind 0 $ mit 1.000 einmaligen Credits ohne Kreditkarte; Pro kostet 29 $/Monat mit 10.000 Credits; Team 99 $/Monat mit 35.000.
 
 ## Die versteckten Kosten von „Betreib einfach einen Agenten"
 
@@ -52,41 +52,41 @@ Irgendwo zwischen Prototyp und Produktion ändert die Arbeit still ihre Gestalt.
 
 Verwaltetes Hosting existiert, um genau diese Schicht zu absorbieren. Mit OpenLegions gehostetem Angebot bekommen Sie:
 
-- **Einen dedizierten VPS**, pro Account provisioniert, sodass Ihre Flotte nie einen Prozess- oder Speicherraum mit dem von jemand anderem teilt.
-- **Container-Isolation pro Agent** mit Ressourcenobergrenzen, Non-Root-Ausführung, entzogenen Capabilities und einem standardmäßig read-only Dateisystem.
-- **Einen Credential-Vault-Proxy**, der LLM-Keys, OAuth-Tokens und private Wallet-Keys vollständig außerhalb der Agenten-Container hält.
+- **Eine gehostete Web-App** ohne Installation und ohne dedizierten VPS — mit Google anmelden und loslegen.
+- **Einen Sandbox-Lauf für jede Aufgabe** — jede Aufgabe läuft bei Bedarf und endet dann, und Code, den der Agent schreibt, hat standardmäßig keinen Netzwerkzugriff.
+- **Einen Credential-Vault**, der API-Keys und OAuth-Tokens vollständig außerhalb des Modells hält, das immer nur ein Handle hält.
 - **Budgetdurchsetzung pro Agent** mit Hartabschaltungen, sodass ein in einer Schleife hängender Agent keine Überraschungsrechnung erzeugen kann.
 - **Ein Control-Dashboard**, um Templates auszuspielen, mit Agenten zu chatten, Kosten und Zustand live zu beobachten und alles zu pausieren, was sich fehlverhält.
-- **Willkommens-LLM-Credits** bei jedem kostenpflichtigen Plan, plus die Möglichkeit, eigene Keys über 100+ Provider hinweg ohne jeden Aufschlag mitzubringen.
+- **Enthaltene Credits** in jedem Plan, monatlich erneuert, mit Modellen per Preset — Smartest, Smart oder Normal.
 
 ## Verwaltetes Hosting vs. Self-Hosting: Wie man wählt
 
-OpenLegion liefert dieselbe Engine auf zwei Wegen, sodass die Entscheidung darum geht, wer die Box betreibt, nicht darum, welche Version leistungsfähiger ist.
+OpenLegions Plattform gibt es nur gehostet, und die Engine darunter ist source-available veröffentlicht. Der Vergleich unten zeigt den allgemeinen Kompromiss zwischen selbst betriebener Agenten-Infrastruktur und betreiben lassen.
 
 | Erwägung | Selbst gehostet (PolyForm Perimeter License 1.0.1) | Verwaltetes Hosting |
 |---|---|---|
 | Wer betreibt die Server | Sie | OpenLegion |
-| Setup-Zeit | Drei Befehle auf Ihrer Maschine | Anmelden, ein Template wählen |
-| Credential-Vault | Sie betreiben ihn | Für Sie auf dem vertrauenswürdigen Host betrieben |
+| Setup-Zeit | Drei Befehle auf Ihrer Maschine | Mit Google anmelden, nichts zu installieren |
+| Credential-Vault | Sie betreiben ihn | Für Sie betrieben, außerhalb des Modells |
 | Updates und Patching | Sie pullen und deployen neu | Für Sie eingespielt |
-| Datenresidenz | Vollständig auf Ihrer Infrastruktur | Auf einem dedizierten VPS, den wir provisionieren |
-| Am besten für | Reguliert, air-gapped, volle Kontrolle | Teams, die heute eine laufende Flotte wollen |
-| Kostenmodell | Ihre eigenen Serverkosten | Pauschaler Plan ab 19 $/Monat |
+| Datenresidenz | Vollständig auf Ihrer Infrastruktur | Auf der gehosteten Plattform, die wir betreiben |
+| Am besten für | Reguliert, air-gapped, volle Kontrolle | Teams, die heute ein laufendes Team wollen |
+| Kostenmodell | Ihre eigenen Serverkosten | Kostenlos 0 $, Pro 29 $/Monat, Team 99 $/Monat |
 
-Wählen Sie Self-Hosting, wenn Compliance, Datenresidenz oder die vollständige Kontrolle über den Host die Kosten des Betriebs überwiegen. Wählen Sie verwaltetes Hosting, wenn Sie Agenten noch heute Nachmittag bei der Arbeit haben wollen und lieber keinen Vault, keine Container-Runtime und keine Update-Kadenz besitzen möchten. Weil beide denselben Code ausführen, schließt ein verwalteter Start Sie nie vom späteren Self-Hosting aus.
+Wählen Sie Self-Hosting, wenn Compliance, Datenresidenz oder die vollständige Kontrolle über den Host die Kosten des Betriebs überwiegen. Wählen Sie verwaltetes Hosting, wenn Sie Agenten noch heute Nachmittag bei der Arbeit haben wollen und lieber keinen Vault, keine Runtime und keine Update-Kadenz besitzen möchten. OpenLegion bietet zum Start nur die gehostete Plattform, es gibt also keine selbst gehostete Plattform, zu der man wechseln könnte.
 
 ## Was passiert, wenn Sie auf Deploy klicken
 
-Aktivieren Sie einen kostenpflichtigen Plan, und OpenLegion provisioniert einen dedizierten VPS und bringt den Mesh Host online. Ein Operator-Agent wird automatisch als Vorarbeiter Ihrer Flotte erstellt. Von dort beschreiben Sie das Team, das Sie wollen (ein Recherche-Desk, eine Sales-Pipeline, ein Content-Studio), und die Plattform stellt jede Rolle in ihrem eigenen Container mit eigenem Gedächtnis, eigenem Budget und eigenen Tool-Berechtigungen bereit.
+Melden Sie sich mit Google an, und Ihr Workspace ist bereit — es gibt nichts zu provisionieren. Ein Assistent wird mit ihm erstellt, und er erstellt die Teammitglieder, die es braucht. Von dort beschreiben Sie das Team, das Sie wollen (ein Recherche-Desk, eine Sales-Pipeline, ein Content-Studio), und die Plattform legt jede Rolle als dauerhaften Datensatz mit eigenem Gedächtnis, eigenem Budget und eigenen Tool-Berechtigungen an.
 
-Die Agenten koordinieren sich über die [Orchestrierungsebene](/learn/ai-agent-orchestration): ein SQLite-gestütztes Blackboard, einen Pub/Sub-Event-Bus und einen strukturierten Handoff. Kein Sprachmodell sitzt in der Control Plane und entscheidet das Routing, was das Verhalten auditierbar und die Kosten vorhersehbar hält. Sie sprechen mit Agenten über das Dashboard oder über Telegram, Discord, Slack, WhatsApp oder einen Webhook.
+Die Agenten koordinieren sich über die [Orchestrierungsebene](/learn/ai-agent-orchestration): Arbeit wird als Ziele zu Aufgaben zu Agenten organisiert, mit Event-Wakes und Delegation zwischen Teammitgliedern. Jede Aktion ist eine Absicht, die eine einzige Policy-Engine prüft, bevor sie geschieht, was das Verhalten auditierbar und die Kosten vorhersehbar hält. Sie sprechen mit Agenten in jedem Plan im Web-Chat, ab Pro über Telegram und Webhooks, ab Team über Slack und eingehende E-Mail.
 
 ## Sicherheit, die Sie nicht selbst bauen müssen
 
 Der schwierigste Teil, Agenten sicher zu hosten, ist der Teil, den Teams am häufigsten überspringen, weil er unsichtbar ist, bis er versagt. OpenLegions verwaltete Ebene erzwingt dieselbe Defense-in-Depth, die im Modell der [KI-Agenten-Sicherheit](/learn/ai-agent-security) beschrieben ist, standardmäßig aktiviert:
 
-- Container-Isolation pro Agent, ohne geteilten Prozessraum.
-- Ein Vault-Proxy, der Credentials auf Netzwerkebene injiziert, sodass Agenten nie rohe Keys halten.
+- Ein Sandbox-Lauf für jede Aufgabe, ohne langlebigen Agentenprozess, der kompromittiert werden könnte.
+- Ein Credential-Vault, der Credentials außerhalb des Modells injiziert, sodass Agenten nie rohe Keys halten.
 - Eine Berechtigungsmatrix pro Agent, die regelt, welche Tools, Dateien und Operationen jeder Agent nutzen darf.
 - Input-Sanitisierung, SSRF-Schutz und Prompt-Injection-Härtung an jeder Grenze.
 - Budget-Obergrenzen pro Agent, die fail-closed sind.
@@ -95,15 +95,15 @@ Sie erben diese durch die Anmeldung, nicht durch das Lesen eines Härtungsleitfa
 
 ## Preise und wofür Sie zahlen
 
-Pläne sind pauschale monatliche oder jährliche Gebühren, zahlbar ab dem ersten Tag, ab 19 $/Monat. Die Gebühr deckt den dedizierten VPS, den Vault-Proxy, die Container-Provisionierung, das Dashboard und ein Bündel an Willkommens-LLM-Credits ab, die nie verfallen. Die Modellnutzung wird aus diesen Credits gezogen oder von Ihrem eigenen Provider zu veröffentlichten Preisen abgerechnet, ohne Aufschlag auf Tokens. Jeder Plan trägt eine 7-tägige Geld-zurück-Garantie. Vergleichen Sie die Plan-Limits auf der [Preisseite](/pricing).
+Kostenlos sind 0 $ mit 1.000 einmaligen Credits ohne Kreditkarte; Pro kostet 29 $/Monat mit 10.000 Credits; Team 99 $/Monat mit 35.000; Enterprise startet bei 1.500 $. Arbeit wird in Credits zu je $0,001 abgerechnet, und die exakten Kosten jeder Aufgabe sind sichtbar. Enthaltene Credits erneuern sich monatlich; gekaufte Credit-Pakete verfallen nie. Die Abrechnung läuft über Stripe. Vergleichen Sie die Plan-Limits auf der [Preisseite](/pricing).
 
 ## OpenLegions Sicht
 
-Das meiste „KI-Agenten-Hosting" auf dem Markt ist ein geteilter Prozess, der die Agenten aller betreibt, mit Keys in der Konfiguration und ohne echte Budgetdurchsetzung. Das ist für eine Demo in Ordnung und in Produktion gefährlich, denn die Fehlerszenarien, die Sie wirklich etwas kosten (ein geleaktes Credential, eine außer Kontrolle geratene Kostenschleife, ein kompromittierter Agent, der einen anderen Mandanten erreicht), sind genau jene, die geteilte Infrastruktur verschlimmert. Verwaltetes Hosting ist nur dann das Geld wert, wenn es Ihnen Isolation und Credential-Sicherheit erkauft, die Sie sonst von Hand bauen müssten. Unser Standpunkt ist, dass diese Garantien der Standard und in der gehosteten und der selbst gehosteten Version identisch sein sollten, sodass die einzige verbleibende echte Wahl ist, wer die Box betreibt.
+Das meiste „KI-Agenten-Hosting" auf dem Markt ist ein geteilter Prozess, der die Agenten aller betreibt, mit Keys in der Konfiguration und ohne echte Budgetdurchsetzung. Das ist für eine Demo in Ordnung und in Produktion gefährlich, denn die Fehlerszenarien, die Sie wirklich etwas kosten (ein geleaktes Credential, eine außer Kontrolle geratene Kostenschleife, ein kompromittierter Agent, der einen anderen Mandanten erreicht), sind genau jene, die geteilte Infrastruktur verschlimmert. Verwaltetes Hosting ist nur dann das Geld wert, wenn es Ihnen Isolation und Credential-Sicherheit erkauft, die Sie sonst von Hand bauen müssten. Unser Standpunkt ist, dass diese Garantien der Standard sein sollten statt eine Stufe, in die man upgraden muss, sodass jeder Plan dieselbe Isolation, denselben Vault und dieselbe Policy-Engine vor jeder Aktion erhält.
 
 ## CTA
 
-**Stellen Sie eine sichere Agenten-Flotte bereit, ohne die Infrastruktur zu betreiben.**
+**Stellen Sie ein sicheres Agenten-Team bereit, ohne die Infrastruktur zu betreiben.**
 [Loslegen](https://app.openlegion.ai) | [Preise ansehen](/pricing) | [Dokumentation lesen](https://docs.openlegion.ai)
 
 ---
@@ -114,28 +114,28 @@ Das meiste „KI-Agenten-Hosting" auf dem Markt ist ein geteilter Prozess, der d
 
 ### Was ist verwaltetes KI-Agenten-Hosting?
 
-Verwaltetes KI-Agenten-Hosting ist ein Dienst, der die Infrastruktur provisioniert und betreibt, die autonome KI-Agenten brauchen: isolierte Container, einen Credential-Vault, Budgetdurchsetzung, Networking und ein Control-Dashboard, sodass ein Team Agenten-Flotten ausspielen und betreiben kann, ohne diese Infrastruktur zu bauen oder zu warten. Bei OpenLegion melden Sie sich an, wählen ein Template, fügen einen LLM-Key hinzu, und Ihre Agenten laufen auf einem dedizierten VPS.
+Verwaltetes KI-Agenten-Hosting ist ein Dienst, der die Infrastruktur provisioniert und betreibt, die autonome KI-Agenten brauchen: isolierte Container, einen Credential-Vault, Budgetdurchsetzung, Networking und ein Control-Dashboard, sodass ein Team Agenten-Flotten ausspielen und betreiben kann, ohne diese Infrastruktur zu bauen oder zu warten. Bei OpenLegion melden Sie sich mit Google an und legen los — es gibt nichts zu installieren und keinen dedizierten VPS zu mieten.
 
 ### Wie unterscheidet sich verwaltetes Hosting vom Self-Hosting von OpenLegion?
 
-Beide betreiben die identische OpenLegion-Engine mit denselben Sicherheitskontrollen. Self-Hosting bedeutet, dass Sie die Server betreiben, den Vault betreiben und Updates selbst einspielen, was zu regulierten oder air-gapped Umgebungen passt. Verwaltetes Hosting bedeutet, dass OpenLegion den VPS provisioniert, den Vault betreibt und die Plattform für Sie patcht. Weil der Code derselbe ist, können Sie verwaltet starten und später zu Self-Hosting migrieren, ohne Ihre Flotte neu aufzubauen.
+OpenLegion ist eine gehostete Web-App, und es gibt zum Start keine selbst gehostete Plattform. Self-Hosting bedeutet allgemein, dass Sie die Server betreiben, den Vault betreiben und Updates selbst einspielen, was zu regulierten oder air-gapped Umgebungen passt. Verwaltetes Hosting bedeutet, dass OpenLegion die Plattform betreibt, den Vault betreibt und sie für Sie patcht. Die Engine darunter ist source-available unter der PolyForm Perimeter License 1.0.1 veröffentlicht; die gehostete Plattform ist proprietär.
 
 ### Ist es sicher, KI-Agenten zu hosten, die meine API- und Wallet-Keys halten?
 
-Ja, wenn die Keys nie im Agenten selbst liegen. Auf OpenLegions verwalteter Ebene werden API-Keys, OAuth-Tokens und private Wallet-Keys in einem Vault-Proxy auf dem vertrauenswürdigen Mesh Host gehalten. Agenten senden Anfragen und der Proxy injiziert das Credential auf Netzwerkebene, sodass selbst ein vollständig kompromittierter Agent das Secret nicht lesen oder exfiltrieren kann. Wallet-Transaktionen werden serverseitig signiert.
+Ja, wenn die Keys nie im Agenten selbst liegen. Bei OpenLegion werden API-Keys und OAuth-Tokens in einem Vault gehalten und außerhalb des Modells injiziert, das immer nur ein Handle hält, sodass selbst ein vollständig kompromittierter Agent das Secret nicht lesen oder exfiltrieren kann. OpenLegion hält weder Wallet-Keys noch Agenten-Gelder.
 
 ### Was kostet verwaltetes KI-Agenten-Hosting?
 
-OpenLegions verwaltete Pläne starten bei 19 $/Monat, zahlbar ab dem ersten Tag, mit einer 7-tägigen Geld-zurück-Garantie. Die pauschale Gebühr deckt den dedizierten VPS, den Vault-Proxy, die Container-Provisionierung, das Dashboard und ein Bündel an Willkommens-LLM-Credits ab, die nie verfallen. Die Modell-Token-Nutzung wird aus diesen Credits gezogen oder direkt von Ihrem eigenen Provider abgerechnet, ohne Aufschlag durch OpenLegion.
+Kostenlos sind 0 $ mit 1.000 einmaligen Credits ohne Kreditkarte; Pro kostet 29 $/Monat mit 10.000 Credits; Team 99 $/Monat mit 35.000; Enterprise startet bei 1.500 $. Die Gebühr deckt die gehostete Plattform, den Credential-Vault, das Dashboard und die enthaltenen Credits des Plans ab — es gibt keinen dedizierten VPS zu bezahlen. Arbeit wird in Credits zu je $0,001 abgerechnet, enthaltene Credits erneuern sich monatlich, gekaufte Credit-Pakete verfallen nie.
 
 ### Muss ich Docker oder DevOps kennen, um verwaltetes Hosting zu nutzen?
 
-Nein. Die verwaltete Ebene übernimmt Container-Provisionierung, Credential-Speicherung, Networking und Updates. Sie arbeiten über ein Dashboard: ein Team-Template wählen, einen LLM-Key hinzufügen und deployen. Docker, Python und Server-Administration sind nur erforderlich, wenn Sie stattdessen die selbst gehostete Version wählen.
+Nein. OpenLegion ist eine gehostete Web-App: mit Google anmelden und loslegen — es gibt nichts zu installieren. Sie arbeiten über ein Dashboard: Sie beschreiben das gewünschte Team, und der Assistent erstellt die nötigen Teammitglieder. Docker, Python und Server-Administration gehören überhaupt nicht dazu.
 
 ### Kann ich später von verwaltetem Hosting zu Self-Hosting wechseln?
 
-Ja. Die verwaltete Ebene und die selbst gehostete Distribution betreiben dieselbe Engine, source-available unter PolyForm Perimeter License 1.0.1. Es gibt keine proprietäre Lock-in-Schicht, die eine Migration blockieren würde, sodass Teams häufig auf verwaltetem Hosting starten, um schnell voranzukommen, und zu selbst gehosteter Infrastruktur wechseln, sobald Compliance oder Kosten das lohnenswert machen.
+Zum Start nicht. Die gehostete Plattform ist heute der einzige Weg, OpenLegion zu betreiben, und sie ist proprietär; die Engine darunter ist source-available unter der PolyForm Perimeter License 1.0.1 veröffentlicht. Es gibt noch keine selbst gehostete Distribution, zu der man migrieren könnte, planen Sie also vorerst mit der gehosteten Plattform.
 
 ### Wie viele Agenten kann ich in einem verwalteten Plan hosten?
 
-Agenten-Limits skalieren mit der Plan-Stufe, von einem einzelnen Agenten im Einstiegsplan bis zu großen Flotten in höheren Stufen, mit individuellen Limits für Enterprise. Jeder bereitgestellte Agenten-Container zählt als ein Agent zum Limit, sodass ein Drei-Rollen-Template wie ein Dev-Team als drei Agenten zählt.
+Agenten-Limits skalieren mit der Plan-Stufe, von einem kleinen Team im Einstiegsplan bis zu großen Teams in höheren Stufen, mit individuellen Limits für Enterprise. Agenten sind dauerhafte Datensätze statt Server, einen anzulegen geht also sofort und ein untätiger Agent kostet nichts — jeder Agent zählt als einer zum Limit, sodass ein Drei-Rollen-Team wie ein Dev-Team als drei Agenten zählt.

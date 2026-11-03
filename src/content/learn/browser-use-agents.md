@@ -106,7 +106,7 @@ Publicly documented 2025 research demonstrated that a browser agent could be man
 
 The 150-second timeline is significant: it is faster than any human reviewing agent logs would likely notice the deviation. By the time a monitoring alert fires, the credential is already exfiltrated.
 
-The defense is not prompt hardening. Prompt hardening raises the bar; it does not eliminate the attack class because the agent must process web page content to do its job. The defense is architectural: if the credential does not exist in the agent's context or process memory, the injection cannot extract it. OpenLegion's vault proxy ensures session credentials are injected at the network layer and never appear in the agent's context window. A successful injection finds nothing to steal.
+The defense is not prompt hardening. Prompt hardening raises the bar; it does not eliminate the attack class because the agent must process web page content to do its job. The defense is architectural: if the credential does not exist in the agent's context or process memory, the injection cannot extract it. In OpenLegion credentials live in a vault and are injected outside the model, which only ever holds a handle, so they never appear in the agent's context window. A successful injection finds nothing to steal.
 
 ### Link-preview exfiltration: zero-click data leaks
 
@@ -124,17 +124,17 @@ Browser agents are the canonical Excessive Agency risk. An agent with permission
 
 The correct scope controls: limit which domains the agent can visit (allowlist), limit which action types are permitted (read-only vs. read-write), and require explicit human confirmation before form submissions on consequential sites. For the [AI agent orchestration layer](/learn/ai-agent-orchestration), enforcing these controls at the orchestration level — not trusting the agent to self-limit — is the only reliable approach.
 
-### How OpenLegion sandboxes browser agents (Camoufox + Zone 1)
+### How OpenLegion sandboxes agent actions (sandbox + approvals)
 
-OpenLegion runs one Camoufox browser instance per agent on port :8500, isolated inside each agent's Zone 1 Docker container. Four properties result from this architecture:
+OpenLegion ships no browser automation at launch, and the code an agent writes runs in a sandbox with no network access by default. Four properties frame how agent work is contained:
 
-**No shared session state.** Each agent container has its own browser instance with its own cookie jar, localStorage, and session history. A credential or session token in Agent A's browser is not accessible to Agent B's browser — they run in separate processes in separate containers.
+**No shared session state.** Each task runs on demand in its own sandboxed run and then stops, with its own state. A credential handle used by Agent A is not reachable from Agent B's run — every unit of work is a separate, recorded wake.
 
-**Fingerprint resistance.** Camoufox is a Firefox-based headless browser that patches JavaScript APIs to report realistic hardware profiles rather than headless signatures. Bot-protection systems that block headless Chromium (the browser-use default) are significantly less likely to block a Camoufox session.
+**Fingerprint resistance is a browser-layer property.** Camoufox is a Firefox-based headless browser that patches JavaScript APIs to report realistic hardware profiles rather than headless signatures. Bot-protection systems that block headless Chromium (the browser-use default) are significantly less likely to block a Camoufox session.
 
-**Vault-proxied credentials.** Authentication credentials are never placed in the agent's context window or passed as environment variables to the container. They are injected via the vault proxy at the network layer. A successful prompt injection on a visited page finds no credentials to steal in the agent's accessible memory.
+**Vault-held credentials.** Authentication credentials are never placed in the agent's context window or passed as environment variables into a run. They live in a vault and are injected outside the model, which only ever holds a handle. A successful prompt injection on retrieved content finds no credentials to steal in the agent's accessible memory.
 
-**Network routing through Mesh Host.** Agent containers route outbound traffic through the Mesh Host, where per-agent network allowlists can restrict which domains the browser is permitted to visit. An agent configured to research pricing pages cannot navigate to a payment processing endpoint even if a malicious page instructs it to do so.
+**Approvals before acting on untrusted content.** Work stops for an owner's approval at three walls only: reaching a third party on your behalf, deleting data, and acting on untrusted content. An agent that has read an untrusted page cannot act on what it says until an owner or admin decides in the app.
 ## Browser Agent Architecture Patterns
 
 ### Headless vs. headed: when each matters
@@ -149,7 +149,7 @@ Camoufox runs in headless mode but patches the JavaScript APIs that headless det
 
 For browser agents that open multiple tabs — either for parallel research or because a task requires opening links in new tabs — session management becomes a coordination problem. Tabs within the same browser instance share the same cookie jar. A session cookie set by Tab 1 is accessible to Tab 2.
 
-For multi-agent browser fleets, tab sharing is a security concern: if multiple agents share a browser instance, they share session state. OpenLegion's one-browser-per-agent model eliminates this by giving each agent a fully isolated browser process. For a [multi-agent browser fleet](/learn/multi-agent-systems), isolation at the process level is the only reliable way to prevent cross-agent session contamination.
+For multi-agent browser fleets, tab sharing is a security concern: if multiple agents share a browser instance, they share session state. OpenLegion's per-task sandboxed runs eliminate the equivalent risk for agent work: each task runs on demand, in isolation, and then stops. For a [multi-agent browser fleet](/learn/multi-agent-systems), isolation at the process level is the only reliable way to prevent cross-agent session contamination.
 
 ### CAPTCHA handling: solver services vs. behavioral browsers
 
@@ -159,9 +159,9 @@ Three approaches to CAPTCHA handling each involve tradeoffs:
 
 **Solver services (2captcha, anti-captcha, CapSolver)** route CAPTCHA challenges to human workers or ML models that solve the challenge and return a token. This handles image and audio challenges that behavioral browsers cannot. The downsides: latency (10–60 seconds per solve), cost ($1–3 per 1,000 solves), and ethical concerns around using human labor to defeat access controls.
 
-**Human-in-the-loop fallback** pauses the agent and sends a live browser view to a human operator who completes the CAPTCHA manually. This is the most reliable approach for complex challenges and avoids solver service dependencies. OpenLegion supports human-in-the-loop CAPTCHA handoff via an interactive browser viewer in the dashboard.
+**Human-in-the-loop fallback** pauses the agent and sends a live browser view to a human operator who completes the CAPTCHA manually. This is the most reliable approach for complex challenges and avoids solver service dependencies. OpenLegion's equivalent is its approval wall: work stops in the app whenever an owner or admin has to decide.
 
-### Credential injection: vault proxy vs. hardcoded cookies
+### Credential injection: credential vault vs. hardcoded cookies
 
 Browser agents frequently need to operate in authenticated sessions: logging into web applications, navigating member-only content, or taking actions that require an account. The credential handling approach determines the security profile of the entire deployment.
 
@@ -169,22 +169,22 @@ Browser agents frequently need to operate in authenticated sessions: logging int
 
 **Environment variable injection (poor)**: credentials are injected via environment variables at container startup. They are not in the agent's context window, but they are accessible via `os.environ` — prompt injection can still instruct the agent to read and exfiltrate environment variables.
 
-**Vault proxy injection (correct)**: credentials are stored in a vault zone that the agent container cannot query. When the agent needs to make an authenticated request, the request routes through the vault proxy, which sets the appropriate cookies or Authorization headers at the network layer. The credential never exists in the agent's process memory. Prompt injection finds nothing to exfiltrate.
+**Credential vault injection (correct)**: credentials are stored in a vault that the agent cannot query. When the agent needs to make an authenticated request, the credential is injected outside the model, which only ever holds a handle, and the appropriate cookies or Authorization headers are set for it. The credential never exists in the agent's process memory. Prompt injection finds nothing to exfiltrate.
 
-OpenLegion's Camoufox browser service integrates with the vault proxy: session cookies for authenticated sites are injected at the network layer before requests leave the container, and the agent's context window contains no credential material.
+OpenLegion works this way for every authenticated tool an agent uses: credentials live in a vault, are injected outside the model, and the agent's context window contains no credential material.
 
 ## Browser Use Agents: Architecture Comparison
 
 | **Dimension** | **OpenLegion** | **browser-use** | **Raw Playwright** | **Stagehand** |
 |---|---|---|---|---|
-| **Execution backend** | Camoufox (Firefox, fingerprint-resistant) | Playwright (Chromium) | Playwright (Chromium/Firefox/WebKit) | Cloud Chromium (Browserbase) |
-| **Session isolation** | Per-agent container — structural | Shared process if parallel | Depends on implementation | Cloud-managed sessions |
-| **Credential handling** | Vault proxy injection at network layer | Passes through context window by default | Manual implementation required | Managed by Browserbase |
-| **CAPTCHA support** | Camoufox fingerprint resistance + human-in-loop | No built-in | No built-in | Solver service integration |
-| **Container sandboxing** | Zone 1 Docker, non-root, no-new-privileges | None — runs in host process | None | Cloud sandbox (Browserbase infra) |
-| **LLM provider support** | Full Anthropic API roster | OpenAI, Anthropic, Google, compatible | Any (manual integration) | OpenAI, Anthropic |
+| **Execution backend** | None at launch — no browser automation | Playwright (Chromium) | Playwright (Chromium/Firefox/WebKit) | Cloud Chromium (Browserbase) |
+| **Session isolation** | Per-task sandboxed run — structural | Shared process if parallel | Depends on implementation | Cloud-managed sessions |
+| **Credential handling** | Vault-held, injected outside the model | Passes through context window by default | Manual implementation required | Managed by Browserbase |
+| **CAPTCHA support** | Not applicable — no browser automation | No built-in | No built-in | Solver service integration |
+| **Container sandboxing** | Sandboxed task run, no network by default | None — runs in host process | None | Cloud sandbox (Browserbase infra) |
+| **LLM provider support** | Smartest, Smart and Normal presets | OpenAI, Anthropic, Google, compatible | Any (manual integration) | OpenAI, Anthropic |
 | **GitHub stars** | — | 96,282 (May 2026) | N/A (Playwright: 69K+) | ~9,000 |
-| **License** | BSL 1.1 | MIT | Apache 2.0 | MIT |
+| **License** | PolyForm Perimeter 1.0.1 (engine) | MIT | Apache 2.0 | MIT |
 
 ## When to Use Browser Agents (and When Not To)
 
@@ -192,7 +192,7 @@ OpenLegion's Camoufox browser service integrates with the vault proxy: session c
 
 **Web research and data extraction** — navigating public pages, reading content, extracting structured data from unstructured HTML — are the lowest-risk browser agent use cases. The agent reads but does not write. Even if a malicious page injects instructions, the worst outcome is the agent navigating to an unintended URL — recoverable, not catastrophic.
 
-**Form automation for your own services** — where the agent fills forms on services you control or have explicit authorization to automate — is safe when combined with vault-proxied credentials and allowlisted domains.
+**Form automation for your own services** — where the agent fills forms on services you control or have explicit authorization to automate — is safe when combined with vault-held credentials and allowlisted domains.
 
 **Monitoring and testing** — using browser agents to test your own web application's flows, check for UI regressions, or monitor external service status pages — are well-bounded use cases. The agent's action space is known and limited.
 
@@ -200,19 +200,19 @@ For [agentic workflows](/learn/agentic-workflows) that incorporate browser steps
 
 ### Use cases that require extra controls: authenticated sessions, financial sites
 
-Any use case where the browser agent operates in an authenticated session — logged in to a web application as a user — requires the full security control set: vault-proxied credentials, domain allowlisting, read-only vs. write action scope, and human-in-the-loop confirmation for consequential actions.
+Any use case where the browser agent operates in an authenticated session — logged in to a web application as a user — requires the full security control set: vault-held credentials, domain allowlisting, read-only vs. write action scope, and human-in-the-loop confirmation for consequential actions.
 
 Financial sites — banking, payment processors, investment accounts — require explicit human confirmation before any form submission. An agent that can confirm a wire transfer or complete a purchase without human approval is a mis-scoped deployment regardless of how well the prompt guards are written.
 
 ### Use cases to avoid without strict sandboxing: untrusted user-supplied URLs
 
-If your use case involves navigating to URLs provided by end users — "summarize this article for me" where the article URL comes from untrusted input — you are exposing the browser agent to adversarial pages by design. This use case requires all four controls before production deployment: container isolation, vault-proxied credentials, network egress controls, and human-in-the-loop confirmation for any write action.
+If your use case involves navigating to URLs provided by end users — "summarize this article for me" where the article URL comes from untrusted input — you are exposing the browser agent to adversarial pages by design. This use case requires all four controls before production deployment: container isolation, vault-held credentials, network egress controls, and human-in-the-loop confirmation for any write action.
 
 Without these controls, untrusted-URL browser agents are a reliable prompt injection vector. Any malicious website the user (intentionally or unintentionally) provides can manipulate the agent's behavior.
 
-## Get Started with Secure Browser Agents on OpenLegion
+## Get Started with Secure Agent Actions on OpenLegion
 
-**Run browser agents in isolated containers with vault-proxied credentials and per-agent network controls.**
+**Run agents with vault-held credentials, a sandboxed run per task, and approvals before they act.**
 [Start Building](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai) | [See the Platform](/learn/ai-agent-platform)
 
 ---
@@ -235,11 +235,11 @@ Three primary risks: prompt injection via web content (any page the agent visits
 
 ### How do you run browser agents securely?
 
-Four controls are required: container isolation (one browser process per agent, no shared sessions between agents), vault-proxied credentials (session cookies and API keys injected at the network layer, never in agent context memory), network egress controls (domain allowlist restricting which sites the agent can visit), and per-agent budget limits (preventing infinite navigation loops that exhaust API quotas). OpenLegion's Camoufox-backed browser service implements all four by default inside Zone 1 Docker containers.
+Four controls are required: container isolation (one browser process per agent, no shared sessions between agents), vault-held credentials (session cookies and API keys injected outside the model, never in agent context memory), network egress controls (domain allowlist restricting which sites the agent can visit), and per-agent budget limits (preventing infinite navigation loops that exhaust API quotas). OpenLegion ships no browser automation at launch, but applies the same four controls to every agent action: a sandboxed run per task, vault-held credentials, no network from sandboxed code, and a per-agent credit budget.
 
-### What is Camoufox and why does OpenLegion use it?
+### What is Camoufox and does OpenLegion use it?
 
-Camoufox is a Firefox-based headless browser that patches JavaScript APIs to report realistic hardware profiles rather than headless signatures. Bot-detection systems that block standard headless Chromium (the default browser-use backend) are significantly less likely to block Camoufox sessions. OpenLegion runs one Camoufox instance per agent on port :8500 inside each agent's Zone 1 Docker container, providing both fingerprint resistance and complete session isolation between parallel agents.
+Camoufox is a Firefox-based headless browser that patches JavaScript APIs to report realistic hardware profiles rather than headless signatures. Bot-detection systems that block standard headless Chromium (the default browser-use backend) are significantly less likely to block Camoufox sessions. OpenLegion does not run Camoufox, or any other browser automation, at launch; its isolation comes from a sandboxed run per task with no network access from sandboxed code by default.
 
 ### What is the difference between browser-use and Playwright for AI agents?
 
@@ -247,8 +247,8 @@ Playwright is a browser automation library exposing low-level browser control AP
 
 ### Can browser use agents handle login and authenticated sessions?
 
-Yes, but authenticated session handling is one of the highest-risk operations. Agents can fill login forms, handle OAuth redirect flows, and maintain session cookies across pages. The security requirement: credentials must not reside in the agent's context window or process memory where prompt injection can access them. OpenLegion injects session credentials via vault proxy at the network layer — the agent navigates authenticated sessions without the underlying credentials ever appearing in its accessible context.
+Yes, but authenticated session handling is one of the highest-risk operations. Agents can fill login forms, handle OAuth redirect flows, and maintain session cookies across pages. The security requirement: credentials must not reside in the agent's context window or process memory where prompt injection can access them. OpenLegion keeps credentials in a vault and injects them outside the model — the agent works through authenticated sessions holding only a handle, with the underlying credential never appearing in its accessible context.
 
 ### How do browser agents handle CAPTCHAs?
 
-Three approaches: behavioral browsers (Camoufox, undetected-chromedriver) avoid triggering CAPTCHA challenges by presenting realistic fingerprints; solver services (2captcha, anti-captcha) outsource challenges to human workers or ML models at $1–3 per 1,000 solves with 10–60 second latency; and human-in-the-loop fallback pauses the agent and presents the CAPTCHA to a human operator via a live browser viewer. OpenLegion supports human-in-the-loop CAPTCHA handoff through the dashboard and uses Camoufox fingerprint resistance to reduce challenge frequency.
+Three approaches: behavioral browsers (Camoufox, undetected-chromedriver) avoid triggering CAPTCHA challenges by presenting realistic fingerprints; solver services (2captcha, anti-captcha) outsource challenges to human workers or ML models at $1–3 per 1,000 solves with 10–60 second latency; and human-in-the-loop fallback pauses the agent and presents the CAPTCHA to a human operator via a live browser viewer. OpenLegion has no browser automation at launch; its human-in-the-loop equivalent is an approval wall where an owner or admin decides in the app.

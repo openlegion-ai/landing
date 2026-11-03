@@ -44,7 +44,7 @@ AaaS pricing in 2026 has converged on three structures:
 
 **Per-action fee for tool integrations.** Platforms that define discrete "actions" (API calls, database queries, knowledge base lookups) charge per execution. AWS Bedrock Knowledge Base queries: $0.0004/query. An agent making 50 knowledge base lookups per session pays $0.02/session in KB fees, manageable at low volume, significant at scale. At 100,000 KB queries/day: $40/day in action fees alone, before model or orchestration costs.
 
-**Per-agent-hour subscription tiers.** Some platforms (including OpenLegion) offer tiers where each active agent counts against included hours regardless of token consumption. This model provides cost predictability for stable agent fleets but can be inefficient for spiky, bursty workloads.
+**Included-credit subscription tiers.** Some platforms (including OpenLegion) include a monthly credit allowance that every unit of work draws down, so an idle agent costs nothing and the bill tracks work done rather than agent count. This model provides cost predictability for stable teams but can be inefficient for spiky, bursty workloads.
 
 Consumption pricing aligns vendor incentives with customer usage but creates cost unpredictability for long-running agents. A single runaway agentic loop generates charges across both the orchestration layer and the model layer simultaneously, a double-billing structure that makes infrastructure-level budget caps doubly important in AaaS contexts.
 
@@ -60,11 +60,11 @@ The diagnostic question to ask every AaaS vendor: **"If my agent's full context 
 
 Platforms that achieve credential isolation architecturally:
 - **AWS Bedrock Agents**: IAM role assumption per invocation, the agent executes under a temporary IAM role token, never a raw API key; the agent code never receives or holds credentials
-- **OpenLegion**: `$CRED{}` handle resolution at Zone 2, agent code references a credential by name (e.g., `$CRED{openai_key}`), Zone 2 resolves the handle to the actual value at execution time without returning it to the agent; credential handles are not present in the agent's context window
+- **OpenLegion**: credential handle resolution in the policy engine, an agent references a credential by name, and the policy engine resolves the handle to the actual value at execution time without returning it to the model; credential values are never present in the agent's context window
 
 Platforms that do not achieve full isolation: any platform where the developer puts API keys in the system prompt, or where tool configurations with raw credentials are serialized into the agent's context at invocation.
 
-For the vault proxy pattern and `$CRED{}` handle architecture, see [credential management and per-tenant API key scoping for AI agents](/learn/credential-management-ai-agents).
+For the credential vault pattern and handle architecture, see [credential management and per-tenant API key scoping for AI agents](/learn/credential-management-ai-agents).
 
 ## The AaaS Vendor Landscape in 2026
 
@@ -148,7 +148,7 @@ A runaway loop running 20 iterations on AWS Bedrock with Claude 3.5 Sonnet, with
 
 At 1,000 concurrent agents each in a 20-iteration storm: approximately $875 in AaaS vs. $860 self-hosted, a small absolute AaaS premium, but the total exposure makes infrastructure-level budget caps essential.
 
-OpenLegion's $0-$50/day per-agent cap enforced at Zone 2 applies to the total cost of all LLM calls and tool invocations, not just the model cost line item, capping the complete AaaS billing exposure, not a subset of it.
+OpenLegion's per-agent credit budget, enforced by the policy engine before each action, applies to the total cost of all LLM calls and tool invocations, not just the model cost line item, capping the complete AaaS billing exposure, not a subset of it.
 
 ## AaaS Security: Credential Isolation and the CVE-2024-5184 Test
 
@@ -160,7 +160,7 @@ The **CVE-2024-5184 test** for AaaS platforms: "If my agent's system prompt and 
 
 **Pass**, credentials are not in the agent's context window:
 - AWS Bedrock Agents: IAM role tokens used for action execution; raw credentials not in context
-- OpenLegion: `$CRED{}` handles resolved at Zone 2 and not returned to agent code; agent context contains no credential values
+- OpenLegion: credential handles resolved by the policy engine and never returned to the model; agent context contains no credential values
 
 **Fail**, credentials are accessible in the agent's context:
 - Any platform where the developer has placed API keys in the system prompt
@@ -177,7 +177,7 @@ AaaS platforms serving multiple tenants must enforce prompt isolation: TenantA's
 **Infrastructure-level isolation (strongest):**
 - **AWS Bedrock Agents**: each agent is a separate Bedrock resource with its own IAM execution role; there is no shared context between customers' agents unless explicitly configured via cross-account permissions
 - **Google Agent Space**: tenant isolation via Google Cloud project boundaries; agents in ProjectA cannot access ProjectB's data without explicit cross-project IAM grants
-- **OpenLegion**: blackboard namespace ACL per project, agents in ProjectA cannot read ProjectB's blackboard state; credential handles are project-scoped (`ProjectA`'s `$CRED{openai_key}` resolves to ProjectA's API key, never ProjectB's)
+- **OpenLegion**: per-workspace ACL on the shared record of goals and tasks, agents in ProjectA cannot read ProjectB's task state; credential handles are workspace-scoped (`ProjectA`'s key handle resolves to ProjectA's API key, never ProjectB's)
 
 Infrastructure-level isolation makes cross-tenant access architecturally impossible without explicit configuration changes, it is not policy-prohibited, it is technically blocked.
 
@@ -221,7 +221,7 @@ Self-hosted infrastructure is the right choice when:
 
 **Data residency requirements.** Regulated industries, including healthcare (HIPAA), finance (SOX), and government (FedRAMP), may require all agent-processed data to remain in a specific geographic region or network perimeter. AaaS platforms may offer region selection, but fine-grained data residency controls (data never leaves a specific network, no cross-border transfer even for logs) may require self-hosted infrastructure in the required jurisdiction.
 
-**Vendor lock-in risk is unacceptable.** Deep integration with an AaaS platform's proprietary agent definition format (Bedrock's action group schema, Agent Space's connector configuration) creates migration barriers if the platform changes pricing, deprecates features, or is acquired. Self-hosted platforms using open frameworks (LangGraph, AutoGen, OpenLegion, where the agent definition is committed to a git repository in a standard format) maintain portability.
+**Vendor lock-in risk is unacceptable.** Deep integration with an AaaS platform's proprietary agent definition format (Bedrock's action group schema, Agent Space's connector configuration) creates migration barriers if the platform changes pricing, deprecates features, or is acquired. Self-hosted platforms using open frameworks (LangGraph, AutoGen, where the agent definition is committed to a git repository in a standard format) maintain portability. OpenLegion is hosted, and its separately published engine is source-available under the PolyForm Perimeter License 1.0.1.
 
 ### Total Cost of Ownership: The Full AaaS vs Self-Hosted Calculation
 
@@ -267,14 +267,14 @@ Three concrete numbers that frame the AaaS security decision:
 
 | **Security control** | **OpenLegion** | **AWS Bedrock Agents** | **Google Agent Space** | **OpenAI Operator** | **LangGraph (self-hosted)** |
 |---|---|---|---|---|---|
-| **Credential vault with $CRED{} handle resolution (not in agent context)** | Zone 2, architectural | IAM role assumption | Service account scoping | Session isolation | Developer responsibility |
-| **Per-agent daily spend cap (infrastructure layer)** | Zone 2, $0-$50/day | Not available | Not available | Not available | Developer responsibility |
-| **Blackboard ACL per tenant project (cross-tenant reads blocked)** | Architectural | IAM-based | Project-based | N/A | Developer responsibility |
+| **Credential vault with handle resolution (not in agent context)** | Vault-enforced, architectural | IAM role assumption | Service account scoping | Session isolation | Developer responsibility |
+| **Per-agent daily spend cap (infrastructure layer)** | Policy engine, per-agent credits | Not available | Not available | Not available | Developer responsibility |
+| **Shared-state ACL per tenant project (cross-tenant reads blocked)** | Architectural | IAM-based | Project-based | N/A | Developer responsibility |
 | **Per-agent tool permission scoping (least-privilege enforced by runtime)** | Runtime-enforced | Action group IAM | IAM-based | N/A | Developer responsibility |
 | **WORM audit log per tenant (SOC 2 CC6.1)** | Native | CloudTrail | Cloud Audit Logs | N/A | Developer responsibility |
-| **Agent definition in git (full permission change audit trail)** | INSTRUCTIONS.md | Console/API | Console/API | N/A | Developer responsibility |
+| **Agent definition in git (full permission change audit trail)** | Not in git — in-app, every change audited | Console/API | Console/API | N/A | Developer responsibility |
 
-[Start building on OpenLegion](https://app.openlegion.ai), deploy agents with architectural credential isolation via `$CRED{}` vault proxy resolution, per-agent daily spend caps enforced at Zone 2, and blackboard ACLs that make cross-tenant state access architecturally impossible, not just policy-prohibited.
+[Start building on OpenLegion](https://app.openlegion.ai), deploy agents with architectural credential isolation via vault-held credential handles, per-agent credit budgets enforced by the policy engine, and per-workspace ACLs that make cross-tenant state access architecturally impossible, not just policy-prohibited.
 
 <!-- SCHEMA: FAQPage -->
 
@@ -298,7 +298,7 @@ OpenAI Operator, launched January 2025, is the first mainstream consumer-facing 
 
 ### How does credential isolation work in AaaS platforms?
 
-Credential isolation in AaaS means the platform never exposes the customer's LLM API keys, database credentials, or tool secrets to agent code or to other tenants, with credentials injected server-side at execution time and never appearing in the agent's context window, in log files, or in tool call parameters. AWS Bedrock Agents achieves this through IAM role assumption, the agent executes under a temporary scoped IAM role token, not a raw API key, so the agent code never receives or stores underlying credentials. OpenLegion uses `$CRED{}` handle resolution at Zone 2: agent code references a credential by name, Zone 2 resolves the actual value at execution time without returning it to the agent; if the agent's context window is extracted through prompt injection (CVE-2024-5184), no credentials are present to steal. The diagnostic question for any AaaS platform is: "If my agent's full context window is extracted by an attacker, what credentials are at risk?", the correct answer is none.
+Credential isolation in AaaS means the platform never exposes the customer's LLM API keys, database credentials, or tool secrets to agent code or to other tenants, with credentials injected server-side at execution time and never appearing in the agent's context window, in log files, or in tool call parameters. AWS Bedrock Agents achieves this through IAM role assumption, the agent executes under a temporary scoped IAM role token, not a raw API key, so the agent code never receives or stores underlying credentials. OpenLegion uses vault-held credential handles: an agent references a credential by name, and the policy engine resolves the actual value at execution time without returning it to the model; if the agent's context window is extracted through prompt injection (CVE-2024-5184), no credentials are present to steal. The diagnostic question for any AaaS platform is: "If my agent's full context window is extracted by an attacker, what credentials are at risk?", the correct answer is none.
 
 ### What security risks are specific to AaaS platforms?
 
@@ -310,4 +310,4 @@ AaaS is the better choice when volume is low-to-medium (typically below 50,000 a
 
 ### What is multi-tenant prompt isolation in AaaS?
 
-Multi-tenant prompt isolation in AaaS means TenantA's system prompt, conversation history, tool results, and memory state never appear in TenantB's agent context. Each tenant's agent execution is isolated so that one tenant cannot read, influence, or be influenced by another's data. The strongest isolation mechanisms are infrastructure-level: separate IAM roles per tenant (AWS Bedrock), separate Google Cloud projects per tenant (Google Agent Space), or separate blackboard namespace ACLs per project (OpenLegion). These make cross-tenant access architecturally impossible without explicit configuration changes. The weakest pattern is system-prompt-level isolation, injecting "You are serving TenantA. Never access TenantB data." as the sole boundary, which fails when prompt injection overwrites or ignores the instruction, making the isolation bypassable by any adversarial content in an external tool response (OWASP LLM06:2023 Sensitive Information Disclosure, v1.1 list).
+Multi-tenant prompt isolation in AaaS means TenantA's system prompt, conversation history, tool results, and memory state never appear in TenantB's agent context. Each tenant's agent execution is isolated so that one tenant cannot read, influence, or be influenced by another's data. The strongest isolation mechanisms are infrastructure-level: separate IAM roles per tenant (AWS Bedrock), separate Google Cloud projects per tenant (Google Agent Space), or separate per-workspace ACLs on shared agent state (OpenLegion). These make cross-tenant access architecturally impossible without explicit configuration changes. The weakest pattern is system-prompt-level isolation, injecting "You are serving TenantA. Never access TenantB data." as the sole boundary, which fails when prompt injection overwrites or ignores the instruction, making the isolation bypassable by any adversarial content in an external tool response (OWASP LLM06:2023 Sensitive Information Disclosure, v1.1 list).

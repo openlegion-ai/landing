@@ -73,7 +73,7 @@ O modo de falha de seguranca do ReAct visa diretamente o bloco de notas. Se qual
 
 Tres mitigacoes necessarias em conjunto:
 1. Sanear cada Observacao antes de adicionar ao bloco de notas
-2. Pre-registrar cada Acao na Zona 2 antes do despacho
+2. Pre-registrar cada Acao no motor de politicas antes do despacho
 3. Tratar cada Observacao de ferramenta como entrada nao confiavel
 
 ## Plan-and-Execute: Separar planejamento de execucao
@@ -104,7 +104,7 @@ Resultados de benchmark: HumanEval coding pass@1 -- 91% com Reflexion vs 80% (+1
 
 O modo de falha de seguranca do Reflexion e distinto e mais persistente do que o risco de injecao no bloco de notas do ReAct. Se uma Observacao contiver conteudo adversarial, a reflexao gerada pode codificar orientacao controlada pelo atacante indefinidamente.
 
-Quatro mitigacoes necessarias em sequencia: saneamento de reflexao antes do armazenamento; armazenamento versionado no blackboard com atribuicao agent_id; TTL de reflexao; portao de revisao HITL para reflexoes que propoem mudancas categoricas de comportamento.
+Quatro mitigacoes necessarias em sequencia: saneamento de reflexao antes do armazenamento; armazenamento versionado com atribuicao agent_id; TTL de reflexao; portao de revisao HITL para reflexoes que propoem mudancas categoricas de comportamento.
 
 ## Critic-Actor: Separar avaliacao de execucao
 
@@ -129,7 +129,7 @@ Supervisor-Worker tem um agente Supervisor que decompoe objetivos e despacha tar
 
 ### Propriedade de seguranca: Contencao do raio de impacto de Workers comprometidos
 
-A propriedade de seguranca principal do Supervisor-Worker e a contencao do raio de impacto: um Worker comprometido so pode chamar ferramentas dentro de sua funcao definida. Um ResearchWorker que recebe uma instrucao injetada para chamar `send_email()` falhara na verificacao de permissoes da Zona 2.
+A propriedade de seguranca principal do Supervisor-Worker e a contencao do raio de impacto: um Worker comprometido so pode chamar ferramentas dentro de sua funcao definida. Um ResearchWorker que recebe uma instrucao injetada para chamar `send_email()` falhara na verificacao de permissoes do motor de politicas.
 
 ## Mixture-of-Agents: Raciocinio de conjunto em instancias de modelos
 
@@ -152,11 +152,11 @@ Cada padrao de design agentico neste guia tem um modo de falha de seguranca que 
 
 | **Controle de seguranca** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
-| **Registro de Acoes pre-execucao** | Zona 2, nativo | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor |
-| **ACL de plano no Blackboard** | Imposto por infraestrutura | Nao disponivel | Nao disponivel | Nao disponivel | Nao disponivel |
+| **Registro de Acoes pre-execucao** | Motor de politicas, nativo | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor |
+| **ACL de plano no registro compartilhado** | Imposto por infraestrutura | Nao disponivel | Nao disponivel | Nao disponivel | Nao disponivel |
 | **Memoria episodica versionada com atribuicao agent_id** | Nativo | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor |
 | **Modelo Critico separado com contexto independente** | Isolamento de agente nativo | Configuracao manual | Configuracao manual | Configuracao manual | Configuracao manual |
-| **Aplicacao de permissoes de ferramentas Zona 2 por Worker** | Imposto por infraestrutura | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor |
+| **Aplicacao de permissoes de ferramentas por Worker no motor de politicas** | Imposto por infraestrutura | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor | Convencao de desenvolvedor |
 
 [Comece a construir na OpenLegion](https://app.openlegion.ai)
 
@@ -186,7 +186,7 @@ O padrao Critic-Actor separa um modelo Critico (avaliando acoes propostas antes 
 
 ### O que e o padrao Supervisor-Worker para agentes de IA?
 
-Supervisor-Worker tem um agente Supervisor que decompoe objetivos e despacha tarefas para agentes Worker especializados com funcoes definidas e conjuntos de ferramentas restritos, de modo que cada Worker opera sob o principio do minimo privilegio. A contencao do raio de impacto e a principal vantagem de seguranca: um Worker injetado tentando usar uma ferramenta fora de sua funcao falha na verificacao de permissoes da Zona 2.
+Supervisor-Worker tem um agente Supervisor que decompoe objetivos e despacha tarefas para agentes Worker especializados com funcoes definidas e conjuntos de ferramentas restritos, de modo que cada Worker opera sob o principio do minimo privilegio. A contencao do raio de impacto e a principal vantagem de seguranca: um Worker injetado tentando usar uma ferramenta fora de sua funcao falha na verificacao de permissoes do motor de politicas.
 
 ### O que e Mixture-of-Agents (MoA)?
 

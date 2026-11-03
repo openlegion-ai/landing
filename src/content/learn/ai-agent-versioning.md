@@ -523,7 +523,7 @@ Three concrete facts about versioning in production:
 | **Agent profiles carry version metadata (model_id, prompt version, tool schema version, hand-off schema version) — full configuration reconstructable from profile at any prior deployment** | Yes — agent manifest per deployment | No — user-defined | No — user-defined | No — user-defined | No — user-defined |
 | **Hand-off brief format versioned as SemVer contract — MAJOR version bumps block deployment until downstream agents are updated; breaking format changes explicit not silent** | Yes — schema_version validated on receipt | No — unversioned | No — unversioned | No — unversioned | No — unversioned |
 | **Behavioral evaluation suite runs in CI on every model_id or prompt version change — regression blocks merge** | Yes — regression gate in CI | No — user-defined | No — user-defined | No — user-defined | No — user-defined |
-| **Blackboard key schemas versioned — agents validate schema_version on every read; incompatible MAJOR version triggers explicit error** | Yes — schema_version enforced | No | No | No | No |
+| **Blackboard key schemas versioned — agents validate schema_version on every read; incompatible MAJOR version triggers explicit error** | N/A — no blackboard; task schemas versioned | No | No | No | No |
 | **EU AI Act Article 12 audit trail generated automatically from agent manifests — changelog, deployment dates, and responsible parties** | Yes — CI/CD manifest generation | No | No | No | No |
 | **Credential vault schema versioned independently of agent versions — vault schema MAJOR bumps coordinated with agent migrations** | Yes — vault schema versioned | No | No | No | No |
 

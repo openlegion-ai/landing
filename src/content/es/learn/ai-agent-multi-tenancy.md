@@ -64,7 +64,7 @@ Tres tipos de memoria de agente requieren cada uno un tratamiento de aislamiento
 
 **Memoria semántica (almacén vectorial)**: si se usa un almacén vectorial compartido, cada escritura debe incluir `tenant_id` como campo de metadatos obligatorio, y cada consulta debe incluir un filtro de metadatos `{tenant_id: current_tenant_id}` inyectado en la capa del cliente de almacenamiento.
 
-**Estado de coordinación (pizarra)**: el estado clave-valor compartido entre agentes debe usar prefijos de clave con scope de inquilino, por ejemplo `projects/{tenant_id}/*`, con aplicación de ACL en la capa mesh.
+**Estado de coordinación (pizarra)**: el estado clave-valor compartido entre agentes debe usar prefijos de clave con scope de inquilino, por ejemplo `projects/{tenant_id}/*`, con aplicación de ACL en la capa del plano de control.
 
 ## Aislamiento de Credenciales: Scope de Vault por Inquilino
 
@@ -138,14 +138,14 @@ Este anti-patrón falla en CC6.1: compartir límite de velocidad, fallo de atrib
 
 ## La Perspectiva de OpenLegion: Aislamiento por Arquitectura, no por Convención
 
-OpenLegion aplica el aislamiento de inquilinos mediante tres mecanismos a nivel de infraestructura que el código del agente no puede eludir: scope de vault de credenciales por proyecto, ACLs de espacio de nombres de pizarra y mensajería entre agentes de proyectos cruzados bloqueada de forma predeterminada.
+OpenLegion aplica el aislamiento de inquilinos mediante tres mecanismos a nivel de infraestructura que el código del agente no puede eludir: scope de bóveda de credenciales por proyecto, ACLs de espacio de nombres de memoria y mensajería entre agentes de proyectos cruzados bloqueada de forma predeterminada.
 
 | **Control de aislamiento** | **OpenLegion** | **LangChain / LangGraph** | **CrewAI** | **AutoGen** | **OpenAI Agents SDK** |
 |---|---|---|---|---|---|
 | **Scope de vault de credenciales por inquilino** | Aplicado por infraestructura | Convención desarrollador | Convención desarrollador | Convención desarrollador | Convención desarrollador |
-| **ACLs de espacio de nombres de pizarra** | Aplicado por infraestructura | No disponible | No disponible | No disponible | No disponible |
+| **ACLs de espacio de nombres de memoria** | Aplicado por infraestructura | No disponible | No disponible | No disponible | No disponible |
 | **Mensajería entre agentes de proyectos bloqueada** | Bloqueada por defecto | No disponible | No disponible | No disponible | No disponible |
-| **Cap de presupuesto por inquilino (Zona 2)** | Aplicado por infraestructura | Convención desarrollador | Convención desarrollador | Convención desarrollador | Convención desarrollador |
+| **Cap de presupuesto por inquilino (motor de políticas)** | Aplicado por infraestructura | Convención desarrollador | Convención desarrollador | Convención desarrollador | Convención desarrollador |
 | **Partición de auditoría por inquilino (WORM)** | Aplicado por infraestructura | Convención desarrollador | Convención desarrollador | Convención desarrollador | Convención desarrollador |
 | **Kubernetes namespace + ResourceQuota** | Gestionado por plataforma | Auto-gestionado | Auto-gestionado | Auto-gestionado | Auto-gestionado |
 
@@ -181,7 +181,7 @@ Usar un almacén vectorial compartido sin filtros de inquilino obligatorios por 
 
 ### ¿Cómo aplica OpenLegion el aislamiento de inquilinos?
 
-OpenLegion aplica el aislamiento de inquilinos mediante tres mecanismos a nivel de infraestructura: scope de vault de credenciales por proyecto (Zone 2 resuelve handles `$CRED{}` usando el contexto de proyecto autenticado de la sesión mesh, no de parámetros proporcionados por el agente; la resolución de credenciales entre proyectos es arquitectónicamente imposible), ACLs de espacio de nombres de pizarra (los agentes tienen permisos de lectura y escritura solo para el prefijo de clave de su proyecto, aplicados por el supervisor mesh) y mensajería entre agentes de proyectos bloqueada de forma predeterminada.
+OpenLegion aplica el aislamiento de inquilinos mediante tres mecanismos a nivel de infraestructura: scope de bóveda de credenciales por proyecto (el motor de políticas resuelve los handles de credencial usando el contexto de proyecto autenticado, no parámetros proporcionados por el agente; la resolución de credenciales entre proyectos es arquitectónicamente imposible), ACLs de espacio de nombres de memoria (los agentes tienen permisos de lectura y escritura solo para el prefijo de clave de su proyecto, aplicados por el motor de políticas) y mensajería entre agentes de proyectos bloqueada de forma predeterminada.
 
 ### ¿Cuáles son los tres modelos de arquitectura de multi-tenancy para plataformas de agentes?
 

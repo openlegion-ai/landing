@@ -60,7 +60,7 @@ KI-Agent-Gedächtnis ermöglicht persistenten Kontext, Lernen und Koordination �
 
 **Berechtigungsmodelle** steuern, welche Agenten bestimmte Speicherbereiche lesen und schreiben können.
 
-**Persistenzgarantien** stellen sicher, dass strukturiertes Gedächtnis Agent-Neustarts und Systemaktualisierungen überlebt. SQLite bietet ACID-Garantien für OpenLegions Blackboard.
+**Persistenzgarantien** stellen sicher, dass strukturiertes Gedächtnis Agent-Neustarts und Systemaktualisierungen überlebt. Bei OpenLegion sind Agenten dauerhafte Datensätze statt Server: Jede Aufgabe läuft bei Bedarf und endet dann, während das gemeinsame Verzeichnis aus Zielen, Aufgaben und Gedächtnis jeden Lauf überdauert.
 
 ### Episodisches Gedächtnis: Ereignisprotokolle und Prozeduren
 
@@ -92,21 +92,21 @@ KI-Agent-Gedächtnis ermöglicht persistenten Kontext, Lernen und Koordination �
 
 KI-Agent-Gedächtnis ist grundlegend für autonome Systeme, aber die Sicherheitsimplikationen persistenter Erinnerungen schaffen erhebliche Risiken, die viele Implementierungen ignorieren. CVE-2025-67732 legte das systematische Credential-Expositionsrisiko offen. Memory-Poisoning-Angriffe zeigen, wie falsche Fakten in persistentem Speicher das Agentenverhalten über Sitzungen hinweg korrumpieren können.
 
-OpenLegions Architektur adressiert diese Risiken durch Isolation statt Zugriffskontrollen. Der Vault-Proxy stellt sicher, dass Credentials nie in Gedächtnissysteme eintreten. Pro-Agent-Workspace-Isolation verhindert Gedächtniskontaminierung zwischen Agenten.
+OpenLegions Architektur adressiert diese Risiken durch Isolation statt Zugriffskontrollen. Credentials liegen in einem Vault und werden außerhalb des Modells injiziert, sodass sie nie in Gedächtnissysteme eintreten. Pro-Agent-Gedächtnis-Isolation verhindert Kontaminierung zwischen Agenten.
 
-### Vier-Zonen-Architektur: Vault-geschütztes Gedächtnis
+### Policy-Engine-Architektur: Vault-geschütztes Gedächtnis
 
-**Vier-Zonen-Architektur** trennt Credential-Management von Gedächtnisoperationen vollständig. Zone 1 (Öffentliches Internet), Zone 2 (Mesh-Netzwerk), Zone 3 (Agent-Container), Zone 4 (Vault-Proxy) stellen sicher, dass Credentials nie in Agent-Gedächtnissystemen persistieren.
+**Eine Policy-Engine** trennt Credential-Management von Gedächtnisoperationen vollständig. Jede Aktion ist eine Absicht, die geprüft und als Beleg festgehalten wird, und Credentials liegen in einem Vault, außerhalb des Modells injiziert, sodass sie nie in Agent-Gedächtnissystemen persistieren.
 
-**Natives Blackboard** bietet strukturierte Gedächtniskoordination ohne externe Vektordatenbanken oder Credential-Management-Systeme. Es läuft auf SQLite mit ACID-Garantien.
+**Ziele und Aufgaben** bieten strukturierte Gedächtniskoordination ohne externe Vektordatenbanken oder Credential-Management-Systeme. Agenten koordinieren über ein gemeinsames Verzeichnis aus Zielen und Aufgaben sowie Event-Wakes.
 
-**Schreibberechtigungen** verhindern Gedächtniskontaminierung durch Kontrolle, welche Agenten bestimmte Gedächtnisbereiche modifizieren können.
+**Schreibberechtigungen** verhindern Gedächtniskontaminierung: Jeder Schreibvorgang ist eine Absicht, die die Policy-Engine prüft, bevor sie geschieht.
 
 ### Pro-Agent-Workspace-Isolation
 
-**Privater Workspace** stellt jedem Agenten isolierten Dateispeicher für persönliches Gedächtnis, Konfiguration und Arbeitsdateien bereit.
+**Privater Workspace** stellt jedem Agenten isolierten Speicher für persönliches Gedächtnis, Konfiguration und Arbeitsdateien bereit.
 
-**Gedächtnissuche** arbeitet über strukturierte Fakten in der persönlichen Gedächtnisdatenbank des Agenten und Workspace-Dateien mit BM25-Keyword-Matching.
+**Gedächtnissuche** arbeitet über strukturierte Fakten im eigenen Gedächtnis des Agenten und seine Workspace-Dateien und kombiniert Keyword-Matching mit semantischem Abruf.
 
 **[Erkunden Sie KI-Agent-Plattformarchitektur](/learn/ai-agent-platform)** für umfassende Sicherheits- und Gedächtnisverwaltungsansätze. Für [KI-Agent-Sicherheitsrisiken](/learn/ai-agent-security) gibt es detaillierte Bedrohungsmodelle und CVE-Abdeckung.
 
@@ -126,9 +126,9 @@ Memory Poisoning injiziert falsche Fakten in persistente Agent-Gedächtnissystem
 
 CVE-2025-67732 demonstrierte Credential-Exposition, wenn gemeinsame Gedächtnisspeicher API-Keys enthalten, die für jeden authentifizierten Benutzer mit Gedächtniszugang zugänglich sind. Vektorsimilaritätssuchen können versehentlich sensible Informationen abrufen, wenn Suchanfragen Credential-Metadaten semantisch ähneln.
 
-### Was ist das OpenLegion Blackboard?
+### Was ist das gemeinsame Verzeichnis von OpenLegion?
 
-Ein natives gemeinsames Schlüssel-Wert-persistentes Speichersystem, das Agent-zu-Agent-Koordination ohne externe Vektordatenbanken oder Dienste ermöglicht. Es läuft auf SQLite mit ACID-Garantien und musterbasierter Berechtigungskontrolle. Der Vault-Proxy verhindert Credential-Exposition, indem Agenten nie Klartext-Credentials erhalten.
+Das dauerhafte Verzeichnis aus Zielen, Aufgaben und Ergebnissen, über das Agenten ohne externe Vektordatenbanken oder Dienste koordinieren. Arbeit wird als Ziele → Aufgaben → Agenten organisiert, mit einem Assistenten, der an die von ihm erstellten Teammitglieder delegiert. Der Credential-Vault verhindert Credential-Exposition, indem Agenten nie Klartext-Credentials erhalten.
 
 ### Welche Gedächtnisbibliotheken sind am populärsten?
 
@@ -136,4 +136,4 @@ mem0ai/mem0 führt mit 56.445 GitHub-Stars und 23,5 Mio. $ Series A Finanzierung
 
 ### Wie sichert man Agent-Gedächtnis in der Produktion?
 
-Verwenden Sie architektonische Credential-Isolation durch Vault-Proxy-Systeme statt Kontrollen auf Anwendungsebene. Implementieren Sie Pro-Agent-Workspace-Isolation zur Verhinderung von Gedächtniskontaminierung. Wenden Sie musterbasierte Berechtigungen nach dem Prinzip der geringsten Rechte an. Überwachen Sie Gedächtnisoperationen auf abnormale Zugriffsmuster. Speichern Sie Credentials nie in einem Agent-Gedächtnissystem.
+Verwenden Sie architektonische Credential-Isolation durch einen Credential-Vault statt Kontrollen auf Anwendungsebene. Implementieren Sie Pro-Agent-Workspace-Isolation zur Verhinderung von Gedächtniskontaminierung. Wenden Sie musterbasierte Berechtigungen nach dem Prinzip der geringsten Rechte an. Überwachen Sie Gedächtnisoperationen auf abnormale Zugriffsmuster. Speichern Sie Credentials nie in einem Agent-Gedächtnissystem.

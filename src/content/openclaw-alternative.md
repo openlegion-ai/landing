@@ -1,9 +1,9 @@
 ---
 title: OpenClaw Alternative — OpenLegion
 description: >-
-  Looking for an OpenClaw alternative? OpenLegion offers container isolation,
-  vault-proxied credentials, per-agent budget controls, and fleet coordination
-  (blackboard + pub/sub + handoff).
+  Looking for an OpenClaw alternative? OpenLegion offers sandboxed task runs,
+  vault-held credentials, per-agent budget controls, and goal-and-task
+  coordination (goals → tasks → agents).
 slug: /openclaw-alternative
 primary_keyword: openclaw alternative
 secondary_keywords:
@@ -27,58 +27,58 @@ related:
 
 If you're searching for an **OpenClaw alternative**, you've likely hit one of a few friction points: the Docker socket requirement grants too much host access for your security posture, you need credential isolation that goes beyond in-process secret masking, you want per-agent cost controls to prevent runaway spending, or you need multi-agent fleet orchestration rather than a single coding agent.
 
-OpenLegion is a source-available [AI agent framework](/learn/ai-agent-platform) built for teams that need production-grade security and governance. Bring your own LLM API keys (or use managed credits). No markup on BYOK model usage.
+OpenLegion is a hosted [AI agent framework](/learn/ai-agent-platform) built for teams that need production-grade security and governance. Sign in with Google — there is nothing to install. Models are chosen by preset: Smartest, Smart or Normal.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Why look for an OpenClaw alternative?**
-> Teams seek OpenClaw alternatives when they need stricter security defaults (mandatory container isolation without Docker socket mounting), credential management where agents never see raw API keys, per-agent budget enforcement, or a structured fleet coordination model for auditable multi-agent operations.
+> Teams seek OpenClaw alternatives when they need stricter security defaults (a sandboxed run for every task, with nothing on a host of yours), credential management where agents never see raw API keys, per-agent budget enforcement, or a structured goal-and-task coordination model for auditable multi-agent operations.
 
 ## TL;DR
 
-- **Container isolation** — Each agent in its own Docker container. No Docker socket mounting. Non-root, no-new-privileges, configurable resource caps.
-- **Vault-proxied credentials** — Credential vault with `$CRED{name}` handles. Agents never see raw keys; the proxy injects credentials at the network layer.
-- **Per-agent budget controls** — Daily and monthly limits with hard cutoff. No surprise bills.
-- **Fleet coordination** — Fleet model: blackboard (SQLite CAS) + pub/sub + structured handoff. 13 ready-made templates in YAML.
-- **Multi-channel** — CLI, Telegram, Discord, Slack, WhatsApp (text-only; prod requires `WHATSAPP_APP_SECRET`) — plus webhook endpoints for external integrations. Not just a web GUI.
-- **No external services** — Python + SQLite + Docker. No Redis, no Kubernetes, no LangChain.
+- **Sandboxed task runs** — Each task runs on demand in its own sandbox. No network access by default, and nothing left running afterwards.
+- **Vault-held credentials** — Credentials live in a vault and the model only ever holds a handle. Agents never see raw keys; the credential is injected outside the model.
+- **Per-agent budget controls** — Every agent carries its own credit budget with a hard cutoff. No surprise bills.
+- **Goal-and-task coordination** — Goals → tasks → agents, with an assistant that creates the teammates it needs and delegates to them.
+- **Multi-channel** — Web chat on every plan, Telegram and webhooks from Pro, Slack and inbound email on Team and above. Agents work where you already do.
+- **Nothing to run** — A hosted web app. No Redis, no Kubernetes, no servers of your own.
 
 ## Quick Comparison
 
 | Capability | OpenClaw | OpenLegion |
 |---|---|---|
-| **Agent isolation** | Process-level | Docker container per agent, no Docker socket, non-root |
-| **Credential handling** | Secret Registry — secrets accessible to agent process | Vault proxy — agents never see raw keys |
-| **Cost controls** | None | Per-agent daily/monthly budgets with hard cutoff |
-| **Coordination** | Event-sourced, SDK-based | Fleet model — blackboard + pub/sub + handoff (no CEO agent) |
-| **Multi-agent** | Single-agent primary, SDK supports multi | Native fleet model with blackboard coordination, pub/sub, and structured handoff protocol |
-| **Deployment channels** | Web GUI, CLI | CLI, Telegram, Discord, Slack, WhatsApp + webhooks |
-| **Dependencies** | Python, Docker (+ ecosystem) | Python, SQLite, Docker (no external services) |
-| **LLM support** | LiteLLM-compatible | 100+ via LiteLLM |
+| **Agent isolation** | Process-level | Sandboxed run per task, no network by default, nothing on your host |
+| **Credential handling** | Secret Registry — secrets accessible to agent process | Credential vault — agents never see raw keys |
+| **Cost controls** | None | Per-agent credit budgets with hard cutoff |
+| **Coordination** | Event-sourced, SDK-based | Goals → tasks → agents, with an assistant that delegates |
+| **Multi-agent** | Single-agent primary, SDK supports multi | Native teams with a shared record of goals and tasks, event wakes, and structured delegation |
+| **Deployment channels** | Web GUI, CLI | Web chat, Telegram, webhooks, Slack, inbound email |
+| **Dependencies** | Python, Docker (+ ecosystem) | None — a hosted web app, nothing to install |
+| **LLM support** | LiteLLM-compatible | Smartest, Smart and Normal presets |
 | **Community** | 200K+ GitHub stars | New project, small team |
-| **Best for** | AI-driven software development | Secure multi-agent fleet operations |
+| **Best for** | AI-driven software development | Secure multi-agent team operations |
 
 For a deeper breakdown of architecture differences, see our full [OpenLegion vs OpenClaw comparison](/comparison/openclaw).
 
 ## Why Teams Switch
 
-**Security teams** flag the Docker socket requirement. Mounting `/var/run/docker.sock` into the agent container is effectively root-equivalent access to the host. OpenLegion's Mesh Host manages containers through the Docker API from a trusted zone — the agent container has no Docker socket access.
+**Security teams** flag the Docker socket requirement. Mounting `/var/run/docker.sock` into the agent container is effectively root-equivalent access to the host. OpenLegion runs inside the hosted platform and never touches your machine — no socket to mount, no host of yours to reach.
 
-**Teams handling production credentials** need more than secret masking. OpenClaw's Secret Registry masks secrets in output, but the secrets still exist in the agent's process memory. OpenLegion's vault proxy keeps secrets entirely outside the agent's container — the agent sends a request, the proxy injects the credential, and the agent receives the result. Even a fully compromised agent cannot extract credentials.
+**Teams handling production credentials** need more than secret masking. OpenClaw's Secret Registry masks secrets in output, but the secrets still exist in the agent's process memory. OpenLegion's credential vault keeps secrets entirely outside the model — the agent sends a request by handle, the platform injects the credential, and the agent receives the result. Even a fully compromised agent cannot extract credentials.
 
 **Teams burning budget on agent loops** need hard limits. Without built-in cost controls, a recursive loop or misconfigured agent can consume hundreds of dollars before manual intervention. OpenLegion's per-agent budget controls enforce limits at the [orchestration layer](/learn/ai-agent-orchestration) with automatic cutoff.
 
-**Teams deploying to customer-facing channels** need more than a web GUI. OpenLegion deploys agents to CLI, Telegram, Discord, Slack, and WhatsApp — plus webhook endpoints for external integrations — via environment-configured channel tokens.
+**Teams deploying to customer-facing channels** need more than one surface. OpenLegion puts agents in web chat on every plan, Telegram and webhooks from Pro, and Slack and inbound email on Team and above.
 
 ## Getting Started
 
-```bash
-git clone https://github.com/openlegion-ai/openlegion.git
-cd openlegion && ./install.sh
-openlegion start   # inline setup on first run, then agents deploy in isolated containers
+```text
+1. Open the app and sign in with Google.
+2. Tell the assistant what you want done.
+3. Start free with 1,000 credits, no card.
 ```
 
-Three commands; first-run Docker image builds take a few minutes (one agent image, one browser-service image). Python 3.10+ and Docker required.
+Three steps, and the first agent is working in about a minute. No runtime, no containers, no infrastructure of your own.
 
 ## CTA
 
@@ -93,27 +93,27 @@ Three commands; first-run Docker image builds take a few minutes (one agent imag
 
 ### What is the best OpenClaw alternative?
 
-For teams whose primary concern is security and governance, OpenLegion is the most direct OpenClaw alternative. It provides capabilities OpenClaw lacks: mandatory container isolation without Docker socket mounting, vault-proxied credentials, per-agent budget enforcement, and a fleet coordination model (blackboard + pub/sub + handoff). For teams focused on stateful workflow flexibility, LangGraph is another strong alternative. See our full [AI agent frameworks comparison](/learn/ai-agent-frameworks).
+For teams whose primary concern is security and governance, OpenLegion is the most direct OpenClaw alternative. It provides capabilities OpenClaw lacks: a sandboxed run for every task with nothing on a host of yours, vault-held credentials, per-agent budget enforcement, and a goal-and-task coordination model (goals → tasks → agents). For teams focused on stateful workflow flexibility, LangGraph is another strong alternative. See our full [AI agent frameworks comparison](/learn/ai-agent-frameworks).
 
 ### Why choose a managed OpenClaw alternative?
 
-A managed OpenClaw alternative handles the operational security layer that self-hosted OpenClaw deployments require you to build: container hardening, credential vaulting, cost tracking, and multi-channel deployment. OpenLegion provides these as built-in framework features. This reduces the DevOps investment needed to move from prototype to production while improving the security posture of your agent fleet.
+A managed OpenClaw alternative handles the operational security layer that self-hosted OpenClaw deployments require you to build: run isolation, credential vaulting, cost tracking, and multi-channel deployment. OpenLegion provides these as built-in platform features. This removes the DevOps investment needed to move from prototype to production while improving the security posture of your agent team.
 
 ### OpenClaw vs OpenLegion: which should I use?
 
-Use OpenClaw if you need a specialized AI coding agent, want the largest open-source community, or prioritize maximum self-hosted flexibility. Use OpenLegion if you need credential isolation (agents never see keys), per-agent budget controls, a structured fleet coordination model, or you're deploying multi-agent fleets across customer-facing channels. For a detailed comparison, see [OpenLegion vs OpenClaw](/comparison/openclaw).
+Use OpenClaw if you need a specialized AI coding agent, want the largest open-source community, or prioritize maximum self-hosted flexibility. Use OpenLegion if you need credential isolation (agents never see keys), per-agent budget controls, a structured goal-and-task coordination model, or you're deploying agent teams across customer-facing channels. For a detailed comparison, see [OpenLegion vs OpenClaw](/comparison/openclaw).
 
 ### Does OpenLegion require my LLM API keys?
 
-OpenLegion supports BYOK (Bring Your Own Keys). You can provide your own API keys from any LLM provider — OpenAI, Anthropic, Google, Mistral, and 100+ others via LiteLLM. Your keys are held in the Mesh Host's Credential Vault and injected via vault proxy. Agents never see raw keys. You pay providers directly at their published rates with no markup. Managed hosting also offers prepaid LLM credits as a convenience.
+No. Models come with the platform and are chosen by preset — Smartest, Smart or Normal — per agent or per workspace, so there are no provider keys to bring. Work is metered in credits at $0.001 each and the exact cost of each task is visible. Credentials you connect live in a vault and are injected outside the model, which only ever holds a handle. Agents never see raw keys.
 
 ### Can I self-host instead of using hosted OpenLegion?
 
-Yes. OpenLegion is source-available under the PolyForm Perimeter License 1.0.1. Self-hosting requires Python 3.10+ and Docker. The install process is `git clone && ./install.sh && openlegion start`; first-run Docker image builds take a few minutes. No external services required — no Redis, no Kubernetes, no cloud services. Runs on a single machine. A hosted option is also available for teams that prefer managed infrastructure.
+Not at launch. OpenLegion is a hosted web app: sign in with Google and start — there is nothing to install. The separately published engine is source-available under the PolyForm Perimeter License 1.0.1, but the hosted platform is proprietary and has no self-hosted edition. No Redis, no Kubernetes, no infrastructure of your own to run. Free is $0 with 1,000 one-time credits and no card.
 
 ### How hard is it to migrate from OpenClaw to OpenLegion?
 
-Both projects use Python for agent definitions and LiteLLM-compatible model routing, so LLM configurations transfer directly. Tool integrations require adaptation to OpenLegion's permission matrix, and you'll define agent fleets via OpenLegion's YAML templates. Credential migration is a one-time vault configuration. The main trade-off: you gain mandatory isolation, vault-proxied credentials, and budget controls; you lose OpenClaw's specialized coding capabilities and its large community ecosystem.
+There is nothing to install, so migration is configuration, not deployment. LLM routing does not transfer: OpenLegion chooses models by preset — Smartest, Smart or Normal. Tool integrations require adaptation to OpenLegion's permission matrix, and you'll describe agent teams to the assistant in the app. Credential migration is a one-time vault configuration. The main trade-off: you gain sandboxed runs, vault-held credentials, and budget controls; you lose OpenClaw's specialized coding capabilities and its large community ecosystem.
 
 ---
 

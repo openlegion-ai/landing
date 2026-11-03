@@ -23,7 +23,7 @@ related:
 
 # Mastra Alternative: Sicherheitsorientierte Plattform vs. TypeScript-Framework
 
-Mastra ist ein TypeScript-Agenten-Framework mit 24.329 GitHub-Stars vom Gatsby-Team — aber CVE-2025-61685 (CVSS 6.5) legt `~/.aws`-Credential-Dateien über Cursor-IDE-Prompt-Injection offen, RBAC und Auth sind hinter einem proprietären `ee/`-Verzeichnis gesperrt, und zwei nicht zusammengeführte PRs lassen Open-Redirect- und OAuth-CSRF-Schwachstellen im Enterprise-Auth-Stack ungepatcht (Stand Mai 2026). Eine Mastra-Alternative für sicherheitsorientierte Teams braucht Vault-Proxy-Isolation — keine Umgebungsvariablen für Credentials.
+Mastra ist ein TypeScript-Agenten-Framework mit 24.329 GitHub-Stars vom Gatsby-Team — aber CVE-2025-61685 (CVSS 6.5) legt `~/.aws`-Credential-Dateien über Cursor-IDE-Prompt-Injection offen, RBAC und Auth sind hinter einem proprietären `ee/`-Verzeichnis gesperrt, und zwei nicht zusammengeführte PRs lassen Open-Redirect- und OAuth-CSRF-Schwachstellen im Enterprise-Auth-Stack ungepatcht (Stand Mai 2026). Eine Mastra-Alternative für sicherheitsorientierte Teams braucht Credentials im Vault — keine Umgebungsvariablen für Credentials.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -62,26 +62,26 @@ Beide Schwachstellen existieren im `ee/`-Enterprise-Verzeichnis — dem Tier, da
 
 Mastra ist ein gut entwickeltes TypeScript-Framework mit echten Stärken für JS/TS-Teams. Die Entwicklererfahrung ist ausgereift, die Release-Kadenz schnell (24.329 Stars in unter zwei Jahren) und die Workflow-Primitive ausdrucksstark. Aber drei strukturelle Sicherheitslücken kumulieren für Teams in der Produktion:
 
-**Credential-Exposition durch Design.** Mastra-Agenten erhalten Credentials als Umgebungsvariablen — jeder Agentenprozess hält jeden benötigten API-Key. CVE-2025-61685 zeigte, dass die umgebende Toolchain diese Credentials durch Pfad-Traversal erreichen kann, selbst wenn der Agenten-Code sauber ist. OpenLegions Vault-Proxy injiziert Credentials auf der Netzwerkschicht: Kein Agentenprozess erhält je einen Klartext-API-Key, was `~/.aws`-ähnliche Exfiltration strukturell unmöglich macht.
+**Credential-Exposition durch Design.** Mastra-Agenten erhalten Credentials als Umgebungsvariablen — jeder Agentenprozess hält jeden benötigten API-Key. CVE-2025-61685 zeigte, dass die umgebende Toolchain diese Credentials durch Pfad-Traversal erreichen kann, selbst wenn der Agenten-Code sauber ist. OpenLegion hält Credentials in einem Vault und injiziert sie außerhalb des Modells: Kein Agentenlauf erhält je einen Klartext-API-Key, was `~/.aws`-ähnliche Exfiltration strukturell unmöglich macht.
 
-**Sicherheit als Enterprise-Upgrade.** RBAC, Adapter-Berechtigungen und Auth-Integrationen erfordern den proprietären `ee/`-Tier. OpenLegions Vault-Proxy, Container-Isolation pro Agent und Blackboard-Berechtigungen sind Kernfunktionen für alle Nutzer, nicht hinter einem Tier gesperrt.
+**Sicherheit als Enterprise-Upgrade.** RBAC, Adapter-Berechtigungen und Auth-Integrationen erfordern den proprietären `ee/`-Tier. OpenLegions Credential-Vault, Sandbox-Läufe pro Aufgabe und Tool-Grants pro Agent sind Kernfunktionen für alle Nutzer, nicht hinter einem Tier gesperrt.
 
-**Ungepatchte Auth-Schwachstellen im bezahlten Tier.** CVE-2026-42565 und GHSA-wxw3-q3m9-c3jr liegen in `@workos/authkit-session` und `better-auth` — den Auth-Abhängigkeiten im Enterprise-`ee/`-Verzeichnis. OpenLegions CVE-freier Track Record (Stand Mai 2026) spiegelt eine Architektur wider, in der Credentials nie von Agenten gehalten werden.
+**Ungepatchte Auth-Schwachstellen im bezahlten Tier.** CVE-2026-42565 und GHSA-wxw3-q3m9-c3jr liegen in `@workos/authkit-session` und `better-auth` — den Auth-Abhängigkeiten im Enterprise-`ee/`-Verzeichnis. OpenLegion beseitigt diese Expositionsklasse an der Wurzel: Credentials werden nie von Agenten gehalten, und der Vault injiziert sie außerhalb des Modells.
 
 ## Mastra vs. OpenLegion: Direktvergleich
 
 | **Dimension** | **Mastra** | **OpenLegion** |
 |---|---|---|
-| **Sprachunterstützung** | Nur TypeScript | Python (Agenten); Tool-Interfaces für jede Sprache |
-| **Lizenz** | Apache 2.0 (Kern) + proprietäres `ee/` | PolyForm Perimeter License 1.0.1 |
+| **Sprachunterstützung** | Nur TypeScript | Keine — Agenten werden in der Web-App konfiguriert |
+| **Lizenz** | Apache 2.0 (Kern) + proprietäres `ee/` | PolyForm Perimeter License 1.0.1 (Engine) |
 | **GitHub-Stars** | 24.329 (Mai 2026) | Pre-Release |
-| **Credential-Modell** | Umgebungsvariablen — Agenten halten Keys | Vault-Proxy — Agenten halten nie Keys |
-| **Agenten-Isolation** | Prozessebene, keine Container-Grenze | Obligatorische Docker-Container pro Agent |
-| **RBAC** | Nur proprietärer `ee/`-Tier | Pro-Agenten-Blackboard-Berechtigungen (alle Nutzer) |
-| **CVE-Track-Record** | CVE-2025-61685 (CVSS 6.5) + 2 offene PRs | 0 gemeldete CVEs |
-| **Auth** | WorkOS AuthKit / better-auth (nur `ee/`) | Vault-Proxy (keine Auth-Schicht nötig) |
-| **Budget-Kontrollen** | Keine eingebaut | Pro-Agenten tägliche/monatliche Limits |
-| **Multi-Agenten** | Workflow-Orchestrierung, Tool-Calling | Blackboard + Pub/Sub + Mesh-Handoff |
+| **Credential-Modell** | Umgebungsvariablen — Agenten halten Keys | Im Vault — Agenten halten nie Keys |
+| **Agenten-Isolation** | Prozessebene, keine Container-Grenze | Ein Sandbox-Lauf für jede Aufgabe |
+| **RBAC** | Nur proprietärer `ee/`-Tier | Tool- und Vault-Grants pro Agent (alle Nutzer) |
+| **CVE-Track-Record** | CVE-2025-61685 (CVSS 6.5) + 2 offene PRs | Pre-Release |
+| **Auth** | WorkOS AuthKit / better-auth (nur `ee/`) | Google-Anmeldung; Credentials bleiben im Vault |
+| **Budget-Kontrollen** | Keine eingebaut | Pro-Agenten-Credit-Budgets |
+| **Multi-Agenten** | Workflow-Orchestrierung, Tool-Calling | Erst Ziele, dann Aufgaben, dann Agenten, mit Delegation |
 | **Offene Issues** | 433 (26. Mai 2026) | Pre-Release |
 ## TypeScript-Only: Was das in der Praxis bedeutet
 
@@ -89,7 +89,7 @@ Mastra ist ein gut entwickeltes TypeScript-Framework mit echten Stärken für JS
 
 Mastra ist TypeScript-first per Design und aktuell TypeScript-only. Es gibt kein Python-SDK, keinen Go-Client, keine JVM-Integration. Für Teams mit polyglotten Codebasen oder bestehender Python-ML/Data-Infrastruktur bedeutet die Einführung von Mastra entweder das Umschreiben der Agenten-Logik in TypeScript oder die Akzeptanz, dass Agenten-Koordination keine Sprachgrenzen überschreiten kann.
 
-Das ist keine temporäre Lücke — es ist eine architektonische Entscheidung. Mastra optimiert tief für die TypeScript-Entwicklererfahrung: erstklassige Typ-Inferenz, native async/await-Muster, enge VS-Code-Integration. Das bedeutet keinen Python-Support-Fahrplan. Für Python-first-Teams ist Mastra keine praktikable Option, unabhängig von der Sicherheitslage. OpenLegion, LangGraph, CrewAI und AutoGen unterstützen Python nativ.
+Das ist keine temporäre Lücke — es ist eine architektonische Entscheidung. Mastra optimiert tief für die TypeScript-Entwicklererfahrung: erstklassige Typ-Inferenz, native async/await-Muster, enge VS-Code-Integration. Das bedeutet keinen Python-Support-Fahrplan. Für Python-first-Teams ist Mastra keine praktikable Option, unabhängig von der Sicherheitslage. LangGraph, CrewAI und AutoGen unterstützen Python nativ; OpenLegion braucht gar kein SDK.
 
 Für JS/TS-Shops, die interne Tools bauen, wo der gesamte Stack bereits TypeScript ist, ist Mastras Entwicklererfahrung wirklich ausgezeichnet. Native Typ-Inferenz für Tool-Schemas, enge Node.js-Integration und vertraute `async/await`-Muster lassen Agenten-Entwicklung sich natürlich anfühlen.
 
@@ -105,20 +105,20 @@ CVE-2025-61685 demonstrierte das konkrete Risiko: Ein Verzeichnisdurchlauf in `@
 
 ### Wie OpenLegion Credentials handhabt
 
-OpenLegions Vault-Proxy sitzt auf der Netzwerkschicht zwischen Agenten und LLM-Anbietern. Agentenprozesse stellen API-Aufrufe über einen Mesh-Client aus. Der Mesh-Host fängt diese Aufrufe ab, ruft Credentials aus dem Vault ab, injiziert sie in den Request-Header und leitet sie weiter. Der Agentenprozess empfängt nie einen Credential-String.
+OpenLegions Credential-Vault sitzt außerhalb des Modells, zwischen Agenten und den Diensten, die sie aufrufen. Der Tool-Aufruf eines Agenten trägt nur ein Handle, und der Aufruf ist eine Absicht, die die Policy-Engine prüft, bevor er geschieht. Die Plattform löst das Handle auf, injiziert das Credential in die ausgehende Anfrage und leitet sie weiter. Das Modell empfängt nie einen Credential-String.
 
 Das macht Credential-Exfiltration im CVE-2025-61685-Angriffsmuster strukturell unmöglich: Es gibt kein `process.env.OPENAI_API_KEY` zu stehlen, keine `~/.aws/credentials` für die Agenten-Ausführung relevant. Für eine tiefere Analyse der Credential-Isolation siehe [KI-Agenten-Sicherheit: Credential-Isolation und Container-Härtung](/learn/ai-agent-security).
 ## OpenLegion als Mastra-Alternative
 
 ### Was OpenLegion bietet
 
-Multi-Agenten-Koordination über Blackboard-State, Pub/Sub-Events und Mesh-Handoff — analog zu Mastras Workflow-Orchestrierung, aber mit expliziten Sicherheitsgrenzen pro Agent. Vault-Proxy-Credential-Injektion, bei der kein Agentenprozess API-Keys hält. Per-Agent Docker-Isolation mit nicht-root-Ausführung und no-new-privileges. Per-Agent tägliche und monatliche Budget-Limits. 100+ LLM-Anbieter über LiteLLM (OpenAI, Anthropic, Google, Cohere, Azure OpenAI, Bedrock). Fleet-Templates für wiederholbare Agenten-Topologie-Deployments.
+Multi-Agenten-Koordination über Ziele, Aufgaben und Agenten, mit Event-Wakes und Delegation — analog zu Mastras Workflow-Orchestrierung, aber mit expliziten Sicherheitsgrenzen pro Agent. Credentials im Vault, außerhalb des Modells injiziert, sodass kein Agentenlauf API-Keys hält. Ein Sandbox-Lauf für jede Aufgabe, bei dem agenten-geschriebener Code standardmäßig keinen Netzwerkzugriff hat. Pro-Agenten-Credit-Budgets, abgerechnet zu $0,001 je Credit. Modelle per Preset gewählt — Smartest, Smart oder Normal — pro Agent oder pro Workspace. Wiederverwendbare Agenten-Datensätze für wiederholbare Team-Topologie.
 
 Für Teams, die bewerten, [was eine KI-Agenten-Plattform über ein Framework hinaus bietet](/learn/ai-agent-platform), deckt der Plattformvergleich die vollständige Trade-off-Landschaft ab.
 
 ### Ehrliche Trade-offs
 
-Kein TypeScript-SDK — nur Python. TypeScript-Teams können OpenLegion nicht ohne Python-Agenten oder eine Sprachbrücke nutzen. Keine native Node.js-Ökosystem-Integration oder TypeScript-first-Entwicklererfahrung. Kleinere Community als Mastras 24.329 Stars. Keine eingebaute Workflow-Visualisierung.
+Kein SDK zum Importieren — OpenLegion ist eine gehostete Web-App, keine Bibliothek für den eigenen Dienst. Teams, die Agentenlogik in der eigenen Codebasis wollen, finden sie hier nicht. Keine native Node.js-Ökosystem-Integration oder TypeScript-first-Entwicklererfahrung. Kleinere Community als Mastras 24.329 Stars. Keine eingebaute Workflow-Visualisierung.
 
 OpenLegion ist nicht die richtige Antwort für Teams, deren primäre Einschränkung TypeScript-only-Entwicklung ist.
 
@@ -130,9 +130,9 @@ OpenLegion ist nicht die richtige Antwort für Teams, deren primäre Einschränk
 
 **Teams, die RBAC ohne Enterprise-Upgrade benötigen** — Multi-Agenten-Deployments, bei denen die Einschränkung des Zugriffs bestimmter Agenten eine Grundanforderung ist, kein bezahltes Add-on.
 
-**Teams, die durch Mastras offene CVE-Lage blockiert sind** — wenn CVE-2025-61685 und die zwei nicht zusammengeführten Auth-PRs ein inakzeptables Risiko darstellen, ändert eine Zero-CVE-Architektur ohne credential-haltende Agenten diese Bewertung.
+**Teams, die durch Mastras offene CVE-Lage blockiert sind** — wenn CVE-2025-61685 und die zwei nicht zusammengeführten Auth-PRs ein inakzeptables Risiko darstellen, ändert eine Architektur, in der kein Agentenprozess je ein Credential hält, diese Bewertung.
 
-Für Teams, die aktuell Mastra nutzen und migrieren müssen: Jedes `@mastra/tool` wird zu einer OpenLegion-`@skill`-Funktion, LLM-Provider-Konfigurationen wechseln von `.env`-Dateien in den Vault, und Agenten-Topologie wechselt von Mastra-Workflow-Definitionen in Fleet-Templates.
+Für Teams, die aktuell Mastra nutzen und migrieren müssen: Jedes `@mastra/tool` wird zu einem Tool-Grant an einem OpenLegion-Agenten, Provider-Konfiguration weicht den Presets Smartest, Smart und Normal, und Agenten-Topologie wechselt von Mastra-Workflow-Definitionen zu Zielen und Aufgaben.
 
 Siehe auch: [OpenLegion vs. LangGraph — zustandsbehaftete Orchestrierung und CVE-Historie im Vergleich](/comparison/langgraph), [OpenLegion vs. CrewAI — rollenbasierte Agenten-Koordination](/comparison/crewai) und [OpenLegion vs. AutoGen — Multi-Agenten-Muster](/comparison/autogen). Für einen vollständigen Überblick siehe [KI-Agenten-Frameworks Vergleich 2026](/learn/ai-agent-frameworks).
 
@@ -150,7 +150,7 @@ CVE-2025-61685 (CVSS 6.5, 24. September 2025) ist ein Verzeichnisdurchlauf in `@
 
 ### Hat Mastra RBAC im kostenlosen Tier?
 
-Nein. RBAC, Adapter-Berechtigungen und Auth-Integrationen befinden sich in Mastras proprietärem `ee/`-Verzeichnis, nicht unter der Apache-2.0-Open-Source-Lizenz verfügbar. Multi-Agenten-Deployments, die Per-Agent-Berechtigungsdurchsetzung benötigen, erfordern das Enterprise-Edition-Upgrade. OpenLegion bietet Per-Agent-Blackboard-Berechtigungen und Vault-Proxy-Isolation allen Nutzern als Core-Plattform-Features.
+Nein. RBAC, Adapter-Berechtigungen und Auth-Integrationen befinden sich in Mastras proprietärem `ee/`-Verzeichnis, nicht unter der Apache-2.0-Open-Source-Lizenz verfügbar. Multi-Agenten-Deployments, die Per-Agent-Berechtigungsdurchsetzung benötigen, erfordern das Enterprise-Edition-Upgrade. OpenLegion bietet Tool-Grants pro Agent und Credentials im Vault allen Nutzern als Core-Plattform-Features.
 
 ### Was sind die ungepatchten Mastra-Sicherheitsprobleme (Stand Mai 2026)?
 
@@ -158,7 +158,7 @@ Zwei Sicherheits-PRs sind in Mastras Enterprise-Auth-Stack offen: CVE-2026-42565
 
 ### Können TypeScript-Entwickler OpenLegion nutzen?
 
-OpenLegion-Agenten sind nur Python. TypeScript-Teams müssten Python-Agenten betreiben oder TypeScript-Tooling erstellen, das OpenLegion-APIs aufruft — es gibt kein natives TypeScript-SDK. Für TypeScript-first-Teams sind Mastra (gepatcht auf 0.17.0+), LangGraph oder AutoGen natürlichere Optionen. OpenLegion ist die richtige Wahl, wenn Sicherheitsisolationsanforderungen Sprachpräferenzen überwiegen.
+OpenLegion ist kein SDK in irgendeiner Sprache. Es ist eine gehostete Web-App: mit Google anmelden und Agenten im Browser konfigurieren — es gibt kein TypeScript-Paket zum Importieren. Für TypeScript-first-Teams, die Agenten in der eigenen Codebasis wollen, sind Mastra (gepatcht auf 0.17.0+), LangGraph oder AutoGen natürlichere Optionen. OpenLegion ist die richtige Wahl, wenn Sicherheitsisolationsanforderungen Sprachpräferenzen überwiegen.
 
 ### Ist Mastra stabil genug für die Produktion?
 

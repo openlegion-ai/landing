@@ -67,15 +67,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       "AI agent framework",
       "multi-agent system",
       "LLM orchestration",
-      "container isolated AI agents",
       "autonomous AI agents",
       "AI agent security",
       "AI agent sandbox",
       "AI agent cost control",
-      "python AI agent framework",
       "openclaw alternative",
-      "self-hosted AI agents",
-      "fleet model AI agents",
       "AI agent deployment",
       "production AI agents",
       "multi-agent orchestration",
@@ -85,7 +81,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       "AI agent governance",
       "AI agent cost governance",
       "ACL-based AI agents",
-      "self-hosted LLM orchestration",
       "AI agent platform",
       "agentic AI framework",
       "agentic AI orchestration",
@@ -123,7 +118,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       images: [`/og/${ogLocaleFor(locale)}/home.png`],
     },
     other: {
-      "theme-color": "#08090c",
+      "theme-color": "#ffffff",
     },
     robots: {
       index: true,
@@ -158,7 +153,7 @@ export default async function LocaleLayout({
   // on this site to the same canonical record — Organization, WebSite,
   // SoftwareApplication, SoftwareSourceCode, and the managed-hosting Service.
   // All five are emitted in a single @graph so the relationships (publisher,
-  // codeRepository, provider, offers) collapse to ID references rather than
+  // author, provider) collapse to ID references rather than
   // duplicated nested objects.
   const ORG_ID = "https://www.openlegion.ai/#organization";
   const WEBSITE_ID = "https://www.openlegion.ai/#website";
@@ -185,7 +180,6 @@ export default async function LocaleLayout({
         knowsAbout: [
           "AI agent orchestration",
           "AI agent security",
-          "Container isolation",
           "Credential vaulting",
           "Multi-agent systems",
           "Large language model deployment",
@@ -199,11 +193,8 @@ export default async function LocaleLayout({
         url: "https://www.openlegion.ai",
         publisher: { "@id": ORG_ID },
         inLanguage: SUPPORTED_LOCALES,
-        potentialAction: {
-          "@type": "SearchAction",
-          target: "https://docs.openlegion.ai/search?q={search_term_string}",
-          "query-input": "required name=search_term_string",
-        },
+        // No SearchAction: the only search we run is the v1 docs site, which
+        // is not a search of openlegion.ai.
       },
       {
         "@type": "SoftwareApplication",
@@ -211,17 +202,15 @@ export default async function LocaleLayout({
         name: "OpenLegion",
         applicationCategory: "DeveloperApplication",
         applicationSubCategory: tSchema("applicationSubCategory"),
-        operatingSystem: "Linux, macOS, Windows",
+        operatingSystem: "Web browser",
         url: "https://www.openlegion.ai",
-        downloadUrl: GITHUB_URL,
-        softwareVersion: "0.1.0",
+        softwareVersion: "2.0",
         description: tSchema("softwareDescription"),
         publisher: { "@id": ORG_ID },
         author: { "@id": ORG_ID },
-        license: `${GITHUB_URL}/blob/main/LICENSE`,
-        codeRepository: GITHUB_URL,
-        programmingLanguage: "Python",
-        softwareRequirements: "Python 3.10+, Docker",
+        // No license / codeRepository: the hosted product is not the public
+        // GitHub repo (that is the v1 engine, described by SoftwareSourceCode).
+        softwareRequirements: "A web browser and a Google account",
         // No `offers`: hosted plans are waitlist-only right now, and structured
         // data must match what a visitor can actually buy on the page.
         featureList: tSchema.raw("softwareFeatureList") as string[],
@@ -235,7 +224,6 @@ export default async function LocaleLayout({
         runtimePlatform: "Docker",
         license: `${GITHUB_URL}/blob/main/LICENSE`,
         codeSampleType: "full",
-        targetProduct: { "@id": SOFTWARE_ID },
         author: { "@id": ORG_ID },
       },
       {
@@ -252,7 +240,7 @@ export default async function LocaleLayout({
   };
 
   return (
-    <html lang={locale} dir={RTL_LOCALES.has(locale) ? "rtl" : "ltr"} className="dark">
+    <html lang={locale} dir={RTL_LOCALES.has(locale) ? "rtl" : "ltr"}>
       <head>
         <link
           rel="alternate"

@@ -38,7 +38,7 @@ All competitor claims below are based on public documentation and GitHub reposit
 ## TL;DR
 
 - **Six frameworks compared**: OpenLegion, OpenClaw, LangGraph, CrewAI, AutoGen, Semantic Kernel
-- **Key differentiator**: Security. No major framework provides built-in credential isolation, mandatory container sandboxing, and per-agent budget enforcement. OpenLegion does.
+- **Key differentiator**: Security. No major framework provides built-in credential isolation, sandboxed task execution, and per-agent budget enforcement. OpenLegion does.
 - **LangGraph** has the highest adoption (~6M monthly PyPI downloads) and most flexible programmatic control
 - **CrewAI** is the easiest to learn with its role-based agent design
 - **OpenClaw** has the largest community (~67K GitHub stars) but documented security concerns
@@ -50,13 +50,13 @@ All competitor claims below are based on public documentation and GitHub reposit
 | | OpenLegion | OpenClaw | LangGraph | CrewAI | AutoGen | Semantic Kernel |
 |---|---|---|---|---|---|---|
 | **Type** | Platform (PolyForm Perimeter License 1.0.1) | Agent OS (open source) | Framework + Platform | Framework + Platform | Framework | Enterprise SDK |
-| **Hosting** | Self-hosted or managed | Self-hosted or cloud | Self-hosted or LangSmith | Self-hosted or CrewAI AMP | Self-hosted | Self-hosted (Azure-integrated) |
-| **Agent isolation** | Docker container per agent (mandatory) | Docker container (optional, requires Docker socket) | None built-in | Docker for CodeInterpreter only | Docker for code execution | None (embedded SDK) |
-| **Credential management** | Vault proxy — blind injection | Secret Registry with masking | Environment variables | Environment variables | Environment variables | Azure Key Vault integration |
-| **Multi-agent support** | fleet-model coordination (sequential, parallel) with blackboard coordination and pub/sub messaging | Single-agent primary (SDK supports multi) | StateGraph with conditional edges, swarm | Crews (autonomous) + Flows (event-driven) | Group chat (RoundRobin, Selector, Swarm, GraphFlow) | ChatCompletionAgent, group chat, agent-as-plugin |
-| **Budget / cost controls** | Per-agent daily & monthly with hard cutoff | None | None | None | None | None |
-| **Primary language** | Python | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
-| **LLM support** | 100+ via LiteLLM | 100+ via LiteLLM | Any via LangChain | Any via LiteLLM | Any via config | Azure OpenAI + others |
+| **Hosting** | Hosted web app — nothing to install | Self-hosted or cloud | Self-hosted or LangSmith | Self-hosted or CrewAI AMP | Self-hosted | Self-hosted (Azure-integrated) |
+| **Agent isolation** | Sandboxed run for every task (always on) | Docker container (optional, requires Docker socket) | None built-in | Docker for CodeInterpreter only | Docker for code execution | None (embedded SDK) |
+| **Credential management** | Credential vault — injected outside the model | Secret Registry with masking | Environment variables | Environment variables | Environment variables | Azure Key Vault integration |
+| **Multi-agent support** | goal-and-task coordination (goals → tasks → agents) with delegation and event wakes | Single-agent primary (SDK supports multi) | StateGraph with conditional edges, swarm | Crews (autonomous) + Flows (event-driven) | Group chat (RoundRobin, Selector, Swarm, GraphFlow) | ChatCompletionAgent, group chat, agent-as-plugin |
+| **Budget / cost controls** | Per-agent credit budget with hard cutoff | None | None | None | None | None |
+| **Primary language** | None — you configure agents in the web app | Python | Python, JavaScript | Python | Python, .NET | .NET, Python, Java |
+| **LLM support** | Smartest, Smart and Normal presets | 100+ via LiteLLM | Any via LangChain | Any via LiteLLM | Any via config | Azure OpenAI + others |
 | **GitHub stars** | ~40 | ~67,300 | ~25,200 | ~33,400 | ~54,400 | ~26,900 |
 | **License** | PolyForm Perimeter License 1.0.1 | MIT (core) | MIT | MIT (core) | MIT | MIT |
 | **Best for** | Production with security-first requirements | AI-driven software development | Complex stateful workflows | Rapid prototyping, role-based teams | Research, Microsoft ecosystem | .NET enterprise, Azure shops |
@@ -65,11 +65,11 @@ All competitor claims below are based on public documentation and GitHub reposit
 
 ### When to choose OpenLegion
 
-Choose OpenLegion when your primary concern is production security and governance. OpenLegion is the right fit if you need agents that never see raw API keys (vault-proxied credentials via vault proxy), mandatory container isolation per agent, per-agent budget enforcement with hard cutoffs, or fleet-model coordination (blackboard + pub/sub + handoff) that's auditable before execution.
+Choose OpenLegion when your primary concern is production security and governance. OpenLegion is the right fit if you need agents that never see raw API keys (credentials live in a vault and are injected outside the model), a sandboxed run for every task, per-agent budget enforcement with hard cutoffs, or goal-and-task coordination (goals → tasks → agents) that's auditable before execution.
 
 OpenLegion is a younger project with a smaller community than the alternatives. If you need a massive ecosystem of community-contributed integrations, or you're building a quick prototype where security isn't a priority, other frameworks may be faster to start with.
 
-Bring your own LLM API keys. No markup on model usage.
+Models are chosen by preset - Smartest, Smart or Normal - per agent or per workspace.
 
 ### When to choose OpenClaw
 
@@ -111,12 +111,12 @@ The distinction between a framework and a platform is increasingly important as 
 
 | Operational concern | Frameworks (DIY) | OpenLegion | LangSmith | CrewAI AMP |
 |---|---|---|---|---|
-| Container isolation | You build it | Built-in, mandatory | Not included | CodeInterpreter only |
-| Credential vaulting | You build it | Built-in (vault proxy) | Not included | Enterprise tier |
+| Container isolation | You build it | Built-in sandboxed runs | Not included | CodeInterpreter only |
+| Credential vaulting | You build it | Built-in (credential vault) | Not included | Enterprise tier |
 | Budget enforcement | You build it | Built-in (per-agent) | Not included | Not included |
 | Observability | You integrate | Built-in dashboard | Built-in (tracing, evaluation) | Built-in (enterprise) |
-| Multi-channel deploy | You build it | Built-in (5 channels + webhooks) | Not included | Not included |
-| Pricing | Free (+ infra costs) | PolyForm Perimeter License 1.0.1 (+ hosted option) | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
+| Multi-channel deploy | You build it | Built-in (4 channels + webhooks) | Not included | Not included |
+| Pricing | Free (+ infra costs) | Free $0 · Pro $29/mo · Team $99/mo | Free–$39/seat/mo + usage | Free–$25/mo + enterprise |
 
 For teams evaluating the top AI agent frameworks, the honest answer is: if security and governance are your top priorities, OpenLegion is purpose-built for that. If ecosystem maturity and community size matter most, LangGraph and CrewAI have significant advantages. If you're in the Microsoft ecosystem, Semantic Kernel (or the new Microsoft Agent Framework) is the natural choice.
 
@@ -134,7 +134,7 @@ The AI agent framework landscape is evolving rapidly. Several newer entrants are
 
 ## CTA
 
-**Need production-grade security for your agent fleet?**
+**Need production-grade security for your agent team?**
 [Get Started](https://app.openlegion.ai) | [Read the Docs](https://docs.openlegion.ai)
 
 ---
@@ -149,7 +149,7 @@ The best AI agent frameworks in 2026, based on adoption and capabilities, are: L
 
 ### AI agent frameworks comparison: how do they differ?
 
-AI agent frameworks differ across five key dimensions: orchestration model (graph-based vs. role-based vs. conversation-based), isolation (per-agent containers vs. shared process), credential management (vault proxy vs. environment variables), cost controls (per-agent budgets vs. none), and hosting (self-hosted vs. managed platform). See the comparison table above for a detailed side-by-side breakdown.
+AI agent frameworks differ across five key dimensions: orchestration model (graph-based vs. role-based vs. conversation-based), isolation (per-agent containers vs. shared process), credential management (a credential vault vs. environment variables), cost controls (per-agent budgets vs. none), and hosting (self-hosted vs. managed platform). See the comparison table above for a detailed side-by-side breakdown.
 
 ### What is the best AI agent framework for production?
 
@@ -157,11 +157,11 @@ The best AI agent framework for production depends on your constraints. For secu
 
 ### Open source vs managed AI agent platforms: what's the difference?
 
-Open-source AI agent frameworks (LangGraph core, CrewAI open source, AutoGen) provide agent logic — you build the infrastructure. Managed [AI agent platforms](/learn/ai-agent-platform) add operational layers: container provisioning, credential vaulting, cost tracking, observability. OpenLegion bridges this gap as a source-available project (PolyForm Perimeter License 1.0.1) with managed platform capabilities built in. LangSmith and CrewAI AMP are paid managed layers on top of their respective open-source frameworks.
+Open-source AI agent frameworks (LangGraph core, CrewAI open source, AutoGen) provide agent logic — you build the infrastructure. Managed [AI agent platforms](/learn/ai-agent-platform) add operational layers: container provisioning, credential vaulting, cost tracking, observability. OpenLegion bridges this gap: the engine is published source-available under the PolyForm Perimeter License 1.0.1, and the hosted platform runs it for you. LangSmith and CrewAI AMP are paid managed layers on top of their respective open-source frameworks.
 
 ### Where does OpenLegion fit vs OpenClaw/LangGraph/CrewAI/AutoGen?
 
-OpenLegion occupies a specific niche: the security-first [AI agent platform](/learn/ai-agent-platform). Based on public documentation, it's the only framework that provides built-in vault-proxied credentials, mandatory per-agent container isolation, and native budget enforcement. OpenClaw has the largest community and strongest AI coding capabilities. LangGraph has the highest adoption and most flexible orchestration. CrewAI has the gentlest learning curve. AutoGen is transitioning to the Microsoft Agent Framework.
+OpenLegion occupies a specific niche: the security-first [AI agent platform](/learn/ai-agent-platform). Based on public documentation, it's the only framework that provides built-in vault-held credentials, a sandboxed run for every task, and native per-agent budget enforcement. OpenClaw has the largest community and strongest AI coding capabilities. LangGraph has the highest adoption and most flexible orchestration. CrewAI has the gentlest learning curve. AutoGen is transitioning to the Microsoft Agent Framework.
 
 ### How do I choose between AI agent frameworks?
 
@@ -173,7 +173,7 @@ Most frameworks are production-capable with significant additional engineering. 
 
 ### What is the most secure AI agent framework?
 
-Based on public documentation at the time of writing, OpenLegion provides the most comprehensive built-in security: vault-proxied credentials (agents never see raw API keys), mandatory Docker container isolation per agent, per-agent budget enforcement with hard cutoffs, permission matrices per agent, unicode sanitization at multiple choke points, and fleet-model coordination orchestration for auditability. Other frameworks can achieve similar security with custom engineering, but none provide these features out of the box.
+Based on public documentation at the time of writing, OpenLegion provides the most comprehensive built-in security: vault-held credentials (agents never see raw API keys), a sandboxed run for every task, per-agent budget enforcement with hard cutoffs, permission matrices per agent, unicode sanitization at multiple choke points, and goal-and-task coordination for auditability. Other frameworks can achieve similar security with custom engineering, but none provide these features out of the box.
 
 ---
 
