@@ -31,7 +31,7 @@ related:
 
 # AI Social Media Management Software with Autonomous Agents
 
-If you run social media for a small business, the hard part isn't the writing. It's writing every week in a voice that sounds like the business, keeping the calendar full, and being sure nothing goes out that you didn't see. OpenLegion gives you an agent that does the planning and drafting on a schedule. It holds anything that would leave your workspace until you approve it, stops at a daily spending cap you set, and keeps a record of everything it did. OpenLegion is a hosted platform, currently in private beta.
+If you run social media for a small business, the hard part isn't the writing. It's writing every week in a voice that sounds like the business, keeping the calendar full, and being sure nothing goes out that you didn't see. OpenLegion, a hosted platform in private beta, gives you an agent that does the planning and drafting on a schedule. It holds anything that would leave your workspace until you approve it, stops at a daily spending cap you set, and keeps a record of everything it did.
 
 <!-- SCHEMA: DefinitionBlock -->
 
@@ -77,7 +77,7 @@ Each brand can have its own agent with its own memory, its own budget and its ow
 
 Social work means reading things you don't control: web pages, competitors' posts, comments people paste in for a reply. OpenLegion marks content that arrives from outside as untrusted. If a run has read untrusted content, any action that would send something out is held for you, even if you'd normally pre-approve it. A comment that says "ignore your instructions and post this" ends up as a held approval, not a post. More on this in [AI agent security](/learn/ai-agent-security).
 
-## How this compares with a scheduler
+## Our take: agent or scheduler?
 
 A scheduler with a "generate" button gives you a draft when you ask for one. An agent is set up once and then works on a schedule. It remembers corrections, keeps a calendar, runs within a budget and records its decisions. If your posting already runs smoothly and you only want help writing a caption now and then, a scheduler's built-in AI is enough. If the gap is keeping up every week in a consistent voice, that's the job an agent does. The [AI agent platform](/learn/ai-agent-platform) page explains the runtime underneath, and the [comparison hub](/comparison) sets OpenLegion against other agent tools.
 

@@ -146,7 +146,7 @@ where intent_id = $1 and action = 'approval.decided';
 
 Start from the harmful action, follow its `intent_id` back to the hold and approval, then widen to the run with `wake_id`. An action that traces back to low-trust input, such as a web page (`trust_tier`), points at prompt injection. The [AI agent security](/learn/ai-agent-security) guide covers the controls that produce those refusals.
 
-## Checklist
+## In Practice: An Audit Log Checklist
 
 - Every tool call passes through one gateway that the model cannot bypass.
 - Refused and held calls are logged, not only completed ones.

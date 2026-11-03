@@ -169,6 +169,10 @@ They should never hold them. In OpenLegion a credential broker injects the crede
 
 No. OpenLegion does not currently hold SOC 2, ISO 27001, HIPAA or other compliance certifications. The platform keeps an append-only audit trail with a receipt for every action, which helps with audits, but certification depends on your deployment and organisational controls as well.
 
+### Does OpenLegion train models on my data?
+
+No. OpenLegion does not train models on your workspace's data and does not sell personal information. Model calls made on our platform keys go to providers under zero-retention terms, opted out of training. On a paid plan you can bring your own model key instead, and then your own agreement with that provider applies.
+
 ---
 
 ## Internal Links to Include

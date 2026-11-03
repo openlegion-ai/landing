@@ -133,7 +133,7 @@ Injection through tool results: fetched content can contain instructions. The pr
 
 Not by default. Deletes, sends, public shares and payments should be proposed, approved by a person, then executed from the stored request with a receipt. In OpenLegion irreversible tools hold by default; an owner can pre-approve a specific tool for a specific agent.
 
-## Start With the Gate, Not the Prompt
+## Our Take: Start With the Gate, Not the Prompt
 
 Good schemas reduce wrong arguments and step limits stop loops. The controls that matter when something goes wrong sit in the runtime: default-deny tools, readable refusals, holds on what can't be undone, and a receipt for everything that ran.
 
