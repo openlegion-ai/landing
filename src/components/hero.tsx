@@ -24,7 +24,7 @@ export function Hero() {
     <section
       id="hero"
       aria-label={t("ariaLabel")}
-      className="relative overflow-hidden px-6 md:px-8"
+      className="relative flex min-h-[calc(100dvh-96px)] items-center overflow-hidden px-6 md:px-8"
     >
       <div className="hero-glow" aria-hidden="true" />
       <div className="hero-orb-3" aria-hidden="true" />
@@ -48,18 +48,23 @@ export function Hero() {
         />
       ))}
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl pt-12 pb-14 sm:pt-16 sm:pb-20">
+      <div className="relative z-10 mx-auto w-full max-w-6xl pt-12 pb-8 sm:pt-16 sm:pb-12">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-12">
           {/* Left: text content */}
           <div className="text-center lg:text-left">
-            <p className="sr-only">{t("badge")}</p>
+            <AnimateIn scale>
+              <div className="badge-shimmer mb-6 inline-flex items-center rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-sm font-medium text-accent-light backdrop-blur-sm">
+                {t("badge")}
+              </div>
+            </AnimateIn>
 
             <AnimateIn delay={0.06} scale>
-              <h1 className="mb-2 max-w-xl text-balance text-[2rem] font-extrabold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl lg:mx-0 lg:text-[3rem] xl:text-[3.25rem]">
-                {t("headingLine1")}<span className="gradient-text-animated">{t("headingHighlight")}</span>{" "}
+              <h1 className="mb-2 text-[2rem] font-extrabold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-[3rem] xl:text-[3.25rem]">
+                {t("headingLine1")}<span className="gradient-text-animated">{t("headingHighlight")}</span>
+                <br />
                 {t("headingLine2")}
               </h1>
-              <p className="mb-5 text-base font-medium tracking-tight text-muted sm:text-lg md:text-xl">
+              <p className="mb-5 text-base font-medium tracking-tight text-muted/60 sm:text-lg md:text-xl">
                 {t("tagline")}
               </p>
             </AnimateIn>
@@ -164,6 +169,10 @@ export function Hero() {
 
       </div>
 
+      {/* Scroll cue at bottom of hero — hidden on mobile to avoid overlap */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-muted/30 hidden sm:block" aria-hidden="true">
+        <div className="scroll-mouse" />
+      </div>
     </section>
   );
 }

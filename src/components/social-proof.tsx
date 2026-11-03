@@ -12,14 +12,13 @@ interface StatDef {
   suffix?: string;
 }
 
-// Four stated facts, not animated metrics: the price of entry, the credit
-// rate, when agents run, and how many walls stop them. `target: 0` renders
-// the locale `fallback` string rather than a counter.
+// Outcome-framed stats for the buyer audience. Developer proof points
+// (5,800+ tests, 0 CVEs) live in the Enterprise and Comparison sections.
 const STATS: StatDef[] = [
-  { target: 0 },
-  { target: 0 },
-  { target: 0 },
-  { target: 0 },
+  { target: 0, suffix: "" },
+  { target: 0, suffix: "" },
+  { target: 0, suffix: "" },
+  { target: 0, suffix: "" },
 ];
 
 export function SocialProof({
@@ -36,19 +35,17 @@ export function SocialProof({
       <div className="absolute inset-0 bg-accent/[0.015]" aria-hidden="true" />
       <div className="relative mx-auto max-w-5xl">
         <AnimateIn>
-          {/* Quiet ruled stat row — bar-level treatment, not display-scale
-              hero metrics. Same figures, same copy. */}
-          <div className="grid grid-cols-2 divide-border border-y border-border sm:grid-cols-4 sm:divide-x">
+          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-8">
             {STATS.map((stat, i) => (
-              <div key={i} className="px-2 py-5 sm:px-6 first:sm:ps-0">
-                <div className="text-xl font-semibold tracking-tight text-foreground">
+              <div key={i} className="text-center">
+                <div className="mb-1 font-mono text-3xl font-bold text-foreground md:text-4xl">
                   {stat.target > 0 ? (
                     <Counter target={stat.target} prefix={stat.prefix} suffix={stat.suffix} />
                   ) : (
                     <span>{t(`stats.${i}.fallback`)}</span>
                   )}
                 </div>
-                <div className="mt-0.5 text-[13px] leading-snug text-muted">{t(`stats.${i}.label`)}</div>
+                <div className="text-[13px] text-muted">{t(`stats.${i}.label`)}</div>
               </div>
             ))}
           </div>

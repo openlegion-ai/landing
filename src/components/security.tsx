@@ -26,7 +26,7 @@ export function Security() {
     <SectionWrapper id="security" fade={false}>
       <AnimateIn>
         <div className="mb-12 text-center">
-          <p className="sr-only">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
             {t("sectionLabel")}
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
@@ -85,7 +85,7 @@ export function Security() {
         {/* Trust-zone diagram */}
         <div id="architecture">
           <AnimateIn>
-            <p className="sr-only">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-accent">
               {ta("sectionLabel")}
             </p>
             <h3 className="mb-5 text-balance text-lg font-semibold text-foreground">

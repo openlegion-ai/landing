@@ -26,7 +26,7 @@ export function Features() {
     <SectionWrapper id="features" glow>
       <AnimateIn>
         <div className="mb-12 text-center">
-          <p className="sr-only">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
             {t("sectionLabel")}
           </p>
           <h2 className="mb-4 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
@@ -39,31 +39,29 @@ export function Features() {
         </div>
       </AnimateIn>
 
-      {/* Ruled feature list — a Linear-style asymmetric row per outcome
-          (title left, argument right), not another card grid. */}
-      <StaggerContainer className="mx-auto max-w-4xl">
+      <StaggerContainer className="mx-auto grid max-w-5xl gap-5 md:grid-cols-3">
         {OUTCOMES.map((outcome, i) => {
           const Icon = outcome.icon;
           return (
             <StaggerItem key={i}>
-              <div className="grid gap-3 border-t border-border py-8 last:border-b md:grid-cols-[minmax(240px,300px)_1fr] md:gap-12">
-                <div className="flex items-start gap-3">
-                  <Icon className="mt-0.5 h-[18px] w-[18px] shrink-0 text-accent" />
-                  <h3 className="text-[17px] font-semibold leading-snug text-foreground">
+              <div className="card-hover gradient-border glass-shine group flex h-full flex-col rounded-xl border border-border/50 glass-card p-6">
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-accent/15 bg-accent/[0.07] transition group-hover:border-accent/30 group-hover:scale-110">
+                    <Icon className="h-[18px] w-[18px] text-accent-light" />
+                  </div>
+                  <h3 className="text-[15px] font-medium leading-snug text-foreground">
                     {t(`outcomes.${i}.title`)}
                   </h3>
                 </div>
-                <div>
-                  <p className="mb-2.5 text-[15px] leading-relaxed text-muted">
-                    {t(`outcomes.${i}.description`)}
-                  </p>
-                  <Link
-                    href={outcome.link.href}
-                    className="text-sm font-medium text-accent-light transition-colors hover:text-accent hover:underline"
-                  >
-                    {t(`outcomes.${i}.linkLabel`)}
-                  </Link>
-                </div>
+                <p className="mb-4 flex-1 text-[13px] leading-relaxed text-muted">
+                  {t(`outcomes.${i}.description`)}
+                </p>
+                <Link
+                  href={outcome.link.href}
+                  className="text-xs font-medium text-accent-light transition-colors hover:text-accent hover:underline"
+                >
+                  {t(`outcomes.${i}.linkLabel`)}
+                </Link>
               </div>
             </StaggerItem>
           );

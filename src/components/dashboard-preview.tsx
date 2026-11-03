@@ -162,7 +162,7 @@ export function DashboardPreview() {
     <SectionWrapper id="dashboard" fade={false}>
       <AnimateIn>
         <div className="mb-16 text-center">
-          <p className="sr-only">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
             {t("sectionLabel")}
           </p>
           <h2 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
@@ -359,7 +359,7 @@ export function DashboardPreview() {
                       {t("chatButton")}
                     </button>
                     <button
-                      className="flex items-center justify-center gap-1 rounded-md border border-transparent px-2 py-1.5 text-[11px] text-gray-400"
+                      className="flex items-center justify-center gap-1 rounded-md border border-transparent px-2 py-1.5 text-[11px] text-gray-500 transition-colors hover:border-amber-500/20 hover:bg-amber-500/10 hover:text-amber-400"
                       tabIndex={-1}
                       aria-hidden="true"
                     >
