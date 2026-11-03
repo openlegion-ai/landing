@@ -10,7 +10,7 @@ secondary_keywords:
   - alternativa proxy llm
   - gateway litellm
 date_published: 2026-05
-last_updated: "2026-06-09"
+last_updated: "2026-11-03"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -25,12 +25,12 @@ related:
 
 # Alternativa ao LiteLLM: Vault Distribuído OpenLegion vs Gateway Centralizado
 
-OpenLegion vs LiteLLM representa o compromisso fundamental de segurança entre credenciais guardadas em cofre e injetadas fora do modelo e agregação de credenciais via gateway LLM centralizado. O LiteLLM se destaca como gateway unificado de provedores com 47.997 estrelas no GitHub, rastreamento de custos e suporte a mais de 100 provedores LLM, mas sofreu o CVE-2026-42208 (CVSS 9.3 CRÍTICO) onde injeção SQL expôs todo o banco de dados de credenciais a atacantes não autenticados. No OpenLegion as credenciais ficam num cofre e são injetadas no momento da chamada, e o modelo só guarda um handle — não existe banco de credenciais para ler.
+OpenLegion vs LiteLLM representa o compromisso fundamental de segurança entre credenciais guardadas em cofre e injetadas fora do modelo e agregação de credenciais via gateway LLM centralizado. O LiteLLM se destaca como gateway unificado de provedores com 62.615 estrelas no GitHub, rastreamento de custos e suporte a mais de 100 provedores LLM, mas sofreu o CVE-2026-42208 (CVSS 9.8 CRÍTICO, incluído no catálogo Known Exploited Vulnerabilities da CISA) onde injeção SQL expôs todo o banco de dados de credenciais a atacantes não autenticados. No OpenLegion as credenciais ficam num cofre e são injetadas no momento da chamada, e o modelo só guarda um handle — não existe banco de credenciais para ler.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **O que é o LiteLLM e como se compara ao OpenLegion?**
-> LiteLLM é um gateway LLM centralizado com mais de 47.997 estrelas no GitHub que agrega credenciais de provedores em um banco de dados para acesso unificado, rastreamento de custos e roteamento de provedores. OpenLegion é uma plataforma multi-agente focada em segurança onde as credenciais ficam num cofre e são injetadas fora do modelo, eliminando bancos de dados de credenciais como alvos de ataque. LiteLLM oferece unificação do gateway; OpenLegion oferece isolamento arquitetural de segurança.
+> LiteLLM é um gateway LLM centralizado com mais de 62.615 estrelas no GitHub que agrega credenciais de provedores em um banco de dados para acesso unificado, rastreamento de custos e roteamento de provedores. OpenLegion é uma plataforma multi-agente focada em segurança onde as credenciais ficam num cofre e são injetadas fora do modelo, eliminando bancos de dados de credenciais como alvos de ataque. LiteLLM oferece unificação do gateway; OpenLegion oferece isolamento arquitetural de segurança.
 
 ## TL;DR
 
@@ -39,7 +39,7 @@ OpenLegion vs LiteLLM representa o compromisso fundamental de segurança entre c
 | **Propósito principal** | Gateway LLM centralizado e proxy de provedores | Plataforma multi-agente focada em segurança com credenciais em cofre |
 | **Arquitetura** | BD de credenciais centralizado com roteamento API | Credenciais num cofre, injetadas fora do modelo |
 | **Armazenamento de credenciais** | Todas as chaves de provedores em BD centralizado | O cofre injeta a credencial na chamada; o modelo guarda um handle |
-| **CVEs recentes** | 5 CVEs em 2026, incluindo injeção SQL CRÍTICA | n/d — plataforma hospedada |
+| **CVEs recentes** | Mais de 30 CVEs em 2026, incluindo injeção SQL CRÍTICA | n/d — plataforma hospedada |
 | **Isolamento de segurança** | Gateway compartilhado com controles de acesso | Execução em sandbox por tarefa, credenciais em cofre |
 | **Suporte a provedores** | Mais de 100 LLMs com interface API unificada | Presets de modelo Smartest, Smart e Normal |
 | **Rastreamento de custos** | Rastreamento de gastos integrado e orçamentação | Orçamentos de créditos por agente, custo visível por tarefa |
@@ -63,17 +63,17 @@ O CVE-2026-42208 demonstrou esse risco quando injeção SQL expôs todo o banco 
 
 ### CVE-2026-42208: Injeção SQL CRÍTICA
 
-**Severidade CVSS 9.3 CRÍTICA** descoberta pela Tencent YunDing Security Lab onde injeção SQL na verificação de chaves de API do LiteLLM expôs todo o banco de dados de credenciais a atacantes não autenticados.
+**Severidade CVSS 9.8 CRÍTICA** (pontuação CVSS 3.1 do NVD; a pontuação CVSS 4.0 do GitHub é 9.3) onde injeção SQL na verificação de chaves de API do LiteLLM expôs todo o banco de dados de credenciais a atacantes não autenticados. Afetou as versões 1.81.16 a 1.83.6 e foi corrigida na v1.83.7. A CISA a adicionou ao catálogo Known Exploited Vulnerabilities em 8 de maio de 2026, confirmando sua exploração ativa.
 
 ### O Padrão CVE 2026: Cinco Vulnerabilidades em Quatro Meses
 
-**O intervalo de versões 1.80-1.83** entregou cinco CVEs distintos em quatro meses:
+**Cinco CVEs graves** foram publicados entre abril e maio de 2026, e são apenas parte do total do ano: o NVD registra mais de 30 CVEs do LiteLLM publicados em 2026:
 
-1. **CVE-2026-42208** - Injeção SQL expondo o banco de credenciais
-2. **CVE-2026-43115** - Injeção de comandos OS via configuração de provedores
-3. **CVE-2026-43892** - Escape de sandbox em contêiner Docker
-4. **CVE-2026-44201** - Server-Side Template Injection (SSTI) RCE
-5. **CVE-2026-44673** - Bypass de autenticação pass-the-hash
+1. **CVE-2026-42208** (CVSS 9.8 CRÍTICO) - Injeção SQL expondo o banco de credenciais a atacantes não autenticados. Corrigido na v1.83.7.
+2. **CVE-2026-35029** (CVSS 8.8 ALTO) - Falta de autorização de administrador em `/config/update`: qualquer usuário autenticado podia alterar a configuração do proxy e registrar handlers pass-through apontando para código Python controlado pelo atacante, obtendo RCE. Corrigido na v1.83.0.
+3. **CVE-2026-35030** (CVSS 9.1 CRÍTICO) - Colisão de chave no cache de userinfo do OIDC: com a autenticação JWT ativada (não é o padrão), um token forjado cujos primeiros 20 caracteres coincidem com o token em cache de um usuário legítimo herda a identidade desse usuário. Corrigido na v1.83.0.
+4. **CVE-2026-40217** (CVSS 8.8 ALTO) - Execução de código via reescrita de bytecode em `/guardrails/test_custom_code`, um escape de sandbox no guardrail de código personalizado. Corrigido na v1.83.10.
+5. **CVE-2026-42203** (CVSS 8.8 ALTO) - Server-Side Template Injection (SSTI) RCE em `/prompts/test`: templates de prompt eram renderizados sem sandbox, então qualquer portador de uma chave de API válida do proxy podia executar código no processo do proxy. Afetou as versões 1.80.5 a 1.83.6; corrigido na v1.83.7.
 
 ## Segurança de Contêineres: Execução Root vs Isolada
 
@@ -89,7 +89,7 @@ O CVE-2026-42208 demonstrou esse risco quando injeção SQL expôs todo o banco 
 
 ## Perspectiva do OpenLegion
 
-LiteLLM vs OpenLegion representa o clássico compromisso segurança/conveniência em infraestrutura de IA. O cluster CVE 2026 expõe os riscos sistemáticos da agregação de credenciais. O CVE-2026-42208 (CVSS 9.3 CRÍTICO) provou que injeção SQL pode expor todos os stores de credenciais organizacionais.
+LiteLLM vs OpenLegion representa o clássico compromisso segurança/conveniência em infraestrutura de IA. O cluster CVE 2026 expõe os riscos sistemáticos da agregação de credenciais. O CVE-2026-42208 (CVSS 9.8 CRÍTICO, explorado ativamente segundo a CISA) provou que injeção SQL pode expor todos os stores de credenciais organizacionais.
 
 O cofre de credenciais do OpenLegion elimina completamente o risco de agregação de credenciais. Nenhum banco de dados armazena chaves de API onde possam ser expostas via injeção SQL, bypass de autenticação ou escape de sandbox.
 
@@ -115,11 +115,11 @@ Para uma visão mais ampla da [arquitetura de segurança de agentes IA](/learn/a
 
 ### O que é LiteLLM vs OpenLegion?
 
-LiteLLM é um gateway LLM centralizado com mais de 47.997 estrelas no GitHub que agrega credenciais em um banco de dados para acesso unificado a mais de 100 provedores LLM. OpenLegion é uma plataforma multi-agente focada em segurança onde as credenciais ficam num cofre e são injetadas fora do modelo.
+LiteLLM é um gateway LLM centralizado com mais de 62.615 estrelas no GitHub que agrega credenciais em um banco de dados para acesso unificado a mais de 100 provedores LLM. OpenLegion é uma plataforma multi-agente focada em segurança onde as credenciais ficam num cofre e são injetadas fora do modelo.
 
 ### Quais são as vulnerabilidades de segurança recentes do LiteLLM?
 
-CVE-2026-42208 (CVSS 9.3 CRÍTICO) permitia injeção SQL para ler e modificar todo o banco de dados de credenciais via cabeçalhos Authorization manipulados, descoberto pela Tencent YunDing Security Lab. Quatro CVEs adicionais em 2026 incluíram injeção de comandos OS, escape de sandbox, SSTI RCE e pass-the-hash.
+CVE-2026-42208 (CVSS 9.8 CRÍTICO) permitia injeção SQL sem autenticação para ler, e potencialmente modificar, todo o banco de dados de credenciais via cabeçalhos Authorization manipulados. Afetou as versões 1.81.16 a 1.83.6, foi corrigido na v1.83.7 e consta no catálogo Known Exploited Vulnerabilities da CISA. Outros CVEs graves de 2026 incluem a falta de autorização de administrador em /config/update que permite RCE (CVE-2026-35029), uma colisão de chave no cache do OIDC que permite se passar por outro usuário quando a autenticação JWT está ativada (CVE-2026-35030), um escape de sandbox no guardrail de código personalizado (CVE-2026-40217) e SSTI RCE em /prompts/test (CVE-2026-42203). O NVD registra mais de 30 CVEs do LiteLLM publicados em 2026.
 
 ### Como eles lidam com credenciais de provedores LLM?
 

@@ -1,6 +1,6 @@
 ---
 title: Alternativa a Flowise — Plataforma de seguridad primero vs Constructor visual
-description: "OpenLegion vs Flowise: aislamiento vault vs 7 CVEs de severidad HIGH, plataforma multi-agente alojada vs constructor de flujo visual, código disponible vs restricciones comerciales comparados."
+description: "OpenLegion vs Flowise: aislamiento vault vs 15 CVEs de severidad HIGH/CRITICAL, plataforma multi-agente alojada vs constructor de flujo visual, código disponible vs restricciones comerciales comparados."
 slug: /comparison/flowise
 primary_keyword: flowise alternative
 secondary_keywords:
@@ -10,7 +10,7 @@ secondary_keywords:
   - alternativa visual agent builder
   - flowise licencia
 date_published: 2026-05
-last_updated: "2026-05-22"
+last_updated: "2026-11-03"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -25,12 +25,12 @@ related:
 
 # Alternativa a Flowise: Plataforma de seguridad OpenLegion vs Constructor de flujo de trabajo visual
 
-Flowise es un constructor visual de arrastrar y soltar para aplicaciones LLM con 52.998 estrellas en GitHub que lanzó 7 CVEs de severidad HIGH el 14 de mayo de 2026, todas vulnerabilidades de asignación masiva e IDOR que permiten a usuarios autenticados cruzar límites de espacios de trabajo. OpenLegion es una plataforma multi-agente de seguridad primero con aislamiento de credenciales en bóveda, una ejecución en sandbox para cada tarea y coordinación nativa por objetivos y tareas. Cuando la comodidad del constructor visual viene acompañada de un cluster de 7 CVEs en una sola versión, el caso de seguridad para una arquitectura diferente se vuelve concreto.
+Flowise es un constructor visual de arrastrar y soltar para aplicaciones LLM con 55.547 estrellas en GitHub que lanzó 15 avisos de seguridad de severidad HIGH y CRITICAL el 14 de mayo de 2026, en su mayoría vulnerabilidades de asignación masiva e IDOR que permiten a usuarios autenticados cruzar límites de espacios de trabajo, además de una ejecución remota de código autenticada (CVE-2026-46442, CVSS 9,4 CRITICAL). OpenLegion es una plataforma multi-agente de seguridad primero con aislamiento de credenciales en bóveda, una ejecución en sandbox para cada tarea y coordinación nativa por objetivos y tareas. Cuando la comodidad del constructor visual viene acompañada de un cluster de 15 avisos en una sola versión, el caso de seguridad para una arquitectura diferente se vuelve concreto.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **¿Qué es Flowise?**
-> Flowise es un constructor visual de arrastrar y soltar de código abierto para aplicaciones y flujos de trabajo de agentes impulsados por LLM (52.998 estrellas en GitHub, licencia comercial no-OSI), que permite la construcción sin código de pipelines basados en LangChain y LlamaIndex a través de una interfaz basada en nodos con capacidades de chatbot, RAG y flujos de agentes.
+> Flowise es un constructor visual de arrastrar y soltar de código abierto para aplicaciones y flujos de trabajo de agentes impulsados por LLM (55.547 estrellas en GitHub, licencia comercial no-OSI), que permite la construcción sin código de pipelines basados en LangChain y LlamaIndex a través de una interfaz basada en nodos con capacidades de chatbot, RAG y flujos de agentes.
 
 ## TL;DR
 
@@ -39,33 +39,35 @@ Flowise es un constructor visual de arrastrar y soltar para aplicaciones LLM con
 | **Propósito principal** | Plataforma de ejecución multi-agente de seguridad primero | Constructor visual de flujo de trabajo LLM de arrastrar y soltar |
 | **Interfaz de usuario** | App web alojada, configuración de agente en la app | Editor de nodos visual, sin código |
 | **Arquitectura de seguridad** | Ejecución en sandbox por tarea, bóveda de credenciales, permisos por agente | Proceso compartido, CVEs de límites de espacio de trabajo en v3.1.1 |
-| **Historial de CVE** | Plataforma alojada, parcheada centralmente | 7 CVEs HIGH en mayo de 2026 (CVSS 7,7-8,1) |
+| **Historial de CVE** | Plataforma alojada, parcheada centralmente | 15 avisos HIGH/CRITICAL en mayo de 2026 (CVSS 7,0-9,4) |
 | **Soporte multi-agente** | Modelo de equipo nativo, objetivos, tareas, delegación | Limitado; principalmente diseño visual de flujo único |
 | **Manejo de credenciales** | Bóveda de credenciales — los agentes nunca tienen claves en texto plano | Almacenamiento de credenciales accesible por usuarios |
 | **Modelo de licencia** | Motor con código disponible (PolyForm Perimeter 1.0.1) | Licencia comercial no-OSI con restricciones |
 | **Aislamiento del espacio de trabajo** | Nivel de ejecución — estructural, no capa de aplicación | Capa de aplicación — repetidamente vulnerada por bugs IDOR |
-| **Seguridad de límites API** | Aplicada por el motor de políticas; no evitable por los agentes | Evitable — CVE-2026-46444 dejó endpoints sin autenticación |
+| **Seguridad de límites API** | Aplicada por el motor de políticas; no evitable por los agentes | Evitable — CVE-2026-46444 dejó endpoints de almacenes de vectores sin comprobación de permisos |
 | **Complejidad de desarrollo** | Instrucciones de agente en lenguaje natural | Constructor visual, código mínimo |
 
 ## Diseño de flujo de trabajo visual vs arquitectura de seguridad
 
-La propuesta de valor de Flowise es la velocidad: arrastrar un nodo LangChain ChatOpenAI, conectar un almacén de vectores, adjuntar un búfer de memoria, cablear una salida — una aplicación LLM funcional en minutos sin código. Para prototipos y demos, esto es genuinamente útil. Las 52.998 estrellas en GitHub reflejan utilidad real para desarrolladores que quieren experimentar con pipelines LLM sin escribir código de framework.
+La propuesta de valor de Flowise es la velocidad: arrastrar un nodo LangChain ChatOpenAI, conectar un almacén de vectores, adjuntar un búfer de memoria, cablear una salida — una aplicación LLM funcional en minutos sin código. Para prototipos y demos, esto es genuinamente útil. Las 55.547 estrellas en GitHub reflejan utilidad real para desarrolladores que quieren experimentar con pipelines LLM sin escribir código de framework.
 
 La restricción arquitectónica de los constructores visuales es que la simplicidad visual y la profundidad de seguridad se contraponen. Cuando cada nodo en un flujo se ejecuta en el mismo proceso, el aislamiento del espacio de trabajo debe aplicarse en la capa de aplicación verificando los IDs del espacio de trabajo en cada gestor de solicitudes. Esto es propenso a errores, y el cluster de CVE de mayo de 2026 de Flowise demuestra que falla repetidamente.
 
 La arquitectura de seguridad de OpenLegion es estructural, no de capa de aplicación. Cada acción es una intención verificada por un único motor de políticas antes de ocurrir, de modo que los límites del espacio de trabajo los aplica la plataforma, no la validación de parámetros. Los [patrones de orquestación multi-agente](/learn/ai-agent-orchestration) muestran cómo el aislamiento estructural permite la coordinación sin vulnerabilidades de estado compartido.
 
-## El cluster de CVE: 7 vulnerabilidades de severidad HIGH en v3.1.1
+## El cluster de CVE: 15 vulnerabilidades de severidad HIGH/CRITICAL en v3.1.1
 
-El 14 de mayo de 2026, Flowise publicó 7 CVEs de severidad HIGH para la versión 3.1.1. Los siete comparten la misma causa raíz: vulnerabilidades de asignación masiva e IDOR en la capa API que permiten a usuarios autenticados sobrescribir parámetros `workspaceId` y acceder a recursos pertenecientes a otros espacios de trabajo.
+El 14 de mayo de 2026, Flowise publicó 18 avisos de seguridad para la versión 3.1.1 y anteriores, todos corregidos en la 3.1.2; 15 de ellos tienen severidad HIGH o CRITICAL. Diez comparten la misma causa raíz: vulnerabilidades de asignación masiva e IDOR en la capa API que permiten a usuarios autenticados sobrescribir parámetros `workspaceId` y acceder a recursos pertenecientes a otros espacios de trabajo.
 
 El patrón: un usuario en el Espacio de trabajo A hace una solicitud API para un recurso en el Espacio de trabajo B sustituyendo el ID del Espacio de trabajo B en el parámetro de la solicitud. El servidor acepta el ID sustituido sin verificar que el usuario solicitante pertenece al Espacio de trabajo B.
 
-Las puntuaciones CVSS oscilaron entre 7,7 y 8,1 (HIGH). La lista completa de endpoints afectados cubre credenciales, flujos, herramientas, almacenes de vectores, almacenes de documentos, claves API y asistentes.
+Los diez CVEs de asignación masiva puntúan CVSS 7,6-7,7 (HIGH), y en el conjunto de los 15 avisos HIGH y CRITICAL las puntuaciones oscilan entre 7,0 y 9,4 (valoraciones CVSS 4.0 de GitHub). Los fallos de asignación masiva afectan a chatflows y agentflows, herramientas, variables, asistentes, plantillas personalizadas, datasets, filas de datasets, evaluaciones y evaluadores. Otros avisos del mismo lote filtraban datos de credenciales (CVE-2026-46443) y exponían credenciales de Basic Auth a través de la API (CVE-2026-46440).
 
-**CVE-2026-46444** (CVSS ~8,1) se destaca: los endpoints del almacén de vectores de OpenAI no tenían ningún middleware de autenticación. Cualquier usuario autenticado podía crear, leer, actualizar y eliminar almacenes de vectores. La falta de autenticación no era un bypass de límite de espacio de trabajo; era una verificación de autenticación ausente.
+**CVE-2026-46444** (CVSS 8,7 HIGH) se destaca: los endpoints del almacén de vectores de OpenAI exigían una clave API, pero no tenían ningún middleware de permisos. Cualquier usuario autenticado podía crear, leer, actualizar y eliminar almacenes de vectores. La comprobación ausente no era un bypass de límite de espacio de trabajo; era una verificación de autorización ausente (CWE-862, Missing Authorization).
 
-Siete CVEs de severidad HIGH de la misma clase en una sola versión indica un problema sistémico de límite de API. El análisis de [vulnerabilidades de seguridad de agentes IA](/learn/ai-agent-security) explica por qué las vulnerabilidades de asignación masiva se agrupan.
+**CVE-2026-46442** (CVSS 9,4 CRITICAL) es el más grave: `POST /api/v1/node-custom-function` carecía de autorización a nivel de ruta, así que cualquier usuario autenticado o clave API podía enviar JavaScript al nodo Custom JS Function. Cuando `E2B_APIKEY` no está configurada — el caso habitual —, Flowise ejecuta ese código en un sandbox NodeVM del que se puede escapar hasta `child_process`, lo que da ejecución remota de código autenticada en el host del servidor Flowise.
+
+Diez CVEs de severidad HIGH de la misma clase en una sola versión indica un problema sistémico de límite de API. El análisis de [vulnerabilidades de seguridad de agentes IA](/learn/ai-agent-security) explica por qué las vulnerabilidades de asignación masiva se agrupan.
 
 ## Seguridad de credenciales: accesible por usuarios vs aislamiento vault
 
@@ -77,7 +79,7 @@ La bóveda de credenciales de OpenLegion delimita el acceso a credenciales por a
 
 Flowise entrega valor genuino para el prototipado rápido de aplicaciones LLM. El editor visual, la integración integrada de LangChain y LlamaIndex, y el mercado de componentes lo convierten en un camino rápido del concepto al demo funcional.
 
-El caso de seguridad en producción es más difícil de defender después del 14 de mayo de 2026. Siete CVEs de severidad HIGH de la misma clase en una sola versión es un problema sistémico. CVE-2026-46444 no era un bug de límite de espacio de trabajo; era una verificación de autenticación faltante en un endpoint de producción. Los equipos que ejecutan Flowise en entornos multi-tenant o de producción deben auditar todos los endpoints de v3.1.1.
+El caso de seguridad en producción es más difícil de defender después del 14 de mayo de 2026. Diez CVEs de severidad HIGH de la misma clase en una sola versión es un problema sistémico. CVE-2026-46444 no era un bug de límite de espacio de trabajo; era una verificación de autorización faltante en un endpoint de producción, y CVE-2026-46442 permitía a cualquier usuario autenticado ejecutar comandos en el host mediante un escape del sandbox NodeVM. Los equipos que ejecutan Flowise en entornos multi-tenant o de producción deben auditar todos los endpoints de v3.1.1.
 
 Para los desarrolladores que necesitan una plataforma de agentes de producción en lugar de una herramienta de prototipado visual, el aislamiento estructural elimina completamente la clase de vulnerabilidad.
 
@@ -114,11 +116,11 @@ Consulta el [panorama de frameworks de agentes IA](/learn/ai-agent-frameworks) p
 
 ### ¿Qué es Flowise vs OpenLegion?
 
-Flowise es un constructor visual de arrastrar y soltar para aplicaciones LLM con 52.998 estrellas en GitHub, que permite la construcción sin código de pipelines LangChain y LlamaIndex a través de una interfaz basada en nodos. OpenLegion es una plataforma de ejecución multi-agente de seguridad primero con aislamiento de credenciales en bóveda, una ejecución en sandbox para cada tarea y coordinación nativa por objetivos y tareas. Flowise prioriza la accesibilidad visual; OpenLegion prioriza la arquitectura de seguridad en producción.
+Flowise es un constructor visual de arrastrar y soltar para aplicaciones LLM con 55.547 estrellas en GitHub, que permite la construcción sin código de pipelines LangChain y LlamaIndex a través de una interfaz basada en nodos. OpenLegion es una plataforma de ejecución multi-agente de seguridad primero con aislamiento de credenciales en bóveda, una ejecución en sandbox para cada tarea y coordinación nativa por objetivos y tareas. Flowise prioriza la accesibilidad visual; OpenLegion prioriza la arquitectura de seguridad en producción.
 
 ### ¿Cuáles son las vulnerabilidades de seguridad de Flowise en 2026?
 
-Flowise v3.1.1 lanzó 7 CVEs de severidad HIGH el 14 de mayo de 2026 (CVSS 7,7-8,1), todas vulnerabilidades de asignación masiva e IDOR que permiten a usuarios autenticados sobrescribir parámetros workspaceId y acceder a recursos en otros espacios de trabajo. CVE-2026-46444 es el más grave: los endpoints del almacén de vectores de OpenAI no tenían middleware de autenticación, permitiendo a cualquier usuario autenticado crear, leer, actualizar y eliminar almacenes de vectores.
+Flowise v3.1.1 lanzó 15 avisos de seguridad de severidad HIGH y CRITICAL el 14 de mayo de 2026 (CVSS 7,0-9,4), todos corregidos en la 3.1.2. Diez son vulnerabilidades de asignación masiva e IDOR que permiten a usuarios autenticados sobrescribir parámetros workspaceId y acceder a recursos en otros espacios de trabajo. CVE-2026-46442 (CVSS 9,4 CRITICAL) es el más grave: un usuario autenticado puede escapar del sandbox NodeVM tras el endpoint Custom JS Function y ejecutar comandos en el host. CVE-2026-46444 (CVSS 8,7) dejó los endpoints del almacén de vectores de OpenAI sin comprobación de permisos, permitiendo a cualquier usuario autenticado crear, leer, actualizar y eliminar almacenes de vectores.
 
 ### ¿Cómo difiere la arquitectura de seguridad de OpenLegion de Flowise?
 

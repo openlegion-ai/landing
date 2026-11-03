@@ -10,7 +10,7 @@ secondary_keywords:
   - llm代理替代方案
   - litellm 閘道
 date_published: 2026-05
-last_updated: "2026-06-09"
+last_updated: "2026-11-03"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -25,12 +25,12 @@ related:
 
 # LiteLLM替代方案：OpenLegion分散式Vault vs 集中式閘道
 
-OpenLegion vs LiteLLM代表了在模型之外注入的金庫保管憑證與集中式LLM閘道憑證聚合之間的根本安全性權衡。LiteLLM作為統一提供者閘道表現出色，擁有47,997個GitHub星標、成本追蹤和100多個LLM提供者支援，但遭受了CVE-2026-42208（CVSS 9.3 CRITICAL），SQL注入將整個憑證資料庫暴露給未經身份驗證的攻擊者。在OpenLegion中，憑證存放於金庫並在呼叫時注入，模型只持有代號 — 沒有任何憑證資料庫可供讀取。
+OpenLegion vs LiteLLM代表了在模型之外注入的金庫保管憑證與集中式LLM閘道憑證聚合之間的根本安全性權衡。LiteLLM作為統一提供者閘道表現出色，擁有62,615個GitHub星標、成本追蹤和100多個LLM提供者支援，但遭受了CVE-2026-42208（CVSS 9.8 CRITICAL，已列入CISA已知遭利用漏洞目錄），SQL注入將整個憑證資料庫暴露給未經身份驗證的攻擊者。在OpenLegion中，憑證存放於金庫並在呼叫時注入，模型只持有代號 — 沒有任何憑證資料庫可供讀取。
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **LiteLLM是什麼，與OpenLegion相比如何？**
-> LiteLLM是一個擁有47,997多個GitHub星標的集中式LLM閘道，將提供者憑證聚合到一個資料庫中，用於統一存取、成本追蹤和提供者路由。OpenLegion是一個安全優先的多智能體平台，憑證存放於金庫並在模型之外注入，消除憑證資料庫作為攻擊目標。LiteLLM提供閘道統一；OpenLegion提供架構安全性隔離。
+> LiteLLM是一個擁有62,615多個GitHub星標的集中式LLM閘道，將提供者憑證聚合到一個資料庫中，用於統一存取、成本追蹤和提供者路由。OpenLegion是一個安全優先的多智能體平台，憑證存放於金庫並在模型之外注入，消除憑證資料庫作為攻擊目標。LiteLLM提供閘道統一；OpenLegion提供架構安全性隔離。
 
 ## 總結
 
@@ -39,7 +39,7 @@ OpenLegion vs LiteLLM代表了在模型之外注入的金庫保管憑證與集�
 | **主要目的** | 集中式LLM閘道和提供者代理 | 帶金庫保管憑證的安全優先多智能體平台 |
 | **架構** | 帶API路由的集中式憑證資料庫 | 憑證存放於金庫，在模型之外注入 |
 | **憑證儲存** | 集中式資料庫中的所有提供者金鑰 | 金庫在呼叫時注入憑證；模型只持有代號 |
-| **近期CVE** | 2026年5個CVE，包括CRITICAL SQL注入 | 不適用 — 代管平台 |
+| **近期CVE** | 2026年30多個CVE，包括CRITICAL SQL注入 | 不適用 — 代管平台 |
 | **安全性隔離** | 帶存取控制的共享閘道 | 每項任務一次沙箱執行，憑證存放於金庫 |
 | **提供者支援** | 統一API介面支援100多個LLM | Smartest、Smart與Normal模型預設 |
 | **成本追蹤** | 內建支出追蹤和預算設定 | 每智能體點數預算，每項任務成本可見 |
@@ -59,17 +59,17 @@ OpenLegion vs LiteLLM代表了在模型之外注入的金庫保管憑證與集�
 
 ### CVE-2026-42208：CRITICAL SQL注入
 
-**CVSS 9.3 CRITICAL**嚴重性漏洞由騰訊雲鼎實驗室發現，LiteLLM的API金鑰驗證中的SQL注入將整個憑證資料庫暴露給未經身份驗證的攻擊者。
+**CVSS 9.8 CRITICAL**嚴重性漏洞（NVD的CVSS 3.1評分；GitHub的CVSS 4.0評分為9.3），LiteLLM的API金鑰驗證中的SQL注入將整個憑證資料庫暴露給未經身份驗證的攻擊者。受影響版本為1.81.16至1.83.6，已於v1.83.7修補。CISA於2026年5月8日將其列入已知遭利用漏洞（KEV）目錄，證實已遭實際利用。
 
 ### 2026年CVE模式：四個月內五個漏洞
 
-**版本範圍1.80-1.83**在四個月內發布了五個不同的CVE：
+2026年4月至5月間公開了**五個嚴重CVE**，而這只是全年總數的一部分：NVD收錄了2026年公開的30多個LiteLLM CVE：
 
-1. **CVE-2026-42208** - 暴露憑證資料庫的SQL注入
-2. **CVE-2026-43115** - 透過提供者設定的OS命令注入
-3. **CVE-2026-43892** - Docker容器中的沙箱逃逸
-4. **CVE-2026-44201** - 伺服器端範本注入(SSTI) RCE
-5. **CVE-2026-44673** - Pass-the-hash身份驗證繞過
+1. **CVE-2026-42208**（CVSS 9.8 CRITICAL） - 向未經身份驗證的攻擊者暴露憑證資料庫的SQL注入。已於v1.83.7修補。
+2. **CVE-2026-35029**（CVSS 8.8 HIGH） - `/config/update`缺少管理員授權：任何已驗證使用者都能修改代理設定，並註冊指向攻擊者控制之Python程式碼的pass-through處理常式，進而達成RCE。已於v1.83.0修補。
+3. **CVE-2026-35030**（CVSS 9.1 CRITICAL） - OIDC userinfo快取鍵衝突：啟用JWT身份驗證時（預設未啟用），前20個字元與合法使用者快取權杖相同的偽造權杖會繼承該使用者的身分。已於v1.83.0修補。
+4. **CVE-2026-40217**（CVSS 8.8 HIGH） - 透過`/guardrails/test_custom_code`的位元組碼改寫執行程式碼，即自訂程式碼護欄中的沙箱逃逸。已於v1.83.10修補。
+5. **CVE-2026-42203**（CVSS 8.8 HIGH） - `/prompts/test`的伺服器端範本注入(SSTI) RCE：提示範本在沒有沙箱的情況下轉譯，任何持有有效代理API金鑰的人都能在代理程序中執行程式碼。受影響版本1.80.5至1.83.6；已於v1.83.7修補。
 
 ## 容器安全性：Root vs 隔離執行
 
@@ -83,7 +83,7 @@ LiteLLM官方Docker映像檔預設**root使用者部署**，無權限分離或�
 
 ## OpenLegion的觀點
 
-CVE-2026-42208（CVSS 9.3 CRITICAL）證明了SQL注入可以暴露整個組織的憑證儲存。OpenLegion的憑證金庫完全消除了憑證聚合風險：沒有任何資料庫把API金鑰存放在可能被SQL注入、身份驗證繞過或沙箱逃逸暴露的地方。
+CVE-2026-42208（CVSS 9.8 CRITICAL，據CISA已遭實際利用）證明了SQL注入可以暴露整個組織的憑證儲存。OpenLegion的憑證金庫完全消除了憑證聚合風險：沒有任何資料庫把API金鑰存放在可能被SQL注入、身份驗證繞過或沙箱逃逸暴露的地方。
 
 ## 選擇LiteLLM vs 選擇OpenLegion
 
@@ -107,11 +107,11 @@ CVE-2026-42208（CVSS 9.3 CRITICAL）證明了SQL注入可以暴露整個組織�
 
 ### LiteLLM vs OpenLegion是什麼？
 
-LiteLLM是一個擁有47,997多個GitHub星標的集中式LLM閘道，將憑證聚合到資料庫中用於統一存取100多個LLM提供者。OpenLegion是一個安全優先的多智能體平台，憑證存放於金庫並在模型之外注入，模型只持有代號。
+LiteLLM是一個擁有62,615多個GitHub星標的集中式LLM閘道，將憑證聚合到資料庫中用於統一存取100多個LLM提供者。OpenLegion是一個安全優先的多智能體平台，憑證存放於金庫並在模型之外注入，模型只持有代號。
 
 ### LiteLLM最近有哪些安全漏洞？
 
-CVE-2026-42208（CVSS 9.3 CRITICAL）允許透過精心構造的Authorization標頭進行SQL注入，讀取和修改整個憑證資料庫，由騰訊雲鼎實驗室發現。2026年另外四個CVE包括OS命令注入、沙箱逃逸、SSTI RCE和pass-the-hash。
+CVE-2026-42208（CVSS 9.8 CRITICAL）允許未經身份驗證的攻擊者透過精心構造的Authorization標頭進行SQL注入，讀取並可能修改整個憑證資料庫；受影響版本為1.81.16至1.83.6，已於v1.83.7修補，並已列入CISA已知遭利用漏洞目錄。2026年其他嚴重CVE包括：/config/update缺少管理員授權導致RCE（CVE-2026-35029）、啟用JWT身份驗證時可冒充其他使用者的OIDC快取鍵衝突（CVE-2026-35030）、自訂程式碼護欄中的沙箱逃逸（CVE-2026-40217），以及/prompts/test的SSTI RCE（CVE-2026-42203）。NVD收錄了2026年公開的30多個LiteLLM CVE。
 
 ### 如何處理LLM提供者憑證？
 

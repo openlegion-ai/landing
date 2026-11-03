@@ -10,7 +10,7 @@ secondary_keywords:
   - llm proxy alternative
   - litellm gateway
 date_published: 2026-05
-last_updated: "2026-06-09"
+last_updated: "2026-11-03"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -25,12 +25,12 @@ related:
 
 # LiteLLM Alternative: OpenLegion Distributed Vault vs. zentralisiertes Gateway
 
-OpenLegion vs. LiteLLM verkörpert den grundlegenden Sicherheitskompromiss zwischen Credentials, die im Vault liegen und außerhalb des Modells injiziert werden, und zentralisierter LLM-Gateway-Credential-Aggregation. LiteLLM glänzt als einheitliches Provider-Gateway mit 47.997 GitHub-Stars, Kostenverfolgung und Unterstützung für über 100 LLM-Anbieter, litt jedoch unter CVE-2026-42208 (CVSS 9.3 KRITISCH), bei dem SQL-Injection die gesamte Credential-Datenbank für nicht authentifizierte Angreifer offenlegte. Bei OpenLegion liegen Credentials in einem Vault und werden zum Aufrufzeitpunkt injiziert, während das Modell immer nur ein Handle hält — es gibt keine Credential-Datenbank zum Auslesen.
+OpenLegion vs. LiteLLM verkörpert den grundlegenden Sicherheitskompromiss zwischen Credentials, die im Vault liegen und außerhalb des Modells injiziert werden, und zentralisierter LLM-Gateway-Credential-Aggregation. LiteLLM glänzt als einheitliches Provider-Gateway mit 62.615 GitHub-Stars, Kostenverfolgung und Unterstützung für über 100 LLM-Anbieter, litt jedoch unter CVE-2026-42208 (CVSS 9.8 KRITISCH, im Katalog Known Exploited Vulnerabilities der CISA gelistet), bei dem SQL-Injection die gesamte Credential-Datenbank für nicht authentifizierte Angreifer offenlegte. Bei OpenLegion liegen Credentials in einem Vault und werden zum Aufrufzeitpunkt injiziert, während das Modell immer nur ein Handle hält — es gibt keine Credential-Datenbank zum Auslesen.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **Was ist LiteLLM und wie unterscheidet es sich von OpenLegion?**
-> LiteLLM ist ein zentralisiertes LLM-Gateway mit über 47.997 GitHub-Stars, das Provider-Credentials in einer Datenbank aggregiert für einheitlichen Zugang, Kostenverfolgung und Provider-Routing. OpenLegion ist eine sicherheitsorientierte Multi-Agent-Plattform, bei der Credentials in einem Vault liegen und außerhalb des Modells injiziert werden, was Credential-Datenbanken als Angriffsziele eliminiert. LiteLLM bietet Gateway-Unifikation; OpenLegion bietet architektonische Sicherheitsisolierung.
+> LiteLLM ist ein zentralisiertes LLM-Gateway mit über 62.615 GitHub-Stars, das Provider-Credentials in einer Datenbank aggregiert für einheitlichen Zugang, Kostenverfolgung und Provider-Routing. OpenLegion ist eine sicherheitsorientierte Multi-Agent-Plattform, bei der Credentials in einem Vault liegen und außerhalb des Modells injiziert werden, was Credential-Datenbanken als Angriffsziele eliminiert. LiteLLM bietet Gateway-Unifikation; OpenLegion bietet architektonische Sicherheitsisolierung.
 
 ## TL;DR
 
@@ -39,7 +39,7 @@ OpenLegion vs. LiteLLM verkörpert den grundlegenden Sicherheitskompromiss zwisc
 | **Hauptzweck** | Zentralisiertes LLM-Gateway und Provider-Proxy | Sicherheitsorientierte Multi-Agent-Plattform mit Credentials im Vault |
 | **Architektur** | Zentralisierte Credential-DB mit API-Routing | Credentials im Vault, außerhalb des Modells injiziert |
 | **Credential-Speicherung** | Alle Provider-Keys in zentralisierter Datenbank | Vault injiziert Credentials zum Aufrufzeitpunkt; das Modell hält ein Handle |
-| **Aktuelle CVEs** | 5 CVEs in 2026, darunter kritische SQL-Injection | entfällt — gehostete Plattform |
+| **Aktuelle CVEs** | 30+ CVEs in 2026, darunter kritische SQL-Injection | entfällt — gehostete Plattform |
 | **Sicherheitsisolierung** | Geteiltes Gateway mit Zugriffskontrollen | Sandbox-Lauf pro Aufgabe, Credentials im Vault |
 | **Provider-Unterstützung** | 100+ LLMs mit einheitlichem API-Interface | Modell-Presets Smartest, Smart und Normal |
 | **Kostenverfolgung** | Eingebaut mit Ausgaben-Tracking und Budgetierung | Pro-Agent-Credit-Budgets, Kosten pro Aufgabe sichtbar |
@@ -69,7 +69,7 @@ Die Modellwahl ist ein Preset — Smartest, Smart oder Normal —, sodass es gar
 
 ### CVE-2026-42208: KRITISCHE SQL-Injection
 
-**CVSS 9.3 KRITISCH** Schwachstelle, entdeckt von Tencent YunDing Security Lab, bei der SQL-Injection in LiteLLMs API-Key-Verifizierung die gesamte Credential-Datenbank für nicht authentifizierte Angreifer offenlegte. Die Schwachstelle befand sich in der Authorization-Header-Parsing-Logik.
+**CVSS 9.8 KRITISCH** Schwachstelle (CVSS-3.1-Wert der NVD; der CVSS-4.0-Wert von GitHub liegt bei 9.3), bei der SQL-Injection in LiteLLMs API-Key-Verifizierung die gesamte Credential-Datenbank für nicht authentifizierte Angreifer offenlegte. Betroffen waren die Versionen 1.81.16 bis 1.83.6, behoben in v1.83.7. Die CISA nahm sie am 8. Mai 2026 in den Katalog Known Exploited Vulnerabilities auf, was die aktive Ausnutzung bestätigt. Die Schwachstelle lag in der API-Key-Prüfung: Der Schlüsselwert aus einem manipulierten Authorization-Header wurde in den Text der Datenbankabfrage eingefügt, statt als separater Parameter übergeben zu werden.
 
 **Vollständige Credential-Exposition** ermöglichte Angreifern, alle gespeicherten API-Keys für OpenAI, Anthropic, Google, Cohere und andere Provider zu lesen und zu modifizieren.
 
@@ -77,13 +77,13 @@ Die Modellwahl ist ein Preset — Smartest, Smart oder Normal —, sodass es gar
 
 ### Das 2026-CVE-Muster: Fünf Schwachstellen in vier Monaten
 
-**Versionsbereich 1.80-1.83** brachte fünf unterschiedliche CVEs innerhalb von vier Monaten:
+**Fünf schwerwiegende CVEs** wurden zwischen April und Mai 2026 veröffentlicht, und sie sind nur ein Teil der Jahresbilanz: Die NVD listet mehr als 30 LiteLLM-CVEs, die 2026 veröffentlicht wurden:
 
-1. **CVE-2026-42208** - SQL-Injection, die Credential-Datenbank offenlegend
-2. **CVE-2026-43115** - OS-Befehlsinjektion via Provider-Konfiguration
-3. **CVE-2026-43892** - Sandbox-Escape im Docker-Container
-4. **CVE-2026-44201** - Server-Side Template Injection (SSTI) RCE
-5. **CVE-2026-44673** - Pass-the-Hash-Authentifizierungsumgehung
+1. **CVE-2026-42208** (CVSS 9.8 KRITISCH) - SQL-Injection, die die Credential-Datenbank für nicht authentifizierte Angreifer offenlegt. Behoben in v1.83.7.
+2. **CVE-2026-35029** (CVSS 8.8 HOCH) - Fehlende Admin-Autorisierung auf `/config/update`: Jeder authentifizierte Benutzer konnte die Proxy-Konfiguration ändern und Pass-through-Handler registrieren, die auf vom Angreifer kontrollierten Python-Code zeigen, und so RCE erreichen. Behoben in v1.83.0.
+3. **CVE-2026-35030** (CVSS 9.1 KRITISCH) - Schlüsselkollision im OIDC-Userinfo-Cache: Bei aktivierter JWT-Authentifizierung (nicht Standard) übernimmt ein manipuliertes Token, dessen erste 20 Zeichen mit dem gecachten Token eines legitimen Benutzers übereinstimmen, dessen Identität. Behoben in v1.83.0.
+4. **CVE-2026-40217** (CVSS 8.8 HOCH) - Codeausführung durch Bytecode-Rewriting über `/guardrails/test_custom_code`, ein Sandbox-Escape im Custom-Code-Guardrail. Behoben in v1.83.10.
+5. **CVE-2026-42203** (CVSS 8.8 HOCH) - Server-Side Template Injection (SSTI) RCE über `/prompts/test`: Prompt-Templates wurden ohne Sandbox gerendert, sodass jeder Inhaber eines gültigen Proxy-API-Keys Code im Proxy-Prozess ausführen konnte. Betroffen 1.80.5 bis 1.83.6; behoben in v1.83.7.
 
 ## Container-Sicherheit: Root vs. Isolierte Ausführung
 
@@ -105,9 +105,9 @@ Die Modellwahl ist ein Preset — Smartest, Smart oder Normal —, sodass es gar
 
 ## OpenLegions Einschätzung
 
-LiteLLM vs. OpenLegion verkörpert den klassischen Sicherheits-vs.-Komfort-Kompromiss in der KI-Infrastruktur. LiteLLMs 47.997 Stars und Unterstützung für 100+ Provider zeigen, dass zentralisierte LLM-Gateways echte Entwicklerproduktivitätsprobleme lösen.
+LiteLLM vs. OpenLegion verkörpert den klassischen Sicherheits-vs.-Komfort-Kompromiss in der KI-Infrastruktur. LiteLLMs 62.615 Stars und Unterstützung für 100+ Provider zeigen, dass zentralisierte LLM-Gateways echte Entwicklerproduktivitätsprobleme lösen.
 
-Aber der 2026-CVE-Cluster legt die systematischen Risiken der Credential-Aggregation offen. CVE-2026-42208 (CVSS 9.3 KRITISCH) bewies, dass SQL-Injection gesamte organisatorische Credential-Stores freilegen kann.
+Aber der 2026-CVE-Cluster legt die systematischen Risiken der Credential-Aggregation offen. CVE-2026-42208 (CVSS 9.8 KRITISCH, laut CISA aktiv ausgenutzt) bewies, dass SQL-Injection gesamte organisatorische Credential-Stores freilegen kann.
 
 OpenLegions Credential-Vault eliminiert das Aggregationsrisiko vollständig. Keine Datenbank speichert API-Keys, wo sie durch SQL-Injection, Authentifizierungsumgehung oder einen Sandbox-Ausbruch freigelegt werden könnten.
 
@@ -141,11 +141,11 @@ Für einen umfassenderen Überblick über [KI-Agent-Sicherheitsarchitektur und w
 
 ### Was ist LiteLLM vs. OpenLegion?
 
-LiteLLM ist ein zentralisiertes LLM-Gateway mit 47.997+ GitHub-Stars, das Provider-Credentials in einer Datenbank aggregiert für einheitlichen Zugang zu 100+ LLM-Providern mit Kostenverfolgung. OpenLegion ist eine sicherheitsorientierte Multi-Agent-Plattform, bei der Credentials in einem Vault liegen und außerhalb des Modells injiziert werden.
+LiteLLM ist ein zentralisiertes LLM-Gateway mit 62.615+ GitHub-Stars, das Provider-Credentials in einer Datenbank aggregiert für einheitlichen Zugang zu 100+ LLM-Providern mit Kostenverfolgung. OpenLegion ist eine sicherheitsorientierte Multi-Agent-Plattform, bei der Credentials in einem Vault liegen und außerhalb des Modells injiziert werden.
 
 ### Was sind LiteLLMs aktuelle Sicherheitslücken?
 
-CVE-2026-42208 (CVSS 9.3 KRITISCH) erlaubte SQL-Injection, die gesamte Credential-Datenbank durch manipulierte Authorization-Header zu lesen und zu modifizieren, entdeckt von Tencent YunDing Security Lab. Vier weitere CVEs in 2026 umfassten OS-Befehlsinjektion, Sandbox-Escape, SSTI RCE und Pass-the-Hash.
+CVE-2026-42208 (CVSS 9.8 KRITISCH) erlaubte nicht authentifizierte SQL-Injection, um die gesamte Credential-Datenbank durch manipulierte Authorization-Header zu lesen und potenziell zu modifizieren. Betroffen waren die Versionen 1.81.16 bis 1.83.6, behoben in v1.83.7; die Lücke steht im Katalog Known Exploited Vulnerabilities der CISA. Weitere schwerwiegende CVEs aus 2026 umfassen fehlende Admin-Autorisierung auf /config/update mit RCE-Folge (CVE-2026-35029), eine Schlüsselkollision im OIDC-Cache, mit der Angreifer bei aktivierter JWT-Authentifizierung die Identität anderer Benutzer übernehmen (CVE-2026-35030), einen Sandbox-Escape im Custom-Code-Guardrail (CVE-2026-40217) und SSTI RCE über /prompts/test (CVE-2026-42203). Die NVD listet mehr als 30 LiteLLM-CVEs, die 2026 veröffentlicht wurden.
 
 ### Wie gehen sie mit LLM-Provider-Credentials um?
 
