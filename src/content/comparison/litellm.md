@@ -10,7 +10,7 @@ secondary_keywords:
   - llm proxy alternative
   - litellm gateway
 date_published: 2026-05
-last_updated: "2026-06-09"
+last_updated: "2026-11-03"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -25,12 +25,12 @@ related:
 
 # LiteLLM Alternative: OpenLegion Distributed Vault vs Centralized Gateway
 
-OpenLegion vs LiteLLM represents the fundamental security trade-off between vault-held credentials injected outside the model and centralized LLM gateway credential aggregation. LiteLLM excels as a unified provider gateway with 47,997 GitHub stars, cost tracking, and 100+ LLM provider support, but suffered CVE-2026-42208 (CVSS 9.3 CRITICAL) where SQL injection exposed the entire credential database to unauthenticated attackers. In OpenLegion credentials live in a vault and are injected at call time, and the model only ever holds a handle — there is no credential database to read.
+OpenLegion vs LiteLLM represents the fundamental security trade-off between vault-held credentials injected outside the model and centralized LLM gateway credential aggregation. LiteLLM excels as a unified provider gateway with 62,615 GitHub stars, cost tracking, and 100+ LLM provider support, but suffered CVE-2026-42208 (CVSS 9.8 CRITICAL) where SQL injection exposed the entire credential database to unauthenticated attackers. In OpenLegion credentials live in a vault and are injected at call time, and the model only ever holds a handle — there is no credential database to read.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **What is LiteLLM and how does it compare to OpenLegion?**
-> LiteLLM is a centralized LLM gateway with 47,997+ GitHub stars that aggregates provider credentials in one database for unified access, cost tracking, and provider routing. OpenLegion is a security-first multi-agent platform where credentials live in a vault and are injected outside the model, eliminating credential databases as attack targets. LiteLLM provides gateway unification; OpenLegion provides architectural security isolation.
+> LiteLLM is a centralized LLM gateway with 62,615+ GitHub stars that aggregates provider credentials in one database for unified access, cost tracking, and provider routing. OpenLegion is a security-first multi-agent platform where credentials live in a vault and are injected outside the model, eliminating credential databases as attack targets. LiteLLM provides gateway unification; OpenLegion provides architectural security isolation.
 
 ## TL;DR
 
@@ -39,7 +39,7 @@ OpenLegion vs LiteLLM represents the fundamental security trade-off between vaul
 | **Primary purpose** | Centralized LLM gateway and provider proxy | Security-first multi-agent platform with vault-held credentials |
 | **Architecture** | Centralized credential database with API routing | Credentials in a vault, injected outside the model |
 | **Credential storage** | All provider keys in centralized database | Vault injects credentials at call time; the model holds a handle |
-| **Recent CVEs** | 5 CVEs in 2026, including CRITICAL SQL injection | n/a — hosted platform |
+| **Recent CVEs** | 30+ CVEs in 2026, including CRITICAL SQL injection | n/a — hosted platform |
 | **Security isolation** | Shared gateway with access controls | Sandboxed run per task, vault-held credentials |
 | **Provider support** | 100+ LLMs with unified API interface | Smartest, Smart and Normal model presets |
 | **Cost tracking** | Built-in spend tracking and budgeting | Per-agent credit budgets, cost per task visible |
@@ -63,7 +63,7 @@ Model choice is a preset — Smartest, Smart or Normal — so there is no aggreg
 
 **Centralized gateways** become high-value attack targets because successful compromise exposes all organization credentials simultaneously. The centralized database contains API keys for every LLM provider, potentially worth thousands of dollars in aggregate usage value plus access to sensitive AI workloads.
 
-CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entire credential database to unauthenticated attackers. The vulnerability affected every organization using LiteLLM because the centralized architecture created a single point of total credential compromise.
+CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entire credential database to unauthenticated attackers. The vulnerability affected every organization running the vulnerable LiteLLM versions because the centralized architecture created a single point of total credential compromise.
 
 **Distributed architectures** spread credential risk across per-agent credential scopes instead of one shared store. No single compromise exposes all organizational credentials because the vault grants access per agent without aggregating it into one queryable database. Even a compromised run cannot expose credentials, because the model only ever holds a handle.
 
@@ -71,7 +71,7 @@ CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entir
 
 ### CVE-2026-42208: CRITICAL SQL Injection
 
-**CVSS 9.3 CRITICAL severity** vulnerability discovered by Tencent YunDing Security Lab where SQL injection in LiteLLM's API key verification exposed the entire credential database to unauthenticated attackers. The vulnerability occurred in the authorization header parsing logic where crafted SQL payloads bypassed input validation.
+**CVSS 9.8 CRITICAL severity** vulnerability (NVD's CVSS 3.1 score; GitHub's CVSS 4.0 score is 9.3) where SQL injection in LiteLLM's API key verification exposed the entire credential database to unauthenticated attackers. It affected versions 1.81.16 through 1.83.6 and was patched in v1.83.7. CISA added it to the Known Exploited Vulnerabilities catalog on May 8 2026, confirming exploitation in the wild. The flaw sat in the API key check: the key value from a crafted `Authorization` header was mixed into the database query text instead of being passed as a separate parameter, and reached that query through the proxy's error-handling path.
 
 **Complete credential exposure** allowed attackers to read and modify all stored API keys for OpenAI, Anthropic, Google, Cohere, and other providers. The database contained not just credentials but also usage quotas, cost tracking data, and administrative settings, providing complete visibility into organizational AI usage patterns.
 
@@ -81,15 +81,15 @@ CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entir
 
 ### The 2026 CVE Pattern: Five Vulnerabilities in Four Months
 
-**Version range 1.80-1.83** shipped five distinct CVEs within four months, indicating systematic security challenges in the codebase:
+**Five serious CVEs** were published between April and May 2026, and they are only part of the year's total: NVD lists more than 30 LiteLLM CVEs published in 2026, indicating systematic security challenges in the codebase:
 
-1. **CVE-2026-42208** - SQL injection exposing credential database
-2. **CVE-2026-43115** - OS command injection via provider configuration
-3. **CVE-2026-43892** - Sandbox escape in Docker container
-4. **CVE-2026-44201** - Server-Side Template Injection (SSTI) RCE
-5. **CVE-2026-44673** - Pass-the-hash authentication bypass
+1. **CVE-2026-42208** (CVSS 9.8 CRITICAL) - SQL injection exposing the credential database to unauthenticated attackers. Fixed in v1.83.7.
+2. **CVE-2026-35029** (CVSS 8.8 HIGH) - Missing admin authorization on `/config/update`: any authenticated user could change proxy configuration and register pass-through handlers pointing to attacker-controlled Python code, achieving RCE. Fixed in v1.83.0.
+3. **CVE-2026-35030** (CVSS 9.1 CRITICAL) - OIDC userinfo cache key collision: with JWT authentication enabled (not the default), a crafted token whose first 20 characters match a legitimate user's cached token inherits that user's identity. Fixed in v1.83.0.
+4. **CVE-2026-40217** (CVSS 8.8 HIGH) - Code execution via bytecode rewriting at `/guardrails/test_custom_code`, a sandbox escape in the custom-code guardrail. Fixed in v1.83.10.
+5. **CVE-2026-42203** (CVSS 8.8 HIGH) - Server-Side Template Injection (SSTI) RCE at `/prompts/test`: prompt templates were rendered without sandboxing, so any holder of a valid proxy API key could run code in the proxy process. Affected 1.80.5 through 1.83.6; fixed in v1.83.7.
 
-**Centralized impact** meant that each vulnerability affected every organization using LiteLLM because the gateway architecture concentrated all security risk in a single service. Distributed architectures limit blast radius by isolating security failures to individual components.
+**Centralized impact** meant that each vulnerability affected every organization running the affected LiteLLM versions because the gateway architecture concentrated all security risk in a single service. Distributed architectures limit blast radius by isolating security failures to individual components.
 
 ### Root Cause: Architectural Security Debt
 
@@ -119,9 +119,9 @@ CVE-2026-42208 demonstrated this risk when SQL injection exposed LiteLLM's entir
 
 ## OpenLegion's Take
 
-LiteLLM vs OpenLegion represents the classic security versus convenience trade-off in AI infrastructure. LiteLLM's 47,997 stars and 100+ provider support demonstrate that centralized LLM gateways solve real developer productivity challenges by eliminating integration complexity and providing unified cost tracking.
+LiteLLM vs OpenLegion represents the classic security versus convenience trade-off in AI infrastructure. LiteLLM's 62,615 stars and 100+ provider support demonstrate that centralized LLM gateways solve real developer productivity challenges by eliminating integration complexity and providing unified cost tracking.
 
-But the 2026 CVE cluster exposes the systematic risks of credential aggregation. CVE-2026-42208 (CVSS 9.3 CRITICAL) proved that SQL injection can expose entire organizational credential stores when all provider keys live in one database. The five CVEs shipped in four months indicate that feature velocity outpaced security architecture review in the centralized gateway model.
+But the 2026 CVE cluster exposes the systematic risks of credential aggregation. CVE-2026-42208 (CVSS 9.8 CRITICAL, exploited in the wild per CISA) proved that SQL injection can expose entire organizational credential stores when all provider keys live in one database. More than 30 CVEs published in 2026 indicate that feature velocity outpaced security architecture review in the centralized gateway model.
 
 OpenLegion's credential vault eliminates the aggregation risk entirely. No database stores API keys where they can be exposed through SQL injection, authentication bypass, or a sandbox escape. The architectural approach makes credential exposure through agent compromise structurally impossible rather than relying on access controls that can fail.
 
@@ -167,11 +167,11 @@ For a broader view of [AI agent security architecture and how vault proxy isolat
 
 ### What is LiteLLM vs OpenLegion?
 
-LiteLLM is a centralized LLM gateway with 47,997+ GitHub stars that aggregates provider credentials in one database for unified access to 100+ LLM providers with cost tracking and routing capabilities. OpenLegion is a security-first multi-agent platform where credentials live in a vault and are injected outside the model, eliminating credential databases as attack targets. LiteLLM provides gateway unification; OpenLegion provides architectural credential isolation.
+LiteLLM is a centralized LLM gateway with 62,615+ GitHub stars that aggregates provider credentials in one database for unified access to 100+ LLM providers with cost tracking and routing capabilities. OpenLegion is a security-first multi-agent platform where credentials live in a vault and are injected outside the model, eliminating credential databases as attack targets. LiteLLM provides gateway unification; OpenLegion provides architectural credential isolation.
 
 ### What are LiteLLM's recent security vulnerabilities?
 
-CVE-2026-42208 (CVSS 9.3 CRITICAL) allowed SQL injection to read and modify the entire credential database through crafted Authorization headers, discovered by Tencent YunDing Security Lab. Four additional CVEs in 2026 included OS command injection via provider configuration, sandbox escape in Docker containers, SSTI RCE, and pass-the-hash authentication bypass. All five CVEs occurred within the 1.80-1.83 version range.
+CVE-2026-42208 (CVSS 9.8 CRITICAL) allowed unauthenticated SQL injection to read, and potentially modify, the entire credential database through crafted Authorization headers. It affected versions 1.81.16 through 1.83.6, was patched in v1.83.7, and is on CISA's Known Exploited Vulnerabilities list. Other serious 2026 CVEs include missing admin authorization on /config/update enabling RCE (CVE-2026-35029), an OIDC cache key collision that lets an attacker assume another user's identity when JWT authentication is enabled (CVE-2026-35030), a sandbox escape in the custom-code guardrail (CVE-2026-40217), and SSTI RCE at /prompts/test (CVE-2026-42203). NVD lists more than 30 LiteLLM CVEs published in 2026.
 
 ### How do they handle LLM provider credentials?
 

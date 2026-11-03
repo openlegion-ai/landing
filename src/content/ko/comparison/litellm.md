@@ -10,7 +10,7 @@ secondary_keywords:
   - llm proxy 대안
   - litellm 게이트웨이
 date_published: 2026-05
-last_updated: "2026-06-09"
+last_updated: "2026-11-03"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -25,12 +25,12 @@ related:
 
 # LiteLLM 대안: OpenLegion 분산 Vault vs 중앙 집중형 게이트웨이
 
-OpenLegion vs LiteLLM은 모델 외부에서 주입되는 볼트 보관 자격증명과 중앙 집중형 LLM 게이트웨이 자격증명 집계 사이의 근본적인 보안 트레이드오프를 나타냅니다. LiteLLM은 GitHub 스타 47,997개, 비용 추적, 100개 이상의 LLM 공급자 지원을 갖춘 통합 공급자 게이트웨이로 뛰어나지만, CVE-2026-42208(CVSS 9.3 CRITICAL)을 겪었는데, SQL 삽입으로 전체 자격증명 데이터베이스가 인증되지 않은 공격자에게 노출되었습니다. OpenLegion에서는 자격증명이 볼트에 보관되어 호출 시 주입되고 모델은 핸들만 보유합니다 — 읽어낼 자격증명 데이터베이스 자체가 없습니다.
+OpenLegion vs LiteLLM은 모델 외부에서 주입되는 볼트 보관 자격증명과 중앙 집중형 LLM 게이트웨이 자격증명 집계 사이의 근본적인 보안 트레이드오프를 나타냅니다. LiteLLM은 GitHub 스타 62,615개, 비용 추적, 100개 이상의 LLM 공급자 지원을 갖춘 통합 공급자 게이트웨이로 뛰어나지만, CVE-2026-42208(CVSS 9.8 CRITICAL, CISA의 Known Exploited Vulnerabilities 카탈로그 등재)을 겪었는데, SQL 삽입으로 전체 자격증명 데이터베이스가 인증되지 않은 공격자에게 노출되었습니다. OpenLegion에서는 자격증명이 볼트에 보관되어 호출 시 주입되고 모델은 핸들만 보유합니다 — 읽어낼 자격증명 데이터베이스 자체가 없습니다.
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **LiteLLM이란 무엇이며 OpenLegion과 어떻게 비교됩니까?**
-> LiteLLM은 GitHub 스타 47,997개 이상의 중앙 집중형 LLM 게이트웨이로, 통합 접근, 비용 추적, 공급자 라우팅을 위해 공급자 자격증명을 하나의 데이터베이스에 집계합니다. OpenLegion은 자격증명이 볼트에 보관되어 모델 외부에서 주입되는 보안 우선 멀티 에이전트 플랫폼으로, 자격증명 데이터베이스를 공격 대상에서 제거합니다.
+> LiteLLM은 GitHub 스타 62,615개 이상의 중앙 집중형 LLM 게이트웨이로, 통합 접근, 비용 추적, 공급자 라우팅을 위해 공급자 자격증명을 하나의 데이터베이스에 집계합니다. OpenLegion은 자격증명이 볼트에 보관되어 모델 외부에서 주입되는 보안 우선 멀티 에이전트 플랫폼으로, 자격증명 데이터베이스를 공격 대상에서 제거합니다.
 
 ## TL;DR
 
@@ -39,7 +39,7 @@ OpenLegion vs LiteLLM은 모델 외부에서 주입되는 볼트 보관 자격�
 | **주요 목적** | 중앙 집중형 LLM 게이트웨이 및 공급자 프록시 | 볼트 보관 자격증명을 갖춘 보안 우선 멀티 에이전트 플랫폼 |
 | **아키텍처** | API 라우팅을 가진 중앙 집중형 자격증명 DB | 볼트에 보관되고 모델 외부에서 주입되는 자격증명 |
 | **자격증명 저장** | 중앙 집중형 DB에 모든 공급자 키 | 볼트가 호출 시 주입; 모델은 핸들만 보유 |
-| **최근 CVE** | 2026년 CVE 5개, CRITICAL SQL 삽입 포함 | 해당 없음 — 호스팅 플랫폼 |
+| **최근 CVE** | 2026년 CVE 30개 이상, CRITICAL SQL 삽입 포함 | 해당 없음 — 호스팅 플랫폼 |
 | **보안 격리** | 접근 제어를 갖춘 공유 게이트웨이 | 작업별 샌드박스 실행, 볼트 보관 자격증명 |
 | **공급자 지원** | 통합 API 인터페이스로 100개 이상 LLM | Smartest, Smart, Normal 모델 프리셋 |
 | **비용 추적** | 내장 지출 추적 및 예산 설정 | 에이전트별 크레딧 예산, 작업별 비용 표시 |
@@ -59,17 +59,17 @@ OpenLegion vs LiteLLM은 모델 외부에서 주입되는 볼트 보관 자격�
 
 ### CVE-2026-42208: CRITICAL SQL 삽입
 
-**CVSS 9.3 CRITICAL** 심각도 취약점이 Tencent YunDing Security Lab에 의해 발견되었으며, LiteLLM의 API 키 검증에서 SQL 삽입으로 전체 자격증명 데이터베이스가 인증되지 않은 공격자에게 노출되었습니다.
+**CVSS 9.8 CRITICAL** 심각도 취약점(NVD의 CVSS 3.1 점수이며, GitHub의 CVSS 4.0 점수는 9.3)으로, LiteLLM의 API 키 검증에서 SQL 삽입으로 전체 자격증명 데이터베이스가 인증되지 않은 공격자에게 노출되었습니다. 영향을 받은 버전은 1.81.16부터 1.83.6까지이며 v1.83.7에서 패치되었습니다. CISA는 2026년 5월 8일 이 취약점을 Known Exploited Vulnerabilities 카탈로그에 추가해 실제 악용을 확인했습니다.
 
 ### 2026년 CVE 패턴: 4개월 동안 5개의 취약점
 
-**버전 범위 1.80-1.83**에서 4개월 이내에 5개의 고유 CVE가 출시되었습니다:
+2026년 4월과 5월 사이에 **심각한 CVE 5개**가 공개되었으며, 이는 연간 총계의 일부에 불과합니다. NVD에는 2026년에 공개된 LiteLLM CVE가 30개 이상 등록되어 있습니다:
 
-1. **CVE-2026-42208** - 자격증명 데이터베이스 노출 SQL 삽입
-2. **CVE-2026-43115** - 공급자 설정을 통한 OS 명령 삽입
-3. **CVE-2026-43892** - Docker 컨테이너에서 샌드박스 탈출
-4. **CVE-2026-44201** - Server-Side Template Injection (SSTI) RCE
-5. **CVE-2026-44673** - Pass-the-hash 인증 우회
+1. **CVE-2026-42208** (CVSS 9.8 CRITICAL) - 인증되지 않은 공격자에게 자격증명 데이터베이스를 노출하는 SQL 삽입. v1.83.7에서 수정.
+2. **CVE-2026-35029** (CVSS 8.8 HIGH) - `/config/update`의 관리자 권한 검사 누락: 인증된 사용자라면 누구나 프록시 설정을 변경하고 공격자가 제어하는 Python 코드를 가리키는 pass-through 핸들러를 등록해 RCE를 달성할 수 있었습니다. v1.83.0에서 수정.
+3. **CVE-2026-35030** (CVSS 9.1 CRITICAL) - OIDC userinfo 캐시 키 충돌: JWT 인증이 활성화된 경우(기본값 아님), 처음 20자가 정상 사용자의 캐시된 토큰과 일치하도록 조작된 토큰이 해당 사용자의 신원을 넘겨받습니다. v1.83.0에서 수정.
+4. **CVE-2026-40217** (CVSS 8.8 HIGH) - `/guardrails/test_custom_code`에서 바이트코드 재작성을 통한 코드 실행으로, 커스텀 코드 가드레일의 샌드박스 탈출입니다. v1.83.10에서 수정.
+5. **CVE-2026-42203** (CVSS 8.8 HIGH) - `/prompts/test`의 Server-Side Template Injection (SSTI) RCE: 프롬프트 템플릿이 샌드박스 없이 렌더링되어 유효한 프록시 API 키를 가진 누구나 프록시 프로세스에서 코드를 실행할 수 있었습니다. 영향 버전 1.80.5~1.83.6, v1.83.7에서 수정.
 
 ## 컨테이너 보안: Root vs 격리 실행
 
@@ -83,7 +83,7 @@ OpenLegion vs LiteLLM은 모델 외부에서 주입되는 볼트 보관 자격�
 
 ## OpenLegion의 견해
 
-LiteLLM vs OpenLegion은 AI 인프라에서 고전적인 보안 대 편의성 트레이드오프를 나타냅니다. CVE-2026-42208(CVSS 9.3 CRITICAL)은 SQL 삽입이 전체 조직 자격증명 저장소를 노출할 수 있음을 입증했습니다.
+LiteLLM vs OpenLegion은 AI 인프라에서 고전적인 보안 대 편의성 트레이드오프를 나타냅니다. CVE-2026-42208(CVSS 9.8 CRITICAL, CISA 기준 실제 악용 확인)은 SQL 삽입이 전체 조직 자격증명 저장소를 노출할 수 있음을 입증했습니다.
 
 OpenLegion의 자격증명 볼트는 자격증명 집계 위험을 완전히 제거합니다. SQL 삽입, 인증 우회, 샌드박스 탈출로 노출될 수 있는 API 키를 저장하는 데이터베이스가 없습니다.
 
@@ -109,11 +109,11 @@ OpenLegion의 자격증명 볼트는 자격증명 집계 위험을 완전히 제
 
 ### LiteLLM vs OpenLegion이란 무엇입니까?
 
-LiteLLM은 GitHub 스타 47,997개 이상의 중앙 집중형 LLM 게이트웨이로 비용 추적과 함께 100개 이상의 LLM 공급자에 통합 접근을 위해 자격증명을 집계합니다. OpenLegion은 자격증명이 볼트에 보관되어 모델 외부에서 주입되는 보안 우선 멀티 에이전트 플랫폼입니다.
+LiteLLM은 GitHub 스타 62,615개 이상의 중앙 집중형 LLM 게이트웨이로 비용 추적과 함께 100개 이상의 LLM 공급자에 통합 접근을 위해 자격증명을 집계합니다. OpenLegion은 자격증명이 볼트에 보관되어 모델 외부에서 주입되는 보안 우선 멀티 에이전트 플랫폼입니다.
 
 ### LiteLLM의 최근 보안 취약점은 무엇입니까?
 
-CVE-2026-42208(CVSS 9.3 CRITICAL)은 조작된 Authorization 헤더를 통한 SQL 삽입으로 전체 자격증명 데이터베이스를 읽고 수정하도록 허용했으며, Tencent YunDing Security Lab에 의해 발견되었습니다. 2026년 추가 CVE 4개에는 OS 명령 삽입, 샌드박스 탈출, SSTI RCE, pass-the-hash가 포함되었습니다.
+CVE-2026-42208(CVSS 9.8 CRITICAL)은 조작된 Authorization 헤더를 통한 인증 없는 SQL 삽입으로 전체 자격증명 데이터베이스를 읽고, 경우에 따라 수정할 수 있게 했습니다. 영향 버전은 1.81.16~1.83.6이며 v1.83.7에서 패치되었고, CISA의 Known Exploited Vulnerabilities 카탈로그에 등재되어 있습니다. 2026년의 다른 심각한 CVE로는 /config/update의 관리자 권한 검사 누락으로 인한 RCE(CVE-2026-35029), JWT 인증 활성화 시 다른 사용자로 가장할 수 있게 하는 OIDC 캐시 키 충돌(CVE-2026-35030), 커스텀 코드 가드레일의 샌드박스 탈출(CVE-2026-40217), /prompts/test의 SSTI RCE(CVE-2026-42203)가 있습니다. NVD에는 2026년에 공개된 LiteLLM CVE가 30개 이상 등록되어 있습니다.
 
 ### LLM 공급자 자격증명을 어떻게 처리합니까?
 

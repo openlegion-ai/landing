@@ -10,7 +10,7 @@ secondary_keywords:
   - llm proxy विकल्प
   - litellm gateway
 date_published: 2026-05
-last_updated: "2026-06-09"
+last_updated: "2026-11-03"
 schema_types:
   - FAQPage
 page_type: comparison
@@ -25,12 +25,12 @@ related:
 
 # LiteLLM विकल्प: OpenLegion Distributed Vault बनाम Centralized Gateway
 
-OpenLegion बनाम LiteLLM model के बाहर inject किए गए vault-held credentials और केंद्रीकृत LLM gateway credential aggregation के बीच मूलभूत सुरक्षा trade-off को दर्शाता है। LiteLLM 47,997 GitHub stars, cost tracking और 100+ LLM provider support के साथ unified provider gateway के रूप में उत्कृष्ट है, लेकिन CVE-2026-42208 (CVSS 9.3 CRITICAL) से ग्रस्त रहा जहां SQL injection ने पूरे credential database को unauthenticated attackers के लिए उजागर कर दिया। OpenLegion में credentials एक vault में रहते हैं और call time पर inject होते हैं, और model के पास सिर्फ़ एक handle रहता है — पढ़ने के लिए कोई credential database है ही नहीं।
+OpenLegion बनाम LiteLLM model के बाहर inject किए गए vault-held credentials और केंद्रीकृत LLM gateway credential aggregation के बीच मूलभूत सुरक्षा trade-off को दर्शाता है। LiteLLM 62,615 GitHub stars, cost tracking और 100+ LLM provider support के साथ unified provider gateway के रूप में उत्कृष्ट है, लेकिन CVE-2026-42208 (CVSS 9.8 CRITICAL, CISA के Known Exploited Vulnerabilities catalog में शामिल) से ग्रस्त रहा जहां SQL injection ने पूरे credential database को unauthenticated attackers के लिए उजागर कर दिया। OpenLegion में credentials एक vault में रहते हैं और call time पर inject होते हैं, और model के पास सिर्फ़ एक handle रहता है — पढ़ने के लिए कोई credential database है ही नहीं।
 
 <!-- SCHEMA: DefinitionBlock -->
 
 > **LiteLLM क्या है और यह OpenLegion से कैसे तुलना करता है?**
-> LiteLLM 47,997+ GitHub stars वाला एक centralized LLM gateway है जो unified access, cost tracking और provider routing के लिए provider credentials को एक database में aggregate करता है। OpenLegion एक security-first multi-agent platform है जहाँ credentials एक vault में रहते हैं और model के बाहर inject होते हैं, credential databases को attack targets के रूप में समाप्त करते हुए।
+> LiteLLM 62,615+ GitHub stars वाला एक centralized LLM gateway है जो unified access, cost tracking और provider routing के लिए provider credentials को एक database में aggregate करता है। OpenLegion एक security-first multi-agent platform है जहाँ credentials एक vault में रहते हैं और model के बाहर inject होते हैं, credential databases को attack targets के रूप में समाप्त करते हुए।
 
 ## संक्षेप
 
@@ -39,7 +39,7 @@ OpenLegion बनाम LiteLLM model के बाहर inject किए ग�
 | **मुख्य उद्देश्य** | Centralized LLM gateway और provider proxy | Vault में रखे credentials के साथ security-first multi-agent platform |
 | **आर्किटेक्चर** | API routing के साथ centralized credential DB | Vault में credentials, model के बाहर inject |
 | **Credential storage** | Centralized DB में सभी provider keys | Vault call time पर inject करता है; model के पास handle |
-| **हालिया CVEs** | 2026 में 5 CVEs, CRITICAL SQL injection सहित | n/a — hosted platform |
+| **हालिया CVEs** | 2026 में 30+ CVEs, CRITICAL SQL injection सहित | n/a — hosted platform |
 | **Security isolation** | Access controls के साथ shared gateway | प्रति task sandboxed run, vault में रखे credentials |
 | **Provider support** | Unified API interface के साथ 100+ LLMs | Smartest, Smart और Normal model presets |
 | **Cost tracking** | Built-in spend tracking और budgeting | प्रति-एजेंट credit budgets, प्रति task cost दिखता है |
@@ -59,17 +59,17 @@ OpenLegion बनाम LiteLLM model के बाहर inject किए ग�
 
 ### CVE-2026-42208: CRITICAL SQL Injection
 
-**CVSS 9.3 CRITICAL** severity vulnerability Tencent YunDing Security Lab द्वारा खोजी गई, जहां LiteLLM के API key verification में SQL injection ने पूरे credential database को unauthenticated attackers के लिए उजागर किया।
+**CVSS 9.8 CRITICAL** severity vulnerability (NVD का CVSS 3.1 score; GitHub का CVSS 4.0 score 9.3 है), जहां LiteLLM के API key verification में SQL injection ने पूरे credential database को unauthenticated attackers के लिए उजागर किया। यह versions 1.81.16 से 1.83.6 तक को प्रभावित करती थी और v1.83.7 में patch हुई। CISA ने इसे 8 मई 2026 को Known Exploited Vulnerabilities catalog में जोड़ा, जिससे सक्रिय exploitation की पुष्टि होती है।
 
 ### 2026 CVE Pattern: चार महीनों में पाँच Vulnerabilities
 
-**Version range 1.80-1.83** में चार महीनों के भीतर पाँच distinct CVEs:
+अप्रैल और मई 2026 के बीच **पाँच गंभीर CVEs** प्रकाशित हुए, और ये साल के कुल का केवल एक हिस्सा हैं: NVD में 2026 में प्रकाशित 30 से अधिक LiteLLM CVEs दर्ज हैं:
 
-1. **CVE-2026-42208** - Credential database उजागर करने वाला SQL injection
-2. **CVE-2026-43115** - Provider configuration के माध्यम से OS command injection
-3. **CVE-2026-43892** - Docker container में sandbox escape
-4. **CVE-2026-44201** - Server-Side Template Injection (SSTI) RCE
-5. **CVE-2026-44673** - Pass-the-hash authentication bypass
+1. **CVE-2026-42208** (CVSS 9.8 CRITICAL) - Credential database को unauthenticated attackers के लिए उजागर करने वाला SQL injection। v1.83.7 में fixed।
+2. **CVE-2026-35029** (CVSS 8.8 HIGH) - `/config/update` पर admin authorization का अभाव: कोई भी authenticated user proxy configuration बदल सकता था और attacker-controlled Python code की ओर इशारा करने वाले pass-through handlers register कर सकता था, जिससे RCE संभव था। v1.83.0 में fixed।
+3. **CVE-2026-35030** (CVSS 9.1 CRITICAL) - OIDC userinfo cache key collision: JWT authentication enabled होने पर (default नहीं), ऐसा crafted token जिसके पहले 20 characters किसी legitimate user के cached token से मेल खाते हैं, उस user की identity पा लेता है। v1.83.0 में fixed।
+4. **CVE-2026-40217** (CVSS 8.8 HIGH) - `/guardrails/test_custom_code` पर bytecode rewriting के ज़रिए code execution, यानी custom-code guardrail में sandbox escape। v1.83.10 में fixed।
+5. **CVE-2026-42203** (CVSS 8.8 HIGH) - `/prompts/test` पर Server-Side Template Injection (SSTI) RCE: prompt templates बिना sandbox के render होते थे, इसलिए valid proxy API key रखने वाला कोई भी व्यक्ति proxy process में code चला सकता था। Versions 1.80.5 से 1.83.6 प्रभावित; v1.83.7 में fixed।
 
 ## Container Security: Root बनाम Isolated Execution
 
@@ -83,7 +83,7 @@ LiteLLM की official Docker image में **Root user deployment** default 
 
 ## OpenLegion का दृष्टिकोण
 
-CVE-2026-42208 (CVSS 9.3 CRITICAL) ने साबित किया कि SQL injection पूरे organizational credential stores को उजागर कर सकता है। OpenLegion का credential vault aggregation risk को पूरी तरह समाप्त करता है।
+CVE-2026-42208 (CVSS 9.8 CRITICAL, CISA के अनुसार सक्रिय रूप से exploited) ने साबित किया कि SQL injection पूरे organizational credential stores को उजागर कर सकता है। OpenLegion का credential vault aggregation risk को पूरी तरह समाप्त करता है।
 
 ## LiteLLM बनाम OpenLegion चुनना
 
@@ -103,11 +103,11 @@ Credential aggregation अस्वीकार्य risk बनाता ह�
 
 ### LiteLLM बनाम OpenLegion क्या है?
 
-LiteLLM 47,997+ GitHub stars वाला centralized LLM gateway है जो 100+ LLM providers के unified access के लिए credentials aggregate करता है। OpenLegion एक security-first multi-agent platform है जहाँ credentials एक vault में रहते हैं और model के बाहर inject होते हैं।
+LiteLLM 62,615+ GitHub stars वाला centralized LLM gateway है जो 100+ LLM providers के unified access के लिए credentials aggregate करता है। OpenLegion एक security-first multi-agent platform है जहाँ credentials एक vault में रहते हैं और model के बाहर inject होते हैं।
 
 ### LiteLLM की हालिया security vulnerabilities क्या हैं?
 
-CVE-2026-42208 (CVSS 9.3 CRITICAL) crafted Authorization headers के माध्यम से SQL injection को पूरे credential database को read और modify करने की अनुमति देता था, Tencent YunDing Security Lab द्वारा खोजा गया।
+CVE-2026-42208 (CVSS 9.8 CRITICAL) crafted Authorization headers के माध्यम से बिना authentication के SQL injection को पूरे credential database को read और संभवतः modify करने की अनुमति देता था। यह versions 1.81.16 से 1.83.6 तक को प्रभावित करता था, v1.83.7 में patch हुआ, और CISA के Known Exploited Vulnerabilities catalog में शामिल है। NVD में 2026 में प्रकाशित 30 से अधिक LiteLLM CVEs दर्ज हैं।
 
 ### LLM provider credentials को कैसे handle करते हैं?
 
