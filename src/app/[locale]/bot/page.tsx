@@ -73,7 +73,7 @@ export default async function BotPage({
               behalf of a person, signed in to an account that person holds.
             </p>
             <p className="mt-2">Every request it sends ends Chromium&apos;s own User-Agent string with this token:</p>
-            <pre className="mt-3 overflow-x-auto rounded-md border border-border/50 bg-card px-4 py-3 font-mono text-xs text-foreground">
+            <pre className="mt-3 whitespace-pre-wrap break-all rounded-md border border-border/50 bg-card px-4 py-3 font-mono text-xs text-foreground">
               {UA_TOKEN}
             </pre>
           </section>
