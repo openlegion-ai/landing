@@ -13,9 +13,10 @@ import {
 
 const CLARITY_ID = "voko6al3fo";
 const META_PIXEL_ID = "2386274771877282";
+const TAWK_SRC = "https://embed.tawk.to/69a6e380ed6e941c36908edc/1jipuhbks";
 
 type QueuedFn = ((...args: unknown[]) => void) & { q?: unknown[][]; queue?: unknown[][]; callMethod?: (...a: unknown[]) => void; push?: unknown; loaded?: boolean; version?: string };
-type MarketingWindow = Window & { clarity?: QueuedFn; fbq?: QueuedFn; _fbq?: QueuedFn; __olMarketingLoaded?: boolean };
+type MarketingWindow = Window & { clarity?: QueuedFn; fbq?: QueuedFn; _fbq?: QueuedFn; Tawk_API?: Record<string, unknown>; Tawk_LoadStart?: Date; __olMarketingLoaded?: boolean };
 
 function readChoice(): ConsentChoice | null {
   try {
@@ -34,14 +35,15 @@ function writeChoice(choice: ConsentChoice): void {
   }
 }
 
-function injectScript(src: string): void {
+function injectScript(src: string): HTMLScriptElement {
   const s = document.createElement("script");
   s.async = true;
   s.src = src;
   document.head.appendChild(s);
+  return s;
 }
 
-/** Clarity + Meta Pixel, once per page, after the browser is idle. Production host only. */
+/** Clarity, Meta Pixel and Tawk.to chat, once per page, after the browser is idle. Production host only. */
 function loadMarketingTags(): void {
   const w = window as MarketingWindow;
   if (w.location.hostname !== PROD_HOST || w.__olMarketingLoaded) return;
@@ -71,6 +73,13 @@ function loadMarketingTags(): void {
       fbq("init", META_PIXEL_ID);
       fbq("track", "PageView");
     }
+
+    // Tawk.to chat widget — the standard embed, written out.
+    w.Tawk_API = w.Tawk_API || {};
+    w.Tawk_LoadStart = new Date();
+    const tawk = injectScript(TAWK_SRC);
+    tawk.charset = "UTF-8";
+    tawk.setAttribute("crossorigin", "*");
   };
 
   if ("requestIdleCallback" in w) w.requestIdleCallback(run, { timeout: 4000 });

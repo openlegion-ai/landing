@@ -12,8 +12,9 @@
  *    the device time zone as the stand-in. The time-zone check is deliberately
  *    over-inclusive: a few visitors outside those regions see the banner, and
  *    no visitor in them is tracked by a marketing tag without saying yes.
- *  - Microsoft Clarity and the Meta Pixel load only after consent (or by
- *    default outside the consent region), and only once the page is idle.
+ *  - Microsoft Clarity, the Meta Pixel and the Tawk.to chat widget load only
+ *    after consent (or by default outside the consent region), and only once
+ *    the page is idle.
  */
 
 export const PROD_HOST = "www.openlegion.ai";
