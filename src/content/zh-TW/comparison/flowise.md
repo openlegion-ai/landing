@@ -1,6 +1,6 @@
 ---
 title: Flowise替代方案 — 安全優先平台 vs 視覺化建構器
-description: "OpenLegion vs Flowise：Vault隔離對比7個HIGH嚴重CVE，代管多智能體平台對比視覺化流程建構器，原始碼可取得對比商業授權全面比較。"
+description: "OpenLegion vs Flowise：Vault隔離對比15個HIGH/CRITICAL嚴重CVE，代管多智能體平台對比視覺化流程建構器，原始碼可取得對比商業授權全面比較。"
 slug: /comparison/flowise
 primary_keyword: flowise alternative
 secondary_keywords:
@@ -55,7 +55,7 @@ Flowise的價值主張是速度：拖曳LangChain ChatOpenAI節點，連接向�
 
 OpenLegion的安全架構是結構性的，而非應用層。每個動作都是意圖，在發生前由單一政策引擎檢查，因此工作區邊界由平台而非參數驗證強制執行；智能體程式碼中的錯誤無法讓它接觸另一個智能體的資料，因為沒有可利用的共享程序。[多智能體編排模式](/learn/ai-agent-orchestration)展示了結構性隔離如何在沒有共享狀態漏洞的情況下實現協調。
 
-## CVE集群：v3.1.1中的7個HIGH嚴重漏洞
+## CVE集群：v3.1.1中的15個HIGH/CRITICAL嚴重漏洞
 
 2026年5月14日，Flowise針對3.1.1及更早版本發布了18個安全公告，均已於3.1.2修補；其中15個為HIGH或CRITICAL等級。其中十個有相同的根本原因：API層中的大量賦值和IDOR漏洞，允許已認證使用者覆蓋`workspaceId`參數並存取屬於其他工作區的資源。
 

@@ -1,6 +1,6 @@
 ---
 title: Flowise Alternative — Security-First Platform vs Visual Builder
-description: "OpenLegion vs Flowise: vault isolation vs 7 HIGH-severity CVEs, hosted multi-agent platform vs visual flow builder, source-available vs commercial licensing compared."
+description: "OpenLegion vs Flowise: vault isolation vs 15 HIGH and CRITICAL CVEs, hosted multi-agent platform vs visual flow builder, source-available vs commercial licensing compared."
 slug: /comparison/flowise
 primary_keyword: flowise alternative
 secondary_keywords:
@@ -55,7 +55,7 @@ The architectural constraint of visual builders is that visual simplicity and se
 
 OpenLegion's security architecture is structural, not application-layer. Every action is an intent checked by one policy engine before it happens, so workspace boundaries are enforced by the platform, not by parameter validation. A bug in an agent's code cannot cause it to reach another agent's data — there is no shared process to exploit. [Multi-agent orchestration patterns](/learn/ai-agent-orchestration) show how structural isolation enables coordination without shared-state vulnerabilities.
 
-## The CVE Cluster: 7 HIGH-Severity Vulnerabilities in v3.1.1
+## The CVE Cluster: 15 HIGH and CRITICAL Vulnerabilities in v3.1.1
 
 On May 14 2026, Flowise published 18 security advisories for version 3.1.1 and earlier, all patched in 3.1.2; 15 of them are rated HIGH or CRITICAL. Ten share the same root cause: mass-assignment and IDOR vulnerabilities in the API layer that allow authenticated users to overwrite `workspaceId` parameters and access resources belonging to other workspaces.
 

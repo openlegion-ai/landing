@@ -306,7 +306,7 @@
     {
       "slug": "/comparison/flowise",
       "title": "Flowise Alternative — Security-First Platform vs Visual Builder",
-      "description": "OpenLegion vs Flowise: vault isolation vs 7 HIGH-severity CVEs, hosted multi-agent platform vs visual flow builder, source-available vs commercial licensing compared.",
+      "description": "OpenLegion vs Flowise: vault isolation vs 15 HIGH and CRITICAL CVEs, hosted multi-agent platform vs visual flow builder, source-available vs commercial licensing compared.",
       "primaryKeyword": "flowise alternative",
       "secondaryKeywords": [
         "openlegion vs flowise",

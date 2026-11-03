@@ -1,6 +1,6 @@
 ---
 title: Flowise 대안 — 보안 우선 플랫폼 vs 비주얼 빌더
-description: "OpenLegion vs Flowise: 볼트 격리 vs 7개 HIGH 심각도 CVE, 호스팅 멀티 에이전트 플랫폼 vs 비주얼 플로우 빌더, 소스 공개 vs 상업 라이선싱 비교."
+description: "OpenLegion vs Flowise: 볼트 격리 vs 15개 HIGH/CRITICAL 심각도 CVE, 호스팅 멀티 에이전트 플랫폼 vs 비주얼 플로우 빌더, 소스 공개 vs 상업 라이선싱 비교."
 slug: /comparison/flowise
 primary_keyword: flowise alternative
 secondary_keywords:
@@ -55,7 +55,7 @@ Flowise의 가치 제안은 속도입니다: LangChain ChatOpenAI 노드를 드�
 
 OpenLegion의 보안 아키텍처는 구조적이며, 애플리케이션 레이어가 아닙니다. 모든 행동은 실행 전에 단일 정책 엔진이 검사하는 인텐트이므로, 워크스페이스 경계는 매개변수 유효성 검사가 아닌 플랫폼이 적용합니다. [멀티 에이전트 오케스트레이션 패턴](/learn/ai-agent-orchestration)은 구조적 격리가 공유 상태 취약점 없이 조정을 가능하게 하는 방법을 보여줍니다.
 
-## CVE 클러스터: v3.1.1의 7개 HIGH 심각도 취약점
+## CVE 클러스터: v3.1.1의 15개 HIGH/CRITICAL 심각도 취약점
 
 2026년 5월 14일, Flowise는 버전 3.1.1 이하를 대상으로 보안 권고 18건을 공개했으며 모두 3.1.2에서 수정되었습니다. 이 중 15건이 HIGH 또는 CRITICAL 등급입니다. 그중 10건은 동일한 근본 원인을 공유합니다: 인증된 사용자가 `workspaceId` 매개변수를 덮어쓰고 다른 워크스페이스에 속한 리소스에 접근할 수 있게 하는 API 레이어의 대량 할당 및 IDOR 취약점입니다.
 
