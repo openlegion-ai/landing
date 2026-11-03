@@ -176,7 +176,7 @@ export async function getContentPage(slug: string, locale?: string): Promise<Con
 
   const faqs = extractFAQs(content);
   const howTo = extractHowTo(content);
-  const html = await renderMarkdown(content);
+  const html = await renderMarkdown(content, locale ?? "en");
 
   return { frontmatter, html, faqs, howTo };
 }
@@ -224,6 +224,54 @@ export function linkLocaleFor(href: string, locale: string): string {
   const entry = CONTENT_MAP.get(path);
   if (!entry) return locale; // nav page / anchor / non-content route
   return entry.availableLocales.includes(locale) ? locale : "en";
+}
+
+const LOCALE_SET = new Set<string>(SUPPORTED_LOCALES);
+
+/**
+ * Prefix a root-relative internal href with the locale it should resolve to.
+ *
+ * Content markdown links to `/learn/x`, `/comparison`… without a locale. The
+ * proxy answers those with a 307 chosen by Accept-Language, so a crawler on a
+ * Japanese page is bounced to `/en`. Linking straight to `/<locale>/<path>`
+ * removes the hop. The target locale comes from `linkLocaleFor` (the same
+ * CONTENT_MAP `availableLocales` the sitemap and hreflang use): the current
+ * locale when that page exists in it, else `en`.
+ *
+ * Left untouched: external / protocol-relative / relative links, anchors,
+ * already-prefixed paths, and assets (`/_next`, `/api`, anything whose last
+ * segment has a file extension such as `/llms.txt` or `/sitemap.xml`).
+ */
+export function localizeHref(href: string, locale: string): string {
+  if (!href.startsWith("/") || href.startsWith("//") || href.startsWith("/#")) return href;
+  const pathPart = href.split(/[?#]/)[0];
+  const first = pathPart.split("/")[1] ?? "";
+  if (LOCALE_SET.has(first)) return href;
+  if (first === "_next" || first === "api") return href;
+  const last = pathPart.split("/").pop() ?? "";
+  if (/\.[a-z0-9]+$/i.test(last)) return href;
+  const target = linkLocaleFor(href, locale);
+  return pathPart === "/" ? `/${target}${href.slice(1)}` : `/${target}${href}`;
+}
+
+interface HastNode {
+  type: string;
+  tagName?: string;
+  properties?: Record<string, unknown>;
+  children?: HastNode[];
+}
+
+/** rehype plugin: run every `<a href>` through `localizeHref`. */
+function rehypeLocalizeLinks(locale: string) {
+  return (tree: HastNode) => {
+    const walk = (node: HastNode) => {
+      if (node.type === "element" && node.tagName === "a" && typeof node.properties?.href === "string") {
+        node.properties.href = localizeHref(node.properties.href, locale);
+      }
+      node.children?.forEach(walk);
+    };
+    walk(tree);
+  };
 }
 
 export function hasContent(slug: string): boolean {
@@ -390,7 +438,7 @@ function extractHowTo(content: string): HowToData | null {
 
 // ── Markdown rendering ──────────────────────────────────────────────────────
 
-async function renderMarkdown(content: string): Promise<string> {
+async function renderMarkdown(content: string, locale: string): Promise<string> {
   let processed = content;
 
   // 1. Convert definition blocks to semantic HTML
@@ -421,6 +469,7 @@ async function renderMarkdown(content: string): Promise<string> {
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
+    .use(rehypeLocalizeLinks, locale)
     .use(rehypeStringify)
     .process(processed);
 
