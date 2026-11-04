@@ -42,9 +42,15 @@ export function CodeTabs({ files, label }: { files: { name: string; code: string
             tabIndex={active === i ? 0 : -1}
             onClick={() => setActive(i)}
             onKeyDown={(e) => {
-              if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-              const dir = e.key === "ArrowRight" ? 1 : -1;
-              const next = (active + dir + files.length) % files.length;
+              // Arrows follow the reading direction: in RTL, the left arrow moves to the next tab.
+              const rtl = getComputedStyle(e.currentTarget).direction === "rtl";
+              const step = e.key === "ArrowRight" ? (rtl ? -1 : 1) : e.key === "ArrowLeft" ? (rtl ? 1 : -1) : 0;
+              let next: number;
+              if (step) next = (active + step + files.length) % files.length;
+              else if (e.key === "Home") next = 0;
+              else if (e.key === "End") next = files.length - 1;
+              else return;
+              e.preventDefault();
               setActive(next);
               document.getElementById(`${base}-tab-${next}`)?.focus();
             }}

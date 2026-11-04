@@ -116,7 +116,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
 
         <section className="section hairline !pt-16" aria-label={t("title")}>
           <div className="wrap">
-            <SpecList items={items} columns={2} />
+            <SpecList items={items} columns={2} level={2} />
           </div>
         </section>
 
