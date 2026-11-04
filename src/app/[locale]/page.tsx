@@ -1,19 +1,21 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
-import { Hero } from "@/components/hero";
-import { UseCases } from "@/components/use-cases";
-import { PromptToTeam } from "@/components/prompt-to-team";
-import { SocialProof } from "@/components/social-proof";
-import { Features } from "@/components/features";
-import { DashboardPreview } from "@/components/dashboard-preview";
-import { Quickstart } from "@/components/quickstart";
-import { Security } from "@/components/security";
-import { Comparison } from "@/components/comparison";
-import { FAQ } from "@/components/faq";
-import { CTA } from "@/components/cta";
-import { TechnicalDefinition } from "@/components/technical-definition";
+import {
+  Hero,
+  Platform,
+  Statement,
+  UseCases,
+  Quickstart,
+  Api,
+  Controls,
+  Money,
+  HomeFaq,
+  Definition,
+  Close,
+  Notes,
+  HOME_FAQ_KEYS,
+} from "@/components/home/sections";
 import { Footer } from "@/components/footer";
-import { ALL_FAQ_ITEMS, WAITLIST_URL } from "@/lib/constants";
 import { getAllContentEntries } from "@/lib/markdown";
 import { normalizeDate, ogLocaleFor } from "@/lib/content-page-helpers";
 
@@ -40,36 +42,41 @@ function homepageDateModified(): string {
   return newest || new Date().toISOString().slice(0, 10);
 }
 
-async function getGitHubStars(): Promise<string | null> {
-  try {
-    const res = await fetch(
-      "https://api.github.com/repos/openlegion-ai/openlegion",
-      { next: { revalidate: 3600 } },
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    const count = data.stargazers_count;
-    if (typeof count !== "number") return null;
-    return count >= 1000 ? (count / 1000).toFixed(1) + "k" : String(count);
-  } catch {
-    return null;
-  }
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "platformMeta" });
+  return {
+    title: { absolute: t("homeTitle") },
+    description: t("homeDescription"),
+    openGraph: {
+      title: t("homeOgTitle"),
+      description: t("homeOgDescription"),
+      type: "website",
+      siteName: "OpenLegion",
+      url: `https://www.openlegion.ai/${locale}`,
+      images: [{ url: `/og/${ogLocaleFor(locale)}/home.png`, width: 1200, height: 630, alt: t("homeOgTitle") }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      site: "@openlegion",
+      title: t("homeOgTitle"),
+      description: t("homeOgDescription"),
+      images: [`/og/${ogLocaleFor(locale)}/home.png`],
+    },
+  };
 }
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const stars = await getGitHubStars();
-  const t = await getTranslations("common");
-  const tFaq = await getTranslations("faq");
-  const tMeta = await getTranslations("metadata");
+  const tFaq = await getTranslations("homeFaq");
+  const tMeta = await getTranslations("platformMeta");
 
-  // Locale-aware FAQ items for the FAQPage JSON-LD payload below. The
-  // canonical 14-item ordering comes from ALL_FAQ_ITEMS; each locale's
-  // messages/<loc>.json supplies translated text at faq.items.<idx>.*.
-  const localizedFaqItems = ALL_FAQ_ITEMS.map((_, idx) => ({
-    question: tFaq(`items.${idx}.question`),
-    answer: tFaq(`items.${idx}.answer`),
+  // Locale-aware FAQ items for the FAQPage JSON-LD payload below: the same
+  // builder questions the visible FAQ renders, in HOME_FAQ_KEYS order.
+  const localizedFaqItems = HOME_FAQ_KEYS.map((key) => ({
+    question: tFaq(`${key}.q`),
+    answer: tFaq(`${key}.a`),
   }));
 
   const canonicalUrl = `https://www.openlegion.ai/${locale}`;
@@ -77,7 +84,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   const FAQ_ID = `${canonicalUrl}#faq`;
   const dateModified = homepageDateModified();
 
-  // Single @graph payload — page-level WebPage / FAQPage / VideoObject
+  // Single @graph payload — page-level WebPage / FAQPage
   // entities cross-link to the site-wide @id refs declared in
   // `[locale]/layout.tsx`. Note: HowTo schema was removed — Google
   // deprecated HowTo rich results for non-recipe content in late 2023, so
@@ -107,13 +114,6 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           "@type": "SpeakableSpecification",
           cssSelector: ["#hero", "#faq", ".definition-block"],
         },
-        // Every sameAs has been verified to resolve to the correct entity.
-        // See PAGE_MENTIONS doc for the validation policy.
-        mentions: [
-          { "@type": "SoftwareApplication", name: "LangGraph", sameAs: "https://github.com/langchain-ai/langgraph" },
-          { "@type": "SoftwareApplication", name: "CrewAI",    sameAs: "https://github.com/crewAIInc/crewAI" },
-          { "@type": "SoftwareApplication", name: "AutoGen",   sameAs: "https://github.com/microsoft/autogen" },
-        ],
       },
       {
         "@type": "FAQPage",
@@ -135,34 +135,18 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         dangerouslySetInnerHTML={{ __html: JSON.stringify(pageGraphJsonLd).replace(/</g, "\\u003c") }}
       />
       <main id="main">
-        {/* Buyer path — outcome-first sections for entrepreneurs and
-            operators. Developer / technical-evaluation sections are grouped
-            below the FAQ so they stay on-page (SEO + nav anchors intact)
-            without interrupting the conversion path. */}
         <Hero />
-        <SocialProof stars={stars} />
-        <PromptToTeam />
+        <Platform />
+        <Statement />
         <UseCases />
-        <Features />
-        <DashboardPreview />
-        <div className="px-5 py-10 text-center sm:px-6 md:px-8 md:py-14">
-          <div className="mx-auto mb-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
-          <p className="mb-3 text-sm text-muted">{t("fleetLivePrompt")}</p>
-          <Link href={WAITLIST_URL} className="inline-flex items-center gap-2 rounded-lg border border-accent/25 bg-accent/[0.06] px-5 py-2.5 text-sm font-medium text-accent-light transition-all hover:border-accent/40 hover:bg-accent/10">
-            {t("getStartedInMinutes")}
-          </Link>
-          <div className="mx-auto mt-6 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
-        </div>
-        <Security />
-        <FAQ />
-        <div className="px-5 pt-16 text-center sm:px-6 md:px-8 md:pt-20" aria-hidden="false">
-          <div className="mx-auto mb-4 h-px w-1/4 bg-gradient-to-r from-transparent via-accent/20 to-transparent sm:w-1/3" aria-hidden="true" />
-          <p className="text-sm font-semibold uppercase tracking-widest text-muted">{t("developersHeading")}</p>
-        </div>
         <Quickstart />
-        <Comparison />
-        <TechnicalDefinition />
-        <CTA />
+        <Api />
+        <Controls />
+        <Money />
+        <HomeFaq />
+        <Definition />
+        <Close />
+        <Notes />
       </main>
       <Footer />
     </>

@@ -62,7 +62,7 @@ export default async function MoneyBackGuaranteePage({
   const mailLink = (
     <a
       href={`mailto:${email}`}
-      className="text-accent underline underline-offset-2 hover:text-accent/80"
+      className="link"
     >
       {email}
     </a>
@@ -70,22 +70,22 @@ export default async function MoneyBackGuaranteePage({
 
   return (
     <>
-      <main id="main" className="mx-auto max-w-3xl px-6 pb-24 pt-8 md:px-8">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+      <main id="main" className="top-light mx-auto max-w-3xl px-5 pb-24 pt-12 md:px-8 md:pt-16">
+        <h1 className="t-h2">
           {t("title")}
         </h1>
         <p className="mt-2 text-sm text-muted">{t("tagline")}</p>
 
-        <div className="prose-legal mt-10 space-y-8 text-sm leading-relaxed text-muted">
+        <div className="prose-legal mt-10 space-y-8 text-[0.9375rem] leading-relaxed text-muted">
           <section>
             <p>{withEmail(t("intro"), mailLink)}</p>
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-foreground">
+            <h2 className="t-h3 mb-3 text-foreground">
               {t("covered.heading")}
             </h2>
-            <ul className="ml-5 mt-2 list-disc space-y-1">
+            <ul className="ms-5 mt-2 list-disc space-y-1">
               {COVERED_KEYS.map((idx) => (
                 <li key={idx}>{t(`covered.items.${idx}`)}</li>
               ))}
@@ -93,10 +93,10 @@ export default async function MoneyBackGuaranteePage({
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-foreground">
+            <h2 className="t-h3 mb-3 text-foreground">
               {t("notCovered.heading")}
             </h2>
-            <ul className="ml-5 mt-2 list-disc space-y-1">
+            <ul className="ms-5 mt-2 list-disc space-y-1">
               {NOT_COVERED_KEYS.map((idx) => (
                 <li key={idx}>{t(`notCovered.items.${idx}`)}</li>
               ))}
@@ -104,10 +104,10 @@ export default async function MoneyBackGuaranteePage({
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-foreground">
+            <h2 className="t-h3 mb-3 text-foreground">
               {t("afterRefund.heading")}
             </h2>
-            <ul className="ml-5 mt-2 list-disc space-y-1">
+            <ul className="ms-5 mt-2 list-disc space-y-1">
               {AFTER_REFUND_KEYS.map((idx) => (
                 <li key={idx}>{t(`afterRefund.items.${idx}`)}</li>
               ))}
@@ -115,7 +115,7 @@ export default async function MoneyBackGuaranteePage({
           </section>
 
           <section>
-            <h2 className="mb-3 text-lg font-semibold text-foreground">
+            <h2 className="t-h3 mb-3 text-foreground">
               {t("howTo.heading")}
             </h2>
             <p>{withEmail(t("howTo.body"), mailLink)}</p>

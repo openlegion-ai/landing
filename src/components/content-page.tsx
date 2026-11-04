@@ -113,7 +113,7 @@ export function ContentPage({ page, locale }: ContentPageProps) {
   return (
     <>
       <JsonLd data={schemas} />
-      <div className="content-page">
+      <div className="content-page top-light">
         <div className="content-page-header">
           <nav aria-label={t("breadcrumbAriaLabel")} className="breadcrumb">
             <Link href="/">{t("breadcrumbHome")}</Link>

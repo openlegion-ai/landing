@@ -1,3 +1,4 @@
+import Link from "next/link";
 import "./globals.css";
 
 /*
@@ -10,20 +11,14 @@ export default function RootNotFound() {
   return (
     <html lang="en">
       <body className="antialiased">
-        <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 text-center">
-          <p className="mb-3 text-sm font-semibold text-accent">404</p>
-          <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground">
-            Page not found
-          </h1>
-          <p className="mb-8 max-w-md text-lg text-muted">
-            This page doesn&apos;t exist. The fleet hasn&apos;t been deployed here yet.
-          </p>
-          <a
-            href="/en"
-            className="btn-gradient rounded-lg px-8 py-3.5 text-sm font-semibold text-white"
-          >
-            Back to Home
-          </a>
+        <main className="glow flex min-h-screen items-center overflow-hidden">
+          <div className="wrap py-24">
+            <p className="t-mono text-[0.8125rem] text-[var(--fg-3)]">404 · page_not_found</p>
+            <h1 className="t-h1 mt-5 max-w-[16ch]">This page doesn&apos;t exist.</h1>
+            <Link href="/en" className="btn mt-10">
+              Back to home
+            </Link>
+          </div>
         </main>
       </body>
     </html>

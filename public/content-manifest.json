@@ -1,6 +1,6 @@
 {
   "baseUrl": "https://www.openlegion.ai",
-  "pageCount": 91,
+  "pageCount": 95,
   "pages": [
     {
       "slug": "/ai-social-media-management",
@@ -1074,6 +1074,41 @@
       "url": "https://www.openlegion.ai/en/deepseek-v4-agents"
     },
     {
+      "slug": "/learn/add-ai-agents-to-your-app",
+      "title": "How to Add AI Agents to Your App: An 8-Step Guide for SaaS",
+      "description": "Add AI agents to your app in 8 steps: tools with effect levels, a workspace per customer, approvals in your UI, caps per plan, webhooks and a gradual rollout.",
+      "primaryKeyword": "add AI agents to your app",
+      "secondaryKeywords": [
+        "integrate AI into an app",
+        "add AI to your SaaS",
+        "AI agent for SaaS",
+        "in-app AI agent",
+        "add an AI agent to your website",
+        "per-customer spending caps",
+        "tool calling"
+      ],
+      "schemaTypes": [
+        "Article",
+        "HowTo",
+        "FAQPage",
+        "DefinedTerm"
+      ],
+      "lastUpdated": "2026-11-04",
+      "pageType": "learn",
+      "related": [
+        "/learn/agent-harness",
+        "/learn/build-vs-buy-ai-agents",
+        "/learn/managed-agents",
+        "/learn/ai-agent-multi-tenancy",
+        "/learn/human-in-the-loop-ai-agents",
+        "/learn/ai-agent-tool-use"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/add-ai-agents-to-your-app"
+    },
+    {
       "slug": "/learn/agent-as-a-service",
       "title": "Agent as a Service: Pricing, Tenant Isolation, and AaaS vs Self-Hosted",
       "description": "Agent as a service (AaaS): AI agents on managed infrastructure with consumption pricing. Covers AWS Bedrock Agents, OpenAI Operator, CVE-2024-5184 isolation, and AaaS vs self-hosted TCO.",
@@ -1144,6 +1179,41 @@
         "zh-TW"
       ],
       "url": "https://www.openlegion.ai/en/learn/agent-handoff-patterns"
+    },
+    {
+      "slug": "/learn/agent-harness",
+      "title": "What Is an Agent Harness? Anatomy, Examples, Harness vs Framework",
+      "description": "An agent harness is the code around the model: loop, tools, context, permissions, sandbox, budgets, receipts. Real examples from Anthropic, LangChain, OpenAI.",
+      "primaryKeyword": "agent harness",
+      "secondaryKeywords": [
+        "ai agent harness",
+        "harness engineering",
+        "agent harness vs framework",
+        "agent harness examples",
+        "claude agent sdk",
+        "multi-tenant agent harness",
+        "hosted agent harness",
+        "agent loop"
+      ],
+      "schemaTypes": [
+        "Article",
+        "FAQPage",
+        "DefinedTerm"
+      ],
+      "lastUpdated": "2026-11-04",
+      "pageType": "learn",
+      "related": [
+        "/learn/add-ai-agents-to-your-app",
+        "/learn/build-vs-buy-ai-agents",
+        "/learn/managed-agents",
+        "/learn/ai-agent-frameworks",
+        "/learn/agentic-loop",
+        "/learn/ai-agent-multi-tenancy"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/agent-harness"
     },
     {
       "slug": "/learn/agent2agent-protocol",
@@ -2414,6 +2484,40 @@
       "url": "https://www.openlegion.ai/en/learn/build-ai-agent"
     },
     {
+      "slug": "/learn/build-vs-buy-ai-agents",
+      "title": "Build vs Buy AI Agents for SaaS: What Building Really Takes",
+      "description": "Build vs buy AI agents for a SaaS product: every harness part you would own, our engineer-month estimate, the three real options compared, and a checklist.",
+      "primaryKeyword": "build vs buy ai agents",
+      "secondaryKeywords": [
+        "build or buy ai agents",
+        "ai agent harness",
+        "managed agents",
+        "ai agent framework",
+        "multi-tenant ai agents",
+        "cost to build an ai agent",
+        "build vs buy ai"
+      ],
+      "schemaTypes": [
+        "Article",
+        "FAQPage",
+        "DefinedTerm"
+      ],
+      "lastUpdated": "2026-11-04",
+      "pageType": "learn",
+      "related": [
+        "/learn/agent-harness",
+        "/learn/managed-agents",
+        "/learn/add-ai-agents-to-your-app",
+        "/learn/ai-agent-multi-tenancy",
+        "/learn/ai-agent-frameworks",
+        "/learn/ai-agent-cost"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/build-vs-buy-ai-agents"
+    },
+    {
       "slug": "/learn/claude-opus-4-8",
       "title": "Claude Opus 4.8 - Capabilities, Cost, and Agentic Performance",
       "description": "Claude Opus 4.8 launched May 28 2026: 84% on Online-Mind2Web, fast mode 3x cheaper, dynamic workflows in Claude Code, first Opus to complete every Super-Agent benchmark case at GPT-5.5 cost parity.",
@@ -2758,6 +2862,41 @@
         "en"
       ],
       "url": "https://www.openlegion.ai/en/learn/llm-structured-output"
+    },
+    {
+      "slug": "/learn/managed-agents",
+      "title": "Managed Agents Compared: Claude, OpenAI, Gemini, AWS and LangChain",
+      "description": "Managed agents from Anthropic, OpenAI, Google, AWS and LangChain, compared on status, pricing, approvals, spend caps and per-customer isolation (Nov 2026).",
+      "primaryKeyword": "managed agents",
+      "secondaryKeywords": [
+        "claude managed agents",
+        "openai agents api",
+        "managed agents in the gemini api",
+        "bedrock agentcore",
+        "managed deep agents",
+        "managed agents pricing",
+        "per-customer spending caps",
+        "hosted agent platform"
+      ],
+      "schemaTypes": [
+        "Article",
+        "FAQPage",
+        "DefinedTerm"
+      ],
+      "lastUpdated": "2026-11-04",
+      "pageType": "learn",
+      "related": [
+        "/learn/agent-harness",
+        "/learn/build-vs-buy-ai-agents",
+        "/learn/add-ai-agents-to-your-app",
+        "/learn/ai-agent-multi-tenancy",
+        "/learn/human-in-the-loop-ai-agents",
+        "/learn/ai-agent-cost"
+      ],
+      "availableLocales": [
+        "en"
+      ],
+      "url": "https://www.openlegion.ai/en/learn/managed-agents"
     },
     {
       "slug": "/learn/managed-ai-agent-hosting",

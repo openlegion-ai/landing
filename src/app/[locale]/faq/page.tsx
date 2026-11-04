@@ -1,117 +1,101 @@
 import type { Metadata } from "next";
-import { ChevronDown } from "lucide-react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Footer } from "@/components/footer";
-import { AnimateIn, StaggerContainer, StaggerItem } from "@/components/ui/animate-in";
 import { JsonLd, buildFAQSchema } from "@/components/json-ld";
-import { ALL_FAQ_ITEMS } from "@/lib/constants";
+import { PageHead, FaqList, CtaBand } from "@/components/site/page-parts";
+import { CtaLink } from "@/components/site/cta-link";
+import { IconArrow } from "@/components/site/icons";
+import { HOME_FAQ_KEYS } from "@/components/home/sections";
+import { DEMO_URL, WAITLIST_URL } from "@/lib/constants";
 import { navPageAlternates, OG_LOCALE_MAP, SITE_URL } from "@/lib/seo";
 import { ogLocaleFor } from "@/lib/content-page-helpers";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
+const BILLING_FAQ = 4;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations("metadata");
-  const alternates = navPageAlternates(locale, "/faq");
+  const t = await getTranslations({ locale, namespace: "platformMeta" });
   return {
     title: t("faqTitle"),
     description: t("faqDescription"),
-    alternates,
+    alternates: navPageAlternates(locale, "/faq"),
     openGraph: {
-      title: t("faqOgTitle"),
-      description: t("faqOgDescription"),
+      title: t("faqTitle"),
+      description: t("faqDescription"),
       type: "website",
       siteName: "OpenLegion",
       url: `${SITE_URL}/${locale}/faq`,
       locale: OG_LOCALE_MAP[locale] || "en_US",
-      images: [{ url: `/og/${ogLocaleFor(locale)}/faq.png`, width: 1200, height: 630, alt: t("faqOgTitle") }],
+      images: [{ url: `/og/${ogLocaleFor(locale)}/faq.png`, width: 1200, height: 630, alt: t("faqTitle") }],
     },
     twitter: {
       card: "summary_large_image",
       site: "@openlegion",
       images: [`/og/${ogLocaleFor(locale)}/faq.png`],
-      title: t("faqTwitterTitle"),
-      description: t("faqTwitterDescription"),
+      title: t("faqTitle"),
+      description: t("faqDescription"),
     },
   };
 }
 
+/** /faq — the homepage questions plus the billing questions, one FAQPage. */
 export default async function FAQPage({ params }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("faq");
-  const tCommon = await getTranslations("contentPage");
+  const t = await getTranslations("faqPage");
+  const th = await getTranslations("homeFaq");
+  const tb = await getTranslations("billingPage");
+  const tn = await getTranslations("site.nav.links");
+  const tc = await getTranslations("contentPage");
 
-  // Build the localized FAQ list from translations, matching the canonical
-  // English ordering in ALL_FAQ_ITEMS (used as the source of truth for the
-  // 14-item index range). Each locale's messages/<loc>.json provides the
-  // translated question/answer at faq.items.<idx>.{question,answer}.
-  const faqItems = ALL_FAQ_ITEMS.map((_, idx) => ({
-    question: t(`items.${idx}.question`),
-    answer: t(`items.${idx}.answer`),
-  }));
+  const platform = HOME_FAQ_KEYS.map((k) => ({ q: th(`${k}.q`), a: th(`${k}.a`) }));
+  const billing = Array.from({ length: BILLING_FAQ }, (_, i) => ({ q: tb(`faq.${i}.q`), a: tb(`faq.${i}.a`) }));
+  const all = [...platform, ...billing].map((f) => ({ question: f.q, answer: f.a }));
 
-  // BreadcrumbList here is built inline (not via `buildBreadcrumbSchema`)
-  // because the FAQ page is locale-aware and uses translated breadcrumb
-  // labels — the shared helper hardcodes English. `buildFAQSchema` is
-  // reused for shape consistency.
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: tCommon("breadcrumbHome"), item: `${SITE_URL}/${locale}` },
-      { "@type": "ListItem", position: 2, name: t("sectionLabel"), item: `${SITE_URL}/${locale}/faq` },
+      { "@type": "ListItem", position: 1, name: tc("breadcrumbHome"), item: `${SITE_URL}/${locale}` },
+      { "@type": "ListItem", position: 2, name: t("title"), item: `${SITE_URL}/${locale}/faq` },
     ],
   };
 
-  // JsonLd consolidates the two schemas into a single @graph payload —
-  // matching the pattern used by the homepage and content pages.
+  const groups = [
+    { id: "faq-platform", title: tn("platform"), items: platform },
+    { id: "faq-billing", title: tb("faqTitle"), items: billing },
+  ];
+
   return (
     <>
-      <JsonLd data={[breadcrumbJsonLd, buildFAQSchema(faqItems, "/faq")]} />
-      <main id="main" className="relative px-5 pt-8 pb-16 sm:px-6 md:px-8 md:pt-16 md:pb-28 lg:pt-20 lg:pb-36">
-        <div className="mx-auto max-w-3xl">
-          <AnimateIn>
-            <div className="mb-16 text-center">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-accent">
-                {t("sectionLabel")}
-              </p>
-              <h1 className="mb-5 text-balance text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-                {t("heading")}
-                <span className="gradient-text">{t("headingHighlight")}</span>
-              </h1>
-              <p className="mx-auto max-w-xl text-lg text-muted">
-                {t("fullPageSubtitle")}
-              </p>
+      <JsonLd data={[breadcrumbJsonLd, buildFAQSchema(all, "/faq", locale)]} />
+      <main id="main">
+        <PageHead
+          crumbLabel={tc("breadcrumbAriaLabel")}
+          crumbs={[{ href: "/", label: tc("breadcrumbHome") }, { label: t("title") }]}
+          title={t("title")}
+          lede={t("lede")}
+        />
+        {groups.map((g, gi) => (
+          <section key={g.id} className={`section ${gi === 0 ? "hairline !pt-16" : "!pt-4"}`} aria-labelledby={g.id}>
+            <div className="wrap grid gap-8 lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)] lg:gap-20">
+              <h2 id={g.id} className="t-h2 self-start !text-[clamp(1.6rem,1.2rem+1.3vw,2.25rem)] lg:sticky lg:top-32">
+                {g.title}
+              </h2>
+              <FaqList items={g.items} name={g.id} />
             </div>
-          </AnimateIn>
-
-          <StaggerContainer className="space-y-3">
-            {faqItems.map((item, i) => (
-              <StaggerItem key={i}>
-                <details className="faq-details gradient-border glass-shine overflow-hidden rounded-xl border border-border/50 glass-card transition-all duration-300 group">
-                  <summary
-                    className="flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left transition-colors hover:bg-white/[0.02] list-none [&::-webkit-details-marker]:hidden"
-                  >
-                    <span className="text-sm font-medium text-foreground md:text-base">
-                      {item.question}
-                    </span>
-                    <ChevronDown
-                      className="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
-                      aria-hidden="true"
-                    />
-                  </summary>
-                  <div className="faq-answer px-6 pb-5">
-                    <p className="text-sm leading-relaxed text-muted">
-                      {item.answer}
-                    </p>
-                  </div>
-                </details>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
+          </section>
+        ))}
+        <CtaBand id="faq-cta" title={t("cta")}>
+          <CtaLink href={DEMO_URL} location="faq_call" className="btn">
+            {t("ctaLink")} <IconArrow />
+          </CtaLink>
+          <CtaLink href={WAITLIST_URL} location="faq_access" className="btn btn-secondary">
+            {t("ctaAccess")}
+          </CtaLink>
+        </CtaBand>
       </main>
       <Footer />
     </>

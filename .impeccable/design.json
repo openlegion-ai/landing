@@ -1,188 +1,725 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-28T00:00:00Z",
+  "generatedAt": "2026-11-04T13:28:45.418802+00:00",
   "title": "Design System: OpenLegion Landing",
   "extensions": {
     "colorMeta": {
-      "confident-blue": { "role": "primary", "displayName": "Confident Blue", "canonical": "#2563eb", "tonalRamp": ["oklch(20% 0.13 262)", "oklch(30% 0.16 262)", "oklch(40% 0.18 262)", "oklch(50% 0.19 262)", "oklch(58% 0.19 262)", "oklch(70% 0.14 262)", "oklch(85% 0.07 262)", "oklch(95% 0.02 262)"] },
-      "link-blue": { "role": "primary", "displayName": "Link Blue (AA small-text)", "canonical": "#1d4ed8", "tonalRamp": ["oklch(18% 0.13 263)", "oklch(28% 0.17 263)", "oklch(38% 0.2 263)", "oklch(49% 0.21 263)", "oklch(60% 0.18 263)", "oklch(72% 0.13 263)", "oklch(86% 0.06 263)", "oklch(95% 0.02 263)"] },
-      "icon-blue": { "role": "primary", "displayName": "Icon Blue (large accents)", "canonical": "#3b82f6", "tonalRamp": ["oklch(22% 0.11 259)", "oklch(32% 0.14 259)", "oklch(42% 0.17 259)", "oklch(54% 0.19 259)", "oklch(65% 0.17 259)", "oklch(76% 0.12 259)", "oklch(87% 0.06 259)", "oklch(96% 0.02 259)"] },
-      "indigo-ramp-end": { "role": "primary", "displayName": "Indigo (gradient end only)", "canonical": "#4f46e5", "tonalRamp": ["oklch(20% 0.14 277)", "oklch(30% 0.18 277)", "oklch(40% 0.2 277)", "oklch(51% 0.21 277)", "oklch(62% 0.17 277)", "oklch(74% 0.12 277)", "oklch(86% 0.06 277)", "oklch(95% 0.02 277)"] },
-      "blue-wash": { "role": "primary", "displayName": "Blue Wash (8% alpha)", "canonical": "rgba(37, 99, 235, 0.08)", "tonalRamp": ["rgba(37,99,235,0.02)", "rgba(37,99,235,0.04)", "rgba(37,99,235,0.06)", "rgba(37,99,235,0.08)", "rgba(37,99,235,0.10)", "rgba(37,99,235,0.12)", "rgba(37,99,235,0.14)", "rgba(37,99,235,0.16)"] },
-      "blue-wash-strong": { "role": "primary", "displayName": "Blue Wash Strong (16% alpha, selection)", "canonical": "rgba(37, 99, 235, 0.16)", "tonalRamp": ["rgba(37,99,235,0.04)", "rgba(37,99,235,0.08)", "rgba(37,99,235,0.12)", "rgba(37,99,235,0.16)", "rgba(37,99,235,0.20)", "rgba(37,99,235,0.24)", "rgba(37,99,235,0.28)", "rgba(37,99,235,0.32)"] },
-      "navy-ink": { "role": "neutral", "displayName": "Navy Ink", "canonical": "#0a2540", "tonalRamp": ["oklch(15% 0.04 250)", "oklch(24% 0.05 250)", "oklch(35% 0.05 250)", "oklch(46% 0.05 250)", "oklch(58% 0.04 250)", "oklch(70% 0.03 250)", "oklch(84% 0.02 250)", "oklch(95% 0.008 250)"] },
-      "slate-muted": { "role": "neutral", "displayName": "Slate Muted", "canonical": "#425466", "tonalRamp": ["oklch(18% 0.02 245)", "oklch(28% 0.025 245)", "oklch(38% 0.03 245)", "oklch(45% 0.03 245)", "oklch(58% 0.025 245)", "oklch(70% 0.02 245)", "oklch(84% 0.012 245)", "oklch(95% 0.005 245)"] },
-      "cool-hairline": { "role": "neutral", "displayName": "Cool Hairline", "canonical": "#e6ebf1", "tonalRamp": ["oklch(25% 0.01 250)", "oklch(40% 0.012 250)", "oklch(55% 0.014 250)", "oklch(68% 0.014 250)", "oklch(78% 0.012 250)", "oklch(86% 0.01 250)", "oklch(93% 0.008 250)", "oklch(97% 0.004 250)"] },
-      "cool-band": { "role": "neutral", "displayName": "Cool Band", "canonical": "#f6f9fc", "tonalRamp": ["oklch(25% 0.008 240)", "oklch(40% 0.008 240)", "oklch(55% 0.008 240)", "oklch(70% 0.008 240)", "oklch(80% 0.007 240)", "oklch(88% 0.006 240)", "oklch(94% 0.005 240)", "oklch(98% 0.003 240)"] },
-      "ground-white": { "role": "neutral", "displayName": "Ground White", "canonical": "#ffffff", "tonalRamp": ["oklch(20% 0 0)", "oklch(35% 0 0)", "oklch(50% 0 0)", "oklch(65% 0 0)", "oklch(78% 0 0)", "oklch(88% 0 0)", "oklch(95% 0 0)", "oklch(100% 0 0)"] },
-      "scrollbar-thumb": { "role": "neutral", "displayName": "Scrollbar Thumb", "canonical": "#cbd5e1", "tonalRamp": ["oklch(25% 0.015 250)", "oklch(38% 0.018 250)", "oklch(50% 0.02 250)", "oklch(62% 0.02 250)", "oklch(72% 0.018 250)", "oklch(80% 0.015 250)", "oklch(88% 0.012 250)", "oklch(96% 0.005 250)"] },
-      "scrollbar-thumb-hover": { "role": "neutral", "displayName": "Scrollbar Thumb Hover", "canonical": "#94a3b8", "tonalRamp": ["oklch(22% 0.02 248)", "oklch(34% 0.025 248)", "oklch(46% 0.028 248)", "oklch(58% 0.028 248)", "oklch(69% 0.025 248)", "oklch(78% 0.02 248)", "oklch(87% 0.014 248)", "oklch(95% 0.006 248)"] },
-      "success-green": { "role": "functional", "displayName": "Success Green", "canonical": "#047857", "tonalRamp": ["oklch(18% 0.06 165)", "oklch(28% 0.08 165)", "oklch(38% 0.1 165)", "oklch(50% 0.11 165)", "oklch(62% 0.11 165)", "oklch(74% 0.1 165)", "oklch(86% 0.06 165)", "oklch(95% 0.02 165)"] },
-      "danger-red": { "role": "functional", "displayName": "Danger Red", "canonical": "#b91c1c", "tonalRamp": ["oklch(20% 0.09 27)", "oklch(30% 0.12 27)", "oklch(40% 0.15 27)", "oklch(48% 0.17 27)", "oklch(60% 0.16 27)", "oklch(72% 0.12 27)", "oklch(85% 0.06 27)", "oklch(95% 0.02 27)"] },
-      "frame-navy": { "role": "frame", "displayName": "Frame Navy (terminal / dashboard ground)", "canonical": "#0d1526", "tonalRamp": ["oklch(15% 0.03 260)", "oklch(20% 0.035 260)", "oklch(28% 0.04 260)", "oklch(38% 0.04 260)", "oklch(50% 0.035 260)", "oklch(65% 0.025 260)", "oklch(82% 0.015 260)", "oklch(94% 0.006 260)"] },
-      "frame-navy-2": { "role": "frame", "displayName": "Frame Navy 2 (dashboard gradient end)", "canonical": "#101a30", "tonalRamp": ["oklch(16% 0.035 262)", "oklch(22% 0.04 262)", "oklch(30% 0.045 262)", "oklch(40% 0.045 262)", "oklch(52% 0.04 262)", "oklch(66% 0.028 262)", "oklch(82% 0.016 262)", "oklch(94% 0.006 262)"] },
-      "frame-chrome": { "role": "frame", "displayName": "Frame Chrome (legacy dark background token)", "canonical": "#0d0e14", "tonalRamp": ["oklch(14% 0.012 275)", "oklch(20% 0.015 275)", "oklch(28% 0.018 275)", "oklch(38% 0.018 275)", "oklch(50% 0.015 275)", "oklch(65% 0.012 275)", "oklch(82% 0.008 275)", "oklch(94% 0.004 275)"] },
-      "frame-well": { "role": "frame", "displayName": "Frame Well (deepest inset)", "canonical": "#0a0b10", "tonalRamp": ["oklch(12% 0.01 275)", "oklch(18% 0.013 275)", "oklch(26% 0.015 275)", "oklch(36% 0.015 275)", "oklch(48% 0.013 275)", "oklch(63% 0.01 275)", "oklch(80% 0.007 275)", "oklch(93% 0.004 275)"] },
-      "frame-card": { "role": "frame", "displayName": "Frame Card", "canonical": "#12131d", "tonalRamp": ["oklch(15% 0.015 278)", "oklch(21% 0.018 278)", "oklch(29% 0.02 278)", "oklch(39% 0.02 278)", "oklch(51% 0.018 278)", "oklch(66% 0.014 278)", "oklch(82% 0.009 278)", "oklch(94% 0.004 278)"] },
-      "frame-card-hover": { "role": "frame", "displayName": "Frame Card Hover", "canonical": "#181a28", "tonalRamp": ["oklch(17% 0.02 278)", "oklch(23% 0.023 278)", "oklch(31% 0.025 278)", "oklch(41% 0.025 278)", "oklch(53% 0.022 278)", "oklch(67% 0.016 278)", "oklch(83% 0.01 278)", "oklch(94% 0.005 278)"] },
-      "frame-border": { "role": "frame", "displayName": "Frame Border", "canonical": "#1e2030", "tonalRamp": ["oklch(18% 0.022 278)", "oklch(25% 0.026 278)", "oklch(33% 0.028 278)", "oklch(43% 0.028 278)", "oklch(55% 0.024 278)", "oklch(68% 0.018 278)", "oklch(83% 0.011 278)", "oklch(94% 0.005 278)"] },
-      "frame-ink": { "role": "frame", "displayName": "Frame Ink (terminal text)", "canonical": "#e2e8f0", "tonalRamp": ["oklch(24% 0.012 255)", "oklch(38% 0.014 255)", "oklch(52% 0.016 255)", "oklch(65% 0.016 255)", "oklch(76% 0.014 255)", "oklch(85% 0.011 255)", "oklch(92% 0.008 255)", "oklch(97% 0.004 255)"] },
-      "frame-foreground": { "role": "frame", "displayName": "Frame Foreground (scoped --foreground)", "canonical": "#f0f0f3", "tonalRamp": ["oklch(25% 0.005 285)", "oklch(40% 0.006 285)", "oklch(54% 0.007 285)", "oklch(67% 0.007 285)", "oklch(78% 0.006 285)", "oklch(87% 0.005 285)", "oklch(93% 0.004 285)", "oklch(97% 0.002 285)"] },
-      "frame-muted": { "role": "frame", "displayName": "Frame Muted", "canonical": "#8b8fa3", "tonalRamp": ["oklch(22% 0.018 280)", "oklch(33% 0.022 280)", "oklch(45% 0.025 280)", "oklch(56% 0.025 280)", "oklch(66% 0.022 280)", "oklch(76% 0.018 280)", "oklch(86% 0.012 280)", "oklch(95% 0.005 280)"] },
-      "frame-accent-light": { "role": "frame", "displayName": "Frame Accent Light (links in dark frames)", "canonical": "#60a5fa", "tonalRamp": ["oklch(26% 0.1 257)", "oklch(37% 0.13 257)", "oklch(48% 0.15 257)", "oklch(59% 0.16 257)", "oklch(69% 0.14 257)", "oklch(79% 0.1 257)", "oklch(88% 0.06 257)", "oklch(96% 0.02 257)"] },
-      "frame-accent-bright": { "role": "frame", "displayName": "Frame Accent Bright (desaturated steel blue)", "canonical": "#93a3bf", "tonalRamp": ["oklch(24% 0.025 262)", "oklch(35% 0.03 262)", "oklch(47% 0.035 262)", "oklch(59% 0.038 262)", "oklch(70% 0.034 262)", "oklch(79% 0.027 262)", "oklch(88% 0.018 262)", "oklch(96% 0.008 262)"] }
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas",
+        "canonical": "#07080b",
+        "tonalRamp": [
+          "oklch(0.15 0.007 269)",
+          "oklch(0.25 0.007 269)",
+          "oklch(0.35 0.007 269)",
+          "oklch(0.45 0.007 269)",
+          "oklch(0.58 0.007 269)",
+          "oklch(0.70 0.007 269)",
+          "oklch(0.83 0.007 269)",
+          "oklch(0.95 0.007 269)"
+        ]
+      },
+      "canvas-alt": {
+        "role": "neutral",
+        "displayName": "Canvas Alt",
+        "canonical": "#0b0d12",
+        "tonalRamp": [
+          "oklch(0.15 0.011 268)",
+          "oklch(0.25 0.011 268)",
+          "oklch(0.35 0.011 268)",
+          "oklch(0.45 0.011 268)",
+          "oklch(0.58 0.011 268)",
+          "oklch(0.70 0.011 268)",
+          "oklch(0.83 0.011 268)",
+          "oklch(0.95 0.011 268)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#0f1218",
+        "tonalRamp": [
+          "oklch(0.15 0.013 264)",
+          "oklch(0.25 0.013 264)",
+          "oklch(0.35 0.013 264)",
+          "oklch(0.45 0.013 264)",
+          "oklch(0.58 0.013 264)",
+          "oklch(0.70 0.013 264)",
+          "oklch(0.83 0.013 264)",
+          "oklch(0.95 0.013 264)"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Surface Raised",
+        "canonical": "#141823",
+        "tonalRamp": [
+          "oklch(0.15 0.023 269)",
+          "oklch(0.25 0.023 269)",
+          "oklch(0.35 0.023 269)",
+          "oklch(0.45 0.023 269)",
+          "oklch(0.58 0.023 269)",
+          "oklch(0.70 0.023 269)",
+          "oklch(0.83 0.023 269)",
+          "oklch(0.95 0.023 269)"
+        ]
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Text Primary",
+        "canonical": "#f4f5f8",
+        "tonalRamp": [
+          "oklch(0.15 0.004 271)",
+          "oklch(0.25 0.004 271)",
+          "oklch(0.35 0.004 271)",
+          "oklch(0.45 0.004 271)",
+          "oklch(0.58 0.004 271)",
+          "oklch(0.70 0.004 271)",
+          "oklch(0.83 0.004 271)",
+          "oklch(0.95 0.004 271)"
+        ]
+      },
+      "text-secondary": {
+        "role": "neutral",
+        "displayName": "Text Secondary",
+        "canonical": "#a6acbb",
+        "tonalRamp": [
+          "oklch(0.15 0.023 268)",
+          "oklch(0.25 0.023 268)",
+          "oklch(0.35 0.023 268)",
+          "oklch(0.45 0.023 268)",
+          "oklch(0.58 0.023 268)",
+          "oklch(0.70 0.023 268)",
+          "oklch(0.83 0.023 268)",
+          "oklch(0.95 0.023 268)"
+        ]
+      },
+      "text-tertiary": {
+        "role": "neutral",
+        "displayName": "Text Tertiary",
+        "canonical": "#7a8193",
+        "tonalRamp": [
+          "oklch(0.15 0.029 269)",
+          "oklch(0.25 0.029 269)",
+          "oklch(0.35 0.029 269)",
+          "oklch(0.45 0.029 269)",
+          "oklch(0.58 0.029 269)",
+          "oklch(0.70 0.029 269)",
+          "oklch(0.83 0.029 269)",
+          "oklch(0.95 0.029 269)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgb(255 255 255 / 0.075)",
+        "tonalRamp": [
+          "rgb(255 255 255 / 0.03)",
+          "rgb(255 255 255 / 0.05)",
+          "rgb(255 255 255 / 0.075)",
+          "rgb(255 255 255 / 0.1)",
+          "rgb(255 255 255 / 0.12)",
+          "rgb(255 255 255 / 0.16)",
+          "rgb(255 255 255 / 0.2)",
+          "rgb(255 255 255 / 0.3)"
+        ]
+      },
+      "hairline-strong": {
+        "role": "neutral",
+        "displayName": "Hairline Strong",
+        "canonical": "rgb(255 255 255 / 0.12)",
+        "tonalRamp": [
+          "rgb(255 255 255 / 0.03)",
+          "rgb(255 255 255 / 0.05)",
+          "rgb(255 255 255 / 0.075)",
+          "rgb(255 255 255 / 0.1)",
+          "rgb(255 255 255 / 0.12)",
+          "rgb(255 255 255 / 0.16)",
+          "rgb(255 255 255 / 0.2)",
+          "rgb(255 255 255 / 0.3)"
+        ]
+      },
+      "hairline-hover": {
+        "role": "neutral",
+        "displayName": "Hairline Hover",
+        "canonical": "rgb(255 255 255 / 0.2)",
+        "tonalRamp": [
+          "rgb(255 255 255 / 0.03)",
+          "rgb(255 255 255 / 0.05)",
+          "rgb(255 255 255 / 0.075)",
+          "rgb(255 255 255 / 0.1)",
+          "rgb(255 255 255 / 0.12)",
+          "rgb(255 255 255 / 0.16)",
+          "rgb(255 255 255 / 0.2)",
+          "rgb(255 255 255 / 0.3)"
+        ]
+      },
+      "article-border": {
+        "role": "neutral",
+        "displayName": "Article Border",
+        "canonical": "#1b1e29",
+        "tonalRamp": [
+          "oklch(0.15 0.022 273)",
+          "oklch(0.25 0.022 273)",
+          "oklch(0.35 0.022 273)",
+          "oklch(0.45 0.022 273)",
+          "oklch(0.58 0.022 273)",
+          "oklch(0.70 0.022 273)",
+          "oklch(0.83 0.022 273)",
+          "oklch(0.95 0.022 273)"
+        ]
+      },
+      "action-blue": {
+        "role": "primary",
+        "displayName": "Action Blue",
+        "canonical": "#3b82f6",
+        "tonalRamp": [
+          "oklch(0.15 0.188 260)",
+          "oklch(0.25 0.188 260)",
+          "oklch(0.35 0.188 260)",
+          "oklch(0.45 0.188 260)",
+          "oklch(0.58 0.188 260)",
+          "oklch(0.70 0.188 260)",
+          "oklch(0.83 0.188 260)",
+          "oklch(0.95 0.188 260)"
+        ]
+      },
+      "signal-blue": {
+        "role": "primary",
+        "displayName": "Signal Blue",
+        "canonical": "#60a5fa",
+        "tonalRamp": [
+          "oklch(0.15 0.143 255)",
+          "oklch(0.25 0.143 255)",
+          "oklch(0.35 0.143 255)",
+          "oklch(0.45 0.143 255)",
+          "oklch(0.58 0.143 255)",
+          "oklch(0.70 0.143 255)",
+          "oklch(0.83 0.143 255)",
+          "oklch(0.95 0.143 255)"
+        ]
+      },
+      "action-blue-deep": {
+        "role": "primary",
+        "displayName": "Action Blue Deep",
+        "canonical": "#2563eb",
+        "tonalRamp": [
+          "oklch(0.15 0.215 263)",
+          "oklch(0.25 0.215 263)",
+          "oklch(0.35 0.215 263)",
+          "oklch(0.45 0.215 263)",
+          "oklch(0.58 0.215 263)",
+          "oklch(0.70 0.215 263)",
+          "oklch(0.83 0.215 263)",
+          "oklch(0.95 0.215 263)"
+        ]
+      },
+      "blue-ink": {
+        "role": "primary",
+        "displayName": "Blue Ink",
+        "canonical": "#93c5fd",
+        "tonalRamp": [
+          "oklch(0.15 0.096 252)",
+          "oklch(0.25 0.096 252)",
+          "oklch(0.35 0.096 252)",
+          "oklch(0.45 0.096 252)",
+          "oklch(0.58 0.096 252)",
+          "oklch(0.70 0.096 252)",
+          "oklch(0.83 0.096 252)",
+          "oklch(0.95 0.096 252)"
+        ]
+      },
+      "state-ok": {
+        "role": "tertiary",
+        "displayName": "State OK",
+        "canonical": "#34d399",
+        "tonalRamp": [
+          "oklch(0.15 0.153 163)",
+          "oklch(0.25 0.153 163)",
+          "oklch(0.35 0.153 163)",
+          "oklch(0.45 0.153 163)",
+          "oklch(0.58 0.153 163)",
+          "oklch(0.70 0.153 163)",
+          "oklch(0.83 0.153 163)",
+          "oklch(0.95 0.153 163)"
+        ]
+      },
+      "state-hold": {
+        "role": "tertiary",
+        "displayName": "State Hold",
+        "canonical": "#fbbf24",
+        "tonalRamp": [
+          "oklch(0.15 0.164 84)",
+          "oklch(0.25 0.164 84)",
+          "oklch(0.35 0.164 84)",
+          "oklch(0.45 0.164 84)",
+          "oklch(0.58 0.164 84)",
+          "oklch(0.70 0.164 84)",
+          "oklch(0.83 0.164 84)",
+          "oklch(0.95 0.164 84)"
+        ]
+      },
+      "state-danger": {
+        "role": "tertiary",
+        "displayName": "State Danger",
+        "canonical": "#f87171",
+        "tonalRamp": [
+          "oklch(0.15 0.166 22)",
+          "oklch(0.25 0.166 22)",
+          "oklch(0.35 0.166 22)",
+          "oklch(0.45 0.166 22)",
+          "oklch(0.58 0.166 22)",
+          "oklch(0.70 0.166 22)",
+          "oklch(0.83 0.166 22)",
+          "oklch(0.95 0.166 22)"
+        ]
+      },
+      "partner-brand": {
+        "role": "secondary",
+        "displayName": "Partner Brand (illustrated partner app only)",
+        "canonical": "#ff6b3d",
+        "tonalRamp": [
+          "oklch(0.15 0.191 37)",
+          "oklch(0.25 0.191 37)",
+          "oklch(0.35 0.191 37)",
+          "oklch(0.45 0.191 37)",
+          "oklch(0.58 0.191 37)",
+          "oklch(0.70 0.191 37)",
+          "oklch(0.83 0.191 37)",
+          "oklch(0.95 0.191 37)"
+        ]
+      },
+      "code-well": {
+        "role": "neutral",
+        "displayName": "Code Well",
+        "canonical": "#0a0c11",
+        "tonalRamp": [
+          "oklch(0.15 0.011 268)",
+          "oklch(0.25 0.011 268)",
+          "oklch(0.35 0.011 268)",
+          "oklch(0.45 0.011 268)",
+          "oklch(0.58 0.011 268)",
+          "oklch(0.70 0.011 268)",
+          "oklch(0.83 0.011 268)",
+          "oklch(0.95 0.011 268)"
+        ]
+      },
+      "code-text": {
+        "role": "neutral",
+        "displayName": "Code Text",
+        "canonical": "#d7dbe5",
+        "tonalRamp": [
+          "oklch(0.15 0.014 268)",
+          "oklch(0.25 0.014 268)",
+          "oklch(0.35 0.014 268)",
+          "oklch(0.45 0.014 268)",
+          "oklch(0.58 0.014 268)",
+          "oklch(0.70 0.014 268)",
+          "oklch(0.83 0.014 268)",
+          "oklch(0.95 0.014 268)"
+        ]
+      },
+      "code-head": {
+        "role": "neutral",
+        "displayName": "Code Head",
+        "canonical": "#0d1016",
+        "purpose": "Tab strips and panel heads on code panels, the terminal and the hero window ground."
+      },
+      "atmosphere-blue": {
+        "role": "atmosphere",
+        "displayName": "Atmosphere Blue",
+        "canonical": "#3b82f6",
+        "purpose": "Aurora (hero) and horizon (close) light only, used as alpha. Never on UI, text or borders."
+      },
+      "action": {
+        "role": "primary",
+        "displayName": "Action",
+        "canonical": "#f4f5f8",
+        "tonalRamp": [
+          "oklch(0.15 0.004 271)",
+          "oklch(0.25 0.004 271)",
+          "oklch(0.35 0.004 271)",
+          "oklch(0.45 0.004 271)",
+          "oklch(0.58 0.004 271)",
+          "oklch(0.70 0.004 271)",
+          "oklch(0.83 0.004 271)",
+          "oklch(0.95 0.004 271)"
+        ]
+      },
+      "action-hover": {
+        "role": "primary",
+        "displayName": "Action Hover",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(0.15 0.004 271)",
+          "oklch(0.25 0.004 271)",
+          "oklch(0.35 0.004 271)",
+          "oklch(0.45 0.004 271)",
+          "oklch(0.58 0.004 271)",
+          "oklch(0.70 0.004 271)",
+          "oklch(0.83 0.004 271)",
+          "oklch(0.95 0.004 271)"
+        ]
+      }
     },
     "typographyMeta": {
-      "display-xl": { "displayName": "Display XL", "purpose": "Hero H1 at xl viewport (3.25rem, 800, 1.08, tracking-tight). Gradient-text highlight lives at display level." },
-      "display-lg": { "displayName": "Display LG", "purpose": "Hero H1 at lg viewport (3rem)." },
-      "display-60": { "displayName": "Display 60", "purpose": "Hero H1 md step (text-6xl, 60px)." },
-      "display-og": { "displayName": "Display OG", "purpose": "OG-card title (52px) in the light-brand OG route (src/app/og/[locale]/[slug]/route.tsx)." },
-      "display-md": { "displayName": "Display MD", "purpose": "Hero sm step / largest section H2 step (48px, text-5xl)." },
-      "display-sm": { "displayName": "Display SM", "purpose": "Hero H1 base mobile step (2rem)." },
-      "headline-lg": { "displayName": "Headline LG", "purpose": "Section H2 md step (36px, text-4xl, 700, tracking-tight)." },
-      "headline": { "displayName": "Headline", "purpose": "Section H2 base step (30px, text-3xl)." },
-      "headline-og-brand": { "displayName": "Headline OG Brand", "purpose": "OG-card brand line (28px)." },
-      "prose-h1": { "displayName": "Prose H1", "purpose": "Content-page H1 base (2.25rem, 800, -0.02em)." },
-      "prose-h1-md": { "displayName": "Prose H1 MD", "purpose": "Content-page H1 at md+ (2.75rem)." },
-      "prose-h2": { "displayName": "Prose H2", "purpose": "Content-page H2 (1.5rem, 700, -0.01em)." },
-      "title-lg": { "displayName": "Title LG", "purpose": "Related-pages / CTA-block headings (1.25rem, 600–700)." },
-      "title": { "displayName": "Title", "purpose": "Large card / tier titles (24px, text-2xl, 600)." },
-      "title-og-tagline": { "displayName": "Title OG Tagline", "purpose": "OG-card tagline (22px)." },
-      "title-sm": { "displayName": "Title SM", "purpose": "Card titles (20px, text-xl, 600)." },
-      "prose-h3": { "displayName": "Prose H3", "purpose": "Content-page H3 (1.2rem, 600)." },
-      "prose-h4": { "displayName": "Prose H4", "purpose": "Definition-block term / content H4 (1.1rem, 600)." },
-      "prose-item": { "displayName": "Prose Item", "purpose": "Prose H4 / FAQ-item question (1.05rem, 600)." },
-      "lede": { "displayName": "Lede", "purpose": "Hero subhead / lead paragraphs (18px, text-lg)." },
-      "body-lg": { "displayName": "Body LG", "purpose": "One-off hero body step (17px)." },
-      "body": { "displayName": "Body", "purpose": "Prose default (16px / 1.75)." },
-      "reading": { "displayName": "Reading", "purpose": "FAQ answers, compact prose (15px)." },
-      "ui": { "displayName": "UI", "purpose": "The workhorse size — nav links, table cells, buttons, footer (14px, text-sm; most-used size on the site)." },
-      "caption": { "displayName": "Caption", "purpose": "Fine metadata, table verdicts (13px)." },
-      "label": { "displayName": "Label", "purpose": "12px labels (text-xs); uppercase variants at tracking-wider." },
-      "margin-note": { "displayName": "Margin Note", "purpose": "Content-date line (0.8125rem)." },
-      "chip": { "displayName": "Chip", "purpose": "Pricing fine print / metadata chips (11px)." },
-      "chip-sm": { "displayName": "Chip SM", "purpose": "Smallest badges — tier chips, terminal metadata (10px)." },
-      "mono": { "displayName": "Mono", "purpose": "Geist Mono in terminal mock and code blocks (12–14px, 1.6)." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home hero H1 only; Geist 600, clamp 3-5.5rem, 0.98 leading, -0.04em, balanced. Runs full content width (max 21ch) above the copy-and-demo split.",
+        "usage": "Home hero H1 only, top of the copy column (max 15ch) beside the product window; Geist 500, clamp 2.75-4rem, -0.038em."
+      },
+      "headline-page": {
+        "displayName": "Headline Page",
+        "purpose": "Inner-page H1s (max 18ch) and the home closing headline; clamp 2.5-4.25rem."
+      },
+      "statement": {
+        "displayName": "Statement",
+        "purpose": "One per page: the home parties line. Geist 600, clamp 2.75-6rem, 0.96 leading, -0.04em, balanced, max 20ch.",
+        "usage": "One per page, the parties line; Geist 500, clamp 2.625-5.25rem, -0.038em."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section H2s held to 11-20ch; clamp 2.125-3.625rem. CTA band caps at 2.5rem.",
+        "usage": "Section H2s held to 11-20ch and two lines at desktop; Geist 500, clamp 2-3rem, -0.03em."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Item titles in lists, bento cards and parties; 1.125rem, 1.0625rem in dense lists and FAQ questions."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "Paragraph under every H1 and H2 in Text Secondary, max 32-38rem."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Explanations, 1rem / 1.62 in Text Secondary, max about 40-42rem."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "Dense list bodies, notes and footer links; 0.875rem."
+      },
+      "fine": {
+        "displayName": "Fine",
+        "purpose": "Captions, illustrative labels, preview notes and meta in Text Tertiary."
+      },
+      "prose": {
+        "displayName": "Prose",
+        "purpose": "Learn and comparison article bodies; 1.0625rem / 1.75."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Text inside tags; 600, 0.6875rem, sentence case. Never above a heading."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Geist Mono for ids, tool names, effects, code, timestamps and proof lines; always LTR."
+      },
+      "numeric": {
+        "displayName": "Numeric",
+        "purpose": "Tabular numerals for credits, caps, costs and step times."
+      }
     },
     "shadows": [
-      { "name": "shadow-sm", "value": "0 1px 2px rgba(10, 37, 64, 0.06), 0 1px 3px rgba(10, 37, 64, 0.08)", "purpose": "Resting cards, buttons, chips. Navy-ink tinted, never colored." },
-      { "name": "shadow-md", "value": "0 2px 4px rgba(10, 37, 64, 0.05), 0 6px 16px rgba(10, 37, 64, 0.08)", "purpose": "Hover elevation for cards, buttons, FAQ items." },
-      { "name": "shadow-lg", "value": "0 6px 12px rgba(10, 37, 64, 0.06), 0 20px 44px rgba(10, 37, 64, 0.12)", "purpose": "Dark product frames (terminal, dashboard) only — the page's deepest moments." }
+      {
+        "name": "panel",
+        "value": "inset 0 1px 0 rgb(255 255 255 / 0.04), 0 16px 32px -16px rgb(0 0 0 / 0.7)",
+        "purpose": "Panels, the CTA band and article CTA blocks."
+      },
+      {
+        "name": "lifted",
+        "value": "inset 0 1px 0 rgb(255 255 255 / 0.05), 0 40px 80px -24px rgb(0 0 0 / 0.75), 0 16px 32px -16px rgb(0 0 0 / 0.6)",
+        "purpose": "The hero app window and code panels, one level above panels."
+      },
+      {
+        "name": "button-sheen",
+        "value": "inset 0 1px 0 rgb(255 255 255 / 0.18), 0 1px 2px rgb(0 0 0 / 0.35)",
+        "purpose": "Top sheen on the primary button."
+      },
+      {
+        "name": "ring",
+        "value": "inset 0 0 0 1px rgb(255 255 255 / 0.12)",
+        "purpose": "Secondary button edge; rgb(255 255 255 / 0.2) on hover."
+      },
+      {
+        "name": "hero-light",
+        "value": "radial-gradient(closest-side, rgb(59 130 246 / 0.2), rgb(59 130 246 / 0.06) 50%, transparent 72%)",
+        "purpose": "The single blue light behind the hero product. Not a box-shadow; a pseudo-element background."
+      },
+      {
+        "name": "ambient-blue",
+        "value": "0 60px 120px -48px rgb(59 130 246 / 0.45)",
+        "purpose": "Cool offset light under the hero window; a 0 40px 80px -36px / 0.5 variant sits under the harness core."
+      }
     ],
     "motion": [
-      { "name": "state-transition", "value": "0.15s–0.25s ease", "purpose": "Buttons 0.15s; cards/borders/nav underline 0.2–0.25s. All state, no entrances." },
-      { "name": "gradient-shimmer", "value": "8s ease-in-out infinite (background-position)", "purpose": "Animated hero gradient text; reduced-motion guarded." },
-      { "name": "terminal-line-in", "value": "0.2s ease-out (opacity + 3px rise)", "purpose": "Terminal mock lines entering; reduced-motion guarded." },
-      { "name": "dashboard-tilt", "value": "rotateX(2deg) → 0 on hover, 0.8s cubic-bezier(0.23, 1, 0.32, 1)", "purpose": "Dashboard frame perspective flattening." },
-      { "name": "faq-reveal", "value": "0.25s ease-out (opacity + -4px translate)", "purpose": "Details/summary answer entrance; no layout-property animation." }
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The single easing for every transition and the hero sequence."
+      },
+      {
+        "name": "hero-chat-loop",
+        "value": "phased timeline 0.9-4.8s holds; typing at 28ms per character; 0.52s fade before restart",
+        "purpose": "The one authored motion moment: request, two tool steps, draft, approval, approved. Runs only in view and with the tab visible; reduced motion and no-JS show the still frame at the approval card."
+      },
+      {
+        "name": "chat-reveal",
+        "value": "grid-template-rows 0fr to 1fr 0.45s, opacity 0.35s, translateY 6px to 0 0.45s",
+        "purpose": "Chat items grow from zero height so the log scrolls like a real chat."
+      },
+      {
+        "name": "typing-dots",
+        "value": "1.1s infinite, 0.15s stagger, 2px lift",
+        "purpose": "Agent typing indicator inside the hero chat only."
+      },
+      {
+        "name": "state-transition",
+        "value": "0.15-0.35s",
+        "purpose": "Button fill and 1px press, 3px arrow nudge, ring and colour changes, FAQ plus rotation and block-size open."
+      },
+      {
+        "name": "theme-crossfade",
+        "value": "0.5s, ease-out, on @property-registered colour tokens at :root",
+        "purpose": "A live system theme switch crossfades instead of snapping; instant under reduced motion; shadows and stage lights change at once."
+      },
+      {
+        "name": "field-breath",
+        "value": "awake tiles 55%→100%, 5–11s per tile, ~24fps",
+        "purpose": "Ambient life in the atmosphere field; paused out of view, still under reduced motion."
+      }
     ],
     "breakpoints": [
-      { "name": "sm", "value": "640px" },
-      { "name": "md", "value": "768px" },
-      { "name": "lg", "value": "1024px" },
-      { "name": "xl", "value": "1280px" }
-    ]
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      }
+    ],
+    "themes": {
+      "selection": "prefers-color-scheme (no toggle); :root = dark, @media (prefers-color-scheme: light) swaps the same token names",
+      "colorScheme": "light dark",
+      "themeColor": {
+        "light": "#ffffff",
+        "dark": "#07080b"
+      },
+      "inkIslands": [
+        ".code-panel",
+        ".term",
+        ".prose pre"
+      ],
+      "light": {
+        "canvas": "#ffffff",
+        "canvas-alt": "#f7f8fa",
+        "surface": "#ffffff",
+        "surface-raised": "#f3f5f8",
+        "surface-3": "#eaedf2",
+        "text-primary": "#0b0d12",
+        "text-secondary": "#4a5163",
+        "text-tertiary": "#636a7c",
+        "action-hover": "#2a2f3b",
+        "hairline": "rgb(12 16 28 / 0.08)",
+        "hairline-strong": "rgb(12 16 28 / 0.12)",
+        "hairline-hover": "rgb(12 16 28 / 0.22)",
+        "tint-1": "rgb(12 16 28 / 0.035)",
+        "tint-2": "rgb(12 16 28 / 0.06)",
+        "action-blue": "#2563eb",
+        "signal-blue": "#2563eb",
+        "action-blue-deep": "#1d4ed8",
+        "blue-ink": "#1d4ed8",
+        "state-ok": "#047857",
+        "state-hold": "#a14a07",
+        "state-danger": "#c81e1e",
+        "article-border": "#e6e9ef",
+        "app-bg": "#ffffff",
+        "app-bar": "#fbfbfc",
+        "app-side": "#f7f8fa",
+        "selection": "rgb(37 99 235 / 0.16)",
+        "aurora-blue": "37 99 235",
+        "aurora-k": 0.6,
+        "shadow-panel": "0 1px 2px rgb(16 24 40 / 0.04), 0 12px 28px -14px rgb(16 24 40 / 0.14)",
+        "shadow-lifted": "0 1px 3px rgb(16 24 40 / 0.05), 0 24px 56px -22px rgb(16 24 40 / 0.2), 0 64px 120px -56px rgb(16 24 40 / 0.2)",
+        "shadow-button": "0 1px 2px rgb(16 24 40 / 0.1)",
+        "lift": "0 1px 2px rgb(16 24 40 / 0.06)"
+      },
+      "dark": {
+        "tint-1": "rgb(255 255 255 / 0.04)",
+        "tint-2": "rgb(255 255 255 / 0.07)",
+        "app-bg": "#0d1016",
+        "app-bar": "#10131a",
+        "app-side": "#0b0e13",
+        "aurora-k": 1,
+        "lift": "none"
+      },
+      "contrastFloor": "every light text and signal colour clears 4.5:1 on white, on canvas-alt and on its own 12% state tint"
+    },
+    "atmosphere": {
+      "name": "arc over field",
+      "decided": "2026-11-04",
+      "sky": ".stage::before arc of blue light from the top right (tokens --arc, --arc-2, --arc-deep, --arc-a1..a3, --arc-base)",
+      "ground": "AgentField canvas: customer-workspace tiles receding to a horizon behind [data-field-anchor]; ~10% awake tiles glow blue and breathe (5-11s cycles, ~24fps); copy [data-field-copy] and captions [data-field-clear] kept clear",
+      "surfaces": {
+        "hero": ".stage .stage-top (full)",
+        "innerHeaders": ".stage .stage-top .stage-quiet (~60%)",
+        "homeClose": ".stage .stage-close (light rises from the field)",
+        "readingPages": ".top-light (arc only, quiet)",
+        "panelsAnd404": ".glow (small arc)"
+      },
+      "nav": "transparent at the top of every page, solid with a hairline once scrolled",
+      "motion": "breath pauses out of view and in hidden tabs; still frame under reduced motion; redraws on theme change"
+    }
   },
   "components": [
     {
       "name": "Primary Button",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "Solid confident-blue CTA; deepens and lifts on hover, no glow theater.",
-      "html": "<button class=\"ds-btn-primary\">Start your AI team</button>",
-      "css": ".ds-btn-primary { background: var(--accent, #2563eb); color: #fff; padding: 10px 24px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; box-shadow: 0 1px 2px rgba(10,37,64,0.06), 0 1px 3px rgba(10,37,64,0.08); transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease; cursor: pointer; } .ds-btn-primary:hover { background: #1d4ed8; box-shadow: 0 2px 4px rgba(10,37,64,0.05), 0 6px 16px rgba(10,37,64,0.08); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }"
+      "description": "Near-white Action fill with Canvas text and a contact shadow; pure white on hover; the arrow slides 3px toward the reading direction.",
+      "html": "<a class=\"ds-btn\" href=\"#\">Request early access <svg class=\"ds-arrow\" viewBox=\"0 0 16 16\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 8h10M9 4l4 4-4 4\"/></svg></a>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 20px;border-radius:10px;font-family:Geist,'Noto Sans SC','PingFang SC',system-ui,sans-serif;font-weight:560;font-size:.9375rem;letter-spacing:-.01em;white-space:nowrap;background:#f4f5f8;color:#07080b;text-decoration:none;box-shadow:0 1px 2px rgb(0 0 0 / .4);transition:background-color .2s,transform .15s}.ds-btn:hover{background:#fff}.ds-btn:active{transform:translateY(1px)}.ds-btn:focus-visible{outline:2px solid #60a5fa;outline-offset:3px}.ds-arrow{transition:transform .3s cubic-bezier(0.16,1,0.3,1)}.ds-btn:hover .ds-arrow{transform:translateX(3px)}"
     },
     {
       "name": "Secondary Button",
       "kind": "button",
       "refersTo": "button-secondary",
-      "description": "White ground, hairline border, navy ink; border tints to accent on hover.",
-      "html": "<button class=\"ds-btn-secondary\">Book a demo</button>",
-      "css": ".ds-btn-secondary { background: #ffffff; color: #0a2540; padding: 10px 24px; border: 1px solid #e6ebf1; border-radius: 8px; font-size: 14px; font-weight: 600; transition: border-color 0.2s ease, background 0.2s ease; cursor: pointer; } .ds-btn-secondary:hover { border-color: #2563eb; background: #f6f9fc; } .ds-btn-secondary:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }"
+      "description": "White at 4% with a 1px inset hairline ring; brightens to 8% and a stronger ring on hover.",
+      "html": "<a class=\"ds-btn-2\" href=\"#\">Book a call</a>",
+      "css": ".ds-btn-2{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:10px;font-family:Geist,'Noto Sans SC','PingFang SC',system-ui,sans-serif;font-weight:600;font-size:.9375rem;letter-spacing:-.01em;background:rgb(255 255 255 / .04);color:#f4f5f8;text-decoration:none;box-shadow:inset 0 0 0 1px rgb(255 255 255 / .12);transition:background-color .2s,box-shadow .2s}.ds-btn-2:hover{background:rgb(255 255 255 / .08);box-shadow:inset 0 0 0 1px rgb(255 255 255 / .2)}.ds-btn-2:active{transform:translateY(1px)}.ds-btn-2:focus-visible{outline:2px solid #60a5fa;outline-offset:3px}"
     },
     {
-      "name": "Card",
-      "kind": "card",
-      "refersTo": "card",
-      "description": "White bordered card; shadow-sm at rest, blue-tinted border + shadow-md + 2px lift on hover.",
-      "html": "<div class=\"ds-card\"><h3 class=\"ds-card-title\">Per-agent budgets</h3><p class=\"ds-card-body\">Every unit of work is a recorded, replayable wake with exact cost-per-task.</p></div>",
-      "css": ".ds-card { background: #ffffff; border: 1px solid #e6ebf1; border-radius: 12px; padding: 20px 24px; box-shadow: 0 1px 2px rgba(10,37,64,0.06), 0 1px 3px rgba(10,37,64,0.08); transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease; } .ds-card:hover { border-color: rgba(37,99,235,0.3); box-shadow: 0 2px 4px rgba(10,37,64,0.05), 0 6px 16px rgba(10,37,64,0.08); transform: translateY(-2px); } .ds-card-title { color: #0a2540; font-size: 20px; font-weight: 600; margin: 0 0 8px; } .ds-card-body { color: #425466; font-size: 14px; line-height: 1.6; margin: 0; }"
-    },
-    {
-      "name": "Chip",
+      "name": "Chips and State Tags",
       "kind": "chip",
       "refersTo": "chip",
-      "description": "Quiet hairline pill at 10–11px; interactive variant lifts 1px with a 4% blue wash.",
-      "html": "<span class=\"ds-chip\">$35 credit included</span>",
-      "css": ".ds-chip { display: inline-block; background: #ffffff; color: #425466; border: 1px solid #e6ebf1; border-radius: 9999px; padding: 2px 8px; font-size: 10px; font-weight: 600; transition: all 0.2s ease; } .ds-chip:hover { transform: translateY(-1px); border-color: rgba(37,99,235,0.35); background: rgba(37,99,235,0.04); box-shadow: 0 1px 2px rgba(10,37,64,0.06), 0 1px 3px rgba(10,37,64,0.08); }"
+      "description": "Mono tool chips with effect suffixes (read, draft, egress) and sentence-case state pills (ok, held, cap reached, blue).",
+      "html": "<div class=\"ds-row\"><span class=\"ds-chip\">get_audience <span class=\"ds-read\">read</span></span><span class=\"ds-chip\">draft_campaign <span class=\"ds-draft\">draft</span></span><span class=\"ds-chip\">schedule_send <span class=\"ds-egress\">egress</span></span></div><div class=\"ds-row\"><span class=\"ds-tag ds-ok\"><span class=\"ds-dot\"></span>Healthy</span><span class=\"ds-tag ds-hold\">Held</span><span class=\"ds-tag ds-danger\">Cap reached</span><span class=\"ds-tag ds-blue\">Partner #1</span><span class=\"ds-tag\">Archived</span></div>",
+      "css": ".ds-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;padding:16px;background:#0f1218}.ds-chip{display:inline-flex;align-items:center;gap:6px;font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.75rem;line-height:1.4;color:#f4f5f8;background:#141823;border:1px solid rgb(255 255 255 / .075);border-radius:6px;padding:3px 8px;white-space:nowrap}.ds-chip span{font-size:.6875rem}.ds-read{color:#7a8193}.ds-draft{color:#93c5fd}.ds-egress{color:#fbbf24}.ds-tag{display:inline-flex;align-items:center;gap:5px;font-family:Geist,'Noto Sans SC','PingFang SC',system-ui,sans-serif;font-size:.6875rem;font-weight:600;line-height:1;padding:4px 8px;border-radius:999px;background:rgb(255 255 255 / .06);color:#a6acbb}.ds-ok{background:rgb(52 211 153 / .12);color:#34d399}.ds-hold{background:rgb(251 191 36 / .12);color:#fbbf24}.ds-danger{background:rgb(248 113 113 / .12);color:#f87171}.ds-blue{background:rgb(59 130 246 / .14);color:#93c5fd}.ds-dot{width:6px;height:6px;border-radius:999px;background:currentColor}"
+    },
+    {
+      "name": "Ledger Panel with Meters",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "A Surface panel with Panel shadow, hairline rows, mono ws_ ids in Blue Ink, tabular figures and transform-filled meters; captioned illustrative.",
+      "html": "<figure class=\"ds-panel\"><div class=\"ds-head\"><div><p class=\"ds-k\">Org pool · prepaid</p><p class=\"ds-big\">250,000 <small>credits</small></p></div><span class=\"ds-tag ds-ok\">Healthy</span></div><ul><li><div class=\"ds-line\"><span class=\"ds-id\"><b>ws_8f2KqL3xT9</b> cust_bluebird-bakery</span><span class=\"ds-num\"><strong>6,679</strong> / 10,000</span></div><div class=\"ds-meter\"><span style=\"transform:scaleX(.668)\"></span></div></li><li><div class=\"ds-line\"><span class=\"ds-id\"><b>ws_1Zd9Hw4pQe</b> cust_northwind</span><span class=\"ds-tag ds-danger\">Capped</span></div><div class=\"ds-meter ds-full\"><span style=\"transform:scaleX(1)\"></span></div></li></ul><figcaption class=\"ds-cap\">Illustrative ledger</figcaption></figure>",
+      "css": ".ds-panel{margin:0;max-width:520px;background:#0f1218;border:1px solid rgb(255 255 255 / .12);border-radius:16px;box-shadow:inset 0 1px 0 rgb(255 255 255 / .04),0 16px 32px -16px rgb(0 0 0 / .7);overflow:hidden;font-family:Geist,'Noto Sans SC','PingFang SC',system-ui,sans-serif;color:#f4f5f8}.ds-panel ul{list-style:none;margin:0;padding:0}.ds-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:20px 24px;border-bottom:1px solid rgb(255 255 255 / .075)}.ds-k{margin:0;font-size:.8125rem;color:#a6acbb}.ds-big{margin:4px 0 0;font-size:2rem;font-weight:600;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}.ds-big small{font-size:.875rem;font-weight:500;letter-spacing:0;color:#7a8193}.ds-panel li{padding:16px 24px;border-bottom:1px solid rgb(255 255 255 / .075)}.ds-line{display:flex;justify-content:space-between;align-items:center;gap:16px}.ds-id{font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.75rem;color:#7a8193}.ds-id b{font-weight:400;color:#93c5fd}.ds-num{font-size:.78rem;color:#a6acbb;font-variant-numeric:tabular-nums}.ds-num strong{color:#f4f5f8;font-weight:600}.ds-meter{height:6px;margin-top:10px;border-radius:999px;background:rgb(255 255 255 / .07);overflow:hidden}.ds-meter span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#2563eb,#60a5fa);transform-origin:left center}.ds-full span{background:#f87171}.ds-cap{padding:12px 24px;background:#0b0d12;font-size:.8125rem;color:#7a8193}.ds-tag{display:inline-flex;align-items:center;font-size:.6875rem;font-weight:600;line-height:1;padding:4px 8px;border-radius:999px}.ds-ok{background:rgb(52 211 153 / .12);color:#34d399}.ds-danger{background:rgb(248 113 113 / .12);color:#f87171}"
+    },
+    {
+      "name": "Code Panel",
+      "kind": "custom",
+      "refersTo": "code-panel",
+      "description": "Code Well with Lifted shadow, mono file tabs and a 2px Signal Blue underline on the selected tab; scoped syntax palette.",
+      "html": "<div class=\"ds-code\"><div class=\"ds-tabs\"><button class=\"ds-tab\" aria-selected=\"true\">openlegion/agent.ts</button><button class=\"ds-tab\" aria-selected=\"false\">app/assistant/page.tsx</button></div><pre><span class=\"k\">export default</span> <span class=\"f\">defineAgent</span>({\n  slug: <span class=\"s\">\"email-marketer\"</span>,\n  <span class=\"c\">// Never send without approval.</span>\n  limits: { periodCredits: <span class=\"n\">10_000</span> },\n});</pre></div>",
+      "css": ".ds-code{max-width:560px;background:#0a0c11;color:#d7dbe5;border:1px solid rgb(255 255 255 / .12);border-radius:16px;box-shadow:inset 0 1px 0 rgb(255 255 255 / .05),0 40px 80px -24px rgb(0 0 0 / .75),0 16px 32px -16px rgb(0 0 0 / .6);overflow:hidden}.ds-tabs{display:flex;padding:0 4px;background:#0d1016;border-bottom:1px solid rgb(255 255 255 / .075)}.ds-tab{position:relative;padding:12px 16px;font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.75rem;color:#8c94a8;background:none;border:0;cursor:pointer;transition:color .2s}.ds-tab:hover,.ds-tab[aria-selected=true]{color:#f4f5f8}.ds-tab[aria-selected=true]::after{content:'';position:absolute;inset-inline:12px;bottom:-1px;height:2px;border-radius:2px;background:#60a5fa}.ds-tab:focus-visible{outline:2px solid #60a5fa;outline-offset:-2px}.ds-code pre{margin:0;padding:18px 20px 20px;font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.8125rem;line-height:1.7}.ds-code .k{color:#c4b5fd}.ds-code .f{color:#93c5fd}.ds-code .s{color:#fcd34d}.ds-code .n{color:#fca5a5}.ds-code .c{color:#6b7488}"
+    },
+    {
+      "name": "Hero Chat Approval (signature)",
+      "kind": "custom",
+      "refersTo": "partner-brand",
+      "description": "Still frame of the hero loop inside the illustrated partner app: brand-coloured user bubble, check-disc tool steps, and the amber approval card. Partner orange appears only here.",
+      "html": "<div class=\"ds-chat\"><div class=\"ds-user\"><p>Draft a spring campaign for my newsletter list</p></div><div class=\"ds-step\"><span class=\"ds-okd\"><svg viewBox=\"0 0 12 12\" width=\"10\" height=\"10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.5 6.5 5 9l4.5-5.5\"/></svg></span><span>Checked your audience</span><code>get_audience</code></div><div class=\"ds-step\"><span class=\"ds-okd\"><svg viewBox=\"0 0 12 12\" width=\"10\" height=\"10\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M2.5 6.5 5 9l4.5-5.5\"/></svg></span><span>Drafted the campaign</span><code>draft_campaign</code></div><div class=\"ds-appr\"><div class=\"ds-appr-top\"><span class=\"ds-dot\"></span>Needs your approval</div><p>Send to 2,418 subscribers <span>· Tue 9:00</span></p><div class=\"ds-appr-row\"><button class=\"ds-yes\">Approve</button><button>Not now</button></div></div><p class=\"ds-fine\">Illustrative: a made-up partner app.</p></div>",
+      "css": ".ds-chat{max-width:380px;padding:16px 18px;background:#0d1016;border:1px solid rgb(255 255 255 / .12);border-radius:16px;font-family:Geist,'Noto Sans SC','PingFang SC',system-ui,sans-serif;color:#f4f5f8}.ds-user{display:flex;justify-content:flex-end}.ds-user p{margin:0;max-width:86%;background:#f4f5f8;color:#fff;font-size:.8125rem;line-height:1.45;padding:9px 13px;border-radius:14px 14px 4px 14px}.ds-step{display:flex;align-items:center;gap:9px;margin-top:8px;font-size:.78rem;color:#a6acbb;padding:7px 10px;border-radius:8px;background:#141823}.ds-step code{margin-inline-start:auto;font-family:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.6875rem;color:#7a8193}.ds-okd{width:16px;height:16px;border-radius:999px;display:grid;place-items:center;flex:none;background:rgb(52 211 153 / .16);color:#34d399}.ds-appr{margin-top:10px;border:1px solid rgb(251 191 36 / .4);background:rgb(251 191 36 / .06);border-radius:12px;padding:12px 13px}.ds-appr-top{display:flex;align-items:center;gap:8px;font-size:.71875rem;font-weight:600;color:#fbbf24}.ds-dot{width:6px;height:6px;border-radius:999px;background:currentColor}.ds-appr p{margin:6px 0 0;font-size:.8125rem;font-weight:500}.ds-appr p span{color:#7a8193;font-weight:400}.ds-appr-row{display:flex;gap:8px;margin-top:11px}.ds-appr-row button{height:30px;padding:0 12px;border-radius:7px;font:600 .75rem Geist,'Noto Sans SC','PingFang SC',system-ui,sans-serif;border:1px solid rgb(255 255 255 / .12);background:none;color:#f4f5f8;cursor:pointer;transition:transform .15s,filter .15s}.ds-appr-row .ds-yes{background:#f4f5f8;border-color:#f4f5f8;color:#fff}.ds-appr-row .ds-yes:active{transform:scale(.96);filter:brightness(.9)}.ds-appr-row button:focus-visible{outline:2px solid #60a5fa;outline-offset:3px}.ds-fine{margin:14px 0 0;font-size:.8125rem;color:#7a8193}"
     },
     {
       "name": "Nav Link",
       "kind": "nav",
       "refersTo": "nav-link",
-      "description": "Muted slate link; 1px blue underline grows from center on hover.",
-      "html": "<a href=\"#\" class=\"ds-nav-link\">Security</a>",
-      "css": ".ds-nav-link { position: relative; display: inline-block; color: #425466; font-size: 14px; font-weight: 500; text-decoration: none; padding: 8px 4px; } .ds-nav-link::after { content: \"\"; position: absolute; bottom: 2px; left: 50%; right: 50%; height: 1px; background: #2563eb; transition: left 0.25s ease, right 0.25s ease; } .ds-nav-link:hover::after { left: 25%; right: 25%; } .ds-nav-link:focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }"
+      "description": "40px Text Secondary link; brightens to Text Primary on a 4% white wash.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\">Platform</a><a href=\"#\">Quickstart</a><a href=\"#\">Security</a><a href=\"#\">Pricing</a></nav>",
+      "css": ".ds-nav{display:flex;gap:2px;padding:12px;background:#07080b;border-bottom:1px solid rgb(255 255 255 / .12)}.ds-nav a{display:inline-flex;align-items:center;min-height:40px;padding:0 12px;font-family:Geist,'Noto Sans SC','PingFang SC',system-ui,sans-serif;font-size:.875rem;color:#a6acbb;border-radius:8px;text-decoration:none;transition:color .2s,background-color .2s}.ds-nav a:hover{color:#f4f5f8;background:rgb(255 255 255 / .04)}.ds-nav a:focus-visible{outline:2px solid #60a5fa;outline-offset:3px}"
     },
     {
-      "name": "FAQ Accordion Item",
+      "name": "FAQ Row",
       "kind": "custom",
-      "refersTo": "card",
-      "description": "Native details/summary card; open state tints border blue and lifts.",
-      "html": "<details class=\"ds-faq\" open><summary class=\"ds-faq-q\">Can agents see my passwords?</summary><p class=\"ds-faq-a\">No. Credentials live in a vault agents can never see — injected at the egress proxy, never into the model.</p></details>",
-      "css": ".ds-faq { background: #ffffff; border: 1px solid #e6ebf1; border-radius: 8px; padding: 20px 24px; box-shadow: 0 1px 2px rgba(10,37,64,0.06), 0 1px 3px rgba(10,37,64,0.08); transition: border-color 0.2s, box-shadow 0.2s; } .ds-faq[open] { border-color: rgba(37,99,235,0.3); box-shadow: 0 2px 4px rgba(10,37,64,0.05), 0 6px 16px rgba(10,37,64,0.08); } .ds-faq-q { color: #0a2540; font-size: 16px; font-weight: 600; cursor: pointer; } .ds-faq-a { color: #425466; font-size: 15px; line-height: 1.6; margin: 8px 0 0; }"
-    },
-    {
-      "name": "Gradient Headline Highlight",
-      "kind": "custom",
-      "refersTo": "display-lg",
-      "description": "The single color flourish: blue→indigo ramp clipped to headline key phrases.",
-      "html": "<h1 class=\"ds-hero-h1\">Build your <span class=\"ds-gradient-text\">AI agent workforce</span> by describing the team you want.</h1>",
-      "css": ".ds-hero-h1 { color: #0a2540; font-size: 3rem; font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; margin: 0; } .ds-gradient-text { background: linear-gradient(105deg, #1d4ed8 0%, #2563eb 55%, #4f46e5 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }"
-    },
-    {
-      "name": "Dark Product Frame (Terminal)",
-      "kind": "custom",
-      "refersTo": "card",
-      "description": "The signature produced product window: dark navy, traffic lights, mono type, shadow-lg — the only dark surface on the page.",
-      "html": "<div class=\"ds-terminal\"><div class=\"ds-terminal-header\"><span class=\"ds-dot\" style=\"background:#ff5f57\"></span><span class=\"ds-dot\" style=\"background:#febc2e\"></span><span class=\"ds-dot\" style=\"background:#28c840\"></span><span class=\"ds-terminal-title\">openlegion demo</span></div><div class=\"ds-terminal-body\">$ openlegion create \"a marketing agency\"<br>&gt; staffing 4 agents… <span class=\"ds-term-ok\">done</span></div></div>",
-      "css": ".ds-terminal { background: #0d1526; border: 1px solid rgba(10,37,64,0.9); border-radius: 12px; overflow: hidden; box-shadow: 0 6px 12px rgba(10,37,64,0.06), 0 20px 44px rgba(10,37,64,0.12); color: #e2e8f0; } .ds-terminal-header { display: flex; align-items: center; gap: 6px; padding: 14px 16px; border-bottom: 1px solid rgba(226,232,240,0.08); background: rgba(255,255,255,0.03); } .ds-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; } .ds-terminal-title { margin-left: 8px; color: #8b8fa3; font-family: ui-monospace, monospace; font-size: 12px; } .ds-terminal-body { padding: 16px; font-family: ui-monospace, monospace; font-size: 13px; line-height: 1.7; } .ds-term-ok { color: #34d399; }"
+      "refersTo": "title",
+      "description": "Native details between hairlines; the plus in a round ring rotates 45deg when open.",
+      "html": "<div class=\"ds-faq\"><details open><summary><span class=\"ds-q\">Does OpenLegion ever contact my customers?</span><span class=\"ds-ring\"><svg class=\"ds-plus\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M8 3v10M3 8h10\"/></svg></span></summary><p>No. Everything leaves through your webhooks and your API.</p></details><details><summary><span class=\"ds-q\">Is there a test mode?</span><span class=\"ds-ring\"><svg class=\"ds-plus\" viewBox=\"0 0 16 16\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M8 3v10M3 8h10\"/></svg></span></summary><p>Test and live are separate worlds inside one org.</p></details></div>",
+      "css": ".ds-faq{max-width:640px;border-top:1px solid rgb(255 255 255 / .12);font-family:Geist,'Noto Sans SC','PingFang SC',system-ui,sans-serif}.ds-faq details{border-bottom:1px solid rgb(255 255 255 / .075)}.ds-faq summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;padding:20px 0}.ds-faq summary::-webkit-details-marker{display:none}.ds-q{font-size:1.0625rem;font-weight:600;line-height:1.35;letter-spacing:-.012em;color:#f4f5f8}.ds-ring{display:flex;width:24px;height:24px;flex:none;align-items:center;justify-content:center;border-radius:999px;border:1px solid rgb(255 255 255 / .12);color:#a6acbb}.ds-plus{transition:transform .35s cubic-bezier(0.16,1,0.3,1)}.ds-faq details[open] .ds-plus{transform:rotate(45deg)}.ds-faq summary:focus-visible{outline:2px solid #60a5fa;outline-offset:3px}.ds-faq p{margin:0;padding-bottom:24px;font-size:1rem;line-height:1.62;color:#a6acbb}"
     }
   ],
   "narrative": {
-    "northStar": "The Enterprise Standard, Played Straight",
-    "overview": "This is the polished light enterprise SaaS page done without irony or concept: white ground, deep navy ink, one confident blue, alternating cool bands, and hairline rules everywhere structure is needed. The craft bar is Stripe, Linear, Notion, and Datadog/Vanta. The one theatrical inheritance from the prior dark site is deliberate: the product appears in dark produced frames (terminal mock, live dashboard window) that sit on the light page like screenshots of a real tool, because they are. The build is a restyle of a dark site whose class names and copy were preserved byte-identical (13 locales, SEO asset); legacy effect hooks — particles, orbs, glass shine, badge shimmer, dot grids, conic borders — remain in markup but are neutralized in CSS. Restraint here is not absence of capability; it is recorded refusal.",
+    "northStar": "Product-grade, in the visitor's own light",
+    "overview": "The page sells infrastructure the way the best developer platforms do: by showing the product working, held to Stripe- and Linear-grade polish. It follows the visitor's system setting: a near-black canvas with crisp white hairlines, or white paper with graphite hairlines, quiet layered surfaces, a white primary button that means \"act here\" and a blue that means \"this is the agent, or a link\". Every illustration is real-looking product UI (a partner's app with our agent inside, a run receipt, a webhook payload, a credit ledger, a code editor), never concept art or diagrams of our internals. The claim \"the controls are real\" is made by drawing the controls.\n\nDensity is product-like rather than editorial. Sections pair a short balanced headline and a lede with a panel of evidence: ids in mono, tabular figures, status tags and meters. Ornament is limited to one faint, cool light behind the hero product. Restraint is the enterprise signal: each section makes one point with one piece of evidence, and nothing is said twice. Motion is spent once per page, on the hero chat loop, so it reads as a demonstration rather than decoration.\n\nThe system descends from the incumbent near-black-and-blue brand but deliberately retires its glowing effects: no gradient text, no glass, no particles. It also stands apart from the earlier looks that PRODUCT.md records as rejected.",
     "keyCharacteristics": [
-      "White ground + #0a2540 navy ink + one blue accent; color never carries decoration, only meaning",
-      "Alternating #f6f9fc cool bands with 1px top hairlines set the section rhythm",
-      "Dark #0d1526 product frames are the only dark surfaces on the page",
-      "Gradient text (blue→indigo) is the single color flourish, reserved for headline highlights",
-      "Content is visible by default — no scroll-entrance animation anywhere",
-      "Section labels exist in the DOM but are sr-only: locked SEO copy, invisible kickers"
+      "Two themes from one token set, chosen by prefers-color-scheme; code panels and the terminal stay ink in both",
+      "One atmosphere opens and closes each page: an arc of blue light over a field of customer workspaces, the awake ones glowing",
+      "Near-black canvas (#07080b) with layered surfaces separated by white-alpha hairlines, never heavy borders",
+      "One blue family for every interactive and accent role; green, amber and red appear only as state",
+      "Real product UI as illustration, every piece of demo data labelled illustrative",
+      "Geist for everything, at a single 600 heading weight with tight negative tracking; Geist Mono for ids, code and figures",
+      "Soft, rounded product geometry (6 to 16px), depth from dark drop shadows and a 1px top highlight",
+      "One authored motion moment per page: the hero's partner-app chat",
+      "RTL-ready through logical properties, with ids and code pinned LTR"
     ],
     "rules": [
-      { "name": "The One Blue Rule", "body": "Every accent on the light page is the same blue family (#1d4ed8 / #2563eb / #3b82f6 by size and role). No second accent hue exists outside the gradient ramp and the functional green/red.", "section": "colors" },
-      { "name": "The Framed Dark Rule", "body": "Dark surfaces appear only as produced product windows (.terminal, .dashboard-frame, .prose pre). The page itself is never dark; the frames are never light.", "section": "colors" },
-      { "name": "The Tinted Wash Rule", "body": "Colored backgrounds on the light page are always low-alpha washes of a token color (4–16% alpha), never new solid tints.", "section": "colors" },
-      { "name": "The Full Ladder Rule", "body": "The shipped size ladder is 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 24, 30, 36, 48(=3rem), 52(=3.25rem), 60px. New surfaces pick from these literal steps; do not invent intermediate sizes or collapse the 13/14/15px reading tier into one.", "section": "typography" },
-      { "name": "The Weight-Carries-Hierarchy Rule", "body": "One family; hierarchy comes from weight (400 → 500 → 600 → 700 → 800) and size, never from a second typeface or from color alone.", "section": "typography" },
-      { "name": "The Ink Shadow Rule", "body": "Every shadow is a low-alpha layer of the navy ink. No colored/glowing shadows; the sole exception is the agent-pulse ring inside the dark dashboard mock, which is product-fixture behavior, not page chrome.", "section": "elevation" }
+      {
+        "name": "The One Blue Rule",
+        "body": "Blue is the only interactive and accent colour. If it is clickable, focused, selected or highlighted, it is blue. Nothing else takes an accent hue, apart from the syntax palette inside code.",
+        "section": "colors"
+      },
+      {
+        "name": "The Partner Colour Rule",
+        "body": "Partner Brand appears only inside the illustrated partner app (\"your app\": the hero window, and its mark in the statement rail and the harness map). It is never used for an OpenLegion button, link, heading or surface. The test: covering the partner app should leave no orange on the page.",
+        "section": "colors"
+      },
+      {
+        "name": "The State-Only Rule",
+        "body": "Green, amber and red mean ok, held and danger. They are never decoration, never a section colour and never a heading colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Weight Rule",
+        "body": "Every heading, from Display down to Title, is Geist 600 with negative tracking that tightens as size grows (-0.012em up to -0.04em). Hierarchy comes from size and colour, never from a second display face or a heavier weight.",
+        "section": "typography"
+      },
+      {
+        "name": "The Pinned Figures Rule",
+        "body": "Ids, tool names, credits, timestamps and code are set dir=\"ltr\", and counts use tabular numerals, so they read identically on Arabic pages.",
+        "section": "typography"
+      },
+      {
+        "name": "The Shadow-Is-Black Rule",
+        "body": "Shadows are black, never coloured. The only coloured light is the single blue hero glow, and it sits behind product UI, never under text as an effect on the text itself.",
+        "section": "elevation"
+      },
+      {
+        "name": "The One-Token-Set Rule",
+        "body": "A component reads tokens and never checks the theme. A colour that only works in one theme becomes a token with a value for each theme, never a second rule. Ink islands (code panels, the terminal, article pre) redeclare the dark palette on themselves."
+      }
     ],
     "dos": [
-      "Do keep all copy byte-identical to messages/<locale>.json — visible strings are a preserved SEO asset across 13 locales; redesigns restyle, only the launch truth pass rewrites.",
-      "Do render content visible by default; surviving motion is limited to hero gradient shimmer, terminal line entrances, dashboard tilt/live mock, and hover/focus transitions — all behind prefers-reduced-motion guards.",
-      "Do open every section with the 1px hairline and alternate #f6f9fc bands for rhythm.",
-      "Do tint shadows with navy ink (rgba(10,37,64,…)) and hovers with the blue at ≤35% alpha.",
-      "Do keep section labels in the DOM as sr-only — they are locked copy, not visible kickers.",
-      "Do preserve the accessibility floor: skip-nav, global :focus-visible outline, reduced-motion guards, semantic prose/tables, RTL/logical properties."
+      "Do use the blue family for every interactive and accent role: Action Blue fills, Signal Blue links and focus, Blue Ink for blue text on dark.",
+      "Do keep Partner Brand (#ff6b3d) inside the illustrated partner app only.",
+      "Do use ok, hold and danger for state alone (tags, discs, approval, meters).",
+      "Do illustrate with real product UI (app windows, receipts, ledgers, payloads, code) and label every piece of demo data illustrative in a Fine caption.",
+      "Do lay mechanisms out as an uneven bento with a working mini visual in each cell.",
+      "Do keep one authored motion moment per page, the hero chat. Pause it out of view, and give reduced motion and no-JS a still frame.",
+      "Do draw icons on the 16-unit grid with a 1.6 round stroke in currentColor.",
+      "Do use logical properties (ms/me/ps/pe, text-start/text-end) and pin ids, code and figures dir=\"ltr\".",
+      "Do keep 20px gutters on mobile with no horizontal scroll, and hide the hero app sidebar and tabs at 640px and below.",
+      "Do style learn and comparison articles only through the shared prose layer, because their copy is SEO-locked.",
+      "Do check every new colour in both themes; keep theme-specific values in tokens and keep code and the terminal ink."
     ],
     "donts": [
-      "Don't reactivate the neutralized legacy effects (particles, orbs, glass shine, badge shimmer, dot grid, conic borders, glow pulses on page chrome) — they are content: none/display: none by decision, not omission.",
-      "Don't introduce dark surfaces outside the product frames, or light chrome inside them.",
-      "Don't add visible kickers/eyebrows above headings; the pattern on this site is sr-only labels.",
-      "Don't use colored glows or halos as elevation; the only glow-like effect permitted is the agent-pulse fixture inside the dark mock.",
-      "Don't add scroll-entrance animation, a second accent hue, or a second typeface.",
-      "Don't invent pricing numbers, badges with glow treatments, or synthetic proof (testimonial avatars are flagged non-real in PRODUCT.md and are not on the shipped homepage)."
+      "Don't put an eyebrow or kicker label above a heading.",
+      "Don't use gradient text, glassmorphism, particles or coloured glows on text.",
+      "Don't use unicode glyphs (arrows, checks, stars) as icons.",
+      "Don't add a coloured border-left (or border-start) accent to any block.",
+      "Don't build an equal grid of icon cards for features.",
+      "Don't use Partner Brand, or any state colour, as an OpenLegion accent.",
+      "Don't add a second animated sequence, scroll-triggered reveals or looping decoration outside the hero.",
+      "Don't present demo ids, figures or logos as real usage.",
+      "Don't hard-code white or black washes outside the ink islands; use --tint-* or color-mix() with a token.",
+      "Don't use the syntax palette (.tok-*) outside a code panel; on the page, code-like labels take Blue Ink.",
+      "Don't put the atmosphere field behind text; mark copy data-field-copy and captions data-field-clear."
     ]
   }
 }

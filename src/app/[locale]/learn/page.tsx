@@ -118,7 +118,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
           buildItemListSchema(itemListItems, SLUG, locale),
         ]}
       />
-      <main id="main" className="mx-auto max-w-4xl px-6 pb-24 pt-12 md:px-8">
+      <main id="main" className="top-light mx-auto max-w-4xl px-6 pb-24 pt-12 md:px-8">
         <nav aria-label={tCommon("breadcrumbAriaLabel")} className="breadcrumb">
           <Link href="/">{tCommon("breadcrumbHome")}</Link>
           <span aria-hidden="true">/</span>
