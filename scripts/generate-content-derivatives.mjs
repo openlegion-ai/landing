@@ -40,24 +40,37 @@ const TRANSLATION_LOCALES = new Set([
 //    a real bot has carried them.
 const PREAMBLE = `# OpenLegion
 
-> OpenLegion is a hosted platform for AI agents that do ongoing work for a person or a small team. Every run has a budget, every tool call is checked against the agent's permissions and recorded, and risky actions can wait for the owner's approval.
+> OpenLegion is a hosted agent harness for SaaS products and AI apps. A developer (a partner) defines an agent and the tools it may call; OpenLegion runs one isolated workspace per end customer, checks every tool call against policy, keeps a receipt for each action, holds risky actions for a person's approval, meters usage against a credit cap per customer, and keeps each model tier on current models.
+
+## When OpenLegion fits
+- A developer building a SaaS product or an AI app wants to add AI agents that act for their users, without building the agent harness (tool calling, isolation, approvals, metering, secrets, audit trail) themselves.
+- The agents need to call the developer's own functions or API, or an MCP server, on behalf of a specific customer, with each call signed and naming that customer.
+- Each customer needs their own isolated workspace, a usage cap that matches their plan, approval before risky actions, and a record of what the agent did.
+- The team wants current models without tracking releases: an agent picks a model tier, and OpenLegion keeps each tier on current models.
+
+## When it does not fit yet
+- Self-hosting: the platform is hosted. (The archived previous-generation engine was self-hosted.)
+- Self-serve sign-up or published per-credit prices: the platform is in private beta, and partner prices are shared with early-access partners.
 
 ## Status (November 2026)
-- The hosted platform has been rebuilt. The new version is in private beta, and new sign-ups join a waitlist.
-- Some older articles on this site still describe the previous version (a Python runtime with one Docker container per agent, a shared blackboard, and self-hosting). They are being updated.
-- Launch pricing is listed at https://www.openlegion.ai/en/pricing. Plans cannot be bought until sign-up opens.
-- The previous-generation engine remains source-available on GitHub (https://github.com/openlegion-ai/openlegion) under the PolyForm Perimeter License 1.0.1.
+- The partner platform is in private beta. A small number of SaaS partners are being onboarded; others can request early access at https://www.openlegion.ai/en.
+- Partner prices are not published. How billing works is described at https://www.openlegion.ai/en/pricing.
+- A TypeScript kit for defining agents and tools is in development. Code on the website is a preview of its API, and names may change before release.
+- OpenLegion's own app for teams is behind a waitlist while the company focuses on partners.
+- Some older articles on this site describe the previous generation (a Python runtime with one Docker container per agent, a shared blackboard, and self-hosting). That engine is archived and no longer maintained; its source stays on GitHub (https://github.com/openlegion-ai/openlegion) under the PolyForm Perimeter License 1.0.1.
 
-## How the current platform works
-- Sign in with Google. There is nothing to install.
-- An agent is a saved record, not a running machine. It runs when there is work for it: a message, a task or a schedule. An idle agent uses no compute.
-- A team can be described in one sentence. A supervisor agent sets it up and keeps work moving, and every change it makes can be undone.
-- Budget is reserved before each run, and cost is shown per task and per run.
-- Every tool call is checked against the agent's permissions and recorded.
-- Actions such as sending a message, deleting data or changing an agent can be held for the owner's approval in the web app.
-- Credentials go through a broker: the model works with a handle, not the secret.
-- People can see, correct and delete what an agent remembers. Lessons it learns can be undone.
-- Not available yet: browser automation, sending email on a user's behalf, and self-hosting the current platform.
+## How the platform works
+- The partner keeps the customer relationship. OpenLegion never contacts a partner's customers: no emails, messages, notifications or OpenLegion branding reach them, and everything leaves through the partner's webhooks and API.
+- Each end customer gets a workspace, created or found by the partner's own reference. Workspace data is isolated with row-level security in the database.
+- Every tool call is an intent checked by one policy engine before it runs, and every action leaves a receipt.
+- Three kinds of action wait for a person's approval: reaching a third party on someone's behalf, deleting data, and acting on untrusted content. Approvals are decided by a person, never by an agent.
+- Content from the web, files and other people is labelled untrusted end to end and cannot trigger a send, a delete or a change on its own.
+- Secrets are encrypted at rest and injected outside the model, which holds only a handle. Tool output is scanned for leaked secrets.
+- Credits are reserved before each step runs. When a customer's cap or the partner's balance is reached, the work is refused rather than run and billed later. A suspended workspace stops at the next step.
+- Billing: one prepaid credit pool per partner, monthly and daily caps per customer workspace, top-ups as credit grants, and unused credits returned to the pool when a workspace is archived.
+- Integration: an HTTP API with separate test and live keys, signed calls to the partner's tools (their own functions or an MCP server), built-in web search and page fetching, and signed webhooks (timestamped HMAC, delivered at least once).
+- Models: an agent template picks a model tier (quality versus cost), not a model id, and OpenLegion keeps each tier on current models.
+- Not claimed: SOC 2, ISO 27001 or HIPAA certification, immunity to prompt injection, or a third-party penetration test.
 `;
 
 // ── Discovery (mirrors src/lib/markdown.ts) ─────────────────────────────────
@@ -152,8 +165,11 @@ function buildLlmsTxt(entries) {
     PREAMBLE,
     "## Links",
     "- Website: https://www.openlegion.ai/en",
-    "- Previous-generation engine (source-available): https://github.com/openlegion-ai/openlegion",
-    "- Previous-generation engine documentation: https://docs.openlegion.ai",
+    "- How billing works: https://www.openlegion.ai/en/pricing",
+    "- Security: https://www.openlegion.ai/en/security",
+    "- FAQ: https://www.openlegion.ai/en/faq",
+    "- Previous-generation engine (archived, source-available): https://github.com/openlegion-ai/openlegion",
+    "- Previous-generation engine documentation (archived): https://docs.openlegion.ai",
     ...hubs.map(fmt),
     "",
     "### Learn",

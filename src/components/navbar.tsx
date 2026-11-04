@@ -3,205 +3,115 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { Github, Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { NAV_LINKS, APP_URL, GITHUB_URL, WAITLIST_URL } from "@/lib/constants";
+import { DEMO_URL, WAITLIST_URL } from "@/lib/constants";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { trackCtaClick } from "@/lib/analytics";
+import { IconArrow } from "@/components/site/icons";
+
+const LINKS = [
+  { key: "platform", href: "/#platform" },
+  { key: "quickstart", href: "/#quickstart" },
+  { key: "security", href: "/security" },
+  { key: "pricing", href: "/pricing" },
+  { key: "learn", href: "/learn" },
+] as const;
 
 export function Navbar() {
   const t = useTranslations("nav");
+  const s = useTranslations("site.nav");
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    if (!mobileOpen) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileOpen(false);
-    };
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [mobileOpen]);
+  }, [open]);
 
   return (
     <nav
       aria-label={t("ariaLabel")}
-      className={`w-full px-6 transition-all duration-300 md:px-8 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-2xl"
-          : "bg-transparent"
+      className={`w-full border-b bg-[var(--bg)] transition-[border-color,background-color] duration-300 ${
+        scrolled || open ? "border-[var(--line-2)]" : "nav-top border-transparent"
       }`}
     >
-      {scrolled && (
-        <div
-          className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/25 to-transparent"
-          aria-hidden="true"
-        />
-      )}
-
-      <div className="mx-auto flex max-w-6xl items-center justify-between py-3">
-        <Link href="/" className="flex items-center gap-2.5 transition-transform hover:scale-105" aria-label={t("homeAriaLabel")}>
-          <Image
-            src="/logo.png"
-            alt=""
-            width={36}
-            height={36}
-            sizes="36px"
-            priority
-            className="rounded-full"
-          />
-          <span className="text-lg font-bold tracking-tight text-foreground">
-            Open<span className="text-accent">Legion</span>
-          </span>
+      <div className="wrap flex h-16 items-center justify-between gap-4">
+        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label={t("homeAriaLabel")}>
+          <Image src="/logo.png" alt="" width={28} height={28} sizes="28px" priority className="rounded-full" />
+          <span className="text-[1.0625rem] font-semibold tracking-[-0.02em] text-[var(--fg)]">OpenLegion</span>
         </Link>
 
-        {/* Desktop — lg breakpoint to accommodate language switcher */}
-        <div className="hidden items-center gap-1 lg:flex">
-          {NAV_LINKS.map((link) => {
-            const isExternal = link.href.startsWith("http");
-            const className = "nav-link rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground";
-            const label = t(`links.${link.key}.label`);
-            return isExternal ? (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={className}
-              >
-                {label}
-              </a>
-            ) : (
-              <Link key={link.href} href={link.href} className={className}>
-                {label}
-              </Link>
-            );
-          })}
-          <div className="ml-3 h-5 w-px bg-border" aria-hidden="true" />
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-2 rounded-md p-2 text-muted transition-colors hover:text-foreground"
-            aria-label={t("githubAriaLabel")}
-          >
-            <Github className="h-4 w-4" aria-hidden="true" />
-          </a>
-          <LanguageSwitcher className="ml-1" />
-          <a
-            href={`${APP_URL}/signin`}
-            onClick={() => trackCtaClick({ location: "nav_signin" })}
-            className="nav-link ml-1 rounded-md px-3 py-2 text-sm text-muted transition-colors hover:text-foreground whitespace-nowrap"
-          >
-            {t("signIn")}
-          </a>
-          <Link
-            href={WAITLIST_URL}
-            onClick={() => trackCtaClick({ location: "nav_primary_desktop" })}
-            className="btn-shine ml-1 flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
-          >
-            {t("getStarted")}
-          </Link>
+        <div className="hidden items-center gap-0.5 lg:flex">
+          {LINKS.map((l) => (
+            <Link key={l.key} href={l.href} className="nav-link">
+              {s(`links.${l.key}`)}
+            </Link>
+          ))}
         </div>
 
-        {/* Mobile — visible below lg */}
-        <div className="flex items-center gap-1.5 lg:hidden ml-auto">
-          <a
-            href={`${APP_URL}/signin`}
-            onClick={() => trackCtaClick({ location: "nav_signin" })}
-            className="nav-link hidden min-h-[44px] items-center px-2 py-2 text-xs text-muted sm:inline-flex transition-colors hover:text-foreground whitespace-nowrap"
-          >
-            {t("signIn")}
+        <div className="hidden items-center gap-2 lg:flex">
+          <a href={DEMO_URL} onClick={() => trackCtaClick({ location: "nav_call" })} className="nav-link whitespace-nowrap">
+            {s("bookCall")}
           </a>
-          <Link
-            href={WAITLIST_URL}
-            onClick={() => trackCtaClick({ location: "nav_primary_mobile" })}
-            className="btn-shine inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-accent px-4 py-2 text-xs font-medium text-white transition-opacity hover:opacity-90 whitespace-nowrap"
-          >
-            {t("getStarted")}
-          </Link>
+          <a href={WAITLIST_URL} onClick={() => trackCtaClick({ location: "nav_primary_desktop" })} className="btn btn-sm">
+            {s("requestAccess")}
+          </a>
+        </div>
+
+        <div className="flex items-center gap-1.5 lg:hidden">
+          <a href={WAITLIST_URL} onClick={() => trackCtaClick({ location: "nav_primary_mobile" })} className="btn btn-sm">
+            {s("requestAccess")}
+          </a>
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-muted transition-colors hover:text-foreground"
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            className="inline-flex size-11 items-center justify-center rounded-[8px] text-[var(--fg)] hover:bg-[var(--tint-1)]"
             aria-label={t("toggleMenuAriaLabel")}
-            aria-expanded={mobileOpen}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
           >
-            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <svg viewBox="0 0 20 20" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+              {open ? <path d="M4.5 4.5l11 11M15.5 4.5l-11 11" /> : <path d="M3 6.5h14M3 10h14M3 13.5h14" />}
+            </svg>
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-border/50 bg-background/95 backdrop-blur-2xl lg:hidden"
-          >
-            <div className="mx-auto flex w-full max-w-6xl flex-col gap-1 py-4">
-              {NAV_LINKS.map((link) => {
-                const isExternal = link.href.startsWith("http");
-                const className = "rounded-md px-3 py-3 text-sm text-muted transition-colors hover:bg-card hover:text-foreground";
-                const label = t(`links.${link.key}.label`);
-                const onClick = () => setMobileOpen(false);
-                return isExternal ? (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={onClick}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={className}
-                  >
-                    {label}
-                  </a>
-                ) : (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={onClick}
-                    className={className}
-                  >
-                    {label}
-                  </Link>
-                );
-              })}
-              <a
-                href={`${APP_URL}/signin`}
-                onClick={() => {
-                  trackCtaClick({ location: "nav_signin_mobile_menu" });
-                  setMobileOpen(false);
-                }}
-                className="rounded-md px-3 py-3 text-sm text-muted transition-colors hover:bg-card hover:text-foreground sm:hidden"
-              >
-                {t("signIn")}
-              </a>
-              <div className="mt-2 flex items-center gap-3 border-t border-border/50 px-3 pt-3">
-                <LanguageSwitcher />
-                <a
-                  href={GITHUB_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-md text-muted transition-colors hover:text-foreground"
-                  aria-label={t("githubAriaLabel")}
+      {open && (
+        <div id="mobile-menu" className="border-t border-[var(--line)] bg-[var(--bg)] lg:hidden">
+          <ul className="wrap py-2">
+            {LINKS.map((l) => (
+              <li key={l.key} className="border-b border-[var(--line)]">
+                <Link
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-12 items-center justify-between text-[1rem] font-medium text-[var(--fg)]"
                 >
-                  <Github className="h-4 w-4" aria-hidden="true" />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  {s(`links.${l.key}`)}
+                  <IconArrow className="size-4 text-[var(--fg-3)] rtl:-scale-x-100" />
+                </Link>
+              </li>
+            ))}
+            <li className="border-b border-[var(--line)]">
+              <a href={DEMO_URL} onClick={() => trackCtaClick({ location: "nav_call_mobile" })} className="flex min-h-12 items-center text-[1rem] font-medium text-[var(--fg)]">
+                {s("bookCall")}
+              </a>
+            </li>
+            <li className="py-4">
+              <LanguageSwitcher />
+            </li>
+          </ul>
+        </div>
+      )}
     </nav>
   );
 }

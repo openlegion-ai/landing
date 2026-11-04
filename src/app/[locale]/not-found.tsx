@@ -1,28 +1,27 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { IconArrow } from "@/components/site/icons";
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+/** Locale 404. */
 export default function NotFound() {
   const t = useTranslations("notFound");
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 text-center">
-      <h1 className="mb-4 text-6xl font-bold tracking-tight">
-        4<span className="gradient-text">{t("titleHighlight")}</span>4
-      </h1>
-      <p className="mb-8 max-w-md text-lg text-muted">
-        {t("description")}
-      </p>
-      <Link
-        href="/"
-        className="btn-shine rounded-xl bg-accent px-8 py-4 text-sm font-semibold text-white transition-opacity hover:opacity-90"
-      >
-        {t("backToHome")}
-      </Link>
+    <main id="main" className="glow flex min-h-[72vh] items-center overflow-hidden">
+      <div className="wrap py-24">
+        <p className="t-mono text-[0.8125rem] text-[var(--fg-3)]" dir="ltr">
+          404 · page_not_found
+        </p>
+        <h1 className="t-h1 mt-5 max-w-[16ch]">{t("description")}</h1>
+        <Link href="/" className="btn mt-10">
+          {t("backToHome")} <IconArrow />
+        </Link>
+      </div>
     </main>
   );
 }

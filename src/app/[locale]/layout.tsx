@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_SC } from "next/font/google";
 import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
@@ -8,18 +8,19 @@ import { routing } from "@/i18n/routing";
 import { GITHUB_URL, DISCORD_URL, TWITTER_URL, RTL_LOCALES, SUPPORTED_LOCALES } from "@/lib/constants";
 import { ogLocaleFor } from "@/lib/content-page-helpers";
 import { Navbar } from "@/components/navbar";
-import { LaunchPricingBand } from "@/components/launch-pricing-band";
 import { ConsentManager } from "@/components/consent-manager";
 import { gaBootstrapScript } from "@/lib/consent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
 });
 
 // CJK font for Chinese — other CJK locales fall back to system fonts.
@@ -32,6 +33,15 @@ const notoSansSC = Noto_Sans_SC({
   display: "swap",
   preload: false,
 });
+
+// The browser chrome follows the page, which follows the system setting.
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#07080b" },
+  ],
+  colorScheme: "light dark",
+};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -46,7 +56,7 @@ const OG_LOCALE_MAP: Record<string, string> = {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations("metadata");
+  const t = await getTranslations("platformMeta");
   const base = "https://www.openlegion.ai";
 
   // Build hreflang alternates for <link rel="alternate" hreflang="..." />
@@ -64,28 +74,18 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     },
     description: t("homeDescription"),
     keywords: [
-      "AI agent framework",
-      "multi-agent system",
-      "LLM orchestration",
-      "autonomous AI agents",
-      "AI agent security",
-      "AI agent sandbox",
-      "AI agent cost control",
-      "openclaw alternative",
-      "AI agent deployment",
-      "production AI agents",
-      "multi-agent orchestration",
-      "secure AI agents",
-      "AI agent fleet",
-      "managed AI agent hosting",
-      "AI agent governance",
-      "AI agent cost governance",
-      "ACL-based AI agents",
+      "AI agents for SaaS",
       "AI agent platform",
-      "agentic AI framework",
-      "agentic AI orchestration",
-      "agentic AI security",
-      "AI agent deployment platform",
+      "agent harness",
+      "add AI agents to your app",
+      "embedded AI agents",
+      "AI agent API",
+      "white-label AI agents",
+      "multi-tenant AI agents",
+      "AI agent infrastructure",
+      "AI agent security",
+      "AI agent approvals",
+      "AI agent cost control",
     ],
     authors: [{ name: "OpenLegion Contributors" }],
     icons: {
@@ -102,23 +102,20 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
       languages,
     },
     openGraph: {
-      title: t("ogTitle"),
-      description: t("ogDescription"),
+      title: t("homeOgTitle"),
+      description: t("homeOgDescription"),
       type: "website",
       siteName: "OpenLegion",
       url: `${base}/${locale}`,
       locale: OG_LOCALE_MAP[locale] || "en_US",
-      images: [{ url: `/og/${ogLocaleFor(locale)}/home.png`, width: 1200, height: 630, alt: t("ogTitle") }],
+      images: [{ url: `/og/${ogLocaleFor(locale)}/home.png`, width: 1200, height: 630, alt: t("homeOgTitle") }],
     },
     twitter: {
       card: "summary_large_image",
       site: "@openlegion",
-      title: t("twitterTitle"),
-      description: t("twitterDescription"),
+      title: t("homeOgTitle"),
+      description: t("homeOgDescription"),
       images: [`/og/${ogLocaleFor(locale)}/home.png`],
-    },
-    other: {
-      "theme-color": "#ffffff",
     },
     robots: {
       index: true,
@@ -147,7 +144,7 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
   const tNav = await getTranslations("common");
-  const tSchema = await getTranslations("schema");
+  const tSchema = await getTranslations("platformSchema");
 
   // Stable @id refs let AI assistants and search engines resolve every entity
   // on this site to the same canonical record — Organization, WebSite,
@@ -210,7 +207,7 @@ export default async function LocaleLayout({
         author: { "@id": ORG_ID },
         // No license / codeRepository: the hosted product is not the public
         // GitHub repo (that is the v1 engine, described by SoftwareSourceCode).
-        softwareRequirements: "A web browser and a Google account",
+        softwareRequirements: "An HTTPS endpoint for your tools and webhooks",
         // No `offers`: hosted plans are waitlist-only right now, and structured
         // data must match what a visitor can actually buy on the page.
         featureList: tSchema.raw("softwareFeatureList") as string[],
@@ -270,7 +267,6 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <a href="#main" className="skip-nav">{tNav("skipToContent")}</a>
           <header className="sticky top-0 z-50">
-            <LaunchPricingBand />
             <Navbar />
           </header>
           {children}

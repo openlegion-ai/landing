@@ -8,58 +8,59 @@ web
 
 ## Users
 
-Primary: owners and operations leads at 5–200-person companies ("SMB → mid-market ops") evaluating whether to put AI agents to work on recurring business tasks. They evaluate during the workday, at a desk, often comparing vendors; Team ($99) is the center of gravity and Enterprise ($1,500+) the ceiling the page must dress for. Secondary: technical founders and developers who arrive via the learn/comparison content.
+Primary (since the 2026-11-03 pivot, R12/R25): **builders at SaaS companies**: technical founders, staff engineers and product leads who want to put AI agents inside their own product, one per customer, under their own brand. They read this page at a desk with an editor and a terminal open, often arriving from a coding agent, a link or a comparison search, and they judge us the way they judge Stripe: by the code sample, the docs, test mode, webhooks and pricing clarity. Secondary: their CTO or security reviewer, who reads /security; developers arriving through the ~600 learn and comparison articles.
+
+The direct product (AI employees for teams) is **frozen behind its waitlist** and is our reference app. It is no longer what the site sells.
 
 ## Product Purpose
 
-OpenLegion is a web platform where you describe the team you want and it staffs AI agents ("AI employees") that do recurring business work. v2 is inbox-first: the human's job is to unblock and review (approvals, questions, deliverables, failures in one queue), not to watch. Work is organized goals → tasks → agents; agents live where work happens (Slack, Telegram, email, webhooks — first responder wins). Success for the landing surface: a visitor understands what this is, believes it is safe to hand work to, and signs up or books a demo.
+OpenLegion is **AI agents for SaaS, the way Stripe is payments for SaaS**. A partner defines an agent product as code (template, tools, limits), creates one OpenLegion **workspace per end customer** with one API call, and puts the agent in its own UI. OpenLegion runs the harness: every action policy-checked and receipted, approvals at three walls, per-customer credit caps, a vault the model never sees, and signed webhooks back to the partner. Success for the landing surface: a builder understands this in one viewport, believes the integration is ten minutes and the controls are real, and requests early access.
 
 ## Positioning
 
-Control you can audit, not magic you must trust. Mechanisms a neighboring product could not truthfully copy:
+The partner owns the customer; we run the agent. Mechanisms a neighbouring product could not truthfully copy:
 
-- Every agent side effect is an **intent through one policy engine** — approvals, receipts. Decisions are made in the app's Needs-you view (channels can notify; they do not yet decide).
-- Approvals stop work at **three walls only** — reaching a third party on your behalf, deleting data, acting on untrusted content — so a card still means something when it appears.
-- **Per-agent budgets and exact cost-per-task**; every unit of work is a recorded, replayable **wake**, metered in credits at $0.001 each.
-- Credentials live in a **vault agents can never see** (brokered and injected outside the model, which only holds a handle).
-- Agents are rows, not servers: creating one is instant, an idle agent costs ~nothing, a workspace can run hundreds.
+- **One workspace per end customer**: the unit of isolation (row-level security), money and fairness. Test and live are separate worlds inside one org; a mismatched key gets a 404, not a 403.
+- **Every agent side effect is an intent through one policy engine**: checked before it runs, with a receipt.
+- **Approvals at three walls only**: reaching a third party, deleting data, acting on untrusted content. The partner's own user decides in the partner's UI, and the decision is recorded as theirs.
+- **Per-customer caps that mirror the partner's plans**: one prepaid org pool, monthly/daily caps, `period_anchor`, credit grants for top-ups; a reached cap is a typed refusal plus `workspace.cap_reached`.
+- **Tools are the partner's own functions** (`defineTool`, or their MCP server), called with a signed request naming the customer (`ol_signed`). Each tool declares its `effect` (read/draft/write/egress).
+- **Hard invariant (K2): OpenLegion never contacts a partner's end customer.** Everything leaves through the partner's webhooks and API.
+- **Stripe-grade conventions**: `olp_test_`/`olp_live_` keys, idempotency, prefixed ids, dated versions, `Request-Id`, signed webhooks with rotation overlap, an events API.
 
 ## Operating Context
 
-The buyer reads this page in office light, mid-workday, likely after a search or a comparison query. Their team already lives in Slack/Teams/email; agents must join those places rather than demand a new one. Procurement-adjacent eyes (IT, finance) may review the security and pricing pages.
+The buyer reads in daylight at a desk, mid-build, comparing "build the harness ourselves" against "buy it". Their security reviewer may read /security and /pricing later. Many will hand the integration to Claude Code, Cursor or Codex, so `llms.txt` and the docs matter as much as the page.
 
 ## Capabilities and Constraints
 
-- **Ships at v2 launch, on a branch until then.** The live site (this repo's Vercel project → www.openlegion.ai) keeps serving current content until the launch window. CTA at launch: **sign in with Google** (the only sign-in method at launch — no GitHub, no email/password) + "Book a demo" for Team/Enterprise.
-- **Pricing truth (decided 2026-08-27, credits re-denominated 2026-08-28):** Free $0, no card, chat-only, **1,000 one-time credits** · Pro $29/month with **10,000 credits** · Team $99/month with **35,000 credits** · Enterprise from $1,500. **1 credit = $0.001**; included credits refresh each billing month, purchased packs never expire. Never invent other numbers, discounts, SLAs, or a yearly price — there is no yearly plan.
-- **Model presets (decision D9, 2026-09-17):** the page names **Smartest / Smart / Normal**, never model ids, and **BYOK is not offered** (built, hidden).
-- **Channels at launch, per plan:** web chat everywhere · Telegram + webhooks from Pro · Slack + inbound email on Team and above (no Discord, WhatsApp, CLI, or outbound email). **Connectors:** Google Calendar and the Google Drive files the user picks. **No browser automation, no MCP, no skills** at launch.
-- **13 locales** (en, de, es, fr, pt, ru, hi, th, ja, ko, zh, zh-TW, ar) with a translation pipeline; **ar is RTL** — the design must be logical-property/RTL-safe and hold up in CJK, Thai, and Devanagari. Every copy change fans out ×13.
-- **SEO asset — hard constraint:** URL structure, slugs, ranking-page titles/H1s, sitemap, hreflang alternates, and the JSON-LD entity graph are preserved. Homepage repositioning is allowed; ~600 learn/comparison pages restyle only through the shared content templates.
-- Stack is settled: Next.js 16 (App Router) + Tailwind 4 + next-intl; content from markdown with a derivative-generation prebuild.
+- **Pre-launch, private beta.** The decided wire is `platform/docs/plans/contracts/PLATFORM-API-v1.md`; the integration kit (PL-DX: `npx openlegion init`, `ol dev`, `defineTool`, `defineAgent`, `<AgentChat>`) is planned, not shipped. Code on the site is labelled a preview of the kit's API.
+- **CTA:** "Request early access" → the existing waitlist sign-in (`WAITLIST_URL`); "Book a call" → `DEMO_URL`. J-5 (self-serve test mode) is OPEN: never claim self-serve test mode.
+- **Pricing (R24) is OPEN.** /pricing explains how billing works (org pool, per-customer caps, grants, test allowance) and says partner pricing is shared with early-access partners. **No dollar figures for partners.** Every planning figure in the platform docs is internal (rule 24).
+- **npm:** `openlegion` and `@openlegion/*` were unclaimed on 2026-11-04. Never give the install command a copy button until the names are reserved.
+- **13 locales** (en, de, es, fr, pt, ru, hi, th, ja, ko, zh, zh-TW, ar), `ar` RTL. New copy lands in English first; locales fall back to English (`src/i18n/request.ts` deep-merge) until translated. The translation pass must land before launch.
+- **SEO asset, hard constraint:** URLs, slugs, the learn/comparison titles, H1s and bodies, sitemap, hreflang and the JSON-LD entity graph are preserved. The homepage ranks for brand only (GSC Jun–Oct 2026), so it may be repositioned; the earning pages restyle only through shared templates. Footer links to the earning pages stay.
+- Stack: Next.js 16 (App Router) + Tailwind 4 + next-intl; content from markdown.
 
 ## Brand Commitments
 
-- Name **OpenLegion**, domain www.openlegion.ai; existing logo at `public/logo.png`; open-source core at github.com/openlegion-ai/openlegion (real stars, fetched live).
-- Jeff (owner), 2026-08-27, binding steer: **away from** the dark near-black + glowing-blue "tech startup" look; the surface must read **enterprise-credible** to an ops buyer.
-- Jeff (owner), 2026-08-28, standing preference — **the category standard, played straight**: the polished light enterprise SaaS page. Craft bar: Stripe, Linear, Notion, Datadog/Vanta — adopting the best of each plus what the current site does well (produced product frames, live dashboard mock). Concept-heavy visual worlds (e.g. the 2026-08-27 "Letter of Engagement" build, parked on `redesign/letter-of-engagement`) were rejected: "we should just work off revising our original."
-- The original site's **copy is an SEO asset and is preserved byte-identical** in redesigns (all 13 locales); copy changes only via the deliberate launch truth pass. **That pass ran on 2026-09-17 (PROD-PLAN lane L, session 1): English + structure rewritten to v2 truth on `redesign/enterprise-standard`; the 12 locales carry English placeholders for every changed key until session 2.**
-- Voice: plain, concrete, no hype; claims must be mechanically true of the product.
+- Name **OpenLegion**, domain www.openlegion.ai, logo `public/logo.png`.
+- 2026-11-04: the **Specimen** (security print) build was rejected on sight ("we want to be like stripe"). Jeff then approved comp A: **product-grade dark**. That means the incumbent near-black and blue brand held to Stripe-grade polish, real product UI instead of concept art, and one authored motion moment: a simple agent chat inside a partner's own app.
+- History: the light "Enterprise Standard" build (Aug–Nov 2026), the glowing-blue effects of the old dark site (gradient text, glass, particles) and Specimen are all retired. Jeff called the light build "trash" on 2026-11-03; any redesign is screenshot-reviewed with him before merge.
+- Voice: plain, concrete, no hype; claims must be mechanically true of the contract or the shipped harness.
 
 ## Evidence on Hand
 
-- **Real:** the product's own v2 screens (inbox, wake inspector with cost-per-task, memory screen, usage dashboard) — demonstrable as genuine product UI; the architecture facts in Positioning; live GitHub star count; ~600 authored learn/comparison articles.
-- **Not real — never present as real:** the current testimonials + avatars (`public/avatars/`, synthetic — drop them; earn trust with real material); any customer names, logos, quotes, case studies, or benchmarks (none exist yet); compliance certifications (no SOC 2 / ISO — do not claim).
-- **Dropped 2026-09-17:** `public/demo.mp4` (the old VPS product) is no longer on the page — the hero carries a static product frame until a v2 recording exists. The file stays in `public/` unreferenced; the homepage `VideoObject` JSON-LD went with it.
-- The money-back-guarantee page is a standing commercial commitment: **decision D8 (2026-09-17) keeps it**, reworded for Stripe and the Free/Pro/Team tiers.
+- **Real:** the decided API contract (routes, events, ids, signature scheme); the shipped harness (policy engine, receipts, approvals, vault, metering, RLS, kill switch at step boundary #185); partner #1 is our own social-publishing product (8 tools, one workspace per brand). Do not name it publicly without Jeff's OK.
+- **Not real, never present as real:** customer logos, quotes, case studies, benchmarks, usage numbers, compliance certifications (no SOC 2 / ISO / HIPAA). Demo data in the hero chat and the illustrated panels is labelled illustrative.
 
 ## Product Principles
 
-1. **Prove control, not magic** — approvals, receipts, budgets, and the vault are the story, because they are the mechanism.
-2. **Honest proof only** — nothing synthetic presented as real; demonstration material is labeled.
-3. **Work happens where you already work** — channels-first is a feature, show it.
-4. **Cheap to start, safe to scale** — $0 no-card entry and hundreds-of-agents ceiling are both true; say both.
+1. **Prove control, not magic.** Receipts, walls, caps and the vault are the story, because they are the mechanism.
+2. **The builder's ten minutes.** Show the code they will write, not a diagram of ours.
+3. **The partner owns the customer.** No OpenLegion brand, email or login ever reaches their users.
+4. **Honest proof only.** Previews are labelled previews; nothing synthetic is presented as real.
 
 ## Accessibility & Inclusion
 
-Existing standards to preserve: skip-nav, `:focus-visible` outlines, `prefers-reduced-motion` guards on all animation, semantic prose/tables in content pages. RTL is first-class, not a variant.
+Skip-nav, `:focus-visible` outlines, `prefers-reduced-motion` guards on all animation, semantic prose and tables, RTL logical properties, and type stacks that hold up in CJK, Thai, Devanagari and Arabic.
