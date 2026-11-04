@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Noto_Sans_SC } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
@@ -13,7 +13,7 @@ import { gaBootstrapScript } from "@/lib/consent";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   display: "swap",
 });
 
@@ -23,16 +23,9 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-// CJK font for Chinese — other CJK locales fall back to system fonts.
-// preload: false — only zh locales need it; the unicode-range @font-face
-// rules mean non-CJK pages never download these files.
-const notoSansSC = Noto_Sans_SC({
-  variable: "--font-noto-sc",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-  preload: false,
-});
+// Chinese, Japanese and Korean use the system's CJK faces (PingFang, YaHei,
+// Hiragino, Noto CJK), listed in --font-sans. A web CJK font added ~500
+// @font-face rules to every page's CSS, in every locale.
 
 // The browser chrome follows the page, which follows the system setting.
 export const viewport: Viewport = {
@@ -127,6 +120,25 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
+const CLIENT_MESSAGE_PATHS = ["common", "consent", "nav", "site", "home.demo", "home.board"];
+
+type Messages = Record<string, unknown>;
+function pickMessages(all: Messages, paths: string[]): Messages {
+  const out: Messages = {};
+  for (const path of paths) {
+    const keys = path.split(".");
+    let src: unknown = all;
+    for (const k of keys) src = src && typeof src === "object" ? (src as Messages)[k] : undefined;
+    if (src === undefined) continue;
+    let dst = out;
+    keys.slice(0, -1).forEach((k) => {
+      dst = (dst[k] ??= {}) as Messages;
+    });
+    dst[keys[keys.length - 1]] = src;
+  }
+  return out;
+}
+
 export default async function LocaleLayout({
   children,
   params,
@@ -142,7 +154,10 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
 
-  const messages = await getMessages();
+  // Only what client components read goes to the browser; server components
+  // translate on the server. Add a path here when a client component gains a
+  // useTranslations namespace.
+  const messages = pickMessages(await getMessages(), CLIENT_MESSAGE_PATHS);
   const tNav = await getTranslations("common");
   const tSchema = await getTranslations("platformSchema");
 
@@ -237,7 +252,11 @@ export default async function LocaleLayout({
   };
 
   return (
-    <html lang={locale} dir={RTL_LOCALES.has(locale) ? "rtl" : "ltr"}>
+    <html
+      lang={locale}
+      dir={RTL_LOCALES.has(locale) ? "rtl" : "ltr"}
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
       <head>
         <link
           rel="alternate"
@@ -261,9 +280,8 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(siteGraphJsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} antialiased`}
-      >
+      {/* Font variables sit on <html>: the @theme stacks (--font-sans/--font-mono) resolve at :root. */}
+      <body className="antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <a href="#main" className="skip-nav">{tNav("skipToContent")}</a>
           <header className="sticky top-0 z-50">

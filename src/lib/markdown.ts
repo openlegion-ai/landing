@@ -493,13 +493,47 @@ async function renderMarkdown(content: string, locale: string): Promise<string> 
     /<p><strong>([^<]+)<\/strong>\n?((?:<a href="[^"]+?">[^<]+?<\/a>(?:\s*\|\s*)?)+)<\/p>/g,
     (_, heading, links) => {
       const cleanLinks = links.replace(/\s*\|\s*/g, "");
-      return `<div class="cta-block"><p class="cta-heading">${heading}</p><div class="cta-buttons">${cleanLinks}</div></div>`;
+      return `<div class="cta-block ink"><p class="cta-heading">${heading}</p><div class="cta-buttons">${cleanLinks}</div></div>`;
     }
   );
 
   html = wrapFaqSection(html);
+  html = addHeadingIds(html);
 
   return html;
+}
+
+/** Plain-text slug that keeps any script's letters, so Arabic and CJK headings get stable anchors too. */
+function headingSlug(text: string): string {
+  return text
+    .replace(/<[^>]+>/g, "")
+    .replace(/&[a-z]+;|&#\d+;/gi, " ")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || "section";
+}
+
+/** Give every section heading (plain <h2>) an id, so the page has anchors and a table of contents. */
+function addHeadingIds(html: string): string {
+  const seen = new Map<string, number>();
+  return html.replace(/<h2>([\s\S]*?)<\/h2>/g, (_, inner: string) => {
+    const base = headingSlug(inner);
+    const n = seen.get(base) ?? 0;
+    seen.set(base, n + 1);
+    const id = n ? `${base}-${n + 1}` : base;
+    return `<h2 id="${id}">${inner}</h2>`;
+  });
+}
+
+/** The page's sections, in order, from the ids addHeadingIds wrote. */
+export function extractToc(html: string): Array<{ id: string; text: string }> {
+  const out: Array<{ id: string; text: string }> = [];
+  for (const m of html.matchAll(/<h2 id="([^"]+)">([\s\S]*?)<\/h2>/g)) {
+    const text = m[2].replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").trim();
+    if (text) out.push({ id: m[1], text });
+  }
+  return out;
 }
 
 function wrapFaqSection(html: string): string {
@@ -525,7 +559,7 @@ function wrapFaqSection(html: string): string {
   if (h3Matches.length === 0) return html;
 
   const faqHeading = faqMatch[0];
-  let faqHtml = `<section class="faq-section" itemscope itemtype="https://schema.org/FAQPage">\n${faqHeading}\n`;
+  let faqHtml = `<section class="faq-section">\n${faqHeading}\n`;
 
   for (let i = 0; i < h3Matches.length; i++) {
     const current = h3Matches[i];
@@ -533,11 +567,10 @@ function wrapFaqSection(html: string): string {
       i + 1 < h3Matches.length ? h3Matches[i + 1].startIdx : faqAndAfter.length;
     const answerHtml = faqAndAfter.slice(current.endIdx, nextStart).trim();
 
-    faqHtml += `<div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">\n`;
-    faqHtml += `<h3 itemprop="name">${current.question}</h3>\n`;
-    faqHtml += `<div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">\n`;
-    faqHtml += `<div itemprop="text">${answerHtml}</div>\n`;
-    faqHtml += `</div>\n</div>\n`;
+    faqHtml += `<div class="faq-item">\n`;
+    faqHtml += `<h3>${current.question}</h3>\n`;
+    faqHtml += `<div>${answerHtml}</div>\n`;
+    faqHtml += `</div>\n`;
   }
 
   faqHtml += `</section>`;

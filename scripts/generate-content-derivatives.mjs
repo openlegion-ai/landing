@@ -40,7 +40,7 @@ const TRANSLATION_LOCALES = new Set([
 //    a real bot has carried them.
 const PREAMBLE = `# OpenLegion
 
-> OpenLegion is a hosted agent harness for SaaS products and AI apps. A developer (a partner) defines an agent and the tools it may call; OpenLegion runs one isolated workspace per end customer, checks every tool call against policy, keeps a receipt for each action, holds risky actions for a person's approval, meters usage against a credit cap per customer, and keeps each model tier on current models.
+> OpenLegion is a hosted agent harness for SaaS companies and AI app builders: one isolated workspace per end customer, with policy-checked actions, approvals, receipts and per-customer caps. A developer (a partner) defines an agent and the tools it may call; OpenLegion checks every tool call against policy, keeps a receipt for each action, holds risky actions for a person's approval, meters usage against a credit cap per customer, and keeps each model tier on current models.
 
 ## When OpenLegion fits
 - A developer building a SaaS product or an AI app wants to add AI agents that act for their users, without building the agent harness (tool calling, isolation, approvals, metering, secrets, audit trail) themselves.

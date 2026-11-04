@@ -1,7 +1,8 @@
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { ContentPage as ContentPageData } from "@/lib/markdown";
-import { getContentEntry } from "@/lib/markdown";
+import { extractToc, getContentEntry } from "@/lib/markdown";
+import { TocRail } from "@/components/site/toc-rail";
 import { normalizeDate, resolvePageType } from "@/lib/content-page-helpers";
 import {
   JsonLd,
@@ -110,10 +111,16 @@ export function ContentPage({ page, locale }: ContentPageProps) {
     ));
   }
 
+  // Sections for the "On this page" rail; short pages read fine without one.
+  const toc = isHub ? [] : extractToc(html);
+  const hasToc = toc.length >= 3;
+
   return (
     <>
       <JsonLd data={schemas} />
-      <div className="content-page top-light">
+      <div className="content-page top-light" data-toc={hasToc || undefined}>
+        <div className="content-grid">
+        <div className="content-main">
         <div className="content-page-header">
           <nav aria-label={t("breadcrumbAriaLabel")} className="breadcrumb">
             <Link href="/">{t("breadcrumbHome")}</Link>
@@ -154,6 +161,9 @@ export function ContentPage({ page, locale }: ContentPageProps) {
         <aside aria-label={t("relatedContentAriaLabel")}>
           <RelatedPages currentSlug={slug} locale={effectiveLocale} />
         </aside>
+        </div>
+        {hasToc && <TocRail items={toc} label={t("onThisPage")} />}
+        </div>
       </div>
     </>
   );

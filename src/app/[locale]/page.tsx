@@ -2,17 +2,16 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   Hero,
-  Platform,
   Statement,
-  UseCases,
-  Quickstart,
-  Api,
-  Controls,
+  Plug,
+  Walls,
+  Board,
   Money,
+  Build,
+  Verticals,
   HomeFaq,
   Definition,
   Close,
-  Notes,
   HOME_FAQ_KEYS,
 } from "@/components/home/sections";
 import { Footer } from "@/components/footer";
@@ -136,17 +135,16 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       />
       <main id="main">
         <Hero />
-        <Platform />
         <Statement />
-        <UseCases />
-        <Quickstart />
-        <Api />
-        <Controls />
+        <Plug />
+        <Walls />
+        <Board />
         <Money />
+        <Build />
+        <Verticals />
         <HomeFaq />
         <Definition />
         <Close />
-        <Notes />
       </main>
       <Footer />
     </>

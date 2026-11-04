@@ -1,20 +1,23 @@
 ---
 name: OpenLegion Landing
-description: Product-grade, in the visitor's own light. AI agents for SaaS, shown as real product UI on a near-black canvas or white paper (following the system setting), with the foreground colour for action, blue for signal, ink code panels in both themes and one authored motion moment.
+description: Product-grade, in the visitor's own light. AI agents for SaaS, shown as real product UI on a near-black canvas or white paper (following the system setting), with the foreground colour for action, blue for signal, ink islands for code and consoles in both themes, and looping product demos that run only while seen.
 colors:
   canvas: "#07080b"
   canvas-alt: "#0d0f15"
   surface: "#0f1218"
   surface-raised: "#141823"
+  surface-3: "#1a1f2c"
   text-primary: "#f4f5f8"
   text-secondary: "#a6acbb"
   text-tertiary: "#7a8193"
+  action-hover: "#ffffff"
   hairline: "rgb(255 255 255 / 0.075)"
   hairline-strong: "rgb(255 255 255 / 0.12)"
   hairline-hover: "rgb(255 255 255 / 0.2)"
+  tint-1: "rgb(255 255 255 / 0.04)"
+  tint-2: "rgb(255 255 255 / 0.07)"
   article-border: "#1b1e29"
   action: "#f4f5f8"
-  action-hover: "#ffffff"
   action-blue: "#3b82f6"
   signal-blue: "#60a5fa"
   action-blue-deep: "#2563eb"
@@ -24,140 +27,144 @@ colors:
   state-danger: "#f87171"
   partner-brand: "#ff6b3d"
   code-well: "#0a0c11"
+  code-head: "#0d1016"
   code-text: "#d7dbe5"
-  code-comment: "#6b7488"
+  code-comment: "#7a8397"
   code-string: "#fcd34d"
   code-keyword: "#c4b5fd"
-  code-number: "#fca5a5"
   code-tab: "#8c94a8"
-  code-head: "#0d1016"
-  atmosphere-blue: "#3b82f6"
+  app-bg: "#0d1016"
+  app-bar: "#10131a"
+  app-side: "#0b0e13"
+  arc-base: "#0a1124"
   canvas-light: "#ffffff"
   canvas-alt-light: "#f7f8fa"
+  surface-light: "#ffffff"
   surface-raised-light: "#f3f5f8"
+  surface-3-light: "#eaedf2"
   text-primary-light: "#0b0d12"
   text-secondary-light: "#4a5163"
   text-tertiary-light: "#636a7c"
+  action-light: "#0b0d12"
+  action-hover-light: "#2a2f3b"
   hairline-light: "rgb(12 16 28 / 0.08)"
   hairline-strong-light: "rgb(12 16 28 / 0.12)"
   hairline-hover-light: "rgb(12 16 28 / 0.22)"
-  action-light: "#0b0d12"
-  action-hover-light: "#2a2f3b"
+  tint-1-light: "rgb(12 16 28 / 0.035)"
+  tint-2-light: "rgb(12 16 28 / 0.06)"
+  action-blue-light: "#2563eb"
   signal-blue-light: "#2563eb"
+  action-blue-deep-light: "#1d4ed8"
   blue-ink-light: "#1d4ed8"
   state-ok-light: "#047857"
   state-hold-light: "#a14a07"
   state-danger-light: "#c81e1e"
   article-border-light: "#e6e9ef"
+  app-bar-light: "#fbfbfc"
+  app-side-light: "#f7f8fa"
+  arc-base-light: "#f3f7ff"
 typography:
-  display:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
-    fontSize: "clamp(2.75rem, 1.5rem + 3vw, 4rem)"
+  hero:
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
+    fontSize: "clamp(2.6rem, 1.2rem + 4vw, 4.9rem)"
+    fontWeight: 500
+    lineHeight: 0.98
+    letterSpacing: "-0.04em"
+  statement:
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
+    fontSize: "clamp(2.625rem, 1.3rem + 4.4vw, 5.25rem)"
     fontWeight: 500
     lineHeight: 1
     letterSpacing: "-0.038em"
   headline-page:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "clamp(2.375rem, 1.5rem + 2.8vw, 3.75rem)"
     fontWeight: 500
     lineHeight: 1.04
     letterSpacing: "-0.035em"
   headline:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "clamp(2rem, 1.35rem + 2vw, 3rem)"
     fontWeight: 500
     lineHeight: 1.08
     letterSpacing: "-0.03em"
-  statement:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
-    fontSize: "clamp(2.625rem, 1.3rem + 4.4vw, 5.25rem)"
-    fontWeight: 500
-    lineHeight: 1
-    letterSpacing: "-0.038em"
-  figure:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
-    fontSize: "2.5rem"
-    fontWeight: 500
-    lineHeight: 1
-    letterSpacing: "-0.035em"
   title:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "1.0625rem"
     fontWeight: 560
     lineHeight: 1.4
     letterSpacing: "-0.011em"
   lede:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "clamp(1.0625rem, 0.98rem + 0.35vw, 1.25rem)"
     fontWeight: 400
     lineHeight: 1.55
   body:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.62
   control:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "0.9375rem"
-    fontWeight: 500
+    fontWeight: 560
     lineHeight: 1.4
+    letterSpacing: "-0.01em"
   body-small:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "0.875rem"
     fontWeight: 400
     lineHeight: 1.55
   fine:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "0.8125rem"
     fontWeight: 400
     lineHeight: 1.5
-  prose:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
-    fontSize: "1.0625rem"
-    fontWeight: 400
-    lineHeight: 1.75
   label:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "0.6875rem"
     fontWeight: 600
     lineHeight: 1
-  mono-small:
-    fontFamily: "Geist Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
-    fontSize: "0.75rem"
-    fontWeight: 400
-    letterSpacing: "-0.01em"
   mono:
     fontFamily: "Geist Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
     fontSize: "0.8125rem"
     fontWeight: 400
     letterSpacing: "-0.01em"
-  article-headline:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+  mono-small:
+    fontFamily: "Geist Mono, ui-monospace, SFMono-Regular, Menlo, monospace"
+    fontSize: "0.75rem"
+    fontWeight: 400
+  prose:
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
+    fontSize: "1.0625rem"
+    fontWeight: 400
+    lineHeight: 1.75
+  article-h1:
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "clamp(2.1rem, 1.5rem + 2vw, 3rem)"
     fontWeight: 600
     lineHeight: 1.1
     letterSpacing: "-0.035em"
   article-h2:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "1.5rem"
     fontWeight: 600
     lineHeight: 1.25
     letterSpacing: "-0.025em"
   article-h3:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 600
     lineHeight: 1.4
     letterSpacing: "-0.012em"
-  stat:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
-    fontSize: "2rem"
+  article-cta:
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
+    fontSize: "clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem)"
     fontWeight: 600
-    lineHeight: 1
-    letterSpacing: "-0.03em"
-    fontFeature: "'tnum'"
+    lineHeight: 1.2
+    letterSpacing: "-0.025em"
   numeric:
-    fontFamily: "Geist, Noto Sans SC, PingFang SC, system-ui, sans-serif"
+    fontFamily: "Geist, PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui, sans-serif"
     fontSize: "inherit"
     fontWeight: 400
     fontFeature: "'tnum'"
@@ -168,21 +175,23 @@ rounded:
   md: "12px"
   lg: "16px"
   full: "999px"
+  bubble-tail: "6px"
   partner-mark: "3px"
 spacing:
   gutter-mobile: "20px"
   gutter: "32px"
   container: "1232px"
   reading-column: "820px"
+  reading-measure: "68ch"
+  article-with-rail: "47rem + 13.5rem, gap 64px"
   section: "clamp(5rem, 3.2rem + 6vw, 9rem)"
-  panel-inset-sm: "20px"
-  panel-inset: "24px"
-  panel-inset-lg: "32px"
   section-intro-gap: "56px"
+  panel-inset: "18px 20px"
 components:
   button-primary:
     backgroundColor: "{colors.action}"
     textColor: "{colors.canvas}"
+    typography: "{typography.control}"
     rounded: "{rounded.control}"
     padding: "0 20px"
     height: "46px"
@@ -191,7 +200,7 @@ components:
     textColor: "{colors.canvas}"
     rounded: "{rounded.control}"
   button-secondary:
-    backgroundColor: "rgb(255 255 255 / 0.04)"
+    backgroundColor: "{colors.tint-1}"
     textColor: "{colors.text-primary}"
     rounded: "{rounded.control}"
     padding: "0 20px"
@@ -213,21 +222,15 @@ components:
   chip:
     backgroundColor: "{colors.surface-raised}"
     textColor: "{colors.text-primary}"
-    typography: "{typography.mono}"
+    typography: "{typography.mono-small}"
     rounded: "{rounded.chip}"
     padding: "3px 8px"
   tag:
-    backgroundColor: "rgb(255 255 255 / 0.06)"
+    backgroundColor: "{colors.tint-2}"
     textColor: "{colors.text-secondary}"
     typography: "{typography.label}"
     rounded: "{rounded.full}"
     padding: "4px 8px"
-  inline-code:
-    backgroundColor: "{colors.surface-raised}"
-    textColor: "{colors.text-primary}"
-    typography: "{typography.mono}"
-    rounded: "{rounded.chip}"
-    padding: "1px 6px"
   code-panel:
     backgroundColor: "{colors.code-well}"
     textColor: "{colors.code-text}"
@@ -241,9 +244,22 @@ components:
     padding: "0 12px"
     height: "40px"
   nav-link-hover:
-    backgroundColor: "rgb(255 255 255 / 0.04)"
+    backgroundColor: "{colors.tint-1}"
     textColor: "{colors.text-primary}"
     rounded: "{rounded.sm}"
+  toc-link:
+    backgroundColor: "transparent"
+    textColor: "{colors.text-tertiary}"
+    typography: "{typography.fine}"
+    padding: "6px 0 6px 14px"
+  toc-link-current:
+    backgroundColor: "transparent"
+    textColor: "{colors.text-primary}"
+  cta-block:
+    backgroundColor: "{colors.canvas-alt}"
+    textColor: "{colors.text-primary}"
+    rounded: "{rounded.lg}"
+    padding: "36px 36px 32px"
 ---
 
 # Design System: OpenLegion Landing
@@ -252,224 +268,177 @@ components:
 
 **Creative North Star: "Product-grade, in the visitor's own light"**
 
-The page sells infrastructure the way the best developer platforms do: by showing the product working, held to Stripe- and Linear-grade polish. It follows the visitor's system setting: dark is a near-black canvas with white hairlines, light is white paper with graphite hairlines. In both, the primary button is the foreground colour and means "act here", and blue means "this is the agent, or a link". Code panels and the terminal are ink in both themes, the way an editor is. Every illustration is real-looking product UI (a partner's app with our agent inside, a run receipt, a credit ledger, a code editor and terminal), plus one architecture map, never concept art or diagrams of our internals. The claim "the controls are real" is made by drawing the controls.
+The page sells agent infrastructure the way the best developer platforms do: by showing the product working, held to Stripe- and Linear-grade polish. It follows the visitor's system setting (no toggle): dark is a near-black canvas with white-alpha hairlines, light is white paper with graphite-alpha hairlines. In both, the primary button is the foreground colour and means "act here"; blue means "this is the agent, or a link". Code panels, consoles and article code blocks are **ink islands**, dark in both themes. Every illustration is real-looking product UI (a partner's app with our agent inside, the run's event console, a workspace board, code), never concept art.
 
-Density is product-like rather than editorial. Sections pair a short balanced headline and a lede with a panel of evidence: ids in mono, tabular figures, status tags and meters. Ornament is limited to one faint, cool light behind the hero product. Restraint is the enterprise signal: each section makes one point with one piece of evidence, and nothing is said twice. Motion is spent once per page, on the hero chat loop, so it reads as a demonstration rather than decoration.
+Density is product-like. Sections pair a balanced headline and a lede with one piece of evidence: ids in mono, tabular figures, status tags and meters. Each section makes one point and nothing is said twice. Motion lives in two looping product demos (the hero run and the workspace board) plus the atmosphere's slow breath; every loop runs only while seen and holds a meaningful still frame under reduced motion.
 
-The system descends from the incumbent near-black-and-blue brand but deliberately retires its glowing effects: no gradient text, no glass, no particles. It also stands apart from the earlier looks that PRODUCT.md records as rejected.
-
-**Key Characteristics:**
-- Two themes from one token set, chosen by `prefers-color-scheme`: near-black canvas (#07080b) with white-alpha hairlines, or white paper with graphite-alpha hairlines; never heavy borders
-- Code panels, the terminal and article code blocks stay ink in both themes
-- The foreground colour for the primary action (white on dark, near-black on light), the blue family for links, focus and the agent's own work; green, amber and red appear only as state
-- Real product UI as illustration, labelled illustrative, with every sentence-level qualification moved to numbered notes at the foot of the page
-- Geist for everything, headings at a calm 500 with negative tracking; Geist Mono for ids, code and figures
-- Soft, rounded product geometry (6 to 16px); depth from black drops and a 1px top highlight in dark, from white surfaces and soft graphite shadows in light
-- One authored motion moment per page: the hero's partner-app chat
-- RTL-ready through logical properties, with ids and code pinned LTR
+**Key characteristics**
+- One token set, two themes via `prefers-color-scheme`; components never name a theme.
+- Ink islands (`:root, .code-panel, .prose pre, .ink`) carry the dark palette everywhere.
+- Foreground for action, blue for signal and the agent's work, green/amber/red for state only.
+- Geist and Geist Mono throughout; CJK falls to system faces.
+- Soft product geometry (6 to 16px); depth from black drops in dark, graphite drops on white in light.
+- RTL through logical properties; ids, code and figures pinned LTR.
 
 ## Colors
 
-A near-monochrome product palette in two themes: graphite surfaces and white-alpha rules in dark, white surfaces and graphite-alpha rules in light. The foreground colour is the action, one blue is the signal, there are three state colours, and a partner colour that is never ours. The values below are the dark theme; **Themes** at the end of this section gives the light values and the rules for both.
+Near-monochrome graphite (dark) or white (light), one blue family, three state colours and one partner colour that is never ours. Frontmatter lists dark values and their `-light` counterparts.
 
-### Primary
-- **Action** (`action`, Text Primary #f4f5f8, hover pure white): the fill of every primary button, with Canvas text. This is the frontier-lab convention on dark: the most important button is the brightest thing on the screen, not a saturated hue.
-- **Action Blue** (`action-blue`): the selection highlight at 35% alpha, the hero stage light at 13%, the agent's new-draft ring and the blue tag background at 14%.
-- **Action Blue Deep** (`action-blue-deep`): the start of the meter fill.
-- **Signal Blue** (`signal-blue`): links and arrow links, the focus outline, the active code-tab underline, link underlines on hover and the end of the meter fill.
-- **Blue Ink** (`blue-ink`): blue on dark for text: workspace ids (`ws_…`), the draft-effect chip, blue tags, arrow-link hover, and code punctuation and function names.
-
-### Tertiary
-- **State OK** (`state-ok`): success and "runs" tags, the check discs on completed steps, the approved banner, the 200 response pill.
-- **State Hold** (`state-hold`): held and "asks" tags, the approval card border and fill (40% and 6%), and the write and egress effect chips (the effects that stop for approval).
-- **State Danger** (`state-danger`): cap reached, capped and blocked states, and the full meter.
-
-### Partner
-- **Partner Brand** (`partner-brand`, "your app" orange): the illustrated partner's own logo mark, and nothing else. The partner app's chrome is neutral (Surface Raised bubble, white Approve and send buttons, a neutral avatar); the agent's work inside it (the assistant spark, the new draft's ring and tag) is blue.
-
-### Neutral
-- **Canvas** (`canvas`): the page ground, navbar and mobile menu.
-- **Canvas Alt** (`canvas-alt`): alternate sections, the footer, panel footers and the inset wells that hold mini visuals.
-- **Surface** (`surface`) and **Surface Raised** (`surface-raised`): panels, then chips, inline code, step rows and table heads inside panels.
-- **Text Primary / Secondary / Tertiary**: headings and emphasis; body and ledes; captions, timestamps, ids and footnotes.
-- **Hairline / Hairline Strong / Hairline Hover**: row dividers and section rules; panel edges, list top rules and secondary-button rings; hover rings and the breadcrumb separator.
-- **Article Border** (`article-border`): the solid border colour kept for the shared article and legal templates' `border-border` utility.
-- **Code Well / Code Text**: code panels and article `pre`. The syntax palette is scoped to code only: comment #6b7488, string #fcd34d, keyword #c4b5fd, number #fca5a5, and punctuation, functions and JSON keys in Blue Ink.
-
-### Named Rules
-**The Foreground-Acts, Blue-Signals Rule.** The primary button is the foreground colour: white on dark, near-black on light. Blue marks everything else that is interactive or highlighted (links, focus, selected tabs) and the agent's own work. Nothing else takes an accent hue, apart from the syntax palette inside code.
-
-**The Partner Colour Rule.** Partner Brand is only ever the partner's small logo mark (in the hero window, the statement rail and the harness map). It is never a button, bubble, highlight, link, heading or surface. The test: covering the three marks should leave no orange on the page.
-
-**The State-Only Rule.** Green, amber and red mean ok, held and danger. They are never decoration, never a section colour and never a heading colour.
+### Tokens (CSS names)
+- **Ground:** `--bg` canvas, `--bg-2` alternate sections, footer and table heads; `--surface`, `--surface-2`, `--surface-3` step up for panels, chips and step rows, then user bubbles and avatars.
+- **Text:** `--fg`, `--fg-2` (body, ledes), `--fg-3` (captions, timestamps, meta); `--fg-hover` is the primary button's hover fill.
+- **Lines:** `--line` (row dividers), `--line-2` (panel edges, top rules, secondary rings), `--line-3` (hover rings, separators, link underlines at rest).
+- **Tints:** `--tint-1`, `--tint-2` for neutral hover and fills (nav hover, tag ground, meter track, active filter). Never a raw white or black wash outside ink islands.
+- **Blue:** `--blue` (tint source: tags 14%, selection, the agent's draft ring, `.cmp-us` 4 to 7%), `--blue-2` (links, focus outline, selected tab underline, TOC current marker, meter end), `--blue-3` (meter start), `--blue-ink` (blue text: ids `ws_…`, hooks, draft chips, blue tags, code punctuation).
+- **State:** `--ok`, `--hold`, `--danger`. Tints are `color-mix(in srgb, <state> N%, transparent)`: tags 12%, discs 16 to 18%, held/approval wells 6 to 8% with a 26 to 40% ring.
+- **Partner:** `--brand` #ff6b3d, only the illustrated partner's 22px app mark.
+- **Partner app chrome:** `--app-bg`, `--app-bar`, `--app-side`, `--edge-top`, `--btn-2`, `--btn-2-hover`, `--well`, `--selection` (each themed).
+- **Code:** `--code-bg`, `--code-head`, `--code-fg`; syntax `.tok-c` #7a8397 (4.8:1 or better on every code surface), `.tok-s` #fcd34d, `.tok-k` #c4b5fd, `.tok-p`/`.tok-f` #93c5fd; tabs #8c94a8.
+- **Legacy aliases** for shared article templates: `--background`, `--foreground`, `--muted`, `--border` (#1b1e29 / #e6e9ef), `--card`, `--accent*`, `--success`, exposed to Tailwind via `@theme inline`.
 
 ### Themes
-The page follows the system setting (`prefers-color-scheme`); there is no toggle. `:root` carries the dark palette, and `@media (prefers-color-scheme: light)` swaps the same token names for light values, so components never name a theme. `html` declares `color-scheme: light dark`, and the browser chrome follows through a light and a dark `theme-color`.
-- **Light values:** Canvas #ffffff, Canvas Alt #f7f8fa, Surface #ffffff, Surface Raised #f3f5f8, Surface 3 #eaedf2; Text Primary #0b0d12, Secondary #4a5163, Tertiary #636a7c; Hairlines graphite `rgb(12 16 28)` at 8%, 12% and 22%; Signal Blue and Action Blue #2563eb, Blue Ink and Action Blue Deep #1d4ed8; State OK #047857, Hold #a14a07, Danger #c81e1e; Article Border #e6e9ef.
-- **Contrast floor:** the light text and signal colours are the darker steps of the dark theme's hues, picked so every one clears 4.5:1 on white, on Canvas Alt and on its own 12% state tint.
-- **Ink islands:** `.code-panel`, `.term` and `.prose pre` redeclare the dark palette on themselves, so code and the terminal read the same in both themes. They keep the page's shadows, so on paper they sit on a soft graphite drop.
-- **Tints, not white washes:** hover and neutral fills use `--tint-1` and `--tint-2` (white at 4% and 7% on dark, graphite at 3.5% and 6% on light). State and blue tints are `color-mix()` of the state token with transparent, so one rule serves both themes.
-- **The partner app** in the hero has its own tokens (`--app-bg`, `--app-bar`, `--app-side`): a graphite window on dark, a white window with a #fbfbfc bar and a #f7f8fa sidebar on light.
+- `:root` holds the dark palette; `@media (prefers-color-scheme: light)` reassigns the same names. `html` sets `color-scheme: light dark`.
+- Light text and signal colours are the darker steps of the dark hues, each clearing 4.5:1 on white, on `--bg-2` and on its own 12% tint.
+- **Ink islands** redeclare the dark block and set `color-scheme: dark`, so code and consoles read identically on paper; they keep the page's (graphite) shadows in light.
+- **Theme crossfade:** colour tokens are registered with `@property` as `<color>` and `:root` transitions them over 0.5s on `--ease-out`; ink islands hold still; shadows and stage lights switch at once; reduced motion switches instantly.
 
-**The One-Token-Set Rule.** A component reads tokens and never checks the theme. A colour that only works in one theme becomes a token with a value for each, never a second rule.
+### Named Rules
+**The Foreground-Acts, Blue-Signals Rule.** The primary button is `--fg` on `--bg`. Blue marks links, focus, selection and the agent's own work. No other accent hue exists outside the syntax palette.
+
+**The Partner Colour Rule.** `--brand` appears only in the partner's app mark. Never a button, bubble, highlight, link, heading or surface.
+
+**The State-Only Rule.** Green, amber and red mean ok, held and danger, nothing else.
+
+**The One-Token-Set Rule.** A colour that only works in one theme becomes a token with two values, never a theme-checking rule.
 
 ## Typography
 
-**Display Font:** Geist (with Noto Sans SC, then PingFang SC, Microsoft YaHei, Hiragino Sans and Noto Sans CJK SC, then system-ui)
-**Body Font:** Geist (same stack)
-**Label/Mono Font:** Geist Mono (with ui-monospace, SFMono-Regular, Menlo)
+**Sans:** Geist via `next/font` (`--font-geist-sans`, Latin subset, preloaded), then PingFang SC, Microsoft YaHei, Hiragino Sans, Noto Sans CJK SC, system-ui.
+**Mono:** Geist Mono via `next/font` (Latin), then ui-monospace, SFMono-Regular, Menlo.
 
-**Character:** A neutral, engineered grotesque set tight at a calm medium weight, in the register of a product dashboard, paired with its own mono so ids and code sit in the same family as the prose.
-
-### Hierarchy
-- **Display** (500, clamp 2.75rem to 4rem, line-height 1, -0.038em, balanced): the home hero H1 only. It sits at the top of the copy column (max 15ch), beside the product window, so headline, lede, actions and the approval moment all share the first viewport.
-- **Headline Page** (500, clamp 2.375rem to 3.75rem, 1.04, -0.035em): inner-page H1s (max 18ch) and the home closing headline.
-- **Statement** (500, clamp 2.625rem to 5.25rem, 1, -0.038em, balanced): one per page, the home parties line ("You own the customer. We run the agent."), held to 20ch.
-- **Headline** (500, clamp 2rem to 3rem, 1.08, -0.03em): section H2s, held to 11 to 20ch and at most two lines at desktop. The CTA band caps it at clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem).
-- **Title** (560, 1.0625rem, 1.4, -0.011em): item titles in lists, definition grids, templates and parties. Dense lists and FAQ questions drop it to 1.0625rem.
-- **Figure** (500, 2.5rem, 1, -0.035em, tabular): the one headline number in a ledger panel (the org pool).
-- **Lede** (400, clamp 1.0625rem to 1.25rem, 1.55, Text Secondary, pretty wrap): the paragraph under every H1 and H2, max 32 to 38rem.
-- **Body** (400, 1rem, 1.62) and **Body Small** (0.875rem, 1.55): explanations, max about 40 to 42rem.
-- **Fine** (0.8125rem, 1.5, Text Tertiary): captions, "illustrative" labels, the foot-of-page notes and meta.
-- **Note marker** (max(0.6875rem, 0.42em), 500, superscript, Text Tertiary, Signal Blue on hover): a numbered link from a claim to its note.
-- **Label** (600, 0.6875rem): the text inside tags. It is sentence case and never introduces a heading.
-- **Mono** (0.8125rem, -0.01em; 0.6875 to 0.75rem in dense panels): ids, tool names, effects, code, timestamps and proof lines.
-- **Prose** (1.0625rem, 1.75): article bodies; article H1 clamp(2.1rem to 3rem), H2 1.6rem, H3 1.2rem, all 600.
+### Ramp as shipped
+- **Hero** `.t-hero.duo-h1`: 500, clamp(2.6rem, 1.2rem + 4vw, **4.9rem**), line-height 0.98, -0.04em, balanced, max 14ch. Home H1 only.
+- **Statement** `.t-statement`: 500, clamp(2.625rem → 5.25rem), 1, -0.038em, max 20ch. One per page (the home parties line).
+- **Headline Page** `.t-h1`: 500, clamp(2.375rem → 3.75rem), 1.04, -0.035em. Inner-page H1s and the home closing headline (max 16ch).
+- **Headline** `.t-h2`: 500, clamp(2rem → 3rem), 1.08, -0.03em. Section H2s.
+- **Title** `.t-h3`: 560, 1.0625rem, 1.4, -0.011em. Item titles, FAQ questions, small block headings.
+- **Lede** `.t-lede`: 400, clamp(1.0625rem → 1.25rem), 1.55, `--fg-2`, pretty wrap, max about 31 to 34rem.
+- **Body** `.t-body` 1rem/1.62; **Body Small** `.t-small` 0.875rem/1.55; **Fine** `.t-fine` 0.8125rem/1.5 in `--fg-3`.
+- **Control:** buttons 560, 0.9375rem, -0.01em (0.875rem small); arrow links 600 in `--blue-2`.
+- **Label:** tags 600, 0.6875rem, sentence case.
+- **Mono** `.t-mono` 0.8125rem, -0.01em; dense panels use 0.75rem (0.6875 to 0.72rem for ids and step codes).
+- **Demo UI:** hero app and console text at 0.875rem with 0.8125rem secondary lines; board at 0.875rem.
+- **Article** `.prose`: body 1.0625rem/1.75 in `--fg-2`, running text held to 68ch; H1 600 clamp(2.1rem → 3rem)/1.1/-0.035em; H2 600 1.5rem/1.25/-0.025em; H3 600 1.25rem/1.4; H4 600 1.0625rem; `pre` 0.875rem/1.65; inline code 0.88em; tables 0.875rem with 0.8125rem heads; CTA heading 600 clamp(1.375rem → 1.75rem); related-pages heading 600 1.25rem.
+- **Comparison table** `.cmp`: cells 0.9375rem/1.55, row headers 560, column heads 500 0.8125rem in `--fg-3`.
 
 ### Named Rules
-**The Calm Weight Rule.** Display, Statement and Headline are Geist 500; Title is 560; buttons are 560. Tracking tightens as size grows (-0.011em up to -0.038em). Hierarchy comes from size and colour, never from a heavier weight or a second display face. Heavy, ultra-tight display type is the template-startup tell this system avoids.
+**The Calm Weight Rule.** Marketing display sizes are Geist 500; titles and buttons 560; only article headings use 600. Tracking tightens as size grows (-0.011em to -0.04em). Hierarchy comes from size and colour, never a second display face.
 
-**The Pinned Figures Rule.** Ids, tool names, credits, timestamps and code are set `dir="ltr"`, and counts use tabular numerals, so they read identically on Arabic pages.
+**The Pinned Figures Rule.** Ids, tool names, event names, credits, timestamps and code are `dir="ltr"`; counts use tabular numerals (`.t-num`) and `Intl.NumberFormat(locale)`.
+
+### CJK
+- No web CJK font: CJK glyphs fall through to the system stack. A web CJK font added ~500 `@font-face` rules to every page in every locale.
+- `:lang(ja)` headings, paragraphs, list items and captions (and `.t-hero`) use `word-break: auto-phrase`.
+- `:lang(ko)` uses `word-break: keep-all; overflow-wrap: anywhere`.
 
 ## Layout
 
-Content sits in a 1232px container with 20px gutters on mobile and 32px from 640px. Sections use fluid block padding (clamp 5rem to 9rem). Alternate sections switch to Canvas Alt between top and bottom hairlines, and plain sections are separated by a single top hairline. The home page alternates evenly: platform plain, how it works alt, use cases plain, quickstart and API alt (one block), controls plain, money alt, then FAQ and the definition plain before the closing stage. Dark Canvas Alt is #0d0f15, light enough that the rhythm reads on dark screens. Articles and content pages use an 820px reading column.
-
-The section intro is a split head: the H2 on the left and the lede on the right, aligned to the bottom edge, collapsing to a stack below 1024px. Evidence follows 56px below in a panel. Two-column sections are asymmetric (0.92 / 1.08 in the hero from 1280px, vertically centred, stacked below; 0.85 / 1.15, 0.9 / 1.1 and 0.75 / 1.25 elsewhere) with 56 to 80px gaps, and long companions (code, FAQ heading) stick at 8rem from the top.
-
-There is no bento. Each section gets one piece of evidence; attributes that need defining go in a definition grid (three columns at 1024px, two at 640px, one below) under a strong top hairline, each cell a Title, its mono API name at the end of the line, and Body Small, separated by hairline rows. Lists of attributes elsewhere are specification lists: a strong top hairline, hairline rows and an optional mono proof chip.
-
-**Responsive:** no horizontal scroll at any width (`overflow-x: clip` on the body; wide tables scroll inside their panel). At 640px and below, the hero app window drops its sidebar and tabs and shows the chat alone at 472px tall. Below 640px, paired hero and closing CTAs stretch to equal widths. The navbar collapses to a primary button and a 44px menu toggle below 1024px.
-
-**RTL:** `ar` ships RTL, so spacing and alignment use logical properties (`ms-`/`me-`/`ps-`/`pe-`, `inset-inline`, `border-s`, `text-start`/`text-end`), and directional icons and the chat bubble's tail flip.
+- `.wrap`: max 1232px, 20px gutters, 32px from 640px. `body` has `overflow-x: clip`; wide tables scroll inside their wrapper.
+- `.section`: block padding clamp(5rem, 3.2rem + 6vw, 9rem). `.section-alt` switches to `--bg-2` between `--line` rules; `.hairline` is a single top rule.
+- Home rhythm alternates plain and alt: hero (stage) · platform alt · quickstart · controls alt · workspaces · money alt · build-vs-buy · use cases alt · FAQ · definition and reading (hairline, 5 to 6rem padding) · closing stage.
+- Section intro is a split head (`SplitHead`): H2 and lede, evidence 48 to 64px below.
+- Two-column grids are asymmetric (hero head 1.22/0.78, hero pair 1.4/1, board 0.72/1.28, plug 0.8/1.2, money 0.85/1.15, FAQ 0.75/1.25) with 56 to 80px gaps; equal splits only for the walls (three columns divided by `border-inline-start`) and verticals (two).
+- Breakpoints in use: 640, 768, 900, 1024, 1100, 1280.
+- Articles: `.content-page` 820px (48px/96px padding, 72px/120px from 768px). From 1280px a page with `data-toc` widens to 1232px and becomes a grid of a 47rem article plus a 13.5rem contents rail, 64px apart.
+- `scroll-padding-top` and `.prose h2[id]` `scroll-margin-top` are 96px to clear the sticky 64px bar.
 
 ## Elevation & Depth
 
-**Dark:** depth is a hybrid of tonal layering and dark shadows. Surfaces step up from Canvas to Surface to Surface Raised, each edged with a white-alpha hairline. Panels add a 1px inner top highlight and a long, soft black drop. The hero app window and code panels sit one level higher. The harness core carries a **lit edge**: a top-lit hairline gradient (`--edge-light`) drawn over the border with a masked pseudo-element. The app window, code panels and terminal get the same effect as a brighter top border (20% and 16% white).
+- `--shadow-1` (button contact), `--shadow-2` (panels, tables, node chips), `--shadow-3` (app window, console, code panel, board, article CTA). Dark: black drops with a 1px inner white top highlight. Light: graphite `rgb(16 24 40)` drops at 4 to 20%, no highlight.
+- `--lift`: a 1px graphite contact shadow on light secondary buttons and the agent's draft ring; nothing on dark.
+- Raised windows get a brighter top border (`--edge-top`; 16% white on ink islands). `.edge` draws a top-lit gradient border via `--edge-light`, transparent in light.
 
-**Light:** elevation is a white surface plus a soft graphite shadow, never a lighter grey. Panels drop `0 1px 2px` and `0 12px 28px -14px` of `rgb(16 24 40)` at 4% and 14%; the hero window and code panels add a long `0 64px 120px -56px` at 20%. There is no inner highlight and the lit edge is off (`--edge-light` is transparent); the app window's top border is a plain Hairline Strong. Secondary buttons and the agent's new-draft ring add a 1px contact shadow (`--lift`).
+**Atmosphere: arc over field.** `.stage` paints an arc of blue light from the top inline-end corner (`::before`, `--arc*` tokens) over `AgentField`, a canvas of workspace tiles receding to a horizon behind `[data-field-anchor]`, keeping `[data-field-copy]` and `[data-field-clear]` clear. About one tile in ten is awake and breathes on its own 5 to 11s cycle (opacity 55 to 100%, about 24fps). Variants: `.stage-top` runs 65px up under the transparent navbar (hero, inner-page headers); `.stage-quiet` at 62% for inner-page headers; `.stage-close` rises from below for the closing CTA; `.top-light` (arc only, masked out before body copy) on reading pages; `.glow` small arc for panels and the 404. Arc and glow mirror in RTL.
 
-**The atmosphere: an arc over a field** (Jeff chose it 2026-11-04 for every page). One idea opens and closes each page. The sky is an **arc** of blue light falling from the top right (`.stage::before`, tokens `--arc*`). The ground is a **field** of customer workspaces receding to a horizon behind the product (`AgentField`, a canvas). Most tiles sleep in a cool grey; about one in ten is awake, an agent working, and glows blue. Each awake tile breathes on its own 5 to 11 second cycle. The field converges on the product (`[data-field-anchor]`) with the horizon behind its lower half. It always keeps the copy (`[data-field-copy]`) and small captions (`[data-field-clear]`) clear. It is never behind text.
-- **Where:** the home hero (`.stage .stage-top`, full strength); inner-page headers on pricing, security and FAQ (`.stage-quiet`, about 60%); the home closing CTA (`.stage-close`, where the light rises from the field so there is no seam at the top); reading pages get only the arc, quiet, behind the title (`.top-light`); panels and the 404 get a small arc (`.glow`).
-- **Under the navbar:** the first stage on a page runs up under the bar (`.stage-top`, -65px). The bar is transparent at the top and turns solid with a hairline once scrolled.
-- **Phones and stacked layouts:** the horizon sits just under the actions, so the window rises out of it; the field shows in the gap, the gutters and below.
-- **Light theme:** a pale periwinkle arc on paper; sleeping tiles in graphite at 11%, awake ones in Action Blue.
-- The older atmosphere token `--aurora-blue` (with `--aurora-k`: 1 on dark, 0.6 on light) remains only for the harness map's wash, its core's ambient light and the statement rail.
-
-### Shadow Vocabulary
-- **Panel** (`box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 16px 32px -16px rgb(0 0 0 / 0.7)`): panels, the CTA band and article CTA blocks.
-- **Lifted** (`box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05), 0 40px 80px -24px rgb(0 0 0 / 0.75), 0 16px 32px -16px rgb(0 0 0 / 0.6)`): the hero app window and code panels.
-- **Button** (`box-shadow: 0 1px 2px rgb(0 0 0 / 0.4)`): the primary button's contact shadow; the white fill needs no sheen.
-- **Ring** (`box-shadow: inset 0 0 0 1px` hairline-strong, hairline-hover on hover): secondary buttons, drawn as a ring rather than a border.
-- **Hero light** (`radial-gradient(closest-side, rgb(59 130 246 / 0.2), rgb(59 130 246 / 0.06) 50%, transparent 72%)`): `.glow`, still used by inner pages and the CTA band.
-- **Ambient blue** (`0 40px 80px -36px rgb(59 130 246 / 0.28)` on the harness core): an offset, blurred cool light under the one diagram object. The hero window takes black Lifted only; its cool light comes from the stage.
-
-### Named Rules
-**The Shadow-Is-Neutral Rule.** Shadows are black on dark and graphite (`rgb(16 24 40)`) on light, except the faint ambient blue under the harness core. Coloured light comes only from the hero stage light. It sits behind product UI or below text, never on the text itself.
+**The Shadow-Is-Neutral Rule.** Shadows are black or graphite. Coloured light comes only from the atmosphere and the article CTA's 26% blue corner wash, behind content, never on text.
 
 ## Shapes
 
-Product-soft corners on a small scale: 6px for chips and inline code, 8px for small buttons, nav links and rows inside visuals, 10px for buttons and inputs, 12px for inset wells and article blocks, and 16px for panels, code panels and the app window. Tags, meters, status dots and step discs are fully round. The one off-scale corner is the illustrated partner's logo glyph (the white 8px square inside the orange app mark, 3px): like the partner colour, it is the partner's own brand, never an OpenLegion shape. Borders are 1px white-alpha hairlines. Emphasis comes from surface changes and rings, not thicker or coloured strokes. Dashed strokes mark only boundaries: the workspace band in the harness map.
-
-**Icons:** one drawn grammar. Icons are SVG on a 16-unit grid with a 1.6 stroke, round caps and round joins in `currentColor` (arrow, plus, send, external, stop, lock, globe, key). CSS arrows use the same path as a mask.
+- Scale: 6px chips, inline code, small app buttons, tab-ish chips; 8px (`--r-sm`) small buttons, nav links, step rows, filter pills; 10px buttons, inputs, campaign rows, drawers, wells; 12px (`--r`) approval cards, node chips, article blocks, related links, prose tables; 16px (`--r-lg`) panels, windows, console, board, code panels, table wraps, article CTA. Tags, meters, dots and discs are `999px`.
+- **Chat-bubble tail (deliberate exception):** user bubbles (hero chat and walls alike) are rounded 16px on three corners and 6px on the speaker's bottom corner; `[dir="rtl"]` moves the tail to the other side.
+- The partner mark's inner glyph (3px) is the partner's own shape, not ours.
+- Borders are 1px hairlines; emphasis comes from surface and rings (`inset 0 0 0 1px`), never thick or coloured side strokes.
+- Icons: SVG on a 16-unit grid, 1.6 stroke, round caps/joins, `currentColor`. CSS arrows reuse the same path via `--arrow-mask`.
 
 ## Components
 
-### Buttons
-- **Character:** solid and confident, like a primary action in a product.
-- **Shape:** 10px radius (8px small), 46px minimum height (36px small), 560 weight at 0.9375rem.
-- **Primary:** Action fill (near-white on dark, near-black on light), Canvas text, a contact shadow and an optional arrow icon.
-- **Hover / Focus:** the fill goes to pure white on dark and to #2a2f3b on light and the arrow slides 3px in the reading direction (mirrored in RTL). Pressing nudges it down 1px. Focus is the global 2px Signal Blue outline, offset 3px.
-- **Secondary:** white at 4% on dark, solid white with a contact shadow on light, with a 1px Hairline Strong ring. On hover it goes to 8% (#f6f7f9 on light) with a Hairline Hover ring.
-- **Arrow link:** Signal Blue 600 text with an arrow; it turns Blue Ink on hover.
+- **Button** `.btn`: `--fg` fill, `--bg` text, `--shadow-1`, min-height 46px, 10px. Hover `--fg-hover`; active translateY(1px); arrow nudges 3px toward reading direction (mirrored in RTL). **Secondary** `.btn-secondary`: `--btn-2` with `--line-2` ring, hover `--btn-2-hover` and `--line-3` ring. **Small** `.btn-sm` 36px, 8px. Paired CTAs stretch to equal widths below 640px.
+- **Focus:** global `:focus-visible` 2px `--blue-2` outline, 3px offset.
+- **Links:** `.link` `--fg` with `--line-3` underline turning `--blue-2` on hover; `.link-arrow` `--blue-2` → `--blue-ink`; prose links `--blue-2` with a 40% underline.
+- **Chip** `.chip`: mono 0.75rem on `--surface-2`, `--line` edge, 6px; effect classes `chip-read` (`--fg-3`), `chip-draft` (`--blue-ink`), `chip-write`/`chip-egress` (`--hold`).
+- **Tag** `.tag`: label type pill on `--tint-2`; `tag-ok`, `tag-hold`, `tag-danger` (12%), `tag-blue` (14%, `--blue-ink` text); optional 6px `.dot`.
+- **Meter** `.meter`: 6px (4px on the board) round track in `--tint-2`; fill is a `--blue-3` → `--blue-2` bar sized by `transform: scaleX(var(--v))`, never width; `transform-origin` is left in LTR and right in RTL so it always fills from inline-start; `.meter-full` turns `--danger`.
+- **Panel** `.panel` + `.panel-head` (12px 16px, 0.8125rem, `--line` rule).
+- **Code panel** `.code-panel`: ink island, 16px, `--shadow-3`; mono 0.8125rem/1.7, `tab-size: 2`; `.tab` mono 0.75rem, selected = `--fg` with a 2px `--blue-2` underline inset 12px.
+- **Hero: one run, both sides** (`duo-*`): the partner app (`.app-window`, 52px bar, 432px body; list hidden 1024 to 1279px and below 640px) beside the ink console (`.duo-console`: 52px head, mono sub-line, event rows of disc/time/event/cost, a held-action wall that opens on `grid-template-rows` 0fr→1fr, a per-customer credit meter). New rows flash with `ol-flash`. One `useTimeline` drives both windows.
+- **Chat states:** `.reveal` items grow from zero height (never shrink); typing dots; tool step rows with `.step-ok` discs; amber `.approval` card whose Approve presses (`scale(0.96)`); green `.approved` banner; `.chat-send.ready` fills `--fg`.
+- **Workspace board** (`board-*`): head with mono template id and pulsing live dot; filter pills with counts (hold/danger coloured when non-zero); fixed-height 540px rows (customer + mono id, rolling "now" line, credit meter, state tag); rows flash on update and open a hold- or ok-tinted drawer. Below 768px rows restack into areas and show five, and the drawer keeps its slot (fades, its two versions stacked in one cell) so the board never changes height.
+- **Plug steps** (`plug-*`): numbered 28px ring discs between hairlines beside a code panel of labelled blocks and an event list.
+- **Walls** (`wall-*`): three scenes (ask bubble, mail card, held row) split by inline-start hairlines, then a `.wall-rest` summary panel.
+- **Verticals** (`verts-*`): two-column hairline list plus a partner line with its mark.
+- **Comparison table** `.cmp` in `.table-wrap`: our column (`.cmp-us`) carries a 4 to 7% blue tint and a check disc floated inline-start; below 768px rows become stacked cards with `data-label` captions.
+- **FAQ:** native `details`; plus icon rotates 45deg; content opens on `block-size` 0.35s (none under reduced motion).
+- **Navigation:** sticky 64px bar, transparent over the first stage, solid with a hairline once scrolled; `.nav-link` 40px, 8px, hover `--tint-1`; below 1024px a small primary and a 44px toggle. Breadcrumb 0.875rem, separators `--line-3`.
+- **Contents rail** `.toc-rail` (1280px+): sticky at 104px, max-height viewport minus 136px; 0.75rem 600 "contents" heading; list on a `--line-2` inline-start rule; links 0.8125rem `--fg-3`, hover `--fg`; `aria-current` link turns `--fg` with a `--blue-2` inline-start marker. Hidden below 1280px.
+- **Article CTA** `.prose .cta-block`: 16px, `--shadow-3`, `--bg-2` with a blue corner wash; first link primary (`--fg` fill), second ringed on `--tint-1`, further links `--blue-ink` text with a masked arrow that flips in RTL.
+- **Related pages:** two-column 52px link rows, arrow in `--fg-3` turning `--blue-2` and nudging 3px.
+- **404** `.nf-links`: max 30rem list of 52px hairline rows, `--fg-2` → `--fg`, trailing arrow mirrored in RTL.
 
-### Chips and Tags
-- **Chip:** mono 0.75rem on Surface Raised with a hairline edge and 6px radius, used for tool names, API samples and proof lines. An effect suffix is coloured by class: read in Text Tertiary, draft in Blue Ink, and write and egress in State Hold.
-- **Tag:** a 0.6875rem 600 pill on a 6% white or 12 to 16% state tint: ok, hold, danger and blue. An optional 6px dot leads it.
+## Motion
 
-### Cards / Containers
-- **Corner Style:** 16px panels; 12px inset wells and harness cards.
-- **Background:** Surface on Canvas or Canvas Alt; inset wells on Canvas Alt; rows on Surface Raised.
-- **Shadow Strategy:** Panel shadow (see Elevation).
-- **Border:** 1px Hairline Strong edge, with Hairline row dividers and a panel head (12px 16px, 0.8125rem) for titled figures.
-- **Internal Padding:** 20 to 32px for cells and rows, 16px for inset wells.
-- **Grid of cells:** a panel whose cells are separated by 1px gaps showing the hairline colour beneath.
+- One easing: `--ease-out` `cubic-bezier(0.16, 1, 0.3, 1)`. State transitions run 0.15 to 0.35s (colour, ring, press, arrow nudge, FAQ).
+- Keyframes: `ol-flash` (new console/board row, 16% blue fading out), `ol-rise` (whole-string entry: 10px up, 4px blur), `ol-grow-y`, `ol-pulse` (live dot, 2.4s), `ol-roll` (per-character roll, 13ms stagger), `typing`.
+- **Loop system** (`use-loop.ts`): `useActive` = IntersectionObserver (15% threshold) AND `document.visibilityState === "visible"`; `useStill` = live `prefers-reduced-motion`; `useTimeline(holds)` steps through module-level phase holds only while active, fades out (`.demo-fade`, 520ms) before looping to phase 0, and returns a fixed still phase under reduced motion. It also starts at the still phase, so server HTML and first paint are the designed frame and motion carries on from there. Hero: 11 phases (~15.6s), still frame at the held-action wall; below 1024px hidden sizer copies of its two tallest frames (`.duo-sizer`) hold the receipt height. Board: still frame at phase 6. No demo may change the page height while it loops.
+- **Shaped scripts:** the board's character roll is disabled for `ar`, `hi`, `th`; those locales roll the whole string in with `ol-rise`, so ligatures and combining marks are never split.
+- The atmosphere field pauses out of view and in hidden tabs, draws one still frame under reduced motion and redraws on theme change.
 
-### Inputs / Fields
-- **Style:** the hero chat input only: 40px tall, Surface ground, 1px Hairline Strong, 10px radius, with a 28px send button that fills white when the message is ready. The site has no forms of its own; CTAs leave for the waitlist sign-in.
+**Reduced-motion contract.** Every keyframe, transition-driven reveal, smooth scroll and theme crossfade sits behind `prefers-reduced-motion: no-preference` (or is disabled under `reduce`). Loops hold a designed still frame that tells the story (the approval wall), never a blank or first frame.
 
-### Navigation
-- **Style:** a 64px Canvas bar with the round logo and a 600 wordmark. Links are 0.875rem in Text Secondary, 40px tall, with an 8px radius. The bar carries links, "Book a call" and one small white primary; the language switcher lives in the footer's bottom bar (and the mobile menu), and there is no announcement strip above the bar.
-- **Hover:** text goes to Text Primary on `--tint-1`.
-- **Scrolled:** the bottom border fades in from transparent to Hairline Strong.
-- **Mobile:** below 1024px, a small primary button and a 44px toggle open a full-width list of 48px rows with trailing arrows.
-- **Breadcrumb:** 0.875rem Text Tertiary, links in Text Secondary, `/` separators in Hairline Hover.
+## RTL
 
-### Meter
-A 6px fully round track in `--tint-2`, filled by a Action Blue Deep to Signal Blue bar sized with `transform: scaleX(--v)` and never width. The origin flips in RTL, and a full meter turns State Danger.
+- `ar` renders `dir="rtl"` on `<html>`. Spacing, borders and alignment use logical properties (`margin-inline-*`, `padding-inline-*`, `border-inline-start`, `inset-inline`, `text-align: start/end`, `float: inline-start`).
+- Directional arrows flip with `scaleX(-1)` (buttons, CTA links, related pages, 404); hover nudges multiply by the flip.
+- Chat-bubble tails, the arc, `.glow` and `.top-light` mirror; the skip link recentres.
+- LTR islands: ids, tool and event names, credits, timestamps, code and the console sub-line carry `dir="ltr"`; console event cells right-align in RTL.
+- Meters fill from inline-start.
 
-### Code Panel
-A Code Well panel with Lifted shadow and 16px corners. Tabs are mono 0.75rem in #8c94a8 on a Code Head (`--code-head`, #0d1016) strip; the selected tab turns Text Primary with a 2px Signal Blue underline inset 12px. Code is 0.8125rem at 1.7 line-height, set LTR. Tabs switch with arrow keys.
+## Performance rules that shape design
 
-### Hero App Window (signature)
-The hero illustration is a partner's own app ("your app") with our agent inside it, working for one customer. It has a 48px app bar (brand mark, app name, customer avatar), a campaigns sidebar of real rows (a "Campaigns" head with a quiet "New campaign" button, three sent campaigns in Text Secondary, never skeleton bars), and a chat pane. The loop runs: the customer types a request, the agent calls two of the app's functions (check-disc step rows with mono tool names), drafts a campaign that appears in the sidebar, then stops at an amber approval card. The Approve button presses, an approved banner replaces the card, the campaign tag turns from Draft to Scheduled, and the loop fades and restarts. Items enter by growing from zero height, so the log scrolls like a real chat. It plays only while in view and the tab is visible. Under reduced motion and without JavaScript it shows a still frame paused at the approval card. A fine caption below labels it illustrative.
-
-### Home Compositions
-The home page uses a different shape for each section, so no layout repeats twice in a row:
-- **Harness map** (Platform): on a flat stage, three columns joined by blue-tipped hairline connectors. Your app (`<AgentChat />`, `tools.ts`) sits on the left, labelled "Tool calling". The OpenLegion core is in the middle: a 2x2 module grid with mono id prefixes and a dashed band of workspaces. On the right, current models and web search are joined by a bracket. It stacks vertically below 1024px.
-- **Definition grid** (Platform): the nine pieces of the harness under the map, each with its mono API name (`defineTool`, `ws_`, `apr_`, `periodCredits`, `vlt_`, `evt_`, `model: "smart"`, `trust: web_low`, `livemode: false`).
-- **Statement:** the parties line set in `.t-statement`. Below it sits a rail of three node chips joined by a hairline that turns blue at the centre. Nothing else.
-- **Template grid** (Use cases): four equal columns at 1200px (two at 768px), the partner's template first with note 1 on its name. Each column: Title, Body Small, then its template name and tool rows in mono with the effect at the end, bottom-aligned across columns. No cards.
-- **Quickstart:** a time rail (plain mono times, no pills), a horizontal track with dots at 1024px and wider and a vertical start border below that. Under it, an editor (code tabs) and a terminal (`ol dev` output in a 5.75rem key column) sit side by side.
-- **API spec sheet:** one panel, laid out as a table with three columns (convention, meaning, sample).
-- **Annotated run:** the receipt as a panel built from row slices. At 1024px and wider, each annotated row draws a 60px leader with a dot (blue, hold or ok) out to its note. Below that width, the notes sit inside the panel under their row. Under it, two quiet columns (what every receipt carries; the kill switch) and a hairline row with the security link. There is no second code block.
-- **Notes:** the page's qualifications ("the other templates are illustrative", "the kit ships with early access", "the API reference comes with access"), each said once in a numbered list at the foot of the page, Fine type, linked from superscript markers on the claims they qualify.
-
-### FAQ
-Native `details` rows between hairlines. The question is a 1.0625rem Title, and a plus in a 24px round ring rotates 45 degrees when open. The answer opens on `block-size` (0.35s), instantly under reduced motion.
-
-### Motion
-All motion uses one easing, `cubic-bezier(0.16, 1, 0.3, 1)`. The hero chat is the only authored sequence. Everything else is a state transition of 0.15 to 0.35s: button fill and press, arrow nudge, ring and colour changes, FAQ open. Every sequence and smooth scroll is guarded by `prefers-reduced-motion`.
-
-**The field breathes.** The awake tiles of the atmosphere field fade between 55% and full on their own slow cycles at about 24fps. It is ambient light, not a sequence: nothing moves position. It pauses out of view and in hidden tabs, and is a still frame under reduced motion.
-
-**Theme crossfade.** When the system switches theme while the page is open, the page crossfades over 0.5s instead of snapping. The colour tokens are registered with `@property` as `<color>`, and `:root` transitions them, so every surface, line and text colour follows in the same frame without per-element transitions. Ink islands hold still. Shadows and stage lights are not colours and change at once. Reduced motion switches instantly. A class toggled from a `matchMedia` listener cannot do this: the browser applies the new theme before the listener runs.
+- No web CJK font; system CJK faces only. Geist and Geist Mono load as Latin subsets through `next/font`, preloaded.
+- Client message namespaces stay small: `NextIntlClientProvider` receives only `common`, `consent`, `nav`, `site`, `home.demo`, `home.board`. A new client component must use one of these or justify adding a namespace; everything else renders on the server.
+- Home-only styles live in `home.css`, imported by the home sections, not in `globals.css`.
+- Demo layout heights are fixed (console 372px rows, board 540px rows) so loops never shift the page.
+- Meters animate `transform`, never width; the field caps at about 24fps and DPR 2.
 
 ## Do's and Don'ts
 
-### Do:
-- **Do** make the primary button the foreground colour (white on dark, near-black on light), and use the blue family for links, focus and the agent's own work: Signal Blue links and focus, Blue Ink for blue text.
-- **Do** check every new colour in both themes; put theme-specific values in tokens, keep code and the terminal ink.
-- **Do** keep Partner Brand (#ff6b3d) to the partner's small logo mark only.
-- **Do** use ok, hold and danger for state alone (tags, discs, approval, meters).
-- **Do** illustrate with real product UI (app windows, receipts, ledgers, code) and label demo data illustrative in a Fine caption; put sentence-level qualifications in the numbered notes, not under each section.
-- **Do** give each section one point and one piece of evidence, and say each fact once.
-- **Do** keep one authored motion moment per page, the hero chat. Pause it out of view, and give reduced motion and no-JS a still frame.
-- **Do** draw icons on the 16-unit grid with a 1.6 round stroke in `currentColor`.
-- **Do** use logical properties (`ms`/`me`/`ps`/`pe`, `text-start`/`text-end`) and pin ids, code and figures `dir="ltr"`.
-- **Do** keep 20px gutters on mobile with no horizontal scroll, and hide the hero app sidebar and tabs at 640px and below.
-- **Do** style learn and comparison articles only through the shared prose layer, because their copy is SEO-locked.
+### Do
+- **Do** make the primary button the foreground colour and keep blue for links, focus and the agent's work.
+- **Do** check every new colour in both themes; theme-specific values become tokens; code and consoles stay ink.
+- **Do** run every loop through `useActive`/`useStill`/`useTimeline` and give it a meaningful still phase.
+- **Do** use logical properties, pin ids/code/figures LTR, and flip directional icons.
+- **Do** label demo data illustrative and keep ids, figures and logos fictional.
+- **Do** style articles only through `.prose` (their copy is SEO-locked).
 
-### Don't:
+### Don't
 - **Don't** put an eyebrow or kicker label above a heading.
-- **Don't** use gradient text, glassmorphism, particles, grain, multi-hue glow fields, or coloured glows on text.
-- **Don't** use a bento of mini-UI tiles, an announcement strip that repeats the nav's CTA, or a third copy of the same call to action in one viewport.
-- **Don't** use unicode glyphs (arrows, checks, stars) as icons.
-- **Don't** add a coloured border-left (or border-start) accent to any block.
-- **Don't** build an equal grid of icon cards for features.
-- **Don't** use Partner Brand, or any state colour, as an OpenLegion accent.
-- **Don't** add a second animated sequence or scroll-triggered reveals. The only ambient motion is the atmosphere field's slow breath.
-- **Don't** put the atmosphere field behind text: mark copy with `data-field-copy` and captions with `data-field-clear`.
-- **Don't** present demo ids, figures or logos as real usage.
-- **Don't** hard-code white or black washes (`rgb(255 255 255 / x)`) outside the ink islands; use `--tint-*` or `color-mix()` with a token.
-- **Don't** use the syntax palette (`.tok-*`) outside a code panel; on the page, code-like labels take Blue Ink.
+- **Don't** use gradient text, glassmorphism, particles, grain, multi-hue glows or coloured glows on text.
+- **Don't** add a coloured border-left/start accent to a block (the TOC's current-item marker on its rail is the only inline-start blue line).
+- **Don't** use unicode glyphs as icons, or build equal grids of icon cards.
+- **Don't** use `--brand` or any state colour as an OpenLegion accent.
+- **Don't** add scroll-triggered reveals or a loop that runs off-screen.
+- **Don't** put the atmosphere field behind text.
+- **Don't** hard-code white or black washes outside ink islands; use `--tint-*` or `color-mix()` with a token.
+- **Don't** use the syntax palette (`.tok-*`) outside code; on the page, code-like labels take `--blue-ink`.
+- **Don't** split shaped-script strings into per-character animation.
+- **Don't** add a web CJK font or widen the client message payload casually.

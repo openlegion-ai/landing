@@ -18,6 +18,13 @@ export default function RootNotFound() {
             <Link href="/en" className="btn mt-10">
               Back to home
             </Link>
+            <ul className="nf-links">
+              {[["/en#platform", "Platform"], ["/en/learn", "Learn"], ["/en/pricing", "Pricing"], ["/en/security", "Security"]].map(([href, label]) => (
+                <li key={href}>
+                  <Link href={href}>{label}</Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </main>
       </body>

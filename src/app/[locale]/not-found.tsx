@@ -7,9 +7,18 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+/** Where people usually meant to go. */
+const NF_LINKS = [
+  ["/#platform", "platform"],
+  ["/learn", "learn"],
+  ["/pricing", "pricing"],
+  ["/security", "security"],
+] as const;
+
 /** Locale 404. */
 export default function NotFound() {
   const t = useTranslations("notFound");
+  const s = useTranslations("site.nav.links");
 
   return (
     <main id="main" className="glow flex min-h-[72vh] items-center overflow-hidden">
@@ -21,6 +30,15 @@ export default function NotFound() {
         <Link href="/" className="btn mt-10">
           {t("backToHome")} <IconArrow />
         </Link>
+        <ul className="nf-links">
+          {NF_LINKS.map(([href, key]) => (
+            <li key={key}>
+              <Link href={href}>
+                {s(key)} <IconArrow />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </main>
   );

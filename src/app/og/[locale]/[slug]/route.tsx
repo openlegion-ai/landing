@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 import { getTranslations } from "next-intl/server";
@@ -34,6 +36,24 @@ const STATIC_TITLE_KEYS: Record<string, string> = {
   "money-back-guarantee": "moneyBackTitle",
   security: "securityTitle",
 };
+
+// Pages rebuilt for the SaaS pivot take their share titles from `platformMeta`;
+// the rest still read the older `metadata` keys until their pages are rebuilt.
+const PLATFORM_TITLE_KEYS: Record<string, string> = {
+  home: "homeOgTitle",
+  pricing: "pricingTitle",
+  security: "securityTitle",
+  faq: "faqTitle",
+};
+
+/** The brand mark as a data URI, read once; a plain disc stands in if the file is missing. */
+let logoData: Promise<string | null> | null = null;
+function loadLogo(): Promise<string | null> {
+  logoData ??= readFile(join(process.cwd(), "public", "logo.png"))
+    .then((b) => `data:image/png;base64,${b.toString("base64")}`)
+    .catch(() => null);
+  return logoData;
+}
 
 function staticTitleKey(slug: string): string | null {
   return STATIC_TITLE_KEYS[slug] ?? null;
@@ -77,11 +97,15 @@ export async function GET(
   const slug = normalizeSlug(rawSlug);
 
   const tMeta = await getTranslations({ locale, namespace: "metadata" });
-  const tSchema = await getTranslations({ locale, namespace: "schema" });
+  const tPlatform = await getTranslations({ locale, namespace: "platformMeta" });
+  const tSchema = await getTranslations({ locale, namespace: "platformSchema" });
+  const tBand = await getTranslations({ locale, namespace: "site.band" });
 
   let title: string;
   const staticKey = staticTitleKey(slug);
-  if (staticKey) {
+  if (PLATFORM_TITLE_KEYS[slug]) {
+    title = tPlatform(PLATFORM_TITLE_KEYS[slug]);
+  } else if (staticKey) {
     title = tMeta(staticKey);
   } else {
     const contentSlug = ogKeyToContentSlug(slug, KNOWN_CONTENT_SLUGS);
@@ -90,7 +114,10 @@ export async function GET(
       : "OpenLegion";
   }
 
+  // The entity sentence: what OpenLegion is, in the page's language.
   const tagline = tSchema("orgDescription");
+  const logo = await loadLogo();
+  const long = title.length > 64;
 
   return new ImageResponse(
     (
@@ -100,97 +127,55 @@ export async function GET(
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          padding: "80px",
-          background:
-            "linear-gradient(135deg, #08090c 0%, #12131d 50%, #0a0b10 100%)",
+          justifyContent: "space-between",
+          padding: "72px 80px 64px",
+          backgroundColor: "#0a0b0f",
+          backgroundImage:
+            "radial-gradient(ellipse 70% 80% at 92% -10%, rgba(59,130,246,0.34), rgba(59,130,246,0) 70%), radial-gradient(ellipse 120% 40% at 50% 118%, rgba(59,130,246,0.22), rgba(59,130,246,0) 70%)",
+          color: "#f4f5f7",
           fontFamily: "system-ui, sans-serif",
         }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "4px",
-            background: "linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6)",
-          }}
-        />
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-            marginBottom: "40px",
-          }}
-        >
-          <div
-            style={{
-              width: "48px",
-              height: "48px",
-              borderRadius: "50%",
-              background: "#3b82f6",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "24px",
-              fontWeight: 800,
-              color: "white",
-            }}
-          >
-            O
-          </div>
-          <span
-            style={{
-              fontSize: "28px",
-              fontWeight: 700,
-              color: "#f0f0f3",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            Open
-            <span style={{ color: "#3b82f6" }}>Legion</span>
-          </span>
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+          {logo ? (
+            // eslint-disable-next-line @next/next/no-img-element -- Satori renders plain img only
+            <img src={logo} width={44} height={44} style={{ borderRadius: "999px" }} alt="" />
+          ) : (
+            <div style={{ width: 44, height: 44, borderRadius: 999, backgroundColor: "#3b82f6" }} />
+          )}
+          <span style={{ fontSize: "30px", fontWeight: 600, letterSpacing: "-0.02em" }}>OpenLegion</span>
         </div>
 
-        <h1
-          style={{
-            fontSize: "52px",
-            fontWeight: 800,
-            color: "#f0f0f3",
-            lineHeight: 1.2,
-            letterSpacing: "-0.02em",
-            maxWidth: "900px",
-            margin: 0,
-          }}
-        >
-          {title}
-        </h1>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <h1
+            style={{
+              margin: 0,
+              maxWidth: "1000px",
+              fontSize: long ? "52px" : "64px",
+              fontWeight: 700,
+              lineHeight: 1.08,
+              letterSpacing: "-0.035em",
+              color: "#f6f7f9",
+            }}
+          >
+            {title}
+          </h1>
+          <p
+            style={{
+              margin: "28px 0 0",
+              maxWidth: "900px",
+              fontSize: "24px",
+              lineHeight: 1.42,
+              color: "#9ba1ae",
+            }}
+          >
+            {tagline}
+          </p>
+        </div>
 
-        <p
-          style={{
-            fontSize: "22px",
-            color: "#8b8fa3",
-            marginTop: "24px",
-            maxWidth: "700px",
-          }}
-        >
-          {tagline}
-        </p>
-
-        <div
-          style={{
-            position: "absolute",
-            bottom: "40px",
-            right: "80px",
-            fontSize: "18px",
-            color: "#3b82f6",
-          }}
-        >
-          openlegion.ai
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "20px" }}>
+          <span style={{ color: "#6b7280" }}>{tBand("short")}</span>
+          <span style={{ color: "#93c5fd" }}>openlegion.ai</span>
         </div>
       </div>
     ),
