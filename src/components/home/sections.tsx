@@ -41,12 +41,13 @@ export function Hero() {
   return (
     <section id="hero" className="stage stage-top" aria-labelledby="hero-title">
       <AgentField />
-      <div className="wrap pb-16 pt-12 sm:pt-16 lg:pb-24 lg:pt-20">
-        <div className="grid items-center gap-12 lg:gap-14 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+      <div className="wrap pb-16 pt-12 sm:pt-16 lg:pb-24 lg:pt-24">
+        {/* Stacked at every width: the headline gets the full measure, and the product sits under it, on the field. */}
+        <div className="hero-stack">
           <div className="hero-copy min-w-0" data-field-copy>
-            <h1 id="hero-title" className="t-display max-w-[15ch]">{t("title")}</h1>
-            <p className="t-lede mt-6 max-w-[30rem]">{t("lede")}</p>
-            <div className="mt-9 flex flex-wrap gap-3 max-sm:[&>a]:flex-1 max-sm:[&>a]:px-3">
+            <h1 id="hero-title" className="t-display hero-title">{t("title")}</h1>
+            <p className="t-lede hero-lede mt-6">{t("lede")}</p>
+            <div className="hero-ctas mt-9 flex flex-wrap gap-3 max-sm:[&>a]:flex-1 max-sm:[&>a]:px-3">
               <CtaLink href={WAITLIST_URL} location="hero_primary" className="btn">
                 {t("primary")} <IconArrow />
               </CtaLink>
@@ -55,7 +56,7 @@ export function Hero() {
               </CtaLink>
             </div>
           </div>
-          <div className="min-w-0 xl:-me-10">
+          <div className="hero-product min-w-0">
             <HeroDemo />
           </div>
         </div>

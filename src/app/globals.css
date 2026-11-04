@@ -443,6 +443,11 @@ code, kbd, pre, samp { font-family: var(--font-mono); }
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, var(--fg) 45%); mask-image: linear-gradient(to bottom, transparent 0%, var(--fg) 45%);
 }
 .agent-field { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+/* The arc of light drifts as the field flows, slowly. Transform only, so each stage keeps its own strength. */
+@media (prefers-reduced-motion: no-preference) {
+  .stage::before { animation: arc-drift 22s ease-in-out infinite alternate; }
+}
+@keyframes arc-drift { to { transform: translate3d(-5%, 3%, 0) scale(1.08); } }
 
 /* Reading pages (articles, hubs, legal): only the arc, quiet, full bleed
    behind the title, fading out before the body copy begins. */
@@ -540,11 +545,18 @@ code, kbd, pre, samp { font-family: var(--font-mono); }
 .app-mark::after { content: ""; width: 8px; height: 8px; border-radius: 3px; background: #fff; }
 .app-user { margin-inline-start: auto; display: flex; align-items: center; gap: 8px; color: var(--fg-2); font-size: 0.8125rem; white-space: nowrap; }
 .app-avatar { width: 24px; height: 24px; border-radius: 999px; background: var(--surface-3); box-shadow: inset 0 0 0 1px var(--line-2); flex: none; }
-/* Close to the hero copy's height, so the product sits beside the words instead of towering over them */
-/* Side by side, the copy centres on the window itself, not on the window plus its steps and caption.
-   418px = the 48px bar + the 368px body + 2px of border. */
-@media (min-width: 1280px) {
-  .hero-copy { align-self: start; min-height: 418px; display: flex; flex-direction: column; justify-content: center; }
+/* The hero stacks at every width: the headline takes the full measure (two lines on desktop, never a
+   pressed column), and the product sits under it on the field. Centred from 1024px; left on phones. */
+.hero-stack { display: grid; gap: 48px; }
+.hero-title { max-width: 15ch; }
+.hero-lede { max-width: 30rem; }
+@media (min-width: 1024px) {
+  .hero-stack { gap: 72px; }
+  .hero-copy { text-align: center; }
+  .hero-title { max-width: 20ch; margin-inline: auto; }
+  .hero-lede { max-width: 38rem; margin-inline: auto; }
+  .hero-ctas { justify-content: center; }
+  .hero-product { width: 100%; max-width: 62rem; margin-inline: auto; }
 }
 .app-body { display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); height: 368px; }
 .app-main {
