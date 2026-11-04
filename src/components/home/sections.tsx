@@ -46,7 +46,7 @@ export function Hero() {
           <div className="hero-copy min-w-0" data-field-copy>
             <h1 id="hero-title" className="t-display max-w-[15ch]">{t("title")}</h1>
             <p className="t-lede mt-6 max-w-[30rem]">{t("lede")}</p>
-            <div className="mt-9 flex gap-3 max-sm:[&>a]:flex-1 max-sm:[&>a]:px-3">
+            <div className="mt-9 flex flex-wrap gap-3 max-sm:[&>a]:flex-1 max-sm:[&>a]:px-3">
               <CtaLink href={WAITLIST_URL} location="hero_primary" className="btn">
                 {t("primary")} <IconArrow />
               </CtaLink>
@@ -736,7 +736,7 @@ export function Close() {
         <div data-field-copy>
         <h2 id="close-title" className="t-h1 mx-auto max-w-[16ch]">{t("title")}</h2>
         <p className="t-lede mx-auto mt-6 max-w-[34rem]">{t("body")}</p>
-        <div className="mt-10 flex justify-center gap-3 max-sm:[&>a]:flex-1 max-sm:[&>a]:px-3">
+        <div className="mt-10 flex flex-wrap justify-center gap-3 max-sm:[&>a]:flex-1 max-sm:[&>a]:px-3">
           <CtaLink href={WAITLIST_URL} location="close_primary" className="btn">
             {t("primary")} <IconArrow />
           </CtaLink>
