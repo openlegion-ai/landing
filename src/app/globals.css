@@ -443,6 +443,11 @@ code, kbd, pre, samp { font-family: var(--font-mono); }
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, var(--fg) 45%); mask-image: linear-gradient(to bottom, transparent 0%, var(--fg) 45%);
 }
 .agent-field { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; }
+/* The arc of light drifts as the field flows, slowly. Transform only, so each stage keeps its own strength. */
+@media (prefers-reduced-motion: no-preference) {
+  .stage::before { animation: arc-drift 22s ease-in-out infinite alternate; }
+}
+@keyframes arc-drift { to { transform: translate3d(-5%, 3%, 0) scale(1.08); } }
 
 /* Reading pages (articles, hubs, legal): only the arc, quiet, full bleed
    behind the title, fading out before the body copy begins. */
