@@ -45,19 +45,25 @@ export function PageHead({
   );
 }
 
-/** A specification list: title, body, and an optional mono proof line, in one or two columns. */
+/**
+ * A specification list: title, body, and an optional mono proof line, in one or two columns.
+ * `level` keeps the outline valid: h2 where the list sits straight under the page h1.
+ */
 export function SpecList({
   items,
   columns = 1,
+  level = 3,
 }: {
   items: Array<{ title: string; body: ReactNode; proof?: string }>;
   columns?: 1 | 2;
+  level?: 2 | 3;
 }) {
+  const H = level === 2 ? "h2" : "h3";
   return (
     <ul className={`grid border-t border-[var(--line-2)] ${columns === 2 ? "md:grid-cols-2 md:gap-x-12" : ""}`}>
       {items.map((it, i) => (
         <li key={i} className="border-b border-[var(--line)] py-7">
-          <h3 className="t-h3">{it.title}</h3>
+          <H className="t-h3">{it.title}</H>
           <p className="t-body mt-2 max-w-[40rem]">{it.body}</p>
           {it.proof && (
             <p className="mt-4">

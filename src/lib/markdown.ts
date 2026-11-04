@@ -498,8 +498,32 @@ async function renderMarkdown(content: string, locale: string): Promise<string> 
   );
 
   html = wrapFaqSection(html);
+  html = addHeadingIds(html);
 
   return html;
+}
+
+/** Plain-text slug that keeps any script's letters, so Arabic and CJK headings get stable anchors too. */
+function headingSlug(text: string): string {
+  return text
+    .replace(/<[^>]+>/g, "")
+    .replace(/&[a-z]+;|&#\d+;/gi, " ")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80) || "section";
+}
+
+/** Give every section heading (plain <h2>) an id, so sections can be linked to. */
+function addHeadingIds(html: string): string {
+  const seen = new Map<string, number>();
+  return html.replace(/<h2>([\s\S]*?)<\/h2>/g, (_, inner: string) => {
+    const base = headingSlug(inner);
+    const n = seen.get(base) ?? 0;
+    seen.set(base, n + 1);
+    const id = n ? `${base}-${n + 1}` : base;
+    return `<h2 id="${id}">${inner}</h2>`;
+  });
 }
 
 function wrapFaqSection(html: string): string {
@@ -525,7 +549,8 @@ function wrapFaqSection(html: string): string {
   if (h3Matches.length === 0) return html;
 
   const faqHeading = faqMatch[0];
-  let faqHtml = `<section class="faq-section" itemscope itemtype="https://schema.org/FAQPage">\n${faqHeading}\n`;
+  // No microdata: the page already carries FAQPage JSON-LD, and two FAQPage items is a Search Console error.
+  let faqHtml = `<section class="faq-section">\n${faqHeading}\n`;
 
   for (let i = 0; i < h3Matches.length; i++) {
     const current = h3Matches[i];
@@ -533,11 +558,10 @@ function wrapFaqSection(html: string): string {
       i + 1 < h3Matches.length ? h3Matches[i + 1].startIdx : faqAndAfter.length;
     const answerHtml = faqAndAfter.slice(current.endIdx, nextStart).trim();
 
-    faqHtml += `<div class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">\n`;
-    faqHtml += `<h3 itemprop="name">${current.question}</h3>\n`;
-    faqHtml += `<div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">\n`;
-    faqHtml += `<div itemprop="text">${answerHtml}</div>\n`;
-    faqHtml += `</div>\n</div>\n`;
+    faqHtml += `<div class="faq-item">\n`;
+    faqHtml += `<h3>${current.question}</h3>\n`;
+    faqHtml += `<div>${answerHtml}</div>\n`;
+    faqHtml += `</div>\n`;
   }
 
   faqHtml += `</section>`;

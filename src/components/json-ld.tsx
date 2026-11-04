@@ -1,3 +1,5 @@
+import { ogLocaleFor } from "@/lib/content-page-helpers";
+
 export interface JsonLdProps {
   data: Record<string, unknown> | Record<string, unknown>[];
   /**
@@ -251,10 +253,9 @@ export function buildHowToSchema(
 // Wikidata for the canonical entities Q-IDs I can verify.
 
 const ENTITY_MENTIONS = [
-  { "@type": "SoftwareApplication", name: "Docker",                sameAs: "https://www.wikidata.org/wiki/Q15206305" },
-  { "@type": "ProgrammingLanguage", name: "Python",                sameAs: "https://www.wikidata.org/wiki/Q28865" },
-  { "@type": "Thing",               name: "Large language model",  sameAs: "https://en.wikipedia.org/wiki/Large_language_model" },
-  { "@type": "SoftwareApplication", name: "SQLite",                sameAs: "https://www.wikidata.org/wiki/Q319417" },
+  { "@type": "Thing", name: "Large language model",   sameAs: "https://en.wikipedia.org/wiki/Large_language_model" },
+  { "@type": "Thing", name: "Software as a service",  sameAs: "https://en.wikipedia.org/wiki/Software_as_a_service" },
+  { "@type": "Thing", name: "Multitenancy",           sameAs: "https://en.wikipedia.org/wiki/Multitenancy" },
 ];
 
 export interface EntityMention {
@@ -264,13 +265,14 @@ export interface EntityMention {
 }
 
 /**
- * Image URL for an Article / WebPage / CollectionPage. OG images are
- * generated per canonical slug, not per locale (a single image serves every
- * locale variant of the same page) — so the path is locale-independent.
+ * Image URL for an Article / WebPage / CollectionPage: the same
+ * /og/<locale>/<slug>.png the page's own metadata points at, with locales
+ * Satori can't render clamped to English by ogLocaleFor. (The old
+ * locale-less /og/<slug>.png path 404s.)
  */
-function ogImageUrl(slug: string) {
+function ogImageUrl(slug: string, locale: string) {
   const slugForOg = slug.replace(/^\//, "").replace(/\//g, "-");
-  return `${SITE_BASE}/og/${slugForOg}.png`;
+  return `${SITE_BASE}/og/${ogLocaleFor(locale)}/${slugForOg}.png`;
 }
 
 /**
@@ -303,7 +305,7 @@ export function buildWebPageSchema(
     mainEntity: { "@id": ids.article },
     primaryImageOfPage: {
       "@type": "ImageObject",
-      url: ogImageUrl(slug),
+      url: ogImageUrl(slug, locale),
       width: 1200,
       height: 630,
     },
@@ -340,7 +342,7 @@ export function buildArticleSchema(
     mainEntityOfPage: { "@id": ids.webPage },
     image: {
       "@type": "ImageObject",
-      url: ogImageUrl(slug),
+      url: ogImageUrl(slug, locale),
       width: 1200,
       height: 630,
     },
@@ -390,7 +392,7 @@ export function buildCollectionPageSchema(
     mainEntity: { "@id": ids.itemList },
     primaryImageOfPage: {
       "@type": "ImageObject",
-      url: ogImageUrl(slug),
+      url: ogImageUrl(slug, locale),
       width: 1200,
       height: 630,
     },
