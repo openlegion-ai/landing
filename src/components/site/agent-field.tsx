@@ -63,7 +63,7 @@ export function AgentField({ quiet = false }: { quiet?: boolean }) {
     const k = quiet ? 0.62 : 1;
 
     let W = 0, H = 0, dpr = 1, raf = 0, last = 0, inView = true, light = false;
-    let vx = 0, yh = 0, f = 64, camH = 1, top = 0;
+    let vx = 0, yh = 0, f = 64, camH = 1, top = 0, nearFog = 2.5;
     let clears: Box[] = [];
     let hide: Box | null = null; // the product: opaque, so nothing behind it is drawn
     let glow: HTMLCanvasElement | null = null;
@@ -85,7 +85,7 @@ export function AgentField({ quiet = false }: { quiet?: boolean }) {
       return c;
     };
 
-    const fog = (Z: number) => Math.min(1, Math.max(0, (Z - NEAR) / 2.5)) * Math.max(0, 1 - Z / FAR);
+    const fog = (Z: number) => Math.min(1, Math.max(0, (Z - NEAR) / nearFog)) * Math.max(0, 1 - Z / FAR);
     const foot = (y: number) => (y > H - 140 ? Math.max(0, 1 - (y - (H - 140)) / 140) : 1);
     const side = (x: number) => lateral[Math.min(lateral.length - 1, Math.max(0, ((x / W) * (lateral.length - 1)) | 0))] ?? 0;
     const away = (x: number, y: number) => {
@@ -145,12 +145,16 @@ export function AgentField({ quiet = false }: { quiet?: boolean }) {
       const wide = stacked && W >= 1024;
       f = W < 640 ? 46 : stacked ? (wide ? 72 : 64) : 96;
       const copyFirst = !anchor || !copy || copy.left < anchor.left;
+      // Beside the product, the field shows mostly below it and under the copy: let the near rows
+      // (the ones whose drift you can see) come up sooner, and fade more gently toward the copy.
+      nearFog = stacked ? 2.5 : 1.1;
+      const copySide = stacked ? 1.3 : 1.45;
       camH = ((Math.max(H - yh, 120) + 30) * NEAR) / f;
       top = Math.max(0, yh - 24);
       lateral = new Float32Array(257);
       for (let i = 0; i < lateral.length; i++) {
         const dx = (i / (lateral.length - 1)) - vx / W;
-        const s = stacked ? (wide ? 0.8 : 1.3) : (dx < 0) === copyFirst ? 2.3 : 0.9;
+        const s = stacked ? (wide ? 0.8 : 1.3) : (dx < 0) === copyFirst ? copySide : 0.9;
         lateral[i] = Math.max(0, 1 - Math.pow(Math.abs(dx) * s * 1.25, 1.6));
       }
       const box = (r: DOMRect, pad: number): Box => ({ x0: r.left - sr.left - pad, x1: r.right - sr.left + pad, y0: r.top - sr.top - pad, y1: r.bottom - sr.top + pad, soft: Math.abs(pad) * 2 });
