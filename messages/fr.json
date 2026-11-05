@@ -1666,7 +1666,7 @@
       },
       {
         "q": "Existe-t-il un mode test ?",
-        "a": "Oui. Test et production sont deux mondes séparés au sein d'une même organisation, avec des clés distinctes. Le mode test exécute de vrais modèles sur une allocation de test mensuelle et ne déplace aucun argent."
+        "a": "Oui. Test et production sont deux mondes séparés au sein d'une même organisation, avec des clés distinctes. Le mode test exécute de vrais modèles sur une allocation de test mensuelle, ainsi qu'un modèle scripté pour une CI déterministe."
       },
       {
         "q": "Quels modèles les agents utilisent-ils ?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "Le mode test ne déplace aucun argent",
-        "body": "Les espaces de travail de test exécutent de vrais modèles sur une allocation de test mensuelle, avec des clés distinctes de celles de la production.",
-        "proof": "livemode: false"
+        "body": "Les espaces de travail de test exécutent de vrais modèles sur une allocation de test mensuelle, et un modèle scripté sans frais pour une CI déterministe.",
+        "proof": "model: ol-test-scripted"
       },
       {
         "title": "L'archivage restitue la réserve",
