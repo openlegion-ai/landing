@@ -218,8 +218,10 @@
   --color-success: var(--success);
   --color-danger: var(--danger);
   --color-primary: var(--accent);
-  --font-sans: var(--font-geist-sans), var(--font-noto-sc), "PingFang SC", "Microsoft YaHei", "Hiragino Sans", "Noto Sans CJK SC", system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* System stacks. The sans stack is what the site has always rendered (the Geist
+     variables these once pointed at never reached :root); mono now actually applies. */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 /* ── Base ──────────────────────────────────────────────────────────────── */
