@@ -1355,7 +1355,7 @@
     },
     "quickstart": {
       "title": "Zehn Minuten bis zu einem Agenten, der deinen Code aufruft",
-      "lede": "Von null zu einem Agenten in deiner eigenen App, im Testmodus, der eine deiner Funktionen aufruft. Ohne vorher MCP, Tunnel oder Webhook-Signaturen lernen zu müssen.",
+      "lede": "Mit dem Kit aus dem frühen Zugang: von null zu einem Agenten in deiner eigenen App, im Testmodus, der eine deiner Funktionen aufruft. Ohne vorher MCP, Tunnel oder Webhook-Signaturen lernen zu müssen.",
       "steps": [
         {
           "time": "0–2",
@@ -1524,7 +1524,7 @@
           "template": "social-manager"
         }
       ],
-      "partner1": "Partner Nr. 1 ist unser eigenes Produkt: ein Social-Publishing-Tool, in dem jede Marke ihren eigenen Workspace bekommt, und ein Agent, der mit acht Tools des Produkts arbeitet.",
+      "partner1": "Partner Nr. 1 ist unser eigenes Produkt: ein Social-Publishing-Tool, in dem jede Marke ihren eigenen Workspace bekommen wird, mit einem Agenten, der mit acht Tools des Produkts arbeitet. Die Integration läuft.",
       "badge": "Partner Nr. 1",
       "note": "Die ersten drei Zeilen sind illustrative Vorlagen.",
       "moreTools": "+{count} weitere Tools des Produkts",
@@ -1666,7 +1666,7 @@
       },
       {
         "q": "Gibt es einen Testmodus?",
-        "a": "Ja. Test und Live sind getrennte Welten innerhalb einer Organisation, mit getrennten Schlüsseln. Der Testmodus führt echte Modelle auf einem monatlichen Testkontingent aus, sowie ein geskriptetes Modell für deterministische CI."
+        "a": "Ja. Test und Live sind getrennte Welten innerhalb einer Organisation, mit getrennten Schlüsseln. Der Testmodus führt echte Modelle auf einem monatlichen Testkontingent aus und bewegt kein Geld."
       },
       {
         "q": "Welche Modelle nutzen die Agenten?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "Der Testmodus bewegt kein Geld",
-        "body": "Test-Workspaces führen echte Modelle auf einem monatlichen Testkontingent aus, sowie ein geskriptetes Modell ohne Kosten für deterministische CI.",
-        "proof": "model: ol-test-scripted"
+        "body": "Test-Workspaces führen echte Modelle auf einem monatlichen Testkontingent aus, mit Schlüsseln getrennt von Live.",
+        "proof": "livemode: false"
       },
       {
         "title": "Archivieren gibt den Float zurück",

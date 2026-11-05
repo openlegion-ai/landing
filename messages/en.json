@@ -1355,7 +1355,7 @@
     },
     "quickstart": {
       "title": "Ten minutes to an agent calling your code",
-      "lede": "From nothing to an agent in your own app, in test mode, calling one of your functions. No MCP, tunnels or webhook signatures to learn first.",
+      "lede": "With the early-access kit: from nothing to an agent in your own app, in test mode, calling one of your functions. No MCP, tunnels or webhook signatures to learn first.",
       "steps": [
         {
           "time": "0–2",
@@ -1524,7 +1524,7 @@
           "template": "social-manager"
         }
       ],
-      "partner1": "Partner #1 is our own product: a social-publishing tool where every brand gets its own workspace, and an agent that works through eight of the product's tools.",
+      "partner1": "Partner #1 is our own product: a social-publishing tool where every brand will get its own workspace, with an agent working through eight of the product's tools. The integration is in progress.",
       "badge": "Partner #1",
       "note": "The first three rows are illustrative templates.",
       "moreTools": "+{count} more of the product's tools",
@@ -1666,7 +1666,7 @@
       },
       {
         "q": "Is there a test mode?",
-        "a": "Yes. Test and live are separate worlds inside one org, with separate keys. Test mode runs real models on a monthly test allowance, and a scripted model for deterministic CI."
+        "a": "Yes. Test and live are separate worlds inside one org, with separate keys. Test mode runs real models on a monthly test allowance and moves no money."
       },
       {
         "q": "Which models do agents use?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "Test mode moves no money",
-        "body": "Test workspaces run real models on a monthly test allowance, and a scripted model at no cost for deterministic CI.",
-        "proof": "model: ol-test-scripted"
+        "body": "Test workspaces run real models on a monthly test allowance, with keys kept separate from live.",
+        "proof": "livemode: false"
       },
       {
         "title": "Archiving returns the float",
