@@ -1355,7 +1355,7 @@
     },
     "quickstart": {
       "title": "Dix minutes pour un agent qui appelle votre code",
-      "lede": "De zéro à un agent dans votre propre app, en mode test, appelant l'une de vos fonctions. Sans MCP, tunnels ni signatures de webhook à apprendre d'abord.",
+      "lede": "Avec le kit de l'accès anticipé : de zéro à un agent dans votre propre app, en mode test, appelant l'une de vos fonctions. Sans MCP, tunnels ni signatures de webhook à apprendre d'abord.",
       "steps": [
         {
           "time": "0–2",
@@ -1524,7 +1524,7 @@
           "template": "social-manager"
         }
       ],
-      "partner1": "Le partenaire n° 1 est notre propre produit : un outil de publication sur les réseaux sociaux où chaque marque a son propre espace de travail, et un agent qui travaille à travers huit des outils du produit.",
+      "partner1": "Le partenaire n° 1 est notre propre produit : un outil de publication sur les réseaux sociaux où chaque marque aura son propre espace de travail, avec un agent qui travaille à travers huit des outils du produit. L'intégration est en cours.",
       "badge": "Partenaire n° 1",
       "note": "Les trois premières lignes sont des modèles à titre d'illustration.",
       "moreTools": "+{count} autres outils du produit",
@@ -1666,7 +1666,7 @@
       },
       {
         "q": "Existe-t-il un mode test ?",
-        "a": "Oui. Test et production sont deux mondes séparés au sein d'une même organisation, avec des clés distinctes. Le mode test exécute de vrais modèles sur une allocation de test mensuelle, ainsi qu'un modèle scripté pour une CI déterministe."
+        "a": "Oui. Test et production sont deux mondes séparés au sein d'une même organisation, avec des clés distinctes. Le mode test exécute de vrais modèles sur une allocation de test mensuelle et ne déplace aucun argent."
       },
       {
         "q": "Quels modèles les agents utilisent-ils ?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "Le mode test ne déplace aucun argent",
-        "body": "Les espaces de travail de test exécutent de vrais modèles sur une allocation de test mensuelle, et un modèle scripté sans frais pour une CI déterministe.",
-        "proof": "model: ol-test-scripted"
+        "body": "Les espaces de travail de test exécutent de vrais modèles sur une allocation de test mensuelle, avec des clés distinctes de celles de la production.",
+        "proof": "livemode: false"
       },
       {
         "title": "L'archivage restitue la réserve",

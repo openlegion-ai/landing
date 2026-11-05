@@ -1355,7 +1355,7 @@
     },
     "quickstart": {
       "title": "Diez minutos hasta un agente que llama a tu código",
-      "lede": "De cero a un agente en tu propia app, en modo de prueba, llamando a una de tus funciones. Sin MCP, túneles ni firmas de webhook que aprender primero.",
+      "lede": "Con el kit del acceso anticipado: de cero a un agente en tu propia app, en modo de prueba, llamando a una de tus funciones. Sin MCP, túneles ni firmas de webhook que aprender primero.",
       "steps": [
         {
           "time": "0–2",
@@ -1524,7 +1524,7 @@
           "template": "social-manager"
         }
       ],
-      "partner1": "El socio n.º 1 es nuestro propio producto: una herramienta de publicación en redes sociales donde cada marca tiene su propio espacio de trabajo, y un agente que trabaja con ocho de las herramientas del producto.",
+      "partner1": "El socio n.º 1 es nuestro propio producto: una herramienta de publicación en redes sociales donde cada marca tendrá su propio espacio de trabajo, con un agente que trabaja con ocho de las herramientas del producto. La integración está en curso.",
       "badge": "Socio n.º 1",
       "note": "Las tres primeras filas son plantillas ilustrativas.",
       "moreTools": "+{count} herramientas más del producto",
@@ -1666,7 +1666,7 @@
       },
       {
         "q": "¿Hay un modo de prueba?",
-        "a": "Sí. Prueba y producción son mundos separados dentro de una misma organización, con claves separadas. El modo de prueba ejecuta modelos reales con una asignación mensual de prueba, y un modelo con guion para CI determinista."
+        "a": "Sí. Prueba y producción son mundos separados dentro de una misma organización, con claves separadas. El modo de prueba ejecuta modelos reales con una asignación mensual de prueba y no mueve dinero."
       },
       {
         "q": "¿Qué modelos usan los agentes?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "El modo de prueba no mueve dinero",
-        "body": "Los espacios de prueba ejecutan modelos reales con una asignación mensual de prueba, y un modelo con guion sin costo para CI determinista.",
-        "proof": "model: ol-test-scripted"
+        "body": "Los espacios de prueba ejecutan modelos reales con una asignación mensual de prueba, con claves separadas de las de producción.",
+        "proof": "livemode: false"
       },
       {
         "title": "Archivar devuelve el saldo",
