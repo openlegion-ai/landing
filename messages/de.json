@@ -1666,7 +1666,7 @@
       },
       {
         "q": "Gibt es einen Testmodus?",
-        "a": "Ja. Test und Live sind getrennte Welten innerhalb einer Organisation, mit getrennten Schlüsseln. Der Testmodus führt echte Modelle auf einem monatlichen Testkontingent aus und bewegt kein Geld."
+        "a": "Ja. Test und Live sind getrennte Welten innerhalb einer Organisation, mit getrennten Schlüsseln. Der Testmodus führt echte Modelle auf einem monatlichen Testkontingent aus, sowie ein geskriptetes Modell für deterministische CI."
       },
       {
         "q": "Welche Modelle nutzen die Agenten?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "Der Testmodus bewegt kein Geld",
-        "body": "Test-Workspaces führen echte Modelle auf einem monatlichen Testkontingent aus, mit Schlüsseln getrennt von Live.",
-        "proof": "livemode: false"
+        "body": "Test-Workspaces führen echte Modelle auf einem monatlichen Testkontingent aus, sowie ein geskriptetes Modell ohne Kosten für deterministische CI.",
+        "proof": "model: ol-test-scripted"
       },
       {
         "title": "Archivieren gibt den Float zurück",

@@ -1666,7 +1666,7 @@
       },
       {
         "q": "Is there a test mode?",
-        "a": "Yes. Test and live are separate worlds inside one org, with separate keys. Test mode runs real models on a monthly test allowance and moves no money."
+        "a": "Yes. Test and live are separate worlds inside one org, with separate keys. Test mode runs real models on a monthly test allowance, and a scripted model for deterministic CI."
       },
       {
         "q": "Which models do agents use?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "Test mode moves no money",
-        "body": "Test workspaces run real models on a monthly test allowance, with keys kept separate from live.",
-        "proof": "livemode: false"
+        "body": "Test workspaces run real models on a monthly test allowance, and a scripted model at no cost for deterministic CI.",
+        "proof": "model: ol-test-scripted"
       },
       {
         "title": "Archiving returns the float",

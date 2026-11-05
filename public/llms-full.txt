@@ -337,7 +337,7 @@ Test three layers:
 
 Then roll out in rings: your own workspace, a few opt-in customers, one plan, everyone.
 
-On OpenLegion, test and live keys are separate, and test mode moves no money. A template version rolls out to every customer at once and rolls back the same way, so the gradual part is your feature flag on who gets a workspace. Suspending a workspace stops its runs at the next step boundary.
+On OpenLegion, test and live keys are separate, and a scripted model gives deterministic CI. A template version rolls out to every customer at once and rolls back the same way, so the gradual part is your feature flag on who gets a workspace. Suspending a workspace stops its runs at the next step boundary.
 
 ## Framework, AI SDK or hosted harness: what you still build
 

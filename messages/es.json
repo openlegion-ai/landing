@@ -1666,7 +1666,7 @@
       },
       {
         "q": "¿Hay un modo de prueba?",
-        "a": "Sí. Prueba y producción son mundos separados dentro de una misma organización, con claves separadas. El modo de prueba ejecuta modelos reales con una asignación mensual de prueba y no mueve dinero."
+        "a": "Sí. Prueba y producción son mundos separados dentro de una misma organización, con claves separadas. El modo de prueba ejecuta modelos reales con una asignación mensual de prueba, y un modelo con guion para CI determinista."
       },
       {
         "q": "¿Qué modelos usan los agentes?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "El modo de prueba no mueve dinero",
-        "body": "Los espacios de prueba ejecutan modelos reales con una asignación mensual de prueba, con claves separadas de las de producción.",
-        "proof": "livemode: false"
+        "body": "Los espacios de prueba ejecutan modelos reales con una asignación mensual de prueba, y un modelo con guion sin costo para CI determinista.",
+        "proof": "model: ol-test-scripted"
       },
       {
         "title": "Archivar devuelve el saldo",

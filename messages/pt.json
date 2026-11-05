@@ -1666,7 +1666,7 @@
       },
       {
         "q": "Existe um modo de teste?",
-        "a": "Sim. Teste e produção são mundos separados dentro de uma organização, com chaves separadas. O modo de teste roda modelos reais com uma franquia mensal de teste e não move dinheiro."
+        "a": "Sim. Teste e produção são mundos separados dentro de uma organização, com chaves separadas. O modo de teste roda modelos reais com uma franquia mensal de teste, e um modelo com respostas roteirizadas para CI determinístico."
       },
       {
         "q": "Quais modelos os agentes usam?",
@@ -1748,8 +1748,8 @@
       },
       {
         "title": "O modo de teste não move dinheiro",
-        "body": "Espaços de trabalho de teste rodam modelos reais com uma franquia mensal de teste, com chaves separadas das de produção.",
-        "proof": "livemode: false"
+        "body": "Espaços de trabalho de teste rodam modelos reais com uma franquia mensal de teste, e um modelo com respostas roteirizadas sem custo para CI determinístico.",
+        "proof": "model: ol-test-scripted"
       },
       {
         "title": "Arquivar devolve o saldo",
